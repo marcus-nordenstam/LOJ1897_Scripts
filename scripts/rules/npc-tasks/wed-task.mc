@@ -9,7 +9,7 @@
 ; from (and runs alongside) the shared attend task; its own go rung gets him there.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self wed ?occ}:?w-rel
+(npc-task {@self wed ?occ}:?wed
   (tar [k occasion] @object)
   (and
     ; ALARM: think again when the window opens.

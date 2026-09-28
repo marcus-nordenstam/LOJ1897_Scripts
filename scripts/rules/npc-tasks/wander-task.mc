@@ -4,7 +4,7 @@
 ; wander, so they scope themselves to it and retire with it.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self wander ?bldg}:?w-rel
+(npc-task {@self wander ?bldg}:?wander
   (tar @excl [k container-structure] @object)
   (init
     (check (is-a ?bldg [k container-structure]))
@@ -21,7 +21,7 @@
     (try
       (role ?room (spatial ?bldg parts [k interior-space room])
                   (not (spatial @self space ?room))
-                  -{@self go ?room /succ /caused_by ?w-rel /ever}
+                  -{@self go ?room /succ /caused_by ?wander /ever}
                   (select (score (near @self ?room)) (policy roulette unknown-first))
         (effects
           (check (grounded ?room))
@@ -30,6 +30,6 @@
           (maintain-proposal {@self go ?room}))))
     ; Every room but the one he started in has been gone into -> the building is seen.
     (try
-      (when (>= (count (every {@self go ? /succ /caused_by ?w-rel /ever}))
+      (when (>= (count (every {@self go ? /succ /caused_by ?wander /ever}))
                 (- (count (spatial ?bldg parts [k interior-space room] /env)) 1)))
-      (effects (set-outcome ?w-rel /succ)))))
+      (effects (set-outcome ?wander /succ)))))

@@ -4,8 +4,8 @@
 ; task concludes immediately, leaving the ended task belief as the episodic memory.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self read-at ?venue}:?t-rel
+(npc-task {@self read-at ?venue}:?read-at
   (tar [k structure|space] @object)
   (try
     (role @self
-      (effects (set-outcome ?t-rel /succ)))))
+      (effects (set-outcome ?read-at /succ)))))

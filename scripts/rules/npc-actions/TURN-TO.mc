@@ -8,7 +8,7 @@
 ; and a success, and its presented path was Turn() and no outcome.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self TURN-TO ?target}:?turn
+(npc-action {@self TURN-TO ?target}:?TURN-TO
   (motor legs)
   (obs)
   (tar @excl)
@@ -28,7 +28,7 @@
   (init
     (if (unpresented-lod)
         (then (face-toward @self ?target)
-              (set-outcome ?turn /succ))))
+              (set-outcome ?TURN-TO /succ))))
 
   (effects
     (if (presented-lod)
@@ -36,4 +36,4 @@
         ; No outcome: the swing takes frames, and he is done when he is facing it.
         (steer-facing @self ?target)
         (if (is-facing @self ?target)
-            (then (set-outcome ?turn /succ)))))))
+            (then (set-outcome ?TURN-TO /succ)))))))

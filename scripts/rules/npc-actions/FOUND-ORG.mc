@@ -5,11 +5,11 @@
 ;; club (FOUND-CLUB); what differs is who decides it and what head the org gets.
 ;; ----------------------------------------------------------------------------
 
-;(npc-action {@self FOUND-ORG ?org-kind ?head-role}:?fo-rel
+;(npc-action {@self FOUND-ORG ?org-kind ?head-role}:?FOUND-ORG
 ;  (tar [k org])
 ;  (aux [k job])
 ;  (motor body legs)
 ;  (duration (seconds 90 min))
 ;  (effects
 ;    (found-org-seq ?org-kind ?head-role)
-;    (set-outcome ?fo-rel /succ)))
+;    (set-outcome ?FOUND-ORG /succ)))

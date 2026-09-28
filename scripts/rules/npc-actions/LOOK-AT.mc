@@ -13,7 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-action {@self LOOK-AT ?target}:?look
+(npc-action {@self LOOK-AT ?target}:?LOOK-AT
   (motor head)
   (obs)
   (tar @excl)

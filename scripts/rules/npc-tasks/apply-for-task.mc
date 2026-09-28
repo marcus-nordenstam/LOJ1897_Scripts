@@ -12,7 +12,7 @@
 ; known; the send stage holds until one is.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self apply-for ?job}:?af-rel
+(npc-task {@self apply-for ?job}:?apply-for
   (aspect labour)
   (tar [k job] @object)
   (and
@@ -44,7 +44,7 @@
           (effects (maintain-proposal {@self send-mail ?app ?out})))
 
         (stage
-          (effects (set-outcome ?af-rel /succ)))))
+          (effects (set-outcome ?apply-for /succ)))))
 
     (try
       (role ?home {@self home ?home}

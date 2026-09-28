@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-task {@self hire-procure ?agent ?kind}:?hire-rel
+(npc-task {@self hire-procure ?agent ?kind}:?hire-procure
   (tar [k human] @object)
   (aux ?)
   (and
@@ -21,5 +21,5 @@
       (utility errand always-pick)
       (effects (maintain-proposal {@self SAY (utterable-msg {?agent acquire ?kind}) ?agent})))
     (try
-      (when {@self SAY ? /succ /caused_by ?hire-rel})
-      (effects (set-outcome ?hire-rel /succ)))))
+      (when {@self SAY ? /succ /caused_by ?hire-procure})
+      (effects (set-outcome ?hire-procure /succ)))))

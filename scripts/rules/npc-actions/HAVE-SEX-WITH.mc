@@ -16,7 +16,7 @@
 
 ; ~45 minutes: a real dwell, not an instant. Both lovers run their own copy
 ; (each sees the other as a co-present lover), so both are held for the window.
-(npc-action {@self HAVE-SEX-WITH ?paramour}:?sex-rel
+(npc-action {@self HAVE-SEX-WITH ?paramour}:?HAVE-SEX-WITH
   (motor body legs)
   (presentation
     (preroll 0.0) (in 0.5) (out 0.5))

@@ -5,7 +5,7 @@
 ; caused has succeeded.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self get ?item}:?get-rel
+(npc-task {@self get ?item}:?get
   (tar @excl [k object] @object)
   (and
     (try
@@ -17,5 +17,5 @@
       (utility (above go))
       (effects (maintain-proposal {@self take ?item})))
     (try
-      (when {@self take ?item /succ /caused_by ?get-rel})
-      (effects (set-outcome ?get-rel /succ)))))
+      (when {@self take ?item /succ /caused_by ?get})
+      (effects (set-outcome ?get /succ)))))

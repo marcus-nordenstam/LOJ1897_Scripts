@@ -1,6 +1,6 @@
 
 
-(npc-action {@self OFFER-LEFT ?thing ?recipient}:?offer-action-rel
+(npc-action {@self OFFER-LEFT ?thing ?recipient}:?OFFER-LEFT
   (motor body legs)
   (tar [k object] @object) (aux [k human] @object) (duration 0)
   (effects
@@ -10,9 +10,9 @@
       (check (spatial @self co-located ?recipient))
       (check (empty (spatial ?recipient-hand grip /env)))
       (spatial-write ?thing gripped-by ?recipient-hand /env)
-      (set-outcome ?offer-action-rel /succ))))
+      (set-outcome ?OFFER-LEFT /succ))))
 
-(npc-action {@self OFFER-RIGHT ?thing ?recipient}:?offer-action-rel
+(npc-action {@self OFFER-RIGHT ?thing ?recipient}:?OFFER-RIGHT
   (motor body legs)
   (tar [k object] @object) (aux [k human] @object) (duration 0)
   (effects
@@ -22,4 +22,4 @@
       (check (spatial @self co-located ?recipient))
       (check (empty (spatial ?recipient-hand grip /env)))
       (spatial-write ?thing gripped-by ?recipient-hand /env)
-      (set-outcome ?offer-action-rel /succ))))
+      (set-outcome ?OFFER-RIGHT /succ))))

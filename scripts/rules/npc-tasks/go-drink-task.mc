@@ -7,9 +7,9 @@
 (define-func go-drink-in-pub ()
   (is-a (spatial @self building) [k building pub]))
 
-(npc-task {@self go-drink}:?gd-rel
-  (cease (if {@self DRINK /succ /caused_by ?gd-rel}
-             (then (set-outcome ?gd-rel /succ))))
+(npc-task {@self go-drink}:?go-drink
+  (cease (if {@self DRINK /succ /caused_by ?go-drink}
+             (then (set-outcome ?go-drink /succ))))
   (and
     (try
       (when (go-drink-in-pub))
@@ -26,4 +26,4 @@
     (try
       (role @self {@self find-building [k building pub] ? /fail}
         (no-role [k building pub])
-        (effects (set-outcome ?gd-rel /fail))))))
+        (effects (set-outcome ?go-drink /fail))))))

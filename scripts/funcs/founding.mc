@@ -122,15 +122,15 @@
           (stamp-shift-hours ?job ?head-role ?soh-shift)))))
 
 (define-func fire-self ()
-  (for-each ?fire-jrel (every {@self job ?})
-      (bind ?fire-jrel.target ?fire-job)
-      (for-each ?fire-orel (every {?fire-job org ?})
-          (bind ?fire-orel.target ?fire-org)
-          (for-each ?fire-rrel (every {?fire-org employee-register ?})
-              (bind ?fire-rrel.target ?fire-reg)
+  (for-each ?job (every {@self job ?})
+      (bind ?job.target ?fire-job)
+      (for-each ?org (every {?fire-job org ?})
+          (bind ?org.target ?fire-org)
+          (for-each ?employee-register (every {?fire-org employee-register ?})
+              (bind ?employee-register.target ?fire-reg)
               (table-set ?fire-reg (where worker (name @self))
                               worker @nothing level @nothing hiring-date @nothing)))
-      (end-belief ?fire-jrel)))
+      (end-belief ?job)))
 
 ; establish-posts - stamp a fresh register with THE schema and file the org's authored
 ; staff posts on it, all vacant. The header and the rows that fill it are written

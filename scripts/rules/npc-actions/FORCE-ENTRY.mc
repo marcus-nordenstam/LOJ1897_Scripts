@@ -4,7 +4,7 @@
 ; can path through. A permanent, perceivable change (a forced door stays broken).
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self FORCE-ENTRY ?door}:?fe-rel
+(npc-action {@self FORCE-ENTRY ?door}:?FORCE-ENTRY
   (motor body legs)
   (track-skill-level [k illicit])
   (tar [k object] @object) (duration (seconds 2 min))
@@ -13,4 +13,4 @@
     (set-attr ?door integrity [k broken])
     (set-attr ?door lock-status [k unlocked])
     (set-attr ?door opening-status [k ajar])
-    (set-outcome ?fe-rel /succ)))
+    (set-outcome ?FORCE-ENTRY /succ)))

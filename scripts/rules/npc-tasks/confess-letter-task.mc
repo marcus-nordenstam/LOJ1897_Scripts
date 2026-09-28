@@ -10,13 +10,13 @@
 ; way, mirroring the old terminal). Nothing confessable / no kin at all -> abandon.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self confess-letter ?focus}:?confess-rel
+(npc-task {@self confess-letter ?focus}:?confess-letter
   (tar [k human] @object)
   (construed-act honour-act)
   (and
     ; Make the paper, pen it, post it - three deeds, each reading the world for what is done.
     (try
-      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel}
+      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-letter}
         (role ?my-home {@self home ?my-home}
           (role ?ltr [k confession-letter] (spatial ?ltr co-located @self)
                                            {@self WRITE ?ltr ? /succ}
@@ -29,7 +29,7 @@
                 (maintain-proposal {@self send-mail ?ltr ?out})))))))
 
     (try
-      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel}
+      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-letter}
         (role ?ltr [k confession-letter] (spatial ?ltr co-located @self)
                                          (unsubstantial (attr ?ltr writing))
           (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
@@ -49,7 +49,7 @@
                                   {@i lover ?partner-name})})))))
 
     (try
-      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-rel}
+      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-letter}
         (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
                    -{@self spouse ?partner /ever}
                    {@self father|mother|fiancee|spouse|sibling ?kin}
@@ -68,13 +68,13 @@
                  (or (not (alive ?kin))
                      (= ?kin ?partner)
                      -{?kin home ?})))
-      (effects (set-outcome ?confess-rel /fail)))
+      (effects (set-outcome ?confess-letter /fail)))
     ; The letter is in the post: the confession is made.
     (try
-      (when {@self send-mail ? ? /succ /caused_by ?confess-rel})
-      (effects (set-outcome ?confess-rel /succ)))
+      (when {@self send-mail ? ? /succ /caused_by ?confess-letter})
+      (effects (set-outcome ?confess-letter /succ)))
     (try
       (when (or (not (and {@self lover|HAVE-SEX-WITH ?partner /ever}
                           -{@self spouse ?partner /ever}))
                 -{@self father|mother|fiancee|spouse|sibling ?}))
-      (effects (set-outcome ?confess-rel /fail)))))
+      (effects (set-outcome ?confess-letter /fail)))))

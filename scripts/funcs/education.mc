@@ -1,8 +1,8 @@
 (define-func graduate-from-study ()
   ; The enrolment is optional (No-op when not enrolled): the walk binds ?curriculum
   ; and zero matches skip the body.
-  (for-each ?stb (every {@self study ?})
-    (bind ?stb.target ?curriculum)
+  (for-each ?study (every {@self study ?})
+    (bind ?study.target ?curriculum)
     (if (is-kind ?curriculum)
         (then
           (any {@self skilled-in ?curriculum ?held_band=@nothing})

@@ -21,7 +21,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-task {@self hire-assassin ?victim}:?hire-rel
+(npc-task {@self hire-assassin ?victim}:?hire-assassin
   (tar [k human] @object)
   (role ?killer {?killer isa [k human], condition [k alive]}
                 {@self (closeness-labels acquaintance) ?killer /ever}
@@ -42,5 +42,5 @@
 
       ; CONCLUDE once the solicitation has been spoken.
       (try
-        (when {@self SAY ? /succ /caused_by ?hire-rel})
-        (effects (set-outcome ?hire-rel /succ))))))
+        (when {@self SAY ? /succ /caused_by ?hire-assassin})
+        (effects (set-outcome ?hire-assassin /succ))))))

@@ -8,16 +8,16 @@
 ; that key instead of penning a second sheet. Promoted at the house agency office.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self LET ?prop}:?let-rel
+(npc-task {@self LET ?prop}:?LET
   (tar @excl [k building] @object)
   (sequence
     (stage
       (effects
-        (if (bb-any ?let-rel listing)
-            (then (bind (bb-read ?let-rel listing) ?listing))
-            (else (maintain-proposal {@self CREATE-ENTITY [k for-lease-listing]}:?ce
-                    [/postlude (bind (bb-read ?ce created) ?listing)
-                               (bb-write ?let-rel listing ?listing)])))))
+        (if (bb-any ?LET listing)
+            (then (bind (bb-read ?LET listing) ?listing))
+            (else (maintain-proposal {@self CREATE-ENTITY [k for-lease-listing]}:?CREATE-ENTITY
+                    [/postlude (bind (bb-read ?CREATE-ENTITY created) ?listing)
+                               (bb-write ?LET listing ?listing)])))))
 
     (stage
       (effects
@@ -41,5 +41,5 @@
     (stage
       (effects
         (begin-belief {?prop availability [k for-rent]})
-        (bb-clear ?let-rel listing)
-        (set-outcome ?let-rel /succ)))))
+        (bb-clear ?LET listing)
+        (set-outcome ?LET /succ)))))

@@ -11,7 +11,7 @@
 ; end the standing belief.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self remove-ad ?org ?job}:?rad-rel
+(npc-task {@self remove-ad ?org ?job}:?remove-ad
   (aspect labour)
   (tar [k org] @object)
   (aux [k job] @object)
@@ -25,8 +25,8 @@
 
       (stage
         (effects
-          (for-each ?wr (every {@self WRITE ? ? /succ})
-            (bind ?wr.target ?ad)
+          (for-each ?WRITE (every {@self WRITE ? ? /succ})
+            (bind ?WRITE.target ?ad)
             (if (and (is-a ?ad [k job-posting])
                      (spatial ?ad co-located @self))
                 (then (maintain-proposal {@self DESTROY-ENTITY ?ad})
@@ -50,4 +50,4 @@
       (stage
         (effects
           (end-belief {?org display-ad ?job})
-          (set-outcome ?rad-rel /succ))))))
+          (set-outcome ?remove-ad /succ))))))

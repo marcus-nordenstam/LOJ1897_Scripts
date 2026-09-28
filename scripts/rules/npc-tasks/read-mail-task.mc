@@ -8,7 +8,7 @@
 ; Driver + saturation probe stay in read_mail_think.mc.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self read-mail ?prem}:?rm-rel
+(npc-task {@self read-mail ?prem}:?read-mail
   (tar @excl [k structure] @object)
   (and
     ; The locate's own /fail is the "no mail-stack here" record, exactly as find-building's is for
@@ -26,7 +26,7 @@
     (try
       (role ?stk [k mail-stack] (spatial ?stk building ?prem)
                                 (spatial ?stk co-located @self)
-                                -{@self take-my-letters ?stk /succ /caused_by ?rm-rel}
+                                -{@self take-my-letters ?stk /succ /caused_by ?read-mail}
         (utility errand)
         (effects
                  (maintain-proposal {@self take-my-letters ?stk}))))
@@ -37,11 +37,11 @@
     ; then waited for ever to re-file a letter no longer in his hand.
     (try
       (role ?stk [k mail-stack] (spatial ?stk building ?prem)
-        (when (and {@self take-my-letters ?stk /succ /caused_by ?rm-rel}
+        (when (and {@self take-my-letters ?stk /succ /caused_by ?read-mail}
                    (empty (spatial @self hold [k letter]))))
-        (effects (set-outcome ?rm-rel /succ))))
+        (effects (set-outcome ?read-mail /succ))))
     ; The search concluded that ?prem holds no mail-stack: there is no round to run here, so the
     ; task fails rather than holding its band while re-proposing a search that already answered.
     (try
       (when {@self locate [k mail-stack] ?prem /fail})
-      (effects (set-outcome ?rm-rel /fail)))))
+      (effects (set-outcome ?read-mail /fail)))))

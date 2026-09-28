@@ -5,7 +5,7 @@
 ; stamps on it whatever name it is signed with.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self denounce ?innocent ?victim}:?dn-rel
+(npc-task {@self denounce ?innocent ?victim}:?denounce
   (tar [k human] @object)
   (aux [k human] @object)
   (role ?my-home {@self home ?my-home}
@@ -14,15 +14,15 @@
     ; finished before another is made.
     (stable-or
       (try
-        (when {@self send-mail ? ? /succ /caused_by ?dn-rel})
+        (when {@self send-mail ? ? /succ /caused_by ?denounce})
         (effects
-          (bb-clear ?dn-rel alias)
-          (set-outcome ?dn-rel /succ)))
+          (bb-clear ?denounce alias)
+          (set-outcome ?denounce /succ)))
       (try
         (when (not (alive ?innocent)))
         (effects
-          (bb-clear ?dn-rel alias)
-          (set-outcome ?dn-rel /fail)))
+          (bb-clear ?denounce alias)
+          (set-outcome ?denounce /fail)))
       (try
         (role ?ltr [k forged-letter] (spatial ?ltr co-located @self)
                                      {@self WRITE ?ltr ? /succ}
@@ -38,9 +38,9 @@
           (role ?station [k police-station] {?station address ?station-address}
             (select (policy first-match))
             (effects
-              (if (not (bb-any ?dn-rel alias))
+              (if (not (bb-any ?denounce alias))
                 (then
-                  (bb-write ?dn-rel alias
+                  (bb-write ?denounce alias
                     (sample-name (attr @self gender)
                                  (table-sample-weighted nationality_dist value weight)
                                  [k class-situation middle]))))
@@ -49,6 +49,6 @@
                        (set-msg-rider
                          (set-msg-rider (nl-written-msg "?innocent killed ?victim")
                                         address ?station-address)
-                         author (bb-read ?dn-rel alias))})))))
+                         author (bb-read ?denounce alias))})))))
       (try
         (effects (maintain-proposal {@self CREATE-ENTITY [k forged-letter]}))))))

@@ -17,16 +17,16 @@
 ;                         at its absolute boundary; the lowest job utility (any duty outbids).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self work ?wp}:?w-rel
+(npc-task {@self work ?wp}:?work
   (tar [k structure|org|space] @object)
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}
                {?org workplace ?wp}
       (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
-            (latch-eval (any {?job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
+            (latch-eval (any {?job ?tl ?}): ?shift (bind ?shift.target ?start) (bind ?shift.auxiliary ?end))
             (on-shift ?start ?end))
       (cease (if (not (on-shift ?start ?end))
-                 (then (set-outcome ?w-rel /succ))))
+                 (then (set-outcome ?work /succ))))
       (and
         (try
           (lock)

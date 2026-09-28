@@ -14,10 +14,10 @@
 (define-func go-to-bed-bedless (?home)
   (substantial (any {@self locate [k bedroom] ?home /fail})))
 
-(npc-task {@self go-to-bed ?home}:?bed-rel
+(npc-task {@self go-to-bed ?home}:?go-to-bed
   (tar @excl [k structure] @object)
-  (cease (if {@self SLEEP /succ /caused_by ?bed-rel}
-             (then (set-outcome ?bed-rel /succ))))
+  (cease (if {@self SLEEP /succ /caused_by ?go-to-bed}
+             (then (set-outcome ?go-to-bed /succ))))
   (and
     (try
       (role @self -{@self locate [k bedroom] ?home /fail}

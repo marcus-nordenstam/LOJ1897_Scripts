@@ -12,7 +12,7 @@
 ; that key instead of penning a second sheet.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self post-ad ?org ?job}:?pad-rel
+(npc-task {@self post-ad ?org ?job}:?post-ad
   (aspect labour)
   (tar [k org] @object)
   (aux [k job] @object)
@@ -27,11 +27,11 @@
 
         (stage
           (effects
-            (if (bb-any ?pad-rel ad)
-                (then (bind (bb-read ?pad-rel ad) ?ad))
-                (else (maintain-proposal {@self CREATE-ENTITY [k job-posting]}:?ce
-                        [/postlude (bind (bb-read ?ce created) ?ad)
-                                   (bb-write ?pad-rel ad ?ad)])))))
+            (if (bb-any ?post-ad ad)
+                (then (bind (bb-read ?post-ad ad) ?ad))
+                (else (maintain-proposal {@self CREATE-ENTITY [k job-posting]}:?CREATE-ENTITY
+                        [/postlude (bind (bb-read ?CREATE-ENTITY created) ?ad)
+                                   (bb-write ?post-ad ad ?ad)])))))
 
         ; The notice is a FORM: the job's kind, the org by name, the org's own reference for
         ; the seat, and where to present oneself - the book's own room, as its civic address
@@ -77,8 +77,8 @@
         (stage
           (effects
             (begin-belief {?org display-ad ?job})
-            (bb-clear ?pad-rel ad)
-            (set-outcome ?pad-rel /succ)))))
+            (bb-clear ?post-ad ad)
+            (set-outcome ?post-ad /succ)))))
 
     (try
       (no-role [k building church])

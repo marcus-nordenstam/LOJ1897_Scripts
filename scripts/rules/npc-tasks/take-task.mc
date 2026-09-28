@@ -17,7 +17,7 @@
 ; maintains, in the gate it is re-evaluated live on every pass.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self take ?item}:?take-rel
+(npc-task {@self take ?item}:?take
   (tar @excl [k object] @object)
   (and
     (try
@@ -33,5 +33,5 @@
         (when (not (empty (spatial (spatial @self right-hand) grip))))
         (effects (maintain-proposal {@self GRASP ?item (spatial @self left-hand)}))))
     (try
-      (when {@self /succ GRASP ?item ? /caused_by ?take-rel})
-      (effects (set-outcome ?take-rel /succ)))))
+      (when {@self /succ GRASP ?item ? /caused_by ?take})
+      (effects (set-outcome ?take /succ)))))

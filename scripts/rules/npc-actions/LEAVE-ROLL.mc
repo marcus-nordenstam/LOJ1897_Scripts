@@ -6,10 +6,10 @@
 ;; outright. @self ends his own member-of belief think-side once his row is gone.
 ;; ----------------------------------------------------------------------------
 
-;(npc-action {@self LEAVE-ROLL ?roll}:?lr-rel
+;(npc-action {@self LEAVE-ROLL ?roll}:?LEAVE-ROLL
 ;  (motor body legs)
 ;  (duration (seconds 15 min))
 ;  (effects
 ;    (check (spatial ?roll co-located @self))
 ;    (table-remove ?roll member (name @self))
-;    (set-outcome ?lr-rel /succ)))
+;    (set-outcome ?LEAVE-ROLL /succ)))

@@ -37,6 +37,34 @@
 (define-func can-stand-in (?space)
   (is-spot (find-spot @self [/on_floor_of ?space] [/near @self] [/at_or_near @self])))
 
+; The space of kind ?kind in ?bldg nearest @self that he knows and has floor free to stand
+; on, or @nothing. One whose floor has no room for him - too low a storey, or full - is passed over.
+(define-func nearest-standable (?bldg ?kind)
+  (bind @nothing ?space)
+  (bind -1.0 ?best)
+  (for-each ?r (spatial ?bldg parts ?kind)
+    (if (can-stand-in ?r)
+      (then
+        (bind (distance @self ?r) ?d)
+        (if (or (< ?best 0.0) (< ?d ?best))
+          (then
+            (bind ?r ?space)
+            (bind ?d ?best))))))
+  ?space)
+
+; The threshold of ?bldg, both ways: its main entrance, else any entrance - the first with
+; floor for him. @nothing when none has.
+(define-func entrance-space (?bldg)
+  (nearest-standable ?bldg [k entrance main-entrance]): ?main
+  (if (substantial ?main)
+      (then ?main)
+      (else (nearest-standable ?bldg [k interior-space entrance]))))
+
+; @self knows every part of ?kind ?bldg has.
+(define-func knows-every (?bldg ?kind)
+  (>= (count (spatial ?bldg parts ?kind))
+      (count (spatial ?bldg parts ?kind /env))))
+
 ; Where @self stands inside a space: a claimed spot on its floor, the one nearest him.
 ; Polled like rest-spot, and likewise the asking rung's claim.
 (define-func stand-spot-in (?space)
@@ -56,8 +84,8 @@
 
 (define-func seen-premises-at (?address)
   (bind @nothing ?found)
-  (for-each ?rel (every {? address ?address})
-    (bind ?rel.subject ?p)
+  (for-each ?address-of-premises (every {? address ?address})
+    (bind ?address-of-premises.subject ?p)
     (if (and (is-a ?p [k building])
              (observed ?p))
       (then

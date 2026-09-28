@@ -5,7 +5,7 @@
 ; shape (env-truth room + content sweep, first hit is the pick). Concludes on hand.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self buy ?kind}:?buy-rel
+(npc-task {@self buy ?kind}:?buy
   (tar ?)
   (and
     ; not at a shop -> head to a shop @self KNOWS (any shop carries the stock).
@@ -39,4 +39,4 @@
     ; concluded: an instance of the kind is in hand.
     (try
       (when (not (empty (spatial @self hold ?kind))))
-      (effects (set-outcome ?buy-rel /succ)))))
+      (effects (set-outcome ?buy /succ)))))

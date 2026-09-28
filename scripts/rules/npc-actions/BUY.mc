@@ -9,7 +9,7 @@
 (include "../../macros/money-macros.mc")
 (include "../../macros/collection-macros.mc")
 
-(npc-action {@self BUY ?goods ?vendor}:?buy-act-rel
+(npc-action {@self BUY ?goods ?vendor}:?BUY
   (motor body legs)
   (tar [k object] @object) (aux [k human] @object) (duration (seconds 1 min))
   (effects
@@ -23,4 +23,4 @@
     (if (empty (spatial ?rh grip))
         (then (spatial-write ?goods gripped-by ?rh /env))
         (else (spatial-write ?goods gripped-by (spatial @self left-hand) /env)))
-    (set-outcome ?buy-act-rel /succ)))
+    (set-outcome ?BUY /succ)))

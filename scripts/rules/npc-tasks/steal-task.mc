@@ -9,7 +9,7 @@
 
 (include "../../macros/acquisition-macros.mc")
 
-(npc-task {@self steal ?kind}:?steal-rel
+(npc-task {@self steal ?kind}:?steal
   (track-skill-level [k illicit])
   (tar ?)
   (construed-act appropriation-act wrong-act) (theme thief-to) (contradicts property)
@@ -45,9 +45,9 @@
     ; concluded: the loot is in hand /caused_by this pursuit -> crime row + succ.
     (try
       (when (and (not (empty (spatial @self hold ?kind)))
-                 {@self take ? /succ /caused_by ?steal-rel}
+                 {@self take ? /succ /caused_by ?steal}
                  (is-a (spatial @self building): ?shop [k building shop])))
       (effects
         (any {?shopkeeper own ?shop})
         (record-crime @self ?shopkeeper opportunist_theft steal ?kind @u)
-        (set-outcome ?steal-rel /succ)))))
+        (set-outcome ?steal /succ)))))

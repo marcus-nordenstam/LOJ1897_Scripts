@@ -8,7 +8,7 @@
 ; does not yet carry (plan section 11).
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self INGEST ?thing}:?ingest
+(npc-action {@self INGEST ?thing}:?INGEST
   (motor mind)
   (tar @excl)
   (duration 0)
@@ -16,4 +16,4 @@
     (preroll 0) (in 0) (out 0))
 
   (effects
-    (set-outcome ?ingest /succ)))
+    (set-outcome ?INGEST /succ)))

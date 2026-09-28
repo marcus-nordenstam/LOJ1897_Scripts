@@ -12,7 +12,7 @@
 ; land later. publish-secret-about is a legitimate gossip cascade, not a fiat write.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self expose ?victim}:?expose-rel
+(npc-task {@self expose ?victim}:?expose
   (tar @pattern)
   (construed-act expose-act betray-act wrong-act) (contradicts privacy)
   (and
@@ -40,11 +40,11 @@
                  -{?victim spouse ?partner /ever}
                  -{@self spouse ?partner}
                  (spatial ?victim co-located @self)
-                 -{@self SAY ? /succ /caused_by ?expose-rel}))
+                 -{@self SAY ? /succ /caused_by ?expose}))
       (utility errand always-pick)
       (effects (maintain-proposal {@self SAY (utterable-msg {?victim lover ?partner}) _})))
     (try
-      (when {@self SAY ? /succ /caused_by ?expose-rel})
+      (when {@self SAY ? /succ /caused_by ?expose})
       (effects
         ; TELEPATHY - this pushed the secret into every other mind. The SAY above is
         ; already the honest channel; the spread belongs to the hearers' own adoption.
@@ -52,11 +52,11 @@
         ; (publish-secret-about @self ?victim)
         (if {@self extort ?victim} (then (end-belief {@self extort ?victim})))
         (record-crime @self ?victim confront-publicly expose @u @u)
-        (set-outcome ?expose-rel /succ)))
+        (set-outcome ?expose /succ)))
     (try
       (when (or (not (and -{@self spouse ?victim}
                           {?victim lover|HAVE-SEX-WITH ?partner /ever}
                           -{?victim spouse ?partner /ever}
                           -{@self spouse ?partner}))
                 (not (alive ?victim))))
-      (effects (set-outcome ?expose-rel /fail)))))
+      (effects (set-outcome ?expose /fail)))))

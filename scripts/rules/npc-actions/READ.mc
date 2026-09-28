@@ -17,7 +17,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-action {@self READ ?doc}:?read-rel
+(npc-action {@self READ ?doc}:?READ
   (motor eyes legs)
   (obs)
   (tar @excl)
@@ -106,10 +106,10 @@
       (on [k articles-of-incorporation]
         (adopt-aoc ?doc))
       (on [k employee-register]
-        (tolerate (any {? employee-register ?doc}): ?erel)
-        (if (substantial ?erel)
+        (tolerate (any {? employee-register ?doc}): ?employee-register)
+        (if (substantial ?employee-register)
             (then
-              (bind ?erel.subject ?eorg)
+              (bind ?employee-register.subject ?eorg)
               (for-each-row (attr ?doc writing) [/job-id ?eline] [/worker ?ewname] [/job ?ejk]
                             [/advertise-date ?ead]
                 (o ?ejk {@o org ?eorg} {@o job-id ?eline}): ?ejob
@@ -118,16 +118,16 @@
                 (if (substantial ?ewname)
                     (then (o [k human] {@o name ?ewname}): ?eworker
                           (if -{?eworker job ?ejob}
-                              (then (for-each ?efrel (every {? job ?ejob})
-                                      (end-belief ?efrel))
+                              (then (for-each ?holder-of-job (every {? job ?ejob})
+                                      (end-belief ?holder-of-job))
                                     (begin-belief {?eworker job ?ejob}))))
-                    (else (for-each ?efrel (every {? job ?ejob})
-                            (end-belief ?efrel))))
+                    (else (for-each ?holder-of-job (every {? job ?ejob})
+                            (end-belief ?holder-of-job))))
                 (if (substantial ?ead)
                     (then (if -{?eorg display-ad ?ejob}
                               (then (begin-belief {?eorg display-ad ?ejob}))))
-                    (else (for-each ?edrel (every {?eorg display-ad ?ejob})
-                            (end-belief ?edrel))))))))
+                    (else (for-each ?display-ad (every {?eorg display-ad ?ejob})
+                            (end-belief ?display-ad))))))))
       (on [k application]
         (if (and (form-match (attr ?doc writing) application_form
                              [/applicant ?aname] [/home ?ahome] [/job-kind ?ajk]

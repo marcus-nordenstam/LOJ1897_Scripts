@@ -11,7 +11,7 @@
 
 (include "../../macros/collection-macros.mc")
 
-(npc-task {@self eat ?meal ?place}:?e-rel
+(npc-task {@self eat ?meal ?place}:?eat
   (tar [k meal])
   (aux [k structure|space] @object)
   (and
@@ -40,19 +40,19 @@
                         (then (bind ?et_pile ?food)))))))
         (maintain-proposal {@self EAT ?food 0}))
       (when-unsupported-effects
-        (caused-by {@self EAT ? ? /past} ?e-rel): ?rec-rel
-        (if ?rec-rel (then (set-outcome ?e-rel (outcome ?rec-rel))))))
+        (caused-by {@self EAT ? ? /past} ?eat): ?EAT
+        (if ?EAT (then (set-outcome ?eat (outcome ?EAT))))))
     (try
       (role ?home {@self home ?home}
-        (role @self -{@self SAY ? ? /succ /caused_by ?e-rel}
+        (role @self -{@self SAY ? ? /succ /caused_by ?eat}
           (when (and (= ?place ?home) (latch-eval (chance 0.25))))
           (effects
-            (for-each ?bb-rel (every {?home breakfast-hour ?})
-                (bind ?bb-rel.target ?b)
-                (for-each ?lb-rel (every {?home lunch-hour ?})
-                    (bind ?lb-rel.target ?l)
-                    (for-each ?sb-rel (every {?home supper-hour ?})
-                        (bind ?sb-rel.target ?s)
+            (for-each ?breakfast-hour (every {?home breakfast-hour ?})
+                (bind ?breakfast-hour.target ?b)
+                (for-each ?lunch-hour (every {?home lunch-hour ?})
+                    (bind ?lunch-hour.target ?l)
+                    (for-each ?supper-hour (every {?home supper-hour ?})
+                        (bind ?supper-hour.target ?s)
                         (maintain-proposal
                           {@self SAY (utterable-msg {?home breakfast-hour ?b}
                                                     {?home lunch-hour ?l}
@@ -63,8 +63,8 @@
                    (spatial ?diner co-located @self)
                    (select (score 1) (policy roulette))
         (effects
-          (for-each ?belief-rel (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life-aim ?})
+          (for-each ?belief (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life-aim ?})
             (do
-              (utterable-msg ?belief-rel): ?msg
+              (utterable-msg ?belief): ?msg
               (if -{@self SAY ?msg ?diner}
                   (then (maintain-proposal {@self SAY ?msg ?diner}) (break))))))))))

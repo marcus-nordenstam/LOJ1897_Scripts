@@ -4,7 +4,7 @@
 ;; ?assignee (a person, or an org's articles) and give up his own claim to it.
 ;; ----------------------------------------------------------------------------
 
-;(npc-action {@self ASSIGN-DEED ?building ?assignee}:?ad-rel
+;(npc-action {@self ASSIGN-DEED ?building ?assignee}:?ASSIGN-DEED
 ;  (tar [k building] @object)
 ;  (aux @object)
 ;  (motor body legs)
@@ -14,4 +14,4 @@
 ;    (if (table-match (attr ?deed writing) owner (name @self))
 ;      (then (table-set ?deed owner (name ?assignee))))
 ;    (end-belief {@self own ?building})
-;    (set-outcome ?ad-rel /succ)))
+;    (set-outcome ?ASSIGN-DEED /succ)))

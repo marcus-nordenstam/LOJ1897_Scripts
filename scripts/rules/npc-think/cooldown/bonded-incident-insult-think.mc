@@ -8,10 +8,10 @@
 ; hit most (a 0.10 floor lets displaced anger land on any acquaintance).
 ;
 ; The (do ...) block runs per ?victim (after the role binds) and tolerantly
-; captures the mockable material @self holds about the victim (each `-rel` var is
-; the whole belief handle, or @fail with no abort) - only what @self knows or can
-; see, so the insult is grounded. low_aspect-rel is the single worst of the four
-; amiable traits; vol-rel the hot-head extreme. The barb_ladder cells read those
+; captures the mockable material @self holds about the victim (each capture holds
+; the whole belief, or @fail with no abort) - only what @self knows or can
+; see, so the insult is grounded. ?low_aspect is the single worst of the four
+; amiable traits; ?volatility the hot-head extreme. The barb_ladder cells read those
 ; handles by context: a high anger load -> the displaced-anger lash-out (perceptual
 ; barbs, what is at hand); otherwise the dispositional put-down (status barbs). A
 ; context with no material scores every row 0, the select binds nothing, and
@@ -20,23 +20,23 @@
 
 
 (define-table barb_ladder
-  (capture ?girth-rel ?height-rel ?sob-rel ?low_aspect-rel ?vol-rel ?low_class-rel ?pre-rel)
+  (capture ?girth ?height ?sobriety ?low_aspect ?volatility ?class-situation ?prestige)
   (fields context          rank  barb-eval)
 
   ; displaced_anger: lashing out grabs what is visible at hand.
-  (record displaced_anger  3    (cond (case (matches ?girth-rel.target [k girth fat|thin]) ?girth-rel)
-                                      (case (= ?height-rel.target [k height short])       ?height-rel)))
-  (record displaced_anger  2    (if (<= ?sob-rel.target 0.35) (then ?sob-rel)))
-  (record displaced_anger  1    (cond (case (<= ?low_aspect-rel.target 0.30) ?low_aspect-rel)
-                                      (case (>= ?vol-rel.target 0.70)        ?vol-rel)))
+  (record displaced_anger  3    (cond (case (matches ?girth.target [k girth fat|thin]) ?girth)
+                                      (case (= ?height.target [k height short])       ?height)))
+  (record displaced_anger  2    (if (<= ?sobriety.target 0.35) (then ?sobriety)))
+  (record displaced_anger  1    (cond (case (<= ?low_aspect.target 0.30) ?low_aspect)
+                                      (case (>= ?volatility.target 0.70)        ?volatility)))
 
   ; dispositional: the narcissist's put-down is status elevation.
-  (record dispositional    4    ?low_class-rel)
-  (record dispositional    3    (if (<= ?pre-rel.target 0.35) (then ?pre-rel)))
-  (record dispositional    2    (cond (case (<= ?low_aspect-rel.target 0.30) ?low_aspect-rel)
-                                      (case (>= ?vol-rel.target 0.70)        ?vol-rel)))
-  (record dispositional    1    (cond (case (matches ?girth-rel.target [k girth fat|thin]) ?girth-rel)
-                                      (case (= ?height-rel.target [k height short])       ?height-rel))))
+  (record dispositional    4    ?class-situation)
+  (record dispositional    3    (if (<= ?prestige.target 0.35) (then ?prestige)))
+  (record dispositional    2    (cond (case (<= ?low_aspect.target 0.30) ?low_aspect)
+                                      (case (>= ?volatility.target 0.70)        ?volatility)))
+  (record dispositional    1    (cond (case (matches ?girth.target [k girth fat|thin]) ?girth)
+                                      (case (= ?height.target [k height short])       ?height))))
 
 (npc-think bonded_incident_insult
   (cooldown 1 m try-once)
@@ -67,27 +67,27 @@
                                        (prob {@self despise ?victim})))))))
 
       ; The mockable material, read per victim - each tolerant, so a missing read is
-      ; just @fail (no abort). Each `-rel` var holds the whole belief.
+      ; just @fail (no abort). Each capture holds the whole belief.
       (do
-        (tolerate (any {?victim girth ?}):?girth-rel)
-        (tolerate (any {?victim height ?}):?height-rel)
-        (tolerate (any {?victim sobriety ?}):?sob-rel)
-        (tolerate (lowest /target {?victim politeness|industriousness|orderliness|compassion ?}):?low_aspect-rel)
-        (tolerate (any {?victim volatility ?}):?vol-rel)
-        (tolerate (any {?victim class-situation [k class-situation lower]}):?low_class-rel)
-        (tolerate (any {?victim prestige ?}):?pre-rel))
+        (tolerate (any {?victim girth ?}):?girth)
+        (tolerate (any {?victim height ?}):?height)
+        (tolerate (any {?victim sobriety ?}):?sobriety)
+        (tolerate (lowest /target {?victim politeness|industriousness|orderliness|compassion ?}):?low_aspect)
+        (tolerate (any {?victim volatility ?}):?volatility)
+        (tolerate (any {?victim class-situation [k class-situation lower]}):?class-situation)
+        (tolerate (any {?victim prestige ?}):?prestige))
 
-      ; Compose the barb: context is the anger-driven ladder choice; ?barb-rel the
+      ; Compose the barb: context is the anger-driven ladder choice; ?barb the
       ; belief @self voices. No material in that context -> nothing binds -> silence.
       (select-row (table barb_ladder)
         (bind context ?ctx)
         (bind rank ?rank)
-        (bind barb-eval ?barb-rel)
+        (bind barb-eval ?barb)
         (when (= ?ctx ?emo_ctx))
-        (score (if (is-belief ?barb-rel) (then ?rank) (else 0)))
+        (score (if (is-belief ?barb) (then ?rank) (else 0)))
         (policy roulette))
 
       (utility want)
 
       (effects
-        (maintain-proposal {@self SAY (utterable-msg [/msg-class insult] ?barb-rel) ?victim})))))
+        (maintain-proposal {@self SAY (utterable-msg [/msg-class insult] ?barb) ?victim})))))

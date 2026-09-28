@@ -18,7 +18,7 @@
   (role @self {@self volatility ?volatility}
               {@self sadism ?sadism}
               {@self compassion ?compassion}
-    (role ?foe {?foe (theme-labels violent-to) @self}:?witnessed-rel
+    (role ?foe {?foe (theme-labels violent-to) @self}:?violent-to
                -{?foe condition [k dead]}
   
       ; The fearful flight: timidity = high volatility + low sadism + high compassion, the

@@ -94,8 +94,8 @@
 ; room simply says it to an empty room, which is what a real one does.
 (npc-think announce_burial
   (role @self {@self job [k job priest]}
-    (role ?corpse {@self BURY ?corpse /past}:?bury-rel
-      (when -{@self SAY ? /succ /caused_by ?bury-rel})
+    (role ?corpse {@self BURY ?corpse /past}:?BURY
+      (when -{@self SAY ? /succ /caused_by ?BURY})
       (utility want)
       (effects
         (maintain-proposal {@self SAY (utterable-msg {?corpse internment [k buried]}) _})))))

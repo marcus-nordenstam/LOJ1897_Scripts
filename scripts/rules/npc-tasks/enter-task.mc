@@ -17,39 +17,18 @@
 (define-func inside (?bldg)
   (spatial @self building ?bldg))
 
-; The space of kind ?kind in ?bldg nearest @self that he knows and has floor free to stand
-; on, or @nothing. One whose floor has no room for him - too low a storey, or full - is passed over.
-(define-func nearest-standable (?bldg ?kind)
-  (bind @nothing ?space)
-  (bind -1.0 ?best)
-  (for-each ?r (spatial ?bldg parts ?kind)
-    (if (can-stand-in ?r)
-      (then
-        (bind (distance @self ?r) ?d)
-        (if (or (< ?best 0.0) (< ?d ?best))
-          (then
-            (bind ?r ?space)
-            (bind ?d ?best))))))
-  ?space)
-
-; Where a man steps in: the building's main entrance, else any entrance, else its nearest
-; room - the first of them with floor for him. @nothing when none has.
+; Where a man steps in: the building's entrance, else its nearest room with floor for him.
 (define-func entry-space (?bldg)
-  (nearest-standable ?bldg [k entrance main-entrance]): ?main
-  (nearest-standable ?bldg [k interior-space entrance]): ?way
-  (cond (case (substantial ?main) ?main)
-        (case (substantial ?way) ?way)
-        (else (nearest-standable ?bldg [k interior-space room]))))
-
-(define-func knows-every (?bldg ?kind)
-  (>= (count (spatial ?bldg parts ?kind))
-      (count (spatial ?bldg parts ?kind /env))))
+  (entrance-space ?bldg): ?way
+  (if (substantial ?way)
+      (then ?way)
+      (else (nearest-standable ?bldg [k interior-space room]))))
 
 (define-func knows-every-way-in (?bldg)
   (and (knows-every ?bldg [k interior-space entrance])
        (knows-every ?bldg [k interior-space room])))
 
-(npc-task {@self enter ?bldg}:?enter-rel
+(npc-task {@self enter ?bldg}:?enter
   (tar @excl [k container-structure] @object)
   ; The rooms behind the door are read from ground truth at the hull: standing before a
   ; building is how a man learns what is behind its door.
@@ -59,7 +38,7 @@
     (check (grounded ?bldg))
     (check (unsubstantial (spatial @self building))))
   (when (not (inside ?bldg)))
-  (cease (if (inside ?bldg) (then (set-outcome ?enter-rel /succ))))
+  (cease (if (inside ?bldg) (then (set-outcome ?enter /succ))))
   (and
     (try
       (when (poll (not (< (distance @self ?bldg) (near_building_m)))))

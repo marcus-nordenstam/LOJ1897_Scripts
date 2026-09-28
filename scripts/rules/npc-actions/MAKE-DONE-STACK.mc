@@ -13,7 +13,7 @@
 ; about - which is what the mental symbols an (observe ..) returns are.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self MAKE-DONE-STACK ?working-stack ?where}:?mds
+(npc-action {@self MAKE-DONE-STACK ?working-stack ?where}:?MAKE-DONE-STACK
   (motor eyes legs)
   (obs)
   (tar @excl)
@@ -32,5 +32,5 @@
         (observe ?done): ?known-done
         (observe ?working-stack): ?known-working
         (bb-write ?known-working done-stack ?known-done)
-        (set-outcome ?mds /succ))
-      (else (set-outcome ?mds /fail)))))
+        (set-outcome ?MAKE-DONE-STACK /succ))
+      (else (set-outcome ?MAKE-DONE-STACK /fail)))))

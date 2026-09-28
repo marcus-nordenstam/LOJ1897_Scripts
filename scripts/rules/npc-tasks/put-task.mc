@@ -8,7 +8,7 @@
 ; to the spot and opens with UNGRASP (action_unification_plan.md 5.9).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self put ?item ?dest}:?put-rel
+(npc-task {@self put ?item ?dest}:?put
   (tar @excl [k object] @object)
   (and
     (try
@@ -17,5 +17,5 @@
       (when (poll (rest-spot ?dest ?item): ?spot))
       (effects (maintain-proposal {@self PUT ?item ?spot})))
     (try
-      (when {@self /succ PUT ?item ? /caused_by ?put-rel})
-      (effects (set-outcome ?put-rel /succ)))))
+      (when {@self /succ PUT ?item ? /caused_by ?put})
+      (effects (set-outcome ?put /succ)))))

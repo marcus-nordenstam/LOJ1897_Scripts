@@ -14,23 +14,23 @@
 ; running task's own key, so a restart re-reads that key instead of penning a second.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self write-will ?heir}:?ww-rel
+(npc-task {@self write-will ?heir}:?write-will
   (tar @excl [k human] @object)
   (sequence
     (stage
       (effects
-        (for-each ?orel (every {@self own ?})
-          (bind ?orel.target ?owned)
+        (for-each ?own (every {@self own ?})
+          (bind ?own.target ?owned)
           (if (and (is-a ?owned [k will]) (spatial ?owned co-located @self))
               (then (maintain-proposal {@self DESTROY-ENTITY ?owned}))))))
 
     (stage
       (effects
-        (if (bb-any ?ww-rel will)
-            (then (bind (bb-read ?ww-rel will) ?will))
-            (else (maintain-proposal {@self CREATE-ENTITY [k will]}:?ce
-                    [/postlude (bind (bb-read ?ce created) ?will)
-                               (bb-write ?ww-rel will ?will)])))))
+        (if (bb-any ?write-will will)
+            (then (bind (bb-read ?write-will will) ?will))
+            (else (maintain-proposal {@self CREATE-ENTITY [k will]}:?CREATE-ENTITY
+                    [/postlude (bind (bb-read ?CREATE-ENTITY created) ?will)
+                               (bb-write ?write-will will ?will)])))))
 
     (stage
       (when {@self name ?my-name})
@@ -48,5 +48,5 @@
       (effects
         (if -{@self own ?will}
             (then (begin-belief {@self own ?will})))
-        (bb-clear ?ww-rel will)
-        (set-outcome ?ww-rel /succ)))))
+        (bb-clear ?write-will will)
+        (set-outcome ?write-will /succ)))))

@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-action {@self WEAR ?article ?part}:?wear
+(npc-action {@self WEAR ?article ?part}:?WEAR
   (motor right-hand legs)
   (obs)
   (tar @excl)
@@ -28,4 +28,4 @@
     (release-grip ?article (spatial @self space /env))
     (if (presented-lod)
         (then (attach-to-socket ?article ?part @nothing)))
-    (set-outcome ?wear /succ)))
+    (set-outcome ?WEAR /succ)))

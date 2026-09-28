@@ -7,7 +7,7 @@
 ; instead of (face-toward ..).
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self MIRROR ?other}:?mirror
+(npc-action {@self MIRROR ?other}:?MIRROR
   (motor legs)
   (obs)
   (tar @excl)
@@ -27,11 +27,11 @@
   (init
     (if (unpresented-lod)
         (then (face-as @self ?other)
-              (set-outcome ?mirror /succ))))
+              (set-outcome ?MIRROR /succ))))
 
   (effects
     (if (presented-lod)
       (then
         (steer-facing @self ?other)
         (if (is-mirroring @self ?other)
-            (then (set-outcome ?mirror /succ)))))))
+            (then (set-outcome ?MIRROR /succ)))))))

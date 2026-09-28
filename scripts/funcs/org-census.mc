@@ -19,8 +19,8 @@
 ; posts of ?kind. Belief-only, so legal in a (when).
 (define-func count-notices-for-kind (?org ?kind)
   (bind 0 ?n)
-  (for-each ?dr (every {?org display-ad ?})
-    (if (= (kind ?dr.target) ?kind) (then (+= ?n 1))))
+  (for-each ?display-ad (every {?org display-ad ?})
+    (if (= (kind ?display-ad.target) ?kind) (then (+= ?n 1))))
   ?n)
 
 ; articles-premises / articles-register - the building and the book an org's articles name,

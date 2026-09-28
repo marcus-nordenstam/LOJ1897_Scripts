@@ -9,7 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-action {@self STOW ?thing}:?stow
+(npc-action {@self STOW ?thing}:?STOW
   (motor mind)
   (obs)
   (tar @excl)
@@ -28,4 +28,4 @@
     (if (presented-lod)
         (then (attach-to-socket ?thing @self @nothing)
               (set-renderable ?thing @false)))
-    (set-outcome ?stow /succ)))
+    (set-outcome ?STOW /succ)))

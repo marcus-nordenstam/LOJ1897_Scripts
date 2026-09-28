@@ -15,7 +15,7 @@
 ; ----------------------------------------------------------------------------
 
 ; -- wrong-act (umbrella: any wronging - accumulates with the specific rows) --
-(npc-reflex {?actor wrong-act @self}:?c
+(npc-reflex {?actor wrong-act @self}:?wrong-act
   (effects
     (mint-emotion [k anger] ?actor 24)
     (mint-emotion [k distress] @nothing 72)
@@ -25,14 +25,14 @@
     ; the durable affective residue is the emotion->stance coupling.
     (end-bond {@self friend ?actor})))
 
-(npc-reflex {@self wrong-act ?patient}:?c
+(npc-reflex {@self wrong-act ?patient}:?wrong-act
   (effects
     (mint-emotion [k guilt] @self 720)
     (mint-emotion [k fear] @nothing 168)
     (mint-pressure [k moral-violation] @self 2160)
     (mint-pressure [k exposure-risk] ?patient 1440)))
 
-(npc-reflex {?actor wrong-act ?patient}:?c
+(npc-reflex {?actor wrong-act ?patient}:?wrong-act
   (effects
     (mint-emotion [k distress] ?actor 24)
     (mint-emotion [k fear] ?actor 48)
@@ -41,31 +41,31 @@
     (mint-pressure [k injustice] ?actor (* 1440 (mobilisation-scale ?patient)))))
 
 ; -- harm-act (physical / mortal injury) --
-(npc-reflex {?actor harm-act @self}:?c
+(npc-reflex {?actor harm-act @self}:?harm-act
   (effects
     (mint-emotion [k fear] ?actor 168)
     (mint-pressure [k existential-threat] ?actor 2160)))
 
-(npc-reflex {@self harm-act ?patient}:?c
+(npc-reflex {@self harm-act ?patient}:?harm-act
   (effects
     (mint-emotion [k fear] @nothing 168)))
 
-(npc-reflex {?actor harm-act ?patient}:?c
+(npc-reflex {?actor harm-act ?patient}:?harm-act
   (effects
     (mint-emotion [k fear] ?actor 48)
     (mint-pressure [k existential-threat] ?actor (* 720 (mobilisation-scale ?patient)))))
 
 ; -- appropriation-act (theft / fraud / embezzlement) --
-(npc-reflex {?actor appropriation-act @self}:?c
+(npc-reflex {?actor appropriation-act @self}:?appropriation-act
   (effects
     (mint-emotion [k anger] ?actor 168)
     (mint-pressure [k resource-scarcity] @nothing 1440)))
 
-(npc-reflex {@self appropriation-act ?patient}:?c
+(npc-reflex {@self appropriation-act ?patient}:?appropriation-act
   (effects
     (mint-pressure [k exposure-risk] ?patient 1440)))
 
-(npc-reflex {?actor appropriation-act ?patient}:?c
+(npc-reflex {?actor appropriation-act ?patient}:?appropriation-act
   (effects
     (mint-emotion [k distress] ?actor 24)))
 
@@ -73,34 +73,34 @@
 ; agent slot is the LOST PROP (the culprit is unknown by design), so anger and
 ; distress are FOCUSLESS and the pressure drives acquisitive deliberation, not
 ; aggression. No actor or third-party rows.
-(npc-reflex {?prop suffer-loss-act @self}:?c
+(npc-reflex {?prop suffer-loss-act @self}:?suffer-loss-act
   (effects
     (mint-emotion [k anger] @nothing 72)
     (mint-emotion [k distress] @nothing 168)
     (mint-pressure [k resource-scarcity] @nothing 1440)))
 
 ; -- coercion-act (forcible compulsion) --
-(npc-reflex {?actor coercion-act @self}:?c
+(npc-reflex {?actor coercion-act @self}:?coercion-act
   (effects
     (mint-emotion [k fear] ?actor 168)
     (mint-pressure [k autonomy-loss] ?actor 1440)
     (mint-pressure [k existential-threat] ?actor 720)))
 
-(npc-reflex {@self coercion-act ?patient}:?c
+(npc-reflex {@self coercion-act ?patient}:?coercion-act
   (effects
     (mint-pressure [k moral-violation] @self 720)))
 
-(npc-reflex {?actor coercion-act ?patient}:?c
+(npc-reflex {?actor coercion-act ?patient}:?coercion-act
   (effects
     (mint-emotion [k fear] ?actor 48)))
 
 ; -- threaten-act (menace / extortion / implicit harm) --
-(npc-reflex {?actor threaten-act @self}:?c
+(npc-reflex {?actor threaten-act @self}:?threaten-act
   (effects
     (mint-emotion [k fear] ?actor 72)
     (mint-pressure [k existential-threat] ?actor 720)))
 
-(npc-reflex {?actor threaten-act ?patient}:?c
+(npc-reflex {?actor threaten-act ?patient}:?threaten-act
   (effects
     (mint-emotion [k fear] ?actor 24)))
 
@@ -108,36 +108,36 @@
 ; SINGLE insult fades before the monthly deliberate sees it, but re-mints ADD
 ; salience, so repeated insult builds past the action threshold (slow-burn
 ; grudge, not instant brooding).
-(npc-reflex {?actor slight-act @self}:?c
+(npc-reflex {?actor slight-act @self}:?slight-act
   (effects
     (mint-emotion [k anger] ?actor 8)
     (mint-emotion [k contempt] ?actor 48)
     (mint-pressure [k humiliation] ?actor 336)))
 
-(npc-reflex {@self slight-act ?patient}:?c
+(npc-reflex {@self slight-act ?patient}:?slight-act
   (effects
     (mint-emotion [k pride] @self 24)))
 
-(npc-reflex {?actor slight-act ?patient}:?c
+(npc-reflex {?actor slight-act ?patient}:?slight-act
   (effects
     (mint-emotion [k contempt] ?actor 24)))
 
 ; -- rivalrous-act (actor positionally outcompetes patient): the loser feels
 ; the loss; the winner takes the prize, not the emotional payoff. 6-month
 ; rivalry base: slower than humiliation, faster than injustice.
-(npc-reflex {?actor rivalrous-act @self}:?c
+(npc-reflex {?actor rivalrous-act @self}:?rivalrous-act
   (effects
     (mint-emotion [k envy] ?actor 168)
     (mint-emotion [k contempt] ?actor 48)
     (mint-pressure [k rivalry-pressure] ?actor 4320)))
 
-(npc-reflex {?actor rivalrous-act ?patient}:?c
+(npc-reflex {?actor rivalrous-act ?patient}:?rivalrous-act
   (effects
     (mint-emotion [k envy] ?actor 24)))
 
 ; -- betray-act (broken trust). Betrayal ends the love + friend bonds (real
 ; structural changes); the trust collapse rides the emotion->stance coupling.
-(npc-reflex {?actor betray-act @self}:?c
+(npc-reflex {?actor betray-act @self}:?betray-act
   (effects
     (mint-emotion [k anger] ?actor 24)
     (mint-emotion [k grief] @nothing 168)
@@ -149,14 +149,14 @@
 ; mints contempt at the interloper (the affair's other party) and the
 ; humiliation the non-lethal recourse rules (affair_fallout) gate on.
 ; Subsumes the retired appraise-betrayal C++ primitive.
-(npc-reflex {?partner betray-act @self}:?c
-  (caused-by ?c {? lover ?}):?affair
-  (when (substantial ?affair))
+(npc-reflex {?partner betray-act @self}:?betray-act
+  (caused-by ?betray-act {? lover ?}):?lover
+  (when (substantial ?lover))
   (effects
-    (mint-emotion [k contempt] ?affair.target 120)
+    (mint-emotion [k contempt] ?lover.target 120)
     (mint-pressure [k humiliation] ?partner 720)))
 
-(npc-reflex {@self betray-act ?patient}:?c
+(npc-reflex {@self betray-act ?patient}:?betray-act
   (effects
     (mint-emotion [k guilt] @self 720)
     (mint-pressure [k moral-violation] @self 1440)
@@ -165,12 +165,12 @@
 ; Sadist substitution (was the /pov third_party_sadist row): above the sadism
 ; threshold the modal third-party row yields to schadenfreude. A consciously
 ; kept same-pattern pair (reflex-duplicate-pattern is the sanctioned warning).
-(npc-reflex {?actor betray-act ?patient}:?c
+(npc-reflex {?actor betray-act ?patient}:?betray-act
   (when (<= (attr @self sadism) 0.65))
   (effects
     (mint-emotion [k contempt] ?actor 48)))
 
-(npc-reflex {?actor betray-act ?patient}:?c
+(npc-reflex {?actor betray-act ?patient}:?betray-act
   (when (> (attr @self sadism) 0.65))
   (effects
     (mint-emotion [k joy] @nothing 12)
@@ -178,36 +178,36 @@
 
 ; -- degrade-act (a deliberated PUBLIC put-down): the audience makes the
 ; injury a STATUS event - shame + status-loss plus anger at the mocker.
-(npc-reflex {?actor degrade-act @self}:?c
+(npc-reflex {?actor degrade-act @self}:?degrade-act
   (effects
     (mint-emotion [k shame] @nothing 720)
     (mint-emotion [k anger] ?actor 168)
     (mint-pressure [k humiliation] ?actor 1440)
     (mint-pressure [k status-loss] @nothing 1440)))
 
-(npc-reflex {@self degrade-act ?patient}:?c
+(npc-reflex {@self degrade-act ?patient}:?degrade-act
   (effects
     (mint-emotion [k pride] @self 24)))
 
-(npc-reflex {?actor degrade-act ?patient}:?c
+(npc-reflex {?actor degrade-act ?patient}:?degrade-act
   (effects
     (mint-emotion [k contempt] ?actor 24)))
 
 ; -- expose-act (public disclosure of a band-4+ secret) --
-(npc-reflex {?actor expose-act @self}:?c
+(npc-reflex {?actor expose-act @self}:?expose-act
   (effects
     (mint-emotion [k shame] @nothing 720)
     (mint-pressure [k humiliation] ?actor 1440)
     (mint-pressure [k status-loss] @nothing 2160)))
 
-(npc-reflex {@self expose-act ?patient}:?c
+(npc-reflex {@self expose-act ?patient}:?expose-act
   (effects
     (mint-pressure [k exposure-risk] ?patient 720)))
 
 ; -- repudiation-act (a husband divorces an adulterous wife): the disgrace
 ; lands on the PATIENT; third parties side with the wronged husband, so their
 ; contempt targets HER.
-(npc-reflex {?actor repudiation-act @self}:?c
+(npc-reflex {?actor repudiation-act @self}:?repudiation-act
   (effects
     (mint-emotion [k shame] @nothing 2160)
     (mint-emotion [k grief] ?actor 720)
@@ -216,12 +216,12 @@
     (end-bond {@self love ?actor})
     (end-bond {@self friend ?actor})))
 
-(npc-reflex {?actor repudiation-act ?patient}:?c
+(npc-reflex {?actor repudiation-act ?patient}:?repudiation-act
   (effects
     (mint-emotion [k contempt] ?patient 96)))
 
 ; -- abandonment-act (disinheritance / desertion) --
-(npc-reflex {?actor abandonment-act @self}:?c
+(npc-reflex {?actor abandonment-act @self}:?abandonment-act
   (effects
     (mint-emotion [k grief] ?actor 720)
     (mint-emotion [k distress] @nothing 168)
@@ -230,12 +230,12 @@
     (end-bond {@self friend ?actor})
     (end-bond {@self love ?actor})))
 
-(npc-reflex {@self abandonment-act ?patient}:?c
+(npc-reflex {@self abandonment-act ?patient}:?abandonment-act
   (effects
     (mint-emotion [k guilt] @self 720)
     (mint-pressure [k moral-violation] @self 1440)))
 
-(npc-reflex {?actor abandonment-act ?patient}:?c
+(npc-reflex {?actor abandonment-act ?patient}:?abandonment-act
   (effects
     (mint-emotion [k distress] ?actor 48)
     ; 60 days; shorter decayed before the monthly deliberate could see it.
@@ -245,43 +245,43 @@
 ; favour is a WARMTH nudge, not an instant friendship: gratitude couples to
 ; warmth, repeated kindnesses accumulate into a like band, friendship then
 ; forms via the warmth-biased befriend rules.
-(npc-reflex {?actor help-act @self}:?c
+(npc-reflex {?actor help-act @self}:?help-act
   (effects
     (mint-emotion [k gratitude] ?actor 168)
     (mint-emotion [k relief] @nothing 72)))
 
-(npc-reflex {@self help-act ?patient}:?c
+(npc-reflex {@self help-act ?patient}:?help-act
   (effects
     (mint-emotion [k pride] @self 72)))
 
-(npc-reflex {?actor help-act ?patient}:?c
+(npc-reflex {?actor help-act ?patient}:?help-act
   (effects
     (mint-emotion [k affection] ?actor 48)))
 
-(npc-reflex {?actor aid-act @self}:?c
+(npc-reflex {?actor aid-act @self}:?aid-act
   (effects
     (mint-emotion [k gratitude] ?actor 168)))
 
-(npc-reflex {?actor provision-act @self}:?c
+(npc-reflex {?actor provision-act @self}:?provision-act
   (effects
     (mint-emotion [k gratitude] ?actor 168)))
 
 ; -- honour-act / commitment-act. Honour mints admiration toward the actor;
 ; the stance coupling routes it to esteem (the retired `respects` attitude).
-(npc-reflex {?actor honour-act @self}:?c
+(npc-reflex {?actor honour-act @self}:?honour-act
   (effects
     (mint-emotion [k pride] @self 168)
     (mint-emotion [k gratitude] ?actor 168)
     (mint-emotion [k admiration] ?actor 168)))
 
-(npc-reflex {@self honour-act ?patient}:?c
+(npc-reflex {@self honour-act ?patient}:?honour-act
   (effects
     (mint-emotion [k pride] @self 72)))
 
-(npc-reflex {?actor honour-act ?patient}:?c
+(npc-reflex {?actor honour-act ?patient}:?honour-act
   (effects
     (mint-emotion [k affection] ?actor 48)))
 
-(npc-reflex {?actor commitment-act @self}:?c
+(npc-reflex {?actor commitment-act @self}:?commitment-act
   (effects
     (mint-emotion [k gratitude] ?actor 168)))

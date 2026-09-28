@@ -10,9 +10,9 @@
 ; Mirrors (and will retire) the C++ reprojection block in categorize().
 ; ----------------------------------------------------------------------------
 
-(npc-reflex {?speaker SAY ?msg ?audience /ever}:?b
+(npc-reflex {?speaker SAY ?msg ?audience /ever}:?SAY
   (msg-class-of ?msg):?class
   (when (substantial ?class))
   (effects
-    (reframe ?b ?class ?speaker ?audience)
+    (reframe ?SAY ?class ?speaker ?audience)
     ))

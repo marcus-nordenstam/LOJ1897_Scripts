@@ -17,7 +17,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-action {@self GRASP ?item ?hand}:?grasp
+(npc-action {@self GRASP ?item ?hand}:?GRASP
   (sided aux left-hand right-hand)
   (obs)
   (tar @excl)
@@ -40,4 +40,4 @@
     (if (presented-lod)
         (then (attach-to-socket ?item @self (side ?hand))
               (set-renderable ?item @true)))
-    (set-outcome ?grasp /succ)))
+    (set-outcome ?GRASP /succ)))

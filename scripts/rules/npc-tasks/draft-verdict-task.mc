@@ -15,7 +15,7 @@
 ; located by the sibling try once the letter is addressed and no pile is known.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self draft-verdict ?p ?job}:?dv-rel
+(npc-task {@self draft-verdict ?p ?job}:?draft-verdict
   (aspect labour)
   (track-skill-level [k law])
   (tar [k human] @object)
@@ -29,16 +29,16 @@
           ; letter's kind from then on: a restart reads the kind off the letter already begun.
           (stage
             (effects
-              (if (bb-any ?dv-rel letter)
-                  (then (bind (bb-read ?dv-rel letter) ?ltr)
+              (if (bb-any ?draft-verdict letter)
+                  (then (bind (bb-read ?draft-verdict letter) ?ltr)
                         (bind (kind ?ltr) ?kind))
                   (else (bind (if -{? job ?job}
                                   (then [k offer-letter])
                                   (else [k rejection-letter]))
                               ?kind)
-                        (maintain-proposal {@self CREATE-ENTITY ?kind}:?ce
-                          [/postlude (bind (bb-read ?ce created) ?ltr)
-                                     (bb-write ?dv-rel letter ?ltr)])))))
+                        (maintain-proposal {@self CREATE-ENTITY ?kind}:?CREATE-ENTITY
+                          [/postlude (bind (bb-read ?CREATE-ENTITY created) ?ltr)
+                                     (bb-write ?draft-verdict letter ?ltr)])))))
 
           ; THE PAGE. Both letters name the seat by its anchors. The offer adds the seat's
           ; description: a new man is taken on at the entry level, at that level's pay, on the
@@ -98,8 +98,8 @@
             (effects
               (if (and (= ?kind [k offer-letter]) -{?job offered-to ?p})
                   (then (begin-belief {?job offered-to ?p})))
-              (bb-clear ?dv-rel letter)
-              (set-outcome ?dv-rel /succ))))))
+              (bb-clear ?draft-verdict letter)
+              (set-outcome ?draft-verdict /succ))))))
 
     (try
       (role ?org {@self duty-to ?org recruit-staff}

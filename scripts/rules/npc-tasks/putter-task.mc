@@ -11,11 +11,11 @@
 ;   done   : the wander concluded -> end.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self putter ?home}:?p-rel
+(npc-task {@self putter ?home}:?putter
   (tar [k structure] @object)
   (and
     (try
-      (role @self -{@self wander ?home /succ /caused_by ?p-rel}
+      (role @self -{@self wander ?home /succ /caused_by ?putter}
         (utility idle)
         (effects (maintain-proposal {@self wander ?home}))))
     (try
@@ -44,5 +44,5 @@
       (when (poll (rest-spot ?kitchen [k pile]): ?spot))
       (effects (maintain-proposal {@self STOCK-LARDER ?kitchen ?spot})))
     (try
-      (role @self {@self wander ?home /succ /caused_by ?p-rel}
-        (effects (set-outcome ?p-rel /succ))))))
+      (role @self {@self wander ?home /succ /caused_by ?putter}
+        (effects (set-outcome ?putter /succ))))))

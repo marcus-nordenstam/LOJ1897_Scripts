@@ -13,7 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-action {@self PUT ?item ?spot}:?put
+(npc-action {@self PUT ?item ?spot}:?PUT
   (lod unpresented)
   (motor body legs)
   (obs)
@@ -27,4 +27,4 @@
     ; You must be where the thing is going: the shortcut skips the reach, not the journey.
     (check (overlaps ?spot (spatial @self space)))
     (release-grip ?item ?spot)
-    (set-outcome ?put /succ)))
+    (set-outcome ?PUT /succ)))

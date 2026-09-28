@@ -7,18 +7,18 @@
 ; form. The form is left for the mail chain.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self prepare-application ?job}:?pa-rel
+(npc-task {@self prepare-application ?job}:?prepare-application
   (aspect labour)
   (tar [k job] @object)
   (sequence
 
     (stage
       (effects
-        (if (bb-any ?pa-rel application)
-            (then (bind (bb-read ?pa-rel application) ?app))
-            (else (maintain-proposal {@self CREATE-ENTITY [k application]}:?ce
-                    [/postlude (bind (bb-read ?ce created) ?app)
-                               (bb-write ?pa-rel application ?app)])))))
+        (if (bb-any ?prepare-application application)
+            (then (bind (bb-read ?prepare-application application) ?app))
+            (else (maintain-proposal {@self CREATE-ENTITY [k application]}:?CREATE-ENTITY
+                    [/postlude (bind (bb-read ?CREATE-ENTITY created) ?app)
+                               (bb-write ?prepare-application application ?app)])))))
 
     ; The paper must be WITHIN REACH - the very thing WRITE checks - so the stage that
     ; proposes WRITE is what guarantees it. An errand interrupted mid-form leaves the
@@ -45,5 +45,5 @@
                                                   [job-id ?line] [date ?today]])})))))
 
     (stage
-      (effects (bb-clear ?pa-rel application)
-               (set-outcome ?pa-rel /succ)))))
+      (effects (bb-clear ?prepare-application application)
+               (set-outcome ?prepare-application /succ)))))

@@ -6,10 +6,10 @@
 ; the real summon task later. The (try) never fires (declaration only).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self summon ?member ?sport}:?summon-rel
+(npc-task {@self summon ?member ?sport}:?summon
   (tar [k human] @object)
   (aux ?)
   (try
     (role @self
       (when (chance 0))
-      (effects (set-outcome ?summon-rel /succ)))))
+      (effects (set-outcome ?summon /succ)))))

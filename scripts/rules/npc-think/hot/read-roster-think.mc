@@ -56,10 +56,10 @@
           ; (2) RECONCILE (negative confirmation) - forget colleagues no longer listed: walk the
           ; job objects I believe belong to ?org, bind each holder, and drop the tie for any holder
           ; (not me) no longer on a worker row.
-          (for-each ?ojb-rel (every {? org ?org})
-            (bind ?ojb-rel.subject ?ojob)
-            (for-each ?jb-rel (every {? job ?ojob})
-              (bind ?jb-rel.subject ?other)
+          (for-each ?job-of-org (every {? org ?org})
+            (bind ?job-of-org.subject ?ojob)
+            (for-each ?holder-of-job (every {? job ?ojob})
+              (bind ?holder-of-job.subject ?other)
               (if (and (!= ?other @self)
                        (not (table-match (attr ?reg writing) worker (name ?other))))
-                  (then (end-belief ?jb-rel))))))))))
+                  (then (end-belief ?holder-of-job))))))))))

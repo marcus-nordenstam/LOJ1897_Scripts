@@ -7,7 +7,7 @@
 ; never fires (the label is minted as a record, never promoted as a task).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self embezzle ?victim}:?embezzle-rel
+(npc-task {@self embezzle ?victim}:?embezzle
   (track-skill-level [k illicit])
   (tar [k human|org] @object)
   (construed-act appropriation-act wrong-act betray-act) (theme thief-to) (contradicts trust)
@@ -15,4 +15,4 @@
   (try
     (role @self
       (when (chance 0))
-      (effects (set-outcome ?embezzle-rel /succ)))))
+      (effects (set-outcome ?embezzle /succ)))))

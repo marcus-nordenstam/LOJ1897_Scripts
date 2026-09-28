@@ -19,8 +19,8 @@
 ; The seen building standing at the premises of an unplaced ?dest's address, or @nothing.
 (define-func go-house-at-premises (?dest)
   (bind @nothing ?house)
-  (if (any {?dest address}): ?addr-rel
-    (then (bind (seen-premises-at (address-premises ?addr-rel.target)) ?house)))
+  (if (any {?dest address}): ?address
+    (then (bind (seen-premises-at (address-premises ?address.target)) ?house)))
   ?house)
 
 ; What go heads for: ?dest itself, or - for a thing he has not perceived but believes is in
@@ -50,13 +50,13 @@
 
 ; At a thing means in its space and either within reach of it or on the spot by it this go
 ; walked him onto - the nearest free floor to a thing set on furniture can be out of reach.
-(define-func go-arrived (?dest ?go-rel)
+(define-func go-arrived (?dest ?go)
   (cond (case (is-spot ?dest) (overlaps ?dest @self))
         (case (is-a ?dest [k container-structure]) (spatial @self building ?dest))
         (case (is-a ?dest [k space]) (spatial @self space ?dest))
         (else (and (spatial ?dest co-located @self)
                    (or (< (distance @self ?dest) (near_reach_m))
-                       (substantial (any {@self WALK ? /succ /caused_by ?go-rel})))))): ?there
+                       (substantial (any {@self WALK ? /succ /caused_by ?go})))))): ?there
   ?there)
 
 ; A target go can decompose: a spot, a thing he has placed, or one whose address he knows.
@@ -66,20 +66,20 @@
 (define-func go-near (?dest)
   (< (distance @self ?dest) (near_building_m)))
 
-(npc-task {@self go ?dest}:?go-rel
+(npc-task {@self go ?dest}:?go
   (init
     (check (or (is-spot ?dest) (is-a ?dest [k thing])))
     (check (go-reachable (go-target ?dest))))
-  (cease (if (go-arrived ?dest ?go-rel) (then (set-outcome ?go-rel /succ))))
+  (cease (if (go-arrived ?dest ?go) (then (set-outcome ?go /succ))))
   (and
     ; ARRIVED - read by a rung and not the task gate, so a go promoted where it already stands
     ; still concludes: a gate that never rises runs neither the rungs nor the cease.
     (try
-      (when (poll (go-arrived ?dest ?go-rel)))
-      (effects (set-outcome ?go-rel /succ)))
+      (when (poll (go-arrived ?dest ?go)))
+      (effects (set-outcome ?go /succ)))
     ; WRONG BUILDING: leave the one he stands in first.
     (try
-      (when (poll (not (go-arrived ?dest ?go-rel))
+      (when (poll (not (go-arrived ?dest ?go))
                   (go-target ?dest): ?t
                   (spatial @self building): ?here
                   (not (= (go-building ?t) ?here))))
@@ -89,7 +89,7 @@
         (maintain-proposal {@self exit ?here})))
     ; OUT OF DOORS and bound into a building: cross its threshold.
     (try
-      (when (poll (not (go-arrived ?dest ?go-rel))
+      (when (poll (not (go-arrived ?dest ?go))
                   (go-target ?dest): ?t
                   (unsubstantial (spatial @self building))
                   (go-building ?t): ?b
@@ -101,30 +101,30 @@
     ; UNPLACED and standing in the house at its premises: tour the house for it. Walking into
     ; the right room is what places it, which drops this rung and raises the NEAR ones.
     (try
-      (when (poll (not (go-arrived ?dest ?go-rel))
+      (when (poll (not (go-arrived ?dest ?go))
                   (go-target ?dest): ?t
                   (not (is-spot ?t))
                   (not (grounded ?t))
                   (go-building ?t): ?b
                   (substantial ?b)
                   (spatial @self building ?b)
-                  -{@self wander ?b /succ /caused_by ?go-rel}))
+                  -{@self wander ?b /succ /caused_by ?go}))
       (effects
         (check (is-a ?b [k container-structure]))
         (maintain-proposal {@self wander ?b})))
     ; ...and a tour that covered the house without placing it: it is not there.
     (try
-      (when (poll (not (go-arrived ?dest ?go-rel))
+      (when (poll (not (go-arrived ?dest ?go))
                   (go-target ?dest): ?t
                   (not (is-spot ?t))
                   (not (grounded ?t))
                   (go-building ?t): ?b
                   (substantial ?b)
-                  {@self wander ?b /succ /caused_by ?go-rel}))
-      (effects (set-outcome ?go-rel /fail)))
+                  {@self wander ?b /succ /caused_by ?go}))
+      (effects (set-outcome ?go /fail)))
     ; UNPLACED and no house he has seen stands at its premises: search the town for one.
     (try
-      (when (poll (not (go-arrived ?dest ?go-rel))
+      (when (poll (not (go-arrived ?dest ?go))
                   (go-target ?dest): ?t
                   (not (is-spot ?t))
                   (not (grounded ?t))
@@ -137,7 +137,7 @@
         (maintain-proposal {@self find-building ?t ?rg})))
     ; FAR from a placed thing in his own building, or out of doors with him: approach it.
     (try
-      (when (poll (not (go-arrived ?dest ?go-rel))
+      (when (poll (not (go-arrived ?dest ?go))
                   (go-target ?dest): ?t
                   (not (is-spot ?t))
                   (grounded ?t)
@@ -149,7 +149,7 @@
         (maintain-proposal {@self approach ?t})))
     ; NEAR a space: a spot on its floor.
     (try
-      (when (poll (not (go-arrived ?dest ?go-rel))
+      (when (poll (not (go-arrived ?dest ?go))
                   (go-target ?dest): ?t
                   (not (is-spot ?t))
                   (grounded ?t)
@@ -164,7 +164,7 @@
     ; NEAR a thing he cannot see from where he stands: the spot by it is found from a box he
     ; perceives, so first walk to where he remembers it, which puts it in view.
     (try
-      (when (poll (not (go-arrived ?dest ?go-rel))
+      (when (poll (not (go-arrived ?dest ?go))
                   (go-target ?dest): ?t
                   (not (is-spot ?t))
                   (grounded ?t)
@@ -181,7 +181,7 @@
         (maintain-proposal {@self WALK ?spot})))
     ; NEAR a thing in view: a spot on the floor beside it.
     (try
-      (when (poll (not (go-arrived ?dest ?go-rel))
+      (when (poll (not (go-arrived ?dest ?go))
                   (go-target ?dest): ?t
                   (not (is-spot ?t))
                   (grounded ?t)
@@ -198,7 +198,7 @@
         (maintain-proposal {@self WALK ?spot})))
     ; NEAR a placed thing he cannot put in any space: nowhere to stand beside it.
     (try
-      (when (poll (not (go-arrived ?dest ?go-rel))
+      (when (poll (not (go-arrived ?dest ?go))
                   (go-target ?dest): ?t
                   (not (is-spot ?t))
                   (grounded ?t)
@@ -210,7 +210,7 @@
       (effects (expect @false "go: a near thing in no space he knows")))
     ; A SPOT in his own building, or out of doors with him: one leg.
     (try
-      (when (poll (not (go-arrived ?dest ?go-rel))
+      (when (poll (not (go-arrived ?dest ?go))
                   (go-target ?dest): ?t
                   (is-spot ?t)
                   (go-in-building (go-building ?t))))

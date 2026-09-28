@@ -18,7 +18,7 @@
 (define-macro strangling_strength () 0.45)
 (define-macro assassin_fee_coins () 80)
 
-(npc-task {@self kill ?victim}:?kill-rel
+(npc-task {@self kill ?victim}:?kill
   (tar [k human] @object)
   (construed-act harm-act) (theme violent-to) (contradicts life)
   (facets reportable_crime blackmailable)

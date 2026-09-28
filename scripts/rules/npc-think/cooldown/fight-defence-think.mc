@@ -25,10 +25,10 @@
   (role @self {@self volatility ?volatility}
               {@self sadism ?sadism}
               {@self compassion ?compassion}
-    (role ?foe {?foe (theme-labels violent-to) @self /ever}:?witnessed-rel
+    (role ?foe {?foe (theme-labels violent-to) @self /ever}:?violent-to
                -{?foe condition [k dead]}
-               -{@self fight ?foe /succ /caused_by ?witnessed-rel}
-               -{@self fight ?foe /fail /caused_by ?witnessed-rel}
+               -{@self fight ?foe /succ /caused_by ?violent-to}
+               -{@self fight ?foe /fail /caused_by ?violent-to}
   
       (when (latch-eval (chance (clamp (+ ?volatility
                               ?sadism
@@ -38,4 +38,4 @@
       (utility survival always-pick)
   
       (effects
-        (maintain-proposal {@self fight ?foe /caused_by ?witnessed-rel})))))
+        (maintain-proposal {@self fight ?foe /caused_by ?violent-to})))))

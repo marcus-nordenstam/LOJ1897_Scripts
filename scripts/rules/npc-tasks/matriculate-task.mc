@@ -9,7 +9,7 @@
 ; is the doing; no env write, so no act - a simple thinking task mints the belief.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self matriculate ?curriculum}:?mt-rel
+(npc-task {@self matriculate ?curriculum}:?matriculate
   (tar [k academic-field])
   (and
     ; GO: not at a school -> travel to one I know (nearest preferred).
@@ -33,12 +33,12 @@
                 (random-held-kind-target interest [k academic-field]
                                          [k primary-school-curriculum] [k secondary-school-curriculum]): ?led
                 (begin-belief {@self study ?led})
-                (set-outcome ?mt-rel /succ))
+                (set-outcome ?matriculate /succ))
               (case (is-kind (random-subkind [k academic-field]
                                              [k primary-school-curriculum] [k secondary-school-curriculum]))
                 (random-subkind [k academic-field]
                                 [k primary-school-curriculum] [k secondary-school-curriculum]): ?sub
                 (begin-belief {@self study ?sub})
-                (set-outcome ?mt-rel /succ))))
+                (set-outcome ?matriculate /succ))))
           (else (begin-belief {@self study ?curriculum})
-                (set-outcome ?mt-rel /succ)))))))
+                (set-outcome ?matriculate /succ)))))))

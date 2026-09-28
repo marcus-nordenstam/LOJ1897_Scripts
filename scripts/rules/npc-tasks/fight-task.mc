@@ -13,7 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-task {@self fight ?foe}:?fight-rel
+(npc-task {@self fight ?foe}:?fight
   (track-skill-level [k martial])
   (tar [k human] @object)
   (and
@@ -31,4 +31,4 @@
       (when (or {?foe condition [k dead]}
                 (attr-is ?foe awareness [k unconscious])
                 (not (spatial ?foe co-located @self))))
-      (effects (set-outcome ?fight-rel /succ)))))
+      (effects (set-outcome ?fight /succ)))))

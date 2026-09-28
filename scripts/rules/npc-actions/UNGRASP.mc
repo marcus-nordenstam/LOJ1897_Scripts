@@ -9,7 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-action {@self UNGRASP ?item ?hand}:?ungrasp
+(npc-action {@self UNGRASP ?item ?hand}:?UNGRASP
   (lod presented)
   (sided aux left-hand right-hand)
   (obs)
@@ -30,4 +30,4 @@
     ; hand-tip world pose, so without this the next feedback pass overwrites what we
     ; just set and the glass ends up wherever the hand was.
     (place-entity ?item ?rest)
-    (set-outcome ?ungrasp /succ)))
+    (set-outcome ?UNGRASP /succ)))

@@ -9,7 +9,7 @@
 ; Already reported this target, nothing stolen, illiterate, or no known station -> abandon.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self report-crime ?focus}:?report-rel
+(npc-task {@self report-crime ?focus}:?report-crime
   (tar ?)
   (and
     (try
@@ -43,11 +43,11 @@
                      -{@self report-crime ?focus /succ /ever}
                      (is-a (spatial @self building) [k police-station])))
           (effects
-            (if (bb-any ?report-rel letter)
-                (then (bind (bb-read ?report-rel letter) ?ltr))
-                (else (maintain-proposal {@self CREATE-ENTITY [k crime-report-letter]}:?ce
-                        [/postlude (bind (bb-read ?ce created) ?ltr)
-                                   (bb-write ?report-rel letter ?ltr)])))))
+            (if (bb-any ?report-crime letter)
+                (then (bind (bb-read ?report-crime letter) ?ltr))
+                (else (maintain-proposal {@self CREATE-ENTITY [k crime-report-letter]}:?CREATE-ENTITY
+                        [/postlude (bind (bb-read ?CREATE-ENTITY created) ?ltr)
+                                   (bb-write ?report-crime letter ?ltr)])))))
         (stage
           (when (spatial ?ltr co-located @self))
           (effects
@@ -61,15 +61,15 @@
         (stage
           (effects
             (if (alive ?focus) (then (begin-belief {@self suspect ?focus})))
-            (bb-clear ?report-rel letter)
-            (set-outcome ?report-rel /succ)))))
+            (bb-clear ?report-crime letter)
+            (set-outcome ?report-crime /succ)))))
     (try
       (when (or -{? stolen-from @self}
                 -{@self education ?}
                 {@self find-building [k police-station] ? /fail}
                 {@self report-crime ?focus /succ /ever}))
-      (effects (set-outcome ?report-rel /fail)))
+      (effects (set-outcome ?report-crime /fail)))
     (try
       (role @self {@self education ?education}
         (when (< ?education (literacy-education-min)))
-        (effects (set-outcome ?report-rel /fail))))))
+        (effects (set-outcome ?report-crime /fail))))))

@@ -7,7 +7,7 @@
 ; been taken up, are the proposing task's to watch.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self OFFER ?thing}:?offer
+(npc-action {@self OFFER ?thing}:?OFFER
   (motor right-hand legs)
   (obs)
   (tar @excl)

@@ -4,7 +4,7 @@
 ; WALK-in step carries the actor through.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self BREAK-WINDOW ?win}:?bw-rel
+(npc-action {@self BREAK-WINDOW ?win}:?BREAK-WINDOW
   (motor body legs)
   (track-skill-level [k illicit])
   (tar [k object] @object) (duration (seconds 1 min))
@@ -12,4 +12,4 @@
     (check (spatial ?win co-located @self))
     (set-attr ?win integrity [k broken])
     (set-attr ?win opening-status [k ajar])
-    (set-outcome ?bw-rel /succ)))
+    (set-outcome ?BREAK-WINDOW /succ)))

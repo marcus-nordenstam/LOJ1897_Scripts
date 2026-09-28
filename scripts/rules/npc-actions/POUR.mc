@@ -7,7 +7,7 @@
 ; eating and drinking set, whose `amount` attr this waits on (plan section 11).
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self POUR ?source ?vessel}:?pour
+(npc-action {@self POUR ?source ?vessel}:?POUR
   (motor right-hand legs)
   (obs)
   (tar @excl)
@@ -20,4 +20,4 @@
 
   (effects
     (check (spatial ?vessel co-located @self /env))
-    (set-outcome ?pour /succ)))
+    (set-outcome ?POUR /succ)))

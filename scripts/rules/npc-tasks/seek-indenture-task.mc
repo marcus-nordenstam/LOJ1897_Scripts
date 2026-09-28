@@ -12,7 +12,7 @@
 
 ;(include "../../macros/founding.mc")
 
-;(npc-task {@self seek-indenture ?art}:?si-rel
+;(npc-task {@self seek-indenture ?art}:?seek-indenture
 ;  (tar [k document] @object)
 ;  (and
 ;    ; GO: not at the master's premises -> travel to it.
@@ -58,4 +58,4 @@
 ;                (hire-beliefs ?art [k job clerk] ?lvl)
 ;                (org-founder ?art ?master)
 ;                (if ?master (then (begin-belief {@self master ?master})))
-;                (set-outcome ?si-rel /succ))))))))
+;                (set-outcome ?seek-indenture /succ))))))))

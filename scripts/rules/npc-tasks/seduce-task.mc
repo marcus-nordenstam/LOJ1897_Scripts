@@ -7,7 +7,7 @@
 ; paramour cannot be seduced -> abandon. Already a lover -> the deed is already done.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self seduce ?paramour}:?seduce-rel
+(npc-task {@self seduce ?paramour}:?seduce
   (track-skill-level [k seduction])
   (tar [k human] @object)
   (construed-act intimacy-act)
@@ -35,15 +35,15 @@
                    (spatial ?paramour co-located @self)
                    -{?paramour gender ?gender}
                    (none {@self (kin-labels) ?paramour})
-                   -{@self HAVE-SEX-WITH ?paramour /succ /caused_by ?seduce-rel}))
+                   -{@self HAVE-SEX-WITH ?paramour /succ /caused_by ?seduce}))
         (utility errand always-pick)
         (effects (maintain-proposal {@self HAVE-SEX-WITH ?paramour}))))
     (try
       (when {@self lover ?paramour})
-      (effects (set-outcome ?seduce-rel /succ)))
+      (effects (set-outcome ?seduce /succ)))
     (try
       (role @self {@self gender ?gender}
         (when (or (not (alive ?paramour))
                   {?paramour gender ?gender}
                   {@self (kin-labels) ?paramour}))
-        (effects (set-outcome ?seduce-rel /fail))))))
+        (effects (set-outcome ?seduce /fail))))))

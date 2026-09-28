@@ -4,14 +4,14 @@
 ; handed it, re-files the doc and goes round. It knows nothing about why any doc matters.
 ;
 ; ?do-this is a QUOTED body, evaluated once per doc with the doc bound. It reads the doc as
-; .?item and the running browse as .?browse-rel - late-bound vars, so they resolve HERE, in
+; .?item and the running browse as .?stack-browse - late-bound vars, so they resolve HERE, in
 ; the rule doing the walking, not in the rule that wrote them. Whatever the caller wants
 ; done is what it writes:
 ;
 ;   '(if (and (mine .?item) -{@self READ .?item /succ})       - read my post as I go
 ;        (then (maintain-proposal {@self READ .?item})))
 ;   '(if (is-a .?item [k application])                        - take the one I came for
-;        (then (bb-write .?browse-rel keep @true)))
+;        (then (bb-write .?stack-browse keep @true)))
 ;
 ; WHAT HAPPENS TO THE DOC after the body has run is decided by where the doc IS:
 ;   not in his hand  - the body disposed of it (burnt, posted, handed over). Nothing to
@@ -35,7 +35,7 @@
 ; it surfaces as the top again every original doc has been seen and the round is over.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self stack-browse ?stack ?do-this}:?browse-rel
+(npc-task {@self stack-browse ?stack ?do-this}:?stack-browse
   (tar [k stack] @object)
   (aux ?)
   ; THE OPENING LOOK, once, when the rule-rung rises. It only looks: the empty pile is
@@ -53,32 +53,32 @@
       (effects
         (tolerate (observe (spatial ?stack top /env)): ?fresh-top)
         (if (nothing ?fresh-top)
-            (then (set-outcome ?browse-rel /succ)))))
+            (then (set-outcome ?stack-browse /succ)))))
 
     ; FULL CIRCLE: the first doc re-filed is back on top, so every original has been seen.
     (try
       (role ?circled-top (spatial ?stack top)
-            (= ?circled-top (bb-read ?browse-rel cycle-end))
+            (= ?circled-top (bb-read ?stack-browse cycle-end))
         (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
-        (effects (set-outcome ?browse-rel /succ))))
+        (effects (set-outcome ?stack-browse /succ))))
 
     ; HE IS KEEPING IT: the body claimed the doc and it is in his hand, so the errand is
     ; done and he walks away with it.
     (try
       (role ?doc [k document] (= (bb-read ?doc from-stack) ?stack)
             (spatial ?doc held-by @self)
-            (bb-any ?browse-rel keep)
-        (effects (set-outcome ?browse-rel /succ))))
+            (bb-any ?stack-browse keep)
+        (effects (set-outcome ?stack-browse /succ))))
 
     ; THE LIFT: one paper at a time - the no-role is "I am not already working one off this
     ; pile". AT THE STACK: (spatial ?stack top) is what @self BELIEVES is on top, a memory
     ; rather than a reach, so without the co-location gate he lifts from across town.
     (try
       (role ?lift-top (spatial ?stack top)
-            (!= ?lift-top (bb-read ?browse-rel cycle-end))
+            (!= ?lift-top (bb-read ?stack-browse cycle-end))
         (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
         (role @self (spatial ?stack co-located @self)
-                    (bb-none ?browse-rel keep)
+                    (bb-none ?stack-browse keep)
           ; A HAND TO LIFT IT WITH. stack-take asserts one is free - a proposer reaching with
           ; full hands is an authoring error, and this is the only rung that proposes it. The
           ; round simply waits: whatever he is holding is something he came here carrying, and
@@ -103,7 +103,7 @@
           ; back. A stage that mints nothing falls through, which is how both of those pass.
           (stage
             (effects
-              (if (and (spatial ?doc held-by @self) (bb-none ?browse-rel keep))
+              (if (and (spatial ?doc held-by @self) (bb-none ?stack-browse keep))
                   (then (maintain-proposal {@self STACK-BURY ?doc ?stack}
-                            [/postlude (if (not (bb-any ?browse-rel cycle-end))
-                                          (then (bb-write ?browse-rel cycle-end ?doc)))]))))))))))
+                            [/postlude (if (not (bb-any ?stack-browse cycle-end))
+                                          (then (bb-write ?stack-browse cycle-end ?doc)))]))))))))))

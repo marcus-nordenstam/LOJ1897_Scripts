@@ -43,7 +43,7 @@
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
                {?org workplace ?wp}       ; ?wp binds at fire
       (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
-            (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
+            (latch-eval (any {?job ?tl ?}): ?shift (bind ?shift.target ?start) (bind ?shift.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
             (latch-eval (or (spatial @self building ?wp) (spatial @self space ?wp)))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
             (or (hours ?start ?end) (work-starts-soon ?start ?end)))
       (utility duty (* (k-work-drive-value) (* (clamp (+ 1.0 (delib-ctr ?industriousness (k-drive-trait-swing))) 0.0 2.0)
@@ -66,7 +66,7 @@
                {?org workplace ?wp}       ; ?wp binds at fire
                (not (or (spatial @self building ?wp) (spatial @self space ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
       (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
-            (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
+            (latch-eval (any {?job ?tl ?}): ?shift (bind ?shift.target ?start) (bind ?shift.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
             (or (hours ?start ?end) (work-starts-soon ?start ?end)))
       (utility duty)
       (effects       (maintain-proposal {@self go ?wp})))))

@@ -96,6 +96,6 @@
       (any {@self job ?job})
       (end-belief {?job level [k trainee]})
       (begin-belief {?job level [k apprentice]})
-      (for-each ?mb-rel (every {@self master ?})
-          (end-belief ?mb-rel))
+      (for-each ?master (every {@self master ?})
+          (end-belief ?master))
       )))

@@ -8,12 +8,12 @@
 ; hand that touches a doc is the browse's, for the length of one reading.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self take-my-letters ?stack}:?take-letters-rel
+(npc-task {@self take-my-letters ?stack}:?take-my-letters
   (tar @excl [k stack] @object)
   (and
     (try
       (role @self {@self name ?name} 
-                  -{@self stack-browse ?stack ? /succ /caused_by ?take-letters-rel}
+                  -{@self stack-browse ?stack ? /succ /caused_by ?take-my-letters}
         (utility errand)
         (effects
           (maintain-proposal
@@ -25,6 +25,6 @@
                         -{@self READ .?item /succ})
                    (then (maintain-proposal {@self READ .?item})))}))))
     (try
-      (role @self {@self stack-browse ?stack ? /succ /caused_by ?take-letters-rel}
+      (role @self {@self stack-browse ?stack ? /succ /caused_by ?take-my-letters}
         (effects
-                 (set-outcome ?take-letters-rel /succ))))))
+                 (set-outcome ?take-my-letters /succ))))))

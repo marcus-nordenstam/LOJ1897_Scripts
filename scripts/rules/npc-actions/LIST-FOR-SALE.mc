@@ -4,11 +4,11 @@
 ;; for-sale listing, and he knows it is on the market. Whether to sell is the proposer's.
 ;; ----------------------------------------------------------------------------
 
-;(npc-action {@self LIST-FOR-SALE ?building}:?lfs-rel
+;(npc-action {@self LIST-FOR-SALE ?building}:?LIST-FOR-SALE
 ;  (tar [k building] @object)
 ;  (motor body legs)
 ;  (duration (seconds 30 min))
 ;  (effects
 ;    (list-for-sale ?building)
 ;    (begin-belief {?building availability [k for-sale]})
-;    (set-outcome ?lfs-rel /succ)))
+;    (set-outcome ?LIST-FOR-SALE /succ)))

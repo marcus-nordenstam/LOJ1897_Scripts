@@ -14,7 +14,7 @@
 ; a minute and nobody could get anywhere in between.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self write-doc ?doc ?sentence}:?wd-rel
+(npc-task {@self write-doc ?doc ?sentence}:?write-doc
   (tar [k document] @object)
   (and
     (try
@@ -29,11 +29,11 @@
     (try
       (role @self (or (spatial ?doc held-by @self)
                       (spatial ?doc co-located @self))
-                  -{@self WRITE ?doc ? /succ /caused_by ?wd-rel}
+                  -{@self WRITE ?doc ? /succ /caused_by ?write-doc}
         (utility obligation)
         (effects (maintain-proposal {@self WRITE ?doc ?sentence}))))
     ; The sentence is a composed msg, freshly built at each fire, so the done-test
     ; wildcards it and leans on /caused_by to scope the record to THIS activation.
     (try
-      (role @self {@self WRITE ?doc ? /succ /caused_by ?wd-rel}
-        (effects (set-outcome ?wd-rel /succ))))))
+      (role @self {@self WRITE ?doc ? /succ /caused_by ?write-doc}
+        (effects (set-outcome ?write-doc /succ))))))

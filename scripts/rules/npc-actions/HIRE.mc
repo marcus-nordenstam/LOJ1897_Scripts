@@ -7,7 +7,7 @@
 ; the officer read it off this book, and only he writes it.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self HIRE ?worker ?job-id}:?hire-rel
+(npc-action {@self HIRE ?worker ?job-id}:?HIRE
   (motor body legs)
   (track-skill-level [k personnel])
   (tar [k human] @object)
@@ -22,4 +22,4 @@
                            worker (name ?worker) level [k trainee]
                            hiring-date (time date)
                            offered @nothing offer-date @nothing))
-    (set-outcome ?hire-rel /succ)))
+    (set-outcome ?HIRE /succ)))

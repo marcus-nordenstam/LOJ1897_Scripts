@@ -7,7 +7,7 @@
 ;; reason over it. Replaces the old stack-browse of per-listing message docs.
 ;; ----------------------------------------------------------------------------
 
-;(npc-task {@self read-listings ?register}:?rl-rel
+;(npc-task {@self read-listings ?register}:?read-listings
 ;  (tar @excl [k for-sale-listings] @object)
 ;  (and
 ;    ; WALK: not at the register -> go to it.
@@ -24,4 +24,4 @@
 ;          (o [k building] {@o address ?baddr}): ?b
 ;          (if -{?b address ?baddr} (then (begin-belief {?b address ?baddr})))
 ;          (begin-belief {?b availability [k for-sale]}))
-;        (set-outcome ?rl-rel /succ)))))
+;        (set-outcome ?read-listings /succ)))))

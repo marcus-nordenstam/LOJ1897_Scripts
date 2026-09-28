@@ -5,8 +5,8 @@
 ; repeats into a cumulative-frequency belief).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self rest ?venue}:?t-rel
+(npc-task {@self rest ?venue}:?rest
   (tar [k structure|space] @object)
   (try
     (role @self
-      (effects (set-outcome ?t-rel /succ)))))
+      (effects (set-outcome ?rest /succ)))))

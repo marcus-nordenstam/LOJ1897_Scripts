@@ -12,10 +12,10 @@
 ; rule never fires: the lover simply never learned of the plot.
 ;
 ; PURE .mc over composable ops:
-;   - (role ?instigator (believes {?instigator urge @self {@self kill ?victim}:?plot-rel}))
+;   - (role ?instigator (believes {?instigator urge @self {@self kill ?victim}:?kill}))
 ;     - anyone this mind holds a kill-me-plot urge FROM, matched structurally by
 ;     the role cache's clause descent: membership wakes on the urge-belief write,
-;     and ?victim + the whole ?plot-rel clause bind at the when-gate;
+;     and ?victim + the whole ?kill clause bind at the when-gate;
 ;   - the compliance gate: attraction band toward the instigator >= 2 plus a
 ;     psychopathy roll;
 ;   - effects mirror the struck cross-mind block, minted in @self's own mind:
@@ -33,10 +33,10 @@
     ; Anyone @self believes WANTS him to do the kill - the goal arrives only by reading
     ; the (msg-class urge) letter (its content is the instigator's goal clause), never
     ; by telepathy. The adopted belief is {<instigator> goal {<me> kill <victim>}}; the
-    ; nested kill clause is the role's own membership criterion, and the {..}:?plot-rel
+    ; nested kill clause is the role's own membership criterion, and the {..}:?kill
     ; capture + free ?victim bind at the when-gate.
     (role ?instigator {?instigator isa [k human], condition [k alive]}
-                      {?instigator goal {@self kill ?victim}:?plot-rel}
+                      {?instigator goal {@self kill ?victim}:?kill}
 
       ; It must be ANOTHER's plot (not my own), I must be willing: desire for the
       ; instigator (attraction band >= 2, the REASON - read, not minted here) plus the dark
@@ -53,6 +53,6 @@
         ; Join ONCE (the accomplice bond embeds the plot as its AUX + anchors the /caused_by);
         ; then MAINTAIN my own kill of the victim while the attraction to the instigator holds.
         (if -{@self accomplice ?instigator}
-            (then (begin-belief {@self accomplice ?instigator ?plot-rel})))
-        (any {@self accomplice ?instigator}):?accomplice-rel
-        (maintain-proposal {@self kill ?victim /caused_by ?accomplice-rel})))))
+            (then (begin-belief {@self accomplice ?instigator ?kill})))
+        (any {@self accomplice ?instigator}):?accomplice
+        (maintain-proposal {@self kill ?victim /caused_by ?accomplice})))))

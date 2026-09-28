@@ -6,7 +6,7 @@
 ; The (try) never fires (declaration only).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self kidnap ?victim}:?kidnap-rel
+(npc-task {@self kidnap ?victim}:?kidnap
   (track-skill-level [k illicit])
   (tar [k human] @object)
   (construed-act coercion-act threaten-act wrong-act) (theme coercive-to) (contradicts liberty)
@@ -14,4 +14,4 @@
   (try
     (role @self
       (when (chance 0))
-      (effects (set-outcome ?kidnap-rel /succ)))))
+      (effects (set-outcome ?kidnap /succ)))))

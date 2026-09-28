@@ -13,18 +13,18 @@
 ; believed was exposed when he looked. The caller finds what he lifted in his hand.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self stack-take ?stack}:?stack-take-rel
+(npc-task {@self stack-take ?stack}:?stack-take
   (tar @excl [k stack] @object)
   ; THE CONDITION THE TASK RUNS UNDER: nothing off this pile is in hand yet. Its own,
   ; not any proposer's - the moment the lift lands this stops holding and the task
   ; stops firing, whoever was asking for it.
-  (when -{@self /succ STACK-TAKE ?stack ? /caused_by ?stack-take-rel})
+  (when -{@self /succ STACK-TAKE ?stack ? /caused_by ?stack-take})
   ; ...and the same test says which ending it was. A lift that landed is /succ; called
   ; off with empty hands, the cease says nothing and the withdrawal's /interrupted
   ; stands. A BARE PATTERN would not do here - evaluated in a payload it yields the
   ; clause itself, which is substantial, so it would always read true.
-  (cease (if (any {@self /succ STACK-TAKE ?stack ? /caused_by ?stack-take-rel})
-             (then (set-outcome ?stack-take-rel /succ))))
+  (cease (if (any {@self /succ STACK-TAKE ?stack ? /caused_by ?stack-take})
+             (then (set-outcome ?stack-take /succ))))
   (and
     (try
       (effects (check (or (empty (spatial (spatial @self left-hand) grip))

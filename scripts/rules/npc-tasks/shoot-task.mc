@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-task {@self shoot ?victim}:?shoot-rel
+(npc-task {@self shoot ?victim}:?shoot
   (track-skill-level [k marksmanship])
   (tar [k human] @object)
   (and
@@ -40,4 +40,4 @@
     ; CONCLUDE: the victim is dead - the method is spent.
     (try
       (when {?victim condition [k dead]})
-      (effects (set-outcome ?shoot-rel /succ)))))
+      (effects (set-outcome ?shoot /succ)))))

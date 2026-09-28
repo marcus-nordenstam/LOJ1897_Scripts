@@ -59,8 +59,8 @@
                           (case {@self duty-to ?org ?duty}
                             (end-belief {@self duty-to ?org ?duty})))
                         ; The mirror: retire stale holders, record the current one.
-                        (for-each ?dhb-rel (every {?org duty-holder ? ?duty})
-                            (bind ?dhb-rel.target ?p)
+                        (for-each ?duty-holder (every {?org duty-holder ? ?duty})
+                            (bind ?duty-holder.target ?p)
                             (if (!= ?p ?senior)
                                 (then (end-belief {?org duty-holder ?p ?duty}))))
                         (if -{?org duty-holder ?senior ?duty}

@@ -11,7 +11,7 @@
 ; (change-driven), and only the intra-day timing rides (when).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self attend ?occ}:?a-rel
+(npc-task {@self attend ?occ}:?attend
   (tar [k occasion] @object)
   (and
     ; ALARM: think again when the window opens.
@@ -40,13 +40,13 @@
       (role ?venue {?occ venue ?venue}
         (when (and {?occ hours ?start ?end}
                    (>= (time hour) ?end)
-                   {@self DWELL ?venue ? /succ /caused_by ?a-rel /ever}))
-        (effects (set-outcome ?a-rel /succ))))
+                   {@self DWELL ?venue ? /succ /caused_by ?attend /ever}))
+        (effects (set-outcome ?attend /succ))))
 
     ; OVER, never having stayed: missed it.
     (try
       (role ?venue {?occ venue ?venue}
         (when (and {?occ hours ?start ?end}
                    (>= (time hour) ?end)
-                   -{@self DWELL ?venue ? /succ /caused_by ?a-rel /ever}))
-        (effects (set-outcome ?a-rel /fail))))))
+                   -{@self DWELL ?venue ? /succ /caused_by ?attend /ever}))
+        (effects (set-outcome ?attend /fail))))))

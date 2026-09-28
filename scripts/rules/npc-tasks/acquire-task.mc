@@ -15,7 +15,7 @@
 (include "../../macros/money-macros.mc")
 (include "../../macros/acquisition-macros.mc")
 
-(npc-task {@self acquire ?kind ?disc}:?acq-rel
+(npc-task {@self acquire ?kind ?disc}:?acquire
   (tar ?)
   (aux ?)
   (and
@@ -51,4 +51,4 @@
     ; DONE - an instance of the kind is in hand, however it arrived.
     (try
       (when (not (empty (spatial @self hold ?kind))))
-      (effects (set-outcome ?acq-rel /succ)))))
+      (effects (set-outcome ?acquire /succ)))))

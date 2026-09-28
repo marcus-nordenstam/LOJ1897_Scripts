@@ -8,7 +8,7 @@
 ; builds; success comes from the cap, not from the solver converging.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self REACH-FOR ?target ?arm}:?reach
+(npc-action {@self REACH-FOR ?target ?arm}:?REACH-FOR
   (lod presented)
   (sided aux left-arm right-arm)
   (obs)

@@ -14,41 +14,41 @@
 ; Replaces the appraisal.cc generator registry (categorize / generate_*).
 ; ----------------------------------------------------------------------------
 
-(npc-reflex {?agent (construed-labels harm-act) ?patient /ever}:?b
-  (effects (construe ?b harm-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels harm-act) ?patient /ever}:?harm-act
+  (effects (construe ?harm-act harm-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels appropriation-act) ?patient /ever}:?b
-  (effects (construe ?b appropriation-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels appropriation-act) ?patient /ever}:?appropriation-act
+  (effects (construe ?appropriation-act appropriation-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels suffer-loss-act) ?patient /ever}:?b
-  (effects (construe ?b suffer-loss-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels suffer-loss-act) ?patient /ever}:?suffer-loss-act
+  (effects (construe ?suffer-loss-act suffer-loss-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels coercion-act) ?patient /ever}:?b
-  (effects (construe ?b coercion-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels coercion-act) ?patient /ever}:?coercion-act
+  (effects (construe ?coercion-act coercion-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels threaten-act) ?patient /ever}:?b
-  (effects (construe ?b threaten-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels threaten-act) ?patient /ever}:?threaten-act
+  (effects (construe ?threaten-act threaten-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels slight-act) ?patient /ever}:?b
-  (effects (construe ?b slight-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels slight-act) ?patient /ever}:?slight-act
+  (effects (construe ?slight-act slight-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels rivalrous-act) ?patient /ever}:?b
-  (effects (construe ?b rivalrous-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels rivalrous-act) ?patient /ever}:?rivalrous-act
+  (effects (construe ?rivalrous-act rivalrous-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels betray-act) ?patient /ever}:?b
-  (effects (construe ?b betray-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels betray-act) ?patient /ever}:?betray-act
+  (effects (construe ?betray-act betray-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels degrade-act) ?patient /ever}:?b
-  (effects (construe ?b degrade-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels degrade-act) ?patient /ever}:?degrade-act
+  (effects (construe ?degrade-act degrade-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels expose-act) ?patient /ever}:?b
-  (effects (construe ?b expose-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels expose-act) ?patient /ever}:?expose-act
+  (effects (construe ?expose-act expose-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels abandonment-act) ?patient /ever}:?b
-  (effects (construe ?b abandonment-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels abandonment-act) ?patient /ever}:?abandonment-act
+  (effects (construe ?abandonment-act abandonment-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels honour-act) ?patient /ever}:?b
-  (effects (construe ?b honour-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels honour-act) ?patient /ever}:?honour-act
+  (effects (construe ?honour-act honour-act ?agent ?patient)))
 
 ; (No construe rules for help-act / aid-act / provision-act / commitment-act /
 ; repudiation-act: NO hsim label carries those tags today - a (construed-labels
@@ -60,32 +60,32 @@
 ; disinherit / coerce / humiliate ...). Value gate: permissive when the
 ; act declares no (contradicts ..) or the patient's value substrate is silent;
 ; strict when the substrate speaks and says no.
-(npc-reflex {?agent (construed-labels wrong-act) ?patient /ever}:?b
-  (decl-of ?b contradicts):?v
+(npc-reflex {?agent (construed-labels wrong-act) ?patient /ever}:?wrong-act
+  (decl-of ?wrong-act contradicts):?v
   (when (or (not (substantial ?v))
             -{?patient value ?}
             {?patient value ?v}))
-  (effects (construe ?b wrong-act ?agent ?patient)))
+  (effects (construe ?wrong-act wrong-act ?agent ?patient)))
 
 ; wrong-act, violence (runtime blame - the fight-aspect doctrine). Violent
 ; labels carry NO static wrong-act tag; blame is earned here unless the blow
 ; traces to prior violence against its own actor.
-(npc-reflex {?attacker (theme-labels violent-to) ?victim /ever}:?belief
-  (when (not (has-cause ?belief {? (theme-labels violent-to) ?attacker})))
-  (decl-of ?belief contradicts):?v
+(npc-reflex {?attacker (theme-labels violent-to) ?victim /ever}:?violent-to
+  (when (not (has-cause ?violent-to {? (theme-labels violent-to) ?attacker})))
+  (decl-of ?violent-to contradicts):?v
   (when (or (not (substantial ?v))
             -{?victim value ?}
             {?victim value ?v}))
-  (effects (construe ?belief wrong-act ?attacker ?victim)))
+  (effects (construe ?violent-to wrong-act ?attacker ?victim)))
 
 ; -- intimacy-act: the standard construal PLUS betray-by-diversion - each
 ; exclusive-bond partner of the actor other than the act's patient is a
 ; betrayed party (the appraiser construes on their behalf; for the betrayed
 ; holder themselves ?victim binds @self and the patient-POV reactions fire).
-(npc-reflex {?agent (construed-labels intimacy-act) ?patient /ever}:?b
-  (effects (construe ?b intimacy-act ?agent ?patient)))
+(npc-reflex {?agent (construed-labels intimacy-act) ?patient /ever}:?intimacy-act
+  (effects (construe ?intimacy-act intimacy-act ?agent ?patient)))
 
-(npc-reflex {?agent (construed-labels intimacy-act) ?patient /ever}:?b
+(npc-reflex {?agent (construed-labels intimacy-act) ?patient /ever}:?intimacy-act
   (role ?victim {?agent (exclusive-bond-labels) ?victim}
         (not (eq ?victim ?patient))
-    (effects (construe ?b betray-act ?agent ?victim))))
+    (effects (construe ?intimacy-act betray-act ?agent ?victim))))

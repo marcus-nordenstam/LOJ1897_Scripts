@@ -11,7 +11,7 @@
 ;; ----------------------------------------------------------------------------
 
 
-;(npc-task {@self receive-inheritance ?dead}:?inherit-rel
+;(npc-task {@self receive-inheritance ?dead}:?receive-inheritance
 ;  (tar [k human] @object)
 ;  (role ?dhome {?dead home ?dhome}
 ;    (role ?will [k will] (spatial ?will building ?dhome)
@@ -39,10 +39,10 @@
 ;        ; CONCLUDE: the estate was claimed.
 ;        (try
 ;          (when {@self INHERIT ?dead ? /succ})
-;          (effects (set-outcome ?inherit-rel /succ)))
+;          (effects (set-outcome ?receive-inheritance /succ)))
 
 ;        ; ABANDON: the will was read but named someone else (nothing to inherit).
 ;        (try
 ;          (when (and {@self READ ?will /succ}
 ;                     -{@self inherit ?}))
-;          (effects (set-outcome ?inherit-rel /fail)))))))
+;          (effects (set-outcome ?receive-inheritance /fail)))))))

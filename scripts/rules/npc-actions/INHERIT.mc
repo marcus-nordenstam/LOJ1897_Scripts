@@ -29,8 +29,8 @@
 ;    ; Founded orgs: every org @self KNOWS the deceased founded passes to @self - a
 ;    ; belief re-point in @self's own mind (founder is @excl, so it supersedes). No
 ;    ; doc scan: @self walks his OWN {? founder ?dead} beliefs.
-;    (for-each ?forel (every {? founder ?dead})
-;      (bind ?forel.subject ?iorg)
+;    (for-each ?founder (every {? founder ?dead})
+;      (bind ?founder.subject ?iorg)
 ;      (begin-belief {?iorg founder @self}))
 ;    ; Coins: merge the bequeathed pile into @self's own, then destroy the empty.
 ;    (if (substantial ?pile)

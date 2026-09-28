@@ -74,8 +74,8 @@
 ;     ; (nudge-stance ?paramour @self attraction 0.10)
 ;     ; the hotel is an org premises - the note names it by the org's name.
 ;     (if (and (chance 0.30) {?paramour home ?paramour_home}
-;              {? workplace ?venue}: ?wob
-;              (bind ?wob.subject ?org)
+;              {? workplace ?venue}: ?workplace
+;              (bind ?workplace.subject ?org)
 ;              {?org name ?venue_name})
 ;         (then
 ;           (post-letter [k tryst-note]
@@ -192,8 +192,8 @@
 ;     ; (nudge-stance ?paramour @self attraction 0.10)
 ;     ; the theatre / pub is an org premises - the note names it by the org's name.
 ;     (if (and (chance 0.30) {?paramour home ?paramour_home}
-;              {? workplace ?venue}: ?wob
-;              (bind ?wob.subject ?org)
+;              {? workplace ?venue}: ?workplace
+;              (bind ?workplace.subject ?org)
 ;              {?org name ?venue_name})
 ;         (then
 ;           (post-letter [k tryst-note]

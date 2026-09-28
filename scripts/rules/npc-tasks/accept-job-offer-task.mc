@@ -14,7 +14,7 @@
 ; roles stop admitting, which is what ends the wait when the word lands; a (stage ..)
 ; that minted a DWELL would advance only when the DWELL itself ended.
 
-(npc-task {@self accept-job-offer ?job}:?accept
+(npc-task {@self accept-job-offer ?job}:?accept-job-offer
   (aspect labour)
   (tar [k job] @object)
   (utility obligation)
@@ -33,7 +33,7 @@
           (role ?officer [k human] {?officer recruit-staff ?}
                                    (spatial ?officer co-located @self)
             (role @self {@self name ?myname}
-                        -{@self SAY ? ?officer /succ /caused_by ?accept}
+                        -{@self SAY ? ?officer /succ /caused_by ?accept-job-offer}
               ; The seat travels as its DESCRIPTION - kind, org and line - the way the officer's own
               ; word names it: a seat has no name for the wire to carry.
               (effects
@@ -49,7 +49,7 @@
           (role ?officer [k human] {?officer recruit-staff ?}
                                    (spatial ?officer co-located @self)
                                    -{?officer SAY (utterable-msg {? job ?}) @self /succ}
-            (role @self {@self SAY ? ?officer /succ /caused_by ?accept}
+            (role @self {@self SAY ? ?officer /succ /caused_by ?accept-job-offer}
               (effects (maintain-proposal {@self DWELL ?wp (+ (time hour) 1)})))))
 
         ; told: this task is successful now, whether or not the job turns out to be mine.
@@ -59,24 +59,24 @@
         (try
           (role ?officer [k human] {?officer recruit-staff ?}
                                    {?officer SAY (utterable-msg {? job ?}) @self /succ}
-            (role @self {@self SAY ? ?officer /succ /caused_by ?accept}
+            (role @self {@self SAY ? ?officer /succ /caused_by ?accept-job-offer}
                         {@self job ?job}
               (effects
                 (if -{?job since ?} (then (begin-belief {?job since (time year)})))
                 (if -{?wp occupant @self} (then (begin-belief {?wp occupant @self})))
                 (expect (any {?job level ?}) "labour: taken on, but the seat carries no level")
                 (expect (any {?job salary ?}) "labour: taken on, but the seat carries no salary")
-                (set-outcome ?accept /succ)))))
+                (set-outcome ?accept-job-offer /succ)))))
         ; TURNED AWAY. Her word named the man who holds the seat he came for, and she only
         ; says so when no seat of his kind is open. The telling must be THIS errand's - a holder
         ; learned on an earlier visit is not a refusal. The offer is spent.
         (try
           (role ?officer [k human] {?officer recruit-staff ?}
-            (role @self {@self SAY ? ?officer /succ /caused_by ?accept}
+            (role @self {@self SAY ? ?officer /succ /caused_by ?accept-job-offer}
               (role ?holder [k human] {?holder job ?job}:?held
                 (when (and (!= ?holder @self)
-                           (>= (abs-seconds (start-time ?held)) (abs-seconds (start-time ?accept)))))
+                           (>= (abs-seconds (start-time ?held)) (abs-seconds (start-time ?accept-job-offer)))))
                 (effects
-                  (for-each ?orel (every {?job offered-to @self})
-                    (end-belief ?orel))
-                  (set-outcome ?accept /fail))))))))))
+                  (for-each ?offered-to (every {?job offered-to @self})
+                    (end-belief ?offered-to))
+                  (set-outcome ?accept-job-offer /fail))))))))))

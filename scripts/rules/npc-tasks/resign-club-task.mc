@@ -8,7 +8,7 @@
 ;; just crosses out the row.
 ;; ----------------------------------------------------------------------------
 
-;(npc-task {@self resign-club}:?rc-rel
+;(npc-task {@self resign-club}:?resign-club
 ;  (and
 ;    ; GO: not at a clubhouse -> travel to one (nearest known).
 ;    (try
@@ -34,4 +34,4 @@
 ;        (any {?org membership-roll ?roll})
 ;        (if (not (table-match (attr ?roll writing) member (name @self)))
 ;            (then (end-belief {@self member-of ?org})
-;                  (set-outcome ?rc-rel /succ)))))))
+;                  (set-outcome ?resign-club /succ)))))))

@@ -36,8 +36,8 @@
 
     (effects
       (bind 0 ?bookish)
-      (for-each ?ir (every {@self interest ?})
-        (if (or (is-a ?ir.target [k academic-field]) (is-a ?ir.target [k literature]))
+      (for-each ?interest (every {@self interest ?})
+        (if (or (is-a ?interest.target [k academic-field]) (is-a ?interest.target [k literature]))
             (then (bind 1 ?bookish))))
       (if (and (spatial ?home room [k interior-space study])
                (or (= ?bookish 1)

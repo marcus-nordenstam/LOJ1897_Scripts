@@ -7,11 +7,11 @@
 ; staff are learned by the roster-reading duty (read_roster).
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self ENROL ?reg ?post}:?en-rel
+(npc-action {@self ENROL ?reg ?post}:?ENROL
   (motor body legs)
   (duration (seconds 15 min))
   (effects
     ; The vacant line for this post is what @self fills; a job outside the establishment
     ; (a head's seat) simply adds one.
     (fill-post ?reg (head ?post) (nth 1 ?post))
-    (set-outcome ?en-rel /succ)))
+    (set-outcome ?ENROL /succ)))

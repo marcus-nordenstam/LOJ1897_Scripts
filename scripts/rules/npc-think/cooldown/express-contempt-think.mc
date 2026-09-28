@@ -16,16 +16,16 @@
 
 
 ; cold_contempt: voice the REASON he is despised - his moral record first, then
-; his drink, his affairs, his want of decorum. Each `-rel` var is a whole belief
+; his drink, his affairs, his want of decorum. Each capture is a whole belief
 ; @self holds about ?victim, captured per victim by the (do ...) block below.
 (define-table contempt_ladder
-  (capture ?actrec-rel ?sob-rel ?lover-rel ?dec-rel)
+  (capture ?misdeed ?sobriety ?lover ?decorum)
   (fields context        rank  barb-eval)
 
-  (record cold_contempt  4  ?actrec-rel)
-  (record cold_contempt  3  (if (<= ?sob-rel.target 0.35) (then ?sob-rel)))
-  (record cold_contempt  2  ?lover-rel)
-  (record cold_contempt  1  (if (<= ?dec-rel.target 0.35) (then ?dec-rel))))
+  (record cold_contempt  4  ?misdeed)
+  (record cold_contempt  3  (if (<= ?sobriety.target 0.35) (then ?sobriety)))
+  (record cold_contempt  2  ?lover)
+  (record cold_contempt  1  (if (<= ?decorum.target 0.35) (then ?decorum))))
 
 (npc-think express_contempt
   (cooldown 1 m try-once)
@@ -49,20 +49,20 @@
 
       ; The moral material @self can voice, read per victim - each tolerant.
       (do
-        (tolerate (any {?victim jilt|disinherit ? /ever}):?actrec-rel)
-        (tolerate (any {?victim sobriety ?}):?sob-rel)
-        (tolerate (any {?victim lover ?}):?lover-rel)
-        (tolerate (any {?victim decorum ?}):?dec-rel))
+        (tolerate (any {?victim jilt|disinherit ? /ever}):?misdeed)
+        (tolerate (any {?victim sobriety ?}):?sobriety)
+        (tolerate (any {?victim lover ?}):?lover)
+        (tolerate (any {?victim decorum ?}):?decorum))
 
       (select-row (table contempt_ladder)
         (bind context ?ctx)
         (bind rank ?rank)
-        (bind barb-eval ?barb-rel)
+        (bind barb-eval ?barb)
         (when (= ?ctx cold_contempt))
-        (score (if (is-belief ?barb-rel) (then ?rank) (else 0)))
+        (score (if (is-belief ?barb) (then ?rank) (else 0)))
         (policy roulette))
 
       (utility want)
 
       (effects
-        (maintain-proposal {@self SAY (utterable-msg [/msg-class insult] ?barb-rel) ?victim})))))
+        (maintain-proposal {@self SAY (utterable-msg [/msg-class insult] ?barb) ?victim})))))

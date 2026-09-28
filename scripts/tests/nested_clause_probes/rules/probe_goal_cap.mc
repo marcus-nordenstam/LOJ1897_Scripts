@@ -4,5 +4,5 @@
 ; activation attempt.
 (npc-think probe_goal_cap
   (cooldown 1 m try-once)
-  (goal {@self probe_hunt ?prey11}:?g11)
-  (effects (debug-print "PROBE_GOAL_CAP goal=?g11 prey=?prey11")))
+  (goal {@self probe_hunt ?prey11}:?probe_hunt)
+  (effects (debug-print "PROBE_GOAL_CAP goal=?probe_hunt prey=?prey11")))

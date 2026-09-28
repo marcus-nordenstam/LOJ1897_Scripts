@@ -7,7 +7,7 @@
 
 (include "../../macros/tunables.mc")
 
-(npc-action {@self RUN ?dest}:?run
+(npc-action {@self RUN ?dest}:?RUN
   (inherit WALK)
   (presentation
     (anim-male Motion_Male_Run_01)

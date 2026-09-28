@@ -7,7 +7,7 @@
 ; written on it.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self send-mail ?doc ?out}:?sm-rel
+(npc-task {@self send-mail ?doc ?out}:?send-mail
   (tar [k document] @object)
   (aux [k stack] @object)
   (sequence
@@ -28,4 +28,4 @@
       (effects (maintain-proposal {@self STACK-PUT ?doc ?out})))
 
     (stage
-      (effects (set-outcome ?sm-rel /succ)))))
+      (effects (set-outcome ?send-mail /succ)))))

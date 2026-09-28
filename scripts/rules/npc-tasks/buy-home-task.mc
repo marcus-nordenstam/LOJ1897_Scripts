@@ -16,7 +16,7 @@
 ;;   lost     : a rival closed first (no longer for sale, never settled) -> abandon.
 ;; ----------------------------------------------------------------------------
 
-;(npc-task {@self buy-home ?dwell}:?bh-rel
+;(npc-task {@self buy-home ?dwell}:?buy-home
 ;  (tar @excl [k building] @object)
 ;  (and
 ;    (try
@@ -32,8 +32,8 @@
 ;        (begin-belief {@self home ?dwell})
 ;        (begin-belief {?dwell occupant @self})
 ;        (end-belief {?dwell availability [k for-sale]})
-;        (set-outcome ?bh-rel /succ)))
+;        (set-outcome ?buy-home /succ)))
 ;    (try
 ;      (when (and -{?dwell availability [k for-sale]}
 ;                 -{@self RECORD-SALE ?dwell /succ}))
-;      (effects (set-outcome ?bh-rel /fail)))))
+;      (effects (set-outcome ?buy-home /fail)))))

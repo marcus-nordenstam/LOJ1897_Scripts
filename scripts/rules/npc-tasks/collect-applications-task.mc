@@ -8,7 +8,7 @@
 ; task keeps letters addressed to ME, this one keeps every application, whoever it names.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self collect-applications ?wp}:?ca-rel
+(npc-task {@self collect-applications ?wp}:?collect-applications
   (aspect labour)
   ; OBSERVABLE: the office round is done in the open, so anyone in the room reads it off
   ; him - which is how an applicant tells WHO the recruiting officer is, the way you tell
@@ -30,7 +30,7 @@
         (effects (maintain-proposal {@self take-applications ?stk})))
 
       (stage
-        (effects (set-outcome ?ca-rel /succ))))
+        (effects (set-outcome ?collect-applications /succ))))
 
     (try
       (role @self -{@self locate [k mail-stack] ?wp /succ}
@@ -40,4 +40,4 @@
 
     (try
       (role @self {@self locate [k mail-stack] ?wp /fail}
-        (effects (set-outcome ?ca-rel /fail))))))
+        (effects (set-outcome ?collect-applications /fail))))))

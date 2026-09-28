@@ -8,7 +8,7 @@
 ; push off and simply spends the second.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self JUMP ?target}:?jump
+(npc-action {@self JUMP ?target}:?JUMP
   (motor legs)
   (obs)
   (tar @excl)

@@ -4,12 +4,12 @@
 ; one line of body it hands to the generic stack-browse.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self take-applications ?stack}:?take-apps-rel
+(npc-task {@self take-applications ?stack}:?take-applications
   (aspect labour)
   (tar @excl [k stack] @object)
   (and
     (try
-      (role @self -{@self stack-browse ?stack ? /succ /caused_by ?take-apps-rel}
+      (role @self -{@self stack-browse ?stack ? /succ /caused_by ?take-applications}
         (utility obligation)
         (effects
           (maintain-proposal
@@ -25,5 +25,5 @@
                              (then (maintain-proposal {@self READ .?item}))
                              (else (maintain-proposal {@self DESTROY-ENTITY .?item})))))}))))
     (try
-      (role @self {@self stack-browse ?stack ? /succ /caused_by ?take-apps-rel}
-        (effects (set-outcome ?take-apps-rel /succ))))))
+      (role @self {@self stack-browse ?stack ? /succ /caused_by ?take-applications}
+        (effects (set-outcome ?take-applications /succ))))))

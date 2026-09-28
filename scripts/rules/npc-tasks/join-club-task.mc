@@ -8,7 +8,7 @@
 ;; just files the row. Others learn me by reading the roll (read_roster).
 ;; ----------------------------------------------------------------------------
 
-;(npc-task {@self join-club ?art}:?jc-rel
+;(npc-task {@self join-club ?art}:?join-club
 ;  (tar [k document] @object)
 ;  (and
 ;    ; GO: not at the clubhouse -> travel to it.
@@ -39,4 +39,4 @@
 ;        (any {?org membership-roll ?roll})
 ;        (if (table-match (attr ?roll writing) member (name @self))
 ;            (then (begin-belief {@self member-of ?org})
-;                  (set-outcome ?jc-rel /succ)))))))
+;                  (set-outcome ?join-club /succ)))))))

@@ -41,8 +41,8 @@
 (npc-audit audit_hired_never_worked
   (aspect labour)
   (cooldown 1 d try-once)
-  (role @self {@self job ?job}:?j
-    (when (and (/ (seconds-between (time seconds) (start-time ?j)) 86400.0): ?held-days
+  (role @self {@self job ?job}:?held
+    (when (and (/ (seconds-between (time seconds) (start-time ?held)) 86400.0): ?held-days
                (>= ?held-days 30.0)
                (>= (days-since-last-float {@self work ? /succ}) ?held-days)))
     (effects
@@ -62,8 +62,8 @@
     (effects
       (bind 0 ?offers)
       (bind 0 ?open)
-      (for-each ?jr (every {? org ?org})
-        (bind ?jr.subject ?j)
+      (for-each ?job-of-org (every {? org ?org})
+        (bind ?job-of-org.subject ?j)
         (if (and {?j job-id ?} -{? job ?j})
             (then (bind (+ ?open 1) ?open)
                   (if {?j offered-to ?} (then (bind (+ ?offers 1) ?offers))))))

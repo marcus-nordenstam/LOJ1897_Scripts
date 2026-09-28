@@ -17,7 +17,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-task {@self invite-guest ?guest ?occ}:?ig-rel
+(npc-task {@self invite-guest ?guest ?occ}:?invite-guest
   (and
     (sequence
       (role ?my-home {@self home ?my-home}
@@ -25,11 +25,11 @@
 
           (stage
             (effects
-              (if (bb-any ?ig-rel letter)
-                  (then (bind (bb-read ?ig-rel letter) ?ltr))
-                  (else (maintain-proposal {@self CREATE-ENTITY [k invitation-letter]}:?ce
-                          [/postlude (bind (bb-read ?ce created) ?ltr)
-                                     (bb-write ?ig-rel letter ?ltr)])))))
+              (if (bb-any ?invite-guest letter)
+                  (then (bind (bb-read ?invite-guest letter) ?ltr))
+                  (else (maintain-proposal {@self CREATE-ENTITY [k invitation-letter]}:?CREATE-ENTITY
+                          [/postlude (bind (bb-read ?CREATE-ENTITY created) ?ltr)
+                                     (bb-write ?invite-guest letter ?ltr)])))))
 
           ; The FORM. An occasion is a nameless abstract object and cannot ride a wire as
           ; itself, so the letter carries the facts that CONSTITUTE it - whose it is, when,
@@ -62,9 +62,9 @@
 
           (stage
             (effects
-              (bb-clear ?ig-rel letter)
+              (bb-clear ?invite-guest letter)
               (begin-belief {@self invite ?guest ?occ})
-              (set-outcome ?ig-rel /succ))))))
+              (set-outcome ?invite-guest /succ))))))
 
     ; The out-box is knowledge the posting stage needs and may not have: an addressed
     ; letter in hand with no pile known is what sends him looking for one.

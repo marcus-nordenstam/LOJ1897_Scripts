@@ -20,7 +20,7 @@
 
 (include "../../macros/tunables.mc")
 
-(npc-action {@self WALK ?dest}:?walk
+(npc-action {@self WALK ?dest}:?WALK
   (motor legs)
   (obs)
   (tar @excl)
@@ -54,7 +54,7 @@
         ; working he does NOTHING this tick - no fallback steering through unknown
         ; space, which is the point of the async search.
         (switch (nav-ensure-path @self ?dest)
-          (on failed (set-outcome ?walk /fail))
+          (on failed (set-outcome ?WALK /fail))
           (on ready
             ; No "he is already on it" rung before these: (distance ..) is OBB-to-OBB, so a
             ; steer spot reads ZERO as soon as his box touches it - some 0.4 m out - and a
@@ -63,7 +63,7 @@
             (nav-steer-target @self ?dest):?steer
             (cond
               (case (< (distance @self (travel-spot ?dest)) (walk_arrive_m))
-                (set-outcome ?walk /succ))
+                (set-outcome ?WALK /succ))
               (case (presented-lod)
                 (steer-to @self ?steer))
               (else
@@ -71,4 +71,4 @@
 
   ; Runs on every end, and cancels only while this act still owns the plan: a cease
   ; that fires after the OUT fade must not clobber a successor's route.
-  (cease (nav-cancel @self ?walk)))
+  (cease (nav-cancel @self ?WALK)))

@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-task {@self divorce ?partner}:?divorce-rel
+(npc-task {@self divorce ?partner}:?divorce
   (tar [k human] @object)
   (try
     (role @self
@@ -36,4 +36,4 @@
               ; the husband's - it wants a rule on the employer reading her new
               ; standing. Commented out pending that.
               ))
-        (set-outcome ?divorce-rel /succ)))))
+        (set-outcome ?divorce /succ)))))

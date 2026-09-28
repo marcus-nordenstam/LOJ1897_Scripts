@@ -11,7 +11,7 @@
 ; actual words) is the deferred follow-up that replaces this with a (tell-to) barb fact.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self humiliate ?victim}:?humiliate-rel
+(npc-task {@self humiliate ?victim}:?humiliate
   (tar [k human] @object)
   (construed-act degrade-act wrong-act)
   (and
@@ -30,15 +30,15 @@
     (try
       (when (and (alive ?victim)
                  (spatial ?victim co-located @self)
-                 -{@self SAY ? /succ /caused_by ?humiliate-rel}))
+                 -{@self SAY ? /succ /caused_by ?humiliate}))
       (utility errand always-pick)
       (effects (maintain-proposal
                  {@self SAY (utterable-msg {@self public-humiliation ?victim}) _})))
     (try
-      (when {@self SAY ? /succ /caused_by ?humiliate-rel})
+      (when {@self SAY ? /succ /caused_by ?humiliate})
       (effects
         (record-crime @self ?victim public-humiliation humiliate @u @u)
-        (set-outcome ?humiliate-rel /succ)))
+        (set-outcome ?humiliate /succ)))
     (try
       (when (not (alive ?victim)))
-      (effects (set-outcome ?humiliate-rel /fail)))))
+      (effects (set-outcome ?humiliate /fail)))))

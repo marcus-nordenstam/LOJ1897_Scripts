@@ -4,7 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-action {@self STACK-BURY ?doc ?stack}:?bury-rel
+(npc-action {@self STACK-BURY ?doc ?stack}:?STACK-BURY
   (motor body legs)
   (duration (seconds 1 min))
   (effects
@@ -16,4 +16,4 @@
     (bb-clear ?doc from-stack)
     ; He is still standing at the pile he just filed into - the twin of STACK-TAKE's re-look.
     (tolerate (observe (spatial ?stack top /env)))
-    (set-outcome ?bury-rel /succ)))
+    (set-outcome ?STACK-BURY /succ)))

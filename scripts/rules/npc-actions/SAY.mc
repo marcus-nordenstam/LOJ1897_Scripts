@@ -10,7 +10,7 @@
 ; that birth, and deliver-speech hangs the sound off THAT - so the record the world
 ; carries is the pipeline's own.
 
-(npc-action {@self SAY ?msg ?audience}:?say-rel
+(npc-action {@self SAY ?msg ?audience}:?SAY
   (motor mouth)
   (presentation
     (state telling)
@@ -45,7 +45,7 @@
   (effects
     (if (unpresented-lod)
         (then (deliver-speech ?xsay)
-              (set-outcome ?say-rel /succ))))
+              (set-outcome ?SAY /succ))))
 
   ; The handler's cleanup_func released the speech-state slot it claimed at install. That
   ; is a (cease ..): it must happen on EVERY end, and a slot leaked per interrupted

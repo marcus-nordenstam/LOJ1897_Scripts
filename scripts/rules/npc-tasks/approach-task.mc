@@ -25,7 +25,7 @@
 (define-func within-reach-of-claim (?ent)
   (< (distance @self ?ent) (near_building_m)))
 
-(npc-task {@self approach ?ent}:?approach-rel
+(npc-task {@self approach ?ent}:?approach
   (tar @excl [k thing] @object)
   (lint-waive env-read-outside-action)
   (init
@@ -33,7 +33,7 @@
     (check (is-a ?ent [k thing]))
     (check (grounded ?ent)))
   (when (poll (not (within-reach-of-claim ?ent))))
-  (cease (if (within-reach-of-claim ?ent) (then (set-outcome ?approach-rel /succ))))
+  (cease (if (within-reach-of-claim ?ent) (then (set-outcome ?approach /succ))))
   (and
     (try
       (when (poll (approach-box ?ent): ?box

@@ -18,18 +18,18 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-task {@self plan-gathering ?kind ?months}:?pg-rel
+(npc-task {@self plan-gathering ?kind ?months}:?plan-gathering
   (sequence
     (role ?my-home {@self home ?my-home}
 
       ; The occasion itself - invented once, then read back from the blackboard.
       (stage
         (effects
-          (if (bb-any ?pg-rel occasion)
-              (then (bind (bb-read ?pg-rel occasion) ?occ))
+          (if (bb-any ?plan-gathering occasion)
+              (then (bind (bb-read ?plan-gathering occasion) ?occ))
               (else
                 (o /invent ?kind): ?occ
-                (bb-write ?pg-rel occasion ?occ)))))
+                (bb-write ?plan-gathering occasion ?occ)))))
 
       ; Its constitutive facts. A lead that runs past December rolls into next year: month 12
       ; is december, so the months past it are 13 and on.
@@ -48,5 +48,5 @@
 
       (stage
         (effects
-          (bb-clear ?pg-rel occasion)
-          (set-outcome ?pg-rel /succ))))))
+          (bb-clear ?plan-gathering occasion)
+          (set-outcome ?plan-gathering /succ))))))

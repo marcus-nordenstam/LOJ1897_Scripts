@@ -8,7 +8,7 @@
       (when -{@self goal {@self probe_hunt ?}})
       (effects
         (begin-goal {@self probe_hunt ?prey})
-        (bind {@self goal {@self probe_hunt ?p2}:?plot})
-        (begin-belief {?prey urge @self ?plot})
+        (bind {@self goal {@self probe_hunt ?p2}:?probe_hunt})
+        (begin-belief {?prey urge @self ?probe_hunt})
         (begin-belief {?prey accomplice ?prey})
-        (debug-print "PROBE_MINT prey=?prey plot=?plot")))))
+        (debug-print "PROBE_MINT prey=?prey plot=?probe_hunt")))))

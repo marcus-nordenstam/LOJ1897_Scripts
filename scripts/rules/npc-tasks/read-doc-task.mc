@@ -5,14 +5,14 @@
 ; room); reading is READ's. Concluded once THIS activation's READ has succeeded.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self read-doc ?doc}:?rd-rel
+(npc-task {@self read-doc ?doc}:?read-doc
   (tar [k document] @object)
   ; THE CONDITION THE TASK RUNS UNDER: he has not read it yet. Stated once here rather
   ; than on the rung that proposes the READ, because it is true of the whole errand -
   ; walking to the room is equally pointless once the page has been read.
-  (when -{@self READ ?doc /succ /caused_by ?rd-rel})
-  (cease (if (any {@self READ ?doc /succ /caused_by ?rd-rel})
-             (then (set-outcome ?rd-rel /succ))))
+  (when -{@self READ ?doc /succ /caused_by ?read-doc})
+  (cease (if (any {@self READ ?doc /succ /caused_by ?read-doc})
+             (then (set-outcome ?read-doc /succ))))
   (and
     (try
       ; AT HAND is held OR in the room: a form in the hand has no space to walk to.

@@ -20,7 +20,7 @@
 ; never what this task instance has done, which cannot span a shift.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self recruit-staff ?org}:?rec-rel
+(npc-task {@self recruit-staff ?org}:?recruit-staff
   (aspect labour)
   ; OBSERVABLE, and for the WHOLE SHIFT: a man keeping the hiring book does it in the open,
   ; so anyone in the room reads the duty off him - that is how an applicant identifies the
@@ -40,10 +40,10 @@
     ; is still at home. The moment it stops holding the round stops firing, and the (cease ..)
     ; is where it says what that meant - a day's duty done.
     (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
-          (latch-eval (any {?shift-job ?tl ?}): ?sh-rel (bind ?sh-rel.target ?start) (bind ?sh-rel.auxiliary ?end))
+          (latch-eval (any {?shift-job ?tl ?}): ?shift (bind ?shift.target ?start) (bind ?shift.auxiliary ?end))
           (on-shift ?start ?end))
     (cease (if (not (on-shift ?start ?end))
-               (then (set-outcome ?rec-rel /succ))))
+               (then (set-outcome ?recruit-staff /succ))))
     (and
       ; THE BOOK, read once a round: hires and departures rewrite the page, and this read
       ; is the only thing that moves the officer's picture with it.

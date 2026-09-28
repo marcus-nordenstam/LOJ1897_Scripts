@@ -6,7 +6,7 @@
 ; The decision (employment_think promotion) proposes this task and owns its life.
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self promote-staff ?worker}:?pr-rel
+(npc-task {@self promote-staff ?worker}:?promote-staff
   (track-skill-level [k personnel])
   (tar [k human] @object)
   (and

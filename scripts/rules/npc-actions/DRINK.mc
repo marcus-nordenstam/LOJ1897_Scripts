@@ -1,7 +1,7 @@
 ; drink - the drink ACT-BODY (npc-action), proposed by go-drink in a pub. The {@self DRINK}
 ; act-belief IS the episodic drinking memory days-since-last and the sobriety classifier read.
 
-(npc-action {@self DRINK}:?d-rel
+(npc-action {@self DRINK}:?DRINK
   (motor body legs)
   (duration (seconds 90 min))
   (init (check (is-a (spatial @self building) [k building pub])))
@@ -21,4 +21,4 @@
     ; visible-vice evidence observer estimates read. The home drinker generates
     ; no witnesses; concealment is emergent, not simulated. Witnessing is now
     ; engine-side (auto-witness on this obs act at completion), not hand-authored.
-    (set-outcome ?d-rel /succ)))
+    (set-outcome ?DRINK /succ)))

@@ -6,7 +6,7 @@
 ; rather than from memory.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self RECORD-ADVERT ?reg ?job-id}:?ra-rel
+(npc-action {@self RECORD-ADVERT ?reg ?job-id}:?RECORD-ADVERT
   (motor body legs)
   (track-skill-level [k personnel])
   (tar [k document] @object)
@@ -14,4 +14,4 @@
   (effects
     (check (spatial ?reg co-located @self /env))
     (check (table-set ?reg (where job-id ?job-id) advertise-date (time date)))
-    (set-outcome ?ra-rel /succ)))
+    (set-outcome ?RECORD-ADVERT /succ)))

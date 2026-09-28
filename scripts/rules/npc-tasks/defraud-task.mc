@@ -6,7 +6,7 @@
 ; into the real fraud task later. The (try) never fires (declaration only).
 ; ----------------------------------------------------------------------------
 
-(npc-task {@self defraud ?victim}:?defraud-rel
+(npc-task {@self defraud ?victim}:?defraud
   (track-skill-level [k forgery])
   (tar [k human] @object)
   (construed-act appropriation-act wrong-act betray-act) (theme thief-to) (contradicts property)
@@ -14,4 +14,4 @@
   (try
     (role @self
       (when (chance 0))
-      (effects (set-outcome ?defraud-rel /succ)))))
+      (effects (set-outcome ?defraud /succ)))))

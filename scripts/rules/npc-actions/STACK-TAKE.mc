@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-action {@self STACK-TAKE ?stack ?hand}:?take
+(npc-action {@self STACK-TAKE ?stack ?hand}:?STACK-TAKE
   (sided aux left-hand right-hand)
   (obs)
   (tar @excl)
@@ -36,5 +36,5 @@
         (tolerate (observe (spatial ?stack top /env)))
         (if (presented-lod)
             (then (attach-to-socket ?taken @self (side ?hand))))
-        (set-outcome ?take /succ))
-      (else (set-outcome ?take /fail)))))
+        (set-outcome ?STACK-TAKE /succ))
+      (else (set-outcome ?STACK-TAKE /fail)))))

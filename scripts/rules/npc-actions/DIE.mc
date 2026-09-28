@@ -1,7 +1,7 @@
 ; DIE - dying of ?cause: the body falls, (die) writes its condition dead, and the corpse
 ; carries its cause.
 
-(npc-action {@self DIE ?cause}:?die-rel
+(npc-action {@self DIE ?cause}:?DIE
   (duration 1.5)
   (motor legs)
   (obs)
@@ -9,6 +9,6 @@
   (presentation
     (preroll 0.0) (in 0.2) (out 0.0))
   (effects
-    (set-outcome ?die-rel /succ)
+    (set-outcome ?DIE /succ)
     (set-attr @self death-cause ?cause)
     (die @self)))

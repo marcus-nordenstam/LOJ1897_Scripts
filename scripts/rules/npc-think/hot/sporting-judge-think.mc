@@ -35,8 +35,8 @@
     (role ?r2 {?r2 race-result ?}
       (when (< (days-since-last {@self JUDGE-DECLARE /ever}) 1))
       (effects
-        (for-each ?rb-rel (every {? race-result ?})
-          (end-belief ?rb-rel))))))
+        (for-each ?race-result (every {? race-result ?})
+          (end-belief ?race-result))))))
 
 ; outdone_at_meet (npc-think, LOSER's mind). A racer who competed (his own ended
 ; RACE-RUN memory) and then WITNESSED another declared the meet victor construes

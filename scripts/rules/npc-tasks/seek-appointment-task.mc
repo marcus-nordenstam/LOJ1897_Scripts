@@ -5,12 +5,12 @@
 ;; senior level, and read the row back as his own employment.
 ;; ----------------------------------------------------------------------------
 
-;(npc-task {@self seek-appointment ?art}:?sa-rel
+;(npc-task {@self seek-appointment ?art}:?seek-appointment
 ;  (tar [k document] @object)
 ;  (and
 ;    (try
 ;      (role @self {@self job ?}
-;                  -{@self QUIT-WORK /succ /caused_by ?sa-rel}
+;                  -{@self QUIT-WORK /succ /caused_by ?seek-appointment}
 ;        (effects (maintain-proposal {@self QUIT-WORK}))))
 ;    (try
 ;      (role @self -{@self job ?}
@@ -44,4 +44,4 @@
 ;          (if (table-match (attr ?reg writing) worker (name @self) level ?lvl)
 ;              (then
 ;                (hire-beliefs ?art [k job official] ?lvl)
-;                (set-outcome ?sa-rel /succ))))))))
+;                (set-outcome ?seek-appointment /succ))))))))

@@ -6,11 +6,11 @@
 ;; so a row is all there is - no vacant line to fill, no post, no rank.
 ;; ----------------------------------------------------------------------------
 
-;(npc-action {@self JOIN-ROLL ?roll}:?jr-rel
+;(npc-action {@self JOIN-ROLL ?roll}:?JOIN-ROLL
 ;  (motor body legs)
 ;  (duration (seconds 15 min))
 ;  (effects
 ;    (check (spatial ?roll co-located @self))
 ;    (if (not (table-match (attr ?roll writing) member (name @self)))
 ;        (then (table-add ?roll member (name @self) joined-date (time date))))
-;    (set-outcome ?jr-rel /succ)))
+;    (set-outcome ?JOIN-ROLL /succ)))

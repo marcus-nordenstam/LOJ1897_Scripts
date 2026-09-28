@@ -2,5 +2,5 @@
 (npc-think probe_bind
   (cooldown 1 m try-once)
   (role @self 
-    (when (bind {@self goal {@self probe_hunt ?prey2}:?plot2}))
-    (effects (debug-print "PROBE_BIND prey=?prey2 plot=?plot2"))))
+    (when (bind {@self goal {@self probe_hunt ?prey2}:?probe_hunt}))
+    (effects (debug-print "PROBE_BIND prey=?prey2 plot=?probe_hunt"))))

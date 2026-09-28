@@ -9,7 +9,7 @@
 ; clears the pencil). The book is found in the world, as HIRE finds it.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self RECORD-OFFER ?applicant-name ?job-id}:?ro-rel
+(npc-action {@self RECORD-OFFER ?applicant-name ?job-id}:?RECORD-OFFER
   (motor body legs)
   (track-skill-level [k personnel])
   (tar ?)
@@ -22,4 +22,4 @@
     (check (spatial ?reg co-located @self /env))
     (check (table-set ?reg (where job-id ?job-id)
                            offered ?applicant-name offer-date (time date)))
-    (set-outcome ?ro-rel /succ)))
+    (set-outcome ?RECORD-OFFER /succ)))

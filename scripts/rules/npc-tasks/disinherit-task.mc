@@ -18,7 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-task {@self disinherit ?victim}:?disinherit-rel
+(npc-task {@self disinherit ?victim}:?disinherit
   (tar [k human] @object)
   (construed-act abandonment-act wrong-act) (contradicts kin-loyalty)
   (and
@@ -45,10 +45,10 @@
 
     ; OUTCOME: the disinheritance was announced (the SAY landed).
     (try
-      (when {@self SAY ? ?victim /succ /caused_by ?disinherit-rel})
-      (effects (set-outcome ?disinherit-rel /succ)))
+      (when {@self SAY ? ?victim /succ /caused_by ?disinherit})
+      (effects (set-outcome ?disinherit /succ)))
 
     ; ABANDON: the victim died before it could be announced.
     (try
       (when (not (alive ?victim)))
-      (effects (set-outcome ?disinherit-rel /fail)))))
+      (effects (set-outcome ?disinherit /fail)))))

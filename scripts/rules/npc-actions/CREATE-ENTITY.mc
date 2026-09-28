@@ -27,12 +27,12 @@
 ; its postlude never runs, so the key it meant to stash the fresh entity under stays
 ; empty and its stage waits for ever. Proposing a second one while another is live is
 ; an authoring error and says so out loud.
-(npc-action {@self CREATE-ENTITY ?kind}:?ce-rel
+(npc-action {@self CREATE-ENTITY ?kind}:?CREATE-ENTITY
   (motor body legs)
   (one-at-a-time)
   (duration (seconds 5 min))
   (effects
     (create-entity ?kind (spatial @self space)): ?made
     (observe ?made): ?known
-    (bb-write ?ce-rel created ?known)
-    (set-outcome ?ce-rel /succ)))
+    (bb-write ?CREATE-ENTITY created ?known)
+    (set-outcome ?CREATE-ENTITY /succ)))

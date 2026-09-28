@@ -5,7 +5,7 @@
 ; pile, lodging a listing / deed into a registry stack, shelving any document.
 ; ----------------------------------------------------------------------------
 
-(npc-action {@self STACK-PUT ?doc ?stack}:?put-rel
+(npc-action {@self STACK-PUT ?doc ?stack}:?STACK-PUT
   (motor body legs)
   (obs)
   (tar @excl)
@@ -28,4 +28,4 @@
     ; for both LODs. All the hand owes the scene here is letting go of the picture.
     (if (presented-lod)
         (then (detach-entity ?doc)))
-    (set-outcome ?put-rel /succ)))
+    (set-outcome ?STACK-PUT /succ)))

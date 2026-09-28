@@ -9,7 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-task {@self hurt ?victim}:?hurt-rel
+(npc-task {@self hurt ?victim}:?hurt
   (tar [k human] @object)
   (and
     ; REACH: route to the victim's known location, else their home.
@@ -42,4 +42,4 @@
                 {?victim condition [k dead]}))
       (effects
         (record-crime @self ?victim punch hurt @u @u)
-        (set-outcome ?hurt-rel /succ)))))
+        (set-outcome ?hurt /succ)))))

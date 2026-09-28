@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(npc-task {@self strangle ?victim}:?strangle-rel
+(npc-task {@self strangle ?victim}:?strangle
   (track-skill-level [k garrotting])
   (tar [k human] @object)
   (and
@@ -36,4 +36,4 @@
     ; CONCLUDE: the victim is dead - the method is spent.
     (try
       (when {?victim condition [k dead]})
-      (effects (set-outcome ?strangle-rel /succ)))))
+      (effects (set-outcome ?strangle /succ)))))
