@@ -25,11 +25,11 @@
   (role @self (not (spatial @self space ?dest))
     (effects (maintain-proposal {@self go ?dest}))))
 
-; AT the destination: claim the floor cell the ware will rest on - polled until the grid
+; AT the destination: claim the floor spot the ware will rest on - polled until the search
 ; answers one - and PROPOSE the put-down act with it (goals never propose themselves). No
 ; (utility): the proposal inherits the minting chain's drive up the /caused_by chain.
 (npc-think bring_at_dest
   (goal {@self BRING ?ware ?dest})
   (role @self (spatial @self space ?dest)
-    (when (poll (rest-cell ?dest ?ware): ?cell))
-    (effects (maintain-proposal {@self BRING ?ware ?cell}))))
+    (when (poll (rest-spot ?dest ?ware): ?spot))
+    (effects (maintain-proposal {@self BRING ?ware ?spot}))))

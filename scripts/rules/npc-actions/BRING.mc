@@ -2,14 +2,14 @@
 ; bring (npc-action) - the put-down completion of the general bring chain
 ; (npc-think/hot/bring-think.mc). Fires ONLY at the destination (the same in-space
 ; gate the proposing think used): every carried item of the ware's kind is set down
-; on ?cell, the floor cell the think claimed at the goal's destination - the act needs
+; on ?spot, the floor spot the think claimed at the goal's destination - the act needs
 ; no destination of its own. The held set is the env-truth hold view (both hands,
 ; kind-filtered).
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/collection-macros.mc")
 
-(npc-action {@self BRING ?ware ?cell}
+(npc-action {@self BRING ?ware ?spot}
   (motor body legs)
   (duration (seconds 5 min))
   (effects
@@ -18,7 +18,7 @@
     ; landing (the larder absorbs it), else it becomes that space's pile.
     (for-each ?item (spatial @self hold ?ware /env)
         (do
-          (relocate ?item ?cell)
+          (relocate ?item ?spot)
           ; A put-down PILE folds into a co-located same-content pile (the larder
           ; absorbs the basket, basket destroyed); with none, it BECOMES the pile.
           (if (is-a ?item [k pile])
@@ -32,4 +32,4 @@
                 (if ?larder
                     (then (pile-add ?larder (attr ?item count))
                           (destroy-entity ?item)))))))
-    (set-outcome {@self BRING ?ware ?cell} /succ)))
+    (set-outcome {@self BRING ?ware ?spot} /succ)))

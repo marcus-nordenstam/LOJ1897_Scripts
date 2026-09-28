@@ -8,12 +8,12 @@
 ; breach of "a motor is LOD-independent" - that rule binds ONE action across LODs, and
 ; these are two actions (action_unification_plan.md 5.3).
 ;
-; ?cell IS A CLAIMED CELL - the task claimed it with (rest-cell ..) and hands it in - so
+; ?spot IS A CLAIMED SPOT - the task claimed it with (rest-spot ..) and hands it in - so
 ; the thing is put down on a table or on the floor of a room, never vaguely in it.
 ; ----------------------------------------------------------------------------
 
 
-(npc-action {@self PUT ?item ?cell}:?put
+(npc-action {@self PUT ?item ?spot}:?put
   (lod unpresented)
   (motor body legs)
   (obs)
@@ -25,6 +25,6 @@
 
   (effects
     ; You must be where the thing is going: the shortcut skips the reach, not the journey.
-    (check (overlaps ?cell (spatial @self space)))
-    (release-grip ?item ?cell)
+    (check (overlaps ?spot (spatial @self space)))
+    (release-grip ?item ?spot)
     (set-outcome ?put /succ)))

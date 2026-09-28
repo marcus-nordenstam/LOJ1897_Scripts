@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; WALK - the one travel act, at both LODs. The `go` TASK reasons about the destination
-; (enter a structure, walk into a room); WALK gets there. ?dest is an env-CELL and nothing
-; else - a spot on the grid one man can stand on and hold, so arrival is an overlap and
+; (enter a structure, walk into a room); WALK gets there. ?dest is a SPOT and nothing
+; else - a point on a floor one man can stand on and hold, so arrival is an overlap and
 ; there is no box centre to mistake for a floor.
 ;
 ; ONE body, and the LOD branch sits at the movement write and nowhere else. Where no
@@ -40,8 +40,7 @@
   ; Where the ground is navigable the search starts now, so the first effects tick
   ; already has a plan to poll.
   (init
-    (check (is-cell ?dest))
-    (check (or (is-abs-cell ?dest) (substantial (cell-anchor ?dest))))
+    (check (is-spot ?dest))
     (if (nav-navigable @self ?dest)
         (then (nav-ensure-path @self ?dest))))
 
@@ -58,12 +57,12 @@
           (on failed (set-outcome ?walk /fail))
           (on ready
             ; No "he is already on it" rung before these: (distance ..) is OBB-to-OBB, so a
-            ; 0.2 m steer cell reads ZERO as soon as his box touches it - some 0.4 m out -
-            ; and a near-zero threshold there latches him in place short of every waypoint.
+            ; steer spot reads ZERO as soon as his box touches it - some 0.4 m out - and a
+            ; near-zero threshold there latches him in place short of every waypoint.
             ; Both movement writes already refuse a step too short to take, in centre metres.
             (nav-steer-target @self ?dest):?steer
             (cond
-              (case (< (distance @self (travel-cell ?dest)) (walk_arrive_m))
+              (case (< (distance @self (travel-spot ?dest)) (walk_arrive_m))
                 (set-outcome ?walk /succ))
               (case (presented-lod)
                 (steer-to @self ?steer))

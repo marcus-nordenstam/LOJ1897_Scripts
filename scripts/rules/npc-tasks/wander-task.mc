@@ -4,7 +4,7 @@
 ; proposing go: wander runs under locate, which runs under go, and a go nested under a go
 ; would supersede its own ancestor.
 ;
-; The round's WALK records ARE the visited memory: each one's cell is anchored on the room
+; The round's WALK records ARE the visited memory: each one's spot is anchored on the room
 ; it was claimed in, and they are keyed /caused_by this wander, so they scope themselves to
 ; it and retire with it.
 ; ----------------------------------------------------------------------------
@@ -14,7 +14,7 @@
 (define-func wander-walked-into (?room ?w-rel)
   (bind 0 ?walked)
   (for-each ?rel (every {@self WALK ? /succ /caused_by ?w-rel /ever})
-    (if (= (tolerate (cell-anchor ?rel.target)) ?room)
+    (if (= (tolerate (spot-anchor ?rel.target)) ?room)
       (then
         (bind 1 ?walked)
         (break))))
@@ -39,14 +39,14 @@
                   (not (spatial @self space ?room))
                   (= (wander-walked-into ?room ?w-rel) 0)
                   (select (score (near @self ?room)) (policy roulette unknown-first))
-        (when (poll (stand-cell-in ?room): ?cell))
+        (when (poll (stand-spot-in ?room): ?spot))
         (effects
           (check (grounded ?room))
           (check (spatial ?room building ?bldg))
-          (check (is-rel-cell ?cell))
-          (check (= (cell-anchor ?cell) ?room))
+          (check (is-spot ?spot))
+          (check (= (spot-anchor ?spot) ?room))
           (expect (spatial @self building ?bldg) "wander: touring a building he is not in")
-          (maintain-proposal {@self WALK ?cell}))))
+          (maintain-proposal {@self WALK ?spot}))))
     ; Every room but the one he started in has been walked -> the building is seen.
     (try
       (when (>= (count (every {@self WALK ? /succ /caused_by ?w-rel /ever}))

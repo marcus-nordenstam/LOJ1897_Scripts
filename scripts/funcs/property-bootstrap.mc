@@ -19,7 +19,7 @@
     (spatial ?b0 room /env): ?r0
     (if (and ?r0 (none (env-entities [k for-sale-listings])))
       (then
-        (create-entity [k for-sale-listings] (seed-rest-cell ?b0 [k for-sale-listings])): ?reg0
+        (create-entity [k for-sale-listings] (seed-rest-spot ?b0 [k for-sale-listings])): ?reg0
         (table-init ?reg0 building)
         (break))))
   ; Every premises is on the market at seed.
@@ -41,8 +41,8 @@
     (spatial ?mb room /env): ?mroom
     (if ?mroom
       (then
-        (create-entity [k mail-stack] (seed-rest-cell ?mb [k mail-stack]))
-        (create-entity [k outgoing-mail-stack] (seed-rest-cell ?mb [k outgoing-mail-stack])))))
+        (create-entity [k mail-stack] (seed-rest-spot ?mb [k mail-stack]))
+        (create-entity [k outgoing-mail-stack] (seed-rest-spot ?mb [k outgoing-mail-stack])))))
   ; ADDRESS-SIGNS: every addressed building shows its address, as a fixture of the building
   ; (perceived with it). The address is the premises' identity when it has no name, and the
   ; sign is what lets an NPC carrying a written address recognise he has arrived. A
@@ -78,9 +78,9 @@
         (then
           (spatial ?bldg room /env): ?croom
           (if (none (env-entities [k incorporation-stack]))
-            (then (create-entity [k incorporation-stack] (seed-rest-cell ?bldg [k incorporation-stack]))))
+            (then (create-entity [k incorporation-stack] (seed-rest-spot ?bldg [k incorporation-stack]))))
           (create-entity [k articles-of-incorporation] ?croom): ?art
-          (create-entity [k employee-register] (seed-rest-cell ?bldg [k employee-register])): ?creg
+          (create-entity [k employee-register] (seed-rest-spot ?bldg [k employee-register])): ?creg
           (establish-posts ?creg ?kind)
           (delist ?bldg)
           (table-match businesses org-kind ?kind name ?cname)
@@ -108,7 +108,7 @@
   (check (substantial ?slr-art))
   (articles-premises ?slr-art): ?slr-bldg
   (spatial ?slr-bldg room /env): ?slr-room
-  (create-entity [k title-deed-stack] (seed-rest-cell ?slr-bldg [k title-deed-stack])): ?slr-stack
+  (create-entity [k title-deed-stack] (seed-rest-spot ?slr-bldg [k title-deed-stack])): ?slr-stack
   (for-each ?b (env-entities [k building])
     (attr ?b address): ?slr-addr
     (create-entity [k title-deed] ?slr-room): ?slr-deed

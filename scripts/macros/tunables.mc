@@ -200,7 +200,7 @@
 ; Within this of the goal a presented walker has ARRIVED and sets his own /succ.
 (define-macro walk_arrive_m            () 0.5)
 ; THE ONE MOVEMENT THRESHOLD, at three scales. Outside it a man heads for the SHAPE of
-; where he is going and reserves nothing, because a cell held from across town is a cell
+; where he is going and reserves nothing, because a spot held from across town is a spot
 ; taken from whoever is standing in it; inside it he CLAIMS a spot and finishes on what
 ; he actually got. A street's worth for a building, a room's width for a space, and
 ; arm's length for a thing he means to touch.

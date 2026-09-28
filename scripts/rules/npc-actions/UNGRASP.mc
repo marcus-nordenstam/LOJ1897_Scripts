@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; UNGRASP ?item ?hand - open the hand. The thing rests where the hand IS: which cell
+; UNGRASP ?item ?hand - open the hand. The thing rests where the hand IS: which spot
 ; that is was decided by REACH-FOR, and where the man stands was decided by go.
 ;
 ; PRESENTED ONLY, and that is not a shortcut being taken twice: unpresented has no
@@ -22,7 +22,7 @@
     (check (= (spatial ?item gripped-by /env) ?hand)))
 
   (effects
-    (hand-rest-cell ?hand ?item): ?rest
+    (hand-rest-spot ?hand ?item): ?rest
     (release-grip ?item ?rest)
     (detach-entity ?item)
     ; TWO writes are required for the placement to stick: Merlin's bounds AND the GRYM

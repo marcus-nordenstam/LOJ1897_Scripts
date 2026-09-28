@@ -8,45 +8,44 @@
 
 (include "../macros/tunables.mc")
 
-; Where a thing set down "at ?dest" comes to rest: a claimed cell where the whole thing fits,
-; on the floor of a space or on top of anything else. @fail while the grid has no answer
-; yet - the asking rung polls until it does - and the claim is the asking rung's: it is
-; released when that rung ceases, so no act has to give it back.
-(define-func rest-cell (?dest ?item)
+; Where a thing set down "at ?dest" comes to rest: a claimed spot where the whole thing fits,
+; on the floor of a space or on top of anything else. @fail while no spot is free - the
+; asking rung polls until one is - and the claim is the asking rung's: it is released when
+; that rung ceases, so no act has to give it back.
+(define-func rest-spot (?dest ?item)
   (if (is-a ?dest [k space])
-      (then (maintain-claim-env-cell ?item [/on_floor_of ?dest]))
-      (else (maintain-claim-env-cell ?item [/on_top_of ?dest]))))
+      (then (maintain-claim-spot ?item [/on_floor_of ?dest]))
+      (else (maintain-claim-spot ?item [/on_top_of ?dest]))))
 
 ; Where world-gen sets a new ?kind down in ?bldg: a free spot on a writing-desk or table in
 ; any of its rooms, else a room's floor. Mindless: the world is read as it stands and
 ; nothing is claimed - each call sees what the calls before it placed.
-(define-func seed-rest-cell (?bldg ?kind)
+(define-func seed-rest-spot (?bldg ?kind)
   (spatial ?bldg room /env): ?found
-  (for-each ?surface (env-entities [k loose-furniture])
-    (if (and (or (is-a ?surface [k writing-desk]) (is-a ?surface [k table]))
-             (= (spatial ?surface building /env) ?bldg))
-      (then
-        (if (env-cell ?kind [/on_top_of ?surface]): ?cell
-          (then
-            (bind ?cell ?found)
-            (break))))))
+  (for-each ?room (spatial ?bldg parts [k interior-space room] /env)
+    (if (is-spot ?found) (then (break)))
+    (for-each ?surface (spatial ?room contents [k loose-furniture] /env)
+      (if (or (is-a ?surface [k writing-desk]) (is-a ?surface [k table]))
+        (then
+          (if (find-spot ?kind [/on_top_of ?surface]): ?spot
+            (then
+              (bind ?spot ?found)
+              (break)))))))
   ?found)
 
-; Where @self stands inside a space: a claimed cell of his own size on its floor, the one
-; nearest him. Polled like rest-cell, and likewise the asking rung's claim.
-; @self could stand in ?space: a free floor cell of his size, asked without claiming it.
+; @self could stand in ?space: a free floor spot his size, asked without claiming it.
 (define-func can-stand-in (?space)
-  (is-cell (env-cell (env-cell-size @self) [/on_floor_of ?space] [/near @self] [/at_or_near @self])))
+  (is-spot (find-spot @self [/on_floor_of ?space] [/near @self] [/at_or_near @self])))
 
-(define-func stand-cell-in (?space)
-  (maintain-claim-env-cell (env-cell-size @self) [/on_floor_of ?space] [/near @self]
-                           [/at_or_near @self]))
+; Where @self stands inside a space: a claimed spot on its floor, the one nearest him.
+; Polled like rest-spot, and likewise the asking rung's claim.
+(define-func stand-spot-in (?space)
+  (maintain-claim-spot @self [/on_floor_of ?space] [/near @self] [/at_or_near @self]))
 
-; Where @self stands to be BY a thing: the free floor cell of its space nearest it. Not the
-; cell before its face - a thing set on furniture has the furniture there.
-(define-func stand-cell-by (?ent)
-  (maintain-claim-env-cell (env-cell-size @self) [/on_floor_of (spatial ?ent space)] [/near ?ent]
-                           [/at_or_near @self]))
+; Where @self stands to be BY a thing: the free floor spot of its space nearest it. Not the
+; spot before its face - a thing set on furniture has the furniture there.
+(define-func stand-spot-by (?ent)
+  (maintain-claim-spot @self [/on_floor_of (spatial ?ent space)] [/near ?ent] [/at_or_near @self]))
 
 ; ----------------------------------------------------------------------------
 ; seen-premises-at ?address - the building @self has PERCEIVED at that premises address,

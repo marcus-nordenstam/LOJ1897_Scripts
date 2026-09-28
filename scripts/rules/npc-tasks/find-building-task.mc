@@ -49,18 +49,17 @@
     (try
       (when (and (latch-eval (closest-unobserved [k container-structure] ?region): ?dest)
                  (observed ?dest /not)))
-      ; The cell is COMPOSED from the venue's /env bounds, not from a box he remembers -
-      ; he has never seen this one, that being the point of the chain. A cell carries no
+      ; The spot is COMPOSED from the venue's /env bounds, not from a box he remembers -
+      ; he has never seen this one, that being the point of the chain. A spot carries no
       ; mind of its own, so what comes back is the same public spot either way; the plane
       ; rode in on the bounds handle, which is where the decision to look at the world
       ; belongs. He looks at the venue itself on arrival.
-      ; (travel-cell ..) and not (env-cell ..): the latter SCANS the grid for an
-      ; unoccupied spot, which materialises chunks around a venue he is nowhere near and
-      ; for no gain - nothing is reserved at this range anyway. travel-cell encodes the
-      ; cell the approach point lies in and touches no grid at all.
+      ; (travel-spot ..) and not (find-spot ..): the latter SEARCHES a floor for room to
+      ; stand, around a venue he is nowhere near and for no gain - nothing is reserved at
+      ; this range anyway. travel-spot names the ground the approach point lies on.
       (effects
-        (travel-cell (spatial ?dest bounds /env)): ?spot
-        (check (is-abs-cell ?spot))
+        (travel-spot (spatial ?dest bounds /env)): ?spot
+        (check (is-spot ?spot))
         (maintain-proposal {@self WALK ?spot} [/postlude (observe ?dest)])))
     (try
       (effects (set-outcome ?find_task-rel /fail)))))

@@ -3,7 +3,7 @@
 ; spot he holds in a room inside it. Only go proposes it.
 ;
 ; FAR he approaches the structure; AT THE HULL he looks through the door, which is how a
-; man learns the room behind it, claims a cell on the floor of the nearest room he now
+; man learns the room behind it, claims a spot on the floor of the nearest room he now
 ; knows, and walks onto it. A structure's rooms are one navmesh island reached through its
 ; door passages, so the doorway is just a path.
 ;
@@ -18,7 +18,7 @@
   (spatial @self building ?bldg))
 
 ; The room of ?bldg nearest @self that he knows and has floor free to stand on, or @nothing.
-; A room whose floor holds no person-sized cell - too low a storey, or full - is passed over.
+; A room whose floor has no room for him - too low a storey, or full - is passed over.
 (define-func nearest-standable-room (?bldg)
   (bind @nothing ?room)
   (bind -1.0 ?best)
@@ -76,10 +76,10 @@
                   (nearest-standable-room ?bldg): ?room
                   (substantial ?room)))
       (when -{?bldg struct-status [k closed]})
-      (when (poll (stand-cell-in ?room): ?cell))
+      (when (poll (stand-spot-in ?room): ?spot))
       (effects
         (check (grounded ?room))
         (check (spatial ?room building ?bldg))
-        (check (is-rel-cell ?cell))
-        (check (= (cell-anchor ?cell) ?room))
-        (maintain-proposal {@self WALK ?cell})))))
+        (check (is-spot ?spot))
+        (check (= (spot-anchor ?spot) ?room))
+        (maintain-proposal {@self WALK ?spot})))))

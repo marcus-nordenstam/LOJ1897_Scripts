@@ -59,9 +59,9 @@
             (decorations
               (spatials space)
               (attrs visual-sensor sound-sensor parentless emigrating intoxication gambling-addiction))
-            (population (cap 4096) (raycast-visible) (sentient) (non-occluder) (occupies-env-grid)))
+            (population (cap 4096) (raycast-visible) (sentient) (non-occluder) (blocks-spots)))
           (child human-player
-            (population (cap 256) (raycast-visible) (player) (non-occluder) (occupies-env-grid))))
+            (population (cap 256) (raycast-visible) (player) (non-occluder) (blocks-spots))))
         (child dog
           (children whippet german-shepard))
         (child cat
@@ -101,7 +101,7 @@
         (attrs variant birth-date color condition writing grip-force addressee
                addressee-duty destination blemishes)
         (attr name (auto-percept) (ext-per obs)))
-      (population (cap 32768) (occupies-env-grid) (non-occluder))
+      (population (cap 32768) (blocks-spots) (non-occluder))
       (child container
         (children drinking-glass)
         # Table-service vessels - the poison-delivery layer's concrete
@@ -426,7 +426,7 @@
       (decorations
         (spatials gripped-by bounds)
         (attrs variant fluid-amount taint))
-      (population (cap 256) (occupies-env-grid) (non-occluder))
+      (population (cap 256) (blocks-spots) (non-occluder))
       (children beer)
       # Drink fluids - what sits in a table-service vessel. A poisoning
       # TAINTS the victim's drink: the chosen drink fluid's `taint` attr
@@ -494,7 +494,7 @@
       (decorations
         (spatials gripped-by space bounds)
         (attrs variant))
-      (population (cap 8192) (occupies-env-grid) (non-occluder))
+      (population (cap 8192) (blocks-spots) (non-occluder))
       (children bread cheese soup)
       (child meal (price 5)
         (children breakfast lunch luncheon dinner tea supper)))
@@ -508,14 +508,14 @@
         (attrs variant birth-date era-min era-max address nav-mesh blocks-nav-terrain)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
-      (population (cap 256) (always-visible) (children-occupy-env-grid))
+      (population (cap 256) (always-visible) (children-block-spots))
       (child path
         (child road
           (decorations
             (spatials -bounds spline)
             (attrs -birth-date -name -era-min -era-max -blocks-nav-terrain address-even-side address-start address-step
                    address-ascends-forward))
-          (population (cap 128) (-children-occupy-env-grid) (non-occluder)))
+          (population (cap 128) (-children-block-spots) (non-occluder)))
         (children trail))
       (child sporting-grounds
         (children racing-grounds cricket-grounds))
@@ -633,7 +633,7 @@
           (attr opening-status (auto-percept) (ext-per obs))
           (attr lock-status (auto-percept) (ext-per obs))
           (attr integrity (auto-percept) (ext-per obs)))
-        (population (cap 4096) (always-visible) (occupies-env-grid) (children-occupy-env-grid))
+        (population (cap 4096) (always-visible) (blocks-spots) (children-block-spots))
         (child counter
           (children bar-counter))
         (children wall)
@@ -653,7 +653,7 @@
       (decorations
         (attrs prototype)
         (spatials bounds))
-      (population (cap 1) (occupies-env-grid))))
+      (population (cap 1) (blocks-spots))))
   # Kinds of smells
   (child smell (+ per smell) (per smell)
     (decorations

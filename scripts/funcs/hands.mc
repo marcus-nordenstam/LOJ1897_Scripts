@@ -21,8 +21,8 @@
   (spatial-write ?item gripped-by ?hand /env)
   (observe ?item))
 
-; The hand opens: the grip edge is cleared and the thing is somewhere - ?dest, the cell
-; the task claimed for it at unpresented LOD and the point the reach chose at presented
+; The hand opens: the grip edge is cleared and the thing is somewhere - ?dest, the spot
+; the task claimed for it at unpresented LOD and the spot under the hand at presented
 ; LOD; relocate takes either and files the thing in the space it lands in. BOTH writes
 ; are needed: clearing the grip without setting the thing down leaves it held by nothing
 ; and standing nowhere.
@@ -31,9 +31,8 @@
   (relocate ?item ?dest)
   (observe ?item))
 
-; Where a thing released from ?hand comes to rest: the free cell where the whole thing fits,
-; at or nearest the hand. No rule holds a point; a cell names the spot and the grid says
-; whether it is free. @fail while the grid has no answer, which the caller treats as
-; "not yet".
-(define-func hand-rest-cell (?hand ?item)
-  (env-cell ?item [/at_or_near ?hand]))
+; Where a thing released from ?hand comes to rest: the free spot where the whole thing fits,
+; on the surface under the hand, nearest it. @fail while no spot there is free, which the
+; caller treats as "not yet".
+(define-func hand-rest-spot (?hand ?item)
+  (find-spot ?item [/at_or_near ?hand]))

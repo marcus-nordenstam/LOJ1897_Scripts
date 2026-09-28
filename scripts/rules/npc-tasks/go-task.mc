@@ -1,14 +1,14 @@
 ; ----------------------------------------------------------------------------
 ; go ?dest - THE movement task, and the only one a chain proposes. ?dest is anything a man
-; can be bound for: a cell, a building, a room, a person, a thing. go decomposes it and
+; can be bound for: a spot, a building, a room, a person, a thing. go decomposes it and
 ; never proposes itself, so no second go is ever nested under the first:
 ;
 ;   in the wrong building          -> exit it
 ;   out of doors, dest in building -> enter that building
 ;   dest unplaced, house not found -> find-building; inside the house -> wander it
-;   dest far                       -> approach it (long range, an abs-cell)
-;   dest near                      -> claim a rel-cell by it and WALK onto that cell
-;   dest a cell                    -> WALK
+;   dest far                       -> approach it (long range, a travel spot)
+;   dest near                      -> claim a spot by it and WALK onto that spot
+;   dest a spot                    -> WALK
 ;
 ; FAR and NEAR split at near_building_m, and far is the NEGATION of near: a grounded thing
 ; with no box answers @unknown to (distance ..), and a distance he cannot measure is not near.
@@ -26,18 +26,17 @@
 ; What go heads for: ?dest itself, or - for a thing he has not perceived but believes is in
 ; some space - that space, until he stands in it and sees the thing there.
 (define-func go-target (?dest)
-  (cond (case (is-cell ?dest) ?dest)
+  (cond (case (is-spot ?dest) ?dest)
         (case (grounded ?dest) ?dest)
         (case (is-a ?dest [k space]) ?dest)
         (case (is-a ?dest [k structure]) ?dest)
         (else (tolerate (spatial ?dest space)))): ?t
   (if (substantial ?t) (then ?t) (else ?dest)))
 
-; The building ?dest lies in as @self believes it, @nothing for a dest out of doors. An
-; abs-cell says nothing about buildings and answers @nothing too: it is the long-range form.
+; The building ?dest lies in as @self believes it, @nothing for a dest out of doors. A spot
+; lies in its anchor's building, and a spot on the ground in none.
 (define-func go-building (?dest)
-  (cond (case (is-rel-cell ?dest) (tolerate (spatial (cell-anchor ?dest) building)))
-        (case (is-abs-cell ?dest) @nothing)
+  (cond (case (is-spot ?dest) (tolerate (spatial (spot-anchor ?dest) building)))
         (case (not (grounded ?dest)) (go-house-at-premises ?dest))
         (case (is-a ?dest [k container-structure]) ?dest)
         (else (tolerate (spatial ?dest building)))): ?b
@@ -52,7 +51,7 @@
 ; At a thing means in its space and either within reach of it or on the spot by it this go
 ; walked him onto - the nearest free floor to a thing set on furniture can be out of reach.
 (define-func go-arrived (?dest ?go-rel)
-  (cond (case (is-cell ?dest) (overlaps ?dest @self))
+  (cond (case (is-spot ?dest) (overlaps ?dest @self))
         (case (is-a ?dest [k container-structure]) (spatial @self building ?dest))
         (case (is-a ?dest [k space]) (spatial @self space ?dest))
         (else (and (spatial ?dest co-located @self)
@@ -60,9 +59,9 @@
                        (substantial (any {@self WALK ? /succ /caused_by ?go-rel})))))): ?there
   ?there)
 
-; A target go can decompose: a cell, a thing he has placed, or one whose address he knows.
+; A target go can decompose: a spot, a thing he has placed, or one whose address he knows.
 (define-func go-reachable (?t)
-  (or (is-cell ?t) (grounded ?t) (substantial (any {?t address}))))
+  (or (is-spot ?t) (grounded ?t) (substantial (any {?t address}))))
 
 (define-func go-near (?dest)
   (< (distance @self ?dest) (near_building_m)))
@@ -70,9 +69,7 @@
 (npc-task {@self go ?dest}:?go-rel
   (tar @excl)
   (init
-    (check (or (is-cell ?dest) (is-a ?dest [k thing])))
-    ; A rel-cell is measured from its anchor, so only a mind that grounded the anchor may hold one.
-    (check (or (not (is-rel-cell ?dest)) (substantial (cell-anchor ?dest))))
+    (check (or (is-spot ?dest) (is-a ?dest [k thing])))
     (check (go-reachable (go-target ?dest))))
   (cease (if (go-arrived ?dest ?go-rel) (then (set-outcome ?go-rel /succ))))
   (and
@@ -81,11 +78,10 @@
     (try
       (when (poll (go-arrived ?dest ?go-rel)))
       (effects (set-outcome ?go-rel /succ)))
-    ; WRONG BUILDING: leave the one he stands in first. An abs-cell is walked from anywhere.
+    ; WRONG BUILDING: leave the one he stands in first.
     (try
       (when (poll (not (go-arrived ?dest ?go-rel))
                   (go-target ?dest): ?t
-                  (not (is-abs-cell ?t))
                   (spatial @self building): ?here
                   (not (= (go-building ?t) ?here))))
       (effects
@@ -96,7 +92,6 @@
     (try
       (when (poll (not (go-arrived ?dest ?go-rel))
                   (go-target ?dest): ?t
-                  (not (is-abs-cell ?t))
                   (unsubstantial (spatial @self building))
                   (go-building ?t): ?b
                   (substantial ?b)))
@@ -109,7 +104,7 @@
     (try
       (when (poll (not (go-arrived ?dest ?go-rel))
                   (go-target ?dest): ?t
-                  (not (is-cell ?t))
+                  (not (is-spot ?t))
                   (not (grounded ?t))
                   (go-building ?t): ?b
                   (substantial ?b)
@@ -122,7 +117,7 @@
     (try
       (when (poll (not (go-arrived ?dest ?go-rel))
                   (go-target ?dest): ?t
-                  (not (is-cell ?t))
+                  (not (is-spot ?t))
                   (not (grounded ?t))
                   (go-building ?t): ?b
                   (substantial ?b)
@@ -132,7 +127,7 @@
     (try
       (when (poll (not (go-arrived ?dest ?go-rel))
                   (go-target ?dest): ?t
-                  (not (is-cell ?t))
+                  (not (is-spot ?t))
                   (not (grounded ?t))
                   (unsubstantial (go-building ?t))
                   (unsubstantial (spatial @self building))
@@ -145,7 +140,7 @@
     (try
       (when (poll (not (go-arrived ?dest ?go-rel))
                   (go-target ?dest): ?t
-                  (not (is-cell ?t))
+                  (not (is-spot ?t))
                   (grounded ?t)
                   (not (is-a ?t [k container-structure]))
                   (go-in-building (go-building ?t))
@@ -157,22 +152,22 @@
     (try
       (when (poll (not (go-arrived ?dest ?go-rel))
                   (go-target ?dest): ?t
-                  (not (is-cell ?t))
+                  (not (is-spot ?t))
                   (grounded ?t)
                   (is-a ?t [k space])
                   (go-in-building (go-building ?t))
                   (go-near ?t)))
-      (when (poll (stand-cell-in ?t): ?cell))
+      (when (poll (stand-spot-in ?t): ?spot))
       (effects
-        (check (is-rel-cell ?cell))
-        (check (= (cell-anchor ?cell) ?t))
-        (maintain-proposal {@self WALK ?cell})))
-    ; NEAR a thing he cannot see from where he stands: a rel-cell is measured from a box he
+        (check (is-spot ?spot))
+        (check (= (spot-anchor ?spot) ?t))
+        (maintain-proposal {@self WALK ?spot})))
+    ; NEAR a thing he cannot see from where he stands: the spot by it is found from a box he
     ; perceives, so first walk to where he remembers it, which puts it in view.
     (try
       (when (poll (not (go-arrived ?dest ?go-rel))
                   (go-target ?dest): ?t
-                  (not (is-cell ?t))
+                  (not (is-spot ?t))
                   (grounded ?t)
                   (not (is-a ?t [k space]))
                   (not (is-a ?t [k container-structure]))
@@ -182,14 +177,14 @@
                   (spatial ?t bounds /most-recent-memory): ?remembered
                   (substantial ?remembered)))
       (effects
-        (travel-cell ?remembered): ?spot
-        (check (is-abs-cell ?spot))
+        (travel-spot ?remembered): ?spot
+        (check (is-spot ?spot))
         (maintain-proposal {@self WALK ?spot})))
     ; NEAR a thing in view: a spot on the floor beside it.
     (try
       (when (poll (not (go-arrived ?dest ?go-rel))
                   (go-target ?dest): ?t
-                  (not (is-cell ?t))
+                  (not (is-spot ?t))
                   (grounded ?t)
                   (not (is-a ?t [k space]))
                   (not (is-a ?t [k container-structure]))
@@ -197,16 +192,16 @@
                   (go-near ?t)
                   (substantial (spatial ?t bounds))
                   (spatial ?t space): ?around))
-      (when (poll (stand-cell-by ?t): ?cell))
+      (when (poll (stand-spot-by ?t): ?spot))
       (effects
-        (check (is-rel-cell ?cell))
-        (check (= (cell-anchor ?cell) ?around))
-        (maintain-proposal {@self WALK ?cell})))
+        (check (is-spot ?spot))
+        (check (= (spot-anchor ?spot) ?around))
+        (maintain-proposal {@self WALK ?spot})))
     ; NEAR a placed thing he cannot put in any space: nowhere to stand beside it.
     (try
       (when (poll (not (go-arrived ?dest ?go-rel))
                   (go-target ?dest): ?t
-                  (not (is-cell ?t))
+                  (not (is-spot ?t))
                   (grounded ?t)
                   (not (is-a ?t [k space]))
                   (not (is-a ?t [k container-structure]))
@@ -214,12 +209,12 @@
                   (go-near ?t)
                   (unsubstantial (spatial ?t space))))
       (effects (expect @false "go: a near thing in no space he knows")))
-    ; A CELL in his own building, out of doors with him, or an abs-cell: one leg.
+    ; A SPOT in his own building, or out of doors with him: one leg.
     (try
       (when (poll (not (go-arrived ?dest ?go-rel))
                   (go-target ?dest): ?t
-                  (is-cell ?t)
-                  (or (is-abs-cell ?t) (go-in-building (go-building ?t)))))
+                  (is-spot ?t)
+                  (go-in-building (go-building ?t))))
       (effects
-        (check (is-cell ?t))
+        (check (is-spot ?t))
         (maintain-proposal {@self WALK ?t})))))

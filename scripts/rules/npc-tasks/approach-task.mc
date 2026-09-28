@@ -3,8 +3,8 @@
 ; placed, whether a building he is bound for, a man he wants a word with or a stack he
 ; means to read. Only go and enter propose it, and it proposes nothing but WALK.
 ;
-; It heads for an ABS-CELL and reserves nothing: a rel-cell is the near, precise form, and
-; claiming one is the proposer's business once he is close. The spot is read from the box
+; It heads for a TRAVEL SPOT and reserves nothing: a claimed spot is the near, precise form,
+; and claiming one is the proposer's business once he is close. The spot is read from the box
 ; he REMEMBERS, so a thing seen once can be walked to while it is out of sight; a structure
 ; he has never had a box for is read from the world's, since where a building stands is
 ; public knowledge.
@@ -21,7 +21,7 @@
         (else @nothing)): ?known
   ?known)
 
-; Near enough that the proposer claims a rel-cell on it instead.
+; Near enough that the proposer claims a spot by it instead.
 (define-func within-reach-of-claim (?ent)
   (< (distance @self ?ent) (near_building_m)))
 
@@ -29,7 +29,7 @@
   (tar @excl [k thing] @object)
   (lint-waive env-read-outside-action)
   (init
-    (check (not (is-cell ?ent)))
+    (check (not (is-spot ?ent)))
     (check (is-a ?ent [k thing]))
     (check (grounded ?ent)))
   (when (poll (not (within-reach-of-claim ?ent))))
@@ -39,8 +39,8 @@
       (when (poll (approach-box ?ent): ?box
                   (substantial ?box)))
       (effects
-        (travel-cell ?box): ?spot
-        (check (is-abs-cell ?spot))
+        (travel-spot ?box): ?spot
+        (check (is-spot ?spot))
         (maintain-proposal {@self WALK ?spot})))
     (try
       (when (poll (unsubstantial (approach-box ?ent))))
