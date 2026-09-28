@@ -20,11 +20,11 @@
   ;; the peer's class is read from @self's own view (3-arg situation, banded in via
   ;; believe_about), so a same-class match needs the two to be acquainted (an
   ;; unknown child's class @fails). No cross-mind read.
-  (role @self
-      (schoolchild-age @self)
+  (role @self {@self enthusiasm ?enthusiasm}
+      {@self age-band [k juvenile|adolescent]}
       {@self age-band ?peer_band}
     (role ?b {?b isa [k human], condition [k alive]}
-             (schoolchild-age ?b)
+             {?b age-band [k juvenile|adolescent]}
              ; Same class: @self's belief that ?b's class matches his own (dynamic-
              ; target shape-2, cacheable - replaces the (= (target..)(target..)) pair).
              {?b class-situation (any {@self class-situation}).target}
@@ -42,7 +42,7 @@
       ; Non-belief gate, not a @self role filter: the enthusiasm-scaled chance.
       ; High enthusiasm (the sociable Extraversion aspect) makes friends more readily;
       ; mean-1.0 multiplier - friendship volume is unchanged.
-      (when (chance (* 0.0125 (+ 0.5 (target-or @self enthusiasm 0.0)))))
+      (when (chance (* 0.0125 (+ 0.5 ?enthusiasm))))
 
       (effects
         ; befriend mints the mutual tie (friend, or acquaintance if either side is

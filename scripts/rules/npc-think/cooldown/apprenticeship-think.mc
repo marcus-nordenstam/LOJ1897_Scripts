@@ -79,14 +79,14 @@
   (cooldown 1 m try-once)
   (rng-stream apprenticeship)
 
-  ;; The trainee is the sole deliberator (@self). The trainee-rank read / job-tenure
-  ;; (.start macro) / chance gate the fire in (when), not role selection.
-  (role @self 
+  ;; The trainee is the sole deliberator (@self): his job and its rank bind on his role, the
+  ;; tenure and the chance gate the fire in (when).
+  (role @self {@self job ?job}
+              {?job level [k trainee]}:?rank
 
     ;; A trainee who has held the trainee rank at least three years; the chance
     ;; spreads completion over the following years (0.033/mo ~= the old 0.4/yr).
-    (when (and (= (any {(any {@self job ?}).target level ?}).target [k trainee])
-               (>= (job-tenure @self) 3)
+    (when (and (>= (- (year (time date)) (year (start-time ?rank))) 3)
                (chance 0.033)))
 
     (effects

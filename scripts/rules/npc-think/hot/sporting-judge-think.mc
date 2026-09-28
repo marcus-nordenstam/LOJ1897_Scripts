@@ -19,8 +19,8 @@
 (npc-think sporting_judge
   (goal {@self judge-meet})
   (role ?winner [k human]
-                {?winner race-result ? ?sport}
-                (select (score (any {?winner race-result}).target) (policy argmax))
+                {?winner race-result ?result ?sport}
+                (select (score ?result) (policy argmax))
     (effects (maintain-proposal {@self JUDGE-DECLARE ?winner ?sport}))))
 
 ; Scoreboard clear: once the declaration is made, the organiser retires the
@@ -51,12 +51,14 @@
   ; declarations from meets he attended (the auto-witness drops the sport aux, so it
   ; is not bound here); pairing that with his own RACE-RUN memory means he competed
   ; at a meet where another was crowned.
-  (role ?winner {?winner isa [k human], condition [k alive]}
-                {? JUDGE-DECLARE ?winner}
-                -{?winner outdo @self}
-    (when (and (!= ?winner @self)
-               ; @self competed at a meet (his own ended RACE-RUN memory).
-               {@self RACE-RUN ? ? /succ /ever}
-               (chance (+ 0.15 (* 0.85 (target-or @self narcissism 0.0) (target-or @self assertiveness 0.0))))))
-    (effects
-      (begin-belief {?winner outdo @self}))))
+  (role @self {@self narcissism ?narcissism}
+              {@self assertiveness ?assertiveness}
+    (role ?winner {?winner isa [k human], condition [k alive]}
+                  {? JUDGE-DECLARE ?winner}
+                  -{?winner outdo @self}
+      (when (and (!= ?winner @self)
+                 ; @self competed at a meet (his own ended RACE-RUN memory).
+                 {@self RACE-RUN ? ? /succ /ever}
+                 (chance (+ 0.15 (* 0.85 ?narcissism ?assertiveness)))))
+      (effects
+        (begin-belief {?winner outdo @self})))))

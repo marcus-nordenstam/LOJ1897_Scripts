@@ -28,20 +28,22 @@
                    (unknown (spatial ?paramour space))))
         (effects (maintain-proposal {@self go ?phome}))))
     (try
-      (when (and (alive ?paramour)
-                 -{@self lover ?paramour}
-                 (spatial ?paramour co-located @self)
-                 (not (spatial (spouse-of @self) co-located @self))
-                 -{?paramour gender (any {@self gender}).target}
-                 (none {@self (kin-labels) ?paramour})
-                 -{@self HAVE-SEX-WITH ?paramour /succ /caused_by ?seduce-rel}))
-      (utility errand always-pick)
-      (effects (maintain-proposal {@self HAVE-SEX-WITH ?paramour})))
+      (no-role [k human] {@self spouse ?norole} (spatial ?norole co-located @self))
+      (role @self {@self gender ?gender}
+        (when (and (alive ?paramour)
+                   -{@self lover ?paramour}
+                   (spatial ?paramour co-located @self)
+                   -{?paramour gender ?gender}
+                   (none {@self (kin-labels) ?paramour})
+                   -{@self HAVE-SEX-WITH ?paramour /succ /caused_by ?seduce-rel}))
+        (utility errand always-pick)
+        (effects (maintain-proposal {@self HAVE-SEX-WITH ?paramour}))))
     (try
       (when {@self lover ?paramour})
       (effects (set-outcome ?seduce-rel /succ)))
     (try
-      (when (or (not (alive ?paramour))
-                {?paramour gender (any {@self gender}).target}
-                {@self (kin-labels) ?paramour}))
-      (effects (set-outcome ?seduce-rel /fail)))))
+      (role @self {@self gender ?gender}
+        (when (or (not (alive ?paramour))
+                  {?paramour gender ?gender}
+                  {@self (kin-labels) ?paramour}))
+        (effects (set-outcome ?seduce-rel /fail))))))

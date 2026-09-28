@@ -40,7 +40,7 @@
                   (not (spatial ?room contents [k human] @self ?paramour))
                   (select (policy first-match))
         (when (or (not (spatial ?paramour co-located @self))
-                  (spatial (spouse-of @self) co-located @self)))
+                  (spouse-co-located)))
         (utility want always-pick)
         (effects
           (observe ?room): ?obs-room
@@ -56,9 +56,9 @@
                     {?paramour isa [k human], condition [k alive]}
                     {@self lover ?paramour}
                     -{@self spouse ?paramour}
-      ; Discretion: not in the same ROOM as the wronged spouse. (spouse-of @self) is fail
-      ; for an unmarried cheater, so the gate passes them through.
-      (when (not (spatial (spouse-of @self) co-located @self)))
+      ; Discretion: not in the same ROOM as the wronged spouse; an unmarried cheater has
+      ; none, so the gate passes them through.
+      (when (not (spouse-co-located)))
       (utility want always-pick)
       (effects
         (maintain-proposal {@self HAVE-SEX-WITH ?paramour})))))

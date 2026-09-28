@@ -21,11 +21,14 @@
   (rng-stream behaviour)
   (cease-after-fire)
 
-  (role @self   (old_human @self)
+  (role @self   {@self industriousness ?industriousness}
+              {@self isa [k human], condition [k alive]}
+                {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     ; The home filter keeps the pursuit PERFORMABLE: the errand calls on the
     ; creditor at home, and there is no directory - an unknown address would
     ; strand the goal forever behind the no-goal gate.
-    (role ?creditor (old_human ?creditor)
+    (role ?creditor {?creditor isa [k human], condition [k alive]}
+                    {?creditor age-band [k youth|young-adult|middle-aged|mature|elderly]}
                     {?creditor home ?}
                     -{@self owe ?creditor}
 
@@ -33,7 +36,7 @@
       ; more often. One evaluation round per cooldown period; the no-goal gate caps
       ; the round at one landed pursuit.
       (when (and -{@self goal {@self TAKE-LOAN ?}}
-                 (chance (* 0.005 (- 1.5 (target-or @self industriousness 0.0))))))
+                 (chance (* 0.005 (- 1.5 ?industriousness)))))
 
       (utility errand)
       (effects (begin-goal {@self TAKE-LOAN ?creditor})))))

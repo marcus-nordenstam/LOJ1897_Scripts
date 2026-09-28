@@ -80,28 +80,7 @@
   (record [k org hotel]            [k job maid])
   (record [k org race-club]        [k job jockey]))
 
-(include "adopt-aoc.mc")
 
-; name-premises - an org that NAMES its building (businesses names-building = yes: a pub, a
-; hotel, a factory) gives the building its `name` and hangs the building-name-sign. The
-; name is the BUILDING's from then on - it is the premises' identity, not the org's, so a
-; building already named keeps its name (first namer wins; a later tenant works "at the
-; Laughing Pig"). The sign is a structural PART of the building at a zero local offset,
-; which puts it on the fixture walk perception runs when the building itself is perceived.
-; An org that does not name its building mounts nothing: the building's address-sign (seeded
-; at world setup) is its identity, and an org has no sign of its own.
-(define-func name-premises (?bldg ?org-kind ?org-name)
-  (do
-    (bind ?bldg ?np-bldg)
-    (bind ?org-name ?np-name)
-    (table-match businesses org-kind ?org-kind names-building ?np-names)
-    (if (and (substantial ?np-name)
-             (= ?np-names yes)
-             (not (substantial (attr ?np-bldg name))))
-      (then
-        (set-attr ?np-bldg name ?np-name)
-        (create-entity [k building-name-sign] @nothing ?np-bldg): ?np-sign
-        (set-attr ?np-sign name ?np-name)))))
 
 ; found-org-seq - read the house-agency's for-sale REGISTER for a premises of the org's
 ; building kind (businesses-table `building`, unlisted -> office), claim it, and found the
@@ -143,10 +122,6 @@
 ;      (for-each ?listings (env-entities [k for-sale-listings])
 ;        (table-add ?listings building (attr ?b address))))))
 
-; delist ?b - pull building ?b's row off every for-sale register.
-(define-func delist (?b)
-  (for-each ?listings (env-entities [k for-sale-listings])
-    (table-remove ?listings building (attr ?b address))))
 
 ; claim-deed ?b - @self's name goes on the land registry's deed for building ?b.
 ; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
@@ -156,58 +131,8 @@
 ;    (check (substantial ?cd-deed))
 ;    (table-set ?cd-deed owner (name @self))))
 
-; file-articles - write an org's articles and file them at the companies house (the company
-; registry's incorporation stack), not the org's own premises - the town's org record lives
-; there. The page names the founder by his name (@nothing for a charter), the premises by
-; their address and the book by its kind; the book itself is titled with the org's name,
-; which is how a reader of the articles knows it when he sees it.
-(define-func file-articles (?art ?fa-kind ?fa-name ?fa-wp ?fa-book)
-  (do
-    (set-attr ?fa-book name ?fa-name)
-    (attr ?fa-wp address): ?fa-addr
-    (kind ?fa-book): ?fa-book-kind
-    (set-writing ?art (table-msg articles_form [[org-kind ?fa-kind] [org-name ?fa-name]
-                                                [workplace ?fa-addr] [register ?fa-book-kind]]))
-    (head (env-entities [k incorporation-stack])): ?fa-ist
-    (check ?fa-ist)
-    (push ?art ?fa-ist)))
 
-; take-premises - the head takes possession of the org's building: he SEES it and its rooms
-; (a placement write resolves passively, so an unseen room cannot be written about) and
-; learns which building they belong to. Owning the premises stands in for exploring them.
-(define-func take-premises (?wp)
-  (do
-    (observe ?wp)
-    (for-each ?room (spatial ?wp parts [k interior-space room] /env)
-      (observe ?room)
-      (spatial-write ?room struct_parent ?wp))))
 
-; seat-org-head - the MENTAL half of founding, shared by every route into a head seat. The
-; head gets his org object the same way anyone else does: he LOOKS AT the articles and READS
-; them through adopt-aoc, the one decoder (ORIENT and hire-beliefs call it too) - no
-; privileged minting. adopt-aoc anchors the org to the articles, so the org is READ BACK off
-; that anchor rather than searched for a second time. Heading is NOT employment - no salary.
-(define-func seat-org-head (?art ?wp ?reg ?head-role)
-  (do
-    (observe ?art)
-    (observe ?reg)
-    (adopt-aoc ?art)
-    (o {?art declares-org @o}): ?org
-    (begin-belief {?org record ?art})
-    (fill-post ?reg ?head-role [k senior])
-    (begin-belief {?wp occupant @self})
-    ; The head's seat is a ledger line like any other - keyed on it, so his own job object
-    ; is the one every later reader of this book lands on.
-    (if (table-match (attr ?reg writing) worker (name @self) job ?head-role job-id ?soh-line
-                                          shift ?soh-shift)
-        (then
-          (o ?head-role {@o org ?org} {@o job-id ?soh-line}): ?job
-          (begin-belief {?job org ?org})
-          (begin-belief {?job job-id ?soh-line})
-          (begin-belief {@self job ?job})
-          (begin-belief {?job level [k senior]})
-          (begin-belief {?job since (time year)})
-          (stamp-shift-hours ?job ?head-role ?soh-shift)))))
 
 ; ----------------------------------------------------------------------------
 ; found-club-seq - the CLUB analogue of found-org-seq.
@@ -371,48 +296,9 @@
 ; beliefs; the sacked worker reconciles his own stale row.)
 ; ----------------------------------------------------------------------------
 
-; strike-from-register - the EMPLOYER's half of a dismissal. @self walks his OWN
-; belief chain to his OWN firm's employee-register (a public doc) and strikes the
-; worker's row. He cannot end the worker's {job} belief - that is the worker's own
-; to reconcile off the struck row, the same way an emigrant's stale row lapses.
-(define-macro strike-from-register (?worker)
-  (for-each ?sr-jrel (every {@self job ?})
-      (bind ?sr-jrel.target ?sr-job)
-      (for-each ?sr-orel (every {?sr-job org ?})
-          (bind ?sr-orel.target ?sr-org)
-          (for-each ?sr-rrel (every {?sr-org employee-register ?})
-              (bind ?sr-rrel.target ?sr-reg)
-              (vacate-post ?sr-reg ?worker)))))
-
-; stamp-work-hours - the shift stamp. Reads the authored occupation_shifts rows for
-; ?job-kind (falling back to the `default` Mon-Sat week when the kind has none) and
-; mints one {?job <day>-hours <start> <end>} belief per day of ONE shift. A kind
-; authored under several shift-ids (nurse / factory-worker: day AND night) puts the
-; worker on exactly one, drawn here.
-; stamp-shift-hours - the day-hours beliefs of ONE authored shift of ?job-kind on ?job:
-; what a reader of the offer letter mints from its shift line, and what the officer holds
-; of the seat he keeps.
-(define-macro stamp-shift-hours (?job ?job-kind ?ssh-shift)
-  (do
-    (if (table-match occupation_shifts job ?job-kind)
-        (then ?job-kind)
-        (else [k job])): ?ssh-key
-    (for-each-row occupation_shifts
-        [/job ?ssh-j] [/shift-id ?ssh-sid] [/day-label ?ssh-day]
-        [/start-h ?ssh-start] [/end-h ?ssh-end]
-      (if (and (= ?ssh-j ?ssh-key) (= ?ssh-sid ?ssh-shift))
-          (then (begin-belief {?job ?ssh-day ?ssh-start ?ssh-end}))))))
 
 
-(define-func fire-self ()
-  (for-each ?fire-jrel (every {@self job ?})
-      (bind ?fire-jrel.target ?fire-job)
-      (for-each ?fire-orel (every {?fire-job org ?})
-          (bind ?fire-orel.target ?fire-org)
-          (for-each ?fire-rrel (every {?fire-org employee-register ?})
-              (bind ?fire-rrel.target ?fire-reg)
-              (vacate-post ?fire-reg @self)))
-      (end-belief ?fire-jrel)))
+
 ; ----------------------------------------------------------------------------
 ; THE ESTABLISHMENT - the org's POSTS, carried on its employee-register.
 ;
@@ -436,52 +322,5 @@
 ; from (abs-seconds ?cell), the same composition every other recency test uses.
 ; ----------------------------------------------------------------------------
 
-; establish-posts - stamp a fresh register with THE schema and file the org's authored
-; staff posts on it, all vacant. The header and the rows that fill it are written
-; together, in one place: spelled per-site, they drifted (`line` against `job-id`) and
-; every business's establishment came out blank.
-(define-func establish-posts (?reg ?org-kind)
-  (do
-    (table-init ?reg job-id job worker level hiring-date offered offer-date advertise-date shift)
-    (if (table-match org_staffing org-kind ?org-kind staff-role ?ep-role)
-      (then
-        (bind 0 ?ep-line)
-        (repeat (if (table-match public_orgs kind ?org-kind employee-count ?ep-n)
-                    (then ?ep-n)
-                    (else (k-default-staff-posts)))
-          (do
-            (bind (+ ?ep-line 1) ?ep-line)
-            (table-add ?reg job-id ?ep-line worker @nothing job ?ep-role
-                            shift (draw-shift ?ep-role))))))))
 
-; fill-post - @self takes a job: his name goes into the vacant line's worker cell, IN
-; PLACE. The line must not move - a job IS its line on this ledger, so striking and
-; re-appending would hand the advertised job to a different line and the notice would
-; never come down. No vacant line of that kind (a head's seat, a job outside the
-; establishment) -> nothing to fill, so a line is added, numbered after the last.
-; Already on the book for it -> nothing to do (a second signing never duplicates a line).
-;
-; Signing a man on SPENDS whatever promise stood against the line: the offer has been
-; taken up, so the pencil goes and the seat is his outright.
-(define-macro fill-post (?reg ?job-kind ?level)
-  (if (not (table-match (attr ?reg writing) worker (name @self) job ?job-kind))
-      (then
-        (if (not (table-set ?reg (where worker @nothing job ?job-kind)
-                                 worker (name @self) level ?level
-                                 hiring-date (time date)
-                                 offered @nothing offer-date @nothing))
-            (then
-              (bind 0 ?fp-line)
-              (for-each-row (attr ?reg writing) [/job-id ?fp-seen]
-                (bind ?fp-seen ?fp-line))
-              (table-add ?reg job-id (+ ?fp-line 1)
-                              worker (name @self) job ?job-kind level ?level
-                              hiring-date (time date)
-                              shift (draw-shift ?job-kind)))))))
 
-; vacate-post - a departure leaves the JOB behind: the worker's cell is emptied where it
-; stands, keeping the line, its number and its job kind. Striking the line outright would
-; retire the job along with the man, and the officer would never read an opening.
-(define-macro vacate-post (?reg ?worker)
-  (table-set ?reg (where worker (name ?worker))
-                  worker @nothing level @nothing hiring-date @nothing))

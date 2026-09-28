@@ -25,7 +25,9 @@
   (effects
     (check (spatial @self space ?kitchen /env))
     (bind 0 ?pile)
-    (pile-at-into ?kitchen [k food] ?pile)
+    (for-each ?pile_cand (spatial ?kitchen contents [k pile] /env)
+      (if (attr-is ?pile_cand content-kind [k food])
+          (then (bind ?pile_cand ?pile))))
     (if (not ?pile)
         (then (create-entity [k pile] ?spot): ?pile
               (set-attr ?pile content-kind [k food])))

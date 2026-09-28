@@ -30,8 +30,10 @@
   ;; @self - a romantically-open single, not already deep in a crush. The trait
   ;; chance (openness x enthusiasm x compassion) gates the receptive crush in
   ;; (when ...) below - a non-belief filter, so it never sits in the role.
-  (role @self
-              (working-age @self)
+  (role @self {@self openness ?openness}
+              {@self enthusiasm ?enthusiasm}
+              {@self compassion ?compassion}
+              {@self age-band [k youth|young-adult|middle-aged]}
               -{@self desire ?}
               -{@self lover ?}
               -{@self spouse ?}
@@ -54,9 +56,9 @@
       ; The trait chance (openness x enthusiasm x compassion) is a non-belief filter,
       ; rolled once per NPC per month in (when) rather than as a role criterion.
       (when (chance (* 0.30
-                       (target-or @self openness 0.0)
-                       (target-or @self enthusiasm 0.0)
-                       (target-or @self compassion 0.0))))
+                       ?openness
+                       ?enthusiasm
+                       ?compassion)))
 
       (effects
         ; Feed the one-sided attraction scalar: a crush is a strong directed pull.

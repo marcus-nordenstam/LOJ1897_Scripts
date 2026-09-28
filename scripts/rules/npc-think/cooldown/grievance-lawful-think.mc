@@ -20,32 +20,36 @@
 (npc-think report_injustice
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role ?target {?target isa [k human], condition [k alive]}
-    {@self pressure [k injustice] ?target}:?pressure
-    (when (or {@self report-crime ?target /succ /caused_by ?pressure}
-              {@self report-crime ?target}
-              (chance (* (k-grievance-rate)
-                         (* 0.5 (grievance-drive ?pressure ?target (pro-tilt)))))))
-    (utility want (* (disinhibition) 1000.0))
-    (effects
-      (if {@self report-crime ?target /succ /caused_by ?pressure}
-          (then (discharge-pressure ?pressure 0.75))
-          (else (maintain-proposal {@self report-crime ?target /caused_by ?pressure}))))))
+  (role @self {@self inhibition ?inhibition}
+              {@self prosocial-tilt ?prosocial-tilt}
+    (role ?target {?target isa [k human], condition [k alive]}
+      {@self pressure [k injustice] ?target}:?pressure
+      (when (or {@self report-crime ?target /succ /caused_by ?pressure}
+                {@self report-crime ?target}
+                (chance (* (k-grievance-rate)
+                           (* 0.5 (grievance-drive ?pressure ?target ?prosocial-tilt))))))
+      (utility want (* (- 1.0 ?inhibition) 1000.0))
+      (effects
+        (if {@self report-crime ?target /succ /caused_by ?pressure}
+            (then (discharge-pressure ?pressure 0.75))
+            (else (maintain-proposal {@self report-crime ?target /caused_by ?pressure})))))))
 
 (npc-think report_for_relief
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role ?target {?target isa [k human], condition [k alive]}
-    {@self pressure [k resource-scarcity] ?target}:?pressure
-    (when (or {@self report-crime ?target /succ /caused_by ?pressure}
-              {@self report-crime ?target}
-              (chance (* (k-grievance-rate)
-                         (* 0.3 (grievance-drive ?pressure ?target (pro-tilt)))))))
-    (utility want (* (disinhibition) 1000.0))
-    (effects
-      (if {@self report-crime ?target /succ /caused_by ?pressure}
-          (then (discharge-pressure ?pressure 0.75))
-          (else (maintain-proposal {@self report-crime ?target /caused_by ?pressure}))))))
+  (role @self {@self inhibition ?inhibition}
+              {@self prosocial-tilt ?prosocial-tilt}
+    (role ?target {?target isa [k human], condition [k alive]}
+      {@self pressure [k resource-scarcity] ?target}:?pressure
+      (when (or {@self report-crime ?target /succ /caused_by ?pressure}
+                {@self report-crime ?target}
+                (chance (* (k-grievance-rate)
+                           (* 0.3 (grievance-drive ?pressure ?target ?prosocial-tilt))))))
+      (utility want (* (- 1.0 ?inhibition) 1000.0))
+      (effects
+        (if {@self report-crime ?target /succ /caused_by ?pressure}
+            (then (discharge-pressure ?pressure 0.75))
+            (else (maintain-proposal {@self report-crime ?target /caused_by ?pressure})))))))
 
 ; ---- confess-letter --------------------------------------------------------
 ; Put it in writing. Confessing because the secret is about to break and confessing
@@ -53,29 +57,33 @@
 (npc-think confess_at_risk
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role ?target {?target isa [k human], condition [k alive]}
-    {@self pressure [k exposure-risk] ?target}:?pressure
-    (when (or {@self confess-letter ?target /succ /caused_by ?pressure}
-              {@self confess-letter ?target}
-              (chance (* (k-grievance-rate)
-                         (* 0.2 (grievance-drive ?pressure ?target (pro-tilt)))))))
-    (utility want (* (disinhibition) 1000.0))
-    (effects
-      (if {@self confess-letter ?target /succ /caused_by ?pressure}
-          (then (discharge-pressure ?pressure 0.75))
-          (else (maintain-proposal {@self confess-letter ?target /caused_by ?pressure}))))))
+  (role @self {@self inhibition ?inhibition}
+              {@self prosocial-tilt ?prosocial-tilt}
+    (role ?target {?target isa [k human], condition [k alive]}
+      {@self pressure [k exposure-risk] ?target}:?pressure
+      (when (or {@self confess-letter ?target /succ /caused_by ?pressure}
+                {@self confess-letter ?target}
+                (chance (* (k-grievance-rate)
+                           (* 0.2 (grievance-drive ?pressure ?target ?prosocial-tilt))))))
+      (utility want (* (- 1.0 ?inhibition) 1000.0))
+      (effects
+        (if {@self confess-letter ?target /succ /caused_by ?pressure}
+            (then (discharge-pressure ?pressure 0.75))
+            (else (maintain-proposal {@self confess-letter ?target /caused_by ?pressure})))))))
 
 (npc-think confess_remorse
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role ?target {?target isa [k human], condition [k alive]}
-    {@self pressure [k moral-violation] ?target}:?pressure
-    (when (or {@self confess-letter ?target /succ /caused_by ?pressure}
-              {@self confess-letter ?target}
-              (chance (* (k-grievance-rate)
-                         (* 0.5 (grievance-drive ?pressure ?target (pro-tilt)))))))
-    (utility want (* (disinhibition) 1000.0))
-    (effects
-      (if {@self confess-letter ?target /succ /caused_by ?pressure}
-          (then (discharge-pressure ?pressure 0.75))
-          (else (maintain-proposal {@self confess-letter ?target /caused_by ?pressure}))))))
+  (role @self {@self inhibition ?inhibition}
+              {@self prosocial-tilt ?prosocial-tilt}
+    (role ?target {?target isa [k human], condition [k alive]}
+      {@self pressure [k moral-violation] ?target}:?pressure
+      (when (or {@self confess-letter ?target /succ /caused_by ?pressure}
+                {@self confess-letter ?target}
+                (chance (* (k-grievance-rate)
+                           (* 0.5 (grievance-drive ?pressure ?target ?prosocial-tilt))))))
+      (utility want (* (- 1.0 ?inhibition) 1000.0))
+      (effects
+        (if {@self confess-letter ?target /succ /caused_by ?pressure}
+            (then (discharge-pressure ?pressure 0.75))
+            (else (maintain-proposal {@self confess-letter ?target /caused_by ?pressure})))))))

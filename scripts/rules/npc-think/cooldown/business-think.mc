@@ -49,7 +49,10 @@
   ; {?job org ?org} (threaded off {@self job ?job}). The working-age band, not-
   ; already-an-owner, merit and means dims, the completion gate and the onset
   ; chance live in (when ...) below.
-  (role @self {@self age ?age} (old_human @self)
+  (role @self {@self industriousness ?industriousness}
+              {@self assertiveness ?assertiveness}
+              {@self age ?age} {@self isa [k human], condition [k alive]}
+                               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self wealth ?wealth}
               -{@self backed-by ?}
               -{@self job [k head-of-non-household-org]}
@@ -66,9 +69,9 @@
         ; owner and the merit + means dims stay live gates.
         (when (and (>= ?age 25)
                    (<= ?age 55)
-                   (>= (diligence) 0.55)
+                   (>= ?industriousness 0.55)
                    (< ?wealth 0.5)
-                   (latch-eval (chance (* 0.033 (+ 0.5 (target-or @self assertiveness 0.0)))))))
+                   (latch-eval (chance (* 0.033 (+ 0.5 ?assertiveness))))))
 
         ; npc-think: the clerk resolves to secure his firm's backing. Mints {@self goal
         ; {@self back ?org}} (focus = the firm); the npc-action (invest_errand.mc)
@@ -123,7 +126,7 @@
 ;                   (<= (years-old @self) 55)
 ;                   (>= (diligence) 0.55)
 ;                   (< ?wealth 0.5)
-;                   (latch-eval (chance (* 0.01 (+ 0.5 (target-or @self assertiveness 0.0)))))))
+;                   (latch-eval (chance (* 0.01 (+ 0.5 (any {@self assertiveness ?=0.0}).target))))))
 
 ;        ; SPLIT (Item 5): the npc-think - the clerk decides to buy in. Mints {@self
 ;        ; goal {@self PARTNER <articles>}}; the npc-action (partner_errand.mc) sends him to
@@ -176,7 +179,7 @@
 ;                 (>= (diligence) 0.55)
 ;                 (or (>= ?wealth 0.5)
 ;                     {@self backed-by ?})
-;                 (latch-eval (chance (* 0.025 (+ 0.5 (target-or @self assertiveness 0.0)))))))
+;                 (latch-eval (chance (* 0.025 (+ 0.5 (any {@self assertiveness ?=0.0}).target))))))
 
 ;      (utility errand)
 ;      (effects       (begin-goal {@self FOUND}))

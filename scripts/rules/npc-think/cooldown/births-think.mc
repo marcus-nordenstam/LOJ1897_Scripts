@@ -54,9 +54,8 @@
   (cooldown 1 d try-until-succ)
 
   (role @self {@self pregnant ?}
+              {@self pregnant-when ?conceived-when}
     (role ?father {@self pregnant ?father}
-
-      (bind (any {@self pregnant-when ?}).target ?conceived-when)
 
       (when (>= (elapsed /weeks ?conceived-when) (gestation_weeks)))
 

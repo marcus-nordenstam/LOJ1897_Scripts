@@ -26,7 +26,10 @@
               {@self gender [k male]}
               -{@self spouse ?}
               {@self fiancee ?}
-    (role ?bride (unmarried_woman ?bride)
+    (role ?bride {?bride isa [k human], condition [k alive]}
+                 {?bride gender [k female]}
+                 {?bride age-band [k young-adult|middle-aged|mature|elderly]}
+                 -{?bride spouse ?}
                  {@self fiancee ?bride}
                  {?bride name ?bride_name}
 

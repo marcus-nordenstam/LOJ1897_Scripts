@@ -110,13 +110,14 @@
 ; stops firing until the larder is eaten down again; a truly empty kitchen keeps
 ; reading 0 and the resident falls through to the meal-less chains, as it should.
 (npc-think notice_larder
-  (role ?home {@self home ?home}
-              (spatial @self building ?home)
-              (spatial ?home room [k kitchen]): ?kitchen   ; a resident who does not know their kitchen just skips
-    (when (and (> (target-or @self appetite 0.0) 0.25)
-               (= (believed-home-food-count ?home) 0)))
-    (effects
-      (observe ?kitchen))))
+  (role @self {@self appetite ?appetite}
+    (role ?home {@self home ?home}
+                (spatial @self building ?home)
+                (spatial ?home room [k kitchen]): ?kitchen   ; a resident who does not know their kitchen just skips
+      (when (and (> ?appetite 0.25)
+                 (= (believed-home-food-count ?home) 0)))
+      (effects
+        (observe ?kitchen)))))
 
 ; ---- the meal desires (mint {@self eat [k <meal>] <place>}) ----------------
 
@@ -127,47 +128,51 @@
 (define-macro supper-lead-hours ()      1)
 
 (npc-think want_breakfast
-  (role ?home {@self home ?home}
-              {?home breakfast-hour ?}
-              (spatial @self building ?home)
-    (when (hours (household-breakfast-hour) (+ (household-breakfast-hour) (breakfast-window-hours))) (and (> (target-or @self appetite 0.0) 0.25)
-               (> (believed-home-food-count ?home) 0)))
-    (utility need)
-    (effects       (begin-goal {@self eat [k breakfast] ?home}))
-    (when-unsupported-effects (set-outcome {@self goal {@self eat [k breakfast] ?home}} /succ))))
+  (role @self {@self appetite ?appetite}
+    (role ?home {@self home ?home}
+                {?home breakfast-hour ?}
+                (spatial @self building ?home)
+      (when (hours (household-breakfast-hour) (+ (household-breakfast-hour) (breakfast-window-hours))) (and (> ?appetite 0.25)
+                 (> (believed-home-food-count ?home) 0)))
+      (utility need)
+      (effects       (begin-goal {@self eat [k breakfast] ?home}))
+      (when-unsupported-effects (set-outcome {@self goal {@self eat [k breakfast] ?home}} /succ)))))
 
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
 (npc-think want_lunch_work
-  (role ?job {@self job ?job}
-    (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
-               {?org workplace ?wp}       ; ?wp binds at fire
-               (spatial @self building ?wp)                    ; residual gate, re-checked at the when-seam
-      (when (hours 12 14) (> (target-or @self appetite 0.0) 0.25))
-      (utility need)
-      (effects       (begin-goal {@self eat [k lunch] ?wp}))
-      (when-unsupported-effects (set-outcome {@self goal {@self eat [k lunch] ?wp}} /succ)))))
+  (role @self {@self appetite ?appetite}
+    (role ?job {@self job ?job}
+      (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
+                 {?org workplace ?wp}       ; ?wp binds at fire
+                 (spatial @self building ?wp)                    ; residual gate, re-checked at the when-seam
+        (when (hours 12 14) (> ?appetite 0.25))
+        (utility need)
+        (effects       (begin-goal {@self eat [k lunch] ?wp}))
+        (when-unsupported-effects (set-outcome {@self goal {@self eat [k lunch] ?wp}} /succ))))))
 
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch-hour.
 (npc-think want_lunch_home
-  (role ?home {@self home ?home}
-              {?home lunch-hour ?}
-              (spatial @self building ?home)
-    (when (hours (household-lunch-hour) (+ (household-lunch-hour) (meal-window-hours))) (and (> (target-or @self appetite 0.0) 0.25)
-               (> (believed-home-food-count ?home) 0)))
-    (utility need)
-    (effects       (begin-goal {@self eat [k lunch] ?home}))
-    (when-unsupported-effects (set-outcome {@self goal {@self eat [k lunch] ?home}} /succ))))
+  (role @self {@self appetite ?appetite}
+    (role ?home {@self home ?home}
+                {?home lunch-hour ?}
+                (spatial @self building ?home)
+      (when (hours (household-lunch-hour) (+ (household-lunch-hour) (meal-window-hours))) (and (> ?appetite 0.25)
+                 (> (believed-home-food-count ?home) 0)))
+      (utility need)
+      (effects       (begin-goal {@self eat [k lunch] ?home}))
+      (when-unsupported-effects (set-outcome {@self goal {@self eat [k lunch] ?home}} /succ)))))
 
 ; SUPPER at home - the FAMILY table. The window opens an hour early so eat_go's
 ; travel (30 min) lands the household home by the cook's hour.
 (npc-think want_supper
-  (role ?home {@self home ?home}
-              {?home supper-hour ?}
-    (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> (target-or @self appetite 0.0) 0.25)
-               (> (believed-home-food-count ?home) 0)))
-    (utility need)
-    (effects       (begin-goal {@self eat [k supper] ?home}))
-    (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?home}} /succ))))
+  (role @self {@self appetite ?appetite}
+    (role ?home {@self home ?home}
+                {?home supper-hour ?}
+      (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?appetite 0.25)
+                 (> (believed-home-food-count ?home) 0)))
+      (utility need)
+      (effects       (begin-goal {@self eat [k supper] ?home}))
+      (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?home}} /succ)))))
 
 ; EATING OUT - no food at home (as the diner KNOWS) in the supper window and
 ; wealth permits: a pub supper (lower/middle), a restaurant one (upper). The
@@ -175,12 +180,13 @@
 ; (whose stock gate already failed if this is eligible), over leisure.
 (npc-think want_eat_out_pub
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
-  (role @self {@self wealth ?wealth} 
+  (role @self {@self appetite ?appetite}
+              {@self wealth ?wealth} 
               -{@self class-situation [k upper]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
       (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette unknown-last))
-        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> (target-or @self appetite 0.0) 0.25)
+        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?appetite 0.25)
                    (> ?wealth 0.2)
                    (= (believed-home-food-count ?home) 0)))
         (utility need (below eat))
@@ -190,11 +196,12 @@
 (npc-think want_eat_out_restaurant
   ; upper-class only - the CACHED self-gate skips the majority (and the
   ; larder belief-fold below) with zero eval.
-  (role @self {@self class-situation [k upper], wealth ?wealth}
+  (role @self {@self appetite ?appetite}
+              {@self class-situation [k upper], wealth ?wealth}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
       (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette unknown-last))
-        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> (target-or @self appetite 0.0) 0.25)
+        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?appetite 0.25)
                    (> ?wealth 0.2)
                    (= (believed-home-food-count ?home) 0)))
         (utility need (below eat))
@@ -225,10 +232,6 @@
   (effects
            (maintain-proposal {@self go ?place})))
 
-; A paid EATERY (pub / restaurant) - a supper bought out, as opposed to the free
-; family table / workplace lunch. Keys the per-means intrinsics on eat_at_place.
-(define-macro dining-out? (?p)
-  (or (is-a ?p [k building pub]) (is-a ?p [k building restaurant])))
 
 ; TERMINAL step (act_body_purification): the meal is now PROPOSED, guarded by being AT its place.
 ; Because `eat` is a proposed label every {@self eat [k <meal>] <place>} desire drops out of the
@@ -247,11 +250,14 @@
   (goal    {@self eat ?meal ?place})
   (when    (or (spatial @self building ?place)
                (spatial @self space ?place)))
-  (effects (maintain-proposal {@self eat ?meal ?place}
-             [/affect (if (dining-out? ?place) (then (* (target-or @self enthusiasm 0.0) 20.0)) (else 0.0))]
-             [/cost (money-cost-util (coin-balance @self)
-                         (if (dining-out? ?place) (then (price ?meal ?place)) (else 0)))]
-             [/feasible (or (not (dining-out? ?place)) (>= (coin-balance @self) (price ?meal ?place)))])))
+  (effects
+    (any {@self enthusiasm ?enthusiasm})
+    (any {@self coin-pile.count ?coins=0})
+    (bind (or (is-a ?place [k building pub]) (is-a ?place [k building restaurant])) ?dining-out)
+    (maintain-proposal {@self eat ?meal ?place}
+      [/affect (if ?dining-out (then (* ?enthusiasm 20.0)) (else 0.0))]
+      [/cost (money-cost-util ?coins (if ?dining-out (then (price ?meal ?place)) (else 0)))]
+      [/feasible (or (not ?dining-out) (>= ?coins (price ?meal ?place)))])))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
 ; npc-think/provisioning_think.mc; the general carry-to-a-place chain in
@@ -285,13 +291,13 @@
 ; the freshness check - it now only ever runs for the starving few.
 ; (npc-think starving_watch
 ;   (role @self -{@self starve}
-;     (when (> (target-or @self appetite 0.0) 1.3))
+;     (when (> (any {@self appetite ?=0.0}).target 1.3))
 ;     (effects
 ;       (begin-belief {@self starve}))))
 
 ; (npc-think starving_watch_end
 ;   (role @self {@self starve}
-;     (when (not (> (target-or @self appetite 0.0) 1.3)))
+;     (when (not (> (any {@self appetite ?=0.0}).target 1.3)))
 ;     (effects
 ;       (end-belief {@self starve}))))
 
@@ -304,7 +310,7 @@
 ; goal is a food item.
 ; (npc-think starving_eat_carried
 ;   (role @self {@self starve}
-;     (when (and (> (target-or @self appetite 0.0) 1.3)
+;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (> (held-pile-count @self [k food]) 0)))
 ;     (utility (starve-drive))
 ;     (effects       (begin-goal {@self forage}))
@@ -314,7 +320,7 @@
 ;   (role @self {@self starve}
 ;     (role ?home {@self home ?home}
 ;                 (spatial @self building ?home)
-;       (when (and (> (target-or @self appetite 0.0) 1.3)
+;       (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                  (> (believed-home-food-count ?home) 0)))
 ;       (utility (starve-drive))
 ;       (effects       (begin-goal {@self forage}))
@@ -324,7 +330,7 @@
 ;   (role @self {@self starve}
 ;     (role ?home {@self home ?home}
 ;                 (not (spatial @self building ?home))
-;       (when (and (> (target-or @self appetite 0.0) 1.3)
+;       (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                  (> (believed-home-food-count ?home) 0)))
 ;       (utility (starve-drive))
 ;       (effects (maintain-proposal {@self go ?home})))))
@@ -333,7 +339,7 @@
 ; no-coin sense as provisioning).
 ; (npc-think starving_buy
 ;   (role @self {@self starve ?, wealth ?wealth}
-;     (when (and (> (target-or @self appetite 0.0) 1.3)
+;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (> ?wealth 0.2)
 ;                (is-a (spatial @self building) [k building shop])))
 ;     (utility (starve-drive))
@@ -342,7 +348,7 @@
 
 ; (npc-think starving_buy_go
 ;   (role @self {@self starve ?, wealth ?wealth}
-;     (when (and (> (target-or @self appetite 0.0) 1.3)
+;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (> ?wealth 0.2)
 ;                (not (is-a (spatial @self building) [k building shop]))))
 ;     (utility (starve-drive))
@@ -361,7 +367,7 @@
 ; actually eaten - forage_act appends it inside its shop branch.
 ; (npc-think starving_steal
 ;   (role @self {@self starve ?, wealth ?wealth}
-;     (when (and (> (target-or @self appetite 0.0) 1.3)
+;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (not (> ?wealth 0.2))
 ;                (is-a (spatial @self building) [k building shop])))
 ;     (utility (starve-drive))
@@ -370,7 +376,7 @@
 
 ; (npc-think starving_steal_go
 ;   (role @self {@self starve ?, wealth ?wealth}
-;     (when (and (> (target-or @self appetite 0.0) 1.3)
+;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (not (> ?wealth 0.2))
 ;                (not (is-a (spatial @self building) [k building shop]))))
 ;     (utility (starve-drive))

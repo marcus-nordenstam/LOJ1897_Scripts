@@ -11,29 +11,13 @@
 ; midnight (a night shift). (now-min) is minutes-since-midnight.
 ; ----------------------------------------------------------------------------
 
-(define-macro now-min ()
-  (+ (* (time hour) 60) (time minute)))
 
-; (in-work-hours ?start ?end): is the clock hour inside [start, end)? A start>end
-; shift wraps midnight (the disjunctive branch).
-(define-macro in-work-hours (?start ?end)
-  (if (<= ?start ?end)
-      (then (and (>= (time hour) ?start) (< (time hour) ?end)))
-      (else (or  (>= (time hour) ?start) (< (time hour) ?end)))))
 
 ; (work-starts-soon ?start ?end): NOT on shift now, and the shift's next start is
 ; within the 120-minute lead. delta = start*60 - now-min, wrapped into [0,1440)
 ; so a just-before-midnight now still sees an early-morning start as soon.
 (define-macro work-lead-hours () 2)
 
-(define-macro work-starts-soon (?start ?end)
-  (and (not (in-work-hours ?start ?end))
-       (> (if (< (- (* ?start 60) (now-min)) 0)
-              (then (+ (- (* ?start 60) (now-min)) 1440))
-              (else (- (* ?start 60) (now-min)))) 0)
-       (<= (if (< (- (* ?start 60) (now-min)) 0)
-               (then (+ (- (* ?start 60) (now-min)) 1440))
-               (else (- (* ?start 60) (now-min)))) (* (work-lead-hours) 60))))
 
 ; Elapsed days since the most recent ?what. The (none ..) gate answers "never done"
 ; FIRST, so the recall only runs when a record exists. The record is handed to
@@ -53,14 +37,4 @@
     (then 36500.0)
     (else (elapsed /days /float (highest /end ?what)))))
 
-; (job-tenure ?who): whole years since ?who's current job RANK began - the
-; interval-start of the {<job> level <grade>} belief on the job mental object
-; (level is @excl: one ongoing rank belief). Replaces the C++ (job-tenure) op with
-; the same composition every date macro uses: (any ..).start + (year ...). A
-; jobless / rankless ?who reads 0 ((any ..).start fails -> (time year) falls back to the
-; current year -> zero diff). Use with ?who = @self (reads the deliberating mind's
-; own job object).
-(define-macro job-tenure (?who)
-  (- (year (time date))
-     (year (start-time {(any {?who job}).target level}))))
 

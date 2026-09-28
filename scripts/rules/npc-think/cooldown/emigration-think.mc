@@ -26,9 +26,11 @@
   (cooldown 1 m try-once)
   (rng-stream migrations)
 
-  (role @self (young-adult @self)
+  (role @self {@self openness ?openness}
+              {@self isa [k human], condition [k alive]}
+              {@self age-band [k youth|young-adult|middle-aged]}
 
-    (when (chance (* 0.00125 (+ 0.5 (target-or @self openness 0.0)) (population-pressure))))
+    (when (chance (* 0.00125 (+ 0.5 ?openness) (population-pressure))))
 
     (utility errand)
     (effects

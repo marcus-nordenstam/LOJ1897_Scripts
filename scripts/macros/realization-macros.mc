@@ -4,33 +4,4 @@
 ; (any ..).start / date math). See docs/memory/memory_system.md section 13.
 ; ----------------------------------------------------------------------------
 
-; (realize-destroyed ?item ?rel [k ?rel <value>] ?act): the deliberating self REALIZES
-; ?item is gone for good - their OWN act just destroyed it (the eaten meal, the
-; buried corpse, the burned letter). Ends every ongoing belief about the item in
-; @self's mind EXCEPT the standing @excl body-state axes (condition + internment
-; - a tense flip, never a forget: "it WAS in the larder" stays as episodic
-; history) and the destroying act itself (?act, its label): that act is a running
-; pursuit toward the item, and ending it here would conclude it /fail mid-effects.
-; Then mints the ongoing state on the named @excl axis (?rel ?state):
-; condition consumed for a prop, internment buried for a corpse. @excl supersedes
-; any prior value on that axis (buried over unburied), while the OTHER axis
-; (condition dead) stands. A pure SELF-MIND write - bystanders keep their stale
-; beliefs until their own perception / a propagation rule closes them. Run
-; BEFORE (destroy-entity ...).
-(define-macro realize-destroyed (?item ?rel ?state ?act)
-  (do
-    (end-beliefs-about ?item [/exclude condition|internment|?act])
-    (begin-belief {?item ?rel ?state})))
 
-; (months-since-death ?c): whole months since THIS mind learned of ?c's death -
-; the interval-start of @self's own ongoing {?c condition dead} belief. 0 when
-; @self holds no such belief. Observer-side and telepathy-honest by construction
-; (only known deaths count); (time date) and the stored belief start count their
-; months alike, so the month diff needs no alignment.
-(define-macro months-since-death (?c)
-  (if {?c condition [k dead]}
-      (then (max 0 (+ (* 12 (- (year (time date))
-                         (year (start-time {?c condition [k dead]}))))
-                (- (month (time date))
-                   (month (start-time {?c condition [k dead]}))))))
-      (else 0)))

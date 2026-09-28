@@ -23,7 +23,9 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
-  (role @self {@self age ?age} {@self friend ?}
+  (role @self {@self enthusiasm ?enthusiasm}
+              {@self assertiveness ?assertiveness}
+              {@self age ?age} {@self friend ?}
     ; The person gossiped ABOUT: someone @self knows of, drawn by roulette.
     (role ?x {?x isa [k human], condition [k alive]}
              (select (score 1) (policy roulette))
@@ -37,8 +39,8 @@
         ; assertiveness weighted chance, and the minimum-age check.
         (when (and (!= ?ear ?x)
                    (chance (* 0.3
-                              (+ 0.5 (target-or @self enthusiasm 0.0))
-                              (+ 0.5 (target-or @self assertiveness 0.0))))
+                              (+ 0.5 ?enthusiasm)
+                              (+ 0.5 ?assertiveness)))
                    (>= ?age 12)))
 
         (utility want)

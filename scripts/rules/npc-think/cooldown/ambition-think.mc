@@ -34,7 +34,10 @@
   (rng-stream perpetration)
 
   ; @self: a credible successor - seated (binds my org), senior grade, not the head.
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (role @self {@self machiavellianism ?machiavellianism}
+              {@self narcissism ?narcissism}
+              {@self inhibition ?inhibition}
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self job.org ?org}
               {@self job.level [k senior]}
               -{@self job [k org-head]}
@@ -55,9 +58,9 @@
                  -{?victim condition [k dead]}
                  (or {@self kill ?victim}
                      (chance (* (crime-scale) 0.03
-                                (* (- 1.0 (inhibition))
-                                   (* 0.5 (+ (target-or @self machiavellianism 0.0)
-                                             (target-or @self narcissism 0.0)))))))))
+                                (* (- 1.0 ?inhibition)
+                                   (* 0.5 (+ ?machiavellianism
+                                             ?narcissism))))))))
 
       (utility want)
       (effects

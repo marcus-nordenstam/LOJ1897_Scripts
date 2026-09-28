@@ -33,14 +33,17 @@
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
-  (role @self 
+  (role @self {@self machiavellianism ?machiavellianism}
+              {@self psychopathy ?psychopathy}
+              {@self inhibition ?inhibition} 
     ; The wealthiest co-heir benefactor the actor KNOWS. The kin edge is the
     ; object-cache filter (Shape-1 {@self <label> ?cand}); (select (score ...)) ranks the
     ; cached set by believed wealth and binds the single richest. The wealth
     ; floor is enforced in (when) on the winner.
     (role ?benefactor {?benefactor isa [k human], condition [k alive]}
       {@self mother|father|parent|spouse|sibling ?benefactor}
-      (select (score (any {?benefactor wealth}).target) (policy argmax))
+      {?benefactor wealth ?benefactor-wealth}:?wealth_bond
+      (select (score ?benefactor-wealth) (policy argmax))
       ; The benefactor's HEIR, role-cast via the object-cache JOIN: the cross-role filter
       ; {?heir <kin> ?benefactor} makes ?heir's cache depend on ?benefactor's - the engine
       ; materializes, per benefactor, the heirs the actor KNOWS (a candidate's own kin
@@ -51,7 +54,8 @@
       ; friends-and-closer disclosure, and without parish records the actor cannot rank
       ; co-heirs by exact age, so first-match binds one perceived co-heir obstacle rather
       ; than the strict eldest. No omniscient (heir-apparent ...) kin-graph read.
-      (role ?heir (old_human ?heir)
+      (role ?heir {?heir isa [k human], condition [k alive]}
+                  {?heir age-band [k youth|young-adult|middle-aged|mature|elderly]}
         {?heir mother|father|parent|spouse|sibling ?benefactor}
         (select (policy first-match))
 
@@ -59,20 +63,19 @@
         ; Read as the /caused_by anchor, never re-minted, so the drive fades if the wealth
         ; belief lifts. The victim is the benefactor's heir-apparent: the benefactor when
         ; @self IS that heir (impatient heir), else the front-running heir (clear succession).
-        (bind (any {?benefactor wealth}) ?wealth_bond)
         (if (= ?heir @self) (then ?benefactor) (else ?heir)): ?victim
 
         ; Disposition pre-gate + wealth floor. greed = mean(machiavellianism, psychopathy);
         ; propensity = (1 - inhibition) * greed; fire at k_covet_base_rate * propensity. The
         ; tip fires ONCE then the running kill proposal latches it; drop the drive if the
         ; victim dies.
-        (when (and (>= (any {?benefactor wealth}).target 0.5)
+        (when (and (>= ?benefactor-wealth 0.5)
                    -{?victim condition [k dead]}
                    (or {@self kill ?victim}
                        (chance (* (crime-scale) 0.02
-                                  (* (- 1.0 (inhibition))
-                                     (* 0.5 (+ (target-or @self machiavellianism 0.0)
-                                               (target-or @self psychopathy 0.0)))))))))
+                                  (* (- 1.0 ?inhibition)
+                                     (* 0.5 (+ ?machiavellianism
+                                               ?psychopathy))))))))
 
         (utility want)
         (effects

@@ -15,7 +15,6 @@
 ;;   orient_read  : completion - read the register + clear the goal.
 ;; ----------------------------------------------------------------------------
 
-;(include "../../macros/adopt-aoc.mc")
 
 ;(npc-action {@self ORIENT}
 ;  (motor body legs)

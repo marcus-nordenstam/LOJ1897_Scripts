@@ -24,7 +24,7 @@
       (stable-or
         ; if you're not at the job's workplace, then go there
         (try
-          (role @self (not (at-workplace ?wp))
+          (role @self (not (or (spatial @self building ?wp) (spatial @self space ?wp)))
             (effects (maintain-proposal {@self go ?wp}))))
 
         ; if you're at the workplace and in the same room as the recruiter, then announce
@@ -37,7 +37,7 @@
               ; The seat travels as its DESCRIPTION - kind, org and line - the way the officer's own
               ; word names it: a seat has no name for the wire to carry.
               (effects
-                (any {?job job-id ?}).target: ?line
+                (any {?job job-id ?line})
                 (kind ?job): ?jk
                 (utterable-msg {@i name ?myname}
                                {@i accept-job-offer (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg

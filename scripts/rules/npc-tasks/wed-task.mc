@@ -23,7 +23,7 @@
         (role ?venue {?occ venue ?venue}
           (role @self (spatial @self building ?venue)
             (when (and {?occ hours ?start ?end}
-                       (attend-in-window ?start ?end)
+                       (hours (- ?start (attend-prep-lead)) ?end)
                        -{@self SAY (msg {@self spouse ?betrothed}) ?betrothed}))
             (effects (maintain-proposal {@self SAY (utterable-msg {@self spouse ?betrothed}) ?betrothed}))))))
 
@@ -33,5 +33,5 @@
         (role ?venue {?occ venue ?venue}
           (role @self (not (spatial @self building ?venue))
             (when (and {?occ hours ?start ?end}
-                       (attend-in-window ?start ?end)))
+                       (hours (- ?start (attend-prep-lead)) ?end)))
             (effects (maintain-proposal {@self go ?venue}))))))))

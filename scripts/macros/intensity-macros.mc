@@ -15,16 +15,4 @@
 ;     ?scale by ?cap days. Replaces flat "days-gate + fixed magnitude" drives.
 ; ----------------------------------------------------------------------------
 
-; convex survival drive: ?scale x attr / (danger - attr), floored so it diverges but
-; never divides by zero (past ?danger the floor 0.05 caps the denominator, so it keeps
-; growing ~linearly instead of exploding to infinity).
-(define-macro homeostatic (?attr ?danger ?scale)
-  (* ?scale (/ (target-or @self ?attr 0.0)
-               (max 0.05 (- ?danger (target-or @self ?attr 0.0))))))
 
-; saturating rhythmic drive: ?scale x clamp((days-since-last - due) / (cap - due), 0, 1).
-; 0 at the due day, full ?scale by the cap day, held at ?scale thereafter.
-(define-macro recency-ramp (?label ?due ?cap ?scale)
-  (* ?scale (clamp (/ (- (days-since-last-float {@self ?label /succ /ever}) ?due)
-                      (- ?cap ?due))
-                   0.0 1.0)))

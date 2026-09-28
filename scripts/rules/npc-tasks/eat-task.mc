@@ -33,7 +33,9 @@
               (if ?et_kitchen
                   (then
                     (bind 0 ?et_pile)
-                    (pile-at-into ?et_kitchen [k food] ?et_pile)
+                    (for-each ?pile_cand (spatial ?et_kitchen contents [k pile] /env)
+                      (if (attr-is ?pile_cand content-kind [k food])
+                          (then (bind ?pile_cand ?et_pile))))
                     (if (and ?et_pile (> (attr ?et_pile count) 0))
                         (then (bind ?et_pile ?food)))))))
         (maintain-proposal {@self EAT ?food 0}))

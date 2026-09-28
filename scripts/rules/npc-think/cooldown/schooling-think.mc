@@ -50,7 +50,8 @@
   ; CONTINUOUS completion gate as a CACHED role filter: while the child is not yet studying
   ; primary the goal stands; the moment enrol_primary_act matriculates him ({@self study [k
   ; primary-school-curriculum]}) the role drops and the goal ends. The act never ends the goal.
-  (role @self {@self age ?age}
+  (role @self {@self breeding ?breeding}
+              {@self age ?age}
               -{@self school-grades [k primary-school-curriculum] ?}
               -{@self study [k primary-school-curriculum]}
 
@@ -59,7 +60,7 @@
     ; ~0.85) into school almost always, a working-class child (~0.25) only rarely.
     (when (and (>= ?age 5)
                (<= ?age 7)
-               (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (any {@self breeding ?}).target)))))
+               (latch-eval (chance (* 0.0833 ?breeding ?breeding)))))
 
     (utility errand)
     (effects (maintain-proposal {@self matriculate [k primary-school-curriculum]}))))
@@ -75,7 +76,8 @@
   ; instead falls to apprenticeship_start, which excludes pupils).
   ; CONTINUOUS completion gate as a CACHED role filter: the role drops (and the goal ends) when
   ; enrol_secondary_act matriculates him ({@self study [k secondary-school-curriculum]}).
-  (role @self {@self age ?age}
+  (role @self {@self breeding ?breeding}
+              {@self age ?age}
               {@self school-grades [k primary-school-curriculum] ?}
               -{@self school-grades [k secondary-school-curriculum] ?}
               -{@self study [k secondary-school-curriculum]}
@@ -84,7 +86,7 @@
     ; ONSET: the middle+ breeding-squared (chance) is rolled at the fire and LOCKED once holding.
     (when (and (>= ?age 12)
                (<= ?age 14)
-               (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (any {@self breeding ?}).target)))))
+               (latch-eval (chance (* 0.0833 ?breeding ?breeding)))))
 
     (utility errand)
     (effects (maintain-proposal {@self matriculate [k secondary-school-curriculum]}))))
@@ -100,7 +102,8 @@
   ; ...), NOT a fixed university curriculum, so the completion gate is the generic (not
   ; (any {@self study ?})) CACHED role filter: at 18-20 the youth holds no prior
   ; study, so the role drops (and the goal ends) exactly when he matriculates.
-  (role @self {@self age ?age}
+  (role @self {@self breeding ?breeding}
+              {@self age ?age}
               {@self school-grades [k secondary-school-curriculum] ?}
               -{@self study ?}
               -{@self job.salary ?}
@@ -109,7 +112,7 @@
     ; gateway - rolled at the fire and LOCKED once holding.
     (when (and (>= ?age 18)
                (<= ?age 20)
-               (latch-eval (chance (* 0.0833 (any {@self breeding ?}).target (* (any {@self breeding ?}).target (any {@self breeding ?}).target))))))
+               (latch-eval (chance (* 0.0833 ?breeding (* ?breeding ?breeding))))))
 
     (utility errand)
     (effects (maintain-proposal {@self matriculate [k academic-field]}))))

@@ -17,13 +17,14 @@
 
 (npc-think feel_charitable
   (cooldown 20 d try-until-succ)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (role @self {@self compassion ?compassion}
+              {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
     (role ?venue [k building church] (select (score (near @self ?venue)) (policy roulette unknown-last))
       (when (>= (days-since-last {@self GIVE-ALMS /succ /ever}) 20))
       ; compassion x a slow days-since ramp, capped low (rare deep-idle draw); the
       ; uncompassionate stay below every routine act, so they never give.
-      (utility want (* 10.0 (* (target-or @self compassion 0.0)
+      (utility want (* 10.0 (* ?compassion
                   (min (* (days-since-last-float {@self GIVE-ALMS /succ /ever}) 0.8) 25.0))))
       (effects
         (if (spatial @self building ?venue)

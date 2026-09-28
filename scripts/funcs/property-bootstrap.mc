@@ -43,16 +43,11 @@
       (then
         (create-entity [k mail-stack] (seed-rest-spot ?mb [k mail-stack]))
         (create-entity [k outgoing-mail-stack] (seed-rest-spot ?mb [k outgoing-mail-stack])))))
-  ; ADDRESS-SIGNS: every addressed building shows its address, as a fixture of the building
-  ; (perceived with it). The address is the premises' identity when it has no name, and the
-  ; sign is what lets an NPC carrying a written address recognise he has arrived. A
-  ; building the numbering pass could not address gets no sign - there is nothing to show.
+  ; ADDRESS-SIGNS: a fixture of every addressed building; the sign carries no text of its
+  ; own - it shows its building's address.
   (for-each ?ab (env-entities [k building])
-    (attr ?ab address): ?aaddr
-    (if (substantial ?aaddr)
-      (then
-        (create-entity [k address-sign] @nothing ?ab): ?asign
-        (set-attr ?asign address ?aaddr))))
+    (if (substantial (attr ?ab address))
+      (then (create-entity [k address-sign] @nothing ?ab))))
   ; Every org the town OPENS WITH is CHARTERED here: premises claimed off the register,
   ; articles filed on the incorporation stack, staff book created - and no owner entry. A
   ; founder steps into one at world-gen once minds are live (seat-founding-heads).

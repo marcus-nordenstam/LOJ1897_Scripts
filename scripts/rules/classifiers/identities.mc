@@ -31,20 +31,22 @@
 ; with no gender attr reads as neither.
 (npc-think classify_gentleman_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?}
+  (role @self {@self gender ?gender}
+              {@self class-situation ?}
     (effects
       (mint-band {@self identity}
-        (* (= (target-or @self gender @nothing) [k male])
+        (* (= ?gender [k male])
            (clamp (+ (prob {@self class-situation [k class-situation middle]})
                      (prob {@self class-situation [k class-situation upper]})) 0.0 1.0))
         [k role gentleman-role] 0.5))))
 
 (npc-think classify_lady_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?}
+  (role @self {@self gender ?gender}
+              {@self class-situation ?}
     (effects
       (mint-band {@self identity}
-        (* (= (target-or @self gender @nothing) [k female])
+        (* (= ?gender [k female])
            (clamp (+ (prob {@self class-situation [k class-situation middle]})
                      (prob {@self class-situation [k class-situation upper]})) 0.0 1.0))
         [k role lady-role] 0.5))))
@@ -56,18 +58,20 @@
 
 (npc-think classify_machiavellian_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?}
+  (role @self {@self machiavellianism ?machiavellianism}
+              {@self class-situation ?}
     (effects
       (mint-band {@self identity}
-        (>= (target-or @self machiavellianism 0.0) (identity-machiavellian-min))
+        (>= ?machiavellianism (identity-machiavellian-min))
         [k role machiavellian-role] 0.5))))
 
 (npc-think classify_sadist_identity
   (rng-stream behaviour)
-  (role @self {@self class-situation ?}
+  (role @self {@self sadism ?sadism}
+              {@self class-situation ?}
     (effects
       (mint-band {@self identity}
-        (>= (target-or @self sadism 0.0) (identity-sadist-min))
+        (>= ?sadism (identity-sadist-min))
         [k role sadist-role] 0.5))))
 
 ; christian / merchant / steward: the identity a membership or a post confers. A
@@ -95,25 +99,6 @@
       (mint-band {@self identity} (prob {@self job [k steward]})
         [k role steward-role] 0.5))))
 
-; ---- skill-driven trade / talent identities --------------------------------
-; The COMPETENCE confers these, not the job title: a domain at `competent` or
-; above on the pipeline-emitted {@self skill-level [k <domain>] [k <rung>]}.
-; `competent` is the same rung position the retired C++ fold's `trained` held on
-; the old 3-rung ladder - see classifiers/calling.mc for that judgement call.
-;
-; DORMANT until acts decorated (track-skill-level <domain>) actually run - no
-; skill-level belief exists in a 2-year run today, so none of these can fire yet.
-;
-; DIVERGENCE from the C++ fold, deliberate and flagged: that version walked the
-; held domains and used else-if ordering per domain, so medicine beat the generic
-; academic-field and music beat the generic performance-art FOR THAT DOMAIN. These
-; folds test kinds independently, so an NPC competent in BOTH medicine and history
-; reads as physician AND scholar (the C++ gave only physician). Revisit once real
-; skill distributions exist - the fix wants a per-domain reduction, not more terms.
-(define-macro competent-in (?domain)
-  (clamp (+ (prob {@self skill-level ?domain [k competent]})
-            (prob {@self skill-level ?domain [k proficient]})
-            (prob {@self skill-level ?domain [k virtuoso]})) 0.0 1.0))
 
 (npc-think classify_physician_identity
   (rng-stream behaviour)

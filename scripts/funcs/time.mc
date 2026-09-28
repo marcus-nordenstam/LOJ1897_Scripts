@@ -1,0 +1,11 @@
+(define-func now-min ()
+  (+ (* (time hour) 60) (time minute)))
+
+(define-func work-starts-soon (?start ?end)
+  (and (not (hours ?start ?end))
+       (> (if (< (- (* ?start 60) (now-min)) 0)
+              (then (+ (- (* ?start 60) (now-min)) 1440))
+              (else (- (* ?start 60) (now-min)))) 0)
+       (<= (if (< (- (* ?start 60) (now-min)) 0)
+               (then (+ (- (* ?start 60) (now-min)) 1440))
+               (else (- (* ?start 60) (now-min)))) (* (work-lead-hours) 60))))

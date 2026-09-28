@@ -9,6 +9,3 @@
 ; shared). Callers that already bind ?home should read (spatial @self building ?home) directly.
 ; ----------------------------------------------------------------------------
 
-(define-macro at-home ()
-  (and {@self home ?home}
-       (spatial @self building ?home)))

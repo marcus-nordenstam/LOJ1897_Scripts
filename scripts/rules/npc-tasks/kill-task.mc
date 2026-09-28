@@ -26,10 +26,12 @@
     (when -{?victim condition [k dead]})
     (utility survival)
     (effects
+      (any {@self strength ?strength})
+      (any {@self coin-pile.count ?coins=0})
       (cond
-        (case (>= (target-or @self strength 0.0) (strangling_strength))
+        (case (>= ?strength (strangling_strength))
               (maintain-proposal {@self strangle ?victim}))
         (case (spatial [k firearm] space)
               (maintain-proposal {@self shoot ?victim}))
-        (case (>= (coin-balance @self) (assassin_fee_coins))
+        (case (>= ?coins (assassin_fee_coins))
               (maintain-proposal {@self hire-assassin ?victim}))))))

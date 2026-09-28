@@ -18,7 +18,13 @@
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
-  (role @self 
+  (role @self {@self compassion ?compassion}
+              {@self decorum ?decorum}
+              {@self volatility ?volatility}
+              {@self psychopathy ?psychopathy}
+              {@self machiavellianism ?machiavellianism}
+              {@self narcissism ?narcissism}
+              {@self inhibition ?inhibition} 
     ; The unfaithful partner + the interloper the actor believes she keeps (a JOIN over
     ; @self's OWN beliefs; any_human keeps both to the believed-alive, so a dead corner
     ; drops the drive).
@@ -40,18 +46,21 @@
                    (or {@self kill ?partner}
                        {@self kill ?interloper}
                        (chance (* (crime-scale) 0.02
-                                  (dark-propensity (rage-disposition @self)))))))
+                                  (* (- 1.0 ?inhibition) (* 0.5 (+ ?volatility ?psychopathy))))))))
         (utility want)
         (effects
           ; Dual (kill BOTH) when the outrage clears the bar; else the more-blamed corner.
           (cond
-            (case (>= (dual-outrage-score) 2.5)
+            (case (>= (+ (emotion-load @self [k anger])
+                         (+ ?decorum ?machiavellianism)) 2.5)
               (if -{?partner condition [k dead]}
                   (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond})))
               (if -{?interloper condition [k dead]}
                   (then (maintain-proposal {@self kill ?interloper /caused_by ?contempt_bond}))))
-            (case (>= (blame-partner-score ?partner)
-                      (blame-interloper-score ?partner ?interloper))
+            (case (>= (+ ?narcissism (+ (- 1.0 ?compassion) (+ ?decorum (if (< (stance-band ?partner warmth) 0.0) (then 1.0) (else 0.0)))))
+                      (+ (+ (max 0.0 (stance-band ?partner warmth)) (* 0.5 (stance-band ?partner attraction)))
+                         (+ ?compassion
+                            (if (< (stance-band ?interloper warmth) 0.0) (then (- 0.0 (stance-band ?interloper warmth))) (else 0.0)))))
               (if -{?partner condition [k dead]}
                   (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond}))))
             (else

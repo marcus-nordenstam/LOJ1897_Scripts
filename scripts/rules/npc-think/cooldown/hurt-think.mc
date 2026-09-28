@@ -26,7 +26,11 @@
   ; @self is any human; the dark-tetrad assault disposition that rolls once
   ; per NPC now lives in the (when ...) gate below (a non-belief chance read
   ; cannot live on the role under the belief-purity invariant).
-  (role @self 
+  (role @self {@self volatility ?volatility}
+              {@self psychopathy ?psychopathy}
+              {@self sadism ?sadism}
+              {@self politeness ?politeness}
+              {@self intoxication ?intoxication} 
     (role ?victim {?victim isa [k human], condition [k alive]}
                   {@self (closeness-labels acquaintance) ?victim /ever}
 
@@ -36,11 +40,11 @@
       ; [0.3, 1.0] so the whole product stays <= 1 - sober high-tetrad actors still
       ; occasionally fire, drunk ones much more).
       (when (latch-eval (chance (* (crime-scale)
-                       (target-or @self volatility 0.0)
-                       (target-or @self psychopathy 0.0)
-                       (target-or @self sadism 0.0)
-                       (- 1.0 (target-or @self politeness 0.0))
-                       (+ 0.3 (* 0.7 (target-or @self intoxication 0.0)))))))
+                       ?volatility
+                       ?psychopathy
+                       ?sadism
+                       (- 1.0 ?politeness)
+                       (+ 0.3 (* 0.7 ?intoxication))))))
 
       (utility want)
       (effects

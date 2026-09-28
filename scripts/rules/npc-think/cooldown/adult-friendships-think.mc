@@ -28,7 +28,8 @@
   ; belief-pure perceived age-band predicates (adult-age / age-peers, which expand
   ; to age-band believes). Only the enthusiasm-scaled (chance) roll is non-belief
   ; and lives in the (when ...) clause below.
-  (role @self -{@self repute [k scandalous]}
+  (role @self {@self enthusiasm ?enthusiasm}
+              -{@self repute [k scandalous]}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self age-band ?peer_band}
     ;; SELF-POV (telepathy purge CAT-3): @self sizes up ?b from what HE knows -
@@ -54,7 +55,7 @@
 
       ; Non-belief gate, not a @self role filter (roles hold belief-pure filters):
       ; the enthusiasm-scaled (chance), rolled ONCE per @self per month.
-      (when (chance (* 0.004 (+ 0.5 (target-or @self enthusiasm 0.0)))))
+      (when (chance (* 0.004 (+ 0.5 ?enthusiasm))))
 
       (effects
         ; befriend mints the mutual tie (friend, or acquaintance if either side is

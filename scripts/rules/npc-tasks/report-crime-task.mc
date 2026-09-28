@@ -14,9 +14,10 @@
   (and
     (try
       (role ?station [k police-station] (select (score (near @self ?station)) (policy roulette unknown-last))
-        (role @self (not (spatial @self building ?station))
+        (role @self {@self education ?education}
+                    (not (spatial @self building ?station))
           (when (and {? stolen-from @self}
-                     (can-write @self)
+                     (>= ?education (literacy-education-min))
                      -{@self report-crime ?focus /succ /ever}
                      (not (is-a (spatial @self building) [k police-station]))))
           (utility errand)
@@ -25,19 +26,20 @@
     ; abandon try below reads as "this town has no police station".
     (try
       (no-role [k police-station])
-      (when (and {? stolen-from @self}
-                 (can-write @self)
-                 -{@self report-crime ?focus /succ /ever}
-                 -{@self find-building [k police-station] ? /fail}
-                 (current-exterior @self): ?rg))
-      (utility errand)
-      (effects (maintain-proposal {@self find-building [k police-station] ?rg})))
+      (role @self {@self education ?education}
+        (when (and {? stolen-from @self}
+                   (>= ?education (literacy-education-min))
+                   -{@self report-crime ?focus /succ /ever}
+                   -{@self find-building [k police-station] ? /fail}
+                   (current-exterior @self): ?rg))
+        (utility errand)
+        (effects (maintain-proposal {@self find-building [k police-station] ?rg}))))
     (sequence
-      (role @self
+      (role @self {@self education ?education}
         (utility errand)
         (stage
           (when (and {? stolen-from @self}
-                     (can-write @self)
+                     (>= ?education (literacy-education-min))
                      -{@self report-crime ?focus /succ /ever}
                      (is-a (spatial @self building) [k police-station])))
           (effects
@@ -49,7 +51,7 @@
         (stage
           (when (spatial ?ltr co-located @self))
           (effects
-            (any {? stolen-from @self}).subject: ?loot
+            (any {?loot stolen-from @self})
             (if (unsubstantial (attr ?ltr writing))
                 (then (maintain-proposal
                         {@self write-doc ?ltr
@@ -63,7 +65,11 @@
             (set-outcome ?report-rel /succ)))))
     (try
       (when (or -{? stolen-from @self}
-                (not (can-write @self))
+                -{@self education ?}
                 {@self find-building [k police-station] ? /fail}
                 {@self report-crime ?focus /succ /ever}))
-      (effects (set-outcome ?report-rel /fail)))))
+      (effects (set-outcome ?report-rel /fail)))
+    (try
+      (role @self {@self education ?education}
+        (when (< ?education (literacy-education-min)))
+        (effects (set-outcome ?report-rel /fail))))))

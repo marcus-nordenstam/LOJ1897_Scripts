@@ -44,29 +44,28 @@
   ; one), and the effect reads both parents. His age rides the @self role; the
   ; politeness-weighted chance is a non-belief op -> (when). politeness amplifies - the conforming child takes up
   ; the parent's hobby, the contrarian rarely.
-  (role @self {@self age ?age}
+  (role @self {@self politeness ?politeness}
+              {@self age ?age}
               {@self mother ?}
 
     (when (and (>= ?age 3)
                (<= ?age 14)
-               (chance (* 0.015 (+ 0.3 (target-or @self politeness 0.0))))))
+               (chance (* 0.015 (+ 0.3 ?politeness)))))
 
     (effects
       ; One novel domain copied off a parent's interests (a 50/50 pick when both
       ; parents offer one) - the hobbies the child grows up around. Each rule
       ; guards its pick so a parent with nothing novel just drops out.
+      (any {@self mother ?mother=@nothing})
+      (any {@self father ?father=@nothing})
+      (tolerate (random-unheld-kind-target ?mother interest interest)): ?dm
+      (tolerate (random-unheld-kind-target ?father interest interest)): ?df
       (cond
-        (case (is-kind (random-unheld-kind-target (any {@self mother}).target interest interest))
-          (if (and (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
-                   (chance 0.5))
-              (then
-                (random-unheld-kind-target (any {@self father}).target interest interest): ?df
-                (begin-belief {@self interest ?df}))
-              (else
-                (random-unheld-kind-target (any {@self mother}).target interest interest): ?dm
-                (begin-belief {@self interest ?dm}))))
-        (case (is-kind (random-unheld-kind-target (any {@self father}).target interest interest))
-          (random-unheld-kind-target (any {@self father}).target interest interest): ?df
+        (case (is-kind ?dm)
+          (if (and (is-kind ?df) (chance 0.5))
+              (then (begin-belief {@self interest ?df}))
+              (else (begin-belief {@self interest ?dm}))))
+        (case (is-kind ?df)
           (begin-belief {@self interest ?df})))
       )))
 
@@ -78,7 +77,9 @@
   ; @self is the subject; a known friend gates it and the effect reads each
   ; friend's own interests and copies one @self lacks. His age rides the @self role;
   ; the openness x enthusiasm chance is a non-belief op -> (when).
-  (role @self {@self age ?age}
+  (role @self {@self openness ?openness}
+              {@self enthusiasm ?enthusiasm}
+              {@self age ?age}
               {@self friend ?}
     ; The friend whose enthusiasm rubs off - a uniform pick over the circle.
     (role ?friend {?friend isa [k human], condition [k alive]}
@@ -86,7 +87,7 @@
       (select (score 1) (policy roulette))
 
       (when (and (>= ?age 8)
-                 (chance (* 0.0167 (target-or @self openness 0.0) (+ 0.5 (target-or @self enthusiasm 0.0))))))
+                 (chance (* 0.0167 ?openness (+ 0.5 ?enthusiasm)))))
 
       (effects
         (random-unheld-kind-target ?friend interest interest): ?d
@@ -102,15 +103,15 @@
   ; @self (the apprentice) holds a standing master bond (minted by
   ; apprenticeship_start); the effect reads the master's skilled-in + calling
   ; domains and copies one @self lacks. The openness-weighted chance -> (when).
-  (role @self 
-              {@self master ?}
+  (role @self {@self openness ?openness} 
+              {@self master ?master}
 
-    (when (chance (* 0.025 (+ 0.3 (target-or @self openness 0.0)))))
+    (when (chance (* 0.025 (+ 0.3 ?openness))))
 
     (effects
       ; The master's craft becomes the apprentice's casual interest (which
       ; interest_deepens can later raise to a skill of its own).
-      (random-unheld-kind-target (any {@self master}).target interest skill-level calling): ?d
+      (random-unheld-kind-target ?master interest skill-level calling): ?d
       (if (is-kind ?d)
           (then (begin-belief {@self interest ?d})))
       )))
@@ -124,10 +125,11 @@
   ; specific source, sampled at random. His age rides the @self role; the
   ; openness-squared chance is a non-belief op -> (when). Gated HARD on openness so only the
   ; genuinely curious drift - trait-rooted, not bare chance.
-  (role @self {@self age ?age}
+  (role @self {@self openness ?openness}
+              {@self age ?age}
 
     (when (and (>= ?age 10)
-               (chance (* 0.0083 (target-or @self openness 0.0) (target-or @self openness 0.0)))))
+               (chance (* 0.0083 ?openness ?openness))))
 
     (effects
       ; A brand-new interest sampled off the whole domain axis (leaf-only, so a

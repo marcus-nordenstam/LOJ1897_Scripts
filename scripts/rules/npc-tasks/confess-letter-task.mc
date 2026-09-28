@@ -66,7 +66,7 @@
                  -{@self spouse ?partner /ever}
                  {@self father|mother|fiancee|spouse|sibling ?kin}
                  (or (not (alive ?kin))
-                     (== ?kin ?partner)
+                     (= ?kin ?partner)
                      -{?kin home ?})))
       (effects (set-outcome ?confess-rel /fail)))
     ; The letter is in the post: the confession is made.

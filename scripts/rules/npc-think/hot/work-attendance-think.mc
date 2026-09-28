@@ -38,19 +38,21 @@
 ; goal the cycle a gate drops (shift end, or leaving the workplace).
 
 (npc-think day_work
-  (role ?job {@self job ?job}
+  (role @self {@self industriousness ?industriousness}
+    (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
                {?org workplace ?wp}       ; ?wp binds at fire
       (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
             (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
-            (latch-eval (at-workplace ?wp))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
-            (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
-      (utility duty (* (k-work-drive-value) (labour-drive-tilt)))
+            (latch-eval (or (spatial @self building ?wp) (spatial @self space ?wp)))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
+            (or (hours ?start ?end) (work-starts-soon ?start ?end)))
+      (utility duty (* (k-work-drive-value) (* (clamp (+ 1.0 (delib-ctr ?industriousness (k-drive-trait-swing))) 0.0 2.0)
+                                                 (clamp (+ 1.0 (delib-ctrc (any {@self stress ?=0.5}).target (- 0.0 (k-drive-mood-swing)))) 0.0 2.0))))
       ; SPAWN the day's WORK TASK (npc-tasks/work-task.mc): its performance tries fan the shift
       ; into the held duties' tasks and the between-duties post-stay; shift_over concludes it.
       ; MAINTAINED on the shift window alone: arrival is latched at onset, so leaving for an
       ; errand never withdraws the day's work.
-      (effects       (maintain-proposal {@self work ?wp})))))
+      (effects       (maintain-proposal {@self work ?wp}))))))
 
 ; The work TASK's performance tries (at_post_morning / at_post_afternoon / shift_over) live
 ; in npc-tasks/work-task.mc. day_go_to_work below stays a DRIVER (no task gate).
@@ -62,9 +64,9 @@
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
                {?org workplace ?wp}       ; ?wp binds at fire
-               (not (at-workplace ?wp))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
+               (not (or (spatial @self building ?wp) (spatial @self space ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
       (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
             (latch-eval (any {?job ?tl ?}): ?sh (bind ?sh.target ?start) (bind ?sh.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
-            (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
+            (or (hours ?start ?end) (work-starts-soon ?start ?end)))
       (utility duty)
       (effects       (maintain-proposal {@self go ?wp})))))

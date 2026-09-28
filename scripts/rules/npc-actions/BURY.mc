@@ -29,7 +29,9 @@
     (write-chronicle verdict deceased ?corpse cause (attr ?corpse death-cause) violent ?violent)
     (write-chronicle tombstone name ?corpse born (year (attr ?corpse birth-date))
                      cause (attr ?corpse death-cause))
-    (realize-destroyed ?corpse internment [k internment buried] BURY)
+    (do
+      (end-beliefs-about ?corpse [/exclude condition|internment|BURY])
+      (begin-belief {?corpse internment [k internment buried]}))
     (destroy-entity ?corpse)
     (set-outcome {@self BURY ?corpse} /succ)))
 ; go_action (the shared travel act) lives in npc-actions/go_action.mc.

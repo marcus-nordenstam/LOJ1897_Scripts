@@ -15,7 +15,8 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
-  (role @self {@self class-situation ?}
+  (role @self {@self politeness ?politeness}
+              {@self class-situation ?}
 
     (effects
-      (begin-belief {@self decorum (clamp (target-or @self politeness 0.0) 0.0 1.0)}))))
+      (begin-belief {@self decorum (clamp ?politeness 0.0 1.0)}))))

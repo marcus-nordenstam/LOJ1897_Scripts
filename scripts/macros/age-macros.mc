@@ -19,23 +19,8 @@
 ; belief-existence test. The alt-list MUST stay in lockstep with the ladder above.
 ; ----------------------------------------------------------------------------
 
-; 3-15: a school-age child (covers the old 8-16 childhood-friendship intent; the
-; band boundaries are the perceptible granularity, so it is juvenile OR adolescent).
-(define-macro schoolchild-age (?o)
-  {?o age-band [k juvenile|adolescent]})
 
-; >= 70.
-(define-macro elderly-age (?o)
-  {?o age-band [k elderly]})
 
-; 16-49 (youth + young-adult + middle-aged). "Working / migration age", and also
-; the childbearing window for fertile_wife. NOTE: the band granularity puts the
-; upper bound at 49 (middle-aged tops out there); the old numeric roles capped at
-; 42 (fertility) / 45 (migration). Births taper naturally with band, so the wider
-; cap is acceptable; tighten to [k youth|young-adult] for a hard <30 cut if the
-; demographics drift.
-(define-macro working-age (?o)
-  {?o age-band [k youth|young-adult|middle-aged]})
 
 ; AGE-PEER CHECK (no macro - the check is inlined by each caller). "Are @self and
 ; ?other in the SAME or an ADJACENT band?" = is @self's age-band within ?other's

@@ -34,7 +34,8 @@
 
 (define-func seat-founding-head (?h)
   (enter-mind ?h)
-  (if (>= (any {@self age}).target (founding_head_age_min))
+  (any {@self age ?age})
+  (if (>= ?age (founding_head_age_min))
     (then
       (bind (headless-charter-for-self public_orgs) ?sfh-art)
       (if (not (substantial ?sfh-art))
@@ -49,7 +50,14 @@
   (bind @nothing ?found)
   (for-each-row ?table [/kind ?hcs-kind] [/class-floor ?hcs-cf]
     (headless-charter ?hcs-kind): ?hcs-art
-    (if (and (substantial ?hcs-art) (class-at-least @self ?hcs-cf))
+    (if (and (substantial ?hcs-art) (>= (cond
+                                          (case {@self class-situation [k class-situation upper]}  2)
+                                          (case {@self class-situation [k class-situation middle]} 1)
+                                          (case {@self class-situation [k class-situation lower]}  0)
+                                          (else -1)) (switch (kind ?hcs-cf)
+                                                       (on [k class-situation upper]  2)
+                                                       (on [k class-situation middle] 1)
+                                                       (else 0))))
       (then
         (bind ?hcs-art ?found)
         (break))))

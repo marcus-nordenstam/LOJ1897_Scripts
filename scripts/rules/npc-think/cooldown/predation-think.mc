@@ -38,29 +38,34 @@
 (npc-think seed_predation_profile
   (cooldown 1 m try-once)
   (rng-stream perpetration)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (role @self {@self psychopathy ?psychopathy}
+              {@self sadism ?sadism}
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
               -{@self fixation ?}
     ; A random adult the predator KNOWS the look of (has both perceived colour
     ; beliefs about), sampled by roulette - the victim-type prototype.
     (role ?proto {?proto isa [k human], condition [k alive]}
                  {?proto age-band [k young-adult|middle-aged|mature|elderly]}
                  (!= ?proto @self)
-                 {?proto hair-color ?}
-                 {?proto eye-color ?}
+                 {?proto hair-color ?hair-color}
+                 {?proto eye-color ?eye-color}
                  (select (score 1) (policy roulette))
       ; Only the hard lethal-disposition tail ever seeds (same floor as the hunt).
-      (when (>= (lethal-disposition @self) 0.65))
+      (when (>= (* 0.5 (+ ?psychopathy ?sadism)) 0.65))
       (effects
         ; Copy the perceived look as the type signature (effect, so (target ...) is fine).
-        (begin-belief {@self fixation (any {?proto hair-color}).target})
-        (begin-belief {@self fixation (any {?proto eye-color}).target})))))
+        (begin-belief {@self fixation ?hair-color})
+        (begin-belief {@self fixation ?eye-color})))))
 
 ; --- the hunt ---------------------------------------------------------------
 (npc-think predation
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (role @self {@self psychopathy ?psychopathy}
+              {@self sadism ?sadism}
+              {@self inhibition ?inhibition}
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self fixation ?}
 
     ; The victim: cast from the predator's OWN non-kin acquaintance ties (his
@@ -78,9 +83,9 @@
                       (overlapping-target {?victim eye-color} {@self fixation}))
                   ; Invisibility score. Low class / stained repute = safer.
                   (select (score (+ 0.1
-                                    (is-a (any {?victim class-situation}).target [k class-situation lower])
-                                    (is-a (any {?victim repute}).target [k repute disreputable])
-                                    (is-a (any {?victim repute}).target [k repute scandalous])))
+                                    (if {?victim class-situation [k class-situation lower]} (then 1.0) (else 0.0))
+                                    (if {?victim repute [k repute disreputable]} (then 1.0) (else 0.0))
+                                    (if {?victim repute [k repute scandalous]} (then 1.0) (else 0.0))))
                           (policy argmax))
 
       ; The REASON: the fixation (read as the /caused_by anchor, never re-minted - so the
@@ -90,11 +95,11 @@
       ; Disposition floor + rate. lethal = mean(psychopathy, sadism); propensity =
       ; (1 - inhibition) * lethal, DOUBLED for {@self life-aim power-aim}. The lethal tip
       ; fires ONCE then the running kill proposal latches it.
-      (when (and (>= (lethal-disposition @self) 0.65)
+      (when (and (>= (* 0.5 (+ ?psychopathy ?sadism)) 0.65)
                  -{?victim condition [k dead]}
                  (or {@self kill ?victim}
                      (chance (* (crime-scale) 0.005
-                                (* (dark-propensity (lethal-disposition @self))
+                                (* (* (- 1.0 ?inhibition) (* 0.5 (+ ?psychopathy ?sadism)))
                                    (if {@self life-aim [k power-aim]} (then 2.0) (else 1.0))))))))
       (utility want)
       (effects

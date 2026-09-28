@@ -48,7 +48,8 @@
 ; once the deposit ends {@self CONVEY ?corpse} /succ the role stops casting the corpse,
 ; the gate drops, and the convey goal ends.
 (npc-think want_convey
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (role @self {@self politeness ?politeness}
+              {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?corpse {?corpse condition [k dead]}
                   {?corpse internment [k unburied]}
                   -{@self CONVEY ?corpse /past}
@@ -58,12 +59,12 @@
       ; bound on the standing-corpse scan where the burial propagation missed a
       ; knower (an emigrant, a returnee).
       (when    (and (observed ?corpse)
-                    (>= (target-or @self politeness 0.0) 0.3)
+                    (>= ?politeness 0.3)
                     (< (months-since-death ?corpse) 6)))
       ; x85, a shade OVER want_worship's x80: burying your dead outranks attending a
       ; service, so at the church the deposit wins the first slot and the service
       ; follows (at x80 the two tied and the deposit lost the tie for years).
-      (utility want (* 10.0 (target-or @self politeness 0.0) 85.0))
+      (utility want (* 10.0 ?politeness 85.0))
       (effects       (begin-goal {@self CONVEY ?corpse}))
       (when-unsupported-effects (set-outcome {@self goal {@self CONVEY ?corpse}} /succ)))))
 
@@ -74,9 +75,10 @@
 ; bearer stood.
 (npc-think convey_at_church
   (goal    {@self CONVEY ?corpse})
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (role @self {@self politeness ?politeness}
+              {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when    (is-a (spatial @self building) [k building church]))
-    (utility (* 10.0 (* (target-or @self politeness 0.0) 85.0)))
+    (utility (* 10.0 (* ?politeness 85.0)))
     (effects (maintain-proposal {@self CONVEY ?corpse}))))
 
 ; CASE B - not at a church, but knows one: head to it. The (goal ...) clause pins

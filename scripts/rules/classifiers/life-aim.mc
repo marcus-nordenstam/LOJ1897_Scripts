@@ -20,37 +20,51 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
-  (role @self {@self wealth ?wealth}
+  (role @self {@self compassion ?compassion}
+              {@self politeness ?politeness}
+              {@self industriousness ?industriousness}
+              {@self assertiveness ?assertiveness}
+              {@self machiavellianism ?machiavellianism}
+              {@self narcissism ?narcissism}
+              {@self enthusiasm ?enthusiasm}
+              {@self piety ?piety}
+              {@self rootedness ?rootedness}
+              {@self wealth ?wealth}
               {@self decorum ?decorum}
 
     (effects
       (mint-argmax {@self life-aim} 0.01 [k life-aim belonging-aim]
         [k life-aim legacy-aim]
-          (* (/ (+ (target-or @self compassion 0.0) (target-or @self politeness 0.0)) 2.0)
+          (* (/ (+ ?compassion ?politeness) 2.0)
              (+ 0.3 (* (prob {@self child ?}) 0.7))
              (+ 0.3 (* (clamp (+ (prob {@self class-situation [k class-situation upper]})
                                  (prob {@self class-situation [k class-situation middle]})) 0.0 1.0) 0.7)))
         [k life-aim wealth-aim]
-          (* (target-or @self industriousness 0.0)
-             (- 1.0 (piety))
+          (* ?industriousness
+             (- 1.0 ?piety)
              (max (- 1.0 ?wealth)
                   (prob {@self social-trajectory [k social-trajectory rising]})))
         [k life-aim piety-aim]
-          (* (piety)
-             (- 1.0 (criminality))
+          (* ?piety
+             (- 1.0 (clamp (+ 0.05
+                              (* (+ (count (every {@self (theme-labels violent-to) ? /ever}) /float)
+                                    (count (every {@self steal ? /ever}) /float)
+                                    (count (every {@self defraud ? /ever}) /float)
+                                    (count (every {@self embezzle ? /ever}) /float)
+                                    (count (every {@self kidnap ? /ever}) /float)) 0.25)) 0.0 1.0))
              (+ 0.4 (* (prob {@self WORSHIP [k building church] /ever}) 0.6)))
         [k life-aim respectability-aim]
-          (* (target-or @self politeness 0.0)
-             (piety)
+          (* ?politeness
+             ?piety
              (+ 0.2 (* (prob {@self class-situation [k class-situation middle]}) 0.8))
              ?decorum)
         [k life-aim autonomy-aim]
-          (* (target-or @self assertiveness 0.0) (- 1.0 (rootedness)))
+          (* ?assertiveness (- 1.0 ?rootedness))
         [k life-aim power-aim]
-          (* (target-or @self machiavellianism 0.0)
-             (target-or @self narcissism 0.0)
+          (* ?machiavellianism
+             ?narcissism
              (+ 0.3 (* (>= (prob {@self job.salary ?}) 1.0) 0.7)))
         [k life-aim belonging-aim]
-          (* (target-or @self enthusiasm 0.0)
-             (- 1.0 (rootedness))
+          (* ?enthusiasm
+             (- 1.0 ?rootedness)
              (clamp (* (count (every {@self friend ?}) /float) 0.2) 0.0 1.0))))))

@@ -19,12 +19,13 @@
 ; NEED from the gate, CRISIS past the collapse knee, so an exhausted man abandons everything
 ; and beds down.
 (npc-think sleep
-  (role ?home {@self home ?home}
-    (when (> (target-or @self sleepiness 0.0) (sleep_gate)))
-    (utility (homeostatic-banded (target-or @self sleepiness 0.0) 2.0
-               [/need   0.8  400 900]
-               [/crisis 1.0  800 1000]))
-    (effects (maintain-proposal {@self go-to-bed ?home}))))
+  (role @self {@self sleepiness ?sleepiness}
+    (role ?home {@self home ?home}
+      (when (> ?sleepiness (sleep_gate)))
+      (utility (homeostatic-banded ?sleepiness 2.0
+                 [/need   0.8  400 900]
+                 [/crisis 1.0  800 1000]))
+      (effects (maintain-proposal {@self go-to-bed ?home})))))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (npc-think idle_go_home

@@ -4,13 +4,7 @@
 ; Coin resolution / cost live in money_macros.mc; pile mutation in collection_macros.mc.
 ; ----------------------------------------------------------------------------
 
-; (nobody-watching): env-truth - I am the only human in my space (no witness to a snatch).
-(define-macro nobody-watching ()
-  (= (count (spatial (spatial @self space) contents [k human] /env)) 1))
 
-; (after-dark): the cover-of-darkness window (the (time hour) clock is band-granular).
-(define-macro after-dark ()
-  (or (>= (time hour) 22) (< (time hour) 5)))
 
 ; (procure_fee): the coins a hired procurer takes on top of the item's price. Tunable.
 (define-macro procure_fee () 20)

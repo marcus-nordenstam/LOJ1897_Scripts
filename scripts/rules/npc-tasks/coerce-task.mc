@@ -36,7 +36,8 @@
       (when {@self SAY ? ?victim /succ /caused_by ?coerce-rel})
       (effects
         (if -{@self extort ?victim} (then (begin-belief {@self extort ?victim})))
-        (if (holds-coercion-material ?victim)
+        (if (or (any {?victim lover|HAVE-SEX-WITH ? /ever})
+                (any {?victim extort|commission|hired-by|kill ? /ever}))
             (then (record-crime @self ?victim blackmail coerce @u @u))
             (else (record-crime @self ?victim threaten_violence coerce @u @u)))
         (set-outcome ?coerce-rel /succ)))

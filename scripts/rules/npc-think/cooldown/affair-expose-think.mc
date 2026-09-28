@@ -3,7 +3,8 @@
   (cooldown 1 m try-once)
   (rng-stream incidents)
 
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]} {@self lover ?}
+  (role @self {@self infidelity-disposition ?infidelity-disposition}
+              {@self age-band [k young-adult|middle-aged|mature|elderly]} {@self lover ?}
                    ; @self signs the denunciation - bind his OWN name for "Signed, ..".
               {@self name ?author_name}
     (role ?cheater {?cheater isa [k human], condition [k alive]}
@@ -34,7 +35,7 @@
           (try
             (role ?ltr [k denunciation-letter] (spatial ?ltr co-located @self)
                                                (unsubstantial (attr ?ltr writing))
-              (when (spouse-of ?cheater): ?betrayed
+              (when (any {?cheater spouse ?betrayed})
                     (alive ?betrayed)
                     {?betrayed name ?betrayed-name}
                     {?cheater home ?cheater-home}
@@ -46,5 +47,5 @@
                                       {?cheater_name lover @i})}))))
 
           (try
-            (when (chance (* 0.3 (infidelity-disposition @self))))
+            (when (chance (* 0.3 ?infidelity-disposition)))
             (effects (maintain-proposal {@self CREATE-ENTITY [k denunciation-letter]}))))))))

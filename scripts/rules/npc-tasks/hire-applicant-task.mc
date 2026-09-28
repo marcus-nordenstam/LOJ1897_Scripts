@@ -43,7 +43,7 @@
                     -{@self HIRE ?applicant ? /succ /caused_by ?ha-rel}
           (utility obligation always-pick)
           (effects
-            (any {?job job-id ?}).target: ?line
+            (any {?job job-id ?line})
             (maintain-proposal {@self HIRE ?applicant ?line}))))
 
       ; SIGNED: the book says he is on it, so the seat is his - and the word goes to him. The
@@ -56,7 +56,7 @@
                     -{@self SAY ? ?applicant /succ /caused_by ?ha-rel}
           (utility obligation always-pick)
           (effects
-            (any {?job job-id ?}).target: ?line
+            (any {?job job-id ?line})
             (kind ?job): ?jk
             (utterable-msg {@you job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
             (check ?msg)
@@ -83,10 +83,9 @@
                     -{@self SAY ? ?applicant /succ /caused_by ?ha-rel}
           (utility obligation always-pick)
           (effects
-            (any {?job job-id ?}).target: ?line
+            (any {?job job-id ?line})
             (kind ?job): ?jk
-            (any {? job ?job}): ?held
-            (bind ?held.subject ?holder)
+            (any {?holder job ?job})
             (utterable-msg {?holder job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
             (check ?msg)
             (maintain-proposal {@self SAY ?msg ?applicant}))))

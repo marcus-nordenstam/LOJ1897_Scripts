@@ -34,6 +34,16 @@
                  (>= ?age 15)))
       (utility duty)
       (effects
-        (bind (accrual-net @self) ?net)
+        (any {@self job.salary ?salary=0})
+        (any {@self coin-pile.count ?coins=0})
+        (any {@self home ?home=@nothing})
+        (bind (+ ?salary
+                 (if (> (count (every {@self own [k building]})) 0) (then (accrual_owner_bonus)) (else 0))) ?net)
         (maintain-proposal {@self ACCRUE-SAVINGS ?pile ?net})
-        (begin-belief {@self wealth (wealth-from @self (+ (coin-balance @self) ?net))})))))
+        (begin-belief {@self wealth (/ (clamp (+ /float (/ /float (+ ?coins ?net) (wealth_coin_div)) (if (substantial ?home) (then (switch (kind ?home)
+                                                                                                        (on [k manor]                40)
+                                                                                                        (on [k townhouse]            30)
+                                                                                                        (on [k farmhouse]            18)
+                                                                                                        (on [k residential-building]  0)
+                                                                                                        (else                        25)))
+                                                                                                (else 0))) 0.0 100.0) 100.0)})))))

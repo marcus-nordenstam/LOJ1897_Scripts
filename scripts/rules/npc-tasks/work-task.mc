@@ -48,8 +48,8 @@
               (effects
                        (maintain-proposal {@self recruit-staff ?duty-org})))))
         (try
-          (when (and (check ?org) (at-workplace ?wp) (< (time hour) 12)))
+          (when (and (check ?org) (or (spatial @self building ?wp) (spatial @self space ?wp)) (< (time hour) 12)))
           (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
         (try
-          (when (and (check ?org) (at-workplace ?wp) (>= (time hour) 12)))
+          (when (and (check ?org) (or (spatial @self building ?wp) (spatial @self space ?wp)) (>= (time hour) 12)))
           (effects (maintain-proposal {@self DWELL ?wp ?end})))))))

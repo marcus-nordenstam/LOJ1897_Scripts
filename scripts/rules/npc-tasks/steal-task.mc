@@ -34,7 +34,7 @@
     (try
       (when (and (empty (spatial @self hold ?kind))
                  (is-a (spatial @self building): ?shop [k building shop])
-                 (nobody-watching)))
+                 (= (count (spatial (spatial @self space) contents [k human] /env)) 1)))
       (effects
         (bind 0 ?found)
         (for-each ?room (spatial ?shop parts [k interior-space room] /env)
@@ -48,5 +48,6 @@
                  {@self take ? /succ /caused_by ?steal-rel}
                  (is-a (spatial @self building): ?shop [k building shop])))
       (effects
-        (record-crime @self (any {? own ?shop}).subject opportunist_theft steal ?kind @u)
+        (any {?shopkeeper own ?shop})
+        (record-crime @self ?shopkeeper opportunist_theft steal ?kind @u)
         (set-outcome ?steal-rel /succ)))))

@@ -7,9 +7,6 @@
 ; forgotten has no psychological reality and ends before a new one is minted.
 ; ----------------------------------------------------------------------------
 
-(define-macro max-emotion-salience () 336.0)
-(define-macro max-pressure-salience () 8760.0)
-(define-macro mood-salience-gain () 0.5)
 
 ; How a trait bends a feeling of this kind: 1 + gain x (trait - 0.5); a one-sided row (the dark
 ; tetrad) only above the mean, since low sadism is ordinary aversion, not a bonus. A negative
@@ -47,12 +44,18 @@
 
 ; The salience a feeling of ?kind is felt with, from its authored base in hours.
 (define-func feeling-salience (?kind ?hours)
-  (bind (+ 1.0 (* (clamp (target-or @self agitation 0.0) 0.0 1.0) (mood-salience-gain))) ?mood)
-  (bind (* (* (* (* (trait-factor ?kind volatility (target-or @self volatility 0.5))
-                    (trait-factor ?kind withdrawal (target-or @self withdrawal 0.5)))
-                 (trait-factor ?kind enthusiasm (target-or @self enthusiasm 0.5)))
-              (trait-factor ?kind narcissism (target-or @self narcissism 0.5)))
-           (trait-factor ?kind psychopathy (target-or @self psychopathy 0.5))) ?traits)
+  (any {@self agitation ?agitation=0.0})
+  (any {@self volatility ?volatility=0.5})
+  (any {@self withdrawal ?withdrawal=0.5})
+  (any {@self enthusiasm ?enthusiasm=0.5})
+  (any {@self narcissism ?narcissism=0.5})
+  (any {@self psychopathy ?psychopathy=0.5})
+  (bind (+ 1.0 (* (clamp ?agitation 0.0 1.0) (mood-salience-gain))) ?mood)
+  (bind (* (* (* (* (trait-factor ?kind volatility ?volatility)
+                    (trait-factor ?kind withdrawal ?withdrawal))
+                 (trait-factor ?kind enthusiasm ?enthusiasm))
+              (trait-factor ?kind narcissism ?narcissism))
+           (trait-factor ?kind psychopathy ?psychopathy)) ?traits)
   (floor (+ (clamp (* ?hours (* ?mood ?traits))
                    1.0
                    (max (max-emotion-salience) (max-pressure-salience)))

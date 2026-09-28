@@ -15,6 +15,8 @@
   (motor body legs)
   (duration (seconds 1 min))
   (effects
-    (realize-destroyed ?thing condition [k condition consumed] DESTROY-ENTITY)
+    (do
+      (end-beliefs-about ?thing [/exclude condition|internment|DESTROY-ENTITY])
+      (begin-belief {?thing condition [k condition consumed]}))
     (destroy-entity ?thing)
     (set-outcome {@self DESTROY-ENTITY ?thing} /succ)))

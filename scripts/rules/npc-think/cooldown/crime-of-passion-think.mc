@@ -31,21 +31,14 @@
 ; ----------------------------------------------------------------------------
 
 
-; The rival for ?beloved AS THE DELIBERATOR KNOWS IT: the beloved's spouse, else their
-; lover, else the beloved themselves - every read from the deliberator's own beliefs (no
-; mind-entering). The caller must exclude @self (a beloved married to the deliberator names
-; @self here). Relocated here from the deleted perpetration_macros.mc (its only consumer).
-(define-macro crave-rival (?beloved)
-  (cond
-    (case (any {?beloved spouse ?}).target (any {?beloved spouse ?}).target)
-    (case (any {?beloved lover ?}).target  (any {?beloved lover ?}).target)
-    (else ?beloved)))
 
 (npc-think crime_of_passion
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
-  (role @self 
+  (role @self {@self volatility ?volatility}
+              {@self psychopathy ?psychopathy}
+              {@self inhibition ?inhibition} 
     ; The craved beloved - the durable REASON; capture the crave belief as the
     ; /caused_by anchor (read, never re-minted, so the drive fades when the crave does).
     ; (policy first-match) binds ONE, so a multi-crave actor pursues a single victim.
@@ -55,7 +48,10 @@
 
       ; crave-rival resolves the rival for the beloved (read in @self's own mind), else
       ; the beloved themselves.
-      (bind (crave-rival ?beloved) ?victim)
+      (bind (cond
+              (case (any {?beloved spouse ?rival-spouse}) ?rival-spouse)
+              (case (any {?beloved lover ?rival-lover}) ?rival-lover)
+              (else ?beloved)) ?victim)
 
       ; MAINTAIN the kill while the crave holds and the victim lives. The jealous-rage
       ; tip fires ONCE (chance = 0.02 * (1-inhibition) * mean(volatility,psychopathy)),
@@ -66,7 +62,7 @@
                  -{?victim condition [k dead]}
                  (or {@self kill ?victim}
                      (chance (* (crime-scale) 0.02
-                                (dark-propensity (rage-disposition @self)))))))
+                                (* (- 1.0 ?inhibition) (* 0.5 (+ ?volatility ?psychopathy))))))))
       (utility want)
       (effects
         (maintain-proposal {@self kill ?victim /caused_by ?crave_bond})))))

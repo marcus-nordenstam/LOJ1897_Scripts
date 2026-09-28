@@ -60,7 +60,7 @@
                       {?beloved class-situation [k lower]})
                   ; the heart of it: @self is attracted to this person (attraction
                   ; at least the `fancy` band, the explicit band-ladder belief) ...
-                  (is-attracted-to @self ?beloved)
+                  {@self fancy|desire|crave ?beloved}
                   ; ... and MUTUAL fancy - she fancies him BACK, and SAID SO. A love
                   ; match is a meeting of two hearts: court builds her fancy toward
                   ; him, confess_fancy carries her admission into his mind, and only

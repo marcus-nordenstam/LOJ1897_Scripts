@@ -29,7 +29,7 @@
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
-  (role @self 
+  (role @self {@self psychopathy ?psychopathy} 
     ; Anyone @self believes WANTS him to do the kill - the goal arrives only by reading
     ; the (msg-class urge) letter (its content is the instigator's goal clause), never
     ; by telepathy. The adopted belief is {<instigator> goal {<me> kill <victim>}}; the
@@ -46,7 +46,7 @@
                  (>= (stance-band ?instigator attraction) 2.0)
                  -{?victim condition [k dead]}
                  (or {@self kill ?victim}
-                     (chance (target-or @self psychopathy 0.0)))))
+                     (chance ?psychopathy))))
 
       (utility want)
       (effects

@@ -16,7 +16,6 @@
 ; at an org, no ledger line - a reader never sees the book.
 ; ----------------------------------------------------------------------------
 
-(include "../../macros/adopt-aoc.mc")
 
 (npc-action {@self READ ?doc}:?read-rel
   (motor eyes legs)
@@ -58,7 +57,7 @@
                   (then (begin-belief {?vjob level ?vlevel})
                         (begin-belief {?vjob salary ?vsalary})
                         (stamp-shift-hours ?vjob ?vjk ?vshift)))
-              (if (and (= ?vname (any {@self name ?}).target) -{?vjob offered-to @self})
+              (if (and (= ?vname (attr @self name)) -{?vjob offered-to @self})
                   (then (begin-belief {?vjob offered-to @self}))))))
       ; A REJECTION names the seat and nothing more. The same slots as the offer's: one
       ; branch of a switch runs, and the action's slots are counted across all of them.

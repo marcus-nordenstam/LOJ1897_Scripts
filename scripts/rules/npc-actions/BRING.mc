@@ -30,6 +30,6 @@
                   (if (and (!= ?other ?item) (attr-is ?other content-kind ?deposited_kind))
                       (then (bind ?other ?larder))))
                 (if ?larder
-                    (then (pile-add ?larder (attr ?item count))
+                    (then (set-attr ?larder count (+ (attr ?larder count) (attr ?item count)))
                           (destroy-entity ?item)))))))
     (set-outcome {@self BRING ?ware ?spot} /succ)))

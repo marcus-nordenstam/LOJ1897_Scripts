@@ -11,6 +11,6 @@
   (motor body legs)
   (duration 0)
   (effects
-    (pile-add ?pile ?net)
+    (set-attr ?pile count (+ (attr ?pile count) ?net))
     (observe ?pile)
     (set-outcome {@self ACCRUE-SAVINGS ?pile ?net} /succ)))

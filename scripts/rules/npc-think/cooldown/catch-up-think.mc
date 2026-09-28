@@ -21,12 +21,13 @@
   ; ?guest is anyone CO-PRESENT: sourced OBJECTIVELY from @self's current room (env
   ; contents), each guest passively perceived - enumerated, so each co-present listener
   ; hears their own untold slice of @self's news.
-  (role @self {@self age ?age}
+  (role @self {@self enthusiasm ?enthusiasm}
+              {@self age ?age}
     (role ?guest {?guest isa [k human], condition [k alive]}
                  (spatial ?guest co-located @self)
 
       ; His age rides the @self role; the extraversion-weighted chance is a non-belief gate.
-      (when (and (chance (* 0.25 (+ 0.5 (target-or @self enthusiasm 0.0))))
+      (when (and (chance (* 0.25 (+ 0.5 ?enthusiasm)))
                  (>= ?age 12)))
 
       (utility want)

@@ -24,19 +24,23 @@
     (for-each ?room (spatial ?shop parts [k interior-space room] /env)
       (do
         (bind 0 ?shop_pile)
-        (pile-at-into ?room [k food] ?shop_pile)
+        (for-each ?pile_cand (spatial ?room contents [k pile] /env)
+          (if (attr-is ?pile_cand content-kind [k food])
+              (then (bind ?pile_cand ?shop_pile))))
         (if (and ?shop_pile (> (attr ?shop_pile count) 0))
             (then
               (min ?cap (attr ?shop_pile count)): ?grab
-              (pile-take ?shop_pile ?grab)
+              (set-attr ?shop_pile count (max 0 (- (attr ?shop_pile count) ?grab)))
               (bind 0 ?hand_pile)
-              (held-pile-into @self [k food] ?hand_pile)
+              (for-each ?held_cand (spatial @self hold [k pile] /env)
+                (if (attr-is ?held_cand content-kind [k food])
+                    (then (bind ?held_cand ?hand_pile))))
               (if (not ?hand_pile)
                   (then (create-entity [k pile] ?room): ?new_basket
                         (set-attr ?new_basket content-kind [k food])
                         (set-attr ?new_basket count 0)
                         (spatial-write ?new_basket gripped-by (spatial @self left-hand) /env)
                         (bind ?new_basket ?hand_pile)))
-              (pile-add ?hand_pile ?grab)
+              (set-attr ?hand_pile count (+ (attr ?hand_pile count) ?grab))
               (begin-belief {@self provisions-shop ?shop})))))
     (set-outcome {@self PROVISION ?cap} /succ)))

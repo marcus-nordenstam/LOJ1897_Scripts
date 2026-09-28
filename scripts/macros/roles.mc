@@ -35,44 +35,8 @@
 ; non-belief ops, dynamic-label binds and act-desire gates stay in (when).
 ; ----------------------------------------------------------------------------
 
-(define-macro old_human (?x)
-  (and {?x isa [k human], condition [k alive]}
-       {?x age-band [k youth|young-adult|middle-aged|mature|elderly]}))          ; >=16
 
-;; Unmarried adult woman. The (not (believes {?x spouse ?})) is the deliberating
-;; mind's OWN belief about the candidate's marital status (shape-2), NOT the
-;; candidate's self-knowledge (the 2-arg {?x {@self spouse ?}} telepathic read) - so
-;; it stays object-cacheable and telepathy-pure: you only skip women YOU know married.
-(define-macro unmarried_woman (?x)
-  (and {?x isa [k human], condition [k alive]}
-       {?x gender [k female]}
-       {?x age-band [k young-adult|middle-aged|mature|elderly]}
-       -{?x spouse ?}))
 
-(define-macro unmarried_man (?x)
-  (and {?x isa [k human], condition [k alive]}
-       {?x gender [k male]}
-       {?x age-band [k young-adult|middle-aged|mature|elderly]}
-       -{?x spouse ?}))
 
-;; Married woman of fertile age who can conceive NOW - not already carrying a
-;; pregnancy ({?x pregnant ?} is set at conception, cleared at delivery by the
-;; update_physiology gestation timer). Shape-2 spouse read (the deliberating mind's
-;; own belief), so it stays object-cacheable like unmarried_woman.
-(define-macro fertile_wife (?x)
-  (and {?x isa [k human], condition [k alive]}
-       {?x gender [k female]}
-       (working-age ?x)                  ; 16-49 childbearing band
-       {?x spouse ?}
-       -{?x pregnant ?}))
 
-;; Adult of working / migration age. Used by emigration.
-(define-macro young-adult (?x)
-  (and {?x isa [k human], condition [k alive]}
-       (working-age ?x)))                ; 16-49
 
-;; A letter / document the deliberating mind has SEEN - perception minted
-;; {?x isa [k letter]} (and observable attrs, e.g. {?x addressee ..}) when @self
-;; observed it. is-a [k letter] matches every letter subkind (love-letter, tryst-note).
-(define-macro any_letter (?x)
-  {?x isa [k letter]})

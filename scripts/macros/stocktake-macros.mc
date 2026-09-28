@@ -22,8 +22,3 @@
 ;     (take-stock-of ?room [k food]))
 ; ----------------------------------------------------------------------------
 
-(define-macro take-stock-of (?room ?kind)
-  (for-each ?item (spatial ?room contents)
-    (if (and (is-a ?item [k ?kind])
-             (!= (spatial ?item space /env) ?room))
-        (then (spatial-write ?item space @nothing)))))

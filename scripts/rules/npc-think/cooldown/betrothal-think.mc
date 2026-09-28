@@ -22,14 +22,18 @@
   ;; HE has heard of ((count (every {?bride lover ? /ever})) - per-observer, never an
   ;; omniscient public reading), her availability as his own belief
   ;; ((any {?bride <label> ?}), permissive on the unknown).
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (role @self {@self class-situation ?my-class}
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self gender [k male]}
               -{@self spouse ?}
               -{@self fiancee ?}
               -{@self repute [k scandalous]}
               -{@self repute [k disreputable]}
               {@self age-band ?peer_band}
-    (role ?bride (unmarried_woman ?bride)
+    (role ?bride {?bride isa [k human], condition [k alive]}
+                 {?bride gender [k female]}
+                 {?bride age-band [k young-adult|middle-aged|mature|elderly]}
+                 -{?bride spouse ?}
                  ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
                  ;; attached; a secret he has not heard does not stop the match).
                  -{?bride fiancee ?}
@@ -64,9 +68,9 @@
                  ;; has heard of (per-observer chastity, any tense). A bride whose past he
                  ;; has not heard passes - the market gives the benefit of the doubt.
                  (< (count (every {?bride lover ? /ever})) 2)
-                 (not (and {@self lover ?}
-                           (= (any {(any {@self lover}).target class-situation}).target
-                              (any {@self class-situation}).target)))))
+                 (not (and (any {@self lover ?lover})
+                           (any {?lover class-situation ?lover-class})
+                           (= ?lover-class ?my-class)))))
 
       (utility want)
 

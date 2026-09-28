@@ -29,16 +29,20 @@
     ; BUY - overt only; (feasible) drops it when broke, (cost) charges the felt price.
     (try
       (when (not (is-a ?disc [k covert])))
-      (effects (maintain-proposal {@self buy ?kind}
-                 [/feasible (>= (coin-balance @self) (price ?kind))]
-                 [/cost (money-cost-util (coin-balance @self) (price ?kind))])))
+      (effects
+        (any {@self coin-pile.count ?coins=0})
+        (maintain-proposal {@self buy ?kind}
+          [/feasible (>= ?coins (price ?kind))]
+          [/cost (money-cost-util ?coins (price ?kind))])))
     ; HIRE - covert paid channel; agent fee folded into the price gate.
     (try
       (role ?agent {?agent isa [k human], condition [k alive]} {@self (closeness-labels acquaintance) ?agent /ever}
         (when (is-a ?disc [k covert]))
-        (effects (maintain-proposal {@self hire-procure ?agent ?kind}
-                   [/feasible (>= (coin-balance @self) (+ (price ?kind) (procure_fee)))]
-                   [/cost (money-cost-util (coin-balance @self) (+ (price ?kind) (procure_fee)))]))))
+        (effects
+          (any {@self coin-pile.count ?coins=0})
+          (maintain-proposal {@self hire-procure ?agent ?kind}
+            [/feasible (>= ?coins (+ (price ?kind) (procure_fee)))]
+            [/cost (money-cost-util ?coins (+ (price ?kind) (procure_fee)))]))))
     ; STEAL - floored last resort, only while crime is enabled.
     (try
       (when (> (crime-scale) 0.0))

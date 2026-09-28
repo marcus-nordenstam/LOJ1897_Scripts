@@ -7,18 +7,6 @@
 ; rule that calls it.
 ; ----------------------------------------------------------------------------
 
-; Background per-year mortality curve: integer years-of-age -> death probability.
-; Folds in pre-industrial infant + child mortality at the low end.
-(define-macro mortality_by_age (?age)
-  (cond
-    (case (< ?age 15) 0.006)
-    (case (< ?age 40) 0.005)
-    (case (< ?age 55) 0.010)
-    (case (< ?age 65) 0.022)
-    (case (< ?age 75) 0.050)
-    (case (< ?age 85) 0.110)
-    (case (< ?age 95) 0.220)
-    (else 1.000)))
 
 ; Population homeostat tunables (constants). target_population is the carrying
 ; capacity both the per-NPC emigration (population-pressure) and the sparse-side
@@ -33,12 +21,6 @@
 (define-macro business_open_hour  () 8)
 (define-macro business_close_hour () 17)
 
-; Live crowding ratio: living-npc-count / target. 1.0 at carrying capacity, < 1 when
-; sparse, > 1 when crowded. The per-NPC emigration think scales each young
-; adult's monthly leave-chance by it, so crowding raises the outflow and a sparse
-; parish (immigration territory) sheds almost no one. Replaces the old
-; homeostat_emigration "emigrate the oldest N by fiat" world valve.
-(define-macro population-pressure () (/ /float (living-npc-count) (homeostat_target_population)))
 
 ; Labour market: the wealth ceiling above which an NPC does NOT seek waged work (the
 ; independently wealthy). Wealth is the {@self wealth ?w} belief (~0..1.25, balance/120);

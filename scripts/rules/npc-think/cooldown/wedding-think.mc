@@ -30,12 +30,15 @@
   ; apply to @self; its kind/alive existence checks are no-ops for @self and are
   ; skipped by the gate-builder). Only the groom plans; the bride is wired in as
   ; co-principal by plan-wedding.
-  (role @self (unmarried_man @self)
+  (role @self {@self isa [k human], condition [k alive]}
+              {@self gender [k male]}
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
+              -{@self spouse ?}
               {@self fiancee ?fiancee}   ; existence cached, ?fiancee binds at fire
     ; The venue is a same-town church the groom KNOWS; nearest preferred, weighted.
     ; No known church -> no fire (the goal waits).
     (role ?church [k building church] (select (score (near @self ?church)) (policy roulette unknown-last))
-      (when (none (organizing-occasion [k wedding])))
+      (when (none {@self organize [k wedding]}))
       (effects
         ; ~3 months' banns lead, an 11-14h ceremony. plan-wedding stages the occasion
         ; (both principals forced-attend, both circles invited).

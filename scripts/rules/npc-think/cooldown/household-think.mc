@@ -30,7 +30,8 @@
 (npc-think household_day
   (cooldown 1 m try-until-succ)
 
-  (role @self {@self home ?home}
+  (role @self {@self intellect ?intellect}
+              {@self home ?home}
     (utility idle)
 
     (effects
@@ -40,7 +41,7 @@
             (then (bind 1 ?bookish))))
       (if (and (spatial ?home room [k interior-space study])
                (or (= ?bookish 1)
-                   (>= (target-or @self intellect 0.0) (read-intellect-threshold))))
+                   (>= ?intellect (read-intellect-threshold))))
           (then (maintain-proposal {@self read-at ?home}))
           (else (maintain-proposal {@self rest ?home}))))))
 

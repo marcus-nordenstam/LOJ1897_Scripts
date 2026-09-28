@@ -93,16 +93,19 @@
 ;       someone who does. That rung is how an employer ACQUIRES the name.
 (npc-think classify_go_between
   (rng-stream behaviour)
-  (role @self {@self repute ?, class-situation ?}
+  (role @self {@self industriousness ?industriousness}
+              {@self politeness ?politeness}
+              {@self volatility ?volatility}
+              {@self repute ?, class-situation ?}
     (effects
       (mint-band {@self prototype}
         (* (* (- 1.0 (prob {@self repute [k repute exemplary]}))
               (- 1.0 (prob {@self repute [k repute respectable]})))
            (clamp (+ (prob {@self class-situation [k class-situation lower]})
                      (prob {@self class-situation [k class-situation middle]})) 0.0 1.0)
-           (>= (/ (+ (- 1.0 (target-or @self industriousness 0.0))
-                     (- 1.0 (target-or @self politeness 0.0))
-                     (target-or @self volatility 0.0)) 3.0)
+           (>= (/ (+ (- 1.0 ?industriousness)
+                     (- 1.0 ?politeness)
+                     ?volatility) 3.0)
                0.50))
         [k prototype go-between] 0.5))))
 
@@ -129,7 +132,11 @@
 ; skilled path: a martial or garrotting skill IS the capability; mint on reason.
 (npc-think classify_for_hire_skilled
   (rng-stream behaviour)
-  (role @self {@self economic-situation ?}
+  (role @self {@self compassion ?compassion}
+              {@self industriousness ?industriousness}
+              {@self politeness ?politeness}
+              {@self volatility ?volatility}
+              {@self economic-situation ?}
               (or {@self skill-level [k martial]}
                   {@self skill-level [k garrotting]})
     (effects
@@ -137,28 +144,33 @@
         ; REASON: economic desperation OR the callous + disinhibited bad seed.
         (clamp (+ (clamp (+ (prob {@self economic-situation [k economic-situation poor]})
                             (prob {@self economic-situation [k economic-situation destitute]})) 0.0 1.0)
-                  (* (<= (target-or @self compassion 0.0) 0.40)
-                     (>= (/ (+ (- 1.0 (target-or @self industriousness 0.0))
-                               (- 1.0 (target-or @self politeness 0.0))
-                               (target-or @self volatility 0.0)) 3.0)
+                  (* (<= ?compassion 0.40)
+                     (>= (/ (+ (- 1.0 ?industriousness)
+                               (- 1.0 ?politeness)
+                               ?volatility) 3.0)
                          0.55))) 0.0 1.0)
         [k prototype for-hire] 0.5))))
 
 ; brute path: the lower-class strong man with NO lethal skill (footpad / cosh thug).
 (npc-think classify_for_hire_brute
   (rng-stream behaviour)
-  (role @self {@self economic-situation ?, class-situation ?}
+  (role @self {@self strength ?strength}
+              {@self compassion ?compassion}
+              {@self industriousness ?industriousness}
+              {@self politeness ?politeness}
+              {@self volatility ?volatility}
+              {@self economic-situation ?, class-situation ?}
               -{@self skill-level [k martial]}
               -{@self skill-level [k garrotting]}
     (effects
       (mint-band {@self prototype}
-        (* (>= (target-or @self strength 0.0) 0.65)
+        (* (>= ?strength 0.65)
            (prob {@self class-situation [k class-situation lower]})
            (clamp (+ (clamp (+ (prob {@self economic-situation [k economic-situation poor]})
                                (prob {@self economic-situation [k economic-situation destitute]})) 0.0 1.0)
-                     (* (<= (target-or @self compassion 0.0) 0.40)
-                        (>= (/ (+ (- 1.0 (target-or @self industriousness 0.0))
-                                  (- 1.0 (target-or @self politeness 0.0))
-                                  (target-or @self volatility 0.0)) 3.0)
+                     (* (<= ?compassion 0.40)
+                        (>= (/ (+ (- 1.0 ?industriousness)
+                                  (- 1.0 ?politeness)
+                                  ?volatility) 3.0)
                             0.55))) 0.0 1.0))
         [k prototype for-hire] 0.5))))

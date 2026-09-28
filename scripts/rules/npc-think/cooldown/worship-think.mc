@@ -33,10 +33,13 @@
   ; once worship_act resets days-since-last the (when) drops, ending
   ; {@self WORSHIP}. The act never ends the goal.
   (cooldown 3 d try-until-succ)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (role @self {@self politeness ?politeness}
+              {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when    (and (>= (days-since-last {@self WORSHIP /succ /ever}) 3)
-                  (>= (target-or @self politeness 0.0) 0.3)))
-    (utility want (* (recency-ramp WORSHIP 3.0 21.0 500.0) (devotional-drive-tilt)))
+                  (>= ?politeness 0.3)))
+    (utility want (* (* 500.0 (clamp (/ (- (days-since-last-float {@self WORSHIP /succ /ever}) 3.0)
+                                         (- 21.0 3.0))
+                                      0.0 1.0)) (clamp (+ 1.0 (delib-ctr ?politeness (k-drive-trait-swing))) 0.0 2.0)))
     (effects
                    (begin-goal {@self WORSHIP}))
     (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ))))

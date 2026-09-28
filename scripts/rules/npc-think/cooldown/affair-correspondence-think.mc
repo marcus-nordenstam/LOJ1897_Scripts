@@ -35,7 +35,12 @@
     (role ?paramour {?paramour isa [k human], condition [k alive]}
       {@self lover ?paramour}
       -{@self spouse ?paramour}
-      (covert-affair-motive ?paramour)   ; belief-pure macro - cached
+      (or {@self spouse @something} {?paramour spouse @something}
+          {@self fiancee @something} {?paramour fiancee @something}
+          ; cross-class as @self KNOWS it: @self holds a class belief about ?paramour and
+          ; it is not @self's own class (telepathy-pure - no read of ?paramour's own mind).
+          (and {?paramour class-situation ?}
+               -{?paramour class-situation (any {@self class-situation}).target}))   ; belief-pure macro - cached
       ; @self names her in the letter body (a name value, not the live object).
       {?paramour name ?paramour_name}
       (select (policy first-match))

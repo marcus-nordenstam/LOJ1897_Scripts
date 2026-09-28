@@ -32,9 +32,11 @@
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
-  (role @self 
+  (role @self {@self compassion ?compassion}
+              {@self psychopathy ?psychopathy}
+              {@self inhibition ?inhibition} 
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
-    (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse} (select (policy first-match))
+    (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse} {?spouse wealth ?spouse-wealth} (select (policy first-match))
 
       ; The REASON: the held detest belief, else dislike, else the spouse-wealth belief.
       ; Read as the /caused_by anchor, never re-minted, so the drive fades as the reason
@@ -48,18 +50,18 @@
       ; hated = warmth band toward the spouse <= -2 (the detest band); abused = the
       ; spouse holds an assault record against the actor. propensity = misery *
       ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) * (1 + spouse-wealth).
-      (when (and (or (detests ?spouse)
+      (when (and (or (<= (stance-band ?spouse warmth) (detest-warmth-max))
                      {?spouse (theme-labels violent-to) @self /ever})
                  -{?spouse condition [k dead]}
                  (or {@self kill ?spouse}
                      (chance
                        (* (crime-scale) 0.02
-                          (* (+ (if (detests ?spouse) (then 1.0) (else 0.0))
+                          (* (+ (if (<= (stance-band ?spouse warmth) (detest-warmth-max)) (then 1.0) (else 0.0))
                                 (if {?spouse (theme-labels violent-to) @self /ever} (then 1.0) (else 0.0)))
-                             (* (+ 0.5 (target-or @self psychopathy 0.0))
-                                (* (disinhibition)
-                                   (* (callousness @self)
-                                      (+ 1.0 (any {?spouse wealth}).target))))))))))
+                             (* (+ 0.5 ?psychopathy)
+                                (* (- 1.0 ?inhibition)
+                                   (* (- 1.0 ?compassion)
+                                      (+ 1.0 ?spouse-wealth))))))))))
 
       (utility want)
       (effects

@@ -34,7 +34,7 @@
     ; the `fancy` band - the same gate court / love_match read).
     (role ?target {?target isa [k human], condition [k alive]}
                   {?target age-band [k youth|young-adult|middle-aged|mature|elderly]}
-                  (is-attracted-to @self ?target)
+                  {@self fancy|desire|crave ?target}
                   (spatial ?target co-located @self)
 
       (utility want)

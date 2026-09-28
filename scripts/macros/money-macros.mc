@@ -17,60 +17,18 @@
 (define-macro money_purse_reserve   () 15.0)    ; survival floor the cost diverges toward
 (define-macro money_utility_scale   () 10.0)    ; = k_utility_value_scale
 
-; (money-cost-util ?balance ?price): the FELT utility of a coin cost, scaled by the
-; actor's marginal value of money - dear to a pauper (a thin purse diverges toward the
-; reserve floor), nothing to a lord. 0 for a free means.
-(define-macro money-cost-util (?balance ?price)
-  (if (<= ?price 0)
-      (then 0)
-      (else (* (* (/ (money_purse_reference) (max (money_purse_reserve) ?balance)) ?price)
-               (money_utility_scale)))))
 
-; (coin-balance ?who): the coins ?who BELIEVES it has - the perceived count of its
-; coin pile, read through the {@self coin-pile <pile>} pointer's `.count` chain. The
-; count belief mirrors the entity's real count attr the moment ?who observes the pile
-; (seed / accrual / spend all observe), so this is belief-honest and legal in a (when).
-(define-macro coin-balance (?who)
-  (if {?who coin-pile.count ?}
-      (then (any {?who coin-pile.count ?}).target)
-      (else 0)))
 
 ; ---- the economic model (was hsim_derive.cc, purged) -----------------------
 
-; (job-income ?who): the yearly salary of ?who's job (0 if unsalaried / no job). The
-; job.salary belief IS the income - set at hire from income_by_level (money_tables.mc).
-(define-macro job-income (?who)
-  (if {?who job.salary ?}
-      (then (any {?who job.salary ?}).target)
-      (else 0)))
 
-; (building-worth-of ?b): the estate worth a building contributes to wealth (was
-; C++ building_estate_worth). A rented / lower-class residence counts nothing; any
-; other owned building is a business premises unless it is a named quality dwelling.
-(define-macro building-worth-of (?b)
-  (switch (kind ?b)
-    (on [k manor]                40)
-    (on [k townhouse]            30)
-    (on [k farmhouse]            18)
-    (on [k residential-building]  0)
-    (else                        25)))
 
-; (estate-worth ?who): the worth of ?who's home dwelling (B-simplify: the home only,
-; via the single-valued {@self home <bldg>} pointer; a rented rowhouse counts 0 by
-; building-worth-of). Owned business premises are not counted in this pass.
-(define-macro estate-worth (?who)
-  (if {?who home ?}
-      (then (building-worth-of (any {?who home ?}).target))
-      (else 0)))
 
 ; (accrual-net ?who): the whole coins ?who saves in a year - salaried income plus a
 ; property owner's bonus. Kept INTEGER (coin counts are whole coins; there is no
 ; floor/round op), so the savings-rate multiplier and the float gambling drain of the
 ; old bank model are dropped (consistent with the coins-not-proxies wealth model).
 (define-macro accrual_owner_bonus () 30)
-(define-macro accrual-net (?who)
-  (+ (job-income ?who)
-     (if (> (count (every {?who own [k building]})) 0) (then (accrual_owner_bonus)) (else 0))))
 
 ; (wealth-from ?who ?coins) / (wealth-of ?who): the 0..1 wealth dimension - liquid
 ; coins plus owned estate, normalised off the 0..100 surface (was C++ classify_wealth,
@@ -79,5 +37,3 @@
 ; off its PROJECTED post-credit balance (a think reads pre-credit coins); wealth-of reads
 ; the believed balance for any other caller.
 (define-macro wealth_coin_div () 120.0)   ; coins -> wealth points
-(define-macro wealth-from (?who ?coins)
-  (/ (clamp (+ /float (/ /float ?coins (wealth_coin_div)) (estate-worth ?who)) 0.0 100.0) 100.0))

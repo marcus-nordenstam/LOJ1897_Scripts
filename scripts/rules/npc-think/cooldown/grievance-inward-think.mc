@@ -16,27 +16,8 @@
 ; ----------------------------------------------------------------------------
 
 
-; despair = stress x (1 - contentment) - the self-belief reading behind the gate.
-(define-macro despair (?who)
-  (* (any {?who stress}).target (- 1.0 (any {?who contentment}).target)))
 
-; A confidant to witness ?who's ideation - their living spouse, else the first friend
-; they know (read from ?who's OWN relations). The rare servant-only confidant is not
-; modelled; the truly alone die unwitnessed.
-(define-macro pick-confidant (?who)
-  (if (alive (spouse-of ?who))
-      (then (spouse-of ?who))
-    (else (any {?who friend ?}).target)))
 
-(define-macro resolve-suicide (?who)
-  (do
-    (if (pick-confidant ?who)
-        (then
-          (pick-confidant ?who): ?conf
-          (begin-belief ?conf {@self mention [k death-cause suicide]})))
-    (if (and (>= (despair ?who) (suicide_despair_min))
-             (>= (target-or ?who withdrawal 0.0) (suicide_withdrawal_min)))
-        (then (begin-goal {@self DIE [k death-cause suicide]})))))
 
 (npc-think suicide_disgrace
   (cooldown 1 m try-once)

@@ -11,7 +11,8 @@
 (npc-think self_insertion
   (cooldown 1 m try-once)
   (rng-stream perpetration)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (role @self {@self narcissism ?narcissism}
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
     ; His own overt-method kill: the corpse whose mystery he inserts himself into.
     (role ?victim {@self strangle|shoot ?victim /succ /ever}
                   (not (alive ?victim))
@@ -26,6 +27,6 @@
             (when (and (!= ?innocent ?victim)
                        (!= ?innocent @self)
                        -{@self denounce ? ?victim /ever}
-                       (>= (target-or @self narcissism 0.0) 0.7)
+                       (>= ?narcissism 0.7)
                        (chance 0.04)))
             (effects (maintain-proposal {@self denounce ?innocent ?victim}))))))))

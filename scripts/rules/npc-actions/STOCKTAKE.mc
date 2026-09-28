@@ -49,14 +49,19 @@
           (spatial ?shop parts [k interior-space room] /env): ?rooms
           ; Validate the shelves against belief - every room of the shop.
           (for-each ?room ?rooms
-            (take-stock-of ?room [k food]))
+            (for-each ?item (spatial ?room contents)
+              (if (and (is-a ?item [k food])
+                       (!= (spatial ?item space /env) ?room))
+                  (then (spatial-write ?item space @nothing)))))
           ; Re-seed the shopfront to the daily cap (the morning delivery): top
           ; the ONE food pile ([/limit 1] room) back up to the cap. Idempotent -
           ; a full shelf writes the same count it already holds.
           (for-each ?room ?rooms [/limit 1]
             (do
               (bind 0 ?food_pile)
-              (pile-at-into ?room [k food] ?food_pile)
+              (for-each ?pile_cand (spatial ?room contents [k pile] /env)
+                (if (attr-is ?pile_cand content-kind [k food])
+                    (then (bind ?pile_cand ?food_pile))))
               (if (not ?food_pile)
                   (then (create-entity [k pile] ?room): ?food_pile
                         (set-attr ?food_pile content-kind [k food])))

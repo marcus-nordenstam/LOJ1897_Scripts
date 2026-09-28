@@ -31,7 +31,8 @@
   ;; @self - a married adult, not already mid-affair. The disposition-to-stray
   ;; gate (the chance product over openness x enthusiasm x impropriety) is a
   ;; non-belief filter and lives in the (when ...) clause below.
-  (role @self
+  (role @self {@self compassion ?compassion}
+              {@self infidelity-disposition ?infidelity-disposition}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self spouse ?}
               -{@self lover ?}
@@ -59,8 +60,8 @@
       ; CANDIDATE fire (write-reconciled), so the first paramour minted this tick
       ; empties the gate and stops the rest - one new affair per spouse per tick.
       (when (latch-eval (chance (* (crime-scale) 0.2
-                       (infidelity-disposition @self)
-                       (callousness @self)))))
+                       ?infidelity-disposition
+                       (- 1.0 ?compassion)))))
 
       (utility want)
 

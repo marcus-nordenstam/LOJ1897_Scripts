@@ -63,10 +63,10 @@
 (npc-think want_invite_guest
   (lock)
   (role ?occ {@self organize ?occ}
-             {?occ held-on ?}
+             {?occ held-on ?held-on}
     (role ?guest {@self friend ?guest}
                  {?guest home ?}
                  -{@self invite ?guest ?occ}
-      (when (not (date-in-current-month (any {?occ held-on ?}).target)))
+      (when (not (date-in-current-month ?held-on)))
       (utility errand)
       (effects (maintain-proposal {@self invite-guest ?guest ?occ})))))

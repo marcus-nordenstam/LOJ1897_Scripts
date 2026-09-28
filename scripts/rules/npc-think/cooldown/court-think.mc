@@ -46,7 +46,7 @@
                   ; the specific person @self is attracted to (the attraction
                   ; stance has reached at least the `fancy` band, read as the
                   ; explicit band-ladder verb-state belief) ...
-                  (is-attracted-to @self ?beloved)
+                  {@self fancy|desire|crave ?beloved}
                   ; RECEPTIVITY: courting only sways an AVAILABLE heart - she has
                   ; TOLD HIM she fancies him (deepening), or - as far as HE knows -
                   ; she fancies NO ONE yet (winnable). A girl HE KNOWS to fancy

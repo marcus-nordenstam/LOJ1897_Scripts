@@ -14,11 +14,11 @@
   (tar [k object] @object) (aux [k human] @object) (duration (seconds 1 min))
   (effects
     (check (spatial ?goods co-located @self))
-    (check (>= (coin-balance @self) (price ?goods)))
     (any {@self coin-pile ?src})
-    (pile-take ?src (price ?goods))
+    (check (>= (attr ?src count) (price ?goods)))
+    (set-attr ?src count (max 0 (- (attr ?src count) (price ?goods))))
     (any {?vendor coin-pile ?vp})
-    (if ?vp (then (pile-add ?vp (price ?goods))))
+    (if ?vp (then (set-attr ?vp count (+ (attr ?vp count) (price ?goods)))))
     (spatial @self right-hand): ?rh
     (if (empty (spatial ?rh grip))
         (then (spatial-write ?goods gripped-by ?rh /env))

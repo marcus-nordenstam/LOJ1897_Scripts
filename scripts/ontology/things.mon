@@ -34,7 +34,7 @@
                     staff-household since offered-to job-id duty-to duty-holder study schooling
                     win race-result outdo public-humiliation confront-publicly interest calling craving
                     forage life-aim honesty sobriety piety devoutness diligence chastity
-                    decorum generosity work-standing aggression criminality disinhibition inhibition wealth
+                    decorum generosity work-standing aggression criminality disinhibition inhibition aggressive-tilt prosocial-tilt infidelity-disposition wealth
                     income-security prestige breeding influence connectedness constitution affliction soundness
                     radicalism education belonging contentment agitation stress purpose autonomy
                     rootedness family-alignment starve pregnant household-cook hsim-motive hsim-secret-at-risk hsim-publicly-humiliated
@@ -637,16 +637,10 @@
         (child counter
           (children bar-counter))
         (children wall)
-        # Signage mounted on a premise - the physical carriers of the building's
-        # identity, perceived as fixtures of the building. A building's identity is
-        # its name if it has one, else its address: a building-name-sign shows the
-        # `name`, an address-sign the `address`. Only named buildings get a name
-        # sign; only addressed buildings get an address sign. Never an org's name -
-        # many orgs may share one building, and an org has no sign of its own.
+        # A sign carries no text of its own: a building-name-sign shows its building's
+        # `name`, an address-sign its building's `address`.
         (child sign
-          (children building-name-sign public-notice-board)
-          (child address-sign
-            (decorations (attrs address))))
+          (children building-name-sign address-sign public-notice-board))
         (child opening (+ nav_passage)
           (children window door))))
     (child gm

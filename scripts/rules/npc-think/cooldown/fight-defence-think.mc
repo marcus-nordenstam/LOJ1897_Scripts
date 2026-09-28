@@ -22,17 +22,20 @@
 
   ; Bind the aggressor + the witnessed violent act (the /caused_by handle); a believed-dead
   ; aggressor filters out.
-  (role ?foe {?foe (theme-labels violent-to) @self /ever}:?witnessed-rel
-             -{?foe condition [k dead]}
-             -{@self fight ?foe /succ /caused_by ?witnessed-rel}
-             -{@self fight ?foe /fail /caused_by ?witnessed-rel}
-
-    (when (latch-eval (chance (clamp (+ (target-or @self volatility 0.0)
-                            (target-or @self sadism 0.0)
-                            (- 1.0 (target-or @self compassion 0.0)))
-                         0.05 0.95))))
-
-    (utility survival always-pick)
-
-    (effects
-      (maintain-proposal {@self fight ?foe /caused_by ?witnessed-rel}))))
+  (role @self {@self volatility ?volatility}
+              {@self sadism ?sadism}
+              {@self compassion ?compassion}
+    (role ?foe {?foe (theme-labels violent-to) @self /ever}:?witnessed-rel
+               -{?foe condition [k dead]}
+               -{@self fight ?foe /succ /caused_by ?witnessed-rel}
+               -{@self fight ?foe /fail /caused_by ?witnessed-rel}
+  
+      (when (latch-eval (chance (clamp (+ ?volatility
+                              ?sadism
+                              (- 1.0 ?compassion))
+                           0.05 0.95))))
+  
+      (utility survival always-pick)
+  
+      (effects
+        (maintain-proposal {@self fight ?foe /caused_by ?witnessed-rel})))))

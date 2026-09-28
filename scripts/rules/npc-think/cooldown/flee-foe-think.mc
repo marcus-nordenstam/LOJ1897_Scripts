@@ -15,19 +15,22 @@
 (npc-think flee_foe
   (cooldown 1 m try-once)
 
-  (role ?foe {?foe (theme-labels violent-to) @self}:?witnessed-rel
-             -{?foe condition [k dead]}
-
-    ; The fearful flight: timidity = high volatility + low sadism + high compassion, the
-    ; mirror of fight_defence's combat resolve, so most victims lean one way or the other.
-    (when (chance (clamp (+ (target-or @self volatility 0.0)
-                            (- 1.0 (target-or @self sadism 0.0))
-                            (target-or @self compassion 0.0))
-                         0.05 0.95)))
-
-    (utility survival always-pick)
-
-    (effects
-      ; Run for home - a known refuge; if @self has none, no flight (they stand and take it).
-      (if {@self home ?myhome}
-          (then (maintain-proposal {@self go ?myhome}))))))
+  (role @self {@self volatility ?volatility}
+              {@self sadism ?sadism}
+              {@self compassion ?compassion}
+    (role ?foe {?foe (theme-labels violent-to) @self}:?witnessed-rel
+               -{?foe condition [k dead]}
+  
+      ; The fearful flight: timidity = high volatility + low sadism + high compassion, the
+      ; mirror of fight_defence's combat resolve, so most victims lean one way or the other.
+      (when (chance (clamp (+ ?volatility
+                              (- 1.0 ?sadism)
+                              ?compassion)
+                           0.05 0.95)))
+  
+      (utility survival always-pick)
+  
+      (effects
+        ; Run for home - a known refuge; if @self has none, no flight (they stand and take it).
+        (if {@self home ?myhome}
+            (then (maintain-proposal {@self go ?myhome})))))))

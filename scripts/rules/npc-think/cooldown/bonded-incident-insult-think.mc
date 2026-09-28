@@ -42,7 +42,8 @@
   (cooldown 1 m try-once)
   (rng-stream incidents)
 
-  (role @self 
+  (role @self {@self politeness ?politeness}
+              {@self narcissism ?narcissism} 
     (role ?victim {?victim isa [k human], condition [k alive]}
                   {@self (closeness-labels acquaintance) ?victim /ever}
                   (spatial ?victim co-located @self)
@@ -56,8 +57,8 @@
       ; The actor's impulse (dispositional base + displaced anger) and the victim-
       ; stance gate are both non-belief (chance) tests, so they live in (when).
       (when (and (chance (+ (* (crime-scale) 0.06
-                               (- 1.0 (target-or @self politeness 0.0))
-                               (target-or @self narcissism 0.0))
+                               (- 1.0 ?politeness)
+                               ?narcissism)
                             (* (crime-scale) 0.08 ?emo_load)))
                  (chance (+ 0.10
                             (* 0.15 (+ (prob {@self dislike ?victim})

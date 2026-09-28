@@ -61,11 +61,12 @@
                      -{@self kill ?interloper}))
 
           (effects
+            (any {@self decorum ?decorum=0.5})
             ; Divorce: the husband's remedy alone; the proper / high-decorum are likeliest
             ; to cut the tie. PROPOSE the divorce task (divorce-task.mc performs the
             ; repudiation); once put away, the standing divorce record bars a re-propose.
             (if (and {@self spouse ?partner}
                      {@self gender [k male]}
                      -{@self divorce ?partner /ever}
-                     (chance (* 0.35 (target-or @self decorum 0.5))))
+                     (chance (* 0.35 ?decorum)))
                 (then (maintain-proposal {@self divorce ?partner})))))))))

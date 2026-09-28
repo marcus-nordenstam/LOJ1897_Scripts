@@ -46,7 +46,9 @@
   (cooldown 1 m try-once)
   (rng-stream incidents)
 
-  (role @self  {@self isa [k human], condition [k alive]}
+  (role @self  {@self compassion ?compassion}
+              {@self narcissism ?narcissism}
+              {@self isa [k human], condition [k alive]}
     (role ?victim {?victim isa [k human], condition [k alive]}
                   {@self child ?victim}
 
@@ -58,8 +60,8 @@
       ; The actor trait (chance) gate ((1 - compassion) x narcissism) sits here for the same
       ; reason, not a @self role filter (attr reads are non-belief, not role-cacheable).
       (when (and (latch-eval (chance (* (crime-scale) 0.025
-                            (- 1.0 (target-or @self compassion 0.0))
-                            (target-or @self narcissism 0.0))))
+                            (- 1.0 ?compassion)
+                            ?narcissism)))
                  (chance (+ (* 0.2 (+ (prob {@self dislike ?victim})
                                       (prob {@self disdain ?victim})))
                             (* 0.3 (+ (prob {@self detest  ?victim})

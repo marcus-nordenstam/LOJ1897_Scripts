@@ -19,7 +19,15 @@
 
   (role @self {@self age ?age}
 
-    (bind (mortality_by_age ?age) ?per_year)
+    (bind (cond
+            (case (< ?age 15) 0.006)
+            (case (< ?age 40) 0.005)
+            (case (< ?age 55) 0.010)
+            (case (< ?age 65) 0.022)
+            (case (< ?age 75) 0.050)
+            (case (< ?age 85) 0.110)
+            (case (< ?age 95) 0.220)
+            (else 1.000)) ?per_year)
     (bind (/ ?per_year 12.0) ?per_month)
 
     (when (and (>= ?age 15)

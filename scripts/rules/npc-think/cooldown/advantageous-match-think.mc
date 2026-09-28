@@ -35,7 +35,9 @@
   ;; non-belief gate (the (chance) trait-graded pacing) lives in (when); the role
   ;; keeps the belief-pure availability / repute / gender filters plus the
   ;; perceived age-peer + blood-kin predicates (belief macros).
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (role @self {@self enthusiasm ?enthusiasm}
+              {@self openness ?openness}
+              {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self gender [k male]}
               -{@self spouse ?}
               -{@self fiancee ?}
@@ -47,7 +49,10 @@
     ;; dodge the ambiguous bare-atom path. The (or ...) encodes the two valid lifts.
     ;; age-peers / blood-kin are belief-pure perceived predicates, so they stay role
     ;; filters (cacheable), gating the bride candidate set directly.
-    (role ?bride (unmarried_woman ?bride)
+    (role ?bride {?bride isa [k human], condition [k alive]}
+                 {?bride gender [k female]}
+                 {?bride age-band [k young-adult|middle-aged|mature|elderly]}
+                 -{?bride spouse ?}
                  {?bride age-span ?peer_band}
                  (none {@self (kin-labels) ?bride})
                  -{?bride fiancee ?}
@@ -63,8 +68,8 @@
       ;; maintained {@self gender} self-belief filter above.
       (when (latch-eval (chance (* 0.0833
                        (+ 0.20
-                          (* 0.4 (target-or @self enthusiasm 0.0))
-                          (* 0.4 (target-or @self openness 0.0)))))))
+                          (* 0.4 ?enthusiasm)
+                          (* 0.4 ?openness))))))
 
       (utility want)
 

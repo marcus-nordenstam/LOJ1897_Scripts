@@ -90,7 +90,14 @@
                  (select (score 1) (policy roulette))
         (when (hours (business_open_hour) (business_close_hour)) (and (kind ?job): ?jk
                    (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
-                   (class-at-least @self ?cf)
+                   (>= (cond
+                         (case {@self class-situation [k class-situation upper]}  2)
+                         (case {@self class-situation [k class-situation middle]} 1)
+                         (case {@self class-situation [k class-situation lower]}  0)
+                         (else -1)) (switch (kind ?cf)
+                                      (on [k class-situation upper]  2)
+                                      (on [k class-situation middle] 1)
+                                      (else 0)))
                    -{@self apply-for ?job /succ}))
         (utility errand)
         (effects

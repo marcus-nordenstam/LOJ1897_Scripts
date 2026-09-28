@@ -9,8 +9,7 @@
 ; remaining terms come from elsewhere - piety from {X devoutness} (the about-others
 ; classifier, already per-observer), decorum from the {X decorum} float, and chastity
 ; on demand from (count (every {X lover ? /ever})). Bands: good >= 0.66, fair >= 0.33,
-; lax the floor. honesty / diligence / generosity / sobriety read the dimensions.mc
-; value macros.
+; lax the floor.
 ; ----------------------------------------------------------------------------
 
 (npc-think classify_self_conduct
@@ -19,14 +18,26 @@
   ; commits. The timer is desynced across the herd; cold_start_window self-primes it.
   (cooldown 1 m try-once)
 
-  (role @self {@self class-situation ?}
+  (role @self {@self politeness ?politeness}
+              {@self machiavellianism ?machiavellianism}
+              {@self industriousness ?industriousness}
+              {@self compassion ?compassion}
+              {@self intoxication ?intoxication}
+              {@self gambling-addiction ?gambling-addiction}
+              {@self class-situation ?}
 
     (effects
-      (mint-band {@self honesty}    (honesty)
+      ; Sobriety: the inverse of accumulated intoxication, hard-capped at 0.15 once a standing
+      ; craving for drink has formed, and docked 0.25 x the gambling-addiction severity.
+      (bind (prob {@self craving ?}) ?craving)
+      (bind (- 1.0 ?intoxication) ?sober)
+      (mint-band {@self honesty}    (/ (+ ?politeness (- 1.0 ?machiavellianism)) 2.0)
         [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
-      (mint-band {@self diligence}  (diligence)
+      (mint-band {@self diligence}  ?industriousness
         [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
-      (mint-band {@self generosity} (generosity)
+      (mint-band {@self generosity} (clamp (+ ?compassion (* (>= (count (every {@self give ? /ever})) 1) 0.20)) 0.0 1.0)
         [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
-      (mint-band {@self sobriety}   (sobriety)
+      (mint-band {@self sobriety}   (clamp (+ (* (- 1.0 ?craving) ?sober)
+                                              (* ?craving (min ?sober 0.15))
+                                              (* ?gambling-addiction -0.25)) 0.0 1.0)
         [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1))))

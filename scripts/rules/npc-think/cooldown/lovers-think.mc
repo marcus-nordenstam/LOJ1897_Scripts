@@ -47,7 +47,7 @@
              -{?b lover ?}
              ; @self is attracted to ?b (attraction at least the `fancy` band,
              ; the explicit band-ladder verb-state belief) ...
-             (is-attracted-to @self ?b)
+             {@self fancy|desire|crave ?b}
              ; ... and ?b reciprocates - she has TOLD HIM she fancies him
              ; (confess_fancy minted {?b fancy @self} in his mind), so the pairing
              ; is never unrequited. (The old warmth-only reciprocity is dropped: a

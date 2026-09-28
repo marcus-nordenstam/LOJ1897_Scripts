@@ -23,4 +23,4 @@
 ; ----------------------------------------------------------------------------
 
 (define-func on-shift (?start ?end)
-  (or (in-work-hours ?start ?end) (work-starts-soon ?start ?end)))
+  (or (hours ?start ?end) (work-starts-soon ?start ?end)))

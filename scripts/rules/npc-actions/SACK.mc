@@ -8,7 +8,14 @@
   (motor body legs)
   (duration (seconds 45 min))
   (effects
-    (strike-from-register ?worker)
+    (for-each ?sr-jrel (every {@self job ?})
+        (bind ?sr-jrel.target ?sr-job)
+        (for-each ?sr-orel (every {?sr-job org ?})
+            (bind ?sr-orel.target ?sr-org)
+            (for-each ?sr-rrel (every {?sr-org employee-register ?})
+                (bind ?sr-rrel.target ?sr-reg)
+                (table-set ?sr-reg (where worker (name ?worker))
+                                worker @nothing level @nothing hiring-date @nothing))))
     ; the grudge: the dismissed man resents the boss who let him go (a named motive)
     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
     ; party's own reflex on the act. Commented out pending that redesign.

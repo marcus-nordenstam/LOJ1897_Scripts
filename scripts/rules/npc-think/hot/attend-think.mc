@@ -24,9 +24,9 @@
 (npc-think want_attend_guest
   ; alpha = occasions I know (?occ is the subject, so the cache can index it);
   ; the invite is the residual filter that keeps only the ones I was asked to.
-  (role ?occ {?occ held-on ?}
+  (role ?occ {?occ held-on ?held-on}
               {? invite @self ?occ}
-    (when (date-in-current-month (any {?occ held-on ?}).target))
+    (when (date-in-current-month ?held-on))
     ; Desirability within the tier: 0 bedridden, a floor for a kill-driven crasher, else
     ; the warmth-scaled guest base.
     (utility errand (cond
@@ -38,8 +38,8 @@
 
 ; A host: I am organizing an occasion whose day has come -> attend it too.
 (npc-think want_attend_host
-  (role ?occ {@self organize ?occ}
-    (when (date-in-current-month (any {?occ held-on ?}).target))
+  (role ?occ {@self organize ?occ} {?occ held-on ?held-on}
+    (when (date-in-current-month ?held-on))
     (utility obligation always-pick)
     (effects (maintain-proposal {@self attend ?occ}))))
 
@@ -47,9 +47,9 @@
 ; unmarried -> raise the vow duty. The [k wedding]:?occ kind-cast narrows the role to
 ; wedding occasions.
 (npc-think want_wed
-  (role ?occ {@self organize [k wedding]:?occ}
+  (role ?occ {@self organize [k wedding]:?occ} {?occ held-on ?held-on}
     (role @self {@self fiancee ?} (none {@self spouse @something})
-      (when (date-in-current-month (any {?occ held-on ?}).target))
+      (when (date-in-current-month ?held-on))
       (utility obligation always-pick)
       (effects (maintain-proposal {@self wed ?occ})))))
 
