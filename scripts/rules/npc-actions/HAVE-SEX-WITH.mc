@@ -30,11 +30,11 @@
     ; falls straight through: pregnant-when is what the gestation clock is read
     ; against, so it is only ever stamped on someone who can carry.
     (attr @self age): ?her-age
-    (and (= (attr @self gender) [k female])
+    (tolerate (and (= (attr @self gender) [k female])
          (>= ?her-age (fertile_age_min))
          (<= ?her-age (fertile_age_max))
          (unsubstantial (attr @self pregnant-when))
-         (chance (conception_chance))): ?conceived
+         (chance (conception_chance)))): ?conceived
     (if ?conceived
       (then
         (set-attr @self pregnant-when (time date))

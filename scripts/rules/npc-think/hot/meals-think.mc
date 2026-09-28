@@ -253,7 +253,7 @@
   (effects
     (any {@self enthusiasm ?enthusiasm})
     (any {@self coin-pile.count ?coins=0})
-    (bind (or (is-a ?place [k building pub]) (is-a ?place [k building restaurant])) ?dining-out)
+    (tolerate (or (is-a ?place [k building pub]) (is-a ?place [k building restaurant]))): ?dining-out
     (maintain-proposal {@self eat ?meal ?place}
       [/affect (if ?dining-out (then (* ?enthusiasm 20.0)) (else 0.0))]
       [/cost (money-cost-util ?coins (if ?dining-out (then (price ?meal ?place)) (else 0)))]

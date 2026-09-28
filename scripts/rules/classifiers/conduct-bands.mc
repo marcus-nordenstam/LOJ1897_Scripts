@@ -29,7 +29,7 @@
     (effects
       ; Sobriety: the inverse of accumulated intoxication, hard-capped at 0.15 once a standing
       ; craving for drink has formed, and docked 0.25 x the gambling-addiction severity.
-      (bind (prob {@self craving ?}) ?craving)
+      (tolerate (prob {@self craving ?})): ?craving
       (bind (- 1.0 ?intoxication) ?sober)
       (mint-band {@self honesty}    (/ (+ ?politeness (- 1.0 ?machiavellianism)) 2.0)
         [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)

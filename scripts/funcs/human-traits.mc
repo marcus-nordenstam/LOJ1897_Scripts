@@ -108,7 +108,7 @@
 ; mean is what keeps population SD near sigma instead of collapsing generation
 ; over generation.
 (define-func trait-value (?trait ?mean ?sigma ?mother ?father)
-  (and (substantial ?mother) (substantial ?father)): ?has-parents
+  (tolerate (and (substantial ?mother) (substantial ?father))): ?has-parents
   (if ?has-parents
     (then
       (clamp (+ (* (trait_heritability) (attr ?mother ?trait))
@@ -124,7 +124,7 @@
 ; own distribution table - the tables differ per trait, so the draw cannot be
 ; made here.
 (define-func inherit-trait (?trait ?sampled ?mother ?father)
-  (and (substantial ?mother) (substantial ?father)): ?has-parents
+  (tolerate (and (substantial ?mother) (substantial ?father))): ?has-parents
   (if ?has-parents
     (then
       (random-int 0 2): ?pick
