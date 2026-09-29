@@ -22,8 +22,8 @@
   (cease (if (not (still-in ?bldg)) (then (set-outcome ?exit /succ))))
   (stable-or
     (try
-      (when (poll (empty (spatial ?bldg parts [k interior-space entrance]))
-                  -{@self wander ?bldg /succ /caused_by ?exit}))
+      (when (empty (spatial ?bldg parts [k interior-space entrance]))
+            -{@self wander ?bldg /succ /caused_by ?exit})
       (effects (maintain-proposal {@self wander ?bldg})))
 
     (sequence

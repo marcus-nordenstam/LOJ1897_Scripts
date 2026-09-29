@@ -41,14 +41,14 @@
   (cease (if (inside ?bldg) (then (set-outcome ?enter /succ))))
   (and
     (try
-      (when (poll (not (< (distance @self ?bldg) (near_building_m)))
-                  (tolerate (travel-spot (known-box ?bldg))): ?spot
-                  (is-spot ?spot)))
+      (when (not (< (distance @self ?bldg) (near_building_m)))
+            (tolerate (travel-spot (known-box ?bldg))): ?spot
+            (is-spot ?spot))
       (effects (maintain-proposal {@self WALK ?spot})))
     ; AT THE HULL: look through the door at its entrances and rooms.
     (try
-      (when (poll (< (distance @self ?bldg) (near_building_m))
-                  (not (knows-every-way-in ?bldg))))
+      (when (< (distance @self ?bldg) (near_building_m))
+            (not (knows-every-way-in ?bldg)))
       (when -{?bldg struct-status [k closed]})
       (effects
         (for-each ?way (spatial ?bldg parts [k interior-space entrance] /env)
@@ -58,17 +58,17 @@
         (expect (knows-every-way-in ?bldg) "enter: looking through the door taught him every way in")))
     ; ...and a building with no entrance or room a man can stand in cannot be entered at all.
     (try
-      (when (poll (< (distance @self ?bldg) (near_building_m))
-                  (knows-every-way-in ?bldg)
-                  (unsubstantial (entry-space ?bldg))))
+      (when (< (distance @self ?bldg) (near_building_m))
+            (knows-every-way-in ?bldg)
+            (unsubstantial (entry-space ?bldg)))
       (when -{?bldg struct-status [k closed]})
       (effects (expect @false "enter: no entrance or room of the building has floor to stand on")))
     ; AT THE HULL, knowing its ways in: hold a spot on the floor of the entry space and walk onto it.
     (try
-      (when (poll (< (distance @self ?bldg) (near_building_m))
-                  (knows-every-way-in ?bldg)
-                  (entry-space ?bldg): ?room
-                  (substantial ?room)))
+      (when (< (distance @self ?bldg) (near_building_m))
+            (knows-every-way-in ?bldg)
+            (entry-space ?bldg): ?room
+            (substantial ?room))
       (when -{?bldg struct-status [k closed]})
       (when (poll (stand-spot-in ?room): ?spot))
       (effects
