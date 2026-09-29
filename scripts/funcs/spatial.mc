@@ -75,6 +75,17 @@
 (define-func stand-spot-by (?ent)
   (maintain-claim-spot @self [/on_floor_of (spatial ?ent space)] [/near ?ent] [/at_or_near @self]))
 
+; The box @self heads for when far from ?ent: the one he sees, else the one he remembers, and
+; for a structure he never had a box for, the world's - where a building stands is public.
+(define-func known-box (?ent)
+  (tolerate (spatial ?ent bounds)): ?seen
+  (tolerate (spatial ?ent bounds /most-recent-memory)): ?remembered
+  (cond (case (substantial ?seen) ?seen)
+        (case (substantial ?remembered) ?remembered)
+        (case (is-a ?ent [k structure]) (spatial ?ent bounds /env))
+        (else @nothing)): ?known
+  ?known)
+
 ; ----------------------------------------------------------------------------
 ; seen-premises-at ?address - the building @self has PERCEIVED at that premises address,
 ; or @nothing. The negative twin of the role that joins a house to an address: a role can

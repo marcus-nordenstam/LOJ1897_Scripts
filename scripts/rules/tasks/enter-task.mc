@@ -2,7 +2,7 @@
 ; enter ?bldg - cross the shell of a structure he has placed, from out of doors, onto a
 ; spot he holds inside it. Only go proposes it.
 ;
-; FAR he approaches the structure; AT THE HULL he looks through the door, which is how a
+; FAR he walks to its travel spot; AT THE HULL he looks through the door, which is how a
 ; man learns the spaces behind it, claims a spot on the floor of its main entrance, else
 ; any entrance, else the nearest room - and walks onto it. A structure's spaces are one
 ; navmesh island reached through its door passages, so the doorway is just a path.
@@ -41,10 +41,10 @@
   (cease (if (inside ?bldg) (then (set-outcome ?enter /succ))))
   (and
     (try
-      (when (poll (not (< (distance @self ?bldg) (near_building_m)))))
-      (effects
-        (check (grounded ?bldg))
-        (maintain-proposal {@self approach ?bldg})))
+      (when (poll (not (< (distance @self ?bldg) (near_building_m)))
+                  (tolerate (travel-spot (known-box ?bldg))): ?spot
+                  (is-spot ?spot)))
+      (effects (maintain-proposal {@self WALK ?spot})))
     ; AT THE HULL: look through the door at its entrances and rooms.
     (try
       (when (poll (< (distance @self ?bldg) (near_building_m))
