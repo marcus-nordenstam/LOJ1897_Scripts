@@ -689,7 +689,7 @@
       (children doorway)
       # One home: the rooms, openings and fixed parts a household holds. Always a building's
       # part - a house has one, a duplex two, an apartment building one per apartment.
-      (child unit
+      (child unit (facets encloses)
         (decorations (attrs address)))
       (child room
         (decorations (attrs address))
