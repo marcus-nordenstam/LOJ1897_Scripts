@@ -68,6 +68,7 @@
 (spatial-label bounds     (store space) (payload))
 (spatial-label space      (store space) (theme frequent))
 (spatial-label building   (store space) (rung building))
+(spatial-label unit       (store space) (rung unit))
 (spatial-label town       (store space) (rung town))
 (spatial-label contents   (store space) (down))
 (spatial-label co-located (store space) (co))

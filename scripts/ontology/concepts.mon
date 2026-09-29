@@ -546,7 +546,7 @@
   # A money-seeker gates on (not (believes {@self job.salary})). Stamped at hire from
   # the occupation's authored wage (occupations.mc); heads/unpaid roles mint no salary.
   (children salary)
-  (child unit
+  (child org-unit
     (child social
       (children family)))
   (child movement
