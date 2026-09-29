@@ -110,16 +110,18 @@
 ; stops firing until the larder is eaten down again; a truly empty kitchen keeps
 ; reading 0 and the resident falls through to the meal-less chains, as it should.
 (think notice-larder
-  (role @self {@self appetite ?appetite}
+  (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 (spatial @self building ?home)
                 (spatial ?home room [k kitchen]): ?kitchen   ; a resident who does not know their kitchen just skips
-      (when (and (> ?appetite 0.25)
-                 (= (believed-home-food-count ?home) 0)))
+      (when (= (believed-home-food-count ?home) 0))
       (effects
         (observe ?kitchen)))))
 
 ; ---- the meal desires (mint {@self eat [k <meal>] <place>}) ----------------
+
+; A hungry man wants his meal as a need, a famished one as a crisis.
+(define-macro meal-utility-band () (if (any {@self satiety [k famished]}) (then crisis) (else need)))
 
 ; BREAKFAST - at home, come-as-you-wake (3h window, the one exception to the 2h
 ; rule): you breakfast in the house you woke in or not at all.
@@ -128,83 +130,78 @@
 (define-macro supper-lead-hours ()      1)
 
 (think want-breakfast
-  (role @self {@self appetite ?appetite}
+  (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home breakfast-hour ?}
                 (spatial @self building ?home)
-      (when (hours (household-breakfast-hour) (+ (household-breakfast-hour) (breakfast-window-hours))) (and (> ?appetite 0.25)
-                 (> (believed-home-food-count ?home) 0)))
-      (utility need)
+      (when (hours (household-breakfast-hour) (+ (household-breakfast-hour) (breakfast-window-hours))) (> (believed-home-food-count ?home) 0))
+      (utility (meal-utility-band) default)
       (effects       (begin-goal {@self eat [k breakfast] ?home}))
       (when-unsupported-effects (set-outcome {@self goal {@self eat [k breakfast] ?home}} /succ)))))
 
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
 (think want-lunch-work
-  (role @self {@self appetite ?appetite}
+  (role @self {@self satiety [k hungry|famished]}
     (role ?job {@self job ?job}
       (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
                  {?org workplace ?wp}       ; ?wp binds at fire
                  (spatial @self building ?wp)                    ; residual gate, re-checked at the when-seam
-        (when (hours 12 14) (> ?appetite 0.25))
-        (utility need)
+        (when (hours 12 14))
+        (utility (meal-utility-band) default)
         (effects       (begin-goal {@self eat [k lunch] ?wp}))
         (when-unsupported-effects (set-outcome {@self goal {@self eat [k lunch] ?wp}} /succ))))))
 
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch-hour.
 (think want-lunch-home
-  (role @self {@self appetite ?appetite}
+  (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home lunch-hour ?}
                 (spatial @self building ?home)
-      (when (hours (household-lunch-hour) (+ (household-lunch-hour) (meal-window-hours))) (and (> ?appetite 0.25)
-                 (> (believed-home-food-count ?home) 0)))
-      (utility need)
+      (when (hours (household-lunch-hour) (+ (household-lunch-hour) (meal-window-hours))) (> (believed-home-food-count ?home) 0))
+      (utility (meal-utility-band) default)
       (effects       (begin-goal {@self eat [k lunch] ?home}))
       (when-unsupported-effects (set-outcome {@self goal {@self eat [k lunch] ?home}} /succ)))))
 
 ; SUPPER at home - the FAMILY table. The window opens an hour early so eat-go's
 ; travel (30 min) lands the household home by the cook's hour.
 (think want-supper
-  (role @self {@self appetite ?appetite}
+  (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
-      (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?appetite 0.25)
-                 (> (believed-home-food-count ?home) 0)))
-      (utility need)
+      (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (> (believed-home-food-count ?home) 0))
+      (utility (meal-utility-band) default)
       (effects       (begin-goal {@self eat [k supper] ?home}))
       (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?home}} /succ)))))
 
 ; EATING OUT - no food at home (as the diner KNOWS) in the supper window and
 ; wealth permits: a pub supper (lower/middle), a restaurant one (upper). The
-; venue is the eat place; eat-go walks there. Utility 70: under the home supper
-; (whose stock gate already failed if this is eligible), over leisure.
+; venue is the eat place; eat-go walks there. It never competes with the home
+; supper, whose stock gate is this one's negation.
 (think want-eat-out-pub
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
-  (role @self {@self appetite ?appetite}
+  (role @self {@self satiety [k hungry|famished]}
               {@self wealth ?wealth} 
               -{@self class-situation [k upper]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
       (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette unknown-last))
-        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?appetite 0.25)
-                   (> ?wealth 0.2)
+        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?wealth 0.2)
                    (= (believed-home-food-count ?home) 0)))
-        (utility need (below eat))
+        (utility (meal-utility-band) default)
         (effects       (begin-goal {@self eat [k supper] ?venue}))
         (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?venue}} /succ))))))
 
 (think want-eat-out-restaurant
   ; upper-class only - the CACHED self-gate skips the majority (and the
   ; larder belief-fold below) with zero eval.
-  (role @self {@self appetite ?appetite}
+  (role @self {@self satiety [k hungry|famished]}
               {@self class-situation [k upper], wealth ?wealth}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
       (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette unknown-last))
-        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?appetite 0.25)
-                   (> ?wealth 0.2)
+        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?wealth 0.2)
                    (= (believed-home-food-count ?home) 0)))
-        (utility need (below eat))
+        (utility (meal-utility-band) default)
         (effects       (begin-goal {@self eat [k supper] ?venue}))
         (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?venue}} /succ))))))
 
@@ -451,7 +448,7 @@
 ; hunger); the food to consume is the REASONING
 ; (which loaf, is it a home supper) decided HERE and handed to EAT on its
 ; pattern. The task self-limits: EAT relieves hunger, the desire's window /
-; appetite gate ceases the eat goal, eat-at-place withdraws its maintainer, the
+; satiety band ceases the eat goal, eat-at-place withdraws its maintainer, the
 ; running task retires. table_talk (its own rule) is the third rung.
 
 ; TAKE THE MEAL: pick the food, propose EAT. Only a home supper consumes a

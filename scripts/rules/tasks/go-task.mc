@@ -79,68 +79,68 @@
     ; ARRIVED - read by a rung and not the task gate, so a go promoted where it already stands
     ; still concludes: a gate that never rises runs neither the rungs nor the cease.
     (try
-      (when (poll (go-arrived ?dest ?go)))
+      (when (go-arrived ?dest ?go))
       (effects (set-outcome ?go /succ)))
     (try
-      (when (poll (go-unseen ?dest)
-                  (tolerate (spatial ?dest space)): ?space
-                  (substantial ?space)
-                  -{@self go ?space /succ /caused_by ?go}))
+      (when (go-unseen ?dest)
+            (tolerate (spatial ?dest space)): ?space
+            (substantial ?space)
+            -{@self go ?space /succ /caused_by ?go})
       (effects (maintain-proposal {@self go ?space})))
     (try
-      (when (poll (go-unseen ?dest)
-                  (tolerate (spatial ?dest space)): ?space
-                  {@self go ?space /succ /caused_by ?go}))
+      (when (go-unseen ?dest)
+            (tolerate (spatial ?dest space)): ?space
+            {@self go ?space /succ /caused_by ?go})
       (effects (set-outcome ?go /fail)))
     (try
-      (when (poll (go-unseen ?dest)
-                  (go-building ?dest): ?house
-                  (substantial ?house)
-                  (spatial @self building ?house)
-                  -{@self wander ?house /succ /caused_by ?go}))
+      (when (go-unseen ?dest)
+            (go-building ?dest): ?house
+            (substantial ?house)
+            (spatial @self building ?house)
+            -{@self wander ?house /succ /caused_by ?go})
       (effects
         (check (is-a ?house [k container-structure]))
         (maintain-proposal {@self wander ?house})))
     (try
-      (when (poll (go-unseen ?dest)
-                  (go-building ?dest): ?house
-                  {@self wander ?house /succ /caused_by ?go}))
+      (when (go-unseen ?dest)
+            (go-building ?dest): ?house
+            {@self wander ?house /succ /caused_by ?go})
       (effects (set-outcome ?go /fail)))
     (try
-      (when (poll (spatial @self building): ?here
-                  (substantial ?here)
-                  (not (= (go-building ?dest) ?here))))
+      (when (spatial @self building): ?here
+            (substantial ?here)
+            (not (= (go-building ?dest) ?here)))
       (effects
         (check (is-a ?here [k container-structure]))
         (maintain-proposal {@self exit ?here})))
     (try
-      (when (poll (unsubstantial (spatial @self building))
-                  (go-building ?dest): ?building
-                  (substantial ?building)))
+      (when (unsubstantial (spatial @self building))
+            (go-building ?dest): ?building
+            (substantial ?building))
       (effects
         (check (is-a ?building [k container-structure]))
         (check (grounded ?building))
         (maintain-proposal {@self enter ?building})))
     (try
-      (when (poll (go-unseen ?dest)
-                  -{@self find-building ?dest ? /fail}
-                  (current-exterior @self): ?region))
+      (when (go-unseen ?dest)
+            -{@self find-building ?dest ? /fail}
+            (current-exterior @self): ?region)
       (effects
         (check (substantial (any {?dest address})))
         (maintain-proposal {@self find-building ?dest ?region})))
     (try
-      (when (poll (go-unseen ?dest)
-                  {@self find-building ?dest ? /fail}))
+      (when (go-unseen ?dest)
+            {@self find-building ?dest ? /fail})
       (effects (set-outcome ?go /fail)))
     (try
-      (when (poll (go-step-spot ?dest): ?spot
-                  (is-spot ?spot)))
+      (when (go-step-spot ?dest): ?spot
+            (is-spot ?spot))
       (effects (maintain-proposal {@self WALK ?spot})))
     (try
-      (when (poll (grounded ?dest)
-                  (not (is-spot ?dest))
-                  (or (unsubstantial (known-box ?dest))
-                      (and (go-near ?dest)
-                           (substantial (tolerate (spatial ?dest bounds)))
-                           (unsubstantial (tolerate (spatial ?dest space)))))))
+      (when (grounded ?dest)
+            (not (is-spot ?dest))
+            (or (unsubstantial (known-box ?dest))
+                (and (go-near ?dest)
+                     (substantial (tolerate (spatial ?dest bounds)))
+                     (unsubstantial (tolerate (spatial ?dest space))))))
       (effects (expect @false "go: a placed thing with no box to head for, or near and in no space he knows")))))

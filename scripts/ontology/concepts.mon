@@ -88,18 +88,13 @@
   (child internment
     (children unburied buried))
 
-  # The discrete de-quantization of the continuous `fatigue` attr, minted as a
-  # {@self alertness <kind>} self-belief by the fatigue appraiser (the queryable
-  # memory of tiredness; the physiology + sleep-pull utility read the attr).
+  # The band the mind knows its tiredness by: run_physiology mints {@self alertness <kind>}
+  # from the masked `sleepiness` attr with the band dead-band. The sleep drive reads it.
   (child alertness
     (children alert tired sleepy))
 
-  # The discrete de-quantization of the continuous `hunger` attr, minted as
-  # a {@self satiety <kind>} self-belief by the physiology appraiser (like
-  # `alertness` over `fatigue`). The meal aspect gates eligibility on the
-  # attr; consumers of the BELIEF are the body couplings (mood; physical
-  # weakness arrives with the combat spec) and the famished starvation
-  # tail.
+  # The band the mind knows its hunger by: run_physiology mints {@self satiety <kind>}
+  # from the masked `appetite` attr with the band dead-band. The meal drives read it.
   (child satiety
     (children sated hungry famished))
 

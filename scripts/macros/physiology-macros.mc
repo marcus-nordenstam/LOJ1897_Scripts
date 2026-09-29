@@ -28,10 +28,9 @@
 (define-macro chronotype_sigma_hours () 0.5)
 (define-macro chronotype_max_hours () 1.0)
 
-; SLEEP: the sleepiness at which a man goes to bed. A normal day crosses it near 23:00 on his
-; own clock; an unslept debt crosses it in the day, and that is a nap. A sleep ends once the
-; debt left and the body clock together no longer press, never before the inertia floor.
-(define-macro sleep_gate () 0.8)
+; SLEEP: a man goes to bed once his alertness band turns tired, and urgently once it turns
+; sleepy; an unslept debt turns it in the day, and that is a nap. A sleep ends once the debt
+; left and the body clock together no longer press, never before the inertia floor.
 (define-macro sleep_inertia_min () 120.0)
 (define-macro body_clock_step_min () 10.0)
 (define-macro body_clock_search_steps () 144.0)
@@ -41,10 +40,10 @@
 (define-macro hunger_accrue_per_hour () (/ 1.0 16.0))
 (define-macro hunger_max () 2.0)
 
-; Band thresholds over the ADRENALINE-MASKED drive (STRONGEST-first). Alertness
-; over masked fatigue (sleepiness): < tired_min alert, < sleepy_min tired, else
-; sleepy. Satiety over masked hunger (appetite): < hungry_min sated, <
-; famished_min hungry, else famished (the starvation tail knee sits above).
+; THE BANDS the mind knows its body by - run_physiology mints them from the ADRENALINE-MASKED
+; drives, and no rule reads the drives themselves. Alertness over sleepiness: < tired_min alert,
+; < sleepy_min tired, else sleepy. Satiety over appetite: < hungry_min sated, < famished_min
+; hungry, else famished.
 (define-macro sleepy_min () 1.0)
 (define-macro tired_min () 0.5)
 (define-macro famished_min () 1.1)

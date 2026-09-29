@@ -18,10 +18,10 @@
 ;    reduce it content-side. Appetite = mask * hunger, held down through his night,
 ;    gates the meal aspect.
 ;
-; ATTRS, plus the one think alarm a waking books for his bedtime. The engine's
-; update_physiology calls this and then mirrors the actor's attrs into self-beliefs, so
-; every drive this func moves arrives on the belief plane by the one route every other
-; attr takes. A belief minted here would be a second, divergent account of the same number.
+; ATTRS, the BANDS the mind knows them by, and the one think alarm a waking books for his
+; bedtime. The drives are imperceptible scalars: the mind holds only {@self alertness <band>}
+; and {@self satiety <band>}, minted here with the band dead-band, so a belief is written only
+; when a drive crosses a threshold.
 ; ----------------------------------------------------------------------------
 
 (include "../macros/physiology-macros.mc")
@@ -47,8 +47,8 @@
               (- 0.0 (circadian_amp)))
         (else (* (circadian_amp) (/ (- ?u (hours_per_day)) (circadian_ramp_hours))))))
 
-; On waking, book the think at which the day's fatigue and his body clock will reach the sleep
-; gate, so he goes to bed within a step of it rather than at the next heartbeat.
+; On waking, book the think at which the day's fatigue and his body clock will carry him into
+; the tired band, so he goes to bed within a step of it rather than at the next heartbeat.
 (define-func book-bedtime-alarm (?fatigue ?mask)
   (bind 0.0 ?k)
   (repeat (body_clock_search_steps)
@@ -56,7 +56,7 @@
     (bind (* ?k (body_clock_step_min)) ?m)
     (bind (+ (time seconds) (seconds ?m min)) ?at)
     (bind (+ ?fatigue (* (/ ?m (minutes_per_hour)) (fatigue_accrue_per_hour))) ?f)
-    (if (>= (* ?mask (+ ?f (circadian-pressure ?at))) (sleep_gate))
+    (if (>= (* ?mask (+ ?f (circadian-pressure ?at))) (+ (tired_min) (band-dead-band)))
         (then (set-think-alarm ?at) (break)))))
 
 ; How long a sleep begun now lasts: until the debt left and the body clock together no longer
@@ -73,6 +73,10 @@
              (<= (+ ?left (circadian-pressure (+ (time seconds) (seconds ?m min)))) 0.0))
         (then (bind ?m ?min) (break))))
   ?min)
+
+(define-func emit-body-bands (?sleepiness ?appetite)
+  (mint-band {@self alertness} ?sleepiness [k sleepy] (sleepy_min) [k tired] (tired_min) [k alert] -1)
+  (mint-band {@self satiety} ?appetite [k famished] (famished_min) [k hungry] (hungry_min) [k sated] -1))
 
 (define-func /physiology run_physiology (?duration ?act)
   ; WHICH ACT RECOVERS THE BODY IS CONTENT, so it is decided here. The engine used to
@@ -103,15 +107,17 @@
 
   (set-attr @self hunger ?hunger)
   (set-attr @self appetite ?appetite)
+  (emit-body-bands ?sleepiness ?appetite)
   (if (eq ?act SLEEP) (then (book-bedtime-alarm ?fatigue ?mask))))
 
 ; A jump window opens at midnight after a month nobody lived: the body is the one an ordinary
-; waking day leaves - sleepy enough on his own clock that bed outbids everything, calm, fed at
-; supper.
+; waking day leaves - just into the sleepy band on his own clock, calm, fed at supper.
 (define-func /window-start midnight_body ()
-  (- (sleepy_min) (circadian-pressure (time seconds))): ?fatigue
+  (+ (sleepy_min) (band-dead-band)): ?sleepiness
+  (- ?sleepiness (circadian-pressure (time seconds))): ?fatigue
   (set-attr @self adrenaline 0.0)
   (set-attr @self fatigue ?fatigue)
-  (set-attr @self sleepiness (sleepy_min))
+  (set-attr @self sleepiness ?sleepiness)
   (set-attr @self hunger 0.0)
-  (set-attr @self appetite 0.0))
+  (set-attr @self appetite 0.0)
+  (emit-body-bands ?sleepiness 0.0))

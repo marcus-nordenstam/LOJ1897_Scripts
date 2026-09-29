@@ -121,11 +121,10 @@
 (attr sexual-orient (type kind) (per feel))
 
 # Fatigue, the continuous physical tiredness state (0 rested .. 1 ready-for-bed,
-# can exceed 1 when sleep is denied). Imperceptible: the physiological scalar is
-# never auto-mirrored into the mind as a belief - the alertness appraiser
-# de-quantizes it into a discrete {@self alertness alert|tired|sleepy} belief
-# (the queryable memory). The rest aspect reads it for the sleep-pull utility; the
-# sleep act's completion reduces it (1/6 per hour slept), waking time accrues it.
+# can exceed 1 when sleep is denied). Imperceptible: the mind knows its masked form,
+# sleepiness, only as the {@self alertness alert|tired|sleepy} band run_physiology
+# mints. The sleep act's completion reduces it (1/6 per hour slept), waking time
+# accrues it.
 (attr fatigue (type float) (range 0 2) (imperceptible) (state-flags-tar @excl))
 
 # Chronotype, the hours a man's body clock runs behind the town's (negative = ahead): an early
@@ -133,15 +132,13 @@
 (attr chronotype (type float) (range -1 1) (imperceptible))
 
 # Hunger, the continuous physical need-to-eat state (0 just-ate .. 1 very
-# hungry, can exceed 1 when meals are missed). Imperceptible, like fatigue:
-# the physiological scalar is never auto-mirrored as a belief - the satiety
-# appraiser de-quantizes it into a discrete {@self satiety sated|hungry|
-# famished} belief (the queryable memory). Waking AND sleeping time accrue it
-# (you wake hungry); meal-act completions reduce it (meal size is authored in
-# the meal events via set-attr). Meal-aspect eligibility reads it as a gate;
-# meal UTILITY is proximity to the household mealtime, never hunger
-# (tell-only comms plan, ruling 10) - hunger re-enters utility only at the
-# famished starvation tail.
+# hungry, can exceed 1 when meals are missed). Imperceptible, like fatigue: the
+# mind knows its masked form, appetite, only as the {@self satiety sated|hungry|
+# famished} band run_physiology mints, and meal eligibility gates on that band.
+# Waking AND sleeping time accrue it (you wake hungry); meal-act completions
+# reduce it (meal size is authored in the meal events via set-attr). Meal UTILITY
+# is proximity to the household mealtime, never hunger (tell-only comms plan,
+# ruling 10).
 (attr hunger (type float) (range 0 2) (imperceptible) (state-flags-tar @excl))
 
 # Adrenaline, the fight-or-flight surge (0 calm .. 1 full surge). Pumped to 1 by the
@@ -151,17 +148,18 @@
 # combatant does not feel tired / hungry mid-fight and then crashes once it fades.
 (attr adrenaline (type float) (range 0 1) (imperceptible) (state-flags-tar @excl))
 
-# Sleepiness = the ADRENALINE-MASKED fatigue the sleep-pull utility reads (raw fatigue is the
-# untouched debt). Derived by the run_physiology func; drops to ~0 during a fight, re-emerges at
-# full on the crash.
-(attr sleepiness (type float) (range 0 2) (int-per feel) (ext-per imperceptible) (state-flags-tar @excl))
+# Sleepiness = the ADRENALINE-MASKED fatigue (raw fatigue is the untouched debt). Derived by the
+# run_physiology func; drops to ~0 during a fight, re-emerges at full on the crash. Imperceptible:
+# the mind knows it only as its {@self alertness <band>}, which run_physiology mints.
+(attr sleepiness (type float) (range 0 2) (imperceptible) (state-flags-tar @excl))
 # The felt hurt of the body, 0 none .. 1 agony. A blow writes it on its victim (PUNCH /
 # SHOOT / STRANGLE through inflict-pain); only its bearer feels it.
 (attr pain (type float) (range 0 1) (int-per feel) (ext-per imperceptible) (state-flags-tar @excl))
 
-# Appetite = the ADRENALINE-MASKED hunger the meal-aspect eligibility + starvation utilities read
-# (raw hunger is the untouched debt). Derived by the run_physiology func; suppressed mid-fight.
-(attr appetite (type float) (range 0 2) (int-per feel) (ext-per imperceptible) (state-flags-tar @excl))
+# Appetite = the ADRENALINE-MASKED hunger (raw hunger is the untouched debt). Derived by the
+# run_physiology func; suppressed mid-fight. Imperceptible: the mind knows it only as its
+# {@self satiety <band>}, which run_physiology mints.
+(attr appetite (type float) (range 0 2) (imperceptible) (state-flags-tar @excl))
 
 # Emigration marker (0 / 1). Set by (mark-emigrating @self) in the per-NPC
 # emigration think event; the zero-role (sweep-emigrants) world-act collects
