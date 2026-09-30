@@ -520,7 +520,7 @@
       (child sporting-grounds
         (children racing-grounds cricket-grounds))
       # The structure a man goes INTO: an enclosure of units, rooms, fixtures and compartments.
-      (child building
+      (child building (composition enclosure)
           (decorations
             (attrs struct-status)
             (states availability occupant tenant))
@@ -571,7 +571,7 @@
         (children suspension-bridge)))
     # A vehicle is an enclosure that moves: its composition is a building's - a wagon's one
     # room, a train-car's compartments and corridor, a ship's cabins, saloon and holds.
-    (child vehicle
+    (child vehicle (composition enclosure)
       (decorations
         (attrs variant birth-date struct-status)
         (attr name (auto-percept) (ext-per obs))
@@ -636,7 +636,7 @@
           (decorations (attrs -variant -birth-date -name blemishes))
           (population (cap 4096) (non-occluder)))
         (child mind (motor)))
-      (child structure-part
+      (child structure-part (composition fixture)
         (decorations
           (attrs is-nav-passage blemishes)
           (attr opening-status (auto-percept) (ext-per obs))
@@ -686,7 +686,8 @@
   # A town carries no address, so it inherits the decl and never uses it.
   (child space (+ per obs) (grounding-anchors address)
     (decorations (states occupant tenant))
-    (child interior-space
+    # An interior space is a room of its enclosure unless its kind says otherwise.
+    (child interior-space (composition room)
       (decorations
         (attrs variant birth-date is-nav-passage address)
         (attr name (auto-percept) (ext-per obs))
@@ -698,7 +699,7 @@
       (children doorway)
       # One home: the rooms, openings and fixed parts a household holds. Always a building's
       # part - a house has one, a duplex two, an apartment building one per apartment.
-      (child unit (facets encloses)
+      (child unit (composition unit)
         (decorations (states breakfast-hour lunch-hour supper-hour)))
       (child room
         (children kitchen dining-room restaurant-dining-room hallway living-room bedroom)
@@ -717,8 +718,10 @@
       # sub-spaces, so the contents stay unseen until a deliberate search
       # observes the cache directly. The leaf kind encodes the
       # concealment quality (a secret-chamber outlasts a jewelry-box-lining).
-      (child hiding-spot
-        (children floorboard-cache book-cache jewelry-box-lining painting-cache secret-chamber))
+      # A closed sub-space of a room, a fixture or a prop: never stood in, never a floor.
+      (child compartment (composition compartment)
+        (child hiding-spot
+          (children floorboard-cache book-cache jewelry-box-lining painting-cache secret-chamber)))
       (children stage auditorium))
     (child exterior-space
       (decorations
