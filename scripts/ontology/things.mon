@@ -692,7 +692,7 @@
         (attrs variant birth-date is-nav-passage address)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
-      (population (cap 4096) (always-visible) (non-occluder) (sector-coverage))
+      (population (cap 4096) (always-visible) (non-occluder))
       (children bar-back)
       (child entrance (facets entrance)
         (child main-entrance (facets entrance)))
