@@ -4,8 +4,8 @@
 ; building of units with no shared entrance is entered unit by unit (enter-unit).
 ;
 ; FAR he walks to its travel spot; AT THE HULL he looks through the door, which is how a man
-; learns the spaces behind it, and walks onto a spot on the floor of its entrance, else its
-; nearest room. A CLOSED building matches no hull rung and the task stalls rather than lying:
+; learns the spaces behind it, and walks onto a spot on the floor of its entrance; a building
+; with no entrance of its own cannot be entered. A CLOSED building matches no hull rung and the task stalls rather than lying:
 ; the locked-door / key / force-entry rungs plug in there.
 ; ----------------------------------------------------------------------------
 
@@ -29,21 +29,21 @@
       (effects (maintain-proposal {@self WALK ?spot})))
     (try
       (when (< (distance @self ?bldg) (near_building_m))
-            (not (knows-every-way-in ?bldg)))
+            (not (knows-every ?bldg [k interior-space entrance])))
       (when -{?bldg struct-status [k closed]})
       (effects
         (look-through-door ?bldg)
-        (expect (knows-every-way-in ?bldg) "enter-building: looking through the door taught him every way in")))
+        (expect (knows-every ?bldg [k interior-space entrance]) "enter-building: looking through the door taught him every entrance")))
     (try
       (when (< (distance @self ?bldg) (near_building_m))
-            (knows-every-way-in ?bldg)
-            (unsubstantial (entry-space ?bldg)))
+            (knows-every ?bldg [k interior-space entrance])
+            (unsubstantial (entrance-space ?bldg)))
       (when -{?bldg struct-status [k closed]})
-      (effects (expect @false "enter-building: no entrance or room of its own has floor to stand on")))
+      (effects (expect @false "enter-building: no entrance of its own has floor to stand on")))
     (try
       (when (< (distance @self ?bldg) (near_building_m))
-            (knows-every-way-in ?bldg)
-            (entry-space ?bldg): ?way
+            (knows-every ?bldg [k interior-space entrance])
+            (entrance-space ?bldg): ?way
             (substantial ?way))
       (when -{?bldg struct-status [k closed]})
       (when (poll (stand-spot-in ?way): ?spot))

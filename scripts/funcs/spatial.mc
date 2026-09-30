@@ -67,21 +67,10 @@
       (then ?main)
       (else (nearest-standable ?place [k interior-space entrance]))))
 
-; Where a man steps into ?place: its entrance, else its nearest room with floor for him.
-(define-func entry-space (?place)
-  (entrance-space ?place): ?way
-  (if (substantial ?way)
-      (then ?way)
-      (else (nearest-standable ?place [k interior-space room]))))
-
 ; @self knows every part of ?kind ?place has.
 (define-func knows-every (?place ?kind)
   (>= (count (spatial ?place parts ?kind))
       (count (spatial ?place parts ?kind /env))))
-
-(define-func knows-every-way-in (?place)
-  (and (knows-every ?place [k interior-space entrance])
-       (knows-every ?place [k interior-space room])))
 
 ; Standing at ?place's door he sees what lies behind it: the entrances and rooms it holds itself.
 (define-func look-through-door (?place)

@@ -5,7 +5,7 @@
 ; already taken him through (a block of flats). Either way the walk is one path.
 ;
 ; FAR he walks to its travel spot; AT ITS DOOR he looks through, learning the spaces behind it,
-; and walks onto a spot on the floor of its entrance, else its nearest room.
+; and walks onto a spot on the floor of its entrance.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -25,19 +25,19 @@
       (effects (maintain-proposal {@self WALK ?spot})))
     (try
       (when (< (distance @self ?unit) (near_building_m))
-            (not (knows-every-way-in ?unit)))
+            (not (knows-every ?unit [k interior-space entrance])))
       (effects
         (look-through-door ?unit)
-        (expect (knows-every-way-in ?unit) "enter-unit: looking through the door taught him every way in")))
+        (expect (knows-every ?unit [k interior-space entrance]) "enter-unit: looking through the door taught him every entrance")))
     (try
       (when (< (distance @self ?unit) (near_building_m))
-            (knows-every-way-in ?unit)
-            (unsubstantial (entry-space ?unit)))
-      (effects (expect @false "enter-unit: no entrance or room of the unit has floor to stand on")))
+            (knows-every ?unit [k interior-space entrance])
+            (unsubstantial (entrance-space ?unit)))
+      (effects (expect @false "enter-unit: no entrance of the unit has floor to stand on")))
     (try
       (when (< (distance @self ?unit) (near_building_m))
-            (knows-every-way-in ?unit)
-            (entry-space ?unit): ?way
+            (knows-every ?unit [k interior-space entrance])
+            (entrance-space ?unit): ?way
             (substantial ?way))
       (when (poll (stand-spot-in ?way): ?spot))
       (effects

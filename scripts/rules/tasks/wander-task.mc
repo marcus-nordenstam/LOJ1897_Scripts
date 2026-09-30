@@ -1,39 +1,55 @@
 ; ----------------------------------------------------------------------------
-; wander ?bldg - tour every room of the building he stands in that he has not gone into
-; this round. The round's go records ARE the visited memory: they are keyed /caused_by this
-; wander, so they scope themselves to it and retire with it.
+; wander ?place - tour every room ?place holds, a unit or a unit-less building, one room at a
+; time. Standing in a room shows him the doorways out of it, so the rooms he knows grow as he
+; goes: he walks into one he has not toured, and the tour is done when every room of ?place he
+; knows has been toured. Every room is reachable from every other, so a tour that has run out of
+; known rooms has seen them all.
+;
+; The tally is private: a room is marked toured, keyed by this wander, on the room itself, once
+; the walk this wander sent him on to it has ended - arrived, or failed. Marks are per distinct
+; room, so passing back through a toured room counts for nothing, and the room he starts in is
+; toured by a walk that arrives at once. A mark names the wander that made it, so the next
+; wander reads an old mark as untoured and writes over it.
 ; ----------------------------------------------------------------------------
 
-(task {@self wander ?bldg}:?wander
+; Every room of ?place that @self knows has been toured by ?wander.
+(define-func toured-all (?place ?wander)
+  (bind @nothing ?untoured)
+  (for-each ?room (spatial ?place parts [k interior-space room])
+    (if (bb-none ?room toured ?wander)
+      (then
+        (bind ?room ?untoured)
+        (break))))
+  (unsubstantial ?untoured))
+
+(task {@self wander ?place}:?wander
   (tar @excl [k building|unit] @object)
   (init
-    (check (or (is-a ?bldg [k building]) (is-a ?bldg [k unit])))
-    (check (within-place @self ?bldg)))
+    (check (or (is-a ?place [k building]) (is-a ?place [k unit])))
+    (check (within-place @self ?place)))
   (and
-    ; Standing in the building he looks along its rooms and entrances: a space he has not yet
-    ; seen from inside has no mental twin, and it cannot be walked into until it has one.
+    ; A room he knows and has not toured: he walks into it.
     (try
-      (when (poll (or (< (count (spatial ?bldg parts [k interior-space room]))
-                         (count (spatial ?bldg parts [k interior-space room] /env)))
-                      (< (count (spatial ?bldg parts [k interior-space entrance]))
-                         (count (spatial ?bldg parts [k interior-space entrance] /env))))))
-      (effects
-        (for-each ?r (spatial ?bldg parts [k interior-space room] /env)
-          (observe ?r))
-        (for-each ?e (spatial ?bldg parts [k interior-space entrance] /env)
-          (observe ?e))))
-    (try
-      (role ?room (spatial ?bldg parts [k interior-space room])
-                  (not (spatial @self space ?room))
-                  -{@self go ?room /succ /caused_by ?wander /ever}
+      (role ?room (spatial ?place parts [k interior-space room])
+                  (bb-none ?room toured ?wander)
+                  -{@self go ?room /succ /caused_by ?wander}
+                  -{@self go ?room /fail /caused_by ?wander}
                   (select (score (near @self ?room)) (policy roulette unknown-first))
         (effects
           (check (grounded ?room))
-          (check (within-place ?room ?bldg))
-          (expect (within-place @self ?bldg) "wander: touring a building he is not in")
           (maintain-proposal {@self go ?room}))))
-    ; Every room but the one he started in has been gone into -> the building is seen.
+    ; The walk arrived: the room is toured.
     (try
-      (when (>= (count (every {@self go ? /succ /caused_by ?wander /ever}))
-                (- (count (spatial ?bldg parts [k interior-space room] /env)) 1)))
+      (role ?room (spatial ?place parts [k interior-space room])
+                  {@self go ?room /succ /caused_by ?wander}
+                  (bb-none ?room toured ?wander)
+        (effects (bb-write ?room toured ?wander))))
+    ; The walk failed: the room is toured as far as it ever will be.
+    (try
+      (role ?room (spatial ?place parts [k interior-space room])
+                  {@self go ?room /fail /caused_by ?wander}
+                  (bb-none ?room toured ?wander)
+        (effects (bb-write ?room toured ?wander))))
+    (try
+      (when (toured-all ?place ?wander))
       (effects (set-outcome ?wander /succ)))))
