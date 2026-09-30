@@ -34,7 +34,7 @@
 (think stow-go
   (goal {@self stow ?item})
   (role ?home {@self home ?home}
-              (not (spatial @self building ?home))
+              (not (spatial @self unit ?home))
     (when ?item)
     (effects (maintain-proposal {@self go ?home}))))
 
@@ -43,7 +43,7 @@
 (think stow-at-home
   (goal {@self stow ?item})
   (role ?home {@self home ?home}
-              (spatial @self building ?home)
+              (spatial @self unit ?home)
     (when ?item)
     ; The put-away place is DECIDED here: a fashioned hiding spot for a
     ; worth-hiding item (priced above the loot floor), else 0 (the body puts

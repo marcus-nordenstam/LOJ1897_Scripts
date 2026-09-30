@@ -721,7 +721,7 @@
 
 # household-cook - @self is THE cook of <home> (one per household,
 # elected via the home's public-bb `cook` marker; provisioning_think).
-(state household-cook (tar [k structure] @excl @object))
+(state household-cook (tar [k unit] @excl @object))
 
 # Historical-sim-only situation predicates (hsim_ prefix). Read by the
 # event engine to drive crime / drama template eligibility and role
@@ -775,7 +775,7 @@
 (state harm-act (tar [k harm-act] @object))
 (state help-act (tar [k help-act] @object))
 (state hiding-spot (tar [k interior-space] @object))
-(state home (tar [k structure] @object @excl) (disclosure acquaintance) (talkable))
+(state home (tar [k unit] @object @excl) (disclosure acquaintance) (talkable))
 (state honour-act (tar [k honour-act] @object))
 (state insult (tar [k insult] @object) (construed-act slight-act))
 (state jilt (tar [k jilt] @object) (construed-act abandonment-act wrong-act))

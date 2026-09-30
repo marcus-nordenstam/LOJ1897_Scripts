@@ -21,7 +21,7 @@
           (role ?ltr [k confession-letter] (spatial ?ltr co-located @self)
                                            {@self WRITE ?ltr ? /succ}
                                            -{@self send-mail ?ltr ? /succ}
-            (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home)
+            (role ?out [k outgoing-mail-stack] (within-place ?out ?my-home)
               (utility errand)
               (effects
                 (check (substantial (attr ?ltr writing)))

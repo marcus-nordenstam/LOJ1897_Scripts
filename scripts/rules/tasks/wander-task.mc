@@ -5,10 +5,10 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self wander ?bldg}:?wander
-  (tar @excl [k container-structure] @object)
+  (tar @excl [k container-structure|unit] @object)
   (init
-    (check (is-a ?bldg [k container-structure]))
-    (check (spatial @self building ?bldg)))
+    (check (or (is-a ?bldg [k container-structure]) (is-a ?bldg [k unit])))
+    (check (within-place @self ?bldg)))
   (and
     ; Standing in the building he looks along its rooms and entrances: a space he has not yet
     ; seen from inside has no mental twin, and it cannot be walked into until it has one.
@@ -29,8 +29,8 @@
                   (select (score (near @self ?room)) (policy roulette unknown-first))
         (effects
           (check (grounded ?room))
-          (check (spatial ?room building ?bldg))
-          (expect (spatial @self building ?bldg) "wander: touring a building he is not in")
+          (check (within-place ?room ?bldg))
+          (expect (within-place @self ?bldg) "wander: touring a building he is not in")
           (maintain-proposal {@self go ?room}))))
     ; Every room but the one he started in has been gone into -> the building is seen.
     (try

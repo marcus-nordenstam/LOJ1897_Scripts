@@ -679,7 +679,7 @@
     (decorations (states occupant tenant))
     (child interior-space
       (decorations
-        (attrs variant birth-date is-nav-passage)
+        (attrs variant birth-date is-nav-passage address)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
       (population (cap 4096) (always-visible) (non-occluder) (sector-coverage))
@@ -690,9 +690,8 @@
       # One home: the rooms, openings and fixed parts a household holds. Always a building's
       # part - a house has one, a duplex two, an apartment building one per apartment.
       (child unit (facets encloses)
-        (decorations (attrs address)))
+        (decorations (states breakfast-hour lunch-hour supper-hour)))
       (child room
-        (decorations (attrs address))
         (children kitchen dining-room restaurant-dining-room hallway living-room bedroom)
         # Rooms the crime arcs need.
         # study: private workroom; canonical Victorian crime-scene

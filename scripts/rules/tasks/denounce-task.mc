@@ -27,7 +27,7 @@
         (role ?ltr [k forged-letter] (spatial ?ltr co-located @self)
                                      {@self WRITE ?ltr ? /succ}
                                      -{@self send-mail ?ltr ? /succ}
-          (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home)
+          (role ?out [k outgoing-mail-stack] (within-place ?out ?my-home)
             (effects
               (check (substantial (attr ?ltr writing)))
               (check (substantial (attr ?ltr destination)))

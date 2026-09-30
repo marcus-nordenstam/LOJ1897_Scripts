@@ -9,13 +9,13 @@
   (tolerate (spatial @self space)): ?here
   (cond (case (unsubstantial ?here) @false)
         (else (and (is-a ?here [k bedroom])
-                   (spatial ?here building ?home)))))
+                   (spatial ?here unit ?home)))))
 
 (define-func go-to-bed-bedless (?home)
   (substantial (any {@self locate [k bedroom] ?home /fail})))
 
 (task {@self go-to-bed ?home}:?go-to-bed
-  (tar @excl [k structure] @object)
+  (tar @excl [k unit] @object)
   (cease (if {@self SLEEP /succ /caused_by ?go-to-bed}
              (then (set-outcome ?go-to-bed /succ))))
   (and
@@ -24,16 +24,16 @@
         (when (not (spatial ?home room [k bedroom])))
         (effects (maintain-proposal {@self locate [k bedroom] ?home}))))
     (try
-      (role ?room [k bedroom] (spatial ?room building ?home)
+      (role ?room [k bedroom] (spatial ?room unit ?home)
                               (select (score (near @self ?room)) (policy roulette unknown-last))
         (when (not (go-to-bed-in-bedroom ?home)))
         (effects (maintain-proposal {@self go ?room}))))
     (try
       (when (and (go-to-bed-bedless ?home)
-                 (not (spatial @self building ?home))))
+                 (not (spatial @self unit ?home))))
       (effects (maintain-proposal {@self go ?home})))
     (try
       (when (or (go-to-bed-in-bedroom ?home)
                 (and (go-to-bed-bedless ?home)
-                     (spatial @self building ?home))))
+                     (spatial @self unit ?home))))
       (effects (maintain-proposal {@self SLEEP})))))

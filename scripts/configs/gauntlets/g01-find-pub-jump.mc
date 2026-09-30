@@ -15,7 +15,8 @@
 
 (define-func startup-func ()
   (seed_property)
-  (head (env-entities [k building residential-building])): ?home
+  (head (env-entities [k building residential-building])): ?house
+  (head (spatial ?house parts [k unit] /env)): ?home
   (make-human ?home [k lower] [k male]): ?man
   (cast seeker ?man)
   (initialize-minds))

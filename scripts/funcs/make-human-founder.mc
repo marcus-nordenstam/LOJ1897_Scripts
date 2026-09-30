@@ -1,9 +1,9 @@
 ; ----------------------------------------------------------------------------
-; make-human - mint ONE fully-specified NPC human housed in ?building: pick a room,
+; make-human - mint ONE fully-specified NPC human housed in ?home, a unit: pick a room,
 ; sample appearance / traits / name, create the entity, and seed its self-beliefs
-; (home = ?building). Returns the created human (@fail when the building has no room).
+; (home = ?home). Returns the created human (@fail when the unit has no room).
 ;
-;   (make-human ?building ?class ?gender)
+;   (make-human ?home ?class ?gender)
 ;
 ; The gender is the CALLER's, not a roll made in here: a founder household needs one
 ; of each, and a rule that rolled its own could not ask for that. A caller with no
@@ -13,8 +13,8 @@
 (include "human-traits.mc")
 (include "age.mc")
 
-(define-func make-human (?building ?class ?gender)
-  (head (spatial ?building parts [k room] /env)): ?room
+(define-func make-human (?home ?class ?gender)
+  (head (spatial ?home parts [k room] /env)): ?room
   (check ?room)
   (if ?room
     (then
@@ -37,7 +37,7 @@
             (create-date (- (time year) ?age) (random-int 1 12) (random-int 1 28)))
           (set-attr ?h name (sample-name ?gender ?nat ?class))
           (start-aging ?h)
-          (seed-human-self-beliefs ?h ?class ?nat ?building)
+          (seed-human-self-beliefs ?h ?class ?nat ?home)
           ?h)))))
 
 ; ----------------------------------------------------------------------------
@@ -51,15 +51,15 @@
   (enter-mind ?h)
   ; SEE the home before believing anything about it. A belief field is passively
   ; converted into the believer's own realm, so an object the mind has never met
-  ; lands as @fail - you cannot hold a belief about a building you have never laid
+  ; lands as @fail - you cannot hold a belief about a place you have never laid
   ; eyes on. Observing is the sanctioned way to meet one.
   (observe ?home): ?known-home
   (begin-belief {@self class-situation ?class})
   (begin-belief {@self nationality ?nat})
   (begin-belief {@self breeding (breeding-for-class ?class)})
   ; The OBSERVED object, not the raw abs one: a place field left to convert itself
-  ; passively lands as the building's ADDRESS - the universal place reference - and
-  ; an address is a value, not an object. A home is a BUILDING, so every reader that
+  ; passively lands as the home's ADDRESS - the universal place reference - and
+  ; an address is a value, not an object. A home is a UNIT, so every reader that
   ; asks the home for its rooms, or mints a belief about it, needs the object.
   (begin-belief {@self home ?known-home})
   (begin-belief {@self interest (random-subkind [k domain])})
@@ -83,11 +83,11 @@
     (else [k lower])))
 
 ; ----------------------------------------------------------------------------
-; make-founder-household - one COUPLE per residence, man and woman. Never a
+; make-founder-household - one COUPLE per unit, man and woman. Never a
 ; single: a parish of people living one to a house has no co-presence in it, and
 ; without co-presence nothing social can start - no conception, no introduction,
 ; no affair, since every one of those gates on two people being in the same place.
-; Both are minted into the same building (make-human seats them in its first
+; Both are minted into the same unit (make-human seats them in its first
 ; room), so they begin life under one roof and in one another's sight.
 ;
 ; They are not WED here. A marriage is a belief each spouse holds about the other,
@@ -98,17 +98,18 @@
 ; are live, each spouse holding their own half.
 ; ----------------------------------------------------------------------------
 
-(define-func make-founder-household (?building ?class)
-  (make-human ?building ?class [k male]): ?husband
-  (make-human ?building ?class [k female]): ?wife
+(define-func make-founder-household (?home ?class)
+  (make-human ?home ?class [k male]): ?husband
+  (make-human ?home ?class [k female]): ?wife
   ?husband)
 
 ; ----------------------------------------------------------------------------
-; make-human-founder - the world-gen founder population: one household per
+; make-human-founder - the world-gen founder population: one household per unit of a
 ; RESIDENTIAL building, each with the class its residence implies. Commercial
 ; buildings house nobody, so they are not walked at all. Called ONCE by town-startup.
 ; ----------------------------------------------------------------------------
 
 (define-func make-human-founder ()
   (for-each ?b (env-entities [k building residential-building])
-    (if (chance (founder_density)) (make-founder-household ?b (class-for-residence ?b)))))
+    (for-each ?unit (spatial ?b parts [k unit] /env)
+      (if (chance (founder_density)) (make-founder-household ?unit (class-for-residence ?b))))))

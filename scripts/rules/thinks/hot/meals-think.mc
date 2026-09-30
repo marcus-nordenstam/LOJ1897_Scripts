@@ -45,7 +45,7 @@
 ; drops out of the (min ...).
 (think idle-at-home
   (role ?home {@self home ?home}
-              (spatial @self building ?home)
+              (spatial @self unit ?home)
     (utility idle fallback)
     (effects       (begin-goal {@self DWELL ?home}))
     (when-unsupported-effects (set-outcome {@self goal {@self DWELL ?home}} /succ))))
@@ -62,19 +62,19 @@
 ; midnight and the sleep aspect takes over long before.
 (think dwell-at-home-morning
   (goal    {@self DWELL ?home})
-  (role @self (spatial @self building ?home)
+  (role @self (spatial @self unit ?home)
     (when (hours 0 12))
     (effects (maintain-proposal {@self DWELL ?home 12}))))
 
 (think dwell-at-home-afternoon
   (goal    {@self DWELL ?home})
-  (role @self (spatial @self building ?home)
+  (role @self (spatial @self unit ?home)
     (when (hours 12 18))
     (effects (maintain-proposal {@self DWELL ?home 18}))))
 
 (think dwell-at-home-evening
   (goal    {@self DWELL ?home})
-  (role @self (spatial @self building ?home)
+  (role @self (spatial @self unit ?home)
     (when (hours 18 0))
     (effects (maintain-proposal {@self DWELL ?home 24}))))
 
@@ -112,7 +112,7 @@
 (think notice-larder
   (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
-                (spatial @self building ?home)
+                (spatial @self unit ?home)
                 (spatial ?home room [k kitchen]): ?kitchen   ; a resident who does not know their kitchen just skips
       (when (= (believed-home-food-count ?home) 0))
       (effects
@@ -133,7 +133,7 @@
   (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home breakfast-hour ?}
-                (spatial @self building ?home)
+                (spatial @self unit ?home)
       (when (hours (household-breakfast-hour) (+ (household-breakfast-hour) (breakfast-window-hours))) (> (believed-home-food-count ?home) 0))
       (utility (meal-utility-band) default)
       (effects       (begin-goal {@self eat [k breakfast] ?home}))
@@ -156,7 +156,7 @@
   (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home lunch-hour ?}
-                (spatial @self building ?home)
+                (spatial @self unit ?home)
       (when (hours (household-lunch-hour) (+ (household-lunch-hour) (meal-window-hours))) (> (believed-home-food-count ?home) 0))
       (utility (meal-utility-band) default)
       (effects       (begin-goal {@self eat [k lunch] ?home}))
@@ -316,7 +316,7 @@
 ; (think starving_pantry
 ;   (role @self {@self starve}
 ;     (role ?home {@self home ?home}
-;                 (spatial @self building ?home)
+;                 (spatial @self unit ?home)
 ;       (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                  (> (believed-home-food-count ?home) 0)))
 ;       (utility (starve-drive))
@@ -326,7 +326,7 @@
 ; (think starving_go_home
 ;   (role @self {@self starve}
 ;     (role ?home {@self home ?home}
-;                 (not (spatial @self building ?home))
+;                 (not (spatial @self unit ?home))
 ;       (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                  (> (believed-home-food-count ?home) 0)))
 ;       (utility (starve-drive))

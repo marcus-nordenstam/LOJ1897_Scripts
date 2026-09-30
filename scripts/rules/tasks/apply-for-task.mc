@@ -22,7 +22,7 @@
 
         (stage
           (effects
-            (if (not (spatial @self building ?home))
+            (if (not (spatial @self unit ?home))
                 (then (maintain-proposal {@self go ?home})))))
 
         (stage
@@ -40,7 +40,7 @@
                                      -{@self send-mail ?app ? /succ}
                                      (substantial (attr ?app writing))
                                      (substantial (attr ?app destination)))
-          (role ?out [k outgoing-mail-stack] (spatial ?out building ?home))
+          (role ?out [k outgoing-mail-stack] (within-place ?out ?home))
           (effects (maintain-proposal {@self send-mail ?app ?out})))
 
         (stage

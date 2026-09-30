@@ -57,7 +57,7 @@
                                                         [to-hour ?occ-to]])})))))
 
           (stage
-            (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home))
+            (role ?out [k outgoing-mail-stack] (within-place ?out ?my-home))
             (effects (maintain-proposal {@self send-mail ?ltr ?out})))
 
           (stage

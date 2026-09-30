@@ -1,9 +1,10 @@
 ; ----------------------------------------------------------------------------
 ; magic-mail-service - the town's post, run by the engine at every midnight
 ; (define-func /nightly: mindless, abs plane, no @self). Every letter a sender
-; has deposited in a building's outgoing-mail-stack teleports to the incoming mail-stack
-; of the building whose address is written on it. A letter with no address, or one no
-; building carries at its premises rung, is a dead letter and stays in the outgoing pile.
+; has deposited in an outgoing-mail-stack teleports to the incoming mail-stack of the
+; household whose address is written on it - a unit of a building, or a building that has
+; none. A letter with no address, or one no mail-stack answers, is a dead letter and stays
+; in the outgoing pile.
 ; ----------------------------------------------------------------------------
 
 (define-func /nightly magic-mail-service ()
@@ -12,13 +13,11 @@
       (attr ?ltr destination): ?dest
       (if (substantial ?dest)
         (then
-          ; A letter is delivered to the HOUSE: an address naming a room in it still names
-          ; it, so the match is at the premises rung.
-          (building-at (address-premises ?dest)): ?b
-          (if (substantial ?b)
-            (then
-              (for-each ?in (env-entities [k mail-stack])
-                (if (spatial ?in building ?b /env)
-                  (then
-                    (push ?ltr ?in)
-                    (break)))))))))))
+          ; A letter is delivered to the HOUSEHOLD: an address naming a room in it still names
+          ; it, so the match is below the unit rung, against the room the pile stands in.
+          (address-household ?dest): ?to
+          (for-each ?in (env-entities [k mail-stack])
+            (if (= (address-household (attr (spatial ?in space /env) address)) ?to)
+              (then
+                (push ?ltr ?in)
+                (break)))))))))

@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self putter ?home}:?putter
-  (tar [k structure] @object)
+  (tar [k unit] @object)
   (and
     (try
       (role @self -{@self wander ?home /succ /caused_by ?putter}
@@ -20,7 +20,7 @@
         (effects (maintain-proposal {@self wander ?home}))))
     (try
       (when (and (spatial @self space): ?room
-                 (spatial @self building ?home)))
+                 (spatial @self unit ?home)))
       (effects
         (any {@self openness ?openness})
         (for-each ?cache (spatial ?room parts [k interior-space hiding-spot] /env)
@@ -37,7 +37,7 @@
     ; STOPGAP (actions/STOCK-LARDER.mc): the supply run never reaches the shop, so a
     ; resident standing in his own empty kitchen stocks it himself. Delete with that file.
     (try
-      (when (and (spatial @self building ?home)
+      (when (and (spatial @self unit ?home)
                  (spatial ?home room [k kitchen]): ?kitchen
                  (spatial @self space ?kitchen)
                  (= (believed-pile-count ?kitchen [k food]) 0)))

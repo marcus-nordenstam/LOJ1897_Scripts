@@ -7,23 +7,23 @@
 
 ; ?thing is known inside ?bldg: a thing placed in it, or a room of it.
 (define-func locate-known (?thing ?bldg)
-  (or (spatial ?thing building ?bldg)
+  (or (within-place ?thing ?bldg)
       (spatial ?bldg room ?thing)))
 
 (task {@self locate ?thing ?bldg}:?locate
   (tar @excl)
-  (aux [k container-structure] @object)
+  (aux [k container-structure|unit] @object)
   (init
-    (check (is-a ?bldg [k container-structure]))
+    (check (or (is-a ?bldg [k container-structure]) (is-a ?bldg [k unit])))
     (check (grounded ?bldg)))
   (and
     (try
       (when (and (not (locate-known ?thing ?bldg))
-                 (not (spatial @self building ?bldg))))
+                 (not (within-place @self ?bldg))))
       (effects (maintain-proposal {@self go ?bldg})))
     (try
       (when (and (not (locate-known ?thing ?bldg))
-                 (spatial @self building ?bldg)))
+                 (within-place @self ?bldg)))
       (effects (maintain-proposal {@self wander ?bldg})))
     (try
       (when (locate-known ?thing ?bldg))

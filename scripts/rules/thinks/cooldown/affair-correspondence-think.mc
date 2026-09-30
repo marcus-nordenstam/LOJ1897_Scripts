@@ -55,7 +55,7 @@
             (role ?ltr [k love-letter] (spatial ?ltr co-located @self)
                                        {@self WRITE ?ltr ? /succ}
                                        -{@self send-mail ?ltr ? /succ}
-              (role ?out [k outgoing-mail-stack] (spatial ?out building ?my-home)
+              (role ?out [k outgoing-mail-stack] (within-place ?out ?my-home)
                 (effects
                   ; A written letter must carry what the mail service routes by; a filter would leave an
                   ; unstamped paper on the desk in silence.

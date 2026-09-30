@@ -8,6 +8,11 @@
 
 (include "../macros/tunables.mc")
 
+; ?x is inside ?place, a building or a unit of one.
+(define-func within-place (?x ?place)
+  (or (spatial ?x building ?place)
+      (spatial ?x unit ?place)))
+
 ; Where a thing set down "at ?dest" comes to rest: a claimed spot where the whole thing fits,
 ; on the floor of a space or on top of anything else. @fail while no spot is free - the
 ; asking rung polls until one is - and the claim is the asking rung's: it is released when

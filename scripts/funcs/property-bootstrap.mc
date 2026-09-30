@@ -37,12 +37,16 @@
   ; read-mail could only ever end /fail: 0 successes town-wide over a 2yr run. That dead
   ; channel is what held the recruiting officer's office round to ONE round in two years -
   ; its gate re-arms on (days-since-last {@self read-mail ?wp /succ}), which never reset.
+  ; A building of units has a pair per unit - each household gets its own post - and one without
+  ; has a pair of its own.
   (for-each ?mb (env-entities [k building])
-    (spatial ?mb room /env): ?mroom
-    (if ?mroom
-      (then
-        (create-entity [k mail-stack] (seed-rest-spot ?mb [k mail-stack]))
-        (create-entity [k outgoing-mail-stack] (seed-rest-spot ?mb [k outgoing-mail-stack])))))
+    (spatial ?mb parts [k unit] /env): ?units
+    (for-each ?household (if (empty ?units) (then (list ?mb)) (else ?units))
+      (spatial ?household room /env): ?mroom
+      (if ?mroom
+        (then
+          (create-entity [k mail-stack] (seed-rest-spot ?household [k mail-stack]))
+          (create-entity [k outgoing-mail-stack] (seed-rest-spot ?household [k outgoing-mail-stack]))))))
   ; ADDRESS-SIGNS: a fixture of every addressed building; the sign carries no text of its
   ; own - it shows its building's address.
   (for-each ?ab (env-entities [k building])

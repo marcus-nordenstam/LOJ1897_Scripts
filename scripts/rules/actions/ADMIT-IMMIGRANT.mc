@@ -24,7 +24,10 @@
     (env-entities [k building rowhouse]): ?homes
     (count ?homes): ?n
     (check (> ?n 0))
-    (nth ?homes (random-int 0 (- ?n 1))): ?imm-home
+    (nth ?homes (random-int 0 (- ?n 1))): ?imm-house
+    (spatial ?imm-house parts [k unit] /env): ?imm-units
+    (check (not (empty ?imm-units)))
+    (nth ?imm-units (random-int 0 (- (count ?imm-units) 1))): ?imm-home
     (table-sample-weighted gender_dist value weight): ?gender
     (make-human ?imm-home [k class-situation lower] ?gender): ?newcomer
     (check (substantial ?newcomer))

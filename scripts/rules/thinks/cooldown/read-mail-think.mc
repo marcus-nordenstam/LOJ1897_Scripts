@@ -13,7 +13,7 @@
 (think want-read-mail
   (cooldown 1 d try-until-succ)
   (role ?home {@self home ?home}
-    (role @self (spatial @self building ?home)
+    (role @self (spatial @self unit ?home)
       (when (>= (days-since-last {@self read-mail ?home /succ}) 1))
       (utility errand)
       (effects (maintain-proposal {@self read-mail ?home})))))

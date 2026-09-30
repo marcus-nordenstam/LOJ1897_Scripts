@@ -9,6 +9,6 @@
   (lock)
   (cooldown 1 m try-until-succ)
   (role ?home {@self home ?home}
-    (role @self (spatial @self building ?home)
+    (role @self (spatial @self unit ?home)
       (utility idle)
       (effects (maintain-proposal {@self putter ?home})))))

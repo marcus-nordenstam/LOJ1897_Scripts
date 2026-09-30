@@ -23,6 +23,6 @@
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (think idle-go-home
   (role ?home {@self home ?home}
-              (not (spatial @self building ?home))
+              (not (spatial @self unit ?home))
     (utility idle fallback)
     (effects (maintain-proposal {@self go ?home}))))

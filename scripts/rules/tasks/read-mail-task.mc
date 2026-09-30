@@ -3,13 +3,13 @@
 ; where ?prem's incoming mail-stack is, LOCATE it (wandering ?prem); once known, go to its
 ; room, lift the letters addressed to @self via take-my-letters, and read each held one.
 ; Concluded once the stack is swept this round and @self's hands are empty of letters. The
-; stack binds SCOPED to ?prem via (spatial ?stk building ?prem). NO give-up try: an interrupted
+; stack binds SCOPED to ?prem via (within-place ?stk ?prem). NO give-up try: an interrupted
 ; round RESUMES on the next premises visit (the rungs propose nothing from afar).
 ; Driver + saturation probe stay in read_mail_think.mc.
 ; ----------------------------------------------------------------------------
 
 (task {@self read-mail ?prem}:?read-mail
-  (tar @excl [k structure] @object)
+  (tar @excl [k container-structure|unit] @object)
   (and
     ; The locate's own /fail is the "no mail-stack here" record, exactly as find-building's is for
     ; seek-board-find - without reading it this rung re-proposes the search for ever.
@@ -19,12 +19,12 @@
         (utility errand)
         (effects (maintain-proposal {@self locate [k mail-stack] ?prem}))))
     (try
-      (role ?stk [k mail-stack] (spatial ?stk building ?prem)
+      (role ?stk [k mail-stack] (within-place ?stk ?prem)
                                 (not (spatial ?stk co-located @self))
         (when (spatial ?stk space))
         (effects (maintain-proposal {@self go ?stk}))))
     (try
-      (role ?stk [k mail-stack] (spatial ?stk building ?prem)
+      (role ?stk [k mail-stack] (within-place ?stk ?prem)
                                 (spatial ?stk co-located @self)
                                 -{@self take-my-letters ?stk /succ /caused_by ?read-mail}
         (utility errand)
@@ -36,7 +36,7 @@
     ; browse was holding in flight, read it, and filed it away underneath the browse, which
     ; then waited for ever to re-file a letter no longer in his hand.
     (try
-      (role ?stk [k mail-stack] (spatial ?stk building ?prem)
+      (role ?stk [k mail-stack] (within-place ?stk ?prem)
         (when (and {@self take-my-letters ?stk /succ /caused_by ?read-mail}
                    (empty (spatial @self hold [k letter]))))
         (effects (set-outcome ?read-mail /succ))))
