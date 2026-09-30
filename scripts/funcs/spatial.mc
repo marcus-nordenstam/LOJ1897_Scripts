@@ -25,9 +25,9 @@
 ; Where world-gen sets a new ?kind down in ?bldg: a free spot on a writing-desk or table in
 ; any of its rooms, else a room's floor. Mindless: the world is read as it stands and
 ; nothing is claimed - each call sees what the calls before it placed.
-(define-func seed-rest-spot (?bldg ?kind)
-  (spatial ?bldg room /env): ?found
-  (for-each ?room (spatial ?bldg parts [k interior-space room] /env)
+(define-func seed-rest-spot (?place ?kind)
+  (spatial ?place room /env): ?found
+  (for-each ?room (spatial ?place parts [k interior-space room] /env)
     (if (is-spot ?found) (then (break)))
     (for-each ?surface (spatial ?room contents [k loose-furniture] /env)
       (if (or (is-a ?surface [k writing-desk]) (is-a ?surface [k table]))
@@ -42,12 +42,13 @@
 (define-func can-stand-in (?space)
   (is-spot (find-spot @self [/on_floor_of ?space] [/near @self] [/at_or_near @self])))
 
-; The space of kind ?kind in ?bldg nearest @self that he knows and has floor free to stand
-; on, or @nothing. One whose floor has no room for him - too low a storey, or full - is passed over.
-(define-func nearest-standable (?bldg ?kind)
+; The space of kind ?kind that ?place - a building or a unit - holds itself, nearest @self, that
+; he knows and has floor free to stand on, or @nothing. One whose floor has no room for him - too
+; low a storey, or full - is passed over.
+(define-func nearest-standable (?place ?kind)
   (bind @nothing ?space)
   (bind -1.0 ?best)
-  (for-each ?r (spatial ?bldg parts ?kind)
+  (for-each ?r (spatial ?place parts ?kind)
     (if (can-stand-in ?r)
       (then
         (bind (distance @self ?r) ?d)
@@ -57,18 +58,53 @@
             (bind ?d ?best))))))
   ?space)
 
-; The threshold of ?bldg, both ways: its main entrance, else any entrance - the first with
-; floor for him. @nothing when none has.
-(define-func entrance-space (?bldg)
-  (nearest-standable ?bldg [k entrance main-entrance]): ?main
+; The threshold of ?place, both ways: the main entrance it holds itself, else any entrance of
+; its own - the first with floor for him. @nothing when none has. A building's are the entrances
+; its units share; a unit's are its own door.
+(define-func entrance-space (?place)
+  (nearest-standable ?place [k entrance main-entrance]): ?main
   (if (substantial ?main)
       (then ?main)
-      (else (nearest-standable ?bldg [k interior-space entrance]))))
+      (else (nearest-standable ?place [k interior-space entrance]))))
 
-; @self knows every part of ?kind ?bldg has.
-(define-func knows-every (?bldg ?kind)
-  (>= (count (spatial ?bldg parts ?kind))
-      (count (spatial ?bldg parts ?kind /env))))
+; Where a man steps into ?place: its entrance, else its nearest room with floor for him.
+(define-func entry-space (?place)
+  (entrance-space ?place): ?way
+  (if (substantial ?way)
+      (then ?way)
+      (else (nearest-standable ?place [k interior-space room]))))
+
+; @self knows every part of ?kind ?place has.
+(define-func knows-every (?place ?kind)
+  (>= (count (spatial ?place parts ?kind))
+      (count (spatial ?place parts ?kind /env))))
+
+(define-func knows-every-way-in (?place)
+  (and (knows-every ?place [k interior-space entrance])
+       (knows-every ?place [k interior-space room])))
+
+; Standing at ?place's door he sees what lies behind it: the entrances and rooms it holds itself.
+(define-func look-through-door (?place)
+  (for-each ?way (spatial ?place parts [k interior-space entrance] /env)
+    (observe ?way))
+  (for-each ?way (spatial ?place parts [k interior-space room] /env)
+    (observe ?way)))
+
+; ?bldg is entered as a whole: through an entrance its units share, or - holding no units - as
+; its own one household. A building of units without a shared entrance is entered unit by unit,
+; each through its own door.
+(define-func enters-as-building (?bldg)
+  (or (not (empty (spatial ?bldg parts [k interior-space entrance] /env)))
+      (empty (spatial ?bldg parts [k unit] /env))))
+
+; The place a business or a household holds in ?bldg: its one unit, or the building itself when
+; it holds none. A building of several units does not say which of them - the caller must.
+(define-func premises-place (?bldg)
+  (spatial ?bldg parts [k unit] /env): ?units
+  (expect (<= (count ?units) 1) "premises-place: a building of several units names no one premises")
+  (cond (case (empty ?units) ?bldg)
+        (case (= (count ?units) 1) (head ?units))
+        (else @fail)))
 
 ; Where @self stands inside a space: a claimed spot on its floor, the one nearest him.
 ; Polled like rest-spot, and likewise the asking rung's claim.

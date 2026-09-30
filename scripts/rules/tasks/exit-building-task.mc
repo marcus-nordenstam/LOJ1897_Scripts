@@ -1,34 +1,27 @@
 ; ----------------------------------------------------------------------------
-; exit - the twin of enter: get @self out of a structure and onto the street, through its
-; entrance. Knowing no entrance of it, he tours it once; a tour that shows none means it has
-; none. Knowing one, he walks onto its floor, then out to a spot before the building;
-; standing in it already, or with no entrance to take, that first stage falls through.
+; exit-building ?bldg - the twin of enter-building: from a space ?bldg's units share, or a
+; unit-less building's own, out through an entrance the building holds itself and onto a spot
+; before it. Knowing no entrance of it, he tours it once; a tour that shows none means it has
+; none. Knowing one, he walks onto its floor, then out; standing in it already, or with no
+; entrance to take, that first stage falls through.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
 
-; STILL IN IT, written once and read twice: as the condition the task runs under, and in
-; the cease that says what stopping meant.
-(define-func still-in (?bldg)
-  (spatial @self building ?bldg))
-
-(task {@self exit ?bldg}:?exit
+(task {@self exit-building ?bldg}:?exit-building
   (tar @excl [k building] @object)
   (init
     (check (is-a ?bldg [k building]))
     (check (grounded ?bldg))
-    (check (still-in ?bldg)))
-  (when (still-in ?bldg))
-  (cease (if (not (still-in ?bldg)) (then (set-outcome ?exit /succ))))
+    (check (spatial @self building ?bldg)))
+  (cease (if (not (spatial @self building ?bldg)) (then (set-outcome ?exit-building /succ))))
   (stable-or
     (try
       (when (empty (spatial ?bldg parts [k interior-space entrance]))
-            -{@self wander ?bldg /succ /caused_by ?exit})
+            -{@self wander ?bldg /succ /caused_by ?exit-building})
       (effects (maintain-proposal {@self wander ?bldg})))
 
     (sequence
-      ; A building toured without an entrance has none, and he steps straight out; one whose
-      ; entrance has no floor free for him holds the stage until a spot frees.
       (stage
         (bind (entrance-space ?bldg) ?entry)
         (when (or (substantial ?entry) (empty (spatial ?bldg parts [k interior-space entrance]))))

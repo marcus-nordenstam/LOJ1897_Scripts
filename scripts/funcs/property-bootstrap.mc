@@ -16,16 +16,15 @@
 (define-func seed_property ()
   ; The singleton for-sale register, created once in the first building's room.
   (for-each ?b0 (env-entities [k building])
-    (spatial ?b0 room /env): ?r0
-    (if (and ?r0 (none (env-entities [k for-sale-listings])))
+    (tolerate (premises-place ?b0)): ?p0
+    (if (and (substantial ?p0) (spatial ?p0 room /env) (none (env-entities [k for-sale-listings])))
       (then
-        (create-entity [k for-sale-listings] (seed-rest-spot ?b0 [k for-sale-listings])): ?reg0
+        (create-entity [k for-sale-listings] (seed-rest-spot ?p0 [k for-sale-listings])): ?reg0
         (table-init ?reg0 building)
         (break))))
-  ; Every premises is on the market at seed.
+  ; Every premises is on the market at seed: a building with rooms of its own or units to let.
   (for-each ?b (env-entities [k building])
-    (spatial ?b room /env): ?room
-    (if ?room
+    (if (or (spatial ?b room /env) (not (empty (spatial ?b parts [k unit] /env))))
       (then
         (for-each ?reg (env-entities [k for-sale-listings])
           (table-add ?reg building (attr ?b address))))))
@@ -75,11 +74,12 @@
       (free-premises-for ?kind): ?bldg
       (if (substantial ?bldg)
         (then
-          (spatial ?bldg room /env): ?croom
+          (premises-place ?bldg): ?cplace
+          (spatial ?cplace room /env): ?croom
           (if (none (env-entities [k incorporation-stack]))
-            (then (create-entity [k incorporation-stack] (seed-rest-spot ?bldg [k incorporation-stack]))))
+            (then (create-entity [k incorporation-stack] (seed-rest-spot ?cplace [k incorporation-stack]))))
           (create-entity [k articles-of-incorporation] ?croom): ?art
-          (create-entity [k employee-register] (seed-rest-spot ?bldg [k employee-register])): ?creg
+          (create-entity [k employee-register] (seed-rest-spot ?cplace [k employee-register])): ?creg
           (establish-posts ?creg ?kind)
           (delist ?bldg)
           (table-match businesses org-kind ?kind name ?cname)
@@ -106,8 +106,9 @@
   (headless-charter [k org land-registry]): ?slr-art
   (check (substantial ?slr-art))
   (articles-premises ?slr-art): ?slr-bldg
-  (spatial ?slr-bldg room /env): ?slr-room
-  (create-entity [k title-deed-stack] (seed-rest-spot ?slr-bldg [k title-deed-stack])): ?slr-stack
+  (premises-place ?slr-bldg): ?slr-place
+  (spatial ?slr-place room /env): ?slr-room
+  (create-entity [k title-deed-stack] (seed-rest-spot ?slr-place [k title-deed-stack])): ?slr-stack
   (for-each ?b (env-entities [k building])
     (attr ?b address): ?slr-addr
     (create-entity [k title-deed] ?slr-room): ?slr-deed

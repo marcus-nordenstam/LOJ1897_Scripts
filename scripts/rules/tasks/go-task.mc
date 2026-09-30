@@ -1,14 +1,18 @@
 ; ----------------------------------------------------------------------------
 ; go ?dest - THE movement task, and the only one a chain proposes: only go and its own legs
-; (exit / enter) propose WALK. ?dest is anything a man can be bound for: a spot, a building,
+; (exit-unit / exit-building / enter-building / enter-unit) propose WALK. ?dest is anything a man can be bound for: a spot, a building,
 ; a room, a person, a thing. The rungs are a preemptive-or, so each reads only what makes it
 ; the one to run - every rung above it has already failed:
 ;
 ;   arrived                          -> succeed
 ;   unseen, believed in a space      -> go to that space, where he will see it; not there -> fail
 ;   unseen, in the house at premises -> tour the house; a tour that shows it not -> fail
-;   in the wrong building            -> exit it
-;   out of doors, dest in building   -> enter that building
+;   in a unit that is not dest's     -> exit-unit
+;   in the wrong building            -> exit-building
+;   out of doors, dest's building
+;     entered as a whole             -> enter-building (its shared door, or a unit-less one)
+;   dest in a unit he is not in      -> enter-unit (its own door: from the street for a row
+;                                       house, from the shared hallway for a block of flats)
 ;   unseen, no house at its premises -> find-building; a search that finds none -> fail
 ;   otherwise                        -> WALK: the dest spot; far, its travel spot; near, a
 ;                                       spot on its floor or by it
@@ -40,11 +44,20 @@
 (define-func go-arrived (?dest ?go)
   (cond (case (is-spot ?dest) (overlaps ?dest @self))
         (case (is-a ?dest [k building]) (spatial @self building ?dest))
+        (case (is-a ?dest [k unit]) (spatial @self unit ?dest))
         (case (is-a ?dest [k space]) (spatial @self space ?dest))
         (else (and (spatial ?dest co-located @self)
                    (or (< (distance @self ?dest) (near_reach_m))
                        (substantial (any {@self WALK ? /succ /caused_by ?go})))))): ?there
   ?there)
+
+; The unit ?dest lies in as @self believes it, @nothing for a dest in no unit.
+(define-func go-unit (?dest)
+  (cond (case (is-spot ?dest) (tolerate (spatial (spot-anchor ?dest) unit)))
+        (case (not (grounded ?dest)) @nothing)
+        (case (is-a ?dest [k unit]) ?dest)
+        (else (tolerate (spatial ?dest unit)))): ?u
+  (if (substantial ?u) (then ?u) (else @nothing)))
 
 (define-func go-unseen (?dest)
   (and (not (is-spot ?dest)) (not (grounded ?dest))))
@@ -107,20 +120,36 @@
             {@self wander ?house /succ /caused_by ?go})
       (effects (set-outcome ?go /fail)))
     (try
+      (when (spatial @self unit): ?my-unit
+            (substantial ?my-unit)
+            (not (= (go-unit ?dest) ?my-unit)))
+      (effects
+        (check (is-a ?my-unit [k unit]))
+        (maintain-proposal {@self exit-unit ?my-unit})))
+    (try
       (when (spatial @self building): ?here
             (substantial ?here)
             (not (= (go-building ?dest) ?here)))
       (effects
         (check (is-a ?here [k building]))
-        (maintain-proposal {@self exit ?here})))
+        (maintain-proposal {@self exit-building ?here})))
     (try
       (when (unsubstantial (spatial @self building))
             (go-building ?dest): ?building
-            (substantial ?building))
+            (substantial ?building)
+            (enters-as-building ?building))
       (effects
         (check (is-a ?building [k building]))
         (check (grounded ?building))
-        (maintain-proposal {@self enter ?building})))
+        (maintain-proposal {@self enter-building ?building})))
+    (try
+      (when (go-unit ?dest): ?unit
+            (substantial ?unit)
+            (not (spatial @self unit ?unit)))
+      (effects
+        (check (is-a ?unit [k unit]))
+        (check (grounded ?unit))
+        (maintain-proposal {@self enter-unit ?unit})))
     (try
       (when (go-unseen ?dest)
             -{@self find-building ?dest ? /fail}
