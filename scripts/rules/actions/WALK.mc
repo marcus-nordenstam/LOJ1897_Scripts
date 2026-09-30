@@ -6,8 +6,8 @@
 ;
 ; ONE body, and the LOD branch sits at the movement write and nowhere else. Only a
 ; PRESENTED man on a navmesh navigates: the body plans through the nav graph, polls the
-; search, steers the character at the next unpassed waypoint every frame and sets its own
-; /succ on arrival. Everyone else - every unpresented man, and a presented one where no
+; search, steers the character at the next unpassed waypoint every frame, and on arrival
+; relocates him onto the spot and sets its own /succ. Everyone else - every unpresented man, and a presented one where no
 ; navmesh covers the route - is dumb travel: the act's one cap tick relocates him and the
 ; cap commits /succ. So the duration is LOD-aware: the scheduled path needs a cap, since
 ; that tick IS the act, and the steered path must not have one, or it would commit /succ
@@ -65,7 +65,8 @@
             ; Both movement writes already refuse a step too short to take, in centre metres.
             (nav-steer-target @self ?dest):?steer
             (if (< (distance @self (travel-spot ?dest)) (walk_arrive_m))
-                (then (set-outcome ?WALK /succ))
+                (then (relocate @self ?dest)
+                      (set-outcome ?WALK /succ))
                 (else (steer-to @self ?steer))))))))
 
   ; Runs on every end, and cancels only while this act still owns the plan: a cease

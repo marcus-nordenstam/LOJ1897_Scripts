@@ -1,9 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; spatial.mc - where a thing rests and what a mind has seen of a premises, as content.
 ;
-; A journey has no geometry in it: the coarse leg walks to a venue's bounds HANDLE (the
-; engine lands a traveller before a structure's front face), and the near-field leg claims
-; a stand cell in front of the venue once it is seen. No rule holds a point.
+; A journey has no geometry in it: every leg walks to a SPOT, and the spot's anchor names the
+; space he lands in. No rule holds a point.
 ; ----------------------------------------------------------------------------
 
 (include "../macros/tunables.mc")

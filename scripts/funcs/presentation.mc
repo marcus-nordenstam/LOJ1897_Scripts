@@ -119,8 +119,7 @@
 
 ; (steer-to ?who ?point) - the PRESENTED movement write: turn ?who's character toward
 ; ?point at the act's (delib-turn-speed ..) and translate while it has ground or wall
-; contact. The presented twin of (advance-toward ..), which moves the box directly. The
-; speed is not an argument: the host blends it with the previous act's on the motor stack
+; contact. The speed is not an argument: the host blends it with the previous act's on the motor stack
 ; so a WALK into a RUN ramps with the visual blend. @true iff it translated.
 (declare-func steer-to (args ?who ?point))
 

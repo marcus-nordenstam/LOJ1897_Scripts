@@ -23,9 +23,9 @@
     (check (spatial ?article co-located @self /env))
     (set-attr ?part wear ?article)
     ; Worn is not held: the hand that offered it up lets go, and the article rides the
-    ; part from here. release-grip files it into @self's own space, which is where a
-    ; worn thing is.
-    (release-grip ?article (spatial @self space /env))
+    ; part from here. It is set on the floor spot nearest him in his own space, which is
+    ; where a worn thing is filed.
+    (release-grip ?article (find-spot ?article [/on_floor_of (spatial @self space /env)] [/near @self]))
     (if (presented-lod)
         (then (attach-to-socket ?article ?part @nothing)))
     (set-outcome ?WEAR /succ)))
