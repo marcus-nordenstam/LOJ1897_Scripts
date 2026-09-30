@@ -140,7 +140,7 @@
           (children kitchen-table dining-table))
         (children chair stool armchair bed wardrobe chest crate writing-desk
                   writing-bureau bookshelf sideboard display-cabinet smoking-cabinet hat-stand umbrella-stand bell-pull
-                  sewing-machine drying-rack fireplace)
+                  sewing-machine drying-rack fireplace public-notice-board)
         (child piano
           (children upright-piano grand-piano))
         (children evidence-box))
@@ -649,7 +649,7 @@
         # A sign carries no text of its own: a building-name-sign shows its building's
         # `name`, an address-sign its building's `address`.
         (child sign
-          (children building-name-sign address-sign public-notice-board))
+          (children building-name-sign address-sign))
         (child opening (+ nav_passage)
           (children window door))))
     (child gm
