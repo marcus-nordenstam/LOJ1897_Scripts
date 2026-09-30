@@ -16,6 +16,10 @@
 #                                content-supplied (building=building, town=town) so the
 #                                engine never names a level. NOT used by `space`: a space
 #                                is whatever directly contains the entity (see below).
+#   (rung-role <role>)           a ladder rung, or a (first) child range, by COMPOSITION role
+#                                (enclosure|unit|room|compartment|fixture) instead of kind:
+#                                the first node whose kind takes that role. A room range
+#                                looks inside the units of the whole it reads.
 #   (payload)                    the finest rung: (spatial ?x bounds) yields the exact box
 #                                via the live perceiving-pointer (live-only; @unknown when
 #                                not perceiving). /env reads env ground truth.
@@ -68,12 +72,13 @@
 (spatial-label bounds     (store space) (payload))
 (spatial-label space      (store space) (theme frequent))
 (spatial-label building   (store space) (rung building))
-(spatial-label unit       (store space) (rung unit))
+(spatial-label enclosure  (store space) (rung-role enclosure))
+(spatial-label unit       (store space) (rung-role unit))
 (spatial-label town       (store space) (rung town))
 (spatial-label contents   (store space) (down))
 (spatial-label co-located (store space) (co))
 (spatial-label co-located-building (store space) (co) (rung building))
-(spatial-label room       (store space) (first) (rung interior-space))
+(spatial-label room       (store space) (first) (rung-role room))
 (spatial-label gripped-by (store grip))
 (spatial-label grip       (store grip) (down))
 (spatial-label hold       (store grip) (down) (descend))
