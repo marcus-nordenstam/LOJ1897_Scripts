@@ -519,12 +519,12 @@
         (children trail))
       (child sporting-grounds
         (children racing-grounds cricket-grounds))
-      (child container-structure
-        (decorations (attrs isolated has-crypt locked-wing struct-status))
-        (population (cap 2048))
-        (children wagon train-car ship)
-        (child building
-          (decorations (states availability occupant tenant))
+      # The structure a man goes INTO: an enclosure of units, rooms, fixtures and compartments.
+      (child building
+          (decorations
+            (attrs struct-status)
+            (states availability occupant tenant))
+          (population (cap 2048))
           (child residential-building
             (children manor townhouse rowhouse farmhouse chapel))
           (child commercial-building
@@ -565,10 +565,19 @@
             # the member-register here (clubhouse co-presence). Split by
             # club type: athletic (sporting) vs social (gentlemen's).
             (child clubhouse
-              (children athletic-clubhouse social-clubhouse)))))
+              (children athletic-clubhouse social-clubhouse))))
       (children pier)
       (child bridge
         (children suspension-bridge)))
+    # A vehicle is an enclosure that moves: its composition is a building's - a wagon's one
+    # room, a train-car's compartments and corridor, a ship's cabins, saloon and holds.
+    (child vehicle
+      (decorations
+        (attrs variant birth-date struct-status)
+        (attr name (auto-percept) (ext-per obs))
+        (spatials bounds))
+      (population (cap 256) (always-visible) (children-block-spots))
+      (children wagon train-car ship))
     (child part
       (decorations
         (attrs variant birth-date)

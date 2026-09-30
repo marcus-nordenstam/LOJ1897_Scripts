@@ -29,12 +29,12 @@
        (knows-every ?bldg [k interior-space room])))
 
 (task {@self enter ?bldg}:?enter
-  (tar @excl [k container-structure] @object)
+  (tar @excl [k building] @object)
   ; The rooms behind the door are read from ground truth at the hull: standing before a
   ; building is how a man learns what is behind its door.
   (lint-waive env-read-outside-action)
   (init
-    (check (is-a ?bldg [k container-structure]))
+    (check (is-a ?bldg [k building]))
     (check (grounded ?bldg))
     (check (unsubstantial (spatial @self building))))
   (when (not (inside ?bldg)))

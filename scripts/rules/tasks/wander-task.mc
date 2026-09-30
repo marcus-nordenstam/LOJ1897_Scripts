@@ -5,9 +5,9 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self wander ?bldg}:?wander
-  (tar @excl [k container-structure|unit] @object)
+  (tar @excl [k building|unit] @object)
   (init
-    (check (or (is-a ?bldg [k container-structure]) (is-a ?bldg [k unit])))
+    (check (or (is-a ?bldg [k building]) (is-a ?bldg [k unit])))
     (check (within-place @self ?bldg)))
   (and
     ; Standing in the building he looks along its rooms and entrances: a space he has not yet

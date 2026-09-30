@@ -33,14 +33,14 @@
   (cease (if (substantial (find-building-found ?sought)) (then (set-outcome ?find-building /succ))))
   (preemptive-or
     (try
-      (when (and (latch-eval (closest-unobserved [k container-structure] ?region): ?dest)
+      (when (and (latch-eval (closest-unobserved [k building] ?region): ?dest)
                  (substantial ?dest)
                  (observed ?dest /not)
                  (travel-spot (spatial ?dest bounds /env)): ?spot
                  {@self go ?spot /succ /caused_by ?find-building}))
       (effects (observe ?dest)))
     (try
-      (when (and (latch-eval (closest-unobserved [k container-structure] ?region): ?dest)
+      (when (and (latch-eval (closest-unobserved [k building] ?region): ?dest)
                  (substantial ?dest)
                  (observed ?dest /not)
                  (travel-spot (spatial ?dest bounds /env)): ?spot))
@@ -48,5 +48,5 @@
         (check (is-spot ?spot))
         (maintain-proposal {@self go ?spot})))
     (try
-      (when (unsubstantial (closest-unobserved [k container-structure] ?region)))
+      (when (unsubstantial (closest-unobserved [k building] ?region)))
       (effects (set-outcome ?find-building /fail)))))

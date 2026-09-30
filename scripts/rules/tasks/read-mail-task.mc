@@ -9,7 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self read-mail ?prem}:?read-mail
-  (tar @excl [k container-structure|unit] @object)
+  (tar @excl [k building|unit] @object)
   (and
     ; The locate's own /fail is the "no mail-stack here" record, exactly as find-building's is for
     ; seek-board-find - without reading it this rung re-proposes the search for ever.

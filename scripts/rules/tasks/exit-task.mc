@@ -13,9 +13,9 @@
   (spatial @self building ?bldg))
 
 (task {@self exit ?bldg}:?exit
-  (tar @excl [k container-structure] @object)
+  (tar @excl [k building] @object)
   (init
-    (check (is-a ?bldg [k container-structure]))
+    (check (is-a ?bldg [k building]))
     (check (grounded ?bldg))
     (check (still-in ?bldg)))
   (when (still-in ?bldg))

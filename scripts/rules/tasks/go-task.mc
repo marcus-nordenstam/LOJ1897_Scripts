@@ -31,7 +31,7 @@
 (define-func go-building (?dest)
   (cond (case (is-spot ?dest) (tolerate (spatial (spot-anchor ?dest) building)))
         (case (not (grounded ?dest)) (go-house-at-premises ?dest))
-        (case (is-a ?dest [k container-structure]) ?dest)
+        (case (is-a ?dest [k building]) ?dest)
         (else (tolerate (spatial ?dest building)))): ?b
   (if (substantial ?b) (then ?b) (else @nothing)))
 
@@ -39,7 +39,7 @@
 ; walked him onto - the nearest free floor to a thing set on furniture can be out of reach.
 (define-func go-arrived (?dest ?go)
   (cond (case (is-spot ?dest) (overlaps ?dest @self))
-        (case (is-a ?dest [k container-structure]) (spatial @self building ?dest))
+        (case (is-a ?dest [k building]) (spatial @self building ?dest))
         (case (is-a ?dest [k space]) (spatial @self space ?dest))
         (else (and (spatial ?dest co-located @self)
                    (or (< (distance @self ?dest) (near_reach_m))
@@ -99,7 +99,7 @@
             (spatial @self building ?house)
             -{@self wander ?house /succ /caused_by ?go})
       (effects
-        (check (is-a ?house [k container-structure]))
+        (check (is-a ?house [k building]))
         (maintain-proposal {@self wander ?house})))
     (try
       (when (go-unseen ?dest)
@@ -111,14 +111,14 @@
             (substantial ?here)
             (not (= (go-building ?dest) ?here)))
       (effects
-        (check (is-a ?here [k container-structure]))
+        (check (is-a ?here [k building]))
         (maintain-proposal {@self exit ?here})))
     (try
       (when (unsubstantial (spatial @self building))
             (go-building ?dest): ?building
             (substantial ?building))
       (effects
-        (check (is-a ?building [k container-structure]))
+        (check (is-a ?building [k building]))
         (check (grounded ?building))
         (maintain-proposal {@self enter ?building})))
     (try

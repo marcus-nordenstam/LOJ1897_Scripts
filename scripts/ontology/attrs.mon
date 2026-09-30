@@ -269,10 +269,6 @@
 (attr mood-intensities (type int array 8) (range 0 100) (per obs))
 (attr mood-set-dates (type date array 8) (imperceptible))
 
-# Building physical / structural properties.
-(attr isolated    (type int) (range 0 1) (per obs))
-(attr has-crypt   (type int) (range 0 1) (per obs))
-(attr locked-wing (type int) (range 0 1) (per obs))
 # Premises open/closed STATUS (no-telepathy teardown). A perceivable PHYSICAL fact the
 # owner's closure act sets on the BUILDING via (shutter-building ?wp) (closure_macros.mc),
 # writing [k closed] (from [k open]). (auto-percept): since NPCs ALWAYS front-park a
@@ -280,7 +276,7 @@
 # via exterior perception and INTERNALIZES {building struct-status [k closed]} fresh;
 # reconcile-closed drops his own stale employment beliefs off that PERCEIVED belief - no
 # mind but his own is written. Kind-valued (open|closed under `status`, concepts.mon), so
-# it mirrors as a clean belief like `condition`. Lives on container-structure (buildings).
+# it mirrors as a clean belief like `condition`. Lives on buildings and vehicles.
 (attr struct-status (type kind status) (default open) (per obs) (auto-percept))
 # A door/window structure-part's opening state (ajar|shut) and lock state
 # (locked|unlocked). Kind-valued @excl, perceived on sight (a thief cases a lock).

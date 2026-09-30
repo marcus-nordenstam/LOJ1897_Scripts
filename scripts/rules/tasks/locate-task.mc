@@ -12,9 +12,9 @@
 
 (task {@self locate ?thing ?bldg}:?locate
   (tar @excl)
-  (aux [k container-structure|unit] @object)
+  (aux [k building|unit] @object)
   (init
-    (check (or (is-a ?bldg [k container-structure]) (is-a ?bldg [k unit])))
+    (check (or (is-a ?bldg [k building]) (is-a ?bldg [k unit])))
     (check (grounded ?bldg)))
   (and
     (try
