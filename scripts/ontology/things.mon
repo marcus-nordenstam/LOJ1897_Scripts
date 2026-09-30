@@ -702,7 +702,7 @@
       (child unit (composition unit)
         (decorations (states breakfast-hour lunch-hour supper-hour)))
       (child room
-        (children kitchen dining-room restaurant-dining-room hallway living-room bedroom)
+        (children kitchen dining-room restaurant-dining-room hallway living-room bedroom staircase)
         # Rooms the crime arcs need.
         # study: private workroom; canonical Victorian crime-scene
         # room (where a gentleman drinks port and reads in the
