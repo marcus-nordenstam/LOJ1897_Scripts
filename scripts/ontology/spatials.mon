@@ -29,6 +29,9 @@
 #                                add (rung <kind>) to compare at that container level (see
 #                                co-located-building). Kind arg0 tests any occupant of that
 #                                scope
+#   (neighbours)                 the rooms a room's composition links it to, as a list. Default
+#                                = the ones the mind has met - standing in a room shows you
+#                                the doorways out of it - /env = every one
 #   (first)                      single first-known child match: (spatial ?whole room [k K])
 #                                yields one perceived child of ?whole is-a the label's (rung
 #                                <kind>) range, further narrowed by K when given
@@ -79,6 +82,7 @@
 (spatial-label co-located (store space) (co))
 (spatial-label co-located-building (store space) (co) (rung building))
 (spatial-label room       (store space) (first) (rung-role room))
+(spatial-label neighbours (store space) (neighbours))
 (spatial-label gripped-by (store grip))
 (spatial-label grip       (store grip) (down))
 (spatial-label hold       (store grip) (down) (descend))
