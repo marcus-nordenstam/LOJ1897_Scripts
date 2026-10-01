@@ -13,9 +13,12 @@
 ; that tick IS the act, and the steered path must not have one, or it would commit /succ
 ; at the estimate with the man still in the street.
 ;
+; The PLAYER walks this act too, injected with no spot: his keys put a heading on the act
+; every frame and (steer-heading ..) walks it, so key release is what ends him.
+;
 ; WALK_TO was this act under another name. Its nav plan and waypoint steering are the
 ; nav-* funcs now (Merlin, env/functions/nav_functions.h) and its per-tick character
-; write is (steer-to ..), the one thing that crosses to the host.
+; writes are (steer-to ..) and (steer-heading ..), the two things that cross to the host.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -41,14 +44,17 @@
           (else (seconds (max (go_travel_floor_min) (travel-minutes @self ?dest)) min))))
 
   ; A navigating walk starts its search now, so the first effects tick already has a plan
-  ; to poll.
+  ; to poll. The player walks where his keys point, to no spot at all.
   (init
-    (check (is-spot ?dest))
-    (if (walk-navigates ?dest)
-        (then (nav-ensure-path @self ?dest))))
+    (if (is-npc)
+        (then (check (is-spot ?dest))
+              (if (walk-navigates ?dest)
+                  (then (nav-ensure-path @self ?dest))))))
 
   (effects
     (cond
+      (case (is-player)
+        (steer-heading @self))
       (case (not (walk-navigates ?dest))
         (relocate @self ?dest))
       (else

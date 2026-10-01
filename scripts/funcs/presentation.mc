@@ -123,6 +123,11 @@
 ; so a WALK into a RUN ramps with the visual blend. @true iff it translated.
 (declare-func steer-to (args ?who ?point))
 
+; (steer-heading ?who) - the PRESENTED movement write along the heading the host put on
+; the act - the player's keys, read every frame - at the act's (delib-turn-speed ..),
+; translating while it has ground or wall contact. @true iff it translated.
+(declare-func steer-heading (args ?who))
+
 ; (jump-impulse ?who) - launch ?who off the ground, once. The physics character controller
 ; owns it, and it only does anything while ?who is standing on something - a man already in
 ; the air cannot push off. An unpresented man has no ground to push off at all.
