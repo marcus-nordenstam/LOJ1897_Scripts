@@ -598,7 +598,7 @@
       # container - its compartment space parts (an open one for what it holds, a hidden one
       # where it has one) and everything loose in them ride it. Never a prop: nothing grips
       # or carries a drawer, and nothing presents it on its own.
-      (child drawer (composition fixture) (facets movable_container)
+      (child drawer (facets movable_container)
         (decorations
           (attrs open-amount drawer-travel)
           (attr opening-status (auto-percept) (ext-per obs))

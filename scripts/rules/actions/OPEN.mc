@@ -19,7 +19,7 @@
   (duration (open_seconds))
   (cap-outcome succ)
   (presentation
-    (anim-right right_hand_grip)
+    (anim right_hand_grip)
     (preroll 0.0) (in 0.2) (out 0.2))
 
   (init
