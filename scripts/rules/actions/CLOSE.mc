@@ -19,6 +19,7 @@
     (check (spatial ?thing co-located @self /env)))
 
   (effects
-    (articulate ?thing (max 0.0 (- (attr ?thing open-amount) (/ (act-dt) (open_seconds)))))
-    (if (<= (attr ?thing open-amount) 0.0)
+    (bind (max 0.0 (- (attr ?thing open-amount) (/ (act-dt) (open_seconds)))) ?amount)
+    (articulate ?thing ?amount)
+    (if (<= ?amount 0.0)
         (then (set-outcome ?CLOSE /succ)))))

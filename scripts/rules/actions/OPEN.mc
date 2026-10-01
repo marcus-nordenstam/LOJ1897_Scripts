@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; OPEN ?thing - swing a door open or slide a drawer out, at either LOD and for either
-; actor. The body touches ground truth only: (articulate ..) moves the part's box off its
-; shut pose and writes its state, and a presenting host copies the box to the mesh, so
+; actor. The body touches ground truth only: (articulate ..) (funcs/articulate.mc) moves the
+; part's box off its shut pose and writes its state, and a presenting host copies the box to the mesh, so
 ; the player at the keys and an NPC at his desk run the same act. Presented, the effects
 ; tick every frame and the part moves smoothly; unpresented, the one scheduled tick steps
 ; the whole length and the part lands open.
@@ -27,6 +27,7 @@
     (check (neq (attr ?thing lock-status) [k locked])))
 
   (effects
-    (articulate ?thing (min 1.0 (+ (attr ?thing open-amount) (/ (act-dt) (open_seconds)))))
-    (if (>= (attr ?thing open-amount) 1.0)
+    (bind (min 1.0 (+ (attr ?thing open-amount) (/ (act-dt) (open_seconds)))) ?amount)
+    (articulate ?thing ?amount)
+    (if (>= ?amount 1.0)
         (then (set-outcome ?OPEN /succ)))))
