@@ -102,7 +102,7 @@
                addressee-duty destination blemishes)
         (attr name (auto-percept) (ext-per obs)))
       (population (cap 32768) (blocks-spots) (non-occluder))
-      (child container
+      (child container (+ facets totable) (facets totable)
         (children drinking-glass)
         # Table-service vessels - the poison-delivery layer's concrete
         # props. The victim's drink (a wine / tea fluid) sits in one of
@@ -115,15 +115,15 @@
       # prop). A bribe / gift hands over ONE via give -> OFFER. Not a wealth
       # model - the coin entity IS the cash: a real, transferable, discoverable
       # object, never a fictional sum.
-      (child coin (price 1))
-      (child accessory
+      (child coin (price 1) (facets totable))
+      (child accessory (+ facets totable) (facets totable)
         (children cufflink)
         (child ring
           (children engagement-ring wedding-band))
         (child hat
           (children bowler))
         (children umbrella backpack))
-      (child clothing
+      (child clothing (+ facets totable) (facets totable)
         (children police-uniform)
         (child dress
           (children summer-dress))
@@ -149,7 +149,7 @@
       # that CAN be used to harm (a bust, a candlestick, a knife) live
       # under their natural parent kinds and pick up the relevant
       # (facets bludgeon / pierce / ...) instead.
-      (child weapon
+      (child weapon (+ facets totable) (facets totable)
         (child dagger (facets pierce))
         (child stiletto (facets pierce))
         (child sword (facets slash pierce))
@@ -173,22 +173,22 @@
           (child dynamite-stick (facets conspicuous))))
       # Kitchen / table-service blades. Knife is the canonical sub-kind;
       # cleaver is the heavy-bladed chopping variant.
-      (child cutlery
+      (child cutlery (+ facets totable) (facets totable)
         (child knife (facets pierce slash) (price 2))
         (child cleaver (facets slash chop bludgeon) (price 3)))
       # Decorative sculpture (the canonical Victorian crime-novel
       # improvised bludgeon).
-      (child sculpture
+      (child sculpture (+ facets totable) (facets totable)
         (child bust (facets bludgeon)))
       # Cordage. Natural taxonomic parent for rope-like materials. The
       # strangle facet covers garrotte / hang use.
-      (child cordage
+      (child cordage (+ facets totable) (facets totable)
         (child rope (facets strangle) (price 1))
         (child twine (facets strangle))
         (child garrotte-wire (facets strangle)))
       # Household textiles. Bedding / linen. The smother facet covers
       # smother / suffocate use.
-      (child textile
+      (child textile (+ facets totable) (facets totable)
         (child pillow (facets smother))
         (child bedsheet (facets smother strangle))
         (child towel (facets smother))
@@ -197,18 +197,18 @@
       # (the brass-base variety); an oil-lamp carries fuel as well as
       # being an ignition source.
       (child lighting
-        (child candle (facets ignite))
-        (child candlestick (facets bludgeon ignite) (price 12))
-        (child oil-lamp (facets ignite burn_fuel) (price 4))
-        (child lantern (facets ignite))
+        (child candle (facets ignite totable))
+        (child candlestick (facets bludgeon ignite totable) (price 12))
+        (child oil-lamp (facets ignite burn_fuel totable) (price 4))
+        (child lantern (facets ignite totable))
         (child gas-lamp (facets ignite))
         (child chandelier (facets ignite)))
       # Fire-starting implements that aren't themselves a light fixture.
-      (child fire-starter
+      (child fire-starter (+ facets totable) (facets totable)
         (child matches (facets ignite))
         (child tinderbox (facets ignite)))
       # Tools - purpose-built craft / labour implements.
-      (child tools
+      (child tools (+ facets totable) (facets totable)
         (child hammer (facets bludgeon) (price 2))
         (child awl (facets pierce))
         (children chisel)
@@ -219,12 +219,12 @@
       # Surgical instruments - a hospital / surgeon's sharps. They pierce
       # and slash like any blade, so they satisfy the same perpetration
       # facet gates (a surgeon killing with a scalpel is the in-period case).
-      (child surgical-instrument
+      (child surgical-instrument (+ facets totable) (facets totable)
         (child scalpel (facets pierce slash))
         (child lancet (facets pierce))
         (child bone-saw (facets slash chop)))
       # Physician's carry-bag, holds substance bottles.
-      (children medical-bag)
+      (child medical-bag (facets totable))
       # Stoppered glass containers - the generic carriable vessel. There
       # is NO `poison_bottle` kind: a bottle is just a bottle, and the
       # POISON it holds is a concrete `poison` fluid (Objects.mon `fluid`)
@@ -233,39 +233,49 @@
       # (control_any toxin)); purchasing it rides mint_purchase_trail
       # (receipt + sales-record + shopkeeper memory) - the Victorian
       # poison register.
-      (children bottle)
+      (child bottle (facets totable))
       # Clocks and timepieces. Inert household time-keeping props; a stopped
       # mantel / grandfather clock is the classic time-of-death clue.
       (child timepiece
         (children wall-clock)
-        (child mantel-clock (price 12))
+        (child mantel-clock (price 12) (facets totable))
         (children grandfather-clock))
       # Decorative ornaments - inert scene dressing the detective searches.
       (child ornament
-        (child figurine (price 8))
-        (children painting mirror taxidermy photograph vase))
+        (child figurine (price 8) (facets totable))
+        (children painting mirror taxidermy)
+        (child photograph (facets totable))
+        (child vase (facets totable)))
       # Floor coverings - rugs / carpets (the body-under-the-rug clue).
       (child floor-covering
         (child rug
           (children rag-rug persian-rug)))
       # Scientific / observation instruments - a gentleman's study pieces.
       (child scientific-instrument
-        (children globe telescope))
+        (children globe)
+        (child telescope (facets totable)))
       # Household / kitchen utility goods. Inert (no weapon facet) so they
       # furnish rooms without flooding the improvised-weapon pool; the
       # cutting goods that ARE weapons live under `cutlery`.
       (child houseware
-        (children cooking-pot stove coal-scuttle wash-basin pitcher chamber-pot broom sewing-kit
-                  flatiron washtub tin-cup tin-plate teacup inkstand))
+        (children stove coal-scuttle wash-basin chamber-pot broom washtub)
+        (child cooking-pot (facets totable))
+        (child pitcher (facets totable))
+        (child sewing-kit (facets totable))
+        (child flatiron (facets totable))
+        (child tin-cup (facets totable))
+        (child tin-plate (facets totable))
+        (child teacup (facets totable))
+        (child inkstand (facets totable)))
       # Tea / dinner services - class-signalling tableware (a silver service
       # marks an upper-class home).
-      (child tableware
+      (child tableware (+ facets totable) (facets totable)
         (child tea-set (price 10))
         (child silver-tea-service (price 30))
         (child china-service (price 20)))
       # Parlour games. (`game` proper is a concepts.mon activity object; these
       # are the physical play sets.)
-      (child parlour-game
+      (child parlour-game (+ facets totable) (facets totable)
         (children chess-set playing-cards))
       (child collection
         (child stack
@@ -305,7 +315,7 @@
             (attrs -color -condition -name -writing -grip-force -addressee -addressee-duty
                    -destination -blemishes content-kind count))
           (population (cap 4096))))
-      (child sporting-gear
+      (child sporting-gear (+ facets totable) (facets totable)
         (child ball
           (children football))
         (child cricket-bat (facets bludgeon)))
@@ -313,7 +323,7 @@
       # inherit the prop archetype (writing + obb + in-stack attrs), so
       # mx_make_entity can create them; the org / property documents the
       # historical sim builds depend on that.
-      (child document
+      (child document (+ facets totable) (facets totable)
         (decorations (states declares-org))
         (children diploma)
         (child letter
