@@ -579,8 +579,9 @@
       (child bridge
         (children suspension-bridge)))
     # A vehicle is an enclosure that moves: its composition is a building's - a wagon's one
-    # room, a train-car's compartments and corridor, a ship's cabins, saloon and holds.
-    (child vehicle (composition enclosure)
+    # room, a train-car's compartments and corridor, a ship's cabins, saloon and holds. A
+    # movable container: its spaces and everything loose in them ride it.
+    (child vehicle (composition enclosure) (+ facets movable_container) (facets movable_container)
       (decorations
         (attrs variant birth-date struct-status)
         (attr name (auto-percept) (ext-per obs))
@@ -593,6 +594,16 @@
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
       (population (cap 2048))
+      # A drawer of a desk or a chest: a furniture part that slides out, and a movable
+      # container - its compartment space parts (an open one for what it holds, a hidden one
+      # where it has one) and everything loose in them ride it. Never a prop: nothing grips
+      # or carries a drawer, and nothing presents it on its own.
+      (child drawer (composition fixture) (facets movable_container)
+        (decorations
+          (attrs open-amount drawer-travel)
+          (attr opening-status (auto-percept) (ext-per obs))
+          (attr lock-status (auto-percept) (ext-per obs)))
+        (population (cap 1024) (blocks-spots)))
       (child body-part
         # A (motor) kind is a motor an act occupies; the set is these kinds in declaration
         # order, so this order IS the motor index. legs is the base layer, and mind - the
@@ -660,6 +671,7 @@
         (child sign
           (children building-name-sign address-sign))
         (child opening (+ nav_passage)
+          (decorations (attrs open-amount hinge-side swing-angle))
           (children window door))))
     (child gm
       (population (cap 1) (imperceptible)))

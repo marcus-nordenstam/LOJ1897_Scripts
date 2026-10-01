@@ -278,10 +278,21 @@
 # mind but his own is written. Kind-valued (open|closed under `status`, concepts.mon), so
 # it mirrors as a clean belief like `condition`. Lives on buildings and vehicles.
 (attr struct-status (type kind status) (default open) (per obs) (auto-percept))
-# A door/window structure-part's opening state (ajar|shut) and lock state
-# (locked|unlocked). Kind-valued @excl, perceived on sight (a thief cases a lock).
-(attr opening-status (type kind) (default ajar) (per obs) (auto-percept))
-(attr lock-status (type kind) (default locked) (per obs) (auto-percept))
+# An articulated part's opening state (ajar|shut) and lock state (locked|unlocked) - a
+# door, a window, a drawer. Kind-valued @excl, perceived on sight (a thief cases a lock).
+# A part loads SHUT and UNLOCKED; opening-status is derived from open-amount by
+# (articulate ..), which is the only writer of either.
+(attr opening-status (type kind) (default shut) (per obs) (auto-percept))
+(attr lock-status (type kind) (default unlocked) (per obs) (auto-percept))
+# How far open, 0 shut .. 1 fully open; the whole state (articulate ..) swings or slides a
+# part to.
+(attr open-amount (type float) (range 0 1) (default 0) (per obs) (auto-percept))
+# A door's hinge: the side of its own box it swings about, and the signed degrees of a
+# full swing (negative swings the other way).
+(attr hinge-side (type kind side) (default right) (imperceptible))
+(attr swing-angle (type float) (range -180 180) (default 90) (imperceptible))
+# A drawer's travel when fully open, as a fraction of its own depth.
+(attr drawer-travel (type float) (range 0 1) (default 0.8) (imperceptible))
 # Structural integrity of an opening (intact|broken) - distinct from the condition axis.
 (attr integrity (type kind) (default intact) (per obs) (auto-percept))
 # Era bounds - the building physically exists from era-min to era-max.

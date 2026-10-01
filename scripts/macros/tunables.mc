@@ -181,6 +181,8 @@
 (define-macro super_run_speed_mps     () 2.5)
 ; Within this of the goal a presented walker has ARRIVED and sets his own /succ.
 (define-macro walk_arrive_m            () 0.5)
+; OPEN / CLOSE: how long a door swings or a drawer slides, from shut to fully open.
+(define-macro open_seconds             () 1.0)
 ; THE ONE MOVEMENT THRESHOLD, at three scales. Outside it a man heads for the SHAPE of
 ; where he is going and reserves nothing, because a spot held from across town is a spot
 ; taken from whoever is standing in it; inside it he CLAIMS a spot and finishes on what
