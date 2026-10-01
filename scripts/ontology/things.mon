@@ -241,24 +241,23 @@
         (child mantel-clock (price 12) (facets totable))
         (children grandfather-clock))
       # Decorative ornaments - inert scene dressing the detective searches.
-      (child ornament
-        (child figurine (price 8) (facets totable))
-        (children painting mirror taxidermy)
-        (child photograph (facets totable))
-        (child vase (facets totable)))
+      (child ornament (+ facets totable) (facets totable)
+        (child figurine (price 8))
+        (children painting mirror taxidermy photograph vase))
       # Floor coverings - rugs / carpets (the body-under-the-rug clue).
-      (child floor-covering
+      (child floor-covering (+ facets totable) (facets totable)
         (child rug
           (children rag-rug persian-rug)))
       # Scientific / observation instruments - a gentleman's study pieces.
-      (child scientific-instrument
-        (children globe)
-        (child telescope (facets totable)))
+      (child scientific-instrument (+ facets totable) (facets totable)
+        (children globe telescope))
       # Household / kitchen utility goods. Inert (no weapon facet) so they
       # furnish rooms without flooding the improvised-weapon pool; the
       # cutting goods that ARE weapons live under `cutlery`.
       (child houseware
-        (children stove coal-scuttle wash-basin chamber-pot broom washtub)
+        (children stove coal-scuttle wash-basin washtub)
+        (child chamber-pot (facets totable))
+        (child broom (facets totable))
         (child cooking-pot (facets totable))
         (child pitcher (facets totable))
         (child sewing-kit (facets totable))
@@ -278,7 +277,7 @@
       (child parlour-game (+ facets totable) (facets totable)
         (children chess-set playing-cards))
       (child collection
-        (child stack
+        (child stack (+ facets totable) (facets totable)
           (decorations
             (spatials -grip -in-stack items)
             (attrs -color -condition -name -writing -grip-force -addressee -addressee-duty
@@ -500,7 +499,7 @@
     # poisoning a food vessel uses the same `add_substance` task as
     # fluids. Sub-kinds are starter content; extend as authored arcs
     # demand more variants.
-    (child food
+    (child food (+ facets totable) (facets totable)
       (decorations
         (spatials gripped-by space bounds)
         (attrs variant))
