@@ -8,7 +8,7 @@
   start 1700-01-01
   end 1700-06-30
   clock jump
-  mwo "Merlin/bin/demo_tech_level_v2.mwo"
+  level "Theatres/demo_tech_level_v2.grs"
   startup startup-func)
 
 (define-list gauntlet validate validate-func)

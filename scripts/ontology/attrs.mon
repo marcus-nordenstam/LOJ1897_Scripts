@@ -372,7 +372,7 @@
 
 # /variant - the entity's kind-variation identity: WHICH registered variation
 # of its kind this entity is (see the kind-variation registry in t_ontology).
-# An engine underpinning, never conscious content: stamped by SPAWN / .mwo
+# An engine underpinning, never conscious content: stamped by SPAWN / level
 # apply, read by the GRYM presenter to pick the presentation asset. NPCs
 # reason about kinds, never variants, so it must never transmit into observer
 # minds. Absent = the kind's default variation.
