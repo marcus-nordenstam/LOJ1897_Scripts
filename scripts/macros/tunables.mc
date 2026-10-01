@@ -167,6 +167,8 @@
 ; thrash. Small enough not to distort real travel; the real fix for "why re-go at all"
 ; is the arriving chain firing its purpose act (see at-place-kind).
 (define-macro go_travel_floor_min      () 1.0)
+; A destination with no place to walk to - a kind, a thing known nowhere - is a day's errand.
+(define-macro default_errand_min       () 480.0)
 
 ; THE STEERED WALK. Per-step speeds the character integrator applies (m per step, the
 ; values WALK_TO.act / RUN.act carried) and the NAV-STEERED turn rates (rad/s) - the

@@ -41,7 +41,9 @@
     (preroll 0.0) (in 0.4) (out 0.4))
   (duration
     (cond (case (presented-lod) procedural)
-          (else (seconds (max (go_travel_floor_min) (travel-minutes @self ?dest)) min))))
+          (else (seconds (max (go_travel_floor_min)
+                              (travel-minutes @self ?dest (default_errand_min)))
+                         min))))
 
   ; A navigating walk starts its search now, so the first effects tick already has a plan
   ; to poll. The player walks where his keys point, to no spot at all.
