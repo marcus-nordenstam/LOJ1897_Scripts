@@ -507,6 +507,17 @@
       (children bread cheese soup)
       (child meal (price 5)
         (children breakfast lunch luncheon dinner tea supper)))
+    # Groupings of things. A prefab that only ARRANGES other Merlin things - a home office
+    # of desk, chair and lamp dropped into a room as one piece - is itself a thing with a kind
+    # and a bound, so its blob composes its members and nothing nested in it is lost; it holds
+    # no spot of its own, its members do.
+    (child group
+      (decorations
+        (attrs variant)
+        (spatials bounds))
+      (population (cap 1024) (children-block-spots) (non-occluder))
+      (child furniture-arrangement
+        (children home-office bedroom-suite dining-set parlour-set shop-counter-set)))
     # Man-made structures
     # ANCHORS. A place is matched by its ADDRESS: the room a notice sends a man to and the
     # room he walks into are one when the address agrees. Grounding is still the WALKING
