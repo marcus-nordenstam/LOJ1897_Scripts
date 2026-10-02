@@ -147,11 +147,12 @@
                       (any {@self goal {@self converse ?partner}})))
 
 ; (can-hail ?thing) - the player can hail ?thing: a living man within call, as the world has
-; it - the player holds no beliefs. The host shows its Talk hint and lets T hail him on it.
+; it - the player holds no beliefs. Only distance bounds a call: the host asks about the man
+; under the aim dot, whom the player sees, whatever space he stands in. The host shows its
+; Talk hint and lets T hail him on it.
 (define-func can-hail (?thing)
   (and (is-a ?thing [k human])
        (neq (attr ?thing condition) [k dead])
-       (eq (spatial ?thing space /env) (spatial @self space /env))
        (<= (distance @self ?thing) (k-call-earshot))))
 
 ; (engaged-here ?npc) - ?npc has taken up the player's hail and come to him: the host opens
