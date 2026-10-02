@@ -687,6 +687,7 @@
           (children building-name-sign address-sign))
         (child opening (+ nav_passage)
           (decorations (attrs open-amount hinge-side swing-angle))
+          (population (cap 4096))
           (children window door))))
     (child gm
       (population (cap 1) (imperceptible)))
