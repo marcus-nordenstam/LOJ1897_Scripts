@@ -40,7 +40,7 @@
 
 ; (heard-calling ?caller) - ?caller called out to @self no more than (k-call-answer-seconds) ago.
 (define-func heard-calling (?caller)
-  (bind @false ?heard)
+  (bind @nothing ?heard)
   (for-each ?call (every {?caller SAY ? @self /past})
     (if (and (call-msg ?call.target)
              (<= (elapsed /seconds ?call) (k-call-answer-seconds)))
@@ -93,7 +93,7 @@
 
 ; (any-happened-since ?events ?since) - one of the events in the list ?events came since ?since.
 (define-func any-happened-since (?events ?since)
-  (bind @false ?found)
+  (bind @nothing ?found)
   (for-each ?one ?events
     (if (happened-since ?one ?since)
         (then
