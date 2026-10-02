@@ -47,8 +47,7 @@
         (case (is-a ?dest [k building]) (spatial @self building ?dest))
         (case (is-a ?dest [k unit]) (spatial @self unit ?dest))
         (case (is-a ?dest [k space]) (spatial @self space ?dest))
-        (case (is-a ?dest [k human]) (and (spatial ?dest co-located @self)
-                                          (overlaps (stand-spot-before ?dest) @self)))
+        (case (is-a ?dest [k human]) (and (spatial ?dest co-located @self) (walked-before ?dest)))
         (else (and (spatial ?dest co-located @self)
                    (or (< (distance @self ?dest) (near_reach_m))
                        (substantial (any {@self WALK ? /succ /caused_by ?go})))))): ?there

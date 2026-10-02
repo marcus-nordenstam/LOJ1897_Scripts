@@ -26,7 +26,7 @@
 ; (standing-before ?partner) - @self stands with ?partner to talk: in earshot, on the spot
 ; before him (stand-spot-before), where go to a man brings him.
 (define-func standing-before (?partner)
-  (and (in-earshot ?partner) (overlaps (stand-spot-before ?partner) @self)))
+  (and (in-earshot ?partner) (walked-before ?partner)))
 
 ; (call-msg ?msg) - ?msg is called out rather than spoken: a hail, and the answers to one.
 ; deliver-speech makes it a [k shout], which carries (k-call-earshot).

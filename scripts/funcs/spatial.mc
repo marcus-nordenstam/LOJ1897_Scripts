@@ -104,11 +104,17 @@
 (define-func stand-spot-by (?ent)
   (maintain-claim-spot @self [/on_floor_of (spatial ?ent space)] [/near ?ent] [/at_or_near @self]))
 
-; Where @self stands to face a man: the free floor before his front, else beside him when his
-; front is taken.
+; Where @self stands to face a man: the free floor before his front nearest him, else beside him
+; when his front is taken.
 (define-func stand-spot-before (?person)
-  (maintain-claim-spot @self [/in_front_of ?person] [/at_or_near @self]): ?front
+  (maintain-claim-spot @self [/in_front_of ?person] [/near ?person] [/at_or_near @self]): ?front
   (if (is-spot ?front) (then ?front) (else (stand-spot-by ?person))))
+
+; @self has walked onto the spot before ?person. The WALK that reaches it says so: a presented
+; man's body stops short of the spot's own small box, so overlapping it is no test of arrival.
+(define-func walked-before (?person)
+  (bind (stand-spot-before ?person) ?spot)
+  (substantial (any {@self WALK ?spot /succ})))
 
 ; The box @self heads for when far from ?ent: the one he sees, else the one he remembers, and
 ; for a structure he never had a box for, the world's - where a building stands is public.
