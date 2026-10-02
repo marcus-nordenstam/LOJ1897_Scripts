@@ -46,7 +46,7 @@
 (think idle-at-home
   (role ?home {@self home ?home}
               (spatial @self unit ?home)
-    (utility idle fallback)
+    (declare-utility idle fallback)
     (effects       (begin-goal {@self DWELL ?home}))
     (when-unsupported-effects (set-outcome {@self goal {@self DWELL ?home}} /succ))))
 
@@ -135,7 +135,7 @@
                 {?home breakfast-hour ?}
                 (spatial @self unit ?home)
       (when (hours (household-breakfast-hour) (+ (household-breakfast-hour) (breakfast-window-hours))) (> (believed-home-food-count ?home) 0))
-      (utility (meal-utility-band) default)
+      (declare-utility (meal-utility-band) default)
       (effects       (begin-goal {@self eat [k breakfast] ?home}))
       (when-unsupported-effects (set-outcome {@self goal {@self eat [k breakfast] ?home}} /succ)))))
 
@@ -147,7 +147,7 @@
                  {?org workplace ?wp}       ; ?wp binds at fire
                  (spatial @self building ?wp)                    ; residual gate, re-checked at the when-seam
         (when (hours 12 14))
-        (utility (meal-utility-band) default)
+        (declare-utility (meal-utility-band) default)
         (effects       (begin-goal {@self eat [k lunch] ?wp}))
         (when-unsupported-effects (set-outcome {@self goal {@self eat [k lunch] ?wp}} /succ))))))
 
@@ -158,7 +158,7 @@
                 {?home lunch-hour ?}
                 (spatial @self unit ?home)
       (when (hours (household-lunch-hour) (+ (household-lunch-hour) (meal-window-hours))) (> (believed-home-food-count ?home) 0))
-      (utility (meal-utility-band) default)
+      (declare-utility (meal-utility-band) default)
       (effects       (begin-goal {@self eat [k lunch] ?home}))
       (when-unsupported-effects (set-outcome {@self goal {@self eat [k lunch] ?home}} /succ)))))
 
@@ -169,7 +169,7 @@
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
       (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (> (believed-home-food-count ?home) 0))
-      (utility (meal-utility-band) default)
+      (declare-utility (meal-utility-band) default)
       (effects       (begin-goal {@self eat [k supper] ?home}))
       (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?home}} /succ)))))
 
@@ -187,7 +187,7 @@
       (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette unknown-last))
         (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?wealth 0.2)
                    (= (believed-home-food-count ?home) 0)))
-        (utility (meal-utility-band) default)
+        (declare-utility (meal-utility-band) default)
         (effects       (begin-goal {@self eat [k supper] ?venue}))
         (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?venue}} /succ))))))
 
@@ -201,7 +201,7 @@
       (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette unknown-last))
         (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?wealth 0.2)
                    (= (believed-home-food-count ?home) 0)))
-        (utility (meal-utility-band) default)
+        (declare-utility (meal-utility-band) default)
         (effects       (begin-goal {@self eat [k supper] ?venue}))
         (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?venue}} /succ))))))
 
@@ -309,7 +309,7 @@
 ;   (role @self {@self starve}
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (> (held-pile-count @self [k food]) 0)))
-;     (utility (starve-drive))
+;     (declare-utility (starve-drive))
 ;     (effects       (begin-goal {@self forage}))
 ;     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
 
@@ -319,7 +319,7 @@
 ;                 (spatial @self unit ?home)
 ;       (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                  (> (believed-home-food-count ?home) 0)))
-;       (utility (starve-drive))
+;       (declare-utility (starve-drive))
 ;       (effects       (begin-goal {@self forage}))
 ;       (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ)))))
 
@@ -329,7 +329,7 @@
 ;                 (not (spatial @self unit ?home))
 ;       (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                  (> (believed-home-food-count ?home) 0)))
-;       (utility (starve-drive))
+;       (declare-utility (starve-drive))
 ;       (effects (maintain-proposal {@self go ?home})))))
 
 ; Buy: at a shop with wealth, one item eaten on the spot (paid-for in the v1
@@ -339,7 +339,7 @@
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (> ?wealth 0.2)
 ;                (is-a (spatial @self building) [k building shop])))
-;     (utility (starve-drive))
+;     (declare-utility (starve-drive))
 ;     (effects       (begin-goal {@self forage}))
 ;     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
 
@@ -348,7 +348,7 @@
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (> ?wealth 0.2)
 ;                (not (is-a (spatial @self building) [k building shop]))))
-;     (utility (starve-drive))
+;     (declare-utility (starve-drive))
 ;     ; THE PREFERENCE IS THE RUNG ORDER: the shop he knows sells provisions, else any shop he
 ;     ; knows at all, nearest-weighted.
 ;     (stable-or
@@ -367,7 +367,7 @@
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (not (> ?wealth 0.2))
 ;                (is-a (spatial @self building) [k building shop])))
-;     (utility (starve-drive))
+;     (declare-utility (starve-drive))
 ;     (effects       (begin-goal {@self forage}))
 ;     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
 
@@ -376,7 +376,7 @@
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (not (> ?wealth 0.2))
 ;                (not (is-a (spatial @self building) [k building shop]))))
-;     (utility (starve-drive))
+;     (declare-utility (starve-drive))
 ;     ; THE PREFERENCE IS THE RUNG ORDER, as in starving_buy_go above.
 ;     (stable-or
 ;       (try

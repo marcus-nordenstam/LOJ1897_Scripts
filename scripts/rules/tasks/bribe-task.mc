@@ -17,7 +17,7 @@
       (role ?coin [k coin] (spatial ?coin co-located @self)
         (when (and (alive ?victim)
                    -{@self bribe ?victim /succ /ever}))
-        (utility errand)
+        (declare-utility errand)
         (effects (maintain-proposal {@self give ?coin ?victim}))))
     (try
       (no-role [k coin] (spatial ?norole co-located @self))

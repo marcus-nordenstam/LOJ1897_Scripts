@@ -101,6 +101,6 @@
                      (chance (* (crime-scale) 0.005
                                 (* (* (- 1.0 ?inhibition) (* 0.5 (+ ?psychopathy ?sadism)))
                                    (if {@self life-aim [k power-aim]} (then 2.0) (else 1.0))))))))
-      (utility want)
+      (declare-utility want)
       (effects
         (maintain-proposal {@self kill ?victim /caused_by ?fixation_bond})))))

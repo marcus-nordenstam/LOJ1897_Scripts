@@ -44,7 +44,7 @@
     (when (and (>= (days-since-last {@self PLAY-GAME /succ /ever}) 10)
                (or (> ?gambling-addiction 0.0)
                    (latch-eval (chance (* 0.02 (- 1.0 ?industriousness)))))))
-    (utility want (* 10.0 (* (- 1.0 ?industriousness)                    ; susceptibility (0 = disciplined)
+    (declare-utility want (* 10.0 (* (- 1.0 ?industriousness)                    ; susceptibility (0 = disciplined)
                 (+ 2.0 (* 22.0 ?gambling-addiction))          ; onset 2 -> morbid 24 (below leisure)
                 (min (* (days-since-last-float {@self PLAY-GAME /succ /ever}) 0.04) 1.0)))) ; slow craving modulator [0,1]
     (effects       (begin-goal {@self PLAY-GAME}))

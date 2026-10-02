@@ -13,7 +13,7 @@
       {?cheater name ?cheater_name}
       (select (policy first-match))
 
-      (utility want)
+      (declare-utility want)
 
       (role ?my-home {@self home ?my-home}
 

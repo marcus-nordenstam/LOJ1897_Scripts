@@ -44,7 +44,7 @@
                  (or (in-month 12) (in-month 1) (in-month 2)) ; winter, once a year
                  -{@self goal {@self staff-household}}))        ; mint once, then skip
 
-      (utility errand)
+      (declare-utility errand)
       (effects (begin-goal {@self staff-household})))))
 
 ; --- FOUND: the head constitutes the household org at his home study -----------
@@ -73,7 +73,7 @@
 ;                 {@self own [k townhouse]:?h})
 
 ;      (when (>= (years-old @self) 21))
-;      (utility errand)
+;      (declare-utility errand)
 ;      (effects (maintain-proposal {@self FOUND-ORG [k org household] [k job head-of-household]})))))
 
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---

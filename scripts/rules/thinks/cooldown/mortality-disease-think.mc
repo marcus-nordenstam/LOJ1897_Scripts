@@ -22,5 +22,5 @@
     (when (and (>= ?age 1)
                (chance 0.0008)))   ; ~1% per year background disease rate
 
-    (utility survival)
+    (declare-utility survival)
     (effects (begin-goal {@self DIE [k death-cause disease]}))))

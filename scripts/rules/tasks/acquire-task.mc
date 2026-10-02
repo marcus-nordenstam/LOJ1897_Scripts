@@ -24,7 +24,7 @@
       (role ?mine (is-a ?mine ?kind) {@self own ?mine} (spatial ?mine building (any {@self home ?}).target)
         (when (and (not (spatial ?mine co-located @self))
                    (unknown (spatial ?mine held-by))))
-        (utility always-pick)
+        (declare-utility always-pick)
         (effects (maintain-proposal {@self get ?mine}))))
     ; BUY - overt only; (feasible) drops it when broke, (cost) charges the felt price.
     (try
@@ -46,7 +46,7 @@
     ; STEAL - floored last resort, only while crime is enabled.
     (try
       (when (> (crime-scale) 0.0))
-      (utility fallback)
+      (declare-utility fallback)
       (effects (maintain-proposal {@self steal ?kind})))
     ; DONE - an instance of the kind is in hand, however it arrived.
     (try

@@ -23,6 +23,6 @@
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self repute [k disreputable]}   ; derive-maintained band - cached
     (when    (>= (days-since-last {@self WORSHIP /succ /ever}) 15))
-    (utility idle (* 10 (min (* (days-since-last {@self WORSHIP /succ /ever}) 2) 40)))
+    (declare-utility idle (* 10 (min (* (days-since-last {@self WORSHIP /succ /ever}) 2) 40)))
     (effects       (begin-goal {@self WORSHIP}))
     (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ))))

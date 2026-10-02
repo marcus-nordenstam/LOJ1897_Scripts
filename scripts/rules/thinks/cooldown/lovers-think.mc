@@ -67,7 +67,7 @@
       ;; it lives in (when), not a role.
       (when (latch-eval (chance 0.2)))
 
-      (utility want)
+      (declare-utility want)
 
       (effects
         ; Reciprocal lover bond + mutual profile sync (mirrors betrothal's shape so
@@ -83,10 +83,10 @@
         ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
         ; party's own reflex on the act. Commented out pending that redesign.
         ; (nudge-stance ?b @self attraction 0.4)
-        ; @self discloses their friend-tier profile to ?b (the SAY they hear and adopt);
+        ; @self discloses their friend-tier profile to ?b (the tell they hear and adopt);
         ; @self's knowledge of ?b pre-exists. Friend-tier keeps @self's other lovers
         ; (intimate-tier) unspoken.
         (every {@self (disclosure-tier-labels friend) ?}): ?facts
         (if ?facts
-            (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?b})))
+            (then (maintain-proposal {@self tell (utterable-msg ?facts) ?b})))
         ))))

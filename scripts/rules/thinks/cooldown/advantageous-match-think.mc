@@ -71,16 +71,16 @@
                           (* 0.4 ?enthusiasm)
                           (* 0.4 ?openness))))))
 
-      (utility want)
+      (declare-utility want)
 
       (effects
         (begin-belief {@self fiancee ?bride})
         ; The bride's own engagement belief lands in HER mind (wedding recovers the
         ; groom from the bride's fiancee belief, either side initiating).
         (begin-belief ?bride {?bride fiancee @self})
-        ; @self (the groom) discloses his friend-tier profile to the bride (the SAY she
+        ; @self (the groom) discloses his friend-tier profile to the bride (the tell she
         ; hears and adopts); his own knowledge of her pre-exists from courtship.
         (every {@self (disclosure-tier-labels friend) ?}): ?facts
         (if ?facts
-            (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?bride})))
+            (then (maintain-proposal {@self tell (utterable-msg ?facts) ?bride})))
         ))))

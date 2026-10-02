@@ -47,7 +47,7 @@
                        {@self kill ?interloper}
                        (chance (* (crime-scale) 0.02
                                   (* (- 1.0 ?inhibition) (* 0.5 (+ ?volatility ?psychopathy))))))))
-        (utility want)
+        (declare-utility want)
         (effects
           ; Dual (kill BOTH) when the outrage clears the bar; else the more-blamed corner.
           (cond

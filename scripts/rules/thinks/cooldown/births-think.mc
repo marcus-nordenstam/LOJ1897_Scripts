@@ -43,7 +43,7 @@
 
       (when (chance (marital_coupling_chance)))
 
-      (utility want)
+      (declare-utility want)
 
       (effects
         (maintain-proposal {@self HAVE-SEX-WITH ?husband})))))
@@ -59,7 +59,7 @@
 
       (when (>= (elapsed /weeks ?conceived-when) (gestation_weeks)))
 
-      (utility need)
+      (declare-utility need)
 
       (effects
         (maintain-proposal {@self GIVE-BIRTH ?father})))))

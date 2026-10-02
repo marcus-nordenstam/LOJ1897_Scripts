@@ -17,14 +17,14 @@
       (when (and (not (spatial ?victim co-located @self))
                  (not (attr-is ?victim awareness [k unconscious]))
                  (spatial ?victim space)))
-      (utility survival)
+      (declare-utility survival)
       (effects (maintain-proposal {@self go ?victim})))
     (try
       (role ?vhome {?victim home ?vhome}
         (when (and (not (spatial ?victim co-located @self))
                    (not (attr-is ?victim awareness [k unconscious]))
                    (unknown (spatial ?victim space))))
-        (utility survival)
+        (declare-utility survival)
         (effects (maintain-proposal {@self go ?vhome}))))
 
     ; THE BEATING: PUNCH a co-present, conscious victim.
@@ -32,7 +32,7 @@
       (when (and (spatial ?victim co-located @self)
                  -{?victim condition [k dead]}
                  (not (attr-is ?victim awareness [k unconscious]))))
-      (utility survival always-pick)
+      (declare-utility survival always-pick)
       (effects (maintain-proposal {@self PUNCH ?victim})))
 
     ; CONCLUDE: the victim is beaten senseless (or already down) - record the assault

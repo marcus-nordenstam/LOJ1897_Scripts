@@ -13,13 +13,13 @@
   (and
     (try
       (when (!= (spatial ?thing held-by) @self))
-      (utility fallback)
+      (declare-utility fallback)
       (effects (maintain-proposal {@self take ?thing})))
     (try
       (when (and (= (spatial ?thing held-by) @self)
                  (not (spatial ?recipient co-located @self))
                  (spatial ?recipient space)))
-      (utility fallback)
+      (declare-utility fallback)
       (effects (maintain-proposal {@self go ?recipient})))
     (try
       (role ?rhome {?recipient home ?rhome}
@@ -31,13 +31,13 @@
       (when (and (= (spatial ?thing held-by) @self)
                  (spatial ?recipient co-located @self)
                  (empty (spatial (spatial ?recipient right-hand) grip))))
-      (utility (above go))
+      (declare-utility (above go))
       (effects (maintain-proposal {@self OFFER-RIGHT ?thing ?recipient})))
     (try
       (when (and (= (spatial ?thing held-by) @self)
                  (spatial ?recipient co-located @self)
                  (not (empty (spatial (spatial ?recipient right-hand) grip)))))
-      (utility (above go))
+      (declare-utility (above go))
       (effects (maintain-proposal {@self OFFER-LEFT ?thing ?recipient})))
     (try
       (when {@self /succ OFFER-LEFT|OFFER-RIGHT ?thing ?recipient /caused_by ?give})

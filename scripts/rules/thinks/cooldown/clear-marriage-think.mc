@@ -75,7 +75,7 @@
 ;   ; Agency fork (P(instigated) = 0.7 * machiavellianism, a schemer keeps clean hands).
 ;   ; STAY on the committed path - only roll the fork when neither is committed yet, so
 ;   ; the cheater never flips direct<->instigated or re-sends the letter.
-;   (utility want)
+;   (declare-utility want)
 ;   (role ?my-home {@self home ?my-home})
 ;   (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
 ;   (effects

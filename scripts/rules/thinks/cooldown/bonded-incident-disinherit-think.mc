@@ -67,7 +67,7 @@
                             (* 0.3 (+ (prob {@self detest  ?victim})
                                       (prob {@self despise ?victim})))))))
 
-      (utility want)
+      (declare-utility want)
 
       ; Propose the disinherit TASK (disinherit-task.mc): the benefactor performs the
       ; disinheritance - not a fabricated omniscient record. (Interim: the task SAYs it to

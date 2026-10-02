@@ -17,23 +17,17 @@
   (facets reportable_crime)
   (and
     (try
-      (when (and (not (spatial ?victim co-located @self))
-                 (spatial ?victim space)))
-      (utility errand)
-      (effects (maintain-proposal {@self go ?victim})))
-    (try
       (role ?vhome {?victim home ?vhome}
         (when (and (not (spatial ?victim co-located @self))
                    (unknown (spatial ?victim space))))
         (effects (maintain-proposal {@self go ?vhome}))))
     (try
-      (when (and (spatial ?victim co-located @self)
+      (when (and (or (spatial ?victim co-located @self) (spatial ?victim space))
                  -{@self extort ?victim}))
-      (utility errand always-pick)
-      (effects (maintain-proposal
-                 {@self SAY (utterable-msg {@self extort ?victim}) ?victim})))
+      (declare-utility errand always-pick)
+      (effects (maintain-proposal {@self tell (utterable-msg {@self extort ?victim}) ?victim})))
     (try
-      (when {@self SAY ? ?victim /succ /caused_by ?coerce})
+      (when {@self tell ? ?victim /succ /caused_by ?coerce})
       (effects
         (if -{@self extort ?victim} (then (begin-belief {@self extort ?victim})))
         (if (or (any {?victim lover|HAVE-SEX-WITH ? /ever})

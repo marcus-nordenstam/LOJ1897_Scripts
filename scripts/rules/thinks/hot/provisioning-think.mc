@@ -96,7 +96,7 @@
   (role ?home {@self household-cook ?home}
               (spatial ?home room [k kitchen]): ?kitchen
     (when (< (believed-pile-count ?kitchen [k food]) (larder_low_water)))
-    (utility duty)
+    (declare-utility duty)
     (effects       (begin-goal {@self PROVISION}))
     (when-unsupported-effects (set-outcome {@self goal {@self PROVISION}} /succ))))
 
@@ -155,6 +155,6 @@
   (role ?home {@self home ?home}
               (spatial ?home room [k kitchen]): ?kitchen
     (when (not (empty (spatial @self hold [k pile]))))
-    (utility duty (if (spatial @self space ?kitchen) (then 1000) (else 900)))
+    (declare-utility duty (if (spatial @self space ?kitchen) (then 1000) (else 900)))
     (effects       (begin-goal {@self BRING [k pile] ?kitchen}))
     (when-unsupported-effects (set-outcome {@self goal {@self BRING [k pile] ?kitchen}} /succ))))

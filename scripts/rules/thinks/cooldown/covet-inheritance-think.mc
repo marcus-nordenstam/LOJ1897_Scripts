@@ -77,6 +77,6 @@
                                      (* 0.5 (+ ?machiavellianism
                                                ?psychopathy))))))))
 
-        (utility want)
+        (declare-utility want)
         (effects
           (maintain-proposal {@self kill ?victim /caused_by ?wealth_bond}))))))

@@ -27,7 +27,7 @@
 
 ; AT the destination: claim the floor spot the ware will rest on - polled until the search
 ; answers one - and PROPOSE the put-down act with it (goals never propose themselves). No
-; (utility): the proposal inherits the minting chain's drive up the /caused_by chain.
+; (declare-utility): the proposal inherits the minting chain's drive up the /caused_by chain.
 (think bring-at-dest
   (goal {@self BRING ?ware ?dest})
   (role @self (spatial @self space ?dest)

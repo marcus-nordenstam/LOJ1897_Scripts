@@ -55,9 +55,9 @@
 ; Routine-drive tilt swings (worship / work). Larger than the crime buckets': a
 ; drive aspect carries ONE or TWO trait rows, so each needs a wider spread to give
 ; the diligent-vs-shirker / devout-vs-lax spread off a single trait.
-; The in-band VALUE a work shift carries before the disposition tilt. A bare (utility <band>)
+; The in-band VALUE a work shift carries before the disposition tilt. A bare (declare-utility <band>)
 ; takes the band's default value, so the shift has to be authored on that same scale or the
-; commute (a bare (utility duty)) permanently outranks being AT work and the work task never
+; commute (a bare (declare-utility duty)) permanently outranks being AT work and the work task never
 ; promotes.
 (define-macro k-work-drive-value () 600.0)
 (define-macro k-drive-trait-swing () 0.6)
@@ -198,6 +198,27 @@
 ; sitting cook RE-POSTS it every cycle (renew-cook), so the ttl only bounds how
 ; fast a DEAD or emigrated cook's household re-elects.
 (define-macro cook_marker_ttl_cycles () 3)
+
+; A man in conversation re-posts (conversing <partner>) every cycle; the ttl only bounds how
+; long the board still says so once he has stopped.
+(define-macro conversing_ttl_cycles () 3)
+
+; What taking up a hail is worth, in-band: from a stranger, an acquaintance, or someone close.
+(define-macro k-hail-stranger-value     () 300.0)
+(define-macro k-hail-acquaintance-value () 500.0)
+(define-macro k-hail-bond-value         () 800.0)
+
+; How far a man's voice carries when he calls out - a hail, and the answers to one - rather
+; than speaks. The [k shout] sound's half-extent (bounds/sounds.mc).
+(define-macro k-call-earshot () 20.0)
+
+; How long after a man called out to him a listener can still call back and be heard: the
+; caller is where his voice came from, seen or not.
+(define-macro k-call-answer-seconds () 10)
+
+; How far taking up a hail outbids what was set aside for it. A tie goes to the act already
+; running, so without it the conversation could never start.
+(define-macro k-converse-margin () 1.0)
 
 ; The kitchen-larder doctrine numbers, in PERSON-DAYS of food (1 prop = 1
 ; person-day; only a home supper consumes, so a 4-head household eats 4 per

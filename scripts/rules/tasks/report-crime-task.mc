@@ -20,7 +20,7 @@
                      (>= ?education (literacy-education-min))
                      -{@self report-crime ?focus /succ /ever}
                      (not (is-a (spatial @self building) [k police-station]))))
-          (utility errand)
+          (declare-utility errand)
           (effects (maintain-proposal {@self go ?station})))))
     ; knows no station -> search the region for one; the search's own /fail is what the
     ; abandon try below reads as "this town has no police station".
@@ -32,11 +32,11 @@
                    -{@self report-crime ?focus /succ /ever}
                    -{@self find-building [k police-station] ? /fail}
                    (current-exterior @self): ?rg))
-        (utility errand)
+        (declare-utility errand)
         (effects (maintain-proposal {@self find-building [k police-station] ?rg}))))
     (sequence
       (role @self {@self education ?education}
-        (utility errand)
+        (declare-utility errand)
         (stage
           (when (and {? stolen-from @self}
                      (>= ?education (literacy-education-min))

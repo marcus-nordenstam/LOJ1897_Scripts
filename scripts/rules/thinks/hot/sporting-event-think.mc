@@ -70,7 +70,7 @@
 ;  (role ?art_org {?art_org record ?art}
 ;                  {?art_org workplace ?clubhouse}
 ;                  (spatial @self building ?clubhouse)
-;    (utility always-pick)
+;    (declare-utility always-pick)
 ;    (effects
 ;      (o {?art declares-org @o}): ?org
 ;      (any {?org isa ?club_kind})
@@ -95,7 +95,7 @@
 ;  (role ?art_org {?art_org record ?art}
 ;                  {?art_org workplace ?clubhouse}
 ;                  (spatial @self building ?clubhouse)
-;    (utility fallback)
+;    (declare-utility fallback)
 ;    (effects (maintain-proposal {@self HOLD-MEET-RUN ?art}))))
 
 ;; --- the organiser OWNS the judge goal off the scoreboard he holds ----------------
@@ -109,7 +109,7 @@
 ;(think want_judge
 ;  (role ?racer {?racer race-result ?}
 ;    (when (>= (days-since-last {@self JUDGE-DECLARE /ever}) 1))
-;    (utility want)
+;    (declare-utility want)
 ;    (effects       (begin-goal {@self judge-meet}))
 ;    (when-unsupported-effects (set-outcome {@self goal {@self judge-meet}} /succ))))
 
@@ -121,5 +121,5 @@
 ;; idler errands for the one run.
 ;(think compete
 ;  (role ?judge {?judge summon @self ?sport}
-;    (utility want)
+;    (declare-utility want)
 ;    (effects (maintain-proposal {@self RACE-RUN ?sport ?judge}))))

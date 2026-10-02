@@ -17,12 +17,12 @@
 (think sleep
   (role @self {@self alertness [k tired|sleepy]}
     (role ?home {@self home ?home}
-      (utility (if {@self alertness [k sleepy]} (then crisis) (else need)) default)
+      (declare-utility (if {@self alertness [k sleepy]} (then crisis) (else need)) default)
       (effects (maintain-proposal {@self go-to-bed ?home})))))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
 (think idle-go-home
   (role ?home {@self home ?home}
               (not (spatial @self unit ?home))
-    (utility idle fallback)
+    (declare-utility idle fallback)
     (effects (maintain-proposal {@self go ?home}))))

@@ -30,7 +30,7 @@
     (role ?board [k building church] (select (score (near @self ?board)) (policy roulette unknown-last))
       (role @self (not (spatial @self building ?board))
         (when (hours (business_open_hour) (business_close_hour)) (job-seeker @self ?age))
-        (utility errand)
+        (declare-utility errand)
         (effects (maintain-proposal {@self go ?board}))))))
 
 (think seek-board-find
@@ -46,7 +46,7 @@
     (when (hours (business_open_hour) (business_close_hour)) (and (job-seeker @self ?age)
                -{@self find-building [k building church] ? /fail}
                (current-exterior @self): ?rg))
-    (utility errand)
+    (declare-utility errand)
     (effects
              (maintain-proposal {@self find-building [k building church] ?rg}))))
 
@@ -61,7 +61,7 @@
               -{@self apply-for ? /pres}
     (role ?ad [k job-posting] (spatial ?ad co-located @self)
                               -{@self READ ?ad /succ}
-      (utility errand)
+      (declare-utility errand)
       (effects (maintain-proposal {@self READ ?ad})))))
 
 ; --- a posting @self has READ, qualifies for (class-floor derived from the post's own
@@ -99,7 +99,7 @@
                                       (on [k class-situation middle] 1)
                                       (else 0)))
                    -{@self apply-for ?job /succ}))
-        (utility errand)
+        (declare-utility errand)
         (effects
                  (maintain-proposal {@self apply-for ?job}))))))
 
@@ -123,7 +123,7 @@
     ; keeping the book.
     (when (hours (business_open_hour) (business_close_hour)) (and -{@self accept-job-offer ?job /succ}
                -{@self accept-job-offer ?job /fail}))
-    (utility errand)
+    (declare-utility errand)
     (effects (maintain-proposal {@self accept-job-offer ?job}))))
 
 ; === The apply-for TASK (gohome / write / send / posted) lives in

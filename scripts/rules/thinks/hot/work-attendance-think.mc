@@ -13,7 +13,7 @@
 ; the gate (no job, or a day off -> no commute). The shift clock-math ops then test
 ; the bound ?start / ?end against the env clock.
 ;
-; Two intra-day rules competing by (utility); the intra-day deliberation commits
+; Two intra-day rules competing by (declare-utility); the intra-day deliberation commits
 ; the max-utility eligible act:
 ;   - day-work     : already AT the workplace during/just-before the shift -> a
 ;                    single (stay) spanning the rest of the shift; its completion
@@ -46,7 +46,7 @@
             (latch-eval (any {?job ?tl ?}): ?shift (bind ?shift.target ?start) (bind ?shift.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
             (latch-eval (or (spatial @self building ?wp) (spatial @self space ?wp)))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
             (or (hours ?start ?end) (work-starts-soon ?start ?end)))
-      (utility duty (* (k-work-drive-value) (* (clamp (+ 1.0 (delib-ctr ?industriousness (k-drive-trait-swing))) 0.0 2.0)
+      (declare-utility duty (* (k-work-drive-value) (* (clamp (+ 1.0 (delib-ctr ?industriousness (k-drive-trait-swing))) 0.0 2.0)
                                                  (clamp (+ 1.0 (delib-ctrc (any {@self stress ?=0.5}).target (- 0.0 (k-drive-mood-swing)))) 0.0 2.0))))
       ; SPAWN the day's WORK TASK (tasks/work-task.mc): its performance tries fan the shift
       ; into the held duties' tasks and the between-duties post-stay; shift_over concludes it.
@@ -68,5 +68,5 @@
       (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
             (latch-eval (any {?job ?tl ?}): ?shift (bind ?shift.target ?start) (bind ?shift.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
             (or (hours ?start ?end) (work-starts-soon ?start ?end)))
-      (utility duty)
+      (declare-utility duty)
       (effects       (maintain-proposal {@self go ?wp})))))

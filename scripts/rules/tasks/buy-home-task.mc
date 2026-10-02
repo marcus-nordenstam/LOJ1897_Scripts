@@ -22,7 +22,7 @@
 ;    (try
 ;      (when (and {?dwell availability [k for-sale]}
 ;                 -{@self RECORD-SALE ?dwell /succ}))
-;      (utility errand)
+;      (declare-utility errand)
 ;      (effects
 ;               (maintain-proposal {@self RECORD-SALE ?dwell})))
 ;    (try

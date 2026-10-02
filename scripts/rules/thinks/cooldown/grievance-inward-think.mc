@@ -25,7 +25,7 @@
   (role @self {@self pressure [k humiliation] ?target}:?pressure
     (when (chance (* (k-grievance-rate)
                      (* 0.01 (grievance-drive ?pressure ?target 1.0)))))
-    (utility survival)
+    (declare-utility survival)
     (effects (resolve-suicide @self))))
 
 (think suicide-grief
@@ -34,7 +34,7 @@
   (role @self {@self pressure [k attachment-loss] ?target}:?pressure
     (when (chance (* (k-grievance-rate)
                      (* 0.03 (grievance-drive ?pressure ?target 1.0)))))
-    (utility survival)
+    (declare-utility survival)
     (effects (resolve-suicide @self))))
 
 (think strive-rivalry

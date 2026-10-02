@@ -22,30 +22,24 @@
   (tar [k human] @object)
   (construed-act abandonment-act wrong-act) (contradicts kin-loyalty)
   (and
-    ; REACH the victim - route to them, or their home if their location is unknown.
-    (try
-      (when (and (not (spatial ?victim co-located @self))
-                 (spatial ?victim space)))
-      (utility errand)
-      (effects (maintain-proposal {@self go ?victim})))
+    ; FIND the victim: his home, when where he is is unknown.
     (try
       (role ?vhome {?victim home ?vhome}
         (when (and (not (spatial ?victim co-located @self))
                    (unknown (spatial ?victim space))))
         (effects (maintain-proposal {@self go ?vhome}))))
 
-    ; CO-PRESENT: SAY the disinheritance. The co-present victim ADOPTS {benefactor
-    ; disinherit victim} from the utterance - real told-knowledge, no fiat cross-mind
-    ; write.
+    ; TELL him the disinheritance. He ADOPTS {benefactor disinherit victim} from the
+    ; utterance - real told-knowledge, no fiat cross-mind write.
     (try
-      (when (spatial ?victim co-located @self))
-      (utility errand always-pick)
+      (when (or (spatial ?victim co-located @self) (spatial ?victim space)))
+      (declare-utility errand always-pick)
       (effects
-        (maintain-proposal {@self SAY (utterable-msg {@self disinherit ?victim}) ?victim})))
+        (maintain-proposal {@self tell (utterable-msg {@self disinherit ?victim}) ?victim})))
 
-    ; OUTCOME: the disinheritance was announced (the SAY landed).
+    ; OUTCOME: the disinheritance was announced.
     (try
-      (when {@self SAY ? ?victim /succ /caused_by ?disinherit})
+      (when {@self tell ? ?victim /succ /caused_by ?disinherit})
       (effects (set-outcome ?disinherit /succ)))
 
     ; ABANDON: the victim died before it could be announced.

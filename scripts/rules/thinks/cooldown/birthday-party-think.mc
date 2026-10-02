@@ -6,7 +6,7 @@
 ; everything else, lossily and slowly.
 ;
 ; The host TELLS each co-present friend the freshest spouse / fiancee / lover /
-; child fact that guest has not already heard (per-listener dedup - the SAY's aux
+; child fact that guest has not already heard (per-listener dedup - the tell's aux
 ; is the guest). A guest comes to know of people through the host by hearing it -
 ; and self-news cascades onward as ordinary gossip. (The old telepathic two-way
 ; (exchange-news) is gone; the reciprocal half is each guest's OWN catch-up.)
@@ -45,15 +45,15 @@
       ;; cadence, rolled once per host per month.
       (when (chance (* 0.0667 ?enthusiasm)))
 
-      (utility want)
+      (declare-utility want)
 
       (effects
         ; Tell ?guest ONE piece of the host's own news they have not heard. for-each-present-tense-belief
-        ; binds each matched belief as ?belief; the dedup is PER-GUEST - the SAY's aux is
-        ; the listener, so {@self SAY <msg> ?guest} is "have I told THIS guest this".
+        ; binds each matched belief as ?belief; the dedup is PER-GUEST - the tell's aux is
+        ; the listener, so {@self tell <msg> ?guest /succ} is "have I told THIS guest this".
         (for-each ?belief (every {@self spouse|fiancee|lover|child ?})
           (do
             (utterable-msg ?belief): ?msg
-            (if -{@self SAY ?msg ?guest}
-                (then (maintain-proposal {@self SAY ?msg ?guest}) (break)))))
+            (if -{@self tell ?msg ?guest /succ}
+                (then (maintain-proposal {@self tell ?msg ?guest}) (break)))))
         ))))

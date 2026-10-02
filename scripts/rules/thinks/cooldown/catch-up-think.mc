@@ -8,7 +8,7 @@
 ; child" along - self-news cascades onward as ordinary gossip.
 ;
 ; Fired per NPC monthly; the gates (extraversion-weighted chance + a minimum
-; age) live in (when). Dedup is PER-LISTENER (the SAY's aux is the guest), so a
+; age) live in (when). Dedup is PER-LISTENER (the tell's aux is the guest), so a
 ; guest hears each fact only once. Proposing nothing (all heard, or nobody
 ; co-present) is a safe no-op. Meal-table chatter is table_talk_think.mc.
 ; ----------------------------------------------------------------------------
@@ -30,19 +30,19 @@
       (when (and (chance (* 0.25 (+ 0.5 ?enthusiasm)))
                  (>= ?age 12)))
 
-      (utility want)
+      (declare-utility want)
 
       (effects
         ; Propose telling ?guest ONE piece of my OWN news they have not heard. for-each-present-tense-belief
         ; walks my {@self <label> ?} beliefs across the relationship labels, binding the matched
-        ; label + its target; the dedup is PER-GUEST - the SAY's aux is the listener, so {@self
-        ; SAY <msg> ?guest} is "have I told THIS guest this". (break) stops at the first untold
+        ; label + its target; the dedup is PER-GUEST - the tell's aux is the listener, so {@self
+        ; tell <msg> ?guest /succ} is "have I told THIS guest this". (break) stops at the first untold
         ; fact. Proposing nothing is a safe no-op.
         (for-each ?belief (every {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?})
           (do
             (utterable-msg ?belief): ?msg
-            (if -{@self SAY ?msg ?guest}
-                (then (maintain-proposal {@self SAY ?msg ?guest}) 
+            (if -{@self tell ?msg ?guest /succ}
+                (then (maintain-proposal {@self tell ?msg ?guest}) 
                       (break)))))))))
 
   

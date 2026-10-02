@@ -38,7 +38,7 @@
       (when (and -{@self goal {@self TAKE-LOAN ?}}
                  (chance (* 0.005 (- 1.5 ?industriousness)))))
 
-      (utility errand)
+      (declare-utility errand)
       (effects (begin-goal {@self TAKE-LOAN ?creditor})))))
 
 ; Outcome twin: the loan-call recorded the debt - the pursuit succeeded.

@@ -46,7 +46,7 @@
                        (- 1.0 ?politeness)
                        (+ 0.3 (* 0.7 ?intoxication))))))
 
-      (utility want)
+      (declare-utility want)
       (effects
         ; A DRIVER (no incident-anchor): propose the hurt task, which reaches the victim and
         ; PUNCHes them. The PUNCH is an (obs) violent action - co-present bystanders perceive it

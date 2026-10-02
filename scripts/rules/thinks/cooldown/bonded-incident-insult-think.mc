@@ -87,7 +87,7 @@
         (score (if (is-belief ?barb) (then ?rank) (else 0)))
         (policy roulette))
 
-      (utility want)
+      (declare-utility want)
 
       (effects
-        (maintain-proposal {@self SAY (utterable-msg [/msg-class insult] ?barb) ?victim})))))
+        (maintain-proposal {@self tell (utterable-msg [/msg-class insult] ?barb) ?victim})))))

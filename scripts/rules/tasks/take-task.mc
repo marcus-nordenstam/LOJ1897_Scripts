@@ -4,7 +4,7 @@
 ; GRASP with the hand as an ARGUMENT; the outcome try concludes once a grasp succeeded
 ; /caused_by this task.
 ;
-; THE HAND PREFERENCE IS A CONDITION, not a bid. It was (utility (above LEFT-TAKE)) -
+; THE HAND PREFERENCE IS A CONDITION, not a bid. It was (declare-utility (above LEFT-TAKE)) -
 ; one act outbidding another - and there is ONE act now, so there is nothing to outbid.
 ; Said as a condition it is also the truth: the right hand, or the left when the right
 ; is busy. That makes the two rungs exclusive by construction, so neither can hold

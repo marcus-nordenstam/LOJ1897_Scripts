@@ -37,7 +37,7 @@
 ;    (role ?rental {@self own ?rental}
 ;                  (or {?rental availability [k for-rent]}
 ;                      {?rental tenant ?})
-;      (utility errand)
+;      (declare-utility errand)
 ;      (effects (maintain-proposal {@self FOUND-ORG [k org estate] [k job landlord]})))))
 
 ;; Once the estate stands, each let property's deed is made over to it.
@@ -47,5 +47,5 @@
 ;    (role ?rental {@self own ?rental}
 ;                  (or {?rental availability [k for-rent]}
 ;                      {?rental tenant ?})
-;      (utility errand)
+;      (declare-utility errand)
 ;      (effects (maintain-proposal {@self ASSIGN-DEED ?rental ?estate})))))

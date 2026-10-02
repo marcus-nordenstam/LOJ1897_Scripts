@@ -46,7 +46,7 @@
 ;      ; SPLIT (Item 5): the action (club_found_errand.mc) takes the founder out to found it
 ;      ; (found-club-seq acquires the clubhouse + enrols him). found_club_go routes; there is no
 ;      ; dwell - the goal is minted here and leaf-promotes to the act once he is at the pub.
-;      (utility errand)
+;      (declare-utility errand)
 ;      (effects       (begin-goal {@self FOUND-CLUB}))
 ;      (when-unsupported-effects (set-outcome {@self goal {@self FOUND-CLUB}} /succ)))))
 
@@ -96,7 +96,7 @@
 ;      ; SPLIT (Item 5): the think - the decision to join. Mints {@self goal {@self
 ;      ; join-club <articles>}} (focus = the club's articles, {?club_org record}); the action
 ;      ; (club_join_errand.mc) sends the member to the clubhouse and registers him there.
-;      (utility errand)
+;      (declare-utility errand)
 ;      (effects (maintain-proposal {@self join-club (any {?club_org record}).target})))))
 
 ;; club_gathering RETIRED (place-and-time reframe, Section 4.8 P2b): club members
@@ -125,5 +125,5 @@
 ;    ; SPLIT (Item 5): the think - the decision to resign. Mints {@self goal {@self
 ;    ; resign-club}}; the action (club_resign_errand.mc) sends the member to a clubhouse and
 ;    ; unregisters him there (unregister-member resolves his own club).
-;    (utility errand)
+;    (declare-utility errand)
 ;    (effects (maintain-proposal {@self resign-club}))))

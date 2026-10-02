@@ -33,6 +33,6 @@
     (when (and (>= ?age 15)
                (chance ?per_month)))
 
-    (utility survival)
+    (declare-utility survival)
     (effects (begin-goal {@self DIE [k death-cause old-age]}))
 ))

@@ -62,7 +62,7 @@
                (<= ?age 7)
                (latch-eval (chance (* 0.0833 ?breeding ?breeding)))))
 
-    (utility errand)
+    (declare-utility errand)
     (effects (maintain-proposal {@self matriculate [k primary-school-curriculum]}))))
 
 ; --- enroll-secondary: a middle+ youth goes on to secondary ------------------
@@ -88,7 +88,7 @@
                (<= ?age 14)
                (latch-eval (chance (* 0.0833 ?breeding ?breeding)))))
 
-    (utility errand)
+    (declare-utility errand)
     (effects (maintain-proposal {@self matriculate [k secondary-school-curriculum]}))))
 
 ; --- enroll-university: an upper / wealthy youth goes up to university --------
@@ -114,7 +114,7 @@
                (<= ?age 20)
                (latch-eval (chance (* 0.0833 ?breeding (* ?breeding ?breeding))))))
 
-    (utility errand)
+    (declare-utility errand)
     (effects (maintain-proposal {@self matriculate [k academic-field]}))))
 
 ; --- leave-primary: every primary pupil finishes at ~11 ----------------------

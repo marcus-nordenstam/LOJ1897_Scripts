@@ -41,7 +41,7 @@
                   (select (policy first-match))
         (when (or (not (spatial ?paramour co-located @self))
                   (spouse-co-located)))
-        (utility want always-pick)
+        (declare-utility want always-pick)
         (effects
           (observe ?room): ?obs-room
           (maintain-proposal {@self go ?obs-room}))))))
@@ -59,6 +59,6 @@
       ; Discretion: not in the same ROOM as the wronged spouse; an unmarried cheater has
       ; none, so the gate passes them through.
       (when (not (spouse-co-located)))
-      (utility want always-pick)
+      (declare-utility want always-pick)
       (effects
         (maintain-proposal {@self HAVE-SEX-WITH ?paramour})))))

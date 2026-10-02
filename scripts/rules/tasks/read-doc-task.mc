@@ -18,7 +18,7 @@
       ; AT HAND is held OR in the room: a form in the hand has no space to walk to.
       (role @self (not (spatial ?doc held-by @self))
                   (not (spatial ?doc co-located @self))
-        (utility obligation)
+        (declare-utility obligation)
         (effects
           (spatial ?doc space): ?room
           (if (substantial ?room)
@@ -28,5 +28,5 @@
       ; this rung: the page is within reach.
       (role @self (or (spatial ?doc held-by @self)
                       (spatial ?doc co-located @self))
-        (utility obligation)
+        (declare-utility obligation)
         (effects (maintain-proposal {@self READ ?doc}))))))

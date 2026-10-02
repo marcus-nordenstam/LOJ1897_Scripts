@@ -9,7 +9,7 @@
   (tar [k human] @object)
   (aux [k human] @object)
   (role ?my-home {@self home ?my-home}
-    (utility errand)
+    (declare-utility errand)
     ; Ordered: a posted letter ends it, a dead innocent voids it, and a letter in hand is
     ; finished before another is made.
     (stable-or

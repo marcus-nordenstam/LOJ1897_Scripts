@@ -14,7 +14,7 @@
     (try
       (role @self {@self name ?name} 
                   -{@self stack-browse ?stack ? /succ /caused_by ?take-my-letters}
-        (utility errand)
+        (declare-utility errand)
         (effects
           (maintain-proposal
             {@self stack-browse ?stack

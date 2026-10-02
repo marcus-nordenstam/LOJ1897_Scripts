@@ -37,8 +37,8 @@
                   {@self fancy|desire|crave ?target}
                   (spatial ?target co-located @self)
 
-      (utility want)
+      (declare-utility want)
 
       (effects
         (nl-utterable-msg "I fancy you"): ?msg
-        (maintain-proposal {@self SAY ?msg ?target})))))
+        (maintain-proposal {@self tell ?msg ?target})))))

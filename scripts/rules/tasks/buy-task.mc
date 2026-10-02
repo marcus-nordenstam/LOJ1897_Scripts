@@ -13,7 +13,7 @@
       (role ?shop [k building shop] (select (score (near @self ?shop)) (policy roulette unknown-last))
         (role @self (not (spatial @self building ?shop))
           (when (empty (spatial @self hold ?kind)))
-          (utility fallback)
+          (declare-utility fallback)
           (effects (maintain-proposal {@self go ?shop})))))
     ; knows no shop -> search the region for one, until the search proves there is none.
     (try
@@ -21,7 +21,7 @@
       (when (and (empty (spatial @self hold ?kind))
                  -{@self find-building [k building shop] ? /fail}
                  (current-exterior @self): ?rg))
-      (utility fallback)
+      (declare-utility fallback)
       (effects (maintain-proposal {@self find-building [k building shop] ?rg})))
     ; at a shop -> find a shelf item of the kind and buy it (pay + take, atomic).
     (try

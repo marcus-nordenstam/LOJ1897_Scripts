@@ -63,6 +63,6 @@
                                    (* (- 1.0 ?compassion)
                                       (+ 1.0 ?spouse-wealth))))))))))
 
-      (utility want)
+      (declare-utility want)
       (effects
         (maintain-proposal {@self kill ?spouse /caused_by ?spouse_bond})))))

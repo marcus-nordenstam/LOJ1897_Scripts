@@ -44,7 +44,7 @@
               (when (or (table-match (attr ?reg writing) worker @nothing)
                              {?duty-org display-ad ?}
                              (> (count (every {? accept-job-offer ?})) 0)))
-              (utility duty)
+              (declare-utility duty)
               (effects
                        (maintain-proposal {@self recruit-staff ?duty-org})))))
         (try

@@ -16,7 +16,7 @@
     (try
       (role @self -{@self locate [k mail-stack] ?prem /succ}
             -{@self locate [k mail-stack] ?prem /fail}
-        (utility errand)
+        (declare-utility errand)
         (effects (maintain-proposal {@self locate [k mail-stack] ?prem}))))
     (try
       (role ?stk [k mail-stack] (within-place ?stk ?prem)
@@ -27,7 +27,7 @@
       (role ?stk [k mail-stack] (within-place ?stk ?prem)
                                 (spatial ?stk co-located @self)
                                 -{@self take-my-letters ?stk /succ /caused_by ?read-mail}
-        (utility errand)
+        (declare-utility errand)
         (effects
                  (maintain-proposal {@self take-my-letters ?stk}))))
     ; The reading and the re-filing are the ROUND's, not this task's: take-my-letters hands

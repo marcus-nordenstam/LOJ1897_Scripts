@@ -72,17 +72,17 @@
                            (any {?lover class-situation ?lover-class})
                            (= ?lover-class ?my-class)))))
 
-      (utility want)
+      (declare-utility want)
 
       (effects
         (begin-belief {@self fiancee ?bride})
         ; The bride's own engagement belief lands in HER mind (the wedding rule
         ; recovers the groom from the bride's fiancee belief, either side initiating).
         (begin-belief ?bride {?bride fiancee @self})
-        ; @self (the groom) discloses his friend-tier profile to the bride (the SAY she
+        ; @self (the groom) discloses his friend-tier profile to the bride (the tell she
         ; hears and adopts) - the honest replacement for the believe_about profile-copy,
         ; delivered by co-presence. His own knowledge of her pre-exists from courtship.
         (every {@self (disclosure-tier-labels friend) ?}): ?facts
         (if ?facts
-            (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?bride})))
+            (then (maintain-proposal {@self tell (utterable-msg ?facts) ?bride})))
         ))))

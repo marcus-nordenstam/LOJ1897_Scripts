@@ -33,6 +33,6 @@
           (when (and (is-a ?wp [k building shop])
                      (>= (days-since-last {@self STOCKTAKE /succ /ever}) 1)))
 
-          (utility duty)
+          (declare-utility duty)
           (effects       (begin-goal {@self STOCKTAKE}))
           (when-unsupported-effects (set-outcome {@self goal {@self STOCKTAKE}} /succ)))))))

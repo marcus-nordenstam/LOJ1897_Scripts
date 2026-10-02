@@ -37,7 +37,7 @@
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when    (and (>= (days-since-last {@self WORSHIP /succ /ever}) 3)
                   (>= ?politeness 0.3)))
-    (utility want (* (* 500.0 (clamp (/ (- (days-since-last-float {@self WORSHIP /succ /ever}) 3.0)
+    (declare-utility want (* (* 500.0 (clamp (/ (- (days-since-last-float {@self WORSHIP /succ /ever}) 3.0)
                                          (- 21.0 3.0))
                                       0.0 1.0)) (clamp (+ 1.0 (delib-ctr ?politeness (k-drive-trait-swing))) 0.0 2.0)))
     (effects
@@ -56,6 +56,6 @@
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self devoutness [k piety-band devout]}
     (when    (>= (days-since-last {@self WORSHIP /succ /ever}) 3))
-    (utility obligation)
+    (declare-utility obligation)
     (effects       (begin-goal {@self WORSHIP}))
     (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ))))

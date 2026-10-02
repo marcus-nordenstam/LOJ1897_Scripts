@@ -47,7 +47,7 @@
 ;                  {?paramour crave @self})
 ;              (chance (+ 0.40 (* 0.60 (attr ?paramour assertiveness))))))
 ; 
-;   (utility want)
+;   (declare-utility want)
 ; 
 ;   (role ?my-home {@self home ?my-home})
 ;   (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
@@ -109,7 +109,7 @@
 ;   (role ?venue {@self home ?venue})
 ;   (when (chance 0.14))
 ; 
-;   (utility want)
+;   (declare-utility want)
 ; 
 ;   (role ?my-home {@self home ?my-home})
 ;   (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))
@@ -169,7 +169,7 @@
 ;              (or (is-a ?venue [k commercial-building theatre])
 ;                  (is-a ?venue [k commercial-building pub]))))
 ; 
-;   (utility want)
+;   (declare-utility want)
 ; 
 ;   (role ?my-home {@self home ?my-home})
 ;   (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))

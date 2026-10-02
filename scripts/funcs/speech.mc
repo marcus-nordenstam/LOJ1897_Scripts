@@ -15,12 +15,14 @@
 ;
 ; A DIRECTED say stamps the addressee in the act's /aux (the per-listener "told"
 ; dedup); a BROADCAST leaves it absent. Delivery is by co-presence either way -
-; the addressee is who it is ADDRESSED to, never who receives it.
+; the addressee is who it is ADDRESSED to, never who receives it. A call (call-msg,
+; funcs/conversation.mc) is a [k shout], whose box carries it further.
 ; ----------------------------------------------------------------------------
 
 (define-func deliver-speech (?xsay)
   (do
-    (create-entity [k speech] (spatial @self bounds)): ?sound
+    (create-entity (if (call-msg ?xsay.target) (then [k shout]) (else [k speech]))
+                   (spatial @self bounds /env)): ?sound
     (set-attr ?sound create-action ?xsay)
     (set-attr ?sound speaker @self)
     (set-attr ?sound preroll 0)))
@@ -63,7 +65,7 @@
 
 (define-func /hear adopt-heard-msg (?msg ?speaker ?audience ?tell)
   ; A QUESTION is not a claim. The heard {asker SAY (qs ..)} record IS the
-  ; deliverable - answer-mealtimes casts a role straight on it - and adopting the
+  ; deliverable - converse answers it straight off that record - and adopting the
   ; asked pattern would turn a man's question into this listener's belief.
   (if (is-qs ?msg)
     (then @fail)

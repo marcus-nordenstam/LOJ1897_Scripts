@@ -48,7 +48,7 @@
 ;   (role ?target_home {?target home ?target_home})
 ;   (when (chance 0.4))
 ; 
-;   (utility want)
+;   (declare-utility want)
 ; 
 ;   (role ?my-home {@self home ?my-home})
 ;   (role ?my-out-box [k outgoing-mail-stack] (spatial ?my-out-box building ?my-home))

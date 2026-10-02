@@ -64,6 +64,6 @@
 ;(think list_to_let_find
 ;  (goal {@self LET})
 ;  (no-role [k org house-agency])
-;  (utility errand)
+;  (declare-utility errand)
 ;  (effects       (begin-goal {@self ORIENT}))
 ;  (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ)))

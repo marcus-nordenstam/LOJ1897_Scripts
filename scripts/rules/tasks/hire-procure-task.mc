@@ -12,14 +12,9 @@
   (aux ?)
   (and
     (try
-      (when (and (not (spatial ?agent co-located @self))
-                 (spatial ?agent space)))
-      (utility errand)
-      (effects (maintain-proposal {@self go ?agent})))
+      (when (or (spatial ?agent co-located @self) (spatial ?agent space)))
+      (declare-utility errand always-pick)
+      (effects (maintain-proposal {@self tell (utterable-msg {?agent acquire ?kind}) ?agent})))
     (try
-      (when (spatial ?agent co-located @self))
-      (utility errand always-pick)
-      (effects (maintain-proposal {@self SAY (utterable-msg {?agent acquire ?kind}) ?agent})))
-    (try
-      (when {@self SAY ? /succ /caused_by ?hire-procure})
+      (when {@self tell ? ?agent /succ /caused_by ?hire-procure})
       (effects (set-outcome ?hire-procure /succ)))))

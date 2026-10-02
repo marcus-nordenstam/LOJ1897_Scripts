@@ -29,7 +29,7 @@
   (rng-stream behaviour)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when (chance 0.02))
-    (utility want)
+    (declare-utility want)
     (effects (maintain-proposal {@self plan-gathering [k dinner-party] 3}))))
 
 ; An IMPROMPTU supper: the same staging, set for THIS month. Nobody is written to - the
@@ -42,7 +42,7 @@
   (rng-stream behaviour)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when (chance 0.015))
-    (utility want)
+    (declare-utility want)
     (effects (maintain-proposal {@self plan-gathering [k dinner-party] 0}))))
 
 ; ONE invitation per friend, while the day is far enough out for the post to arrive: a
@@ -68,5 +68,5 @@
                  {?guest home ?}
                  -{@self invite ?guest ?occ}
       (when (not (date-in-current-month ?held-on)))
-      (utility errand)
+      (declare-utility errand)
       (effects (maintain-proposal {@self invite-guest ?guest ?occ})))))

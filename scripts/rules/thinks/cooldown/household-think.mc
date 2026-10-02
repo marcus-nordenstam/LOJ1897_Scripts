@@ -32,7 +32,7 @@
 
   (role @self {@self intellect ?intellect}
               {@self home ?home}
-    (utility idle)
+    (declare-utility idle)
 
     (effects
       (bind 0 ?bookish)
@@ -73,34 +73,29 @@
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self gender [k female]}
     (role ?home {@self home ?home}
-      ; Latched: the hours this fire sets would fell a live residual and withdraw the SAY that
+      ; Latched: the hours this fire sets would fell a live residual and withdraw the tell that
       ; announces them; latched at onset, the activation holds through the announcement.
       (when (latch-eval -{?home supper-hour ?}))
 
-      (utility want)
+      (declare-utility want)
 
       (effects
         (begin-belief {?home breakfast-hour (household-breakfast-hour)})
         (begin-belief {?home lunch-hour (household-lunch-hour)})
         (begin-belief {?home supper-hour (household-supper-hour)})
         ; Say the house's hours aloud - the household hears and adopts.
-        (maintain-proposal {@self SAY (utterable-msg {?home breakfast-hour (household-breakfast-hour)}
-                                                  {?home lunch-hour (household-lunch-hour)}
-                                                  {?home supper-hour (household-supper-hour)}) _})
+        (maintain-proposal {@self tell (utterable-msg {?home breakfast-hour (household-breakfast-hour)}
+                                                   {?home lunch-hour (household-lunch-hour)}
+                                                   {?home supper-hour (household-supper-hour)}) _})
         ))))
 
 ; ----------------------------------------------------------------------------
-; ask-mealtimes / answer-mealtimes - the ask-the-cook channel (ruling 12).
-; A resident who does not know the house's supper hour ASKS the cook (a real
-; question say - {@self SAY (qs {?home supper-hour _}) /aux cook}); the cook,
-; gated on having HEARD such a question ((asked-me-about supper-hour) - the
-; cheap per-mind gate comes first), answers with a directed tell of all three
-; hours. The per-listener SAY dedup makes re-answers harmless; the asked
-; record fades on the normal recall curve. Semantic self-healing: mealtime
-; knowledge can never be permanently lost while the cook lives.
-; Both are SAYS (acts carried by perception), but they run at the household's
-; at-home hour - think placement keeps them beside
-; set-mealtimes, whose decision they complete.
+; ask-mealtimes - the ask-the-cook channel (ruling 12). A resident who does not know
+; the house's supper hour ASKS the cook: a conversation whose agenda is the question.
+; The cook answers it as anyone answers a question put to him in conversation
+; (tasks/converse-task.mc). Semantic self-healing: mealtime knowledge can never be
+; permanently lost while the cook lives. Think placement keeps it beside
+; set-mealtimes, whose decision it completes.
 ; ----------------------------------------------------------------------------
 
 (think ask-mealtimes
@@ -123,36 +118,11 @@
         (when (>= ?age 3))
 
         ; Learning the house's hours beats settling into a leisure day.
-        (utility idle (above rest))
+        (declare-utility idle (above rest))
 
         (effects
           (utterable-qs {?home supper-hour ?}): ?qs
-          (maintain-proposal {@self SAY ?qs ?cook}))))))
-
-(think answer-mealtimes
-  (cooldown 1 m try-until-succ)
-  (rng-stream behaviour)
-
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              {@self home ?home}
-              {?home breakfast-hour ?b}   ; existence cached; the three
-              {?home lunch-hour ?l}       ; hours bind at fire for the
-              {?home supper-hour ?s}
-
-    ; Someone asked @self about supper-hour: a heard qs about supper-hour with
-    ; @self as the audience. Binds ?asker (the speaker, not @self).
-    (role ?asker {?asker isa [k human], condition [k alive]}
-                 {?asker SAY (qs {? supper-hour ?}) @self /past}
-
-      (utility want)
-
-      (effects
-        (utterable-msg {?home breakfast-hour ?b}
-                       {?home lunch-hour ?l}
-                       {?home supper-hour ?s}): ?msg
-        (if -{@self SAY ?msg ?asker}
-            (then (maintain-proposal {@self SAY ?msg ?asker})))
-        ))))
+          (maintain-proposal {@self converse ?cook ?qs}))))))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the
 ; pressure-driven cook errand in thinks/provisioning_think.mc - the kitchen

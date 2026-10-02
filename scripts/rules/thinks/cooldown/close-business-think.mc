@@ -85,6 +85,6 @@
 ;                (chance (* (* (business_failure_base) (business_failure_climate_mult))
 ;                           (* (+ 1.0 (* (business_failure_means_weight) (- 1.0 ?wealth)))
 ;                              (+ 1.0 (* (business_failure_merit_weight)  (- 1.0 (diligence)))))))))
-;        (utility errand)
+;        (declare-utility errand)
 ;        (effects       (begin-goal {@self CLOSE-BUSINESS ?art}))
 ;        (when-unsupported-effects (set-outcome {@self goal {@self CLOSE-BUSINESS ?art}} /succ))))))

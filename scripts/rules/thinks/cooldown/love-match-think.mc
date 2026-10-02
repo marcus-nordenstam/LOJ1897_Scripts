@@ -92,7 +92,7 @@
       ;; (role-belief purity keeps it out of the role filters).
       (when (latch-eval (chance 0.3)))
 
-      (utility want)
+      (declare-utility want)
 
       (effects
         ; Symmetric fiancee bond + mutual profile sync - identical to betrothal, so
@@ -100,9 +100,9 @@
         ; the bride's fiancee belief regardless of which side initiated).
         (begin-belief {@self fiancee ?beloved})
         (begin-belief ?beloved {?beloved fiancee @self})
-        ; @self discloses their friend-tier profile to the beloved (the SAY they hear
+        ; @self discloses their friend-tier profile to the beloved (the tell they hear
         ; and adopt); @self's knowledge of the beloved pre-exists from courtship.
         (every {@self (disclosure-tier-labels friend) ?}): ?facts
         (if ?facts
-            (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?beloved})))
+            (then (maintain-proposal {@self tell (utterable-msg ?facts) ?beloved})))
         ))))

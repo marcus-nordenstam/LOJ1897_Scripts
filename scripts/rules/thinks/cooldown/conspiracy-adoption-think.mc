@@ -48,7 +48,7 @@
                  (or {@self kill ?victim}
                      (chance ?psychopathy))))
 
-      (utility want)
+      (declare-utility want)
       (effects
         ; Join ONCE (the accomplice bond embeds the plot as its AUX + anchors the /caused_by);
         ; then MAINTAIN my own kill of the victim while the attraction to the instigator holds.

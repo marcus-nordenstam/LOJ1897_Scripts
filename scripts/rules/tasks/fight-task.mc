@@ -22,7 +22,7 @@
       (when (and (spatial ?foe co-located @self)
                  -{?foe condition [k dead]}
                  (not (attr-is ?foe awareness [k unconscious]))))
-      (utility survival always-pick)
+      (declare-utility survival always-pick)
       (effects (maintain-proposal {@self PUNCH ?foe})))
 
     ; CONCLUDE: the threat is neutralized (foe dead or knocked out) or gone (fled /

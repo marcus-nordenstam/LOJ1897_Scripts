@@ -49,6 +49,6 @@
 ;    (role ?h {@self home ?h}
 ;             -{@self own ?h}
 ;             -{?h tenant @self}
-;      (utility errand)
+;      (declare-utility errand)
 ;      (effects       (begin-goal {@self acquire}))
 ;      (when-unsupported-effects (set-outcome {@self goal {@self acquire}} /succ)))))

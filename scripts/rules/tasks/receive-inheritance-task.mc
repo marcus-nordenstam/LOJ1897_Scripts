@@ -19,7 +19,7 @@
 ;        ; REACH the deceased's home, where the will is kept.
 ;        (try
 ;          (when (not (spatial @self building ?dhome)))
-;          (utility duty)
+;          (declare-utility duty)
 ;          (effects (maintain-proposal {@self go ?dhome})))
 
 ;        ; READ the will (co-present with it) - adopt its bequest into @self's mind.
@@ -27,13 +27,13 @@
 ;          (role @self (spatial @self building ?dhome)
 ;            (when (and -{@self inherit ?}
 ;                       -{@self READ ?will /succ}))
-;            (utility duty)
+;            (declare-utility duty)
 ;            (effects (maintain-proposal {@self READ ?will}))))
 
 ;        ; CLAIM: the will named @self - a bequest belief was adopted - so effect it.
 ;        (try
 ;          (when {@self inherit ?pile})
-;          (utility duty always-pick)
+;          (declare-utility duty always-pick)
 ;          (effects (maintain-proposal {@self INHERIT ?dead ?pile})))
 
 ;        ; CONCLUDE: the estate was claimed.

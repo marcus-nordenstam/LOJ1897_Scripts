@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
-; expose ?victim - denounce the victim's non-spousal liaison publicly. @self reaches
-; the victim and SAYs the secret aloud as an open BROADCAST (the room hears {?victim
-; lover ?partner} through the real auditory channel), then publish-secret-about seeds
+; expose ?victim - denounce the victim's non-spousal liaison publicly. @self tells the
+; victim the secret to his face (the room hears {?victim lover ?partner} through the real
+; auditory channel), then publish-secret-about seeds
 ; the victim's circle and the scandal spreads town-wide. A published secret is spent
 ; leverage, so any standing {@self extort ?victim} anchor ends. The ended {@self expose
 ; ?victim} belief IS the deed memory; the crime row records it. Nothing to expose
@@ -17,15 +17,6 @@
   (construed-act expose-act betray-act wrong-act) (contradicts privacy)
   (and
     (try
-      (when (and -{@self spouse ?victim}
-                 {?victim lover|HAVE-SEX-WITH ?partner /ever}
-                 -{?victim spouse ?partner /ever}
-                 -{@self spouse ?partner}
-                 (not (spatial ?victim co-located @self))
-                 (spatial ?victim space)))
-      (utility errand)
-      (effects (maintain-proposal {@self go ?victim})))
-    (try
       (role ?vhome {?victim home ?vhome}
         (when (and -{@self spouse ?victim}
                    {?victim lover|HAVE-SEX-WITH ?partner /ever}
@@ -39,12 +30,12 @@
                  {?victim lover|HAVE-SEX-WITH ?partner /ever}
                  -{?victim spouse ?partner /ever}
                  -{@self spouse ?partner}
-                 (spatial ?victim co-located @self)
-                 -{@self SAY ? /succ /caused_by ?expose}))
-      (utility errand always-pick)
-      (effects (maintain-proposal {@self SAY (utterable-msg {?victim lover ?partner}) _})))
+                 (or (spatial ?victim co-located @self) (spatial ?victim space))
+                 -{@self tell ? ?victim /succ /caused_by ?expose}))
+      (declare-utility errand always-pick)
+      (effects (maintain-proposal {@self tell (utterable-msg {?victim lover ?partner}) ?victim})))
     (try
-      (when {@self SAY ? /succ /caused_by ?expose})
+      (when {@self tell ? ?victim /succ /caused_by ?expose})
       (effects
         ; TELEPATHY - this pushed the secret into every other mind. The SAY above is
         ; already the honest channel; the spread belongs to the hearers' own adoption.

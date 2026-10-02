@@ -4,7 +4,7 @@
 ; physical act - speech - by which the marriage is made; the party HEARS and adopts
 ; it (no fiat cross-mind write). Both principals hold {@self organize <wedding>} and
 ; each raises this duty; whoever vows first marries, the other HEARS and reciprocates
-; (spouse-reciprocate, attend_think.mc) then fails the unmarried gate - the SAY-memory
+; (spouse-reciprocate, attend_think.mc) then fails the unmarried gate - the tell-memory
 ; dedup covers the same-window gap before reciprocation lands. This duty is separate
 ; from (and runs alongside) the shared attend task; its own go rung gets him there.
 ; ----------------------------------------------------------------------------
@@ -24,8 +24,8 @@
           (role @self (spatial @self building ?venue)
             (when (and {?occ hours ?start ?end}
                        (hours (- ?start (attend-prep-lead)) ?end)
-                       -{@self SAY (msg {@self spouse ?betrothed}) ?betrothed}))
-            (effects (maintain-proposal {@self SAY (utterable-msg {@self spouse ?betrothed}) ?betrothed}))))))
+                       -{@self tell (msg {@self spouse ?betrothed}) ?betrothed /succ}))
+            (effects (maintain-proposal {@self tell (utterable-msg {@self spouse ?betrothed}) ?betrothed}))))))
 
     ; GO: not at the church yet -> head to it (in the window).
     (try

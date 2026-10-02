@@ -24,7 +24,7 @@
   (facets reportable_crime blackmailable)
   (try
     (when -{?victim condition [k dead]})
-    (utility survival)
+    (declare-utility survival)
     (effects
       (any {@self strength ?strength})
       (any {@self coin-pile.count ?coins=0})

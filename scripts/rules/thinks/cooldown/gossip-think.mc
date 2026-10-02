@@ -8,8 +8,8 @@
 ; listener) from whoever shares @self's room (the location JOIN, cf. introduce.mc).
 ; for-each-present-tense-belief walks @self's OWN beliefs about ?x (the DEFAULT subject-anchored
 ; read - @self's own mind, never telepathy) in label-PRIORITY order (scandal labels
-; first, so a scandal outranks relationship news), skips any already in a {@self SAY
-; ... ?ear} memory (per-listener dedup), and applies the shame-seal - @self does not
+; first, so a scandal outranks relationship news), skips any already in a {@self tell
+; ... ?ear /succ} memory (per-listener dedup), and applies the shame-seal - @self does not
 ; air a fact in which @self is the victim ((not (= ?tgt @self))). (break) stops at
 ; the first tellable fact and proposes it. A listener who hears it files ?x as an
 ; acquaintance - which is what lets a scandal cascade outward through ?x's network.
@@ -43,7 +43,7 @@
                               (+ 0.5 ?assertiveness)))
                    (>= ?age 12)))
 
-        (utility want)
+        (declare-utility want)
 
         (effects
           ; Label order IS priority: scandal acts, then the death-story, then relationship
@@ -53,5 +53,5 @@
               (bind ?news.target ?tgt)
               (utterable-msg ?news): ?msg
               (if (and (or (not (is-object ?tgt)) (!= ?tgt @self))
-                       -{@self SAY ?msg ?ear})
-                  (then (maintain-proposal {@self SAY ?msg ?ear}) (break))))))))))
+                       -{@self tell ?msg ?ear /succ})
+                  (then (maintain-proposal {@self tell ?msg ?ear}) (break))))))))))

@@ -54,5 +54,5 @@
 ;  (role @self {@self CLOSE-BUSINESS ? ?wp /succ}
 ;              {@self own ?wp}
 ;              -{?wp availability ?}
-;    (utility errand)
+;    (declare-utility errand)
 ;    (effects (maintain-proposal {@self LIST-FOR-SALE ?wp}))))

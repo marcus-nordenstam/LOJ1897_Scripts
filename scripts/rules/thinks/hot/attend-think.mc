@@ -29,7 +29,7 @@
     (when (date-in-current-month ?held-on))
     ; Desirability within the tier: 0 bedridden, a floor for a kill-driven crasher, else
     ; the warmth-scaled guest base.
-    (utility errand (cond
+    (declare-utility errand (cond
                       (case {@self physical-mobility [k bedridden]} 0)
                       (case {@self goal {@self kill ?}} (max (attend-crasher-value)
                                                              (attend-guest-scaled ?occ)))
@@ -40,7 +40,7 @@
 (think want-attend-host
   (role ?occ {@self organize ?occ} {?occ held-on ?held-on}
     (when (date-in-current-month ?held-on))
-    (utility obligation always-pick)
+    (declare-utility obligation always-pick)
     (effects (maintain-proposal {@self attend ?occ}))))
 
 ; A wedding principal: organizing a wedding whose day has come, still betrothed and
@@ -50,7 +50,7 @@
   (role ?occ {@self organize [k wedding]:?occ} {?occ held-on ?held-on}
     (role @self {@self fiancee ?} (none {@self spouse @something})
       (when (date-in-current-month ?held-on))
-      (utility obligation always-pick)
+      (declare-utility obligation always-pick)
       (effects (maintain-proposal {@self wed ?occ})))))
 
 ; The vow was SPOKEN. Saying it IS believing it - the say channel mints the spoken

@@ -15,6 +15,6 @@
   (role ?home {@self home ?home}
     (role @self (spatial @self unit ?home)
       (when (>= (days-since-last {@self read-mail ?home /succ}) 1))
-      (utility errand)
+      (declare-utility errand)
       (effects (maintain-proposal {@self read-mail ?home})))))
 

@@ -21,5 +21,5 @@
 ; WORSHIP / work drive utilities carry, reusing the centered-swing helpers above.
 ; Worship rises with politeness (respect for convention), work with industriousness
 ; and falls with stress (the stressed shirk). Applied in-band in each drive rule's
-; (utility), so a diligent / devout NPC out-ranks a shirker / lapsed one.
+; (declare-utility), so a diligent / devout NPC out-ranks a shirker / lapsed one.
 ; ----------------------------------------------------------------------------

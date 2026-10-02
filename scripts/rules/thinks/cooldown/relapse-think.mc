@@ -14,7 +14,7 @@
               {@self craving [k alcohol]}
     (when (>= (days-since-last {@self DRINK /succ /ever}) 1))
     ; Withdrawal is a drive, not a trait, so escalating the band on it is legitimate.
-    (utility (if (>= ?withdrawal 0.7) (then crisis) (else need))
+    (declare-utility (if (>= ?withdrawal 0.7) (then crisis) (else need))
              (* 10.0 (* (min (* (+ 0.5 (* 0.8 ?withdrawal))
                                 (+ 0.6 (* 0.6 (- 1.0 ?industriousness)))
                                 (- 1.3 (* 0.6 ?piety))

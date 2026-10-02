@@ -8,7 +8,7 @@
 ; dropping it ends both sides, exactly as befriend mints both (cf.
 ; friendship-fraying, which severs on sustained detest the same way).
 ;
-; Warmth bonds only (friend / close-to). relied-on-by / respected-by (utility),
+; Warmth bonds only (friend / close-to). relied-on-by / respected-by (declare-utility),
 ; job and family bonds are untouched - ostracism is social, not vocational or
 ; filial.
 ; ----------------------------------------------------------------------------

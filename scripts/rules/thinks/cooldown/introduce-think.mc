@@ -10,17 +10,17 @@
          (spatial ?stranger co-located @self)
          (none {@self (closeness-labels acquaintance) ?stranger /ever})
          ; A CONCLUDED greeting is what makes him no stranger. Without /succ this reads the
-         ; present tense - only a SAY still in progress - so each greeting's end made him a
+         ; present tense - only a telling still in progress - so each greeting's end made him a
          ; stranger again and the minute cooldown greeted him afresh: 960 greetings in one
          ; afternoon (measured), a body never free for sleep, and the sim down for it.
-         -{@self SAY ? ?stranger /succ}
+         -{@self tell ? ?stranger /succ}
   
       ; Sociability gate: an extraverted NPC strikes up an introduction more readily.
       (when (chance (* 0.5 (+ 0.4 ?enthusiasm))))
   
-      (utility want)
+      (declare-utility want)
   
       (effects
         (every {@self (disclosure-tier-labels stranger) ?}): ?facts
-        (if ?facts (then (maintain-proposal {@self SAY (utterable-msg ?facts) ?stranger})))))))
+        (if ?facts (then (maintain-proposal {@self tell (utterable-msg ?facts) ?stranger})))))))
     

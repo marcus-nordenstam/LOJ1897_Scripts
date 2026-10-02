@@ -60,7 +60,7 @@
                      (chance (* (immigrant_admit_scale)
                                 (- (homeostat_immigration_pressure) ?pressure)))))
 
-          (utility duty)
+          (declare-utility duty)
 
           (effects
             (maintain-proposal {@self ADMIT-IMMIGRANT ?office})))))))

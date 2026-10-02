@@ -23,7 +23,7 @@
   (cooldown 1 m try-until-succ)
   (role @self -{@self own [k pile]}
     (role ?home {@self home ?home}
-      (utility duty)
+      (declare-utility duty)
       (effects (maintain-proposal {@self SEED-COINS ?home})))))
 
 (think accrue-savings
@@ -32,7 +32,7 @@
     (role ?pile {@self coin-pile ?pile}
       (when (and (in-month 12)
                  (>= ?age 15)))
-      (utility duty)
+      (declare-utility duty)
       (effects
         (any {@self job.salary ?salary=0})
         (any {@self coin-pile.count ?coins=0})

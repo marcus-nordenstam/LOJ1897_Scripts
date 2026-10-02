@@ -16,7 +16,7 @@
   (aux [k structure|space] @object)
   (and
     (try
-      (utility (switch (kind ?meal)
+      (declare-utility (switch (kind ?meal)
                  (on [k breakfast] 820)
                  (on [k lunch]     850)
                  (else             780)))
@@ -44,7 +44,7 @@
         (if ?EAT (then (set-outcome ?eat (outcome ?EAT))))))
     (try
       (role ?home {@self home ?home}
-        (role @self -{@self SAY ? ? /succ /caused_by ?eat}
+        (role @self -{@self tell ? ? /succ /caused_by ?eat}
           (when (and (= ?place ?home) (latch-eval (chance 0.25))))
           (effects
             (for-each ?breakfast-hour (every {?home breakfast-hour ?})
@@ -54,7 +54,7 @@
                     (for-each ?supper-hour (every {?home supper-hour ?})
                         (bind ?supper-hour.target ?s)
                         (maintain-proposal
-                          {@self SAY (utterable-msg {?home breakfast-hour ?b}
+                          {@self tell (utterable-msg {?home breakfast-hour ?b}
                                                     {?home lunch-hour ?l}
                                                     {?home supper-hour ?s}) _}))))))))
     (try
@@ -66,5 +66,5 @@
           (for-each ?belief (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life-aim ?})
             (do
               (utterable-msg ?belief): ?msg
-              (if -{@self SAY ?msg ?diner}
-                  (then (maintain-proposal {@self SAY ?msg ?diner}) (break))))))))))
+              (if -{@self tell ?msg ?diner /succ}
+                  (then (maintain-proposal {@self tell ?msg ?diner}) (break))))))))))

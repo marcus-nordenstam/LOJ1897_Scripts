@@ -51,6 +51,6 @@
 ;      ; Latch the standing meet goal, focused on the club's articles (recovered from @self's
 ;      ; {?club record ?art} belief, exactly as club_joining / apprenticeship recover an org's
 ;      ; articles).
-;      (utility duty)
+;      (declare-utility duty)
 ;      (effects       (begin-goal {@self hold-meet (any {?club record}).target}))
 ;      (when-unsupported-effects (set-outcome {@self goal {@self hold-meet (any {?club record}).target}} /succ)))))

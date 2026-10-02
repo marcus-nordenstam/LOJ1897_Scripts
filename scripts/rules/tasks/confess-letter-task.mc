@@ -22,7 +22,7 @@
                                            {@self WRITE ?ltr ? /succ}
                                            -{@self send-mail ?ltr ? /succ}
             (role ?out [k outgoing-mail-stack] (within-place ?out ?my-home)
-              (utility errand)
+              (declare-utility errand)
               (effects
                 (check (substantial (attr ?ltr writing)))
                 (check (substantial (attr ?ltr destination)))
@@ -41,7 +41,7 @@
                      {?kinhome address ?kin-address}
                      {?kin name ?kin-name}
                      {?partner name ?partner-name}))
-          (utility errand)
+          (declare-utility errand)
           (effects
             (maintain-proposal
               {@self write-doc ?ltr
@@ -56,7 +56,7 @@
                    (alive ?kin)
                    (!= ?kin ?partner)
                    {?kin home ?}))
-        (utility errand)
+        (declare-utility errand)
         (effects (maintain-proposal {@self CREATE-ENTITY [k confession-letter]}))))
 
     ; A kin who is dead, who IS the partner, or whose home he cannot name, receives nothing -

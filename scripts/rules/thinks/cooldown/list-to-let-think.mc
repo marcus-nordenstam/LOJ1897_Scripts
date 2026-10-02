@@ -40,6 +40,6 @@
                 -{@self home ?prop}            ; not where he lives
                 -{?prop tenant ?}              ; no sitting tenant
                 -{?prop availability [k for-rent]}  ; not already listed
-      (utility errand)
+      (declare-utility errand)
       (effects       (begin-goal {@self LET ?prop}))
       (when-unsupported-effects (set-outcome {@self goal {@self LET ?prop}} /succ)))))

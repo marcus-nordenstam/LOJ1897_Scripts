@@ -62,6 +62,6 @@
                                    (* 0.5 (+ ?machiavellianism
                                              ?narcissism))))))))
 
-      (utility want)
+      (declare-utility want)
       (effects
         (maintain-proposal {@self kill ?victim})))))

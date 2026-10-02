@@ -24,7 +24,7 @@
       (when (>= (days-since-last {@self GIVE-ALMS /succ /ever}) 20))
       ; compassion x a slow days-since ramp, capped low (rare deep-idle draw); the
       ; uncompassionate stay below every routine act, so they never give.
-      (utility want (* 10.0 (* ?compassion
+      (declare-utility want (* 10.0 (* ?compassion
                   (min (* (days-since-last-float {@self GIVE-ALMS /succ /ever}) 0.8) 25.0))))
       (effects
         (if (spatial @self building ?venue)

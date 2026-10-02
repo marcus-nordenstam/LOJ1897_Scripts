@@ -72,7 +72,7 @@
 ;      ;; (the (when) trainee-rank gate), the proposal stands; the moment seek-indenture's
 ;      ;; ENROL files his clerk row and hire-beliefs mints {@self job ...}, both gates fall
 ;      ;; and maintain-proposal withdraws. The task never ends the motivating proposal.
-;      (utility errand)
+;      (declare-utility errand)
 ;      (effects (maintain-proposal {@self seek-indenture ?org_record})))))
 
 (think apprenticeship-completion

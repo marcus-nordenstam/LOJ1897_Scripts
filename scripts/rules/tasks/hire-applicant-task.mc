@@ -12,9 +12,9 @@
 ; fills it, and the saying stage never runs (measured: HIRE /succ, the word interrupted).
 ; The conclusion is its own rung because a PROPOSED word is not a spoken one: this errand
 ; exists to make the man hold the seat as his, and until his answer has actually landed -
-; the SAY concluded /succ - it is not done. Concluding beside the proposal would leave the
+; the tell concluded /succ - it is not done. Concluding beside the proposal would leave the
 ; officer certain she had answered a man who never heard her, and his own errand waits on
-; that word (measured: her SAYs are interrupted like any other act).
+; that word (measured: her words are interrupted like any other act).
 ; ----------------------------------------------------------------------------
 
 (task {@self hire-applicant ?applicant ?job}:?hire-applicant
@@ -41,7 +41,7 @@
                     -{?applicant job ?}  ; he holds no seat I know of
                     -{? job ?job}        ; and nobody holds the one he came for
                     -{@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
-          (utility obligation always-pick)
+          (declare-utility obligation always-pick)
           (effects
             (any {?job job-id ?line})
             (maintain-proposal {@self HIRE ?applicant ?line}))))
@@ -53,14 +53,14 @@
       ; and the message QUOTES, so the (o ..) resolves in HIS mind.
       (try
         (role @self {@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
-                    -{@self SAY ? ?applicant /succ /caused_by ?hire-applicant}
-          (utility obligation always-pick)
+                    -{@self tell ? ?applicant /succ /caused_by ?hire-applicant}
+          (declare-utility obligation always-pick)
           (effects
             (any {?job job-id ?line})
             (kind ?job): ?jk
             (utterable-msg {@you job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
             (check ?msg)
-            (maintain-proposal {@self SAY ?msg ?applicant})
+            (maintain-proposal {@self tell ?msg ?applicant})
             (if -{?applicant job ?job} (then (begin-belief {?applicant job ?job})))
             (for-each ?offered-to (every {?job offered-to ?}) (end-belief ?offered-to)))))
 
@@ -68,8 +68,8 @@
       ; point of the errand, so it ends.
       (try
         (role @self {@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
-                    {@self SAY ? ?applicant /succ /caused_by ?hire-applicant}
-          (utility obligation always-pick)
+                    {@self tell ? ?applicant /succ /caused_by ?hire-applicant}
+          (declare-utility obligation always-pick)
           (effects (set-outcome ?hire-applicant /succ))))
 
       ; TURN HIM AWAY: his seat is held, and not by him - he is told who holds it, and that
@@ -80,21 +80,21 @@
                     {? job ?job}          ; somebody holds the seat he came for
                     -{?applicant job ?}   ; and it is not him
                     -{@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
-                    -{@self SAY ? ?applicant /succ /caused_by ?hire-applicant}
-          (utility obligation always-pick)
+                    -{@self tell ? ?applicant /succ /caused_by ?hire-applicant}
+          (declare-utility obligation always-pick)
           (effects
             (any {?job job-id ?line})
             (kind ?job): ?jk
             (any {?holder job ?job})
             (utterable-msg {?holder job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
             (check ?msg)
-            (maintain-proposal {@self SAY ?msg ?applicant}))))
+            (maintain-proposal {@self tell ?msg ?applicant}))))
 
       ; TURNED AWAY: the refusal landed, and he knows whose the seat is.
       (try
         (role @self {? job ?job}
                     -{?applicant job ?}
                     -{@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
-                    {@self SAY ? ?applicant /succ /caused_by ?hire-applicant}
-          (utility obligation always-pick)
+                    {@self tell ? ?applicant /succ /caused_by ?hire-applicant}
+          (declare-utility obligation always-pick)
           (effects (set-outcome ?hire-applicant /fail)))))))

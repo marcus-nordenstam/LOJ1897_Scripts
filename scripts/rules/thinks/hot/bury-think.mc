@@ -25,7 +25,7 @@
 ;     (the generic go task routes him into a church he knows - the graveyard
 ;     room the convey deposit files bodies into). CEASES the instant co-present
 ;     flips true (he has reached the body).
-;   announce-burial: once his OWN rite has ended, PROPOSE the broadcast {@self SAY ..}
+;   announce-burial: once his OWN rite has ended, PROPOSE the broadcast {@self tell ..}
 ;     that tells the mourners still in the room the interment is done. bury_act does not
 ;     speak - saying something is the SAY act's job, so the words compete like any other
 ;     utterance. Keyed /caused_by the rite, so it is said once per burial.
@@ -69,7 +69,7 @@
                   (select (score (months-since-death ?corpse)) (policy argmax))
       (role ?church [k building church] (select (score (near @self ?church)) (policy roulette unknown-last))
         (when (>= (months-since-death ?corpse) 1))
-        (utility obligation (above WORSHIP))
+        (declare-utility obligation (above WORSHIP))
         (effects (maintain-proposal {@self go ?church}))))))
 
 ; ONSITE rung. While the priest is CO-PRESENT with the overdue body, PROPOSE
@@ -84,18 +84,18 @@
                   (spatial ?corpse co-located @self)
                   (select (score (months-since-death ?corpse)) (policy argmax))
       (when (>= (months-since-death ?corpse) 1))
-      (utility obligation (above WORSHIP))
+      (declare-utility obligation (above WORSHIP))
       (effects (maintain-proposal {@self BURY ?corpse})))))
 
 ; ANNOUNCE rung. The rite is silent; the WORDS are their own act. Once the priest's own
-; {@self BURY ?corpse} has ended he proposes a broadcast SAY of the interment, heard by
+; {@self BURY ?corpse} has ended he proposes a broadcast tell of the interment, heard by
 ; whoever is still co-present. The /caused_by dedup is per-RITE, so each burial is
 ; announced exactly once however long the record lives; a priest with nobody left in the
 ; room simply says it to an empty room, which is what a real one does.
 (think announce-burial
   (role @self {@self job [k job priest]}
     (role ?corpse {@self BURY ?corpse /past}:?BURY
-      (when -{@self SAY ? /succ /caused_by ?BURY})
-      (utility want)
+      (when -{@self tell ? /succ /caused_by ?BURY})
+      (declare-utility want)
       (effects
-        (maintain-proposal {@self SAY (utterable-msg {?corpse internment [k buried]}) _})))))
+        (maintain-proposal {@self tell (utterable-msg {?corpse internment [k buried]}) _})))))

@@ -22,5 +22,5 @@
       (when (or {@self lover ?}
                 {@self goal {@self stow}}))
 
-      (utility want)
+      (declare-utility want)
       (effects (maintain-proposal {@self MAKE-CACHE ?building})))))

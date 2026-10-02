@@ -27,20 +27,13 @@
                 {@self (closeness-labels acquaintance) ?killer /ever}
                 (!= ?killer ?victim)
     (and
-      ; REACH the prospective killer.
+      ; SOLICIT: put the contract to the prospective killer (the words are the deed).
       (try
-        (when (and (not (spatial ?killer co-located @self))
-                   (spatial ?killer space)))
-        (utility survival)
-        (effects (maintain-proposal {@self go ?killer})))
-
-      ; SOLICIT: co-present, put the contract to them (a SAY - the words are the deed).
-      (try
-        (when (spatial ?killer co-located @self))
-        (utility survival always-pick)
-        (effects (maintain-proposal {@self SAY (utterable-msg {?killer kill ?victim}) ?killer})))
+        (when (or (spatial ?killer co-located @self) (spatial ?killer space)))
+        (declare-utility survival always-pick)
+        (effects (maintain-proposal {@self tell (utterable-msg {?killer kill ?victim}) ?killer})))
 
       ; CONCLUDE once the solicitation has been spoken.
       (try
-        (when {@self SAY ? /succ /caused_by ?hire-assassin})
+        (when {@self tell ? ?killer /succ /caused_by ?hire-assassin})
         (effects (set-outcome ?hire-assassin /succ))))))

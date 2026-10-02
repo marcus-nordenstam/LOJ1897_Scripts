@@ -35,7 +35,7 @@
                               (- 1.0 ?compassion))
                            0.05 0.95))))
   
-      (utility survival always-pick)
+      (declare-utility survival always-pick)
   
       (effects
         (maintain-proposal {@self fight ?foe /caused_by ?violent-to})))))

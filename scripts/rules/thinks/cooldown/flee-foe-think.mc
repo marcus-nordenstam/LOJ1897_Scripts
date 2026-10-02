@@ -28,7 +28,7 @@
                               ?compassion)
                            0.05 0.95)))
   
-      (utility survival always-pick)
+      (declare-utility survival always-pick)
   
       (effects
         ; Run for home - a known refuge; if @self has none, no flight (they stand and take it).

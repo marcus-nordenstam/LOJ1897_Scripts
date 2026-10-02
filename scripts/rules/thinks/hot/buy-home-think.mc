@@ -84,7 +84,7 @@
 ;  (goal {@self acquire})
 ;  (no-role [k org house-agency])
 ;  (role @self -{? availability [k for-sale]}   ; no listing read yet - cached
-;    (utility errand)
+;    (declare-utility errand)
 ;    (effects       (begin-goal {@self ORIENT}))
 ;    (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ))))
 
@@ -105,7 +105,7 @@
 ;                         (policy roulette))
 ;      (when (and (>= ?wealth (* (dwelling-value ?dwell) 0.15))
 ;                 (bb-public-none ?dwell claimed)))
-;      (utility errand)
+;      (declare-utility errand)
 ;      (effects
 ;        (bb-public-maintain ?dwell claimed @self (claim_marker_ttl_cycles))
 ;        (begin-goal {@self buy-home ?dwell}))

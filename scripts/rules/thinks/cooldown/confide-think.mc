@@ -35,8 +35,8 @@
     ; Roll the disclosure - once per discloser per month, weighted by extraversion.
     (when (chance (* 0.08 (+ 0.5 ?enthusiasm))))
 
-    (utility want)
+    (declare-utility want)
 
     (effects
       (nl-utterable-msg "I am called to ?domain"): ?msg
-      (maintain-proposal {@self SAY ?msg _}))))
+      (maintain-proposal {@self tell ?msg _}))))

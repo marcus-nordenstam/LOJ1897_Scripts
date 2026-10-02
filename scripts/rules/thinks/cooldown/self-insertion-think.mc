@@ -16,7 +16,7 @@
     ; His own overt-method kill: the corpse whose mystery he inserts himself into.
     (role ?victim {@self strangle|shoot ?victim /succ /ever}
                   (not (alive ?victim))
-      (utility want)
+      (declare-utility want)
       (stable-or
         (try
           (role ?innocent {@self denounce ?innocent ?victim}

@@ -63,6 +63,6 @@
                  (or {@self kill ?victim}
                      (chance (* (crime-scale) 0.02
                                 (* (- 1.0 ?inhibition) (* 0.5 (+ ?volatility ?psychopathy))))))))
-      (utility want)
+      (declare-utility want)
       (effects
         (maintain-proposal {@self kill ?victim /caused_by ?crave_bond})))))

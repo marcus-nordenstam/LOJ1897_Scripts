@@ -42,6 +42,6 @@
 ;               (>= (days-since-last {@self ORIENT /ever}) 1)
 ;               (latch-eval (chance 0.3))))
 
-;    (utility errand)
+;    (declare-utility errand)
 ;    (effects       (begin-goal {@self ORIENT}))
 ;    (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ))))

@@ -8,6 +8,9 @@
 #"Good day to you"                   ( formulaic opening goodDay @unknown )    .
 #"Good day to you, too"              ( formulaic response goodDay @unknown )  .
 
+"Good day"                          ( formulaic opening greeting )              .
+"Good day to you"                   ( formulaic response greeting )             .
+
 "How do you do"                     ( formulaic opening how_do @unknown )       .
 "How do you do <r>"                 ( formulaic response how_do @unknown )      .
 
@@ -16,6 +19,8 @@
 
 #"A moment, if you please; I am engaged in conversation"                        ( formulaic refusal conv busy ) .
 "I can't talk right now because $st(ST)"                                        ( formulaic refusal $st(ST) ) .
+"I can't stop now"                                                              ( formulaic refusal busy ) .
+"Leave me be"                                                                   ( formulaic rebuff ) .
 
 # Letter envelope lines. "Signed, <name>" is the AUTHOR rider, "To <name>" the
 # ADDRESSEE rider: the composer (compose_nl_msg) lifts a (/rider ..) form into the

@@ -57,5 +57,5 @@
 ;                 (<= (years-old @self) 65)
 ;                 (>= ?prestige 0.65)))
 
-;      (utility errand)
+;      (declare-utility errand)
 ;      (effects (maintain-proposal {@self seek-appointment ?articles})))))
