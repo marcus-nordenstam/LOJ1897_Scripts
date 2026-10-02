@@ -25,16 +25,24 @@
   (lint-waive try-rungs-not-exclusive)
   (init (check (is-a ?partner [k human])))
   (and
-    ; Keeping company: on his way to him, then facing him and listening.
+    ; Keeping company: on his way to stand before him, then facing him and listening. Each step
+    ; is its own rung, since a rung's effects run once and only its (when) is re-checked.
     (try
-      (effects
-        (bb-public-maintain @self conversing ?partner (conversing_ttl_cycles))
-        (if (in-earshot ?partner)
-            (then (maintain-proposal {@self LOOK-AT ?partner})
-                  (if (is-facing @self ?partner)
-                      (then (maintain-proposal {@self CHAT ?partner}))
-                      (else (maintain-proposal {@self TURN-TO ?partner}))))
-            (else (maintain-proposal {@self go ?partner})))))
+      (effects (bb-public-maintain @self conversing ?partner (conversing_ttl_cycles))))
+    (try
+      (when (not (standing-before ?partner)))
+      (effects (maintain-proposal {@self go ?partner})))
+    (try
+      (when (standing-before ?partner))
+      (effects (maintain-proposal {@self LOOK-AT ?partner})))
+    (try
+      (when (standing-before ?partner)
+            (not (is-facing @self ?partner)))
+      (effects (maintain-proposal {@self TURN-TO ?partner})))
+    (try
+      (when (standing-before ?partner)
+            (is-facing @self ?partner))
+      (effects (maintain-proposal {@self CHAT ?partner})))
 
     (try
       (when {@self go ?partner /fail /caused_by ?converse})

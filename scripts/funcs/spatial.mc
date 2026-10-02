@@ -104,6 +104,12 @@
 (define-func stand-spot-by (?ent)
   (maintain-claim-spot @self [/on_floor_of (spatial ?ent space)] [/near ?ent] [/at_or_near @self]))
 
+; Where @self stands to face a man: the free floor before his front, else beside him when his
+; front is taken.
+(define-func stand-spot-before (?person)
+  (maintain-claim-spot @self [/in_front_of ?person] [/at_or_near @self]): ?front
+  (if (is-spot ?front) (then ?front) (else (stand-spot-by ?person))))
+
 ; The box @self heads for when far from ?ent: the one he sees, else the one he remembers, and
 ; for a structure he never had a box for, the world's - where a building stands is public.
 (define-func known-box (?ent)

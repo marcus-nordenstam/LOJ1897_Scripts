@@ -19,9 +19,14 @@
 (include "../macros/tunables.mc")
 
 ; (in-earshot ?listener) - @self believes ?listener hears what he says: co-presence, which is
-; what the hearing pass delivers a speech sound by, and where go stops when bound for a man.
+; what the hearing pass delivers a speech sound by.
 (define-func in-earshot (?listener)
   (spatial ?listener co-located @self))
+
+; (standing-before ?partner) - @self stands with ?partner to talk: in earshot, on the spot
+; before him (stand-spot-before), where go to a man brings him.
+(define-func standing-before (?partner)
+  (and (in-earshot ?partner) (overlaps (stand-spot-before ?partner) @self)))
 
 ; (call-msg ?msg) - ?msg is called out rather than spoken: a hail, and the answers to one.
 ; deliver-speech makes it a [k shout], which carries (k-call-earshot).

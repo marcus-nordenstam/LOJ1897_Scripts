@@ -41,11 +41,14 @@
 
 ; At a thing means in its space and either within reach of it or on the spot by it this go
 ; walked him onto - the nearest free floor to a thing set on furniture can be out of reach.
+; At a man means on the spot before him: being near him from the side is not being with him.
 (define-func go-arrived (?dest ?go)
   (cond (case (is-spot ?dest) (overlaps ?dest @self))
         (case (is-a ?dest [k building]) (spatial @self building ?dest))
         (case (is-a ?dest [k unit]) (spatial @self unit ?dest))
         (case (is-a ?dest [k space]) (spatial @self space ?dest))
+        (case (is-a ?dest [k human]) (and (spatial ?dest co-located @self)
+                                          (overlaps (stand-spot-before ?dest) @self)))
         (else (and (spatial ?dest co-located @self)
                    (or (< (distance @self ?dest) (near_reach_m))
                        (substantial (any {@self WALK ? /succ /caused_by ?go})))))): ?there
@@ -78,6 +81,7 @@
   (cond (case (is-spot ?dest) ?dest)
         (case (not (go-near ?dest)) (tolerate (travel-spot (known-box ?dest))))
         (case (is-a ?dest [k space]) (stand-spot-in ?dest))
+        (case (is-a ?dest [k human]) (stand-spot-before ?dest))
         (case (substantial (tolerate (spatial ?dest bounds))) (stand-spot-by ?dest))
         (else (tolerate (travel-spot (known-box ?dest))))): ?spot
   ?spot)
