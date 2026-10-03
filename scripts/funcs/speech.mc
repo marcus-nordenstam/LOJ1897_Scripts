@@ -10,19 +10,18 @@
 ; promotion; SAY.mc's (xaction ?xsay) hands this func that ABS twin. All that is
 ; left is making it audible: a [k speech] sound entity at the speaker's own bounds
 ; carrying the twin, so the objective record the world hears can never drift from
-; the speaker's own. Co-present NPCs overhear it on the next perception pass; a
-; preroll of 0 makes it audible this instant.
+; the speaker's own. Everyone within its radius hears it on the next perception pass
+; (in-earshot); a preroll of 0 makes it audible this instant.
 ;
 ; A DIRECTED say stamps the addressee in the act's /aux (the per-listener "told"
-; dedup); a BROADCAST leaves it absent. Delivery is by co-presence either way -
-; the addressee is who it is ADDRESSED to, never who receives it. A call (call-msg,
-; funcs/conversation.mc) is a [k shout], whose box carries it further.
+; dedup); a BROADCAST leaves it absent. Delivery is by earshot either way - the
+; addressee is who it is ADDRESSED to, never who receives it. Which sound it makes is
+; (speech-sound ..) (funcs/conversation.mc), the one choice tell measures by too.
 ; ----------------------------------------------------------------------------
 
 (define-func deliver-speech (?xsay)
   (do
-    (create-entity (if (call-msg ?xsay.target) (then [k shout]) (else [k speech]))
-                   (spatial @self bounds /env)): ?sound
+    (create-entity (speech-sound ?xsay.target) (spatial @self bounds /env)): ?sound
     (set-attr ?sound create-action ?xsay)
     (set-attr ?sound speaker @self)
     (set-attr ?sound preroll 0)))

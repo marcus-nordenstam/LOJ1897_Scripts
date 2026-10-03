@@ -18,47 +18,30 @@
 
 (include "../macros/tunables.mc")
 
-; (in-earshot ?listener) - @self believes ?listener hears what he says: co-presence, which is
-; what the hearing pass delivers a speech sound by.
-(define-func in-earshot (?listener)
-  (spatial ?listener co-located @self))
-
-; (standing-before ?partner) - @self stands with ?partner to talk: in earshot, on the spot
-; before him (stand-spot-before), where go to a man brings him.
+; (standing-before ?partner) - @self stands with ?partner to talk: within earshot of his
+; speaking voice, on the spot before him (stand-spot-before), where go to a man brings him.
 (define-func standing-before (?partner)
-  (and (in-earshot ?partner) (walked-before ?partner)))
+  (and (in-earshot ?partner [k speech]) (walked-before ?partner)))
 
 ; (call-msg ?msg) - ?msg is called out rather than spoken: a hail, and the answers to one.
-; deliver-speech makes it a [k shout], which carries (k-call-earshot).
 (define-func call-msg (?msg)
   (and (eq-func-name ?msg formulaic)
        (or (eq (nth 1 ?msg) opening) (eq (nth 1 ?msg) response)
            (eq (nth 1 ?msg) refusal) (eq (nth 1 ?msg) rebuff))))
 
-; (within-call ?listener) - @self believes ?listener would hear him call out: seen in his space
-; no further off than his voice carries, or heard calling to @self a moment ago - hearing a man
-; tells you nothing of where he stands, but a voice that reached you can be answered.
+; (speech-sound ?msg) - the sound saying ?msg makes: a [k shout] called out, else [k speech].
+(define-func speech-sound (?msg)
+  (if (call-msg ?msg) (then [k shout]) (else [k speech])))
+
+; (within-call ?listener) - ?listener would hear @self call out, as @self knows where he
+; stands - seen, or heard: a voice places the man it came from.
 (define-func within-call (?listener)
-  (or (and (eq (spatial ?listener space) (spatial @self space))
-           (<= (distance @self ?listener) (k-call-earshot)))
-      (heard-calling ?listener)))
+  (in-earshot ?listener [k shout]))
 
-; (heard-calling ?caller) - ?caller called out to @self no more than (k-call-answer-seconds) ago.
-(define-func heard-calling (?caller)
-  (bind @nothing ?heard)
-  (for-each ?call (every {?caller SAY ? @self /past})
-    (if (and (call-msg ?call.target)
-             (<= (elapsed /seconds ?call) (k-call-answer-seconds)))
-        (then
-          (bind @true ?heard)
-          (break))))
-  ?heard)
-
-; (within-voice ?listener ?msg) - ?listener would hear @self say ?msg: called out, within
-; call; spoken, in earshot. tell closes on its audience until this holds.
+; (within-voice ?listener ?msg) - ?listener would hear @self say ?msg. tell closes on its
+; audience until this holds.
 (define-func within-voice (?listener ?msg)
-  (or (in-earshot ?listener)
-      (and (call-msg ?msg) (within-call ?listener))))
+  (in-earshot ?listener (speech-sound ?msg)))
 
 ; (answers-to ?speaker) - @self is bound to heed ?speaker's hail: his master, his mother or
 ; his father.
@@ -146,19 +129,18 @@
   (any-happened-since (every {@self converse ?partner /past})
                       (any {@self goal {@self converse ?partner}})))
 
-; (can-hail ?thing) - the player can hail ?thing: a living man within call, as the world has
-; it - the player holds no beliefs. Only distance bounds a call: the host asks about the man
-; under the aim dot, whom the player sees, whatever space he stands in. The host shows its
-; Talk hint and lets T hail him on it.
+; (can-hail ?thing) - the player can hail ?thing: a living man who would hear him call out, as
+; the world has it - the player holds no beliefs. The host shows its Talk hint and lets T hail
+; him on it.
 (define-func can-hail (?thing)
   (and (is-a ?thing [k human])
        (neq (attr ?thing condition) [k dead])
-       (<= (distance @self ?thing) (k-call-earshot))))
+       (within-call ?thing)))
 
-; (engaged-here ?npc) - ?npc has taken up the player's hail and come to him: the host opens
-; the dialogue on it, and not while he is still on his way.
+; (engaged-here ?npc) - ?npc has taken up the player's hail and come within earshot of his
+; speaking voice: the host opens the dialogue on it, and not while he is still on his way.
 (define-func engaged-here (?npc)
-  (and (engaged-with ?npc) (spatial ?npc co-located @self /env)))
+  (and (engaged-with ?npc) (in-earshot ?npc [k speech])))
 
 ; (player-opening) - the line the player hails a man with.
 (define-func player-opening ()

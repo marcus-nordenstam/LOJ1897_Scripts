@@ -1,12 +1,11 @@
 ; ----------------------------------------------------------------------------
 ; sounds.mc - the size of every sound the town makes. A sound has no asset to take a
-; box from, so its kind declares one: its half-extents ARE how far it carries. The
-; engine hears it within that box, never past the speaker's space.
+; box from, so its kind declares one: its radius IS how far it carries, through walls or
+; not. The engine hears it, and (in-earshot ..) judges who would, within that radius of
+; where it was made.
 ; ----------------------------------------------------------------------------
 
 (include "../macros/tunables.mc")
-
-(define-macro k-speech-earshot () 6.0)
 
 (define-bounds speech (radius (k-speech-earshot)))
 

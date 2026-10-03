@@ -3,7 +3,7 @@
 ; {@self SAY ?msg ?audience}; this pure act says it aloud. A substantial
 ; ?audience is a DIRECTED say (the SAY memory's /aux is the listener - the
 ; per-listener untold dedup); an absent audience (_) is an open BROADCAST.
-; Delivery is by co-presence either way.
+; Delivery is by earshot either way (in-earshot).
 ;
 ; The act-belief the head binds IS the utterance record - born at the install,
 ; ended here. (xaction ?xsay) hands the body that act's ABS twin, externalized at

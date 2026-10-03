@@ -214,13 +214,10 @@
 (define-macro k-hail-acquaintance-value () 500.0)
 (define-macro k-hail-bond-value         () 800.0)
 
-; How far a man's voice carries when he calls out - a hail, and the answers to one - rather
-; than speaks. The [k shout] sound's half-extent (bounds/sounds.mc).
-(define-macro k-call-earshot () 20.0)
-
-; How long after a man called out to him a listener can still call back and be heard: the
-; caller is where his voice came from, seen or not.
-(define-macro k-call-answer-seconds () 10)
+; How far a voice carries, through walls or not: spoken, and called out - a hail, and the
+; answers to one. The [k speech] and [k shout] sounds' radii (bounds/sounds.mc).
+(define-macro k-speech-earshot () 8.0)
+(define-macro k-call-earshot () 50.0)
 
 ; How far taking up a hail outbids what was set aside for it. A tie goes to the act already
 ; running, so without it the conversation could never start.
