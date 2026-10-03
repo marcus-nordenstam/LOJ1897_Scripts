@@ -78,6 +78,35 @@
   (for-each ?way (spatial ?place parts [k interior-space room] /env)
     (observe ?way)))
 
+; The first ?kind part of ?whole @self knows whose box overlaps ?thing, or @nothing.
+(define-func first-overlapping-part (?whole ?kind ?thing)
+  (bind @nothing ?found)
+  (for-each ?part (spatial ?whole parts ?kind)
+    (if (and (unsubstantial ?found) (overlaps ?part ?thing))
+      (then (bind ?part ?found))))
+  ?found)
+
+; The movable barrier that closes ?way, an opening of ?place (a building or a unit): one of
+; ?place's own parts, else - for a unit - one of its building's. @nothing when he knows none,
+; and an opening with no barrier is always open.
+(define-func barrier-of (?place ?way)
+  (first-overlapping-part ?place [k movable-barrier] ?way): ?own
+  (cond (case (substantial ?own) ?own)
+        (case (is-a ?place [k unit])
+          (first-overlapping-part (spatial ?place building) [k movable-barrier] ?way))
+        (else @nothing)))
+
+; ?barrier bars the way as @self believes it: shut and unbroken. @nothing bars nothing.
+(define-func barred (?barrier)
+  (and (substantial ?barrier)
+       (substantial (any {?barrier opening-status [k shut]}))
+       (unsubstantial (any {?barrier integrity [k broken]}))))
+
+; ?barrier bars the way and @self believes it locked: opening it will not do.
+(define-func barred-locked (?barrier)
+  (and (barred ?barrier)
+       (substantial (any {?barrier lock-status [k locked]}))))
+
 ; ?bldg is entered as a whole: through an entrance its units share, or - holding no units - as
 ; its own one household. A building of units without a shared entrance is entered unit by unit,
 ; each through its own door.

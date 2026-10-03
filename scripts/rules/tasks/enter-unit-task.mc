@@ -5,7 +5,8 @@
 ; already taken him through (a block of flats). Either way the walk is one path.
 ;
 ; FAR he walks to its travel spot; AT ITS DOOR he looks through, learning the spaces behind it,
-; and walks onto a spot on the floor of its entrance.
+; opens the door when he believes it shut, and walks onto a spot on the floor of its entrance. A
+; door he believes locked stalls him outside.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -38,7 +39,18 @@
       (when (< (distance @self ?unit) (near_building_m))
             (knows-every ?unit [k interior-space entrance])
             (entrance-space ?unit): ?way
-            (substantial ?way))
+            (substantial ?way)
+            (barrier-of ?unit ?way): ?barrier
+            (barred ?barrier)
+            (not (barred-locked ?barrier)))
+      (effects (maintain-proposal {@self open-barrier ?barrier})))
+    (try
+      (when (< (distance @self ?unit) (near_building_m))
+            (knows-every ?unit [k interior-space entrance])
+            (entrance-space ?unit): ?way
+            (substantial ?way)
+            (barrier-of ?unit ?way): ?barrier
+            (not (barred ?barrier)))
       (when (poll (stand-spot-in ?way): ?spot))
       (effects
         (check (grounded ?way))

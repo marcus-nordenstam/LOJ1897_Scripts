@@ -44,6 +44,14 @@
           (if (is-spot ?step)
               (then (maintain-proposal {@self WALK ?step})))))
 
+      ; A door he believes shut he opens; one he believes locked holds him inside.
+      (stage
+        (bind (if (substantial ?entry) (then (barrier-of ?unit ?entry)) (else @nothing)) ?barrier)
+        (when (not (barred-locked ?barrier)))
+        (effects
+          (if (barred ?barrier)
+              (then (maintain-proposal {@self open-barrier ?barrier})))))
+
       (stage
         (bind (spatial @self building) ?bldg)
         (bind (shared-room-past ?unit ?entry) ?past)

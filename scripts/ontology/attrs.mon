@@ -280,12 +280,13 @@
 (attr struct-status (type kind status) (default open) (per obs) (auto-percept))
 # An articulated part's opening state (ajar|shut) and lock state (locked|unlocked) - a
 # door, a window, a drawer. Kind-valued @excl, perceived on sight (a thief cases a lock).
-# A part loads SHUT and UNLOCKED; opening-status is derived from open-amount by
-# (articulate ..), which is the only writer of either.
-(attr opening-status (type kind) (default shut) (per obs) (auto-percept))
+# A part loads SHUT and UNLOCKED. The act that moves a part writes its opening-status once,
+# when it concludes, so a part half way through a swing still reads what it was.
+# (nav-gate): on a movable barrier, the attr whose value decides whether the opening it
+# closes lets a body through - a nav_passable value (concepts.mon) does.
+(attr opening-status (type kind) (default shut) (per obs) (auto-percept) (nav-gate))
 (attr lock-status (type kind) (default unlocked) (per obs) (auto-percept))
-# How far open, 0 shut .. 1 fully open; the whole state (articulate ..) swings or slides a
-# part to.
+# How far open, 0 shut .. 1 fully open: the pose (articulate ..) swings or slides a part to.
 (attr open-amount (type float) (range 0 1) (default 0) (per obs) (auto-percept))
 # A door's hinge: the side of its own box it swings about, and the signed degrees of a
 # full swing (negative swings the other way).
@@ -293,8 +294,8 @@
 (attr swing-angle (type float) (range -180 180) (default 90) (imperceptible))
 # A drawer's travel when fully open, as a fraction of its own depth.
 (attr drawer-travel (type float) (range 0 1) (default 0.8) (imperceptible))
-# Structural integrity of an opening (intact|broken) - distinct from the condition axis.
-(attr integrity (type kind) (default intact) (per obs) (auto-percept))
+# Structural integrity of a barrier (intact|broken) - distinct from the condition axis.
+(attr integrity (type kind) (default intact) (per obs) (auto-percept) (nav-gate))
 # Era bounds - the building physically exists from era-min to era-max.
 (attr era-min (type date) (imperceptible))
 (attr era-max (type date) (imperceptible))
@@ -378,18 +379,8 @@
 # minds. Absent = the kind's default variation.
 (attr variant (type str) (imperceptible))
 
-# Navigation v2 (see Merlin/Docs/nav_v2_plan.md)
-# /is-nav-passage - runtime gate: 1 = passable, 0 = dormant. Action handlers
-#   flip this on the opening entity (door/gate/large_window). nav_graph
-#   subscribes and toggles the corresponding macro-graph passage edge.
 # /nav-mesh - Hstr cache key for the structure's baked nav-mesh data;
 #   written by Player at scene load when an island is registered.
-# Throat geometry, opening identity and binding are all derived at scene-
-# load from the opening Merlin entity's own TransformComponent (position,
-# rotation, scale-as-half-extents per mx_radii_from_world_scale) plus its
-# spatial relationship to nearby nav-meshes. No /opening_name attr; no
-# /passage_throat_obb attr.
-(attr is-nav-passage (type int) (range 0 1) (spec-attr is-nav-passage) (per obs))
 (attr nav-mesh (type str) (spec-attr nav-mesh) (imperceptible))
 # /blocks-nav-terrain - when 1, the entity's OBB footprint rasterises as a
 # terrain-walkability blocker during t_nav_terrain::build (nav_v2_plan.md §7).

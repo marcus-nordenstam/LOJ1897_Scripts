@@ -155,7 +155,7 @@
 ; (openable-in-reach ?thing) - ?thing swings or slides and @self can reach it: the
 ; precondition OPEN and CLOSE check, asserted here by their proposer, the player's aim.
 (define-func openable-in-reach (?thing)
-  (and (or (is-a ?thing [k drawer]) (is-a ?thing [k opening]))
+  (and (articulated ?thing)
        (spatial ?thing co-located @self /env)))
 
 ; (openable-hint ?thing) - the word the host shows beside the aim dot for ?thing: Locked for a
@@ -163,18 +163,16 @@
 ; neither swings nor slides or that @self cannot reach. The host prints it and knows nothing
 ; of the attrs behind it.
 (define-func openable-hint (?thing)
-  (if (openable-in-reach ?thing)
-      (then (if (eq (attr ?thing lock-status) [k locked])
-                (then "Locked")
-                (else (if (eq (attr ?thing opening-status) [k shut]) (then "Open") (else "Close")))))
-      (else @false)))
+  (cond (case (not (openable-in-reach ?thing)) @false)
+        (case (eq (attr ?thing lock-status) [k locked]) "Locked")
+        (case (eq (attr ?thing opening-status) [k shut]) "Open")
+        (else "Close")))
 
 ; (openable-act ?thing) - the act the host starts on ?thing when the player asks: OPEN on a
 ; shut door or drawer, CLOSE on an ajar one; @false when it is locked, out of reach or opens
 ; nothing.
 (define-func openable-act (?thing)
-  (if (openable-in-reach ?thing)
-      (then (if (eq (attr ?thing lock-status) [k locked])
-                (then @false)
-                (else (if (eq (attr ?thing opening-status) [k shut]) (then "OPEN") (else "CLOSE")))))
-      (else @false)))
+  (cond (case (not (openable-in-reach ?thing)) @false)
+        (case (eq (attr ?thing lock-status) [k locked]) @false)
+        (case (eq (attr ?thing opening-status) [k shut]) "OPEN")
+        (else "CLOSE")))

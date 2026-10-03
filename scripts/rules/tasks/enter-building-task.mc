@@ -4,9 +4,10 @@
 ; building of units with no shared entrance is entered unit by unit (enter-unit).
 ;
 ; FAR he walks to its travel spot; AT THE HULL he looks through the door, which is how a man
-; learns the spaces behind it, and walks onto a spot on the floor of its entrance; a building
-; with no entrance of its own cannot be entered. A CLOSED building matches no hull rung and the task stalls rather than lying:
-; the locked-door / key / force-entry rungs plug in there.
+; learns the spaces behind it, opens the entrance's door when he believes it shut, and walks onto
+; a spot on the floor of its entrance; a building with no entrance of its own cannot be entered.
+; A CLOSED building, or an entrance whose door he believes locked, matches no hull rung and the
+; task stalls rather than lying: the key / force-entry rungs plug in there.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -44,7 +45,19 @@
       (when (< (distance @self ?bldg) (near_building_m))
             (knows-every ?bldg [k interior-space entrance])
             (entrance-space ?bldg): ?way
-            (substantial ?way))
+            (substantial ?way)
+            (barrier-of ?bldg ?way): ?barrier
+            (barred ?barrier)
+            (not (barred-locked ?barrier)))
+      (when -{?bldg struct-status [k closed]})
+      (effects (maintain-proposal {@self open-barrier ?barrier})))
+    (try
+      (when (< (distance @self ?bldg) (near_building_m))
+            (knows-every ?bldg [k interior-space entrance])
+            (entrance-space ?bldg): ?way
+            (substantial ?way)
+            (barrier-of ?bldg ?way): ?barrier
+            (not (barred ?barrier)))
       (when -{?bldg struct-status [k closed]})
       (when (poll (stand-spot-in ?way): ?spot))
       (effects

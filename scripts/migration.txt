@@ -2,6 +2,9 @@
 # Format: "kind oldName = newName" or "attr oldName = newName"
 # Loaded by Editor on startup to remap MerlinComponent data on scene load.
 # Re-save scenes after loading to persist the new names.
+# A remap rewrites a WORD wherever it appears in a stored kind path, so a term the ontology
+# reuses for a new kind is never remapped: `opening` (once the door / window parent, now
+# movable-barrier) names the interior-space opening, and no line maps it.
 
 # --- Kind renames ---
 

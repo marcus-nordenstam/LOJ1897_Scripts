@@ -30,23 +30,25 @@
   (child status
     (children open closed))
 
-  # An opening's leaf position (@excl - one at a time): ajar = a passable gap,
+  # A movable barrier's leaf position (@excl - one at a time): ajar = a passable gap,
   # shut = the leaf drawn to (still openable if unlocked). The opening-status attr
-  # on a door / window (things.mon (structure-part)), perceived on sight. Unset reads neither.
+  # on a door / window / drawer, perceived on sight. A barrier holding a nav_passable
+  # value lets a body through the opening it closes.
   (child opening-status
-    (children ajar shut))
+    (child ajar (facets nav_passable))
+    (children shut))
 
-  # An opening's lock state (@excl). The lock-status attr on a door / window.
-  # Default is unset = NOT locked (an openable door); a residence locks up via an
-  # explicit set. Perceived on sight so a thief can case it.
+  # A barrier's lock state (@excl). The lock-status attr on a door / window / drawer;
+  # a part loads unlocked. Perceived on sight so a thief can case it.
   (child lock-status
     (children locked unlocked))
 
-  # Structural integrity of an opening (@excl - distinct from the life-state
+  # Structural integrity of a barrier (@excl - distinct from the life-state
   # `condition` axis). The integrity attr on a door / window: intact until forced
-  # or smashed, then broken (a broken leaf is a permanent passable gap). Perceived.
+  # or smashed, then broken - a permanent passable gap however the leaf stands. Perceived.
   (child integrity
-    (children intact broken))
+    (children intact)
+    (child broken (facets nav_passable)))
 
   # Discretion of an acquisition (@excl): covert = leave no trace to me (steal /
   # hire someone), overt = the ordinary open purchase. Rides the aux of an acquire

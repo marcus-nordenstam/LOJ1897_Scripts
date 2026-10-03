@@ -672,11 +672,7 @@
           (population (cap 4096) (non-occluder)))
         (child mind (motor)))
       (child structure-part (composition fixture)
-        (decorations
-          (attrs is-nav-passage blemishes)
-          (attr opening-status (auto-percept) (ext-per obs))
-          (attr lock-status (auto-percept) (ext-per obs))
-          (attr integrity (auto-percept) (ext-per obs)))
+        (decorations (attrs blemishes))
         (population (cap 4096) (always-visible) (blocks-spots) (children-block-spots))
         (child counter
           (children bar-counter))
@@ -685,8 +681,14 @@
         # `name`, an address-sign its building's `address`.
         (child sign
           (children building-name-sign address-sign))
-        (child opening (+ nav_passage)
-          (decorations (attrs open-amount hinge-side swing-angle))
+        # A movable barrier closes an opening (interior-space opening): shut and intact it bars
+        # the way, ajar or broken it lets a body through.
+        (child movable-barrier (+ facets nav_barrier) (facets nav_barrier)
+          (decorations
+            (attrs open-amount hinge-side swing-angle)
+            (attr opening-status (auto-percept) (ext-per obs))
+            (attr lock-status (auto-percept) (ext-per obs))
+            (attr integrity (auto-percept) (ext-per obs)))
           (population (cap 4096))
           (children window door))))
     (child gm
@@ -726,13 +728,18 @@
     # An interior space is a room of its enclosure unless its kind says otherwise.
     (child interior-space (composition room)
       (decorations
-        (attrs variant birth-date is-nav-passage address)
+        (attrs variant birth-date address)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
       (population (cap 4096) (always-visible) (non-occluder))
       (children bar-back)
-      (child entrance (facets entrance)
-        (child main-entrance (facets entrance)))
+      # An opening is the gap in a wall a body passes through between inside and out, and the
+      # navigation passage that crosses it; its movable barrier, when it has one, opens and
+      # shuts it. A window-opening is crossed only when no entrance will do.
+      (child opening (+ nav_passage)
+        (child entrance (facets entrance)
+          (child main-entrance (facets entrance)))
+        (child window-opening (facets nav_last_resort)))
       (children doorway)
       # One home: the rooms, openings and fixed parts a household holds. Always a building's
       # part - a house has one, a duplex two, an apartment building one per apartment.
@@ -762,7 +769,7 @@
       (children stage auditorium))
     (child exterior-space
       (decorations
-        (attrs variant birth-date is-nav-passage address)
+        (attrs variant birth-date address)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
       (population (cap 4096) (always-visible) (non-occluder) (sector-coverage))
@@ -772,7 +779,7 @@
       # way up. Towns keep no sector coverage - see things.mon (town).
       (child town
         (decorations
-          (attrs -variant -birth-date -is-nav-passage -address rain snow fog wind
+          (attrs -variant -birth-date -address rain snow fog wind
                  sky mood-kinds mood-intensities mood-set-dates))
         (population (cap 16) (-sector-coverage) (no-sector-coverage)))
       (child land

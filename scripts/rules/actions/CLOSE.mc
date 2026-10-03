@@ -22,4 +22,6 @@
     (bind (max 0.0 (- (attr ?thing open-amount) (/ (act-dt) (open_seconds)))) ?amount)
     (articulate ?thing ?amount)
     (if (<= ?amount 0.0)
-        (then (set-outcome ?CLOSE /succ)))))
+        (then
+          (set-attr ?thing opening-status [k shut])
+          (set-outcome ?CLOSE /succ)))))
