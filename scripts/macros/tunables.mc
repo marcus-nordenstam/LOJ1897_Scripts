@@ -181,8 +181,14 @@
 ; proposes. The turn rate stays the run's: a man who cannot steer at speed is
 ; no use for crossing the town to look at something.
 (define-macro super_run_speed_mps     () 2.5)
-; Within this of the goal a presented walker has ARRIVED and sets his own /succ.
-(define-macro walk_arrive_m            () 0.5)
+; A presented walker has ARRIVED when his centre stands within this of his spot across the
+; floor, and sets his own /succ.
+(define-macro walk_arrive_m            () 0.1)
+; A walker who has not drawn this much closer to his spot in walk_lock_seconds cannot get
+; onto it: something stands in the way, so the spot is refused and the walk fails, and
+; whoever wanted him there finds him another.
+(define-macro walk_lock_progress_m     () 0.05)
+(define-macro walk_lock_seconds        () 3.0)
 ; OPEN / CLOSE: how long a door swings or a drawer slides, from shut to fully open.
 (define-macro open_seconds             () 1.0)
 ; THE ONE MOVEMENT THRESHOLD, at three scales. Outside it a man heads for the SHAPE of

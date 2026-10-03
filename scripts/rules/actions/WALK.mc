@@ -1,8 +1,9 @@
 ; ----------------------------------------------------------------------------
 ; WALK - the one travel act, at both LODs. The `go` TASK reasons about the destination
 ; (enter a structure, walk into a room); WALK gets there. ?dest is a SPOT and nothing
-; else - a point on a floor one man can stand on and hold, so arrival is an overlap and
-; there is no box centre to mistake for a floor.
+; else - a point on a floor one man can stand on and hold, so arrival is his centre standing
+; on that point across the floor, and there is no box centre to mistake for a floor. A spot
+; he cannot close in on is refused and the walk fails, so his proposer finds him another.
 ;
 ; ONE body, and the LOD branch sits at the movement write and nowhere else. Only a
 ; PRESENTED man on a navmesh navigates: the body plans through the nav graph, polls the
@@ -67,15 +68,22 @@
         (switch (nav-ensure-path @self ?dest)
           (on failed (set-outcome ?WALK /fail))
           (on ready
-            ; No "he is already on it" rung before these: (distance ..) is OBB-to-OBB, so a
-            ; steer spot reads ZERO as soon as his box touches it - some 0.4 m out - and a
-            ; near-zero threshold there latches him in place short of every waypoint.
-            ; Both movement writes already refuse a step too short to take, in centre metres.
             (nav-steer-target @self ?dest):?steer
-            (if (< (distance @self (travel-spot ?dest)) (walk_arrive_m))
+            (stand-offset @self ?dest): ?offset
+            (if (<= ?offset (walk_arrive_m))
                 (then (relocate @self ?dest)
                       (set-outcome ?WALK /succ))
-                (else (steer-to @self ?steer))))))))
+                (else
+                  ; The closest he has come, and how long since he last came closer.
+                  (if (or (bb-none ?WALK closest)
+                          (< ?offset (- (bb-read ?WALK closest) (walk_lock_progress_m))))
+                      (then (bb-write ?WALK closest ?offset)
+                            (bb-write ?WALK stalled 0.0))
+                      (else (bb-write ?WALK stalled (+ (bb-read ?WALK stalled) (act-dt)))))
+                  (if (> (bb-read ?WALK stalled) (walk_lock_seconds))
+                      (then (refuse-spot ?dest)
+                            (set-outcome ?WALK /fail))
+                      (else (steer-to @self ?steer))))))))))
 
   ; Runs on every end, and cancels only while this act still owns the plan: a cease
   ; that fires after the OUT fade must not clobber a successor's route.
