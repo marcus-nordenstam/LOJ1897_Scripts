@@ -1,27 +1,35 @@
 ; ----------------------------------------------------------------------------
 ; converse ?partner ?agenda - THE exchange: @self talks with ?partner and waits for his
-; answers. The conversational behaviour lives here and nowhere else: he goes to ?partner,
-; turns to face him, stands with him and answers what he asks. Every line is said through
-; tell.
+; answers. The conversational behaviour lives here and nowhere else: he faces ?partner,
+; stands with him and answers what he asks. Every line is said through tell. Whoever opened
+; it goes to ?partner; the man hailed stays where he stands and turns to him.
 ;
 ; Running, @self takes part: his public (conversing ..) names ?partner (funcs/conversation.mc),
 ; and however it ends, the conversation ends for both. It is over when his entry no longer
 ; names ?partner: a success once ?partner had taken part, a failure when he never did.
 ;
-; With an ?agenda, @self opened it: he hails ?partner, and once ?partner has taken him up he
+; With an ?agenda, @self opened it: he goes to stand before ?partner and hails him there, and
+; once ?partner has taken him up he
 ; says the agenda, waits for an answer when it asks something, and takes his leave.
 ; Without one, @self is the man hailed, and he took it up (thinks/hot/answer-hail-think.mc).
 ; Its first phase is the answer the hail's opening calls for ("Yes?" to the player's); only
-; then does he come to ?partner and keep company. Should something keener come up before he
+; then does he turn to ?partner and keep company. Should something keener come up before he
 ; has answered, he ends it, and declines the hail instead. Either way he answers what
-; ?partner has asked since it began - "I don't know" when he does not know. He cannot reach
-; ?partner: it fails.
+; ?partner has asked since it began - "I don't know" when he does not know. The opener cannot
+; reach ?partner: it fails.
 ;
 ; The rungs run together by design: going, turning and standing hold the legs and head
 ; while the lines take the mouth, one tell at a time.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
+
+; (keeping-company ?partner ?agenda ?converse) - @self is with ?partner in ?converse: the opener
+; once he stands before him, the man hailed once he has answered.
+(define-func keeping-company (?partner ?agenda ?converse)
+  (if (substantial ?agenda)
+      (then (standing-before ?partner))
+      (else (bb-any ?converse answered))))
 
 (task {@self converse ?partner ?agenda}:?converse
   (tar @excl [k human] @object)
@@ -64,28 +72,24 @@
                  (not (would-engage ?partner))))
       (effects (end-conversation ?partner)))
 
-    ; Keeping company: on his way to stand before him, then facing him and listening. Each step
-    ; is its own rung, since a rung's effects run once and only its (when) is re-checked.
+    ; Keeping company: the opener on his way to stand before him, then facing him and listening.
+    ; Each step is its own rung, since a rung's effects run once and only its (when) is re-checked.
     (try
-      (lint-waive cacheable-read-in-when)
-      (when (or (substantial ?agenda) (bb-any ?converse answered))
+      (when (substantial ?agenda)
             (not (standing-before ?partner)))
       (effects (maintain-proposal {@self go ?partner})))
     (try
       (lint-waive cacheable-read-in-when)
-      (when (or (substantial ?agenda) (bb-any ?converse answered))
-            (standing-before ?partner))
+      (when (keeping-company ?partner ?agenda ?converse))
       (effects (maintain-proposal {@self LOOK-AT ?partner})))
     (try
       (lint-waive cacheable-read-in-when)
-      (when (or (substantial ?agenda) (bb-any ?converse answered))
-            (standing-before ?partner)
+      (when (keeping-company ?partner ?agenda ?converse)
             (not (is-facing @self ?partner)))
       (effects (maintain-proposal {@self TURN-TO ?partner})))
     (try
       (lint-waive cacheable-read-in-when)
-      (when (or (substantial ?agenda) (bb-any ?converse answered))
-            (standing-before ?partner)
+      (when (keeping-company ?partner ?agenda ?converse)
             (is-facing @self ?partner))
       (effects (maintain-proposal {@self CHAT ?partner})))
 
@@ -93,9 +97,10 @@
       (when {@self go ?partner /fail /caused_by ?converse})
       (effects (end-conversation ?partner)))
 
-    ; Opening it: the hail.
+    ; Opening it: the hail, once he stands before him.
     (try
       (when (and (substantial ?agenda)
+                 (standing-before ?partner)
                  (not (conversing-with ?partner @self))
                  -{@self tell (formulaic opening ?) ?partner /past /caused_by ?converse}))
       (effects (maintain-proposal {@self tell (formulaic opening greeting) ?partner})))

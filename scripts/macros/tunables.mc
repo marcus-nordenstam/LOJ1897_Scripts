@@ -213,7 +213,10 @@
 ; How far a voice carries, through walls or not: spoken, and called out - a hail, and the
 ; answers to one. The [k speech] and [k shout] sounds' radii (bounds/sounds.mc).
 (define-macro k-speech-earshot () 8.0)
-(define-macro k-call-earshot () 50.0)
+(define-macro k-call-earshot () 10.0)
+
+; How close the player stands to a man, box to box, before he can hail him.
+(define-macro k-hail-reach () 2.0)
 
 ; The kitchen-larder doctrine numbers, in PERSON-DAYS of food (1 prop = 1
 ; person-day; only a home supper consumes, so a 4-head household eats 4 per

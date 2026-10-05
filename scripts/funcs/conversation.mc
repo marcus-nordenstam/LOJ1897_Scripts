@@ -119,16 +119,16 @@
   (any-happened-since (every {@self converse ?partner /past})
                       (any {@self goal {@self converse ?partner}})))
 
-; (can-hail ?thing) - the player can hail ?thing: a living man who would hear him call out, as
-; the world has it - the player holds no beliefs. The host shows its Talk hint and lets T hail
-; him on it.
+; (can-hail ?thing) - the player can hail ?thing: a living man within (k-hail-reach) of him, as
+; the world has it - the player holds no beliefs. The man hailed stays where he stands, so the
+; player is the one who walks up. The host shows its Talk hint and lets T hail him on it.
 (define-func can-hail (?thing)
   (and (is-a ?thing [k human])
        (neq (attr ?thing condition) [k dead])
-       (within-call ?thing)))
+       (< (distance (spatial @self bounds /env) (spatial ?thing bounds /env)) (k-hail-reach))))
 
-; (engaged-here ?npc) - ?npc has taken up the player's hail and come within earshot of his
-; speaking voice: the host opens the dialogue on it, and not while he is still on his way.
+; (engaged-here ?npc) - ?npc has taken up the player's hail and the player is still within
+; earshot of his speaking voice: the host opens the dialogue on it.
 (define-func engaged-here (?npc)
   (and (conversing-with ?npc @self) (in-earshot ?npc [k speech])))
 
