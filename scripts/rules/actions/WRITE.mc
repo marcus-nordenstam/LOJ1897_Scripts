@@ -34,7 +34,23 @@
   (presentation
     (preroll 0.0) (in 0.4) (out 0.4))
   (effects
-    (check (spatial ?doc co-located @self /env))
+    (tolerate (spatial ?doc co-located @self /env)): ?at-hand
+    (if (not ?at-hand)
+      (then
+        (tolerate (spatial @self space /env)): ?self-space-env
+        (tolerate (spatial ?doc space /env)): ?doc-space-env
+        (tolerate (spatial @self space)): ?self-space-mind
+        (tolerate (spatial ?doc space)): ?doc-space-mind
+        (tolerate (spatial ?doc held-by /env)): ?holder-env
+        (tolerate (spatial ?doc held-by)): ?holder-mind
+        (tolerate (spatial ?doc co-located @self)): ?co-mind
+        (tolerate (distance (spatial ?doc bounds /env) (spatial @self bounds /env))): ?gap-env
+        (tolerate (distance ?doc @self)): ?gap-mind
+        (tolerate (presented-lod)): ?presented
+        (debug-print "WRITE-PROBE @self doc=?doc presented=?presented")
+        (debug-print "WRITE-PROBE env: self=?self-space-env doc=?doc-space-env holder=?holder-env gap=?gap-env")
+        (debug-print "WRITE-PROBE mind: self=?self-space-mind doc=?doc-space-mind holder=?holder-mind gap=?gap-mind co=?co-mind")))
+    (check ?at-hand)
     ; Whatever the message claims about who wrote it, the hand is the writer's own.
     (set-msg-rider ?sentence handwriting (attr @self handwriting)): ?penned
     (cond
