@@ -9,8 +9,8 @@
 ;
 ; A HAIL is a (formulaic opening ..) said to @self. It is always answered, and how is his
 ; choice: he takes up the conversation, declines it for what he is busy with, or rebuffs
-; a man he despises. weigh-hail (thinks/hot/answer-hail-think.mc) makes that choice once
-; through (hail-answer ..), so only one of the three answers is ever said.
+; a man he despises (thinks/hot/answer-hail-think.mc). The choice stands open until he
+; begins saying it, and the saying outbids everything, so he never answers with silence.
 ;
 ; The funcs at the foot are the player's side, asked by the host: whom he can hail, his
 ; opening and parting lines, and whether a man has taken him up.
@@ -58,21 +58,15 @@
         (case {@self acquaintance ?speaker} (utility want (k-hail-acquaintance-value)))
         (else (utility want (k-hail-stranger-value)))))
 
-; (hail-answer ?speaker ?busy) - how @self answers ?speaker's hail while ?busy, the top of
-; the chain his legs or mouth serve (@fail when they serve none), is what he is doing:
-; rebuff a man he despises and does not answer to; decline for anything worth more than
-; the hail; else engage.
-(define-func hail-answer (?speaker ?busy)
-  (cond (case (and {@self despise ?speaker} (not (answers-to ?speaker))) rebuff)
-        (case (and (is-belief ?busy) (> (utility ?busy) (hail-worth ?speaker))) decline)
-        (else engage)))
+; (rebuffs ?speaker) - @self rebuffs ?speaker's hail: he despises him and does not answer to him.
+(define-func rebuffs (?speaker)
+  (and {@self despise ?speaker} (not (answers-to ?speaker))))
 
-; (engage-utility ?speaker ?busy) - what taking up ?speaker's hail runs at: its worth, raised
-; past ?busy when that is what he sets aside for it, since a tie goes to the act running.
-(define-func engage-utility (?speaker ?busy)
-  (if (is-belief ?busy)
-      (then (max (hail-worth ?speaker) (+ (utility ?busy) (k-converse-margin))))
-      (else (hail-worth ?speaker))))
+; (would-engage ?heard ?speaker) - talking with ?speaker is worth more to @self than anything
+; else he has going: the conversation would win selection now. The answer to the hail ?heard
+; is passed over, since it is what is deciding.
+(define-func would-engage (?heard ?speaker)
+  (> (hail-worth ?speaker) (top-competing-utility {@self converse ?speaker} ?heard)))
 
 ; (happened-since ?event ?since) - ?event came no earlier than ?since: than its end once it is
 ; over, than its start while it runs.
@@ -97,6 +91,19 @@
 ; heard the hail ?heard.
 (define-func hail-answered (?heard ?speaker)
   (any-happened-since (every {@self SAY ? ?speaker /past}) ?heard))
+
+; (hail-open ?heard ?speaker) - the hail ?heard is still @self's to answer: ?speaker is within
+; call and @self has not yet answered him.
+(define-func hail-open (?heard ?speaker)
+  (and (within-call ?speaker) (not (hail-answered ?heard ?speaker))))
+
+; (saying-yes ?heard ?speaker) / (saying-no ?heard ?speaker) - @self is in the middle of
+; taking up / declining the hail ?heard: once begun, the answer is the one said.
+(define-func saying-yes (?heard ?speaker)
+  (substantial (any {@self tell (formulaic response ?) ?speaker /caused_by ?heard})))
+
+(define-func saying-no (?heard ?speaker)
+  (substantial (any {@self tell (formulaic refusal ?) ?speaker /caused_by ?heard})))
 
 ; (engaged-with ?partner) - ?partner has taken up @self's hail and is talking with him.
 (define-func engaged-with (?partner)

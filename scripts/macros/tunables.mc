@@ -219,10 +219,6 @@
 (define-macro k-speech-earshot () 8.0)
 (define-macro k-call-earshot () 50.0)
 
-; How far taking up a hail outbids what was set aside for it. A tie goes to the act already
-; running, so without it the conversation could never start.
-(define-macro k-converse-margin () 1.0)
-
 ; The kitchen-larder doctrine numbers, in PERSON-DAYS of food (1 prop = 1
 ; person-day; only a home supper consumes, so a 4-head household eats 4 per
 ; sim-day). Target 16 = ~4 sim-days; the low-water refill (a basket of 8) puts
