@@ -205,10 +205,6 @@
 ; fast a DEAD or emigrated cook's household re-elects.
 (define-macro cook_marker_ttl_cycles () 3)
 
-; A man in conversation re-posts (conversing <partner>) every cycle; the ttl only bounds how
-; long the board still says so once he has stopped.
-(define-macro conversing_ttl_cycles () 3)
-
 ; What taking up a hail is worth, in-band: from a stranger, an acquaintance, or someone close.
 (define-macro k-hail-stranger-value     () 300.0)
 (define-macro k-hail-acquaintance-value () 500.0)

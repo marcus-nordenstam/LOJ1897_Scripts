@@ -7,10 +7,15 @@
 ; exchange - it opens with a hail, says each of its lines through tell, and waits for the
 ; answers.
 ;
-; A HAIL is a (formulaic opening ..) said to @self. It is always answered, and how is his
-; choice: he takes up the conversation, declines it for what he is busy with, or rebuffs
-; a man he despises (thinks/hot/answer-hail-think.mc). The choice stands open until he
-; begins saying it, and the saying outbids everything, so he never answers with silence.
+; A CONVERSATION is a contract on the public blackboard: each party's (conversing ..) names
+; the other while he takes part. The hailer posts his before he hails; the man hailed posts
+; his when he takes it up. Whoever ends it - declining, rebuffing, taking his leave, giving up
+; - clears both (end-conversation), and each party knows it is over when his own entry no
+; longer names the other.
+;
+; A HAIL is a (formulaic opening ..) said to @self by a man whose (conversing ..) names him.
+; It is always answered, and how is his choice: he takes up the conversation, declines it
+; for what he is busy with, or rebuffs a man he despises (thinks/hot/answer-hail-think.mc).
 ;
 ; The funcs at the foot are the player's side, asked by the host: whom he can hail, his
 ; opening and parting lines, and whether a man has taken him up.
@@ -62,11 +67,10 @@
 (define-func rebuffs (?speaker)
   (and {@self despise ?speaker} (not (answers-to ?speaker))))
 
-; (would-engage ?heard ?speaker) - talking with ?speaker is worth more to @self than anything
-; else he has going: the conversation would win selection now. The answer to the hail ?heard
-; is passed over, since it is what is deciding.
-(define-func would-engage (?heard ?speaker)
-  (> (hail-worth ?speaker) (top-competing-utility {@self converse ?speaker} ?heard)))
+; (would-engage ?speaker) - talking with ?speaker is worth more to @self than anything else he
+; has going: the conversation would win selection now.
+(define-func would-engage (?speaker)
+  (> (hail-worth ?speaker) (top-competing-utility {@self converse ?speaker})))
 
 ; (happened-since ?event ?since) - ?event came no earlier than ?since: than its end once it is
 ; over, than its start while it runs.
@@ -87,41 +91,20 @@
 (define-func said-to-me-since (?speaker ?since)
   (any-happened-since (every {?speaker SAY ? @self /past}) ?since))
 
-; (hail-answered ?heard ?speaker) - @self has finished saying something to ?speaker since he
-; heard the hail ?heard.
-(define-func hail-answered (?heard ?speaker)
-  (any-happened-since (every {@self SAY ? ?speaker /past}) ?heard))
+; (conversing-with ?party ?partner) - ?party takes part in a conversation with ?partner: his
+; public (conversing ..) names him.
+(define-func conversing-with (?party ?partner)
+  (eq (bb-public-read ?party conversing) ?partner))
 
-; (hail-open ?heard ?speaker) - the hail ?heard is still @self's to answer: ?speaker is within
-; call and @self has not yet answered him.
-(define-func hail-open (?heard ?speaker)
-  (and (within-call ?speaker) (not (hail-answered ?heard ?speaker))))
+; (invited-by ?caller) - ?caller has opened a conversation with @self that @self has not yet
+; taken up: the hail is his to answer.
+(define-func invited-by (?caller)
+  (and (conversing-with ?caller @self) (not (conversing-with @self ?caller))))
 
-; (saying-yes ?heard ?speaker) / (saying-no ?heard ?speaker) - @self is in the middle of
-; taking up / declining the hail ?heard: once begun, the answer is the one said.
-(define-func saying-yes (?heard ?speaker)
-  (substantial (any {@self tell (formulaic response ?) ?speaker /caused_by ?heard})))
-
-(define-func saying-no (?heard ?speaker)
-  (substantial (any {@self tell (formulaic refusal ?) ?speaker /caused_by ?heard})))
-
-; (engaged-with ?partner) - ?partner has taken up @self's hail and is talking with him.
-(define-func engaged-with (?partner)
-  (eq (bb-public-read ?partner conversing) @self))
-
-; (converse-began ?partner ?converse) - when @self's conversation with ?partner began: the
-; goal he took it up for, else the converse itself.
-(define-func converse-began (?partner ?converse)
-  (bind (any {@self goal {@self converse ?partner}}) ?goal)
-  (if (is-belief ?goal) (then ?goal) (else ?converse)))
-
-; (hail-turned-down ?partner ?converse) - ?partner has answered the hail @self opened ?converse
-; with, and not by taking it up.
-(define-func hail-turned-down (?partner ?converse)
-  (bind (any {@self tell (formulaic opening ?) ?partner /succ /caused_by ?converse}) ?hail)
-  (and (is-belief ?hail)
-       (not (engaged-with ?partner))
-       (said-to-me-since ?partner ?hail)))
+; (end-conversation ?partner) - @self ends the conversation with ?partner, for both of them.
+(define-func end-conversation (?partner)
+  (if (conversing-with @self ?partner) (then (bb-public-clear @self conversing)))
+  (if (conversing-with ?partner @self) (then (bb-public-clear ?partner conversing))))
 
 ; (agenda-answered ?partner ?agenda ?converse) - ?agenda has been told to ?partner in
 ; ?converse, and, when it asked something, he has answered since.
@@ -147,12 +130,16 @@
 ; (engaged-here ?npc) - ?npc has taken up the player's hail and come within earshot of his
 ; speaking voice: the host opens the dialogue on it, and not while he is still on his way.
 (define-func engaged-here (?npc)
-  (and (engaged-with ?npc) (in-earshot ?npc [k speech])))
+  (and (conversing-with ?npc @self) (in-earshot ?npc [k speech])))
 
-; (player-opening) - the line the player hails a man with.
-(define-func player-opening ()
+; (player-hail ?npc) - the player opens a conversation with ?npc: his own (conversing ..)
+; names him, and the answer is the line he hails him with.
+(define-func player-hail (?npc)
+  (bb-public-write @self conversing ?npc)
   (formulaic opening player_talk))
 
-; (player-leave-taking) - the line the player takes his leave with.
-(define-func player-leave-taking ()
+; (player-leave-taking ?npc) - the player ends the conversation with ?npc, and the answer is
+; the line he takes his leave with.
+(define-func player-leave-taking (?npc)
+  (end-conversation ?npc)
   (formulaic leave_taking player_bye))
