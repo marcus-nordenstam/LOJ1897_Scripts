@@ -24,8 +24,8 @@
           (role @self (spatial @self building ?venue)
             (when (and {?occ hours ?start ?end}
                        (hours (- ?start (attend-prep-lead)) ?end)
-                       -{@self tell (msg {@self spouse ?betrothed}) ?betrothed /succ}))
-            (effects (maintain-proposal {@self tell (utterable-msg {@self spouse ?betrothed}) ?betrothed}))))))
+                       -{@self tell (msg ? {@self spouse ?betrothed}) ?betrothed /succ}))
+            (effects (maintain-proposal {@self tell (utterable-msg [] {@self spouse ?betrothed}) ?betrothed}))))))
 
     ; GO: not at the church yet -> head to it (in the window).
     (try

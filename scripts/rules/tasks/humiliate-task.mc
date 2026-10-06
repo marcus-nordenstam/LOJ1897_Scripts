@@ -26,7 +26,7 @@
                  -{@self tell ? ?victim /succ /caused_by ?humiliate}))
       (declare-utility errand always-pick)
       (effects (maintain-proposal
-                 {@self tell (utterable-msg {@self public-humiliation ?victim}) ?victim})))
+                 {@self tell (utterable-msg [] {@self public-humiliation ?victim}) ?victim})))
     (try
       (when {@self tell ? ?victim /succ /caused_by ?humiliate})
       (effects

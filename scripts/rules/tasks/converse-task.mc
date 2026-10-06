@@ -58,10 +58,10 @@
     ; opening calls for, before anything else; once it is said, the conversation is under way
     ; (answered).
     (sequence
-      (role @self {?partner SAY (formulaic opening ?greeting) @self /past}
+      (role @self {?partner SAY (formulaic ? opening ?greeting) @self /past}
         (stage
           (when (would-engage ?partner))
-          (effects (maintain-proposal {@self tell (formulaic response ?greeting) ?partner})))
+          (effects (maintain-proposal {@self tell (formulaic [] response ?greeting) ?partner})))
         (stage
           (effects (bb-write ?converse answered @true)))))
 
@@ -103,8 +103,8 @@
       (when (and (substantial ?agenda)
                  (standing-before ?partner)
                  (not (conversing-with ?partner @self))
-                 -{@self tell (formulaic opening ?) ?partner /past /caused_by ?converse}))
-      (effects (maintain-proposal {@self tell (formulaic opening greeting) ?partner})))
+                 -{@self tell (formulaic ? opening ?) ?partner /past /caused_by ?converse}))
+      (effects (maintain-proposal {@self tell (formulaic [] opening greeting) ?partner})))
 
     ; Taken up: the agenda, then his leave once it is answered.
     (try
@@ -116,21 +116,21 @@
     (try
       (when (and (substantial ?agenda)
                  (agenda-answered ?partner ?agenda ?converse)
-                 -{@self tell (formulaic leave_taking ?) ?partner /past /caused_by ?converse}))
-      (effects (maintain-proposal {@self tell (formulaic leave_taking bye) ?partner})))
+                 -{@self tell (formulaic ? leave_taking ?) ?partner /past /caused_by ?converse}))
+      (effects (maintain-proposal {@self tell (formulaic [] leave_taking bye) ?partner})))
 
     (try
-      (when {@self tell (formulaic leave_taking ?) ?partner /succ /caused_by ?converse})
+      (when {@self tell (formulaic ? leave_taking ?) ?partner /succ /caused_by ?converse})
       (effects (end-conversation ?partner)))
 
     (try
       (lock)
-      (role @self {?partner SAY (qs ?question):?qs @self /past}:?asked
+      (role @self {?partner SAY (qs ? ? ?..):?qs @self /past}:?asked
                   -{@self tell ? ?partner /past /caused_by ?asked}
         (when (happened-since ?asked ?converse))
         (effects
           (if (withholds ?qs ?partner)
-              (then (maintain-proposal {@self tell (formulaic refusal answer) ?partner} /caused_by ?asked))
+              (then (maintain-proposal {@self tell (formulaic [] refusal answer) ?partner} /caused_by ?asked))
               (else
                 (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
-                (maintain-proposal {@self tell (utterable-msg ?answer) ?partner} /caused_by ?asked))))))))
+                (maintain-proposal {@self tell (utterable-msg [] ?answer) ?partner} /caused_by ?asked))))))))

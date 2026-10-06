@@ -82,5 +82,5 @@
         ; hears and adopts); his own knowledge of her pre-exists from courtship.
         (every {@self (disclosure-tier-labels friend) ?}): ?facts
         (if ?facts
-            (then (maintain-proposal {@self tell (utterable-msg ?facts) ?bride})))
+            (then (maintain-proposal {@self tell (utterable-msg [] ?facts) ?bride})))
         ))))

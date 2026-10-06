@@ -78,7 +78,7 @@
     (set-attr ?fa-book name ?fa-name)
     (attr ?fa-wp address): ?fa-addr
     (kind ?fa-book): ?fa-book-kind
-    (set-writing ?art (table-msg articles_form [[org-kind ?fa-kind] [org-name ?fa-name]
+    (set-writing ?art (table-msg [] articles_form [[org-kind ?fa-kind] [org-name ?fa-name]
                                                 [workplace ?fa-addr] [register ?fa-book-kind]]))
     (head (env-entities [k incorporation-stack])): ?fa-ist
     (check ?fa-ist)

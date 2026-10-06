@@ -53,7 +53,7 @@
         ; the listener, so {@self tell <msg> ?guest /succ} is "have I told THIS guest this".
         (for-each ?belief (every {@self spouse|fiancee|lover|child ?})
           (do
-            (utterable-msg ?belief): ?msg
+            (utterable-msg [] ?belief): ?msg
             (if -{@self tell ?msg ?guest /succ}
                 (then (maintain-proposal {@self tell ?msg ?guest}) (break)))))
         ))))

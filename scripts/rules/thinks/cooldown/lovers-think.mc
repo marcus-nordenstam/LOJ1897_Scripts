@@ -88,5 +88,5 @@
         ; (intimate-tier) unspoken.
         (every {@self (disclosure-tier-labels friend) ?}): ?facts
         (if ?facts
-            (then (maintain-proposal {@self tell (utterable-msg ?facts) ?b})))
+            (then (maintain-proposal {@self tell (utterable-msg [] ?facts) ?b})))
         ))))

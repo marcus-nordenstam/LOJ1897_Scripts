@@ -19,7 +19,7 @@
 ; beats everything else he has going.
 (think engage-hail
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic opening ?) @self /past}
+                 {?speaker SAY (formulaic ? opening ?) @self /past}
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
                (not (rebuffs ?speaker))
@@ -34,24 +34,24 @@
 ; Declining for what he would rather be doing.
 (think decline-hail
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic opening ?) @self /past}
+                 {?speaker SAY (formulaic ? opening ?) @self /past}
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
                (not (rebuffs ?speaker))
                (or (turning-down ?speaker) (not (would-engage ?speaker)))))
-    (bind (unbeatable-utility {@self turn-down ?speaker (formulaic refusal busy)}) ?say)
+    (bind (unbeatable-utility {@self turn-down ?speaker (formulaic [] refusal busy)}) ?say)
     (declare-utility (utility-band ?say) (utility-value ?say))
     (effects
-      (maintain-proposal {@self turn-down ?speaker (formulaic refusal busy)}))))
+      (maintain-proposal {@self turn-down ?speaker (formulaic [] refusal busy)}))))
 
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (think rebuff-hail
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic opening ?) @self /past}
+                 {?speaker SAY (formulaic ? opening ?) @self /past}
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
                (rebuffs ?speaker)))
-    (bind (unbeatable-utility {@self turn-down ?speaker (formulaic rebuff (msg-class insult))}) ?say)
+    (bind (unbeatable-utility {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)}) ?say)
     (declare-utility (utility-band ?say) (utility-value ?say))
     (effects
-      (maintain-proposal {@self turn-down ?speaker (formulaic rebuff (msg-class insult))}))))
+      (maintain-proposal {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)}))))

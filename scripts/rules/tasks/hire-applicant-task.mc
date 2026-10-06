@@ -58,7 +58,7 @@
           (effects
             (any {?job job-id ?line})
             (kind ?job): ?jk
-            (utterable-msg {@you job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
+            (utterable-msg [] {@you job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
             (check ?msg)
             (maintain-proposal {@self tell ?msg ?applicant})
             (if -{?applicant job ?job} (then (begin-belief {?applicant job ?job})))
@@ -86,7 +86,7 @@
             (any {?job job-id ?line})
             (kind ?job): ?jk
             (any {?holder job ?job})
-            (utterable-msg {?holder job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
+            (utterable-msg [] {?holder job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
             (check ?msg)
             (maintain-proposal {@self tell ?msg ?applicant}))))
 

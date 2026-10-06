@@ -57,7 +57,7 @@
         ; Jilting IS a SAY (msg-class jilt): the jilter tells the jilted it is over. The jilted
         ; HEARS it and their own appraisal reprojects jilt's construed-act (abandonment-act +
         ; wrong-act) into the grief / attachment-loss stack. No incident-anchor, no cross-mind mint.
-        (maintain-proposal {@self tell (utterable-msg {@self jilt ?jilted}) ?jilted})
+        (maintain-proposal {@self tell (utterable-msg [] {@self jilt ?jilted}) ?jilted})
         ; Warmth curdles; attraction is NOT touched (longing persists).
         ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
         ; party's own reflex on the act. Commented out pending that redesign.
@@ -107,7 +107,7 @@
       (declare-utility want)
       (effects
         (end-belief {@self lover ?jilted})
-        (maintain-proposal {@self tell (utterable-msg {@self jilt ?jilted}) ?jilted})
+        (maintain-proposal {@self tell (utterable-msg [] {@self jilt ?jilted}) ?jilted})
         ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
         ; party's own reflex on the act. Commented out pending that redesign.
         ; (nudge-stance ?jilted @self warmth -0.4)

@@ -26,4 +26,4 @@
             (any {?worker job.level ?cur})
             (table-match level_rank level ?cur rank ?rank)
             (table-match level_rank rank (+ ?rank 1) level ?next)
-            (maintain-proposal {@self tell (utterable-msg {?worker job.level ?next}) ?worker})))))))
+            (maintain-proposal {@self tell (utterable-msg [] {?worker job.level ?next}) ?worker})))))))

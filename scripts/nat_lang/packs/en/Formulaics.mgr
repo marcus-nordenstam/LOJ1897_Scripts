@@ -8,19 +8,19 @@
 #"Good day to you"                   ( formulaic opening goodDay @unknown )    .
 #"Good day to you, too"              ( formulaic response goodDay @unknown )  .
 
-"Good day"                          ( formulaic opening greeting )              .
-"Good day to you"                   ( formulaic response greeting )             .
+"Good day"                          ( formulaic [] opening greeting )              .
+"Good day to you"                   ( formulaic [] response greeting )             .
 
-"How do you do"                     ( formulaic opening how_do @unknown )       .
-"How do you do <r>"                 ( formulaic response how_do @unknown )      .
+"How do you do"                     ( formulaic [] opening how_do @unknown )       .
+"How do you do <r>"                 ( formulaic [] response how_do @unknown )      .
 
-"How do you do, $name(PNAME)"       ( formulaic opening how_do $name(PNAME) )    .
-"How do you do, $name(PNAME) <r>"   ( formulaic response how_do $name(PNAME) )  .
+"How do you do, $name(PNAME)"       ( formulaic [] opening how_do $name(PNAME) )    .
+"How do you do, $name(PNAME) <r>"   ( formulaic [] response how_do $name(PNAME) )  .
 
 #"A moment, if you please; I am engaged in conversation"                        ( formulaic refusal conv busy ) .
-"I can't talk right now because $st(ST)"                                        ( formulaic refusal $st(ST) ) .
-"I can't stop now"                                                              ( formulaic refusal busy ) .
-"Leave me be"                                                                   ( formulaic rebuff ) .
+"I can't talk right now because $st(ST)"                                        ( formulaic [] refusal $st(ST) ) .
+"I can't stop now"                                                              ( formulaic [] refusal busy ) .
+"Leave me be"                                                                   ( formulaic [] rebuff ) .
 
 # Letter envelope lines. "Signed, <name>" is the AUTHOR rider, "To <name>" the
 # ADDRESSEE rider: the composer (compose_nl_msg) lifts a (/rider ..) form into the
@@ -30,14 +30,14 @@
 "Signed, $name(PNAME)"                                                          ( /author $name(PNAME) ) .
 "To $name(PNAME)"                                                               ( /addressee $name(PNAME) ) .
 
-"No, I don't know"                                                              ( formulaic no_dont_know ) .
-"Yes, it's $answer(NP)"                                                         ( formulaic yes_its $answer(NP) ) .
-"Yes, this is my $rel(REL) $name(PNAME)"                                        ( formulaic yes_this_is $rel(REL) $name(PNAME) ) .
+"No, I don't know"                                                              ( formulaic [] no_dont_know ) .
+"Yes, it's $answer(NP)"                                                         ( formulaic [] yes_its $answer(NP) ) .
+"Yes, this is my $rel(REL) $name(PNAME)"                                        ( formulaic [] yes_this_is $rel(REL) $name(PNAME) ) .
 
-"..."                                                                           ( formulaic opening player_talk ) .
-"Yes?"                                                                          ( formulaic response player_talk ) .
+"..."                                                                           ( formulaic [] opening player_talk ) .
+"Yes?"                                                                          ( formulaic [] response player_talk ) .
 
-"..."                                                                           ( formulaic leave_taking player_bye ) .
+"..."                                                                           ( formulaic [] leave_taking player_bye ) .
 
 
 
@@ -45,7 +45,7 @@
 # Leavetaking (initiating)
 #"Bye"
 "Goodbye"
-( formulaic leave_taking bye ) .
+( formulaic [] leave_taking bye ) .
 
 # Leavetaking (response)
 #"Bye"

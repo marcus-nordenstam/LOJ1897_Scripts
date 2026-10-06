@@ -40,7 +40,7 @@
         ; fact. Proposing nothing is a safe no-op.
         (for-each ?belief (every {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?})
           (do
-            (utterable-msg ?belief): ?msg
+            (utterable-msg [] ?belief): ?msg
             (if -{@self tell ?msg ?guest /succ}
                 (then (maintain-proposal {@self tell ?msg ?guest}) 
                       (break)))))))))

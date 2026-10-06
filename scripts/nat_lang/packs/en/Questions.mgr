@@ -2,33 +2,33 @@
 :QS
 
 "do you know $qs_phrase(QSP)"
-( qs /do_you_know $qs_phrase(QSP) )
+( qs /do_you_know [] $qs_phrase(QSP) )
 .
 
 "do you know who this is"
-( qs /do_you_know /this ( any { ?_this /pres name } ).target )
+( qs /do_you_know /this [] ( any { ?_this /pres name } ).target )
 .
 
 "do you know who this was"
-( qs /do_you_know /this ( any { ?_this /past name } ).target )
+( qs /do_you_know /this [] ( any { ?_this /past name } ).target )
 .
 
 "can you identify this"
-( qs /do_you_know /this ( any { ?_this /pres name } ).target )
+( qs /do_you_know /this [] ( any { ?_this /pres name } ).target )
 .
 
 "can you identify $np(Q_NP)"
-( qs /do_you_know ( any { $np(Q_NP) /pres name } ).target )
+( qs /do_you_know [] ( any { $np(Q_NP) /pres name } ).target )
 .
 
 #"right then, what's yer pleasure"
 #"what are ye havin'"
 "what'll it be then"
-( qs ( any { ?_you /pres order ? ?_i } ).target )
+( qs [] ( any { ?_you /pres order ? ?_i } ).target )
 .
 
 "'(' $qs_phrase(QSP) ++? ')'"
-( qs $qs_phrase(QSP) )
+( qs [] $qs_phrase(QSP) )
 .
 
 # Phase 9.5 - PROBE_FOR_DETAIL. The player asks the NPC to elaborate on a
@@ -43,15 +43,15 @@
 # .mc rules pattern-match to drive elaboration.
 
 "more about $probe_word(KIND)"
-( qs ( formulaic probe $probe_word(KIND) ) )
+( qs [] ( formulaic [] probe $probe_word(KIND) ) )
 .
 
 "tell me more about $probe_word(KIND)"
-( qs ( formulaic probe $probe_word(KIND) ) )
+( qs [] ( formulaic [] probe $probe_word(KIND) ) )
 .
 
 "what about $probe_word(KIND)"
-( qs ( formulaic probe $probe_word(KIND) ) )
+( qs [] ( formulaic [] probe $probe_word(KIND) ) )
 .
 
 # Any bare question-phrase asked directly - "what is your name", "who is your
@@ -59,7 +59,7 @@
 # enclosing parens. Wraps the QSP in qs so the SAY ships a question payload,
 # which the hearer's converse task answers (rules/tasks/converse-task.mc).
 "$qs_phrase(QSP)"
-( qs $qs_phrase(QSP) )
+( qs [] $qs_phrase(QSP) )
 .
 
 

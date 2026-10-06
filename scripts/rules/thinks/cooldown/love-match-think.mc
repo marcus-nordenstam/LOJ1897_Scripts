@@ -104,5 +104,5 @@
         ; and adopt); @self's knowledge of the beloved pre-exists from courtship.
         (every {@self (disclosure-tier-labels friend) ?}): ?facts
         (if ?facts
-            (then (maintain-proposal {@self tell (utterable-msg ?facts) ?beloved})))
+            (then (maintain-proposal {@self tell (utterable-msg [] ?facts) ?beloved})))
         ))))

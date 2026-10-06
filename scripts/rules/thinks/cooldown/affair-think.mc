@@ -88,5 +88,5 @@
         ; not reveal their OTHER lovers (that is intimate-tier, above this band).
         (every {@self (disclosure-tier-labels friend) ?}): ?facts
         (if ?facts
-            (then (maintain-proposal {@self tell (utterable-msg ?facts) ?lover})))
+            (then (maintain-proposal {@self tell (utterable-msg [] ?facts) ?lover})))
         ))))

@@ -25,7 +25,7 @@
       (when (and (or (spatial ?victim co-located @self) (spatial ?victim space))
                  -{@self extort ?victim}))
       (declare-utility errand always-pick)
-      (effects (maintain-proposal {@self tell (utterable-msg {@self extort ?victim}) ?victim})))
+      (effects (maintain-proposal {@self tell (utterable-msg [] {@self extort ?victim}) ?victim})))
     (try
       (when {@self tell ? ?victim /succ /caused_by ?coerce})
       (effects

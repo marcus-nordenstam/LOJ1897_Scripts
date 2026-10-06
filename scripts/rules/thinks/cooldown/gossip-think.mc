@@ -51,7 +51,7 @@
           (for-each ?news (every {? disinherit|insult|outdo|public-humiliation|seduce|expose|confront-publicly|divorce|prototype|condition|circumstance-of-death|spouse|fiancee|lover|child ?})
             (do
               (bind ?news.target ?tgt)
-              (utterable-msg ?news): ?msg
+              (utterable-msg [] ?news): ?msg
               (if (and (or (not (is-object ?tgt)) (!= ?tgt @self))
                        -{@self tell ?msg ?ear /succ})
                   (then (maintain-proposal {@self tell ?msg ?ear}) (break))))))))))

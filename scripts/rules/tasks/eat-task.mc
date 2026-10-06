@@ -54,7 +54,7 @@
                     (for-each ?supper-hour (every {?home supper-hour ?})
                         (bind ?supper-hour.target ?s)
                         (maintain-proposal
-                          {@self tell (utterable-msg {?home breakfast-hour ?b}
+                          {@self tell (utterable-msg [] {?home breakfast-hour ?b}
                                                     {?home lunch-hour ?l}
                                                     {?home supper-hour ?s}) _}))))))))
     (try
@@ -65,6 +65,6 @@
         (effects
           (for-each ?belief (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life-aim ?})
             (do
-              (utterable-msg ?belief): ?msg
+              (utterable-msg [] ?belief): ?msg
               (if -{@self tell ?msg ?diner /succ}
                   (then (maintain-proposal {@self tell ?msg ?diner}) (break))))))))))

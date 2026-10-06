@@ -136,10 +136,10 @@
 ; names him, and the answer is the line he hails him with.
 (define-func player-hail (?npc)
   (bb-public-write @self conversing ?npc)
-  (formulaic opening player_talk))
+  (formulaic [] opening player_talk))
 
 ; (player-leave-taking ?npc) - the player ends the conversation with ?npc, and the answer is
 ; the line he takes his leave with.
 (define-func player-leave-taking (?npc)
   (end-conversation ?npc)
-  (formulaic leave_taking player_bye))
+  (formulaic [] leave_taking player_bye))

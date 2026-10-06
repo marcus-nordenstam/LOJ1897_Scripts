@@ -98,4 +98,4 @@
       (when -{@self tell ? /succ /caused_by ?BURY})
       (declare-utility want)
       (effects
-        (maintain-proposal {@self tell (utterable-msg {?corpse internment [k buried]}) _})))))
+        (maintain-proposal {@self tell (utterable-msg [] {?corpse internment [k buried]}) _})))))

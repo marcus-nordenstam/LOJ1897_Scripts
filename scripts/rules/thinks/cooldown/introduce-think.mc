@@ -22,5 +22,5 @@
   
       (effects
         (every {@self (disclosure-tier-labels stranger) ?}): ?facts
-        (if ?facts (then (maintain-proposal {@self tell (utterable-msg ?facts) ?stranger})))))))
+        (if ?facts (then (maintain-proposal {@self tell (utterable-msg [] ?facts) ?stranger})))))))
     

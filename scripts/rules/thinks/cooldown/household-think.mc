@@ -84,7 +84,7 @@
         (begin-belief {?home lunch-hour (household-lunch-hour)})
         (begin-belief {?home supper-hour (household-supper-hour)})
         ; Say the house's hours aloud - the household hears and adopts.
-        (maintain-proposal {@self tell (utterable-msg {?home breakfast-hour (household-breakfast-hour)}
+        (maintain-proposal {@self tell (utterable-msg [] {?home breakfast-hour (household-breakfast-hour)}
                                                    {?home lunch-hour (household-lunch-hour)}
                                                    {?home supper-hour (household-supper-hour)}) _})
         ))))
@@ -121,7 +121,7 @@
         (declare-utility idle (above rest))
 
         (effects
-          (utterable-qs {?home supper-hour ?}): ?qs
+          (utterable-qs [] {?home supper-hour ?}): ?qs
           (maintain-proposal {@self converse ?cook ?qs}))))))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the

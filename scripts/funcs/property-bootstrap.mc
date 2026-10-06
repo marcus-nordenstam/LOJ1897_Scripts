@@ -112,5 +112,5 @@
   (for-each ?b (env-entities [k building])
     (attr ?b address): ?slr-addr
     (create-entity [k title-deed] ?slr-room): ?slr-deed
-    (set-writing ?slr-deed (table-msg title_deed_form [[building ?slr-addr]]))
+    (set-writing ?slr-deed (table-msg [] title_deed_form [[building ?slr-addr]]))
     (push ?slr-deed ?slr-stack)))
