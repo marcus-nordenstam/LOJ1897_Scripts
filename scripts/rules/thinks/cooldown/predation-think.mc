@@ -16,17 +16,18 @@
 ; Two rules:
 ;   - seed-predation-profile: a latent predator (top lethal-disposition tail) with
 ;     no victim-type yet copies the PERCEIVED look (hair-color + eye-color) of a
-;     random adult he knows into {@self fixation <trait-value>} beliefs, so
+;     random adult he knows into {@self hair-color-fixation ..} / {@self eye-color-fixation ..}
+;     beliefs, so
 ;     victim-type consistency emerges ("blond, blue-eyed"). One-shot.
 ;   - predation: role-casts a victim from the predator's OWN non-kin acquaintance
 ;     ties, HARD-filtered to his type via (overlapping-target {?victim hair-color}
-;     {@self fixation}) (the non-@excl overlap op - the victim's hair OR eye colour
-;     is one of the predator's fixations), then weighted-samples by SOCIAL
+;     {@self hair-color-fixation}) (the non-@excl overlap op - the victim's hair colour
+;     is his hair fixation OR his eye colour his eye fixation), then weighted-samples by SOCIAL
 ;     INVISIBILITY in the score (low class / stained repute = safer). (when ...)
 ;     gates the disposition floor + rate. Mints the kill goal + arms stalk_target.
 ;
-; The type-match uses (overlapping-target ...) because fixation is non-@excl (a
-; predator holds several fixation values); it is cacheable (see the classifier +
+; The type-match uses (overlapping-target ...) because a fixation is non-@excl (a
+; predator may hold several values); it is cacheable (see the classifier +
 ; cache_filter_match in hse_parser.cc / hse_engine.cc). The invisibility read lives
 ; in the (score ...), which is evaluated live per candidate (not cache-classified),
 ; so (any {?victim ..}).target is fine there.
@@ -41,7 +42,7 @@
   (role @self {@self psychopathy ?psychopathy}
               {@self sadism ?sadism}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
-              -{@self fixation ?}
+              -{@self hair-color-fixation ?}
     ; A random adult the predator KNOWS the look of (has both perceived colour
     ; beliefs about), sampled by roulette - the victim-type prototype.
     (role ?proto {?proto isa [k human], condition [k alive]}
@@ -54,8 +55,8 @@
       (when (>= (* 0.5 (+ ?psychopathy ?sadism)) 0.65))
       (effects
         ; Copy the perceived look as the type signature (effect, so (target ...) is fine).
-        (begin-belief {@self fixation ?hair-color})
-        (begin-belief {@self fixation ?eye-color})))))
+        (begin-belief {@self hair-color-fixation ?hair-color})
+        (begin-belief {@self eye-color-fixation ?eye-color})))))
 
 ; --- the hunt ---------------------------------------------------------------
 (think predation
@@ -66,21 +67,22 @@
               {@self sadism ?sadism}
               {@self inhibition ?inhibition}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
-              {@self fixation ?}
+              {@self hair-color-fixation ?}
 
     ; The victim: cast from the predator's OWN non-kin acquaintance ties (his
     ; acquaintance graph, role-cast - no world scan), HARD-filtered to his type (the
-    ; victim's hair OR eye colour is one of his fixations), then picked by social
+    ; victim's hair colour is his hair fixation OR his eye colour his eye fixation), then
+    ; picked by social
     ; invisibility. ARGMAX (not roulette) so the maintained kill locks onto ONE stable
     ; target instead of re-rolling the victim every deliberation.
     (role ?victim {?victim isa [k human], condition [k alive]}
                   {@self spouse|fiancee|friend|lover|acquaintance|neighbour|enemy ?victim}
                   {?victim age-band [k young-adult|middle-aged|mature|elderly]}
                   (none {@self (kin-labels) ?victim})
-                  ; TYPE FLOOR (cacheable non-@excl overlap): the victim carries one of
-                  ; the predator's fixation values on hair-color OR eye-color.
-                  (or (overlapping-target {?victim hair-color} {@self fixation})
-                      (overlapping-target {?victim eye-color} {@self fixation}))
+                  ; TYPE FLOOR (cacheable non-@excl overlap): the victim's hair is the
+                  ; predator's hair fixation OR the victim's eyes his eye fixation.
+                  (or (overlapping-target {?victim hair-color} {@self hair-color-fixation})
+                      (overlapping-target {?victim eye-color} {@self eye-color-fixation}))
                   ; Invisibility score. Low class / stained repute = safer.
                   (select (score (+ 0.1
                                     (if {?victim class-situation [k lower]} (then 1.0) (else 0.0))
@@ -90,7 +92,7 @@
 
       ; The REASON: the fixation (read as the /caused_by anchor, never re-minted - so the
       ; hunt fades if the fixation lifts). seed-predation-profile is what mints fixations.
-      (bind (any {@self fixation ?}) ?fixation_bond)
+      (bind (any {@self hair-color-fixation ?}) ?fixation_bond)
 
       ; Disposition floor + rate. lethal = mean(psychopathy, sadism); propensity =
       ; (1 - inhibition) * lethal, DOUBLED for {@self life-aim power-aim}. The lethal tip

@@ -128,16 +128,13 @@
   (child life-aim
     (children legacy-aim wealth-aim piety-aim respectability-aim autonomy-aim power-aim belonging-aim))
 
-  # A predator's stable victim-type FIXATION (serial_predation Phase 2,
-  # generalized): repeated {@self fixation <trait-value>} beliefs whose
-  # conjunction is the victim-type PROFILE (e.g. {fixation tall} +
-  # {fixation blonde} + {fixation male} = "tall blond men"). Each target
-  # is any physical / social trait-value kind (a gender / height / girth /
-  # appearance / colour / nationality / class-situation / job leaf). NOT
-  # @excl - a profile is several beliefs. Seeded once per predator by copying 1-2 traits off a
-  # random "type prototype" person, so victim-type consistency EMERGES
-  # (and the profile is guaranteed achievable). Renders in the rap-sheet.
-  (children fixation)
+  # A predator's stable victim-type FIXATION (serial_predation Phase 2): one
+  # {@self <trait>-fixation <value>} belief per trait it names, so a fixation on
+  # brown hair never matches brown eyes; together they are the victim-type
+  # PROFILE ("blond, blue-eyed"). NOT @excl - a profile is several beliefs. Seeded
+  # once per predator by copying the traits off a random "type prototype" person,
+  # so victim-type consistency EMERGES (and the profile is guaranteed achievable).
+  (children hair-color-fixation eye-color-fixation)
 
   # (method / method_means RETIRED: choose_kill_method no longer mints a chosen-MO
   # belief - it PROPOSES the killing task directly from kill_method_table each cycle,
