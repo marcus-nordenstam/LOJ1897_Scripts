@@ -107,20 +107,20 @@
 ; this it would overwrite the point the rule reasoned about.
 (declare-func place-entity (args ?thing ?point))
 
-; (steer-facing ?who ?toward) - turn ?who toward ?toward SMOOTHLY, at the turn rate the
-; act's (delib-turn-speed ..) put on it. The presented twin of (face-toward ..): the
-; unpresented write snaps the box, a watched man swings round over several frames, and
-; only the host owns the character controller that can do the second.
+; (steer-facing ?who ?toward) - the picture of (turn ?who ?toward): swing ?who's character
+; toward ?toward at the act's (delib-turn-speed ..). Merlin's box is turned by (turn ..)
+; beside it.
 ;
 ; ?toward is an ENTITY or a POINT. A target the actor himself controls - something in his
 ; own hand - is resolved through the pre-control snapshot rather than its live pose, or
 ; the mirror axis would chase the body that carries it.
 (declare-func steer-facing (args ?who ?toward))
 
-; (steer-to ?who ?point) - the PRESENTED movement write: turn ?who's character toward
-; ?point at the act's (delib-turn-speed ..) and translate while it has ground or wall
-; contact. The speed is not an argument: the host blends it with the previous act's on the motor stack
-; so a WALK into a RUN ramps with the visual blend. @true iff it translated.
+; (steer-to ?who ?point) - the picture of (move ?who ?point): turn ?who's character toward
+; ?point at the act's (delib-turn-speed ..) and translate it while it has ground or wall
+; contact, the speed blended with the previous act's on the motor stack so a WALK into a
+; RUN ramps with the visual blend. Merlin's box is moved by (move ..) beside it. @true iff
+; it translated.
 (declare-func steer-to (args ?who ?point))
 
 ; (steer-heading ?who) - the PRESENTED movement write along the heading the host put on
@@ -140,12 +140,6 @@
 ; unpresented speaker - he is HEARD, through the sound entity the act mints at both LODs,
 ; and not watched.
 (declare-func speak-aloud (args ?who ?msg))
-
-; (speech-seconds ?who ?msg) - how long ?msg takes ?who to say, in seconds: the words
-; rendered and the visemes cut, the same pass (speak-aloud ..) will run. A SAY's presented
-; (duration ..) is this, so the act ends when the sound does. A message that renders to
-; nothing answers one second, the flat utterance an unpresented say used to take.
-(declare-func speech-seconds (args ?who ?msg))
 
 ; (end-speech ?who) - release the speech-state slot ?who claimed to speak. Must run on
 ; EVERY end of an utterance, conclusive or not: a slot leaked per interrupted sentence is a

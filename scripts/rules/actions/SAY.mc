@@ -22,14 +22,10 @@
   ; OPTIONAL by declaration: an absent audience is a BROADCAST, which is a first-class
   ; SAY form (confide / expose / humiliate / the burial announcement all use it).
   (aux @msgAudience ?)
-  ; THE SCHEDULED LENGTH IS AN INSTANT, and the presented one is the AUDIO: the seconds
-  ; the rendered words take to say, cut from the visemes, so the act ends when the sound
-  ; does and the cap commits the /succ. hsim has always said zero, and one second per
-  ; utterance across a year of conversation is not a second worth moving every
-  ; appointment in the town for.
-  (duration
-    (cond (case (presented-lod) (speech-seconds @self ?msg))
-          (else 0)))
+  ; THE LENGTH IS THE WORDS: the seconds the rendered message takes to say when he is
+  ; presented, and an instant when he is not - one second per utterance across a year of
+  ; conversation is not a second worth moving every appointment in the town for.
+  (duration (utterance-seconds @self ?msg))
 
   ; A presented say starts here, ONCE: the SOUND, which is the Merlin half and how
   ; anyone else hears this at all, and the VOICE - the words rendered, the visemes cut,

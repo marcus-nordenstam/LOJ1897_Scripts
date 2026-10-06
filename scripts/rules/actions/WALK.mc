@@ -83,7 +83,8 @@
                   (if (> (bb-read ?WALK stalled) (walk_lock_seconds))
                       (then (refuse-spot ?dest)
                             (set-outcome ?WALK /fail))
-                      (else (steer-to @self ?steer))))))))))
+                      (else (move @self ?steer)
+                            (steer-to @self ?steer))))))))))
 
   ; Runs on every end, and cancels only while this act still owns the plan: a cease
   ; that fires after the OUT fade must not clobber a successor's route.

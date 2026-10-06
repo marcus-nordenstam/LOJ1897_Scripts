@@ -32,6 +32,7 @@
   (effects
     (if (presented-lod)
       (then
+        (turn @self ?other)
         (steer-facing @self ?other)
         (if (is-mirroring @self ?other)
             (then (set-outcome ?MIRROR /succ)))))))
