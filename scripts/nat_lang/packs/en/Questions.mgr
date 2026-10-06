@@ -43,15 +43,15 @@
 # .mc rules pattern-match to drive elaboration.
 
 "more about $probe_word(KIND)"
-( qs (formulaic probe $probe_word(KIND)) )
+( qs ( formulaic probe $probe_word(KIND) ) )
 .
 
 "tell me more about $probe_word(KIND)"
-( qs (formulaic probe $probe_word(KIND)) )
+( qs ( formulaic probe $probe_word(KIND) ) )
 .
 
 "what about $probe_word(KIND)"
-( qs (formulaic probe $probe_word(KIND)) )
+( qs ( formulaic probe $probe_word(KIND) ) )
 .
 
 # Any bare question-phrase asked directly - "what is your name", "who is your
