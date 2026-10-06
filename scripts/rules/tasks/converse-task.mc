@@ -124,13 +124,12 @@
       (effects (end-conversation ?partner)))
 
     (try
-      (role ?asked (every {?partner SAY ? @self /past})
-                   (is-qs ?asked.target)
-                   -{@self tell ? ?partner /past /caused_by ?asked}
+      (role @self {?partner SAY (qs ?question):?qs @self /past}:?asked
+                  -{@self tell ? ?partner /past /caused_by ?asked}
         (when (happened-since ?asked ?converse))
         (effects
-          (if (withholds ?asked.target ?partner)
+          (if (withholds ?qs ?partner)
               (then (maintain-proposal {@self tell (formulaic refusal answer) ?partner} /caused_by ?asked))
               (else
-                (bind (eval-msg /output_unknown_on_fail ?asked.target ?partner) ?answer)
+                (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
                 (maintain-proposal {@self tell (utterable-msg ?answer) ?partner} /caused_by ?asked))))))))
