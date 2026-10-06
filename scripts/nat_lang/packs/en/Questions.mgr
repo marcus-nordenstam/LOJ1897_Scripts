@@ -219,17 +219,18 @@
 # whereabouts on the night of a crime - the alibi question. Anchored on the
 # victim: death-date is the start of the answerer's {victim condition dead}
 # belief; night-of wraps that day to its night window; whereabouts-on returns
-# the location memory overlapping it, and .target yields the venue ("the Red
-# Lion"). No memory -> @unknown ("I don't know") until the routine fallback
-# lands. The answerer is ?_you (the suspect being questioned).
+# the PLACE of the answerer's most recent placed episode overlapping it (every
+# episodic belief carries where he was), else the space of a point stamp. No
+# memory -> @unknown ("I don't know") until the routine fallback lands. The
+# answerer is ?_you (the suspect being questioned).
 "where were you the night $person(Q_NP) was killed"
-( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) )
 .
 "where were you the night $person(Q_NP) was murdered"
-( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) )
 .
 "where were you the night $person(Q_NP) died"
-( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) )
 .
 
 # specific interest (do you like X)
@@ -792,10 +793,10 @@
 # --- 10. ALIBI (extends the crime-night set already above) -------------------
 
 "where were you on the night of the murder"
-( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) )
 .
 "can you account for your whereabouts the night $person(Q_NP) died"
-( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) )
 .
 "where were you the morning $person(Q_NP) was killed"
 ( whereabouts-on ?_you ( morning-of ( death-date $person(Q_NP) ) ) ).target
@@ -844,6 +845,22 @@
 .
 "[what|which] [public house|tavern|inn] do you [drink at|frequent]"
 ( any { ?_you /pres indulge ? } ).target
+.
+
+# --- Routine: WHERE - read off a placed act memory. Every episodic belief carries the
+# place its believer stood at when it arose (/at); (spatial <belief> building) climbs
+# from that place to the building. No placed memory -> @unknown.
+"where do you drink"
+( spatial ( any { ?_you /past DRINK /at ? } ) building )
+.
+"where do you [go to drink|do your drinking]"
+( spatial ( any { ?_you /past DRINK /at ? } ) building )
+.
+"where do you worship"
+( spatial ( any { ?_you /past WORSHIP /at ? } ) building )
+.
+"where do you [go to worship|go to church|attend church]"
+( spatial ( any { ?_you /past WORSHIP /at ? } ) building )
 .
 
 # --- Social: the specific person -------------------------------------------

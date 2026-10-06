@@ -10,13 +10,12 @@
 (state within-reach-of (tar [k object|space] @object))
 (state facing (tar [k object|space] @object))
 
-# `frequent` is the whereabouts-HABIT summary: the sleep-time themed fuse
-# folds a subject's ended {X space <place>} episodes (the `space` spatial
-# label carries (theme frequent)) into one ongoing {X frequent <place>}
-# gist - "X habitually goes to <place>". Behavioural, not a physical state;
-# unconstrained target, non-excl (many places over overlapping spans; props
-# accumulate whereabouts episodes too). Must differ from `space` (episodic
-# vs semantic never share a label; `space` is @excl).
+# `frequent` is the whereabouts-HABIT summary, minted by the habit tally (a per-mind
+# count of where a man spends each part of his day, read off the `space` spatial label's
+# (theme frequent) in spatials.mon) as one ongoing {X frequent <place>} gist - "X habitually
+# goes to <place>". Whereabouts are spatial memories, never beliefs, so no belief fuse
+# folds into it. Behavioural, not a physical state; unconstrained target, non-excl (many
+# places over overlapping spans). Must differ from `space` (`space` is @excl).
 (state frequent (tar ?))
 
 # to believe that someone ELSE knows something; theory-of-knowledge
@@ -763,7 +762,7 @@
 (state degrade-act (tar [k degrade-act] @object))
 (state display-ad (tar [k job] @object))
 (state economic-situation (tar [k economic-situation] @object @excl))
-(state emotion (tar [k emotion] @object))
+(state emotion (tar [k emotion] @object) (episodic))
 (state employee-register (tar [k employee-register] @object) (obs))
 (state expose-act (tar [k expose-act] @object))
 (state father (tar [k human] @object @excl) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable) (self-known))
@@ -854,6 +853,6 @@
 (state sexual-orient (tar [k sexual-orient] @excl))
 (state sky (tar [k sky-condition] @excl))
 (state snow (tar [k strength-measurement] @excl))
-(state space (tar [k space] @object @excl) (space) (theme frequent))
+(state space (tar [k space] @object @excl) (space))
 (state town (tar [k town] @object @excl) (building))
 (state wind (tar [k strength-measurement] @excl))
