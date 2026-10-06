@@ -124,6 +124,7 @@
       (effects (end-conversation ?partner)))
 
     (try
+      (lock)
       (role @self {?partner SAY (qs ?question):?qs @self /past}:?asked
                   -{@self tell ? ?partner /past /caused_by ?asked}
         (when (happened-since ?asked ?converse))
