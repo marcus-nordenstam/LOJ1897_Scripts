@@ -15,7 +15,8 @@
 ; Its first phase is the answer the hail's opening calls for ("Yes?" to the player's); only
 ; then does he turn to ?partner and keep company. Should something keener come up before he
 ; has answered, he ends it, and declines the hail instead. Either way he answers what
-; ?partner has asked since it began - "I don't know" when he does not know. The opener cannot
+; ?partner has asked since it began - "I don't know" when he does not know, and a refusal when
+; the answer is closer than he holds ?partner (withholds). The opener cannot
 ; reach ?partner: it fails.
 ;
 ; The rungs run together by design: going, turning and standing hold the legs and head
@@ -128,5 +129,8 @@
                    -{@self tell ? ?partner /past /caused_by ?asked}
         (when (happened-since ?asked ?converse))
         (effects
-          (bind (eval-msg /output_unknown_on_fail ?asked.target ?partner) ?answer)
-          (maintain-proposal {@self tell (utterable-msg ?answer) ?partner} /caused_by ?asked))))))
+          (if (withholds ?asked.target ?partner)
+              (then (maintain-proposal {@self tell (formulaic refusal answer) ?partner} /caused_by ?asked))
+              (else
+                (bind (eval-msg /output_unknown_on_fail ?asked.target ?partner) ?answer)
+                (maintain-proposal {@self tell (utterable-msg ?answer) ?partner} /caused_by ?asked))))))))

@@ -56,10 +56,8 @@
 
 # Any bare question-phrase asked directly - "what is your name", "who is your
 # mother", "what is your age", etc. - with no "do you know" prefix and no
-# enclosing parens. Wraps the QSP in qs so the SAY ships a question payload
-# (-> compute-answer / tell-answer), not a (msg ...) statement. Without this
-# a plain question matched the bare QSP at top level and shipped as a
-# statement, which hear-tell's mood gate ignores, so the NPC never answered.
+# enclosing parens. Wraps the QSP in qs so the SAY ships a question payload,
+# which the hearer's converse task answers (rules/tasks/converse-task.mc).
 "$qs_phrase(QSP)"
 ( qs $qs_phrase(QSP) )
 .
@@ -220,18 +218,18 @@
 
 # whereabouts on the night of a crime - the alibi question. Anchored on the
 # victim: death-date is the start of the answerer's {victim condition dead}
-# belief; night_of wraps that day to its night window; whereabouts_on returns
+# belief; night-of wraps that day to its night window; whereabouts-on returns
 # the location memory overlapping it, and .target yields the venue ("the Red
 # Lion"). No memory -> @unknown ("I don't know") until the routine fallback
 # lands. The answerer is ?_you (the suspect being questioned).
 "where were you the night $person(Q_NP) was killed"
-( whereabouts_on ?_you ( night_of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) ).target
 .
 "where were you the night $person(Q_NP) was murdered"
-( whereabouts_on ?_you ( night_of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) ).target
 .
 "where were you the night $person(Q_NP) died"
-( whereabouts_on ?_you ( night_of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) ).target
 .
 
 # specific interest (do you like X)
@@ -322,9 +320,8 @@
 # DETECTIVE-INTERROGATION QUESTION PACK (questionnaire.txt categories)
 # -----------------------------------------------------------------------------
 # All entries below are :QSP forms - the top-level "$qs_phrase(QSP)" router
-# (above) wraps any of them in (qs ...) so mx_player_say ships them as a
-# question-payload SAY and compute-answer / tell-answer evaluate them against
-# the answerer's own beliefs. Each question carries several surface phrasings, blunt -> eloquent,
+# (above) wraps any of them in (qs ...) so the player's SAY ships a question
+# payload, which the hearer's converse task evaluates against his own beliefs. Each question carries several surface phrasings, blunt -> eloquent,
 # so the same fact can be asked plainly ("what do you do") or formally ("by
 # what trade do you make your living").
 #
@@ -795,13 +792,13 @@
 # --- 10. ALIBI (extends the crime-night set already above) -------------------
 
 "where were you on the night of the murder"
-( whereabouts_on ?_you ( night_of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) ).target
 .
 "can you account for your whereabouts the night $person(Q_NP) died"
-( whereabouts_on ?_you ( night_of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) ).target
 .
 "where were you the morning $person(Q_NP) was killed"
-( whereabouts_on ?_you ( morning_of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( morning-of ( death-date $person(Q_NP) ) ) ).target
 .
 
 # # FLAG: an inspector-named clock time ("where were you at nine") needs a

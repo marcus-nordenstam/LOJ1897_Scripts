@@ -42,7 +42,7 @@
   (record admire       0.4 _)
   (record revere       0.4 _)
   (record job          0.6 _)
-  (record social_class 0.6 _)
+  (record class-situation 0.6 _)
   (record nationality  0.5 _)
   (record birthplace   0.4 _)
   (record home         0.4 _)
