@@ -110,6 +110,16 @@
 # One person's own hand. Not seen by looking at him: it is known from what he writes,
 # which WRITE stamps with it message by message.
 (attr handwriting (type kind) (default @nothing) (imperceptible))
+# The aspects of that hand as it is today, dealt at birth within the school's bounds and
+# stamped by WRITE beside the hand, so a letter keeps the hand its writer had on the day:
+# slant in degrees, weight as stroke thickening, size in points, letter and line spacing in
+# points added, regularity 0 (shaky) to 1 (even).
+(attr hand-slant (type float) (range -15 45) (default 0.0) (imperceptible))
+(attr hand-weight (type float) (range -0.3 0.3) (default 0.0) (imperceptible))
+(attr hand-size (type float) (range 8 18) (default 12.0) (imperceptible))
+(attr hand-letter-spacing (type float) (range -2 4) (default 0.0) (imperceptible))
+(attr hand-line-spacing (type float) (range -2 6) (default 0.0) (imperceptible))
+(attr hand-regularity (type float) (range 0 1) (default 1.0) (imperceptible))
 # nationality and social standing are not physical environment state - they
 # exist solely as beliefs (nationality / class-situation labels in states.mon).
 

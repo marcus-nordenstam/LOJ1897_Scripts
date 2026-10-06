@@ -51,8 +51,13 @@
         (debug-print "WRITE-PROBE env: self=?self-space-env doc=?doc-space-env holder=?holder-env gap=?gap-env")
         (debug-print "WRITE-PROBE mind: self=?self-space-mind doc=?doc-space-mind holder=?holder-mind gap=?gap-mind co=?co-mind")))
     (check ?at-hand)
-    ; Whatever the message claims about who wrote it, the hand is the writer's own.
-    (set-msg-rider ?sentence handwriting (attr @self handwriting)): ?penned
+    ; Whatever the message claims about who wrote it, the hand is the writer's own, and it is
+    ; the hand he has TODAY: a letter from his boyhood keeps his boyhood hand.
+    (set-msg-rider ?sentence handwriting
+      (attr @self handwriting)
+      (attr @self hand-slant) (attr @self hand-weight) (attr @self hand-size)
+      (attr @self hand-letter-spacing) (attr @self hand-line-spacing)
+      (attr @self hand-regularity)): ?penned
     (cond
       (case (nothing (attr ?doc writing))
         (set-writing ?doc ?penned))
