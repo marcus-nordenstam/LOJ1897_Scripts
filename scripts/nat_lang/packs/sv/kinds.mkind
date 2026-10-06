@@ -31,7 +31,7 @@ lower           arbetar
 # Interest
 literature      litteratur
 music           musik
-theatre         teater
+theatre-art     teater
 riding          ridning
 history         historia
 science         vetenskap
@@ -39,7 +39,7 @@ spiritualism    spiritism
 religion        religion
 antiques        antikviteter
 sports          sport
-suffrage        rösträtt
+suffrage-cause  rösträtt
 
 # Sport disciplines
 cricket         cricket
@@ -56,7 +56,7 @@ landlord        hyresvärd
 industrialist   industriman
 principal       rektor
 merchant        köpman
-apothecary      apotekare
+apothecary-job  apotekare
 proprietor      ägare
 solicitor       advokat
 physician       läkare

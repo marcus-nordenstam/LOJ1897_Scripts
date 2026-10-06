@@ -26,7 +26,7 @@
 ; nothing is claimed - each call sees what the calls before it placed.
 (define-func seed-rest-spot (?place ?kind)
   (spatial ?place room /env): ?found
-  (for-each ?room (spatial ?place parts [k interior-space room] /env)
+  (for-each ?room (spatial ?place parts [k room] /env)
     (if (is-spot ?found) (then (break)))
     (for-each ?surface (spatial ?room contents [k loose-furniture] /env)
       (if (or (is-a ?surface [k writing-desk]) (is-a ?surface [k table]))
@@ -61,10 +61,10 @@
 ; its own - the first with floor for him. @nothing when none has. A building's are the entrances
 ; its units share; a unit's are its own door.
 (define-func entrance-space (?place)
-  (nearest-standable ?place [k entrance main-entrance]): ?main
+  (nearest-standable ?place [k main-entrance]): ?main
   (if (substantial ?main)
       (then ?main)
-      (else (nearest-standable ?place [k interior-space entrance]))))
+      (else (nearest-standable ?place [k entrance]))))
 
 ; @self knows every part of ?kind ?place has.
 (define-func knows-every (?place ?kind)
@@ -73,9 +73,9 @@
 
 ; Standing at ?place's door he sees what lies behind it: the entrances and rooms it holds itself.
 (define-func look-through-door (?place)
-  (for-each ?way (spatial ?place parts [k interior-space entrance] /env)
+  (for-each ?way (spatial ?place parts [k entrance] /env)
     (observe ?way))
-  (for-each ?way (spatial ?place parts [k interior-space room] /env)
+  (for-each ?way (spatial ?place parts [k room] /env)
     (observe ?way)))
 
 ; The first ?kind part of ?whole @self knows whose box overlaps ?thing, or @nothing.
@@ -111,7 +111,7 @@
 ; its own one household. A building of units without a shared entrance is entered unit by unit,
 ; each through its own door.
 (define-func enters-as-building (?bldg)
-  (or (not (empty (spatial ?bldg parts [k interior-space entrance] /env)))
+  (or (not (empty (spatial ?bldg parts [k entrance] /env)))
       (empty (spatial ?bldg parts [k unit] /env))))
 
 ; The place a business or a household holds in ?bldg: its one unit, or the building itself when

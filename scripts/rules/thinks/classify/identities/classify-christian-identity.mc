@@ -2,5 +2,5 @@
   (rng-stream behaviour)
   (role @self {@self class-situation ?}
     (effects
-      (mint-band {@self identity} (prob {@self member-of [k org gov church]})
-        [k role christian-role] 0.5))))
+      (mint-band {@self identity} (prob {@self member-of [k church-org]})
+        [k christian-role] 0.5))))

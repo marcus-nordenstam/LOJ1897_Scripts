@@ -33,7 +33,7 @@
 ;                   (spatial @self building ?venue)
 ;          (role ?reg {?org employee-register ?reg}
 ;                     (spatial ?reg building ?venue)
-;            (effects (maintain-proposal {@self ENROL ?reg '[[k job official] [k senior]]}))))))
+;            (effects (maintain-proposal {@self ENROL ?reg '[[k official] [k senior]]}))))))
 ;    (try
 ;      (role ?art_org {?art_org record ?art}
 ;                      {?art_org workplace ?venue}
@@ -43,5 +43,5 @@
 ;          (any {?org employee-register ?reg})
 ;          (if (table-match (attr ?reg writing) worker (name @self) level ?lvl)
 ;              (then
-;                (hire-beliefs ?art [k job official] ?lvl)
+;                (hire-beliefs ?art [k official] ?lvl)
 ;                (set-outcome ?seek-appointment /succ))))))))

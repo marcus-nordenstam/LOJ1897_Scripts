@@ -90,7 +90,7 @@
 (define-func take-premises (?wp)
   (do
     (observe ?wp)
-    (for-each ?room (spatial ?wp parts [k interior-space room] /env)
+    (for-each ?room (spatial ?wp parts [k room] /env)
       (observe ?room)
       (spatial-write ?room struct_parent ?wp))))
 

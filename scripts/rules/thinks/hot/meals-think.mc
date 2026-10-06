@@ -184,7 +184,7 @@
               -{@self class-situation [k upper]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
-      (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette unknown-last))
+      (role ?venue [k pub-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
         (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?wealth 0.2)
                    (= (believed-home-food-count ?home) 0)))
         (declare-utility (meal-utility-band) default)
@@ -198,7 +198,7 @@
               {@self class-situation [k upper], wealth ?wealth}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
-      (role ?venue [k building restaurant] (select (score (near @self ?venue)) (policy roulette unknown-last))
+      (role ?venue [k restaurant-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
         (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?wealth 0.2)
                    (= (believed-home-food-count ?home) 0)))
         (declare-utility (meal-utility-band) default)
@@ -250,7 +250,7 @@
   (effects
     (any {@self enthusiasm ?enthusiasm})
     (any {@self coin-pile.count ?coins=0})
-    (tolerate (or (is-a ?place [k building pub]) (is-a ?place [k building restaurant]))): ?dining-out
+    (tolerate (or (is-a ?place [k pub-building]) (is-a ?place [k restaurant-building]))): ?dining-out
     (maintain-proposal {@self eat ?meal ?place}
       [/affect (if ?dining-out (then (* ?enthusiasm 20.0)) (else 0.0))]
       [/cost (money-cost-util ?coins (if ?dining-out (then (price ?meal ?place)) (else 0)))]
@@ -338,7 +338,7 @@
 ;   (role @self {@self starve ?, wealth ?wealth}
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (> ?wealth 0.2)
-;                (is-a (spatial @self building) [k building shop])))
+;                (is-a (spatial @self building) [k shop])))
 ;     (declare-utility (starve-drive))
 ;     (effects       (begin-goal {@self forage}))
 ;     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
@@ -347,7 +347,7 @@
 ;   (role @self {@self starve ?, wealth ?wealth}
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (> ?wealth 0.2)
-;                (not (is-a (spatial @self building) [k building shop]))))
+;                (not (is-a (spatial @self building) [k shop]))))
 ;     (declare-utility (starve-drive))
 ;     ; THE PREFERENCE IS THE RUNG ORDER: the shop he knows sells provisions, else any shop he
 ;     ; knows at all, nearest-weighted.
@@ -356,7 +356,7 @@
 ;         (role ?shop {@self provisions-shop ?shop} (select (policy first-match))
 ;           (effects (maintain-proposal {@self go ?shop}))))
 ;       (try
-;         (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
+;         (role ?go_dest [k shop] (select (score (near @self ?go_dest)) (policy roulette))
 ;           (effects (maintain-proposal {@self go ?go_dest})))))))
 
 ; Steal: the pauper's act - at a shop with no wealth, the mouthful goes on the
@@ -366,7 +366,7 @@
 ;   (role @self {@self starve ?, wealth ?wealth}
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (not (> ?wealth 0.2))
-;                (is-a (spatial @self building) [k building shop])))
+;                (is-a (spatial @self building) [k shop])))
 ;     (declare-utility (starve-drive))
 ;     (effects       (begin-goal {@self forage}))
 ;     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
@@ -375,7 +375,7 @@
 ;   (role @self {@self starve ?, wealth ?wealth}
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (not (> ?wealth 0.2))
-;                (not (is-a (spatial @self building) [k building shop]))))
+;                (not (is-a (spatial @self building) [k shop]))))
 ;     (declare-utility (starve-drive))
 ;     ; THE PREFERENCE IS THE RUNG ORDER, as in starving_buy_go above.
 ;     (stable-or
@@ -383,7 +383,7 @@
 ;         (role ?shop {@self provisions-shop ?shop} (select (policy first-match))
 ;           (effects (maintain-proposal {@self go ?shop}))))
 ;       (try
-;         (role ?go_dest [k building shop] (select (score (near @self ?go_dest)) (policy roulette))
+;         (role ?go_dest [k shop] (select (score (near @self ?go_dest)) (policy roulette))
 ;           (effects (maintain-proposal {@self go ?go_dest})))))))
 
 ; TERMINAL step: the {@self forage} goal, at a food source, promotes to the generic
@@ -399,7 +399,7 @@
 ;   (goal    {@self forage})
 ;   (when    (or (> (held-pile-count @self [k food]) 0)
 ;                (at-home)
-;                (is-a (spatial @self building) [k building shop])))
+;                (is-a (spatial @self building) [k shop])))
 ;   ; Every food source is a PILE (basket / larder / shelf); ?item is bound to the
 ;   ; pile and EAT eats one off its count (never destroys it). ?owner stays 0
 ;   ; unless the mouthful is STOLEN (at a shop, no wealth) - then the shop owner is
@@ -427,9 +427,9 @@
 ;                     (then (bind ?larder_pile ?item) (bind 1 ?found)))))))
 ;     ; shop shelf
 ;     (spatial @self building): ?shop
-;     (if (and (= ?found 0) ?shop (is-a ?shop [k building shop]))
+;     (if (and (= ?found 0) ?shop (is-a ?shop [k shop]))
 ;         (then
-;           (for-each ?room (spatial ?shop parts [k interior-space room] /env)
+;           (for-each ?room (spatial ?shop parts [k room] /env)
 ;             (do
 ;               (bind 0 ?shelf_pile)
 ;               (pile-at-into ?room [k food] ?shelf_pile)

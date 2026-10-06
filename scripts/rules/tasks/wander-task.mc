@@ -15,7 +15,7 @@
 ; Every room of ?place that @self knows has been toured by ?wander.
 (define-func toured-all (?place ?wander)
   (bind @nothing ?untoured)
-  (for-each ?room (spatial ?place parts [k interior-space room])
+  (for-each ?room (spatial ?place parts [k room])
     (if (bb-none ?room toured ?wander)
       (then
         (bind ?room ?untoured)
@@ -30,7 +30,7 @@
   (and
     ; A room he knows and has not toured: he walks into it.
     (try
-      (role ?room (spatial ?place parts [k interior-space room])
+      (role ?room (spatial ?place parts [k room])
                   (bb-none ?room toured ?wander)
                   -{@self go ?room /succ /caused_by ?wander}
                   -{@self go ?room /fail /caused_by ?wander}
@@ -40,13 +40,13 @@
           (maintain-proposal {@self go ?room}))))
     ; The walk arrived: the room is toured.
     (try
-      (role ?room (spatial ?place parts [k interior-space room])
+      (role ?room (spatial ?place parts [k room])
                   {@self go ?room /succ /caused_by ?wander}
                   (bb-none ?room toured ?wander)
         (effects (bb-write ?room toured ?wander))))
     ; The walk failed: the room is toured as far as it ever will be.
     (try
-      (role ?room (spatial ?place parts [k interior-space room])
+      (role ?room (spatial ?place parts [k room])
                   {@self go ?room /fail /caused_by ?wander}
                   (bb-none ?room toured ?wander)
         (effects (bb-write ?room toured ?wander))))

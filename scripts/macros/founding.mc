@@ -17,11 +17,11 @@
 ;
 ; The head's job is passed as a SCOPED job kind ([k job <role>]) so it serves three
 ; roles unchanged: the head's job mental-object kind, the roster `job` field, and
-; the work-hours catalog key. A plain business passes [k job proprietor].
+; the work-hours catalog key. A plain business passes [k proprietor].
 ;
 ;   (found-org-seq ?org-kind ?head-role)
-;     ?org-kind  - the org kind value ([k org church] / a rolled [k org bakery])
-;     ?head-role - the founder's job, a scoped job kind ([k job priest])
+;     ?org-kind  - the org kind value ([k church-org] / a rolled [k org bakery])
+;     ?head-role - the founder's job, a scoped job kind ([k priest])
 ; ----------------------------------------------------------------------------
 
 ; org_staffing - the staff occupation each org kind RECRUITS for, read below when
@@ -40,45 +40,45 @@
   (fields org-kind staff-role)
 
   ;; --- Civic (gov / edu / cultural): head is the superintendent/priest/principal
-  (record [k org church]           [k job clerk])
-  (record [k org hospital]         [k job nurse])
-  (record [k org agency]           [k job clerk])
-  (record [k org state-school]     [k job teacher])
-  (record [k org private-school]   [k job teacher])
-  (record [k org university]       [k job professor])
-  (record [k org land-registry]    [k job clerk])
-  (record [k org company-registry] [k job clerk])
-  (record [k org library]          [k job clerk])
-  (record [k org museum]           [k job clerk])
-  (record [k org theatre]          [k job clerk])
-  (record [k org meeting-hall]     [k job clerk])
-  (record [k org sports-ground]    [k job gardener])
+  (record [k church-org]           [k clerk])
+  (record [k hospital-org]         [k nurse])
+  (record [k agency]           [k clerk])
+  (record [k state-school]     [k teacher])
+  (record [k private-school]   [k teacher])
+  (record [k university]       [k professor])
+  (record [k land-registry]    [k clerk])
+  (record [k company-registry] [k clerk])
+  (record [k library-org]          [k clerk])
+  (record [k museum-org]           [k clerk])
+  (record [k theatre-org]          [k clerk])
+  (record [k meeting-hall-org]     [k clerk])
+  (record [k sports-ground-org]    [k gardener])
 
   ;; --- Financial / professional offices: the principals (banker / solicitor /
   ;;     agent) are may-own owners; the hired hands are clerks.
-  (record [k org bank]             [k job clerk])
-  (record [k org solicitor-firm]   [k job clerk])
-  (record [k org house-agency]     [k job clerk])
-  (record [k org insurance-co]     [k job clerk])
-  (record [k org shipping-agent]   [k job clerk])
+  (record [k bank-org]             [k clerk])
+  (record [k solicitor-firm]   [k clerk])
+  (record [k house-agency]     [k clerk])
+  (record [k insurance-co]     [k clerk])
+  (record [k shipping-agent]   [k clerk])
 
   ;; --- Industrial / press ---
-  (record [k org factory]          [k job factory-worker])
-  (record [k org newspaper]        [k job journalist])
+  (record [k factory-org]          [k factory-worker])
+  (record [k newspaper-org]        [k journalist])
 
   ;; --- Retail (proprietor owns; a shop-clerk mans the counter) ---
-  (record [k org grocer]           [k job shop-clerk])
-  (record [k org bookseller]       [k job shop-clerk])
-  (record [k org pawnbroker]       [k job shop-clerk])
-  (record [k org antiques-shop]    [k job shop-clerk])
-  (record [k org apothecary]       [k job shop-clerk])
-  (record [k org barbershop]       [k job barber])
+  (record [k grocer]           [k shop-clerk])
+  (record [k bookseller]       [k shop-clerk])
+  (record [k pawnbroker]       [k shop-clerk])
+  (record [k antiques-shop]    [k shop-clerk])
+  (record [k apothecary-org]       [k shop-clerk])
+  (record [k barbershop-org]       [k barber])
 
   ;; --- Hospitality / leisure ---
-  (record [k org restaurant]       [k job waiter])
-  (record [k org pub]              [k job bartender])
-  (record [k org hotel]            [k job maid])
-  (record [k org race-club]        [k job jockey]))
+  (record [k restaurant-org]       [k waiter])
+  (record [k pub-org]              [k bartender])
+  (record [k hotel-org]            [k maid])
+  (record [k race-club]        [k jockey]))
 
 
 
@@ -143,7 +143,7 @@
 ; the businesses table); no free clubhouse -> nothing is minted.
 ;
 ;   (found-club-seq ?club-kind)
-;     ?club-kind - the rolled club kind value ([k org race-club] / [k org athletic-club])
+;     ?club-kind - the rolled club kind value ([k race-club] / [k athletic-club])
 ; ----------------------------------------------------------------------------
 
 ; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
@@ -154,7 +154,7 @@
 ;      (then
 ;        (claim-deed ?wp)
 ;        (delist ?wp)
-;        (for-each ?room (spatial ?wp parts [k interior-space room] /env)
+;        (for-each ?room (spatial ?wp parts [k room] /env)
 ;            (spatial-write ?room struct_parent ?wp))
 ;        (spatial ?wp room): ?back
 ;        (check ?back)
@@ -207,7 +207,7 @@
 ;(define-macro employ-beliefs (?org ?wp ?job-kind ?level ?reg)
 ;  (do
 ;    (begin-belief {?wp occupant @self})
-;    (for-each ?room (spatial ?wp parts [k interior-space room] /env)
+;    (for-each ?room (spatial ?wp parts [k room] /env)
 ;        (spatial-write ?room struct_parent ?wp))
 ;    (table-match income_by_level level ?level income ?salary)
 ;    (if (table-match (attr ?reg writing) worker (name @self) job ?job-kind job-id ?eb-line
@@ -254,8 +254,8 @@
 ;
 ;   (hire-seq ?art ?job-kind ?level)
 ;     ?art       - the org's articles document (the goal focus / appointment org)
-;     ?job-kind  - the worker's SCOPED job kind ([k job clerk], a matched (bind ?jk),
-;                  [k job proprietor], ...): the roster `job` field, the job mental
+;     ?job-kind  - the worker's SCOPED job kind ([k clerk], a matched (bind ?jk),
+;                  [k proprietor], ...): the roster `job` field, the job mental
 ;                  object kind, AND the work-hours catalog key (same triple role as
 ;                  found-org-seq's ?head-role).
 ;     ?level     - the starting rank ([k apprentice] / [k trainee] / [k senior] / ...)

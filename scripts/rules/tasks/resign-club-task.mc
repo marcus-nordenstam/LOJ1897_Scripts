@@ -12,14 +12,14 @@
 ;  (and
 ;    ; GO: not at a clubhouse -> travel to one (nearest known).
 ;    (try
-;      (role ?go_dest [k building social-clubhouse]
+;      (role ?go_dest [k social-clubhouse]
 ;            (select (score (near @self ?go_dest)) (policy roulette unknown-last))
-;        (when (not (is-a (spatial @self building) [k building social-clubhouse])))
+;        (when (not (is-a (spatial @self building) [k social-clubhouse])))
 ;        (effects (maintain-proposal {@self go ?go_dest}))))
 
 ;    ; LEAVE-ROLL: at a clubhouse -> resolve my own club's roll and strike my row.
 ;    (try
-;      (when (is-a (spatial @self building) [k building social-clubhouse]))
+;      (when (is-a (spatial @self building) [k social-clubhouse]))
 ;      (effects
 ;        (any {@self member-of ?org})
 ;        (any {?org membership-roll ?roll})

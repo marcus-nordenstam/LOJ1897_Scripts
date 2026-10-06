@@ -39,7 +39,7 @@
 (think list-to-let-at-agency
   (goal {@self LET ?prop})
   ; The office is the agency's OWN workplace belief - see buy_home_go on the ?art round trip.
-  (role ?agency {?agency isa [k org house-agency]}
+  (role ?agency {?agency isa [k house-agency]}
                 {?agency workplace ?venue}
                 (spatial @self building ?venue)
     (effects (maintain-proposal {@self LET ?prop}))))
@@ -48,7 +48,7 @@
 ; articles name the office he calls at (articles-building).
 (think list-to-let-go
   (goal {@self LET})
-  (role ?agency {?agency isa [k org house-agency]}
+  (role ?agency {?agency isa [k house-agency]}
                 {?agency workplace ?venue}
                 (not (spatial @self building ?venue))
     (effects (maintain-proposal {@self go ?venue}))))
@@ -57,13 +57,13 @@
 ; register (the orient chain, orient_errand.mc), which mints a mental org object +
 ; {?org isa ...} belief for EVERY org in town - the only honest channel by which an
 ; org's identity is learned. The instant a house-agency is learned the (no-role ...)
-; fills, this stops, and list-to-let-go takes over. (no-role [k org house-agency])
+; fills, this stops, and list-to-let-go takes over. (no-role [k house-agency])
 ; reads the SAME per-mind object cache the positive role populates ([k <kind>] is
 ; sugar for {isa [k <kind>]}).
 ; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
 ;(think list_to_let_find
 ;  (goal {@self LET})
-;  (no-role [k org house-agency])
+;  (no-role [k house-agency])
 ;  (declare-utility errand)
 ;  (effects       (begin-goal {@self ORIENT}))
 ;  (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ)))

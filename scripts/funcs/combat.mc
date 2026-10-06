@@ -47,5 +47,5 @@
 ; ?method is the striking verb literal.
 (define-func kill-blow (?foe ?method)
   (record-crime @self ?foe ?method kill @u @u)
-  (set-attr ?foe death-cause [k death-cause violence])
+  (set-attr ?foe death-cause [k violence])
   (die ?foe))

@@ -5,7 +5,7 @@
 ; Admitting a newcomer is not a world concern any more than emigration is: it is
 ; an act of a SPECIFIC official - the town's senior civic gatekeeper (the [k job
 ; official] a senior_appointment installs at a public gov org). So @self is bound
-; to each living NPC; the age-band template + the {@self job [k job official]}
+; to each living NPC; the age-band template + the {@self job [k official]}
 ; gate cast @self down to a holder of a senior public post, reading his OWN job
 ; belief (no scan, no telepathy). While the parish is sparse he quietly admits
 ; arrivals; each admission raises (living-npc-count), so (population-pressure)
@@ -40,11 +40,11 @@
   ; nothing @self has not perceived; the waive is for the read, not for a peek.
   (lint-waive env-read-outside-action)
 
-  ;; The gatekeeper: an adult holding a senior public post ([k job official],
+  ;; The gatekeeper: an adult holding a senior public post ([k official],
   ;; installed by senior_appointment). His job belief is his own - a CACHED
   ;; self-gate filter, so every non-official empty-set-skips the rule.
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              {@self job [k job official]}
+              {@self job [k official]}
 
     ;; The premises he admits people AT, threaded off his own post: job -> org ->
     ;; workplace, three belief reads and no world lookup.

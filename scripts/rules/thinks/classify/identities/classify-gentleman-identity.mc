@@ -5,6 +5,6 @@
     (effects
       (mint-band {@self identity}
         (* (= ?gender [k male])
-           (clamp (+ (prob {@self class-situation [k class-situation middle]})
-                     (prob {@self class-situation [k class-situation upper]})) 0.0 1.0))
-        [k role gentleman-role] 0.5))))
+           (clamp (+ (prob {@self class-situation [k middle]})
+                     (prob {@self class-situation [k upper]})) 0.0 1.0))
+        [k gentleman-role] 0.5))))

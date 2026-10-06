@@ -23,7 +23,7 @@
                  (spatial @self unit ?home)))
       (effects
         (any {@self openness ?openness})
-        (for-each ?cache (spatial ?room parts [k interior-space hiding-spot] /env)
+        (for-each ?cache (spatial ?room parts [k hiding-spot-compartment] /env)
           (if -{@self hiding-spot ?cache}
               (then
                 (if (chance (* 0.006 (+ 1.0 ?openness)))

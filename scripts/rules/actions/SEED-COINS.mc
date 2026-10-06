@@ -12,7 +12,7 @@
   (duration 0)
   (effects
     (bind 0 ?made)
-    (for-each ?room (spatial ?home parts [k interior-space room] /env)
+    (for-each ?room (spatial ?home parts [k room] /env)
       (if (= ?made 0)
           (then
             (create-entity [k pile] ?room): ?pile

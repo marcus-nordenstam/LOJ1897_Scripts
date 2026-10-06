@@ -40,7 +40,7 @@
 ;    ;; KNOWN to be scandalous - permissive on the unknown) is a residual filter on
 ;    ;; ?master, produced off {?org founder ?master} and re-checked in the role.
 ;    (role ?org {?org isa [k org]}
-;               -{?org isa [k org household]}
+;               -{?org isa [k household]}
 ;               {?org founder ?master}
 ;               -{?master repute [k scandalous]}
 ;               {?org record ?org_record}

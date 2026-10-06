@@ -2,4 +2,4 @@
 (think classify-parent-identity
   (rng-stream behaviour)
   (role @self {@self class-situation ?}
-    (effects (mint-band {@self identity} (prob {@self child ?}) [k role parent-role] 0.5))))
+    (effects (mint-band {@self identity} (prob {@self child ?}) [k parent-role] 0.5))))

@@ -4,7 +4,7 @@
 (action {@self DRINK}:?DRINK
   (motor body legs)
   (duration (seconds 90 min))
-  (init (check (is-a (spatial @self building) [k building pub])))
+  (init (check (is-a (spatial @self building) [k pub-building])))
   (effects
     ; Intoxication accumulates as a lifetime-drinking proxy (v1 - no decay); the
     ; sobriety classifier reads the attr back. Locationless by design: pub

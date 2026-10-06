@@ -17,8 +17,8 @@
                     (then (end-belief {@self skilled-in ?curriculum} [/salience unforgettable])))
                 (begin-belief {@self skilled-in ?curriculum
                                (if (>= ?is_primary 1)
-                                   (then [k competence-level novice])
-                                   (else [k competence-level trained]))})))
+                                   (then [k novice])
+                                   (else [k trained]))})))
           ; A university discipline kindles the standing interest.
           (if (not (or (is-a ?curriculum [k primary-school-curriculum])
                        (is-a ?curriculum [k secondary-school-curriculum])))

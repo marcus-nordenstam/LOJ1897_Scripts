@@ -41,61 +41,61 @@
 
 (define-table eye_color_dist
   (fields value weight)
-  (record [k eye-color brown] 4)
-  (record [k eye-color blue]  4)
-  (record [k eye-color green] 2)
-  (record [k eye-color hazel] 2)
-  (record [k eye-color grey]  1))
+  (record [k brown] 4)
+  (record [k blue]  4)
+  (record [k green] 2)
+  (record [k hazel] 2)
+  (record [k grey]  1))
 
 (define-table hair_color_dist
   (fields value weight)
-  (record [k hair-color brown]  5)
-  (record [k hair-color black]  3)
-  (record [k hair-color blonde] 2)
-  (record [k hair-color auburn] 1)
-  (record [k hair-color red]    1))
+  (record [k brown]  5)
+  (record [k black]  3)
+  (record [k blonde] 2)
+  (record [k auburn] 1)
+  (record [k red]    1))
 
 (define-table height_dist
   (fields value weight)
-  (record [k height short]  1)
-  (record [k height medium] 4)
-  (record [k height tall]   1))
+  (record [k short]  1)
+  (record [k medium-height] 4)
+  (record [k tall]   1))
 
 (define-table girth_dist
   (fields value weight)
-  (record [k girth thin]   1)
-  (record [k girth medium] 4)
-  (record [k girth fat]    2))
+  (record [k thin]   1)
+  (record [k medium-girth] 4)
+  (record [k fat]    2))
 
 ; The school a hand is taught in follows the schooling a class buys.
 (define-table handwriting_upper_dist
   (fields value weight)
-  (record [k handwriting copperplate] 4)
-  (record [k handwriting spencerian]  2)
-  (record [k handwriting italic]      2))
+  (record [k copperplate] 4)
+  (record [k spencerian]  2)
+  (record [k italic]      2))
 (define-table handwriting_middle_dist
   (fields value weight)
-  (record [k handwriting commercial] 4)
-  (record [k handwriting round-hand] 2)
-  (record [k handwriting copperplate] 1))
+  (record [k commercial] 4)
+  (record [k round-hand] 2)
+  (record [k copperplate] 1))
 (define-table handwriting_lower_dist
   (fields value weight)
-  (record [k handwriting schoolroom] 3)
-  (record [k handwriting scrawl]     3))
+  (record [k schoolroom] 3)
+  (record [k scrawl]     3))
 (define-table handwriting_schools
   (fields school)
-  (record [k handwriting copperplate])
-  (record [k handwriting spencerian])
-  (record [k handwriting round-hand])
-  (record [k handwriting commercial])
-  (record [k handwriting italic])
-  (record [k handwriting schoolroom])
-  (record [k handwriting scrawl]))
+  (record [k copperplate])
+  (record [k spencerian])
+  (record [k round-hand])
+  (record [k commercial])
+  (record [k italic])
+  (record [k schoolroom])
+  (record [k scrawl]))
 (define-table appearance_dist
   (fields value weight)
-  (record [k appearance ugly]          1)
-  (record [k appearance plain-looking] 4)
-  (record [k appearance beautiful]     2))
+  (record [k ugly]          1)
+  (record [k plain-looking] 4)
+  (record [k beautiful]     2))
 
 (include "../macros/tunables.mc")
 (include "../macros/physiology-macros.mc")
@@ -188,8 +188,8 @@
 ; derivation acyclic.
 (define-func breeding-for-class (?class)
   (switch (kind ?class)
-    (on [k class-situation upper]  (breeding_upper))
-    (on [k class-situation middle] (breeding_middle))
+    (on [k upper]  (breeding_upper))
+    (on [k middle] (breeding_middle))
     (else (breeding_lower))))
 
 ; The school ?h is taught to write in: a child learns its mother's, anyone else the one
@@ -202,9 +202,9 @@
         (if (is-a (attr ?mother handwriting) ?s) (then (bind ?s ?school) (break)))))
     (else
       (switch (kind ?class)
-        (on [k class-situation upper]
+        (on [k upper]
           (bind (table-sample-weighted handwriting_upper_dist value weight) ?school))
-        (on [k class-situation middle]
+        (on [k middle]
           (bind (table-sample-weighted handwriting_middle_dist value weight) ?school))
         (else
           (bind (table-sample-weighted handwriting_lower_dist value weight) ?school)))))

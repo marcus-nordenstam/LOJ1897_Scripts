@@ -34,5 +34,5 @@
                (chance ?per_month)))
 
     (declare-utility survival)
-    (effects (begin-goal {@self DIE [k death-cause old-age]}))
+    (effects (begin-goal {@self DIE [k old-age]}))
 ))

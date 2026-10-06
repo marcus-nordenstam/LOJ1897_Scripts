@@ -9,8 +9,8 @@
 
     (effects
       (mint-band {@self repute} (repute-fold @self)
-        [k repute exemplary]    0.80
-        [k repute respectable]  0.60
-        [k repute questionable] 0.40
-        [k repute disreputable] 0.20
-        [k repute scandalous]   -1))))
+        [k exemplary]    0.80
+        [k respectable]  0.60
+        [k questionable] 0.40
+        [k disreputable] 0.20
+        [k scandalous]   -1))))

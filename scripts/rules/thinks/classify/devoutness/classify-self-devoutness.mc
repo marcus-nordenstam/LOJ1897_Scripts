@@ -10,4 +10,4 @@
 
     (effects
       (mint-band {@self devoutness} (evidence @self WORSHIP 6 6)
-        [k piety-band devout] 0.55 [k piety-band observant] 0.15 [k piety-band secular] -1))))
+        [k devout] 0.55 [k observant] 0.15 [k secular] -1))))

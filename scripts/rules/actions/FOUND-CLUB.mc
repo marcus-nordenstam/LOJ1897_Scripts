@@ -14,8 +14,8 @@
 ;; so a kind with no free building simply produces nothing that trip.
 ;(define-table foundable_clubs
 ;  (fields kind weight)
-;  (record [k org race-club]     1)
-;  (record [k org athletic-club] 1))
+;  (record [k race-club]     1)
+;  (record [k athletic-club] 1))
 
 ;(action {@self FOUND-CLUB}
 ;  (motor body legs)

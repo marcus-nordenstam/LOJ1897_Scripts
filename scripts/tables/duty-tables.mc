@@ -21,10 +21,10 @@
   (record (kind [k org])           (duty [k review_staff]))
   (record (kind [k org])           (duty [k keep_records]))
   (record (kind [k org])           (duty [k recruit-staff]))
-  (record (kind [k org household]) (duty [k provide_for]))
-  (record (kind [k org household]) (duty [k protect]))
-  (record (kind [k org church])    (duty [k officiate]))
-  (record (kind [k org club])      (duty [k admit_member])))
+  (record (kind [k household]) (duty [k provide_for]))
+  (record (kind [k household]) (duty [k protect]))
+  (record (kind [k church-org])    (duty [k officiate]))
+  (record (kind [k club-org])      (duty [k admit_member])))
 
 (define-table level_rank
   (fields level rank)

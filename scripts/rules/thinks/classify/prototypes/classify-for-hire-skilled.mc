@@ -11,11 +11,11 @@
     (effects
       (mint-band {@self prototype}
         ; REASON: economic desperation OR the callous + disinhibited bad seed.
-        (clamp (+ (clamp (+ (prob {@self economic-situation [k economic-situation poor]})
-                            (prob {@self economic-situation [k economic-situation destitute]})) 0.0 1.0)
+        (clamp (+ (clamp (+ (prob {@self economic-situation [k poor]})
+                            (prob {@self economic-situation [k destitute]})) 0.0 1.0)
                   (* (<= ?compassion 0.40)
                      (>= (/ (+ (- 1.0 ?industriousness)
                                (- 1.0 ?politeness)
                                ?volatility) 3.0)
                          0.55))) 0.0 1.0)
-        [k prototype for-hire] 0.5))))
+        [k for-hire] 0.5))))

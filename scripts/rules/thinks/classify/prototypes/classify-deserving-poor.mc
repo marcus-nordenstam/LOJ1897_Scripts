@@ -4,8 +4,8 @@
   (role @self {@self economic-situation ?}
     (effects
       (mint-band {@self prototype}
-        (* (clamp (+ (prob {@self economic-situation [k economic-situation poor]})
-                     (prob {@self economic-situation [k economic-situation destitute]})) 0.0 1.0)
-           (clamp (+ (prob {@self repute [k repute exemplary]})
-                     (prob {@self repute [k repute respectable]})) 0.0 1.0))
-        [k prototype deserving-poor] 0.5))))
+        (* (clamp (+ (prob {@self economic-situation [k poor]})
+                     (prob {@self economic-situation [k destitute]})) 0.0 1.0)
+           (clamp (+ (prob {@self repute [k exemplary]})
+                     (prob {@self repute [k respectable]})) 0.0 1.0))
+        [k deserving-poor] 0.5))))

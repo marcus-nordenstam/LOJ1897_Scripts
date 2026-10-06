@@ -27,7 +27,7 @@
   (role @self {@self age ?age}
               -{@self job ?}
               -{@self apply-for ? /pres}
-    (role ?board [k building church] (select (score (near @self ?board)) (policy roulette unknown-last))
+    (role ?board [k church-building] (select (score (near @self ?board)) (policy roulette unknown-last))
       (role @self (not (spatial @self building ?board))
         (when (hours (business_open_hour) (business_close_hour)) (job-seeker @self ?age))
         (declare-utility errand)
@@ -40,15 +40,15 @@
   (role @self {@self age ?age}
               -{@self job ?}
               -{@self apply-for ? /pres}
-    (no-role [k building church])
+    (no-role [k church-building])
     ; The search's own /fail act-memory is the "this region has no church" record - it stops
     ; the hunt re-proposing forever once find-building has walked every structure.
     (when (hours (business_open_hour) (business_close_hour)) (and (job-seeker @self ?age)
-               -{@self find-building [k building church] ? /fail}
+               -{@self find-building [k church-building] ? /fail}
                (current-exterior @self): ?rg))
     (declare-utility errand)
     (effects
-             (maintain-proposal {@self find-building [k building church] ?rg}))))
+             (maintain-proposal {@self find-building [k church-building] ?rg}))))
 
 ; --- at the board, READ each notice not yet read (the physical knowledge channel - no
 ; doc-record pull).
@@ -91,12 +91,12 @@
         (when (hours (business_open_hour) (business_close_hour)) (and (kind ?job): ?jk
                    (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
                    (>= (cond
-                         (case {@self class-situation [k class-situation upper]}  2)
-                         (case {@self class-situation [k class-situation middle]} 1)
-                         (case {@self class-situation [k class-situation lower]}  0)
+                         (case {@self class-situation [k upper]}  2)
+                         (case {@self class-situation [k middle]} 1)
+                         (case {@self class-situation [k lower]}  0)
                          (else -1)) (switch (kind ?cf)
-                                      (on [k class-situation upper]  2)
-                                      (on [k class-situation middle] 1)
+                                      (on [k upper]  2)
+                                      (on [k middle] 1)
                                       (else 0)))
                    -{@self apply-for ?job /succ}))
         (declare-utility errand)

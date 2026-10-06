@@ -20,7 +20,7 @@
   (role @self {@self compassion ?compassion}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
-    (role ?venue [k building church] (select (score (near @self ?venue)) (policy roulette unknown-last))
+    (role ?venue [k church-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
       (when (>= (days-since-last {@self GIVE-ALMS /succ /ever}) 20))
       ; compassion x a slow days-since ramp, capped low (rare deep-idle draw); the
       ; uncompassionate stay below every routine act, so they never give.

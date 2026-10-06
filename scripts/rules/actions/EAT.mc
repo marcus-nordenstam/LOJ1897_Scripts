@@ -27,7 +27,7 @@
                   (then (set-attr ?food count (max 0 (- (attr ?food count) 1))))
                   (else (do
                           (end-beliefs-about ?food [/exclude condition|internment|EAT])
-                          (begin-belief {?food condition [k condition consumed]}))
+                          (begin-belief {?food condition [k consumed]}))
                         (destroy-entity ?food)))))
     (set-attr @self hunger (max 0.0 (- (attr @self hunger) 0.5)))
     (if ?owner

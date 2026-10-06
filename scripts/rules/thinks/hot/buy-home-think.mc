@@ -52,7 +52,7 @@
 ;    ; The office is the agency's OWN workplace belief. The old spelling bound ?art off
 ;    ; {?agency record ?art} and then had (articles-building ?art ?venue) walk BACK from the
 ;    ; articles to the org that records them - which is ?agency - purely to read its workplace.
-;    (role ?agency {?agency isa [k org house-agency]}
+;    (role ?agency {?agency isa [k house-agency]}
 ;                  {?agency workplace ?venue}
 ;                  (not (spatial @self building ?venue))
 ;      (effects (maintain-proposal {@self go ?venue})))))
@@ -66,7 +66,7 @@
 ;(think buy_home_read
 ;  (goal {@self acquire})
 ;  (role @self -{? availability [k for-sale]}   ; no listing read yet - cached
-;    (role ?agency {?agency isa [k org house-agency]}
+;    (role ?agency {?agency isa [k house-agency]}
 ;                  {?agency workplace ?venue}
 ;                  (spatial @self building ?venue)
 ;      (role ?reg [k for-sale-listings]
@@ -78,11 +78,11 @@
 ;; honest channel by which an org's identity is learned (co-presence at an office
 ;; teaches acquaintances, not that the office IS a house agency). The instant a
 ;; house-agency is learned the (no-role ...) fills, this stops, and buy_home_go
-;; takes over. (no-role [k org house-agency]) reads the SAME per-mind object cache
+;; takes over. (no-role [k house-agency]) reads the SAME per-mind object cache
 ;; buy_home_go's positive role populates ([k <kind>] is sugar for {isa [k <kind>]}).
 ;(think buy_home_find
 ;  (goal {@self acquire})
-;  (no-role [k org house-agency])
+;  (no-role [k house-agency])
 ;  (role @self -{? availability [k for-sale]}   ; no listing read yet - cached
 ;    (declare-utility errand)
 ;    (effects       (begin-goal {@self ORIENT}))

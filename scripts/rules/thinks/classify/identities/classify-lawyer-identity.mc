@@ -2,4 +2,4 @@
   (rng-stream behaviour)
   (role @self {@self class-situation ?}
     (effects (mint-band {@self identity} (competent-in [k law])
-               [k role lawyer-role] 0.5))))
+               [k lawyer-role] 0.5))))

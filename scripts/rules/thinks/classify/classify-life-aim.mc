@@ -33,18 +33,18 @@
               {@self decorum ?decorum}
 
     (effects
-      (mint-argmax {@self life-aim} 0.01 [k life-aim belonging-aim]
-        [k life-aim legacy-aim]
+      (mint-argmax {@self life-aim} 0.01 [k belonging-aim]
+        [k legacy-aim]
           (* (/ (+ ?compassion ?politeness) 2.0)
              (+ 0.3 (* (prob {@self child ?}) 0.7))
-             (+ 0.3 (* (clamp (+ (prob {@self class-situation [k class-situation upper]})
-                                 (prob {@self class-situation [k class-situation middle]})) 0.0 1.0) 0.7)))
-        [k life-aim wealth-aim]
+             (+ 0.3 (* (clamp (+ (prob {@self class-situation [k upper]})
+                                 (prob {@self class-situation [k middle]})) 0.0 1.0) 0.7)))
+        [k wealth-aim]
           (* ?industriousness
              (- 1.0 ?piety)
              (max (- 1.0 ?wealth)
-                  (prob {@self social-trajectory [k social-trajectory rising]})))
-        [k life-aim piety-aim]
+                  (prob {@self social-trajectory [k rising]})))
+        [k piety-aim]
           (* ?piety
              (- 1.0 (clamp (+ 0.05
                               (* (+ (count (every {@self (theme-labels violent-to) ? /ever}) /float)
@@ -52,19 +52,19 @@
                                     (count (every {@self defraud ? /ever}) /float)
                                     (count (every {@self embezzle ? /ever}) /float)
                                     (count (every {@self kidnap ? /ever}) /float)) 0.25)) 0.0 1.0))
-             (+ 0.4 (* (prob {@self WORSHIP [k building church] /ever}) 0.6)))
-        [k life-aim respectability-aim]
+             (+ 0.4 (* (prob {@self WORSHIP [k church-building] /ever}) 0.6)))
+        [k respectability-aim]
           (* ?politeness
              ?piety
-             (+ 0.2 (* (prob {@self class-situation [k class-situation middle]}) 0.8))
+             (+ 0.2 (* (prob {@self class-situation [k middle]}) 0.8))
              ?decorum)
-        [k life-aim autonomy-aim]
+        [k autonomy-aim]
           (* ?assertiveness (- 1.0 ?rootedness))
-        [k life-aim power-aim]
+        [k power-aim]
           (* ?machiavellianism
              ?narcissism
              (+ 0.3 (* (>= (prob {@self job.salary ?}) 1.0) 0.7)))
-        [k life-aim belonging-aim]
+        [k belonging-aim]
           (* ?enthusiasm
              (- 1.0 ?rootedness)
              (clamp (* (count (every {@self friend ?}) /float) 0.2) 0.0 1.0))))))

@@ -30,7 +30,7 @@
         ; (one representative day per month), so the day-threshold need only distinguish "done this
         ; month" (0) from "a month on"; 1 is the minimal such gate. The act never ends the goal.
         (role ?wp {?org workplace ?wp}
-          (when (and (is-a ?wp [k building shop])
+          (when (and (is-a ?wp [k shop])
                      (>= (days-since-last {@self STOCKTAKE /succ /ever}) 1)))
 
           (declare-utility duty)

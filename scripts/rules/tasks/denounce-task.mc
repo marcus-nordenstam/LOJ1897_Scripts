@@ -43,7 +43,7 @@
                   (bb-write ?denounce alias
                     (sample-name (attr @self gender)
                                  (table-sample-weighted nationality_dist value weight)
-                                 [k class-situation middle]))))
+                                 [k middle]))))
               (maintain-proposal
                 {@self write-doc ?ltr
                        (set-msg-rider

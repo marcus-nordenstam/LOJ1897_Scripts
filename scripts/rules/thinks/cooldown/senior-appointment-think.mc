@@ -41,7 +41,7 @@
 ;    ;; A public organisation - any gov-subkind: church, hospital, agency. A KNOWN
 ;    ;; org of gov kind (@self learned it at new_job_orientation). Belief-pure + cached.
 ;    (role ?org {?org isa [k org]}
-;               [k org gov]
+;               [k gov]
 ;               {?org record ?articles}
 
 ;      ;; (chance) FIRST (cheap, short-circuits), then the live exclusivity re-check

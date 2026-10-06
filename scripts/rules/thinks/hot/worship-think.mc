@@ -14,7 +14,7 @@
 ;   AT a church (case A): {@self WORSHIP} has no active sub-goal, so it is the leaf and
 ;     promotes straight to worship_act (the service). No rule needed.
 ;   know a church (case B): worship-go holds {@self go ?church}.
-;   know none  (case C): worship-find holds {@self find-building [k church]}.
+;   know none  (case C): worship-find holds {@self find-building [k church-building]}.
 ; ----------------------------------------------------------------------------
 
 (include "../../../macros/intensity-macros.mc")
@@ -26,7 +26,7 @@
 (think worship-at-church
   (goal    {@self WORSHIP})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    (when    (is-a (spatial @self building) [k building church]))
+    (when    (is-a (spatial @self building) [k church-building]))
     (effects (maintain-proposal {@self WORSHIP}))))
 
 ; CASE B - not at a church, but knows one: head to it. Inherits the worship drive. A
@@ -36,7 +36,7 @@
 (think worship-go
   (goal    {@self WORSHIP})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    (role ?church [k building church] (select (score (near @self ?church)) (policy roulette unknown-last))
+    (role ?church [k church-building] (select (score (near @self ?church)) (policy roulette unknown-last))
       (when    (not (spatial @self building ?church)))
       (effects
                (maintain-proposal {@self go ?church})))))
@@ -45,8 +45,8 @@
 (think worship-find
   (goal    {@self WORSHIP})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    (no-role [k building church])
-    (when    (and (not (is-a (spatial @self building) [k building church]))
-                  -{@self find-building [k building church] /fail}))
+    (no-role [k church-building])
+    (when    (and (not (is-a (spatial @self building) [k church-building]))
+                  -{@self find-building [k church-building] /fail}))
     (effects
-             (maintain-proposal {@self find-building [k building church] (current-exterior @self)}))))
+             (maintain-proposal {@self find-building [k church-building] (current-exterior @self)}))))

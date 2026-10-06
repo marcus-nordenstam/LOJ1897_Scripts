@@ -21,6 +21,6 @@
         (+ (* 0.5 ?breeding)
            (* 0.3 ?prestige)
            (* 0.2 ?wealth))
-        [k class-situation upper]  0.70
-        [k class-situation middle] 0.40
-        [k class-situation lower]  -1))))
+        [k upper]  0.70
+        [k middle] 0.40
+        [k lower]  -1))))

@@ -2,4 +2,4 @@
   (rng-stream behaviour)
   (role @self {@self class-situation ?}
     (effects (mint-band {@self identity} (competent-in [k medicine])
-               [k role physician-role] 0.5))))
+               [k physician-role] 0.5))))

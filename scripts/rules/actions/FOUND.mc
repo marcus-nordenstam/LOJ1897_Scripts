@@ -10,14 +10,14 @@
 
 ;(define-table foundable_businesses
 ;  (fields kind weight)
-;  (record [k org grocer]        1)
-;  (record [k org bookseller]    1)
-;  (record [k org barbershop]    1)
-;  (record [k org restaurant]    1)
-;  (record [k org pawnbroker]    1)
-;  (record [k org apothecary]    1)
-;  (record [k org antiques-shop] 1)
-;  (record [k org hotel]         1))
+;  (record [k grocer]        1)
+;  (record [k bookseller]    1)
+;  (record [k barbershop-org]    1)
+;  (record [k restaurant-org]    1)
+;  (record [k pawnbroker]    1)
+;  (record [k apothecary-org]    1)
+;  (record [k antiques-shop] 1)
+;  (record [k hotel-org]         1))
 
 ;(action {@self FOUND}
 ;  (motor body legs)
@@ -31,7 +31,7 @@
 ;      (then
 ;        (fire-self)
 ;        ; mint the founding via the atomic-op sequence (proprietor head).
-;        (found-org-seq ?bizkind [k job proprietor])))
+;        (found-org-seq ?bizkind [k proprietor])))
 ;    ; Clear the goal regardless of the premises outcome. A dry-premises resolution
 ;    ; LAPSES rather than persisting: were the goal kept on a dry roll, the founder
 ;    ; would re-run found_dwell -> found_commit (and found_go) every intra-day cycle

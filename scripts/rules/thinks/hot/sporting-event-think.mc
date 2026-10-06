@@ -39,8 +39,8 @@
 ;; only the sport label, which is pure authored content.
 ;(define-table club_sports
 ;  (fields org-kind sport)
-;  (record [k org race-club]     [k sport horse-racing])
-;  (record [k org athletic-club] [k sport cricket]))
+;  (record [k race-club]     [k horse-racing])
+;  (record [k athletic-club] [k cricket]))
 
 ;; --- routing: get the organiser to his clubhouse, then propose the on-site act ---
 ;; The clubhouse is the goal focus's premises (articles-building), role-free (recovered from

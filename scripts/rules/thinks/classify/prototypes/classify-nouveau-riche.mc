@@ -8,4 +8,4 @@
       (mint-band {@self prototype}
         (* (>= ?wealth 0.60)
            (<= ?breeding 0.35))
-        [k prototype nouveau-riche] 0.5))))
+        [k nouveau-riche] 0.5))))

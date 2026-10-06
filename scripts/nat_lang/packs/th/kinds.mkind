@@ -16,7 +16,7 @@ lower           แรงงาน
 # Interest
 literature      วรรณกรรม
 music           ดนตรี
-theatre         ละคร
+theatre-art     ละคร
 riding          ขี่ม้า
 history         ประวัติศาสตร์
 science         วิทยาศาสตร์
@@ -24,7 +24,7 @@ spiritualism    ลัทธิจิตวิญญาณ
 religion        ศาสนา
 antiques        ของเก่า
 sports          กีฬา
-suffrage        สิทธิเลือกตั้ง
+suffrage-cause  สิทธิเลือกตั้ง
 
 # Sport disciplines
 cricket         คริกเก็ต
@@ -41,7 +41,7 @@ landlord        เจ้าของที่ดิน
 industrialist   นักอุตสาหกรรม
 principal       ครูใหญ่
 merchant        พ่อค้า
-apothecary      เภสัชกร
+apothecary-job  เภสัชกร
 proprietor      เจ้าของ
 solicitor       ทนายความ
 physician       แพทย์

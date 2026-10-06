@@ -71,7 +71,7 @@
 ;    ; off {?club_org founder ?founder} in the role; the own-class match (below) reads
 ;    ; it live in (when).
 ;    (role ?club_org {?club_org isa [k org]}
-;                    [k org club]
+;                    [k club-org]
 ;                    -{@self member-of ?club_org}
 ;                    {?club_org founder ?founder}   ; produced-restricted: ?founder off the club
 

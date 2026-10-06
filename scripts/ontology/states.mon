@@ -241,7 +241,7 @@
 (state coercive-to (appraisal_input) (tar [k human] @object))
 # mention: the spoken-of-topic gist - the subject has SPOKEN OF the
 # target concept, a witnessed remark distilled to its topic (not an
-# enacted state). {<despairing> mention [k death-cause suicide]}
+# enacted state). {<despairing> mention [k suicide]}
 # held in a confidant's mind is the suicidal-ideation testimony
 # minted when the suicide branch is deliberated (the
 # valet-testimony half of the Not-Proven engine). A real
@@ -834,12 +834,12 @@
 (state color (tar [k color] @excl))
 (state condition (tar [k condition] @excl))
 (state death-cause (tar [k death-cause] @excl))
-(state eye-color (tar [k eye-color] @excl))
+(state eye-color (tar [k color] @excl))
 (state fog (tar [k strength-measurement] @excl))
 (state game-role (tar [k game-role] @excl))
 (state gender (tar [k gender] @excl) (disclosure stranger) (talkable))
 (state girth (tar [k girth] @excl))
-(state hair-color (tar [k hair-color] @excl))
+(state hair-color (tar [k color] @excl))
 (state height (tar [k height] @excl))
 (state integrity (tar [k integrity] @excl))
 (state internment (tar [k internment] @excl))

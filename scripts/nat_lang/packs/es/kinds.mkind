@@ -43,7 +43,7 @@ lower              obrera
 # Interest (noun, not adjective; no gender agreement needed)
 literature         literatura
 music              música
-theatre            teatro
+theatre-art        teatro
 riding             equitación
 history            historia
 science            ciencia
@@ -51,7 +51,7 @@ spiritualism       espiritualismo
 religion           religión
 antiques           antigüedades
 sports             deportes
-suffrage           sufragio
+suffrage-cause     sufragio
 
 # Sport disciplines
 cricket            cricket
@@ -88,9 +88,9 @@ principal.f        directora
 
 merchant           comerciante      # invariant -ante ending
 
-apothecary         boticario
-apothecary.m       boticario
-apothecary.f       boticaria
+apothecary-job     boticario
+apothecary-job.m   boticario
+apothecary-job.f   boticaria
 
 proprietor         propietario
 proprietor.m       propietario

@@ -23,7 +23,7 @@
 ;;
 ;;   when : @self runs no estate yet (runs-org; self-terminating - founding mints
 ;;          the {@self job.org <estate>} belief runs-org reads).
-;;   then : found-org-seq [k org estate] [k job landlord] (the landlord is its head)
+;;   then : found-org-seq [k estate] [k landlord] (the landlord is its head)
 ;;          + reassign-rentals-to-estate (vest the rentals into it).
 ;; ----------------------------------------------------------------------------
 
@@ -33,16 +33,16 @@
 ;  (rng-stream business)
 ;  (role @self (old_human @self)
 ;              -{@self job [k head-of-non-household-org]}
-;              -{@self FOUND-ORG [k org estate] ? /succ /ever}
+;              -{@self FOUND-ORG [k estate] ? /succ /ever}
 ;    (role ?rental {@self own ?rental}
 ;                  (or {?rental availability [k for-rent]}
 ;                      {?rental tenant ?})
 ;      (declare-utility errand)
-;      (effects (maintain-proposal {@self FOUND-ORG [k org estate] [k job landlord]})))))
+;      (effects (maintain-proposal {@self FOUND-ORG [k estate] [k landlord]})))))
 
 ;; Once the estate stands, each let property's deed is made over to it.
 ;(think estate_deeds
-;  (role ?estate {?estate isa [k org estate]}
+;  (role ?estate {?estate isa [k estate]}
 ;                {?estate founder @self}
 ;    (role ?rental {@self own ?rental}
 ;                  (or {?rental availability [k for-rent]}

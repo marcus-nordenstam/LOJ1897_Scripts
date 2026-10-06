@@ -21,7 +21,7 @@
   (motor body legs)
   (duration (seconds (admission_minutes) min))
   (effects
-    (env-entities [k building rowhouse]): ?homes
+    (env-entities [k rowhouse]): ?homes
     (count ?homes): ?n
     (check (> ?n 0))
     (nth ?homes (random-int 0 (- ?n 1))): ?imm-house
@@ -29,6 +29,6 @@
     (check (not (empty ?imm-units)))
     (nth ?imm-units (random-int 0 (- (count ?imm-units) 1))): ?imm-home
     (table-sample-weighted gender_dist value weight): ?gender
-    (make-human ?imm-home [k class-situation lower] ?gender): ?newcomer
+    (make-human ?imm-home [k lower] ?gender): ?newcomer
     (check (substantial ?newcomer))
     (set-outcome {@self ADMIT-IMMIGRANT ?office} /succ)))

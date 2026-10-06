@@ -47,7 +47,7 @@
 
 (think claim-cook-hired
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-                           {@self job [k job cook]}
+                           {@self job [k cook]}
               -{@self household-cook ?}
     (role ?home {@self home ?home}
       (when (bb-public-none ?home cook))
@@ -110,7 +110,7 @@
   (goal    {@self PROVISION})
   ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
   ; and rides the act pattern - the counter-stop body does no counting.
-  (role @self (is-a (spatial @self building) [k building shop])
+  (role @self (is-a (spatial @self building) [k shop])
     (role ?home {@self household-cook ?home}
                 (spatial ?home room [k kitchen]): ?kitchen
       (when    (and (believed-pile-count ?kitchen [k food]): ?blv

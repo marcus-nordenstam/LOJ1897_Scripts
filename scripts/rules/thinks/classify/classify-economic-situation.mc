@@ -20,10 +20,10 @@
 
     (effects
       (mint-band {@self economic-situation} ?wealth
-        [k economic-situation wealthy]     0.90
-        [k economic-situation prosperous]  0.75
-        [k economic-situation comfortable] 0.60
-        [k economic-situation stable]      0.45
-        [k economic-situation struggling]  0.30
-        [k economic-situation poor]        0.15
-        [k economic-situation destitute]  -1))))
+        [k wealthy]     0.90
+        [k prosperous]  0.75
+        [k comfortable] 0.60
+        [k stable-finances]      0.45
+        [k struggling-finances]  0.30
+        [k poor]        0.15
+        [k destitute]  -1))))

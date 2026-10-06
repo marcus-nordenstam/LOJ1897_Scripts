@@ -46,8 +46,8 @@
                     (else 0.15))
                   (min (* (count (every {@self win ?}) /float) 0.04) 0.20)
                   (* 0.15
-                     (min (+ (prob {@self skilled-in [k performance-art] [k competence-level expert]})
-                             (prob {@self skilled-in [k academic-field]  [k competence-level expert]})
-                             (prob {@self skilled-in [k martial]         [k competence-level expert]}))
+                     (min (+ (prob {@self skilled-in [k performance-art] [k expert]})
+                             (prob {@self skilled-in [k academic-field]  [k expert]})
+                             (prob {@self skilled-in [k martial]         [k expert]}))
                           1.0)))
                0.0 1.0)}))))

@@ -32,12 +32,12 @@
       (tolerate (prob {@self craving ?})): ?craving
       (bind (- 1.0 ?intoxication) ?sober)
       (mint-band {@self honesty}    (/ (+ ?politeness (- 1.0 ?machiavellianism)) 2.0)
-        [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
+        [k good] 0.66 [k fair] 0.33 [k lax] -1)
       (mint-band {@self diligence}  ?industriousness
-        [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
+        [k good] 0.66 [k fair] 0.33 [k lax] -1)
       (mint-band {@self generosity} (clamp (+ ?compassion (* (>= (count (every {@self give ? /ever})) 1) 0.20)) 0.0 1.0)
-        [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1)
+        [k good] 0.66 [k fair] 0.33 [k lax] -1)
       (mint-band {@self sobriety}   (clamp (+ (* (- 1.0 ?craving) ?sober)
                                               (* ?craving (min ?sober 0.15))
                                               (* ?gambling-addiction -0.25)) 0.0 1.0)
-        [k conduct-level good] 0.66 [k conduct-level fair] 0.33 [k conduct-level lax] -1))))
+        [k good] 0.66 [k fair] 0.33 [k lax] -1))))

@@ -34,6 +34,6 @@
         (begin-belief {@self pressure [k exposure-risk] ?blackmailer /caused_by ?extort_anchor}
                       [/salience (* 1440
                                     (switch (kind ?class)
-                                      (on [k class-situation upper]  1.5)
-                                      (on [k class-situation middle] 1.2)
+                                      (on [k upper]  1.5)
+                                      (on [k middle] 1.2)
                                       (else 1.0)))])))))

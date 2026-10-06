@@ -24,8 +24,8 @@
   (fields context          rank  barb-eval)
 
   ; displaced_anger: lashing out grabs what is visible at hand.
-  (record displaced_anger  3    (cond (case (matches ?girth.target [k girth fat|thin]) ?girth)
-                                      (case (= ?height.target [k height short])       ?height)))
+  (record displaced_anger  3    (cond (case (matches ?girth.target [k fat|thin]) ?girth)
+                                      (case (= ?height.target [k short])       ?height)))
   (record displaced_anger  2    (if (<= ?sobriety.target 0.35) (then ?sobriety)))
   (record displaced_anger  1    (cond (case (<= ?low_aspect.target 0.30) ?low_aspect)
                                       (case (>= ?volatility.target 0.70)        ?volatility)))
@@ -35,8 +35,8 @@
   (record dispositional    3    (if (<= ?prestige.target 0.35) (then ?prestige)))
   (record dispositional    2    (cond (case (<= ?low_aspect.target 0.30) ?low_aspect)
                                       (case (>= ?volatility.target 0.70)        ?volatility)))
-  (record dispositional    1    (cond (case (matches ?girth.target [k girth fat|thin]) ?girth)
-                                      (case (= ?height.target [k height short])       ?height))))
+  (record dispositional    1    (cond (case (matches ?girth.target [k fat|thin]) ?girth)
+                                      (case (= ?height.target [k short])       ?height))))
 
 (think bonded-incident-insult
   (cooldown 1 m try-once)
@@ -74,7 +74,7 @@
         (tolerate (any {?victim sobriety ?}):?sobriety)
         (tolerate (lowest /target {?victim politeness|industriousness|orderliness|compassion ?}):?low_aspect)
         (tolerate (any {?victim volatility ?}):?volatility)
-        (tolerate (any {?victim class-situation [k class-situation lower]}):?class-situation)
+        (tolerate (any {?victim class-situation [k lower]}):?class-situation)
         (tolerate (any {?victim prestige ?}):?prestige))
 
       ; Compose the barb: context is the anger-driven ladder choice; ?barb the

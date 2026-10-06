@@ -37,7 +37,7 @@
               {@self fiancee ?fiancee}   ; existence cached, ?fiancee binds at fire
     ; The venue is a same-town church the groom KNOWS; nearest preferred, weighted.
     ; No known church -> no fire (the goal waits).
-    (role ?church [k building church] (select (score (near @self ?church)) (policy roulette unknown-last))
+    (role ?church [k church-building] (select (score (near @self ?church)) (policy roulette unknown-last))
       (when (none {@self organize [k wedding]}))
       (effects
         ; ~3 months' banns lead, an 11-14h ceremony. plan-wedding stages the occasion

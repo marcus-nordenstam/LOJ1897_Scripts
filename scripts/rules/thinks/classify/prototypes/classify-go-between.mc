@@ -24,12 +24,12 @@
               {@self repute ?, class-situation ?}
     (effects
       (mint-band {@self prototype}
-        (* (* (- 1.0 (prob {@self repute [k repute exemplary]}))
-              (- 1.0 (prob {@self repute [k repute respectable]})))
-           (clamp (+ (prob {@self class-situation [k class-situation lower]})
-                     (prob {@self class-situation [k class-situation middle]})) 0.0 1.0)
+        (* (* (- 1.0 (prob {@self repute [k exemplary]}))
+              (- 1.0 (prob {@self repute [k respectable]})))
+           (clamp (+ (prob {@self class-situation [k lower]})
+                     (prob {@self class-situation [k middle]})) 0.0 1.0)
            (>= (/ (+ (- 1.0 ?industriousness)
                      (- 1.0 ?politeness)
                      ?volatility) 3.0)
                0.50))
-        [k prototype go-between] 0.5))))
+        [k go-between] 0.5))))

@@ -32,7 +32,7 @@
           (lock)
           (rng-stream employment)
           (role ?duty-org {@self duty-to ?duty-org recruit-staff}
-                     -{?duty-org isa [k org household]}
+                     -{?duty-org isa [k household]}
                      {?duty-org record ?}
             ; The BOOK is the headcount - an empty worker cell is an open post - so nothing here
             ; consults a config table the officer has no way of knowing. The standing-notice leg

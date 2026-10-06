@@ -30,7 +30,7 @@
 ;   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
 ;               {@self lover ?}
 ;               {@self spouse @something}
-;               -{@self class-situation [k class-situation lower]}
+;               -{@self class-situation [k lower]}
 ;               {@self name ?author_name})
 ;   (role ?paramour {?paramour isa [k human], condition [k alive]}
 ;     {@self lover ?paramour}
@@ -38,7 +38,7 @@
 ;     (covert-affair-motive ?paramour)
 ;     (select (policy first-match)))
 ;   ; The venue is a hotel @self KNOWS - knowing none, there is no assignation to plan.
-;   (role ?venue [k commercial-building hotel]
+;   (role ?venue [k hotel-building]
 ;     (select (score (near @self ?venue)) (policy roulette)))
 ; 
 ;   (when (and (chance 0.10)
@@ -161,13 +161,13 @@
 ;   ; (when) below bars the rest.
 ;   (role ?venue [k commercial-building]
 ;     (select (score (+ (near @self ?venue)
-;                       (* 10 (is-a ?venue [k commercial-building theatre]))
-;                       (* 5  (is-a ?venue [k commercial-building pub]))))
+;                       (* 10 (is-a ?venue [k theatre-building]))
+;                       (* 5  (is-a ?venue [k pub-building]))))
 ;             (policy argmax)))
 ; 
 ;   (when (and (chance 0.11)
-;              (or (is-a ?venue [k commercial-building theatre])
-;                  (is-a ?venue [k commercial-building pub]))))
+;              (or (is-a ?venue [k theatre-building])
+;                  (is-a ?venue [k pub-building]))))
 ; 
 ;   (declare-utility want)
 ; 

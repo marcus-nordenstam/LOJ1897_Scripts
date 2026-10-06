@@ -17,6 +17,6 @@
         (+ (* 0.5 ?prestige)
            (* 0.5 ?wealth)
            (* -1.0  ?breeding))
-        [k social-trajectory rising]    0.15
-        [k social-trajectory stable]    -0.15
-        [k social-trajectory declining] -2))))
+        [k rising]    0.15
+        [k stable-trajectory]    -0.15
+        [k declining] -2))))

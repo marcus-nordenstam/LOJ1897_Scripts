@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; coward identity (classifier). Toggles {@self identity [k role coward-role]} via
+; coward identity (classifier). Toggles {@self identity [k coward-role]} via
 ; mint-band: a single band at 0.5 IS a toggle (>= 0.5 begins, < 0.5 ends), and the
 ; held-scan matches only coward-role, so the other identities classify_identities
 ; mints (parent / worker / christian / gentleman / ...) are untouched.
@@ -30,5 +30,5 @@
         (clamp (+ (* (< ?assertiveness (coward-assert-max))
                      (> ?withdrawal    (coward-withdraw-min)))
                   (* (> ?inhibition (coward-inhibition-min))
-                     (- 1.0 (prob {@self repute [k repute exemplary]})))) 0.0 1.0)
-        [k role coward-role] 0.5))))
+                     (- 1.0 (prob {@self repute [k exemplary]})))) 0.0 1.0)
+        [k coward-role] 0.5))))

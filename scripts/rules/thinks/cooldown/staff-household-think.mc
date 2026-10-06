@@ -54,7 +54,7 @@
 ; `org household` via the shared found-org-seq macro. household is residence-seated
 ; (businesses.mc), so acquire-org-premises returns the home study - the same seat
 ; the old C++ found_org used. The self-throttle is the CACHED self-gate filter
-; (none {@self job.org [k org household]}): the kind criterion matches
+; (none {@self job.org [k household]}): the kind criterion matches
 ; the job.org target's org-object kind by is-a (the symbolic matcher's
 ; object-vs-kind, permanent - never the decaying {?org isa ...} belief), so it
 ; flips false once founded and this self-throttles to exactly one household per
@@ -67,14 +67,14 @@
 ;  (goal {@self staff-household})
 ;  (rng-stream employment)
 
-;  (role @self -{@self job.org [k org household]}
+;  (role @self -{@self job.org [k household]}
 ;    (role ?h {@self home ?h}
 ;             (or {@self own [k manor]:?h}
 ;                 {@self own [k townhouse]:?h})
 
 ;      (when (>= (years-old @self) 21))
 ;      (declare-utility errand)
-;      (effects (maintain-proposal {@self FOUND-ORG [k org household] [k job head-of-household]})))))
+;      (effects (maintain-proposal {@self FOUND-ORG [k household] [k head-of-household]})))))
 
 ; --- ACT: the head fulfils the duty - hires what the founded household lacks ---
 (think staff-household

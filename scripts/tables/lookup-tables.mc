@@ -10,9 +10,9 @@
 ; unheld-skill default (-1) is supplied at the call site (competence-rank macro).
 (define-table band_rank
   (fields band rank)
-  (record [k competence-level novice]  0)
-  (record [k competence-level trained] 1)
-  (record [k competence-level expert]  2))
+  (record [k novice]  0)
+  (record [k trained] 1)
+  (record [k expert]  2))
 
 ; weekday (1=Sun .. 7=Sat) -> the {job <label> start end} shift-belief label
 ; for today. Read with (time weekday) as the key.

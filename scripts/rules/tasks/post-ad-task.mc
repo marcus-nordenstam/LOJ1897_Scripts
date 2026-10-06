@@ -18,7 +18,7 @@
   (aux [k job] @object)
   (and
     (sequence
-      (role ?board [k building church] (select (score (near @self ?board)) (policy roulette unknown-last))
+      (role ?board [k church-building] (select (score (near @self ?board)) (policy roulette unknown-last))
 
         (stage
           (effects
@@ -81,7 +81,7 @@
             (set-outcome ?post-ad /succ)))))
 
     (try
-      (no-role [k building church])
-      (when (and -{@self find-building [k building church] ? /fail}
+      (no-role [k church-building])
+      (when (and -{@self find-building [k church-building] ? /fail}
                  (current-exterior @self): ?rg))
-      (effects (maintain-proposal {@self find-building [k building church] ?rg})))))
+      (effects (maintain-proposal {@self find-building [k church-building] ?rg})))))

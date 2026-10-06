@@ -31,7 +31,7 @@
 (think gamble-go
   (goal {@self PLAY-GAME})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    (role ?venue [k building pub] (select (score (near @self ?venue)) (policy roulette unknown-last))
+    (role ?venue [k pub-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
       (role @self (not (spatial @self building ?venue))
         (effects (maintain-proposal {@self go ?venue}))))))
 
@@ -42,5 +42,5 @@
 ; {@self PLAY-GAME} goal it /causes (via the (goal ...) gate).
 (think gamble-at-pub
   (goal    {@self PLAY-GAME})
-  (when    (is-a (spatial @self building) [k building pub]))
+  (when    (is-a (spatial @self building) [k pub-building]))
   (effects (maintain-proposal {@self PLAY-GAME})))

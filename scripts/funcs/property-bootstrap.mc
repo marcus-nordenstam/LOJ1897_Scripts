@@ -56,7 +56,7 @@
   ; founder steps into one at world-gen once minds are live (seat-founding-heads).
   ; company-registry is chartered FIRST - its premises seat the incorporation stack every
   ; other charter is filed on.
-  (charter-org [k org company-registry])
+  (charter-org [k company-registry])
   (for-each-row public_orgs [/kind ?pk]
     (charter-org ?pk))
   (for-each-row cornerstone_businesses [/kind ?ck]
@@ -90,7 +90,7 @@
 ; kind the businesses table gives ?org-kind (an office when it names none), or @nothing.
 (define-func free-premises-for (?org-kind)
   (if (table-match businesses org-kind ?org-kind building ?fp-bk)
-      (then ?fp-bk) (else [k building office])): ?fp-kind
+      (then ?fp-bk) (else [k office])): ?fp-kind
   (bind @nothing ?found)
   (for-each ?fp-reg (env-entities [k for-sale-listings])
     (for-each ?fp-b (env-entities ?fp-kind)
@@ -103,7 +103,7 @@
 ; seed-land-registry - a title deed per building, owned by nobody, filed on a title-deed stack
 ; in the land registry's premises.
 (define-func seed-land-registry ()
-  (headless-charter [k org land-registry]): ?slr-art
+  (headless-charter [k land-registry]): ?slr-art
   (check (substantial ?slr-art))
   (articles-premises ?slr-art): ?slr-bldg
   (premises-place ?slr-bldg): ?slr-place

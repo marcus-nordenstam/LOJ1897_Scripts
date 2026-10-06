@@ -2,9 +2,11 @@
 # Format: "kind oldName = newName" or "attr oldName = newName"
 # Loaded by Editor on startup to remap MerlinComponent data on scene load.
 # Re-save scenes after loading to persist the new names.
-# A remap rewrites a WORD wherever it appears in a stored kind path, so a term the ontology
-# reuses for a new kind is never remapped: `opening` (once the door / window parent, now
-# movable-barrier) names the interior-space opening, and no line maps it.
+# A line whose old name is a WHOLE stored kind string ("commercial-building pub") maps that
+# string; any other remap rewrites a WORD wherever it appears in a stored kind path, so a
+# term the ontology reuses for a new kind is never remapped by word: `opening` (once the
+# door / window parent, now movable-barrier) names the interior-space opening, and no line
+# maps it.
 
 # --- Kind renames ---
 
@@ -597,3 +599,47 @@ attr structure_part = structure-part
 attr visual_sensor = visual-sensor
 
 kind doorXYZ = door
+
+# --- one noun kind per leaf (2026-10-06) -----------------------------------------
+# Stored names were the shortest path that told a leaf from its namesakes; every noun kind's
+# leaf is now its whole name, so each such path maps to the dash-suffixed leaf.
+kind commercial-building bank = bank-building
+kind commercial-building barbershop = barbershop-building
+kind commercial-building church = church-building
+kind commercial-building factory = factory-building
+kind commercial-building hospital = hospital-building
+kind commercial-building hotel = hotel-building
+kind commercial-building library = library-building
+kind commercial-building meeting-hall = meeting-hall-building
+kind commercial-building museum = museum-building
+kind commercial-building newspaper = newspaper-building
+kind commercial-building pub = pub-building
+kind commercial-building restaurant = restaurant-building
+kind commercial-building sports-ground = sports-ground-building
+kind commercial-building theatre = theatre-building
+kind document newspaper = newspaper-document
+kind weapon club = club-weapon
+kind structure bridge = bridge-structure
+kind food cheese = cheese-food
+kind smell cheese = cheese-smell
+kind fluid tea = tea-drink
+kind meal tea = tea-meal
+kind compartment hiding-spot = hiding-spot-compartment
+kind interior-space hiding-spot = hiding-spot-compartment
+# Bare leaves saved while the word was still unique: only the physical sense can tag an asset.
+kind bank = bank-building
+kind barbershop = barbershop-building
+kind church = church-building
+kind factory = factory-building
+kind hospital = hospital-building
+kind hotel = hotel-building
+kind library = library-building
+kind meeting-hall = meeting-hall-building
+kind museum = museum-building
+kind pub = pub-building
+kind restaurant = restaurant-building
+kind sports-ground = sports-ground-building
+kind theatre = theatre-building
+kind club = club-weapon
+kind bridge = bridge-structure
+kind hiding-spot = hiding-spot-compartment

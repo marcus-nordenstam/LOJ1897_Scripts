@@ -159,7 +159,7 @@
         (child sword (facets slash pierce))
         (child sabre (facets slash))
         (child cutlass (facets slash))
-        (child club (facets bludgeon))
+        (child club-weapon (facets bludgeon))
         (child cudgel (facets bludgeon))
         # conspicuous: a gun sale is REMEMBERED (the shopkeeper, the
         # sales-record); the acquisition calculus has careful buyers
@@ -390,7 +390,7 @@
           # rejection-letter -> apply-for fail. Delivered to his home mail pile, read
           # (held) in the morning post.
           (children offer-letter rejection-letter))
-        (children pamphlet book newspaper)
+        (children pamphlet book newspaper-document)
         (child application
           (children job-application))
         (children articles-of-incorporation)
@@ -448,7 +448,7 @@
       # from the perpetrator's `add_substance` act-record belief). The
       # occasion picks the drink: supper / luncheon -> wine, tea ->
       # tea, breakfast -> water.
-      (children wine tea water)
+      (children wine tea-drink water)
       # Concentrated poison substances - the contents of a poison bottle,
       # the trade good behind the perpetration row's (control_any toxin)
       # gate. (`toxin`, not `poison`: `poison` is already the leaf kill
@@ -508,9 +508,9 @@
         (spatials gripped-by space bounds)
         (attrs variant))
       (population (cap 8192) (blocks-spots) (non-occluder))
-      (children bread cheese soup)
+      (children bread cheese-food soup)
       (child meal (price 5)
-        (children breakfast lunch luncheon dinner tea supper)))
+        (children breakfast lunch luncheon dinner tea-meal supper)))
     # Groupings of things. A prefab that only ARRANGES other Merlin things - a home office
     # of desk, chair and lamp dropped into a room as one piece - is itself a thing with a kind
     # and a bound, so its blob composes its members and nothing nested in it is lost; it holds
@@ -561,28 +561,28 @@
             # shop) do NOT inherit. bank carries the flag for
             # the lobby; a future refinement can split bank into
             # bank_lobby / bank_vault.
-            (child bank (facets public_space))
-            (child newspaper (facets public_space))
+            (child bank-building (facets public_space))
+            (child newspaper-building (facets public_space))
             (child shop (facets public_space))
-            (child barbershop (facets public_space))
-            (child restaurant (facets public_space) (markup 3))
-            (child pub (facets public_space) (markup 2))
-            (child factory
+            (child barbershop-building (facets public_space))
+            (child restaurant-building (facets public_space) (markup 3))
+            (child pub-building (facets public_space) (markup 2))
+            (child factory-building
               (children warehouse))
-            (children hotel school)
-            (child hospital (facets public_space))
+            (children hotel-building school)
+            (child hospital-building (facets public_space))
             (children police-station)
-            (child church (facets public_space))
-            (child theatre (facets public_space))
+            (child church-building (facets public_space))
+            (child theatre-building (facets public_space))
             # Public civic / cultural venues - founded + minimally
             # staffed at sim start by the govt-bootstrap pass
             # (public_orgs.hsc), and the venues the interest activity
             # aspect sends enthusiasts to (activity plan L5). All
             # open-to-public, so they carry the public_space facet.
-            (child library (facets public_space))
-            (child museum (facets public_space))
-            (child meeting-hall (facets public_space))
-            (child sports-ground (facets public_space))
+            (child library-building (facets public_space))
+            (child museum-building (facets public_space))
+            (child meeting-hall-building (facets public_space))
+            (child sports-ground-building (facets public_space))
             # Private members' club premises (activity plan L8). NOT
             # public_space - a club is members-only, so a non-member is
             # not welcome_at without invitation. The club aspect convenes
@@ -591,7 +591,7 @@
             (child clubhouse
               (children athletic-clubhouse social-clubhouse))))
       (children pier)
-      (child bridge
+      (child bridge-structure
         (children suspension-bridge)))
     # A vehicle is an enclosure that moves: its composition is a building's - a wagon's one
     # room, a train-car's compartments and corridor, a ship's cabins, saloon and holds. A
@@ -704,7 +704,7 @@
       (attrs create-action)
       (spatials bounds))
     (population (cap 512) (non-occluder))
-    (children cheese fart))
+    (children cheese-smell fart))
   # Kinds of sounds
   (child sound (+ per hear) (per hear)
     (decorations
@@ -764,7 +764,7 @@
       # concealment quality (a secret-chamber outlasts a jewelry-box-lining).
       # A closed sub-space of a room, a fixture or a prop: never stood in, never a floor.
       (child compartment (composition compartment)
-        (child hiding-spot
+        (child hiding-spot-compartment
           (children floorboard-cache book-cache jewelry-box-lining painting-cache secret-chamber)))
       (children stage auditorium))
     (child exterior-space

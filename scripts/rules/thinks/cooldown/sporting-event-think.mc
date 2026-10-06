@@ -32,10 +32,10 @@
 ;  ; The organiser is the club's founder/head (an established adult). @self reads
 ;  ; his OWN club object - a known org he founded ({?club founder @self} + the
 ;  ; {?club record ?articles} handle are his own beliefs, minted at found-club-seq).
-;  ; [k org club] narrows to club orgs (a business he founded is not cast here).
+;  ; [k club-org] narrows to club orgs (a business he founded is not cast here).
 ;  (role @self (old_human @self)
 ;    (role ?club {?club isa [k org]}
-;                [k org club]
+;                [k club-org]
 ;                {?club founder @self}
 
 ;      ; MAINTENANCE: the annual decision OWNS the meet goal end to end. hold_meet_act mints no

@@ -5,4 +5,4 @@
     (effects
       (mint-band {@self identity}
         (* (competent-in [k performance-art]) (- 1.0 (competent-in [k music])))
-        [k role artist-role] 0.5))))
+        [k artist-role] 0.5))))

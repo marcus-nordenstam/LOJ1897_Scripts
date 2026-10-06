@@ -17,6 +17,6 @@
   (effects
     (do
       (end-beliefs-about ?thing [/exclude condition|internment|DESTROY-ENTITY])
-      (begin-belief {?thing condition [k condition consumed]}))
+      (begin-belief {?thing condition [k consumed]}))
     (destroy-entity ?thing)
     (set-outcome {@self DESTROY-ENTITY ?thing} /succ)))

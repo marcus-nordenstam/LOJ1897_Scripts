@@ -4,7 +4,7 @@
 ; (table-sample-weighted <dist> value weight). The distributions only one path reads
 ; live with it, in funcs/human-traits.mc.
 ;
-;   value  - the trait value kind ([k gender male], [k appearance ugly], ...)
+;   value  - the trait value kind ([k male], [k ugly], ...)
 ;   weight - the relative frequency (a bare integer)
 ; ----------------------------------------------------------------------------
 

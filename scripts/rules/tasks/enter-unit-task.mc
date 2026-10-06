@@ -26,18 +26,18 @@
       (effects (maintain-proposal {@self WALK ?spot})))
     (try
       (when (< (distance @self ?unit) (near_building_m))
-            (not (knows-every ?unit [k interior-space entrance])))
+            (not (knows-every ?unit [k entrance])))
       (effects
         (look-through-door ?unit)
-        (expect (knows-every ?unit [k interior-space entrance]) "enter-unit: looking through the door taught him every entrance")))
+        (expect (knows-every ?unit [k entrance]) "enter-unit: looking through the door taught him every entrance")))
     (try
       (when (< (distance @self ?unit) (near_building_m))
-            (knows-every ?unit [k interior-space entrance])
+            (knows-every ?unit [k entrance])
             (unsubstantial (entrance-space ?unit)))
       (effects (expect @false "enter-unit: no entrance of the unit has floor to stand on")))
     (try
       (when (< (distance @self ?unit) (near_building_m))
-            (knows-every ?unit [k interior-space entrance])
+            (knows-every ?unit [k entrance])
             (entrance-space ?unit): ?way
             (substantial ?way)
             (barrier-of ?unit ?way): ?barrier
@@ -46,7 +46,7 @@
       (effects (maintain-proposal {@self open-barrier ?barrier})))
     (try
       (when (< (distance @self ?unit) (near_building_m))
-            (knows-every ?unit [k interior-space entrance])
+            (knows-every ?unit [k entrance])
             (entrance-space ?unit): ?way
             (substantial ?way)
             (barrier-of ?unit ?way): ?barrier

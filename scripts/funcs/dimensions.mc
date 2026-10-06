@@ -3,24 +3,24 @@
   (any {?who decorum ?decorum=0.65})
   (bind (count (every {?who lover ? /ever})) ?liaisons)
   (/ (+ (cond
-          (case {?who honesty [k conduct-level good]} 0.85)
-          (case {?who honesty [k conduct-level lax]}  0.25)
+          (case {?who honesty [k good]} 0.85)
+          (case {?who honesty [k lax]}  0.25)
           (else 0.65))
         (cond
-          (case {?who diligence [k conduct-level good]} 0.85)
-          (case {?who diligence [k conduct-level lax]}  0.25)
+          (case {?who diligence [k good]} 0.85)
+          (case {?who diligence [k lax]}  0.25)
           (else 0.65))
         (cond
-          (case {?who generosity [k conduct-level good]} 0.85)
-          (case {?who generosity [k conduct-level lax]}  0.25)
+          (case {?who generosity [k good]} 0.85)
+          (case {?who generosity [k lax]}  0.25)
           (else 0.65))
         (cond
-          (case {?who sobriety [k conduct-level good]} 0.85)
-          (case {?who sobriety [k conduct-level lax]}  0.25)
+          (case {?who sobriety [k good]} 0.85)
+          (case {?who sobriety [k lax]}  0.25)
           (else 0.65))
         (cond
-          (case {?who devoutness [k piety-band devout]}  0.85)
-          (case {?who devoutness [k piety-band secular]} 0.25)
+          (case {?who devoutness [k devout]}  0.85)
+          (case {?who devoutness [k secular]} 0.25)
           (else 0.65))
         ?decorum
         (- 0.85 (* (>= ?liaisons 1) 0.30)

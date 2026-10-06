@@ -15,7 +15,7 @@
 
 (define-func startup-func ()
   (seed_property)
-  (head (env-entities [k building residential-building])): ?house
+  (head (env-entities [k residential-building])): ?house
   (head (spatial ?house parts [k unit] /env)): ?home
   (make-human ?home [k lower] [k male]): ?man
   (cast seeker ?man)
@@ -25,5 +25,5 @@
   (cast seeker): ?man
   (expect (> (acts ?man DRINK succ) 0) "g01: never drank")
   (expect (> (acts ?man find-building succ) 0) "g01: never found a pub")
-  (expect (in-mind ?man (find-building-found [k building pub])) "g01: knows no pub")
+  (expect (in-mind ?man (find-building-found [k pub-building])) "g01: knows no pub")
   (expect (in-mind ?man (any {@self DRINK /succ})) "g01: no memory of a drink"))

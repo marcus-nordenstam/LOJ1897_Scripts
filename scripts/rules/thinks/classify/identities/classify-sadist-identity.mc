@@ -7,4 +7,4 @@
     (effects
       (mint-band {@self identity}
         (>= ?sadism (identity-sadist-min))
-        [k role sadist-role] 0.5))))
+        [k sadist-role] 0.5))))

@@ -21,7 +21,7 @@
     ; is a pile-to-pile transfer: decrement the shelf, top up the basket - never
     ; more than one bread-loaf explicitly represented, shop to hand to home.
     (spatial @self building): ?shop
-    (for-each ?room (spatial ?shop parts [k interior-space room] /env)
+    (for-each ?room (spatial ?shop parts [k room] /env)
       (do
         (bind 0 ?shop_pile)
         (for-each ?pile_cand (spatial ?room contents [k pile] /env)

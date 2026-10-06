@@ -62,12 +62,12 @@
 ; buries via bury-onsite. The rouletted ?church is stashed at fire, so the hold
 ; and the cease operate on the SAME church (no re-roulette while walking).
 (think bury-route
-  (role @self {@self job [k job priest]}
+  (role @self {@self job [k priest]}
     (role ?corpse {?corpse condition [k dead]}
                   {?corpse internment [k unburied]}
                   (not (spatial ?corpse co-located @self))
                   (select (score (months-since-death ?corpse)) (policy argmax))
-      (role ?church [k building church] (select (score (near @self ?church)) (policy roulette unknown-last))
+      (role ?church [k church-building] (select (score (near @self ?church)) (policy roulette unknown-last))
         (when (>= (months-since-death ?corpse) 1))
         (declare-utility obligation (above WORSHIP))
         (effects (maintain-proposal {@self go ?church}))))))
@@ -78,7 +78,7 @@
 ; corpse (telling {?corpse internment buried}), so the ?corpse role empties on the next
 ; cycle and the rung simply stops proposing - no goal to retract, no cease needed.
 (think bury-onsite
-  (role @self {@self job [k job priest]}
+  (role @self {@self job [k priest]}
     (role ?corpse {?corpse condition [k dead]}
                   {?corpse internment [k unburied]}
                   (spatial ?corpse co-located @self)
@@ -93,7 +93,7 @@
 ; announced exactly once however long the record lives; a priest with nobody left in the
 ; room simply says it to an empty room, which is what a real one does.
 (think announce-burial
-  (role @self {@self job [k job priest]}
+  (role @self {@self job [k priest]}
     (role ?corpse {@self BURY ?corpse /past}:?BURY
       (when -{@self tell ? /succ /caused_by ?BURY})
       (declare-utility want)

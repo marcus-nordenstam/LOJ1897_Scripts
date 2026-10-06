@@ -41,18 +41,18 @@
   (defaults none none none false none none none none 0 none 0)
 
   ;; --- Upper-class professions ---
-  (record (job [k job banker])
+  (record (job [k banker])
      (class-floor [k middle])
-     (business-type [k org bank])
+     (business-type [k bank-org])
      (may-own true)
      (req-repute [k respectable])
      (req-skill [k accountancy] [k trained])
      (pref-trait1 industriousness 1.0)
      (pref-trait2 politeness 0.6))
 
-  (record (job [k job industrialist])
+  (record (job [k industrialist])
      (class-floor [k upper])
-     (business-type [k org factory])
+     (business-type [k factory-org])
      (may-own true)
      (req-repute [k respectable])
      (req-skill [k engineering] [k trained])
@@ -61,46 +61,46 @@
 
   ; landlord / proprietor: may-own with NO business-type - founding-only posts,
   ; skipped by the hiring match.
-  (record (job [k job landlord])
+  (record (job [k landlord])
      (class-floor [k middle])
      (may-own true)
      (req-repute [k respectable])
      (pref-trait1 assertiveness 0.8)
      (pref-trait2 industriousness 0.6))
 
-  (record (job [k job merchant])
+  (record (job [k merchant])
      (class-floor [k middle])
-     (business-type [k org shipping-agent])
+     (business-type [k shipping-agent])
      (may-own true)
      (pref-trait1 assertiveness 1.0)
      (pref-trait2 enthusiasm 0.6))
 
-  (record (job [k job proprietor])
+  (record (job [k proprietor])
      (class-floor [k middle])
      (may-own true)
      (pref-trait1 assertiveness 0.8)
      (pref-trait2 industriousness 0.8))
 
-  (record (job [k job solicitor])
+  (record (job [k solicitor])
      (class-floor [k middle])
-     (business-type [k org solicitor-firm])
+     (business-type [k solicitor-firm])
      (may-own true)
      (req-repute [k respectable])
      (req-skill [k law] [k trained])
      (pref-trait1 industriousness 1.0)
      (pref-trait2 openness 0.5))
 
-  (record (job [k job physician])
+  (record (job [k physician])
      (class-floor [k middle])
-     (business-type [k org hospital])
+     (business-type [k hospital-org])
      (req-repute [k respectable])
      (req-skill [k medicine] [k trained])
      (pref-trait1 compassion 0.8)
      (pref-trait2 industriousness 0.8))
 
-  (record (job [k job surgeon])
+  (record (job [k surgeon])
      (class-floor [k middle])
-     (business-type [k org hospital])
+     (business-type [k hospital-org])
      (req-repute [k respectable])
      (req-skill [k medicine] [k trained])
      (pref-trait1 industriousness 1.0)
@@ -108,24 +108,24 @@
 
   ; apothecary: may-own + business-type, so entered by founding OR hired as a
   ; junior who learns medicine on the counter (no req-skill - the on-ramp).
-  (record (job [k job apothecary])
+  (record (job [k apothecary-job])
      (class-floor [k middle])
-     (business-type [k org apothecary])
+     (business-type [k apothecary-org])
      (may-own true)
      (req-repute [k respectable])
      (pref-trait1 industriousness 0.8))
 
   ; priest: irregular week (Sunday IS the working day) - see occupation_shifts.mc.
-  (record (job [k job priest])
+  (record (job [k priest])
      (class-floor [k middle])
-     (business-type [k org church])
+     (business-type [k church-org])
      (req-repute [k respectable])
      (pref-trait1 politeness 0.8)
      (pref-trait2 compassion 0.8))
 
-  (record (job [k job principal])
+  (record (job [k principal])
      (class-floor [k middle])
-     (business-type [k org private-school])
+     (business-type [k private-school])
      (req-repute [k respectable])
      (req-skill [k secondary-school-curriculum] [k trained])
      (pref-trait1 politeness 0.8)
@@ -133,9 +133,9 @@
 
   ; professor: the university don. Confers no domain - a don's competence is the
   ; degree they earned (minted at graduation), not a skill the post confers.
-  (record (job [k job professor])
+  (record (job [k professor])
      (class-floor [k upper])
-     (business-type [k org university])
+     (business-type [k university])
      (req-repute [k respectable])
      (pref-trait1 openness 1.0)
      (pref-trait2 industriousness 0.6))
@@ -143,9 +143,9 @@
   ;; --- Middle-class professions ---
   ; editor: the senior newspaper post, reached by a journalist who has built the
   ; literature domain on the job.
-  (record (job [k job editor])
+  (record (job [k editor])
      (class-floor [k middle])
-     (business-type [k org newspaper])
+     (business-type [k newspaper-org])
      (may-own true)
      (req-repute [k respectable])
      (req-skill [k literature] [k trained])
@@ -153,20 +153,20 @@
      (pref-trait2 assertiveness 0.6))
 
   ; journalist: ENTRY to the literature domain (no req-skill - learns on the job).
-  (record (job [k job journalist])
+  (record (job [k journalist])
      (class-floor [k middle])
-     (business-type [k org newspaper])
+     (business-type [k newspaper-org])
      (pref-trait1 openness 1.0)
      (pref-trait2 enthusiasm 0.6))
 
-  (record (job [k job printer])
+  (record (job [k printer])
      (class-floor [k middle])
-     (business-type [k org newspaper])
+     (business-type [k newspaper-org])
      (pref-trait1 industriousness 0.8))
 
-  (record (job [k job teacher])
+  (record (job [k teacher])
      (class-floor [k middle])
-     (business-type [k org state-school])
+     (business-type [k state-school])
      (req-repute [k respectable])
      (req-skill [k secondary-school-curriculum] [k novice])
      (pref-trait1 politeness 0.8)
@@ -174,102 +174,102 @@
 
   ; engineer: ENTRY to the engineering domain (the senior rung is industrialist,
   ; which requires engineering trained).
-  (record (job [k job engineer])
+  (record (job [k engineer])
      (class-floor [k middle])
      (pref-trait1 industriousness 1.0)
      (pref-trait2 openness 0.5))
 
   ; clerk: ENTRY to accountancy (the senior rung is banker, which requires
   ; accountancy trained). Clerical work needs a respectable name.
-  (record (job [k job clerk])
+  (record (job [k clerk])
      (class-floor [k middle])
      (req-repute [k respectable])
      (pref-trait1 industriousness 1.0)
      (pref-trait2 politeness 0.5))
 
-  (record (job [k job typist])
+  (record (job [k typist])
      (class-floor [k middle])
      (req-repute [k respectable])
      (pref-trait1 industriousness 0.8))
 
-  (record (job [k job house-agent])
+  (record (job [k house-agent])
      (class-floor [k middle])
-     (business-type [k org house-agency])
+     (business-type [k house-agency])
      (may-own true)
      (req-repute [k respectable])
      (pref-trait1 assertiveness 1.0)
      (pref-trait2 enthusiasm 0.6))
 
   ; librarian / curator: ENTRY to literature / history (no req-skill).
-  (record (job [k job librarian])
+  (record (job [k librarian])
      (class-floor [k middle])
-     (business-type [k org library])
+     (business-type [k library-org])
      (pref-trait1 openness 0.8)
      (pref-trait2 politeness 0.6))
 
-  (record (job [k job curator])
+  (record (job [k curator])
      (class-floor [k middle])
-     (business-type [k org museum])
+     (business-type [k museum-org])
      (pref-trait1 openness 0.8)
      (pref-trait2 politeness 0.6))
 
   ;; --- Lower-class trades + service (no hard gates - the on-ramp stays open) ---
-  (record (job [k job bartender])
+  (record (job [k bartender])
      (class-floor [k lower])
-     (business-type [k org pub])
+     (business-type [k pub-org])
      (pref-trait1 enthusiasm 0.8))
 
-  (record (job [k job barber])
+  (record (job [k barber])
      (class-floor [k lower])
-     (business-type [k org barbershop])
+     (business-type [k barbershop-org])
      (pref-trait1 enthusiasm 0.6))
 
-  (record (job [k job cook])
+  (record (job [k cook])
      (class-floor [k lower])
      (pref-trait1 industriousness 0.6))
 
-  (record (job [k job farmer])
+  (record (job [k farmer])
      (class-floor [k lower])
      (pref-trait1 industriousness 0.8))
 
-  (record (job [k job gardener])
+  (record (job [k gardener])
      (class-floor [k lower])
      (pref-trait1 industriousness 0.6))
 
-  (record (job [k job maid])
+  (record (job [k maid])
      (class-floor [k lower])
      (pref-trait1 industriousness 0.6)
      (pref-trait2 politeness 0.5))
 
   ; nurse: a hospital runs round the clock - two shifts in occupation_shifts.mc;
   ; a hire is assigned one (day or night).
-  (record (job [k job nurse])
+  (record (job [k nurse])
      (class-floor [k lower])
-     (business-type [k org hospital])
+     (business-type [k hospital-org])
      (pref-trait1 compassion 1.0)
      (pref-trait2 industriousness 0.6))
 
-  (record (job [k job shop-clerk])
+  (record (job [k shop-clerk])
      (class-floor [k lower])
-     (business-type [k org grocer])
+     (business-type [k grocer])
      (pref-trait1 enthusiasm 0.6)
      (pref-trait2 politeness 0.5))
 
-  (record (job [k job waiter])
+  (record (job [k waiter])
      (class-floor [k lower])
-     (business-type [k org restaurant])
+     (business-type [k restaurant-org])
      (pref-trait1 politeness 0.6)
      (pref-trait2 enthusiasm 0.5))
 
   ; factory-worker: day AND night shifts - see occupation_shifts.mc.
-  (record (job [k job factory-worker])
+  (record (job [k factory-worker])
      (class-floor [k lower])
-     (business-type [k org factory])
+     (business-type [k factory-org])
      (pref-trait1 industriousness 0.6))
 
   ; jockey: professional race rider, employed by a race-club. The annual
   ; horse-racing meet admits ONLY jockey-job roster entries as riders.
-  (record (job [k job jockey])
+  (record (job [k jockey])
      (class-floor [k lower])
-     (business-type [k org race-club])
+     (business-type [k race-club])
      (pref-trait1 assertiveness 0.6)))

@@ -108,7 +108,7 @@
 ;      ; co-member; v1 gates on the candidate's merit alone, as the relationship layer
 ;      ; is not yet rich enough to gate on without starving the rule.)
 ;      (role ?principal_org {?principal_org isa [k org]}
-;                           [k org business]
+;                           [k business]
 
 ;        ;; Live exclusivity re-check (see betrothal.mc): the candidate's "not
 ;        ;; org-head" eligibility is evaluated at enumeration time, so within one
@@ -225,7 +225,7 @@
 ;               (<= (years-old @self) 55)
 ;               (latch-eval (chance 0.05)
 ;                                -{@self goal {@self FOUND}}
-;                                (< (* (count-orgs-isa [k org business]) 12)
+;                                (< (* (count-orgs-isa [k business]) 12)
 ;                                   (living-npc-count)))))
 
 ;    (declare-utility errand)

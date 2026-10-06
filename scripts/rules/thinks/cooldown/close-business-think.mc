@@ -11,7 +11,7 @@
 ;;
 ;; ACTOR = the proprietor, identified from his OWN beliefs, NO world scan. ?org is
 ;; a produced-restricted role threaded off ?job ({@self job ?job}):
-;;   {?job org [k org business]:?org} - he is seated at ?org AND ?org is-a
+;;   {?job org [k business]:?org} - he is seated at ?org AND ?org is-a
 ;;                            trading firm, so churches / clubs / hospitals (public
 ;;                            orgs, never "fail" this way) are excluded. The
 ;;                            kind-cast matches the org OBJECT's permanent kind -
@@ -67,7 +67,7 @@
 ;  ; ?org role; the articles filter caches as EXISTENCE and binds ?art at fire.
 ;  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
 ;    (role ?job {@self job ?job}
-;      (role ?org {?job org [k org business]:?org}    ; produced-restricted: ?org threaded off ?job
+;      (role ?org {?job org [k business]:?org}    ; produced-restricted: ?org threaded off ?job
 ;                 {@self wealth ?wealth}
 ;                 {?org founder @self}
 ;                 {?org record ?art}

@@ -16,12 +16,12 @@
 
 (define-table cornerstone_businesses
   (fields kind head-pos class-floor)
-  (record [k org bank]           [k job banker]     [k middle])
-  (record [k org solicitor-firm] [k job solicitor]  [k middle])
-  (record [k org apothecary]     [k job apothecary] [k middle])
+  (record [k bank-org]           [k banker]     [k middle])
+  (record [k solicitor-firm] [k solicitor]  [k middle])
+  (record [k apothecary-org]     [k apothecary-job] [k middle])
   ; The head seat is a HEAD kind (is-a head-of-non-household-org) - the one-org
   ; founding cap and the duty argmax both read head-ness off the job kind, so a
   ; staff kind here would make the founder invisible to both. Staff (bartender /
   ; shop-clerk) are hired by the labour market, never seated as the head.
-  (record [k org pub]            [k job proprietor] [k lower])
-  (record [k org grocer]         [k job proprietor] [k lower]))
+  (record [k pub-org]            [k proprietor] [k lower])
+  (record [k grocer]         [k proprietor] [k lower]))

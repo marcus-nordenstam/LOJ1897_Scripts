@@ -14,7 +14,7 @@
 ;   AT a church (case A): {@self WORSHIP} has no active sub-goal, so it is the leaf and
 ;     promotes straight to worship_act (the service). No rule needed.
 ;   know a church (case B): worship-go holds {@self go ?church}.
-;   know none  (case C): worship-find holds {@self find-building [k church]}.
+;   know none  (case C): worship-find holds {@self find-building [k church-building]}.
 ; ----------------------------------------------------------------------------
 
 (include "../../../macros/intensity-macros.mc")
@@ -46,7 +46,7 @@
 
 ; THE DEVOUT'S SUNDAY OBSERVANCE - the classifier-cast band split (ruling 8a). The SAME
 ; worship drive, but role-cast on the identity-grade `devoutness` classifier belief
-; ({@self devoutness [k piety-band devout]}, minted + decayed by classify-self-devoutness.mc): a devout
+; ({@self devoutness [k devout]}, minted + decayed by classify-self-devoutness.mc): a devout
 ; NPC's churchgoing is an OBLIGATION (socially mandatory), not a passing want, so it outranks
 ; ordinary errands and leisure. The atheist is never cast; the lapsed churchgoer decays out of
 ; the classifier; the pretender fools observers exactly as before. Co-drives the ONE
@@ -54,7 +54,7 @@
 (think sunday-observance
   (cooldown 3 d try-until-succ)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              {@self devoutness [k piety-band devout]}
+              {@self devoutness [k devout]}
     (when    (>= (days-since-last {@self WORSHIP /succ /ever}) 3))
     (declare-utility obligation)
     (effects       (begin-goal {@self WORSHIP}))

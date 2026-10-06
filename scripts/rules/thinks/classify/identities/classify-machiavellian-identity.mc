@@ -7,4 +7,4 @@
     (effects
       (mint-band {@self identity}
         (>= ?machiavellianism (identity-machiavellian-min))
-        [k role machiavellian-role] 0.5))))
+        [k machiavellian-role] 0.5))))

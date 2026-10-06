@@ -105,8 +105,8 @@
 # Hair / eye colour - observable physical traits (serial_predation
 # generalized fixation). Kind-typed; seeded at creation from the
 # hereditary trait tables (hair-color.txt / eye-color.txt).
-(attr hair-color (type kind) (per obs) (auto-percept))
-(attr eye-color (type kind) (per obs) (auto-percept))
+(attr hair-color (type kind color) (per obs) (auto-percept))
+(attr eye-color (type kind color) (per obs) (auto-percept))
 # One person's own hand. Not seen by looking at him: it is known from what he writes,
 # which WRITE stamps with it message by message.
 (attr handwriting (type kind) (default @nothing) (imperceptible))

@@ -8,4 +8,4 @@
         (* (competent-in [k academic-field])
            (- 1.0 (competent-in [k primary-school-curriculum]))
            (- 1.0 (competent-in [k secondary-school-curriculum])))
-        [k role scholar-role] 0.5))))
+        [k scholar-role] 0.5))))

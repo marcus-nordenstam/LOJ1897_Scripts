@@ -31,7 +31,7 @@
                      cause (attr ?corpse death-cause))
     (do
       (end-beliefs-about ?corpse [/exclude condition|internment|BURY])
-      (begin-belief {?corpse internment [k internment buried]}))
+      (begin-belief {?corpse internment [k buried]}))
     (destroy-entity ?corpse)
     (set-outcome {@self BURY ?corpse} /succ)))
 ; go_action (the shared travel act) lives in actions/go_action.mc.

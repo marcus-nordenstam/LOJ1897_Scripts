@@ -21,7 +21,7 @@ lower           労働者
 # Interest
 literature      文学
 music           音楽
-theatre         演劇
+theatre-art     演劇
 riding          乗馬
 history         歴史
 science         科学
@@ -29,7 +29,7 @@ spiritualism    心霊主義
 religion        宗教
 antiques        骨董品
 sports          スポーツ
-suffrage        参政権
+suffrage-cause  参政権
 
 # Sport disciplines
 cricket         クリケット
@@ -46,7 +46,7 @@ landlord        家主
 industrialist   実業家
 principal       校長
 merchant        商人
-apothecary      薬剤師
+apothecary-job  薬剤師
 proprietor      所有者
 solicitor       弁護士
 physician       医師

@@ -13,7 +13,7 @@
 
 (define-table impressions
   (fields trait         kind                          weight)
-  (record volatility    [k impression hot-tempered]   0.6)
-  (record psychopathy   [k impression callous]        0.5)
-  (record sadism        [k impression cruel]          0.5)
-  (record narcissism    [k impression selfish]        0.4))
+  (record volatility    [k hot-tempered]   0.6)
+  (record psychopathy   [k callous]        0.5)
+  (record sadism        [k cruel]          0.5)
+  (record narcissism    [k selfish]        0.4))

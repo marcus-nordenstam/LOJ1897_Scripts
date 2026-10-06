@@ -39,7 +39,7 @@
       (for-each ?interest (every {@self interest ?})
         (if (or (is-a ?interest.target [k academic-field]) (is-a ?interest.target [k literature]))
             (then (bind 1 ?bookish))))
-      (if (and (spatial ?home room [k interior-space study])
+      (if (and (spatial ?home room [k study])
                (or (= ?bookish 1)
                    (>= ?intellect (read-intellect-threshold))))
           (then (maintain-proposal {@self read-at ?home}))

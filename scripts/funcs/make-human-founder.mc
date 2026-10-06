@@ -78,8 +78,8 @@
 
 (define-func class-for-residence (?b)
   (switch (kind ?b)
-    (on [k building manor]     [k upper])
-    (on [k building townhouse] [k middle])
+    (on [k manor]     [k upper])
+    (on [k townhouse] [k middle])
     (else [k lower])))
 
 ; ----------------------------------------------------------------------------
@@ -110,6 +110,6 @@
 ; ----------------------------------------------------------------------------
 
 (define-func make-human-founder ()
-  (for-each ?b (env-entities [k building residential-building])
+  (for-each ?b (env-entities [k residential-building])
     (for-each ?unit (spatial ?b parts [k unit] /env)
       (if (chance (founder_density)) (make-founder-household ?unit (class-for-residence ?b))))))

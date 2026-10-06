@@ -34,15 +34,15 @@
   (fields gender class file)
 
   ; -- female (only FM_LowClass / FM_MidClass spawns exist; upper borrows MidClass) --
-  (record [k female] [k class-situation upper]  FM_MidClass_01.spawn)
-  (record [k female] [k class-situation middle] FM_MidClass_02.spawn)
-  (record [k female] [k class-situation lower]  FM_LowClass_01.spawn)
+  (record [k female] [k upper]  FM_MidClass_01.spawn)
+  (record [k female] [k middle] FM_MidClass_02.spawn)
+  (record [k female] [k lower]  FM_LowClass_01.spawn)
   (record [k female] any                        FM_LowClass_01.spawn)
 
   ; -- male --
-  (record [k male]   [k class-situation upper]  Male_Medium_UpperClass_01.spawn)
-  (record [k male]   [k class-situation middle] Male_Medium_MiddleClass_01.spawn)
-  (record [k male]   [k class-situation lower]  Male_Medium_WorkingClass_01.spawn)
+  (record [k male]   [k upper]  Male_Medium_UpperClass_01.spawn)
+  (record [k male]   [k middle] Male_Medium_MiddleClass_01.spawn)
+  (record [k male]   [k lower]  Male_Medium_WorkingClass_01.spawn)
   (record [k male]   any                        Male_Medium_WorkingClass_01.spawn))
 
 ; (npc-spawn-file ?who) - the character .spawn ?who renders as, by gender and

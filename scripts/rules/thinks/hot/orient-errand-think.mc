@@ -11,8 +11,8 @@
 ;  (goal {@self ORIENT})
 ;  ; The church is role-cast from the churches the NPC KNOWS; nearest preferred,
 ;  ; weighted. No known church -> no fire (the goal waits). Replaces (venue ...).
-;  (role ?go_dest [k building church] (select (score (near @self ?go_dest)) (policy roulette unknown-last))
-;    (when (not (is-a (spatial @self building) [k building church])))
+;  (role ?go_dest [k church-building] (select (score (near @self ?go_dest)) (policy roulette unknown-last))
+;    (when (not (is-a (spatial @self building) [k church-building])))
 ;    (effects (maintain-proposal {@self go ?go_dest}))))
 
 ;; AT a church: PROPOSE the orient act (goals never propose themselves). orient_act reads the
@@ -20,5 +20,5 @@
 ;; terminal for all four minting chains (the marker is minter-agnostic).
 ;(think orient_at_church
 ;  (goal {@self ORIENT})
-;  (when (is-a (spatial @self building) [k building church]))
+;  (when (is-a (spatial @self building) [k church-building]))
 ;  (effects (maintain-proposal {@self ORIENT})))

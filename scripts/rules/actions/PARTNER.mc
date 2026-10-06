@@ -20,5 +20,5 @@
 ;  (effects
 ;    (fire-self)
 ;    (table-set ?art co-owner (name @self))
-;    (hire-seq ?art [k job proprietor] [k senior])
+;    (hire-seq ?art [k proprietor] [k senior])
 ;    (set-outcome {@self PARTNER} /succ)))

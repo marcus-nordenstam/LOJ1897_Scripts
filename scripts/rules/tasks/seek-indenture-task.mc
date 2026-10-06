@@ -41,7 +41,7 @@
 ;        (role ?reg {?org employee-register ?reg}
 ;                   (spatial ?reg building ?venue)
 ;          (when -{@self job.salary ?})
-;          (effects (maintain-proposal {@self ENROL ?reg '[[k job clerk] [k trainee]]})))))
+;          (effects (maintain-proposal {@self ENROL ?reg '[[k clerk] [k trainee]]})))))
 
 ;    ; REALIZE: my row is on the wage book -> mint the employment beliefs (read off the
 ;    ; articles) and the master bond. Minting {@self job ...} trips the decision's
@@ -55,7 +55,7 @@
 ;          (any {?org employee-register ?reg})
 ;          (if (table-match (attr ?reg writing) worker (name @self) level ?lvl)
 ;              (then
-;                (hire-beliefs ?art [k job clerk] ?lvl)
+;                (hire-beliefs ?art [k clerk] ?lvl)
 ;                (org-founder ?art ?master)
 ;                (if ?master (then (begin-belief {@self master ?master})))
 ;                (set-outcome ?seek-indenture /succ))))))))
