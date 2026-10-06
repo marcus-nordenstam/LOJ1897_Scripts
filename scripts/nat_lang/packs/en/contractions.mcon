@@ -1,0 +1,68 @@
+# -----------------------------------------------------------------------------
+# contractions.mcon - English contractions and the full forms they stand for.
+#
+# Format: `<full form> | <contraction>[ | <contraction2> ...]`. Parse rewrites a
+# contraction as its full form, in the player's input and in every template's
+# match tokens alike, so "what's your name" and "what is your name" are one
+# question; what an NPC says keeps the template's own spelling. Only words whose
+# 's can never be a possessive are listed - "John's" stays a possessive.
+# -----------------------------------------------------------------------------
+
+what is   | what's
+where is  | where's
+who is    | who's
+how is    | how's
+when is   | when's
+why is    | why's
+that is   | that's
+there is  | there's
+here is   | here's
+it is     | it's
+he is     | he's
+she is    | she's
+
+i am      | i'm
+you are   | you're
+we are    | we're
+they are  | they're
+what are  | what're
+who are   | who're
+where are | where're
+
+i have    | i've
+you have  | you've
+we have   | we've
+they have | they've
+
+i will    | i'll
+you will  | you'll
+he will   | he'll
+she will  | she'll
+we will   | we'll
+they will | they'll
+what will | what'll
+who will  | who'll
+
+i would   | i'd
+you would | you'd
+he would  | he'd
+she would | she'd
+we would  | we'd
+they would | they'd
+
+is not    | isn't
+are not   | aren't
+was not   | wasn't
+were not  | weren't
+do not    | don't
+does not  | doesn't
+did not   | didn't
+have not  | haven't
+has not   | hasn't
+had not   | hadn't
+cannot    | can't
+could not | couldn't
+will not  | won't
+would not | wouldn't
+should not | shouldn't
+must not  | mustn't

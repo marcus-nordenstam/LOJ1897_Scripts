@@ -28,11 +28,14 @@
 (define-func standing-before (?partner)
   (and (in-earshot ?partner [k speech]) (walked-before ?partner)))
 
+; A (formulaic <riders> <category> ..)'s category: field 0 is the name, 1 the rider list.
+(define-macro k-formulaic-category-field () 2)
+
 ; (call-msg ?msg) - ?msg is called out rather than spoken: a hail, and the answers to one.
 (define-func call-msg (?msg)
   (and (eq-func-name ?msg formulaic)
-       (or (eq (nth 1 ?msg) opening) (eq (nth 1 ?msg) response)
-           (eq (nth 1 ?msg) refusal) (eq (nth 1 ?msg) rebuff))))
+       (or (eq (nth (k-formulaic-category-field) ?msg) opening) (eq (nth (k-formulaic-category-field) ?msg) response)
+           (eq (nth (k-formulaic-category-field) ?msg) refusal) (eq (nth (k-formulaic-category-field) ?msg) rebuff))))
 
 ; (speech-sound ?msg) - the sound saying ?msg makes: a [k shout] called out, else [k speech].
 (define-func speech-sound (?msg)

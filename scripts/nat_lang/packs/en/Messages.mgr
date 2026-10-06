@@ -3,23 +3,23 @@
 
 # Formulaic phrases first
 
-"'('  $form(FORM) ')'"
+"$form(FORM)"
 $form(FORM)
 .
 
 # Bare kind (e.g. "a beer")
 
-"'(' $kind(INDEF_KIND) ')'"
+"$kind(INDEF_KIND)"
 ( msg [] $kind(INDEF_KIND) )
 .
 
 # Then non-formulaics:
 
-"'('  $st(ST) ')'"
+"$st(ST)"
 ( msg [] $st(ST) )
 .
 
-"'('  $np(NP) ')'"
+"$np(NP)"
 ( msg [] $np(NP) )
 .
 
@@ -28,6 +28,6 @@ $form(FORM)
 # ((o [n X]) for living, (o {@o /past name [n X]}) for deceased), and
 # List::print under kPrintNatLang emits them Oxford-comma-joined. NP_PLUR
 # consumes that form; this rule wraps it as a (msg ...) payload.
-"'('  $np_plur(NP_PLUR) ')'"
+"$np_plur(NP_PLUR)"
 ( msg [] $np_plur(NP_PLUR) )
 .

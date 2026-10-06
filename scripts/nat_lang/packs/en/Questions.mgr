@@ -27,7 +27,7 @@
 ( qs [] ( any { ?_you /pres order ? ?_i } ).target )
 .
 
-"'(' $qs_phrase(QSP) ++? ')'"
+"$qs_phrase(QSP) ++?"
 ( qs [] $qs_phrase(QSP) )
 .
 
@@ -60,6 +60,17 @@
 # which the hearer's converse task answers (rules/tasks/converse-task.mc).
 "$qs_phrase(QSP)"
 ( qs [] $qs_phrase(QSP) )
+.
+
+
+# The same question put after "tell me", or as one asked within another: "tell me your
+# name", "could you tell me how old you are".
+"tell me, $qs_phrase(QSP)"
+( qs [] $qs_phrase(QSP) )
+.
+
+"[tell me|could you tell me|can you tell me|would you tell me|may i ask] $emb(EMBQ)"
+( qs [] $emb(EMBQ) )
 .
 
 
@@ -196,24 +207,22 @@
 .
 
 # alive / dead
-# `none` returns @true if no matching belief exists, @false if it does.
-# So "is X alive" succeeds (Yes) precisely when X has no /pres deceased @true belief.
 "is $person(Q_NP) alive"
-( none { $person(Q_NP) /pres deceased @true } )
+( prob { $person(Q_NP) /pres condition [k alive] } )
 .
 "are you alive"
-( none { ?_you /pres deceased @true } )
+( prob { ?_you /pres condition [k alive] } )
 .
 "is $person(Q_NP) dead"
-( prob { $person(Q_NP) /pres deceased @true } )
+( prob { $person(Q_NP) /pres condition [k dead] } )
 .
 
 # date of death
 "when did $person(Q_NP) die"
-( any { $person(Q_NP) /pres deceased_year } ).target
+( any { $person(Q_NP) /pres death-date } ).target
 .
 "what year did $person(Q_NP) die"
-( any { $person(Q_NP) /pres deceased_year } ).target
+( any { $person(Q_NP) /pres death-date } ).target
 .
 
 # whereabouts on the night of a crime - the alibi question. Anchored on the
@@ -420,7 +429,7 @@
 
 # "are they alive" - per-named-person; mirrors the existing alive/dead set.
 "is your $rel(REL) alive"
-( none { ( o /known { ?_you /ever $rel(REL) @o } ) /pres deceased @true } )
+( prob { ( o /known { ?_you /ever $rel(REL) @o } ) /pres condition [k alive] } )
 .
 
 
@@ -504,26 +513,26 @@
 .
 
 "who employs you"
-( o /known { ?_you /pres employer @o } )
+( o /known { ( any { ?_you /pres job } ).target /ever org @o } )
 .
 "who is your employer"
-( o /known { ?_you /pres employer @o } )
+( o /known { ( any { ?_you /pres job } ).target /ever org @o } )
 .
 "who do you work for"
-( o /known { ?_you /pres employer @o } )
+( o /known { ( any { ?_you /pres job } ).target /ever org @o } )
 .
 "in whose service are you"
-( o /known { ?_you /pres employer @o } )
+( o /known { ( any { ?_you /pres job } ).target /ever org @o } )
 .
 "who employs $person(Q_NP)"
-( o /known { $person(Q_NP) /pres employer @o } )
+( o /known { ( any { $person(Q_NP) /pres job } ).target /ever org @o } )
 .
 
 "have you ever had another position"
-( prob { ?_you /past employer ? } )
+( prob { ?_you /past job ? } )
 .
 "where did you work before"
-( o /known { ?_you /past employer @o } )
+( o /known { ( any { ?_you /past job } ).target /ever org @o } )
 .
 
 # # FLAG: wage ("how much do you earn"), tenure ("how long have you worked
@@ -833,10 +842,10 @@
 
 # --- Profession: the employer ENTITY (org) -----------------------------------
 "[what|which] [firm|house|establishment|concern] [do you work for|employs you]"
-( o /known { ?_you /pres employer @o } )
+( o /known { ( any { ?_you /pres job } ).target /ever org @o } )
 .
 "[who|what house] does $person(Q_NP) [work for|serve]"
-( o /known { $person(Q_NP) /pres employer @o } )
+( o /known { ( any { $person(Q_NP) /pres job } ).target /ever org @o } )
 .
 
 # --- Routine: the church / public-house ENTITY (building) --------------------
@@ -892,4 +901,138 @@
 # best-effort confirms WHAT was studied, not WHERE.
 "[what|which] school did you [go to|attend|study at]"
 ( any { ?_you /ever study ? } ).target
+.
+
+# --- More ways to ask the questions above -----------------------------------
+"[what do they call you|what do people call you|what name do you go by]"
+( any { ?_you /pres name } ).target
+.
+"[when is your birthday|what is your date of birth]"
+( any { ?_you /pres birth-date } ).target
+.
+"[where is your home|where do you reside|what is your address]"
+( any { ?_you /pres home } ).target
+.
+"where do you come from"
+( any { ?_you /pres nationality } ).target
+.
+"what class are you"
+( any { ?_you /pres class-situation } ).target
+.
+"what faith are you"
+( prob { ?_you /pres interest [k religion ] } )
+.
+"what is your [wife|husband] ++'s name"
+( any { ( o /known { ?_you /pres spouse @o } ) /pres name } ).target
+.
+"have you children"
+( prob { ?_you /pres child ? } )
+.
+"is your $rel(REL) [still alive|living]"
+( prob { ( o /known { ?_you /ever $rel(REL) @o } ) /pres condition [k alive] } )
+.
+"[did you go to school|were you schooled]"
+( prob { ?_you /ever study ? } )
+.
+"did you serve an apprenticeship"
+( prob { ?_you /ever master ? } )
+.
+"what are your skills"
+( every { ?_you /ever skilled-in ? } ).target
+.
+"what do you do for a living"
+( any { ?_you /pres job } ).target
+.
+"have you worked elsewhere"
+( prob { ?_you /past job ? } )
+.
+"do you owe money"
+( prob { ?_you /pres owe ? } )
+.
+"whom do you trust"
+( o /known { ?_you /pres trust @o } )
+.
+"[are you courting|do you have a sweetheart]"
+( prob { ?_you /pres fancy ? } )
+.
+"were you ever engaged"
+( prob { ?_you /past fiancee ? } )
+.
+"[have you a lover|have you got a lover]"
+( prob { ?_you /pres lover ? } )
+.
+"[did you ever steal anything|have you stolen anything]"
+( prob { ?_you /ever steal ? } )
+.
+"[did you ever kill anyone|have you killed anybody|have you ever killed a man]"
+( prob { ?_you /ever kill ? } )
+.
+"are you [scared|frightened]"
+( prob { ?_you /pres emotion [k fear ] } )
+.
+"are you [cross|upset]"
+( prob { ?_you /pres emotion [k anger ] } )
+.
+
+
+:EMBQ
+
+# A question as it is asked inside another - "tell me what your name is" - or as the
+# thing asked for - "tell me your name". The MC is the direct question's.
+"[your name|what your name is]"
+( any { ?_you /pres name } ).target
+.
+"[your age|how old you are]"
+( any { ?_you /pres age } ).target
+.
+"[your date of birth|when you were born]"
+( any { ?_you /pres birth-date } ).target
+.
+"[your address|where you live]"
+( any { ?_you /pres home } ).target
+.
+"[your nationality|where you are from]"
+( any { ?_you /pres nationality } ).target
+.
+"your social class"
+( any { ?_you /pres class-situation } ).target
+.
+"your religion"
+( prob { ?_you /pres interest [k religion ] } )
+.
+"[whether|if] you are married"
+( prob { ?_you /pres spouse ? } )
+.
+"[whether|if] you have children"
+( prob { ?_you /pres child ? } )
+.
+"who your [wife|husband] is"
+( o /known { ?_you /pres spouse @o } )
+.
+"who your $rel(REL) is"
+( o /known { ?_you /ever $rel(REL) @o } )
+.
+"[whether|if] your $rel(REL) is alive"
+( prob { ( o /known { ?_you /ever $rel(REL) @o } ) /pres condition [k alive] } )
+.
+"what you studied"
+( any { ?_you /ever study ? } ).target
+.
+"what you are skilled in"
+( every { ?_you /ever skilled-in ? } ).target
+.
+"what you do"
+( any { ?_you /pres job } ).target
+.
+"who employs you"
+( o /known { ( any { ?_you /pres job } ).target /ever org @o } )
+.
+"who owes you money"
+( o /known { @o /pres owe ?_you } )
+.
+"who you trust"
+( o /known { ?_you /pres trust @o } )
+.
+"who your best friend is"
+( o /known { ?_you /pres friend @o } )
 .
