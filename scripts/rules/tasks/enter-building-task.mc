@@ -56,8 +56,7 @@
             (knows-every ?bldg [k entrance])
             (entrance-space ?bldg): ?way
             (substantial ?way)
-            (barrier-of ?bldg ?way): ?barrier
-            (not (barred ?barrier)))
+            (not (barred (barrier-of ?bldg ?way))))
       (when -{?bldg struct-status [k closed]})
       (when (poll (stand-spot-in ?way): ?spot))
       (effects

@@ -49,8 +49,7 @@
             (knows-every ?unit [k entrance])
             (entrance-space ?unit): ?way
             (substantial ?way)
-            (barrier-of ?unit ?way): ?barrier
-            (not (barred ?barrier)))
+            (not (barred (barrier-of ?unit ?way))))
       (when (poll (stand-spot-in ?way): ?spot))
       (effects
         (check (grounded ?way))

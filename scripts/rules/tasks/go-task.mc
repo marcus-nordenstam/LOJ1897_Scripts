@@ -14,11 +14,14 @@
 ;   dest in a unit he is not in      -> enter-unit (its own door: from the street for a row
 ;                                       house, from the shared hallway for a block of flats)
 ;   unseen, no house at its premises -> find-building; a search that finds none -> fail
-;   otherwise                        -> WALK: the dest spot; far, its travel spot; near, a
-;                                       spot on its floor or by it
+;   far from dest                    -> WALK to its travel spot: a heading, no search, no claim
+;   near dest, or dest is a spot     -> WALK to the spot he will stand on: the dest spot, a
+;                                       claimed spot on its floor, before him or by him
 ;
 ; FAR and NEAR split at near_building_m, and far is the NEGATION of near: a grounded thing
 ; with no box answers @unknown to (distance ..), and a distance he cannot measure is not near.
+; They are two rungs because the WALK's spot is bound in the gate: as he comes near the far
+; gate falls, which withdraws the heading, and the near rung admits with the stand spot.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -75,14 +78,18 @@
 (define-func go-near (?dest)
   (< (distance @self ?dest) (near_building_m)))
 
-; Where the next WALK heads, once he stands in ?dest's building, or out of doors with it.
-(define-func go-step-spot (?dest)
+; Where the next WALK heads while he is far from ?dest.
+(define-func go-travel-spot (?dest)
+  (tolerate (travel-spot (known-box ?dest))): ?spot
+  ?spot)
+
+; Where the next WALK heads once he is near ?dest, or ?dest is a spot: the spot he will stand on.
+(define-func go-stand-spot (?dest)
   (cond (case (is-spot ?dest) ?dest)
-        (case (not (go-near ?dest)) (tolerate (travel-spot (known-box ?dest))))
         (case (is-a ?dest [k space]) (stand-spot-in ?dest))
         (case (is-a ?dest [k human]) (stand-spot-before ?dest))
         (case (substantial (tolerate (spatial ?dest bounds))) (stand-spot-by ?dest))
-        (else (tolerate (travel-spot (known-box ?dest))))): ?spot
+        (else (go-travel-spot ?dest))): ?spot
   ?spot)
 
 (task {@self go ?dest}:?go
@@ -165,7 +172,14 @@
             {@self find-building ?dest ? /fail})
       (effects (set-outcome ?go /fail)))
     (try
-      (when (go-step-spot ?dest): ?spot
+      (when (not (is-spot ?dest))
+            (not (go-near ?dest))
+            (go-travel-spot ?dest): ?spot
+            (is-spot ?spot))
+      (effects (maintain-proposal {@self WALK ?spot})))
+    (try
+      (when (or (is-spot ?dest) (go-near ?dest))
+            (go-stand-spot ?dest): ?spot
             (is-spot ?spot))
       (effects (maintain-proposal {@self WALK ?spot})))
     (try
