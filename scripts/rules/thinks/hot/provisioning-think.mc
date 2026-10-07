@@ -90,8 +90,8 @@
 ; ---- the pressure: the kitchen larder is low --------------------------------
 
 (think want-provisions
-  ; The kitchen resolves from the cook's OWN room knowledge (the home pre-teach
-  ; mints {home room <r>}): the kind-cast bind picks the is-a kitchen target. It BINDS,
+  ; The kitchen resolves from the cook's OWN spatial index of the home (the home pre-teach
+  ; learns its rooms): the kind-cast bind picks the is-a kitchen target. It BINDS,
   ; so it is role work; only the stock compare is a gate condition.
   (role ?home {@self household-cook ?home}
               (spatial ?home room [k kitchen]): ?kitchen

@@ -33,8 +33,7 @@
 
 # Spatial
 # Bounds are DECLARED per-archetype via (spatial bounds) and live in the env's
-# t_bounds_store - there is no obb attr. The generated `bounds` state label
-# (@excl|@spatialBounds, obs) is registered by the engine for belief/message use.
+# t_bounds_store - there is no obb attr and no bounds state: (spatial ?x bounds) reads them.
 # Structural topology (parent/parts) lives in the struct skeleton (engine substrate),
 # not in attrs - see spatial_mind_index_plan.md; the skeleton is fed by set_parent at
 # creation and read via the fused (spatial ?ent parts [k K]? /env?) op + the C++

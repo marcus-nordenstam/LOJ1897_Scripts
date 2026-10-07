@@ -24,13 +24,13 @@
 _
 .
 
-# A coin pile named by where it is kept - the interior of the building its owner lives in.
-"the money kept in my home"
-( o [k pile ] { @o space ( o [k interior-space ] { @o struct_parent ( o [k building ] { ?_I home @o } ) } ) } )
+# A coin pile named by its owner.
+"[my money|the money I own]"
+( o [k pile ] { ?_I own @o } )
 .
 
-"the money kept in the home of $owner(NP)"
-( o [k pile ] { @o space ( o [k interior-space ] { @o struct_parent ( o [k building ] { $owner(NP) home @o } ) } ) } )
+"the money of $owner(NP)"
+( o [k pile ] { $owner(NP) own @o } )
 .
 
 # A named object such as John Smith

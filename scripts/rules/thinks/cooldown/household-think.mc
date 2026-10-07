@@ -4,8 +4,8 @@
 ; {@self rest <home>} by default, {@self read-at <home>} if the home is known
 ; to have a study (scholarly temperaments favour it - the read weight scales
 ; with intellect) - so a manor yields a richer home-leisure record than a
-; rowhouse. The room gate reads @self's OWN {?home room [k study]} beliefs
-; (seeded at home acquisition by the rooms pre-teach) - no world search.
+; rowhouse. The room gate reads @self's OWN spatial index of the home, (spatial ?home
+; room [k study]) (seeded at home acquisition by the rooms pre-teach) - no world search.
 ; home_leisure_done concludes the promoted task on the spot, so the ended task
 ; belief IS the episodic memory; the decay pass consolidates repeated
 ; identical episodes into a cumulative belief whose count is the frequency.

@@ -38,11 +38,7 @@
         (if (unsubstantial (attr ?will writing))
             (then (maintain-proposal {@self write-doc ?will
                     (written-msg [/author ?my-name]
-                                 {?heir inherit
-                                   (o [k pile] {@o space
-                                     (o [k interior-space] {@o struct_parent
-                                       (o [k building] {@self home @o})})})
-                                   @self})})))))
+                                 {?heir inherit (o [k pile] {@self own @o}) @self})})))))
 
     (stage
       (effects
