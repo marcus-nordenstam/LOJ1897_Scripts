@@ -73,8 +73,8 @@
 (spatial-label parts (store part) (down))
 
 (spatial-label bounds     (store space) (payload))
-(spatial-label space      (store space) (theme frequent))
-(spatial-label building   (store space) (rung building))
+(spatial-label space      (store space))
+(spatial-label building   (store space) (rung building) (theme frequent) (habit-bands day_parts))
 (spatial-label enclosure  (store space) (rung-role enclosure))
 (spatial-label unit       (store space) (rung-role unit))
 (spatial-label town       (store space) (rung town))

@@ -16,7 +16,7 @@
 # goes to <place>". Whereabouts are spatial memories, never beliefs, so no belief fuse
 # folds into it. Behavioural, not a physical state; unconstrained target, non-excl (many
 # places over overlapping spans). Must differ from `space` (`space` is @excl).
-(state frequent (tar ?))
+(state frequent (tar ?) (aux [k part-of-day]))
 
 # to believe that someone ELSE knows something; theory-of-knowledge
 (state know (tar @pattern))

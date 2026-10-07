@@ -578,20 +578,25 @@
 
 # --- 6. DAILY ROUTINE & HABITS -----------------------------------------------
 
-"where do you worship"
-( any { ?_you /pres worship ? } ).target
+# Habits, read off what the man frequents ({X frequent <building> <part-of-day>}, minted by
+# his habit tally) - never off one memory.
+"[where do you worship|where do you go to worship|where do you go to church|where do you attend church]"
+( any { ?_you /pres frequent [k church-building] ? } ).target
 .
-"which church do you attend"
-( any { ?_you /pres worship ? } ).target
+"[what|which] [church|chapel] do you [attend|worship at|go to|belong to]"
+( any { ?_you /pres frequent [k church-building] ? } ).target
 .
-"where do you drink"
-( any { ?_you /pres indulge ? } ).target
+"[where do you drink|where do you go to drink|where do you do your drinking|where do you take a drink]"
+( any { ?_you /pres frequent [k pub-building] ? } ).target
 .
-"where do you take your leisure"
-( any { ?_you /pres socialize_at ? } ).target
+"[what|which] [public house|tavern|inn|alehouse] do you [drink at|drink in|frequent|go to]"
+( any { ?_you /pres frequent [k pub-building] ? } ).target
 .
-"where do you spend your evenings"
-( any { ?_you /pres socialize_at ? } ).target
+"[where do you spend your evenings|what do you do in the evenings]"
+( any { ?_you /pres frequent ? [k evening] } ).target
+.
+"[where do you take your leisure|where do you go]"
+( any { ?_you /pres frequent ? ? } ).target
 .
 "do you belong to any club"
 ( prob { ?_you /pres member-of ? } )
@@ -848,30 +853,6 @@
 ( o /known { ( any { $person(Q_NP) /pres job } ).target /ever org @o } )
 .
 
-# --- Routine: the church / public-house ENTITY (building) --------------------
-"[what|which] [church|chapel] do you [attend|worship at|go to]"
-( any { ?_you /pres worship ? } ).target
-.
-"[what|which] [public house|tavern|inn] do you [drink at|frequent]"
-( any { ?_you /pres indulge ? } ).target
-.
-
-# --- Routine: WHERE - read off a placed act memory. Every episodic belief carries the
-# place its believer stood at when it arose (/at); (spatial <belief> building) climbs
-# from that place to the building. No placed memory -> @unknown.
-"where do you drink"
-( spatial ( any { ?_you /past DRINK /at ? } ) building )
-.
-"where do you [go to drink|do your drinking]"
-( spatial ( any { ?_you /past DRINK /at ? } ) building )
-.
-"where do you worship"
-( spatial ( any { ?_you /past WORSHIP /at ? } ) building )
-.
-"where do you [go to worship|go to church|attend church]"
-( spatial ( any { ?_you /past WORSHIP /at ? } ) building )
-.
-
 # --- Social: the specific person -------------------------------------------
 "who is your [closest|dearest|best] friend"
 ( o /known { ?_you /pres friend @o } )
@@ -1035,4 +1016,19 @@
 .
 "who your best friend is"
 ( o /known { ?_you /pres friend @o } )
+.
+"[where you drink|where you take a drink]"
+( any { ?_you /pres frequent [k pub-building] ? } ).target
+.
+"[which|what] [public house|tavern|inn] you [drink at|frequent]"
+( any { ?_you /pres frequent [k pub-building] ? } ).target
+.
+"[where you worship|where you go to church]"
+( any { ?_you /pres frequent [k church-building] ? } ).target
+.
+"[which|what] [church|chapel] you attend"
+( any { ?_you /pres frequent [k church-building] ? } ).target
+.
+"where you spend your evenings"
+( any { ?_you /pres frequent ? [k evening] } ).target
 .

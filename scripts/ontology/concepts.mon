@@ -786,6 +786,10 @@
   (child sky-condition
     (children clear overcast cloudy))
 
+  # The part of the day a habit is kept in: the bands of tables/day-parts.mc.
+  (child part-of-day
+    (children morning afternoon evening night))
+
   (child strength-measurement
     (children none light medium-strength heavy))
 
