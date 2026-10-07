@@ -126,7 +126,7 @@
     (try
       (lock)
       (role @self {?partner SAY (qs ? ? ?..):?qs @self /past}:?asked
-                  -{@self tell ? ?partner /past /caused_by ?asked}
+                  -{@self tell ? ?partner /succ /caused_by ?asked}
         (when (happened-since ?asked ?converse))
         (effects
           (if (withholds ?qs ?partner)

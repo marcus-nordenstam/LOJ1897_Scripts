@@ -11,6 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self tell ?msg ?audience}:?tell
+  (unique)
   (sub @msgAuthor [k human] @object)
   (tar @msg @excl @pattern)
   (aux @msgAudience ?)

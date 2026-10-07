@@ -12,6 +12,7 @@
 
 (action {@self SAY ?msg ?audience}:?SAY
   (motor mouth)
+  (unique)
   (presentation
     (state telling)
     (proc-anim tell)
