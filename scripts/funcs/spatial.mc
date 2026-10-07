@@ -12,6 +12,16 @@
   (or (spatial ?x building ?place)
       (spatial ?x unit ?place)))
 
+; @self stands in a space of kind ?kind, as he believes it.
+(define-func stands-in-room (?kind)
+  (tolerate (spatial @self space)): ?here
+  (and (substantial ?here) (is-a ?here ?kind)))
+
+; @self stands in a building of kind ?kind, as he believes it.
+(define-func stands-in-building (?kind)
+  (tolerate (spatial @self building)): ?here
+  (and (substantial ?here) (is-a ?here ?kind)))
+
 ; Where a thing set down "at ?dest" comes to rest: a claimed spot where the whole thing fits,
 ; on the floor of a space or on top of anything else. @fail while no spot is free - the
 ; asking rung polls until one is - and the claim is the asking rung's: it is released when

@@ -1,28 +1,19 @@
 ; ----------------------------------------------------------------------------
-; rehabilitation (Phase 9.3, B4 pressure model). A DISREPUTABLE NPC feels a
-; second, distinct pull toward church - not piety but the wish to restore
-; standing. A SECOND worship DRIVE: it mints the same abstract {@self WORSHIP}
-; drive goal want-worship (worship_think.mc) proposes, on a shorter 15-day itch;
-; the two utility sources SUM on that one goal, so a disreputable devout man is
-; drawn hardest, and BOTH pressures relieve on one act (both ramp with
-; days-since-last worship, which the worship act resets). The shared worship-go
-; (route) + worship_act (perform) rungs do the routing / performing - none here.
+; rehabilitation - a DISREPUTABLE man's second pull toward church: not piety but the wish to
+; restore standing. It raises the same attend-church-service task the worship drives do, on
+; a 15-day itch; the sources sum on the one proposal, and one service relieves them all,
+; since every drive ramps with days since the last {@self WORSHIP}.
 ;
-; The rehabilitation PAYOFF needs no wiring: the worship acts feed classify-piety
-; -> piety -> classify_respectability, so the more a disreputable man attends, the
-; more respectable - the slow multi-year climb, driven by this pull.
-;
-; Why disreputable not scandalous: the scandalous is already ostracised; a church
-; visit cannot lift them in one pass. The disreputable can rehabilitate.
+; The payoff needs no wiring: the services feed classify-piety, piety feeds the respectability
+; band, so the more a disreputable man attends the more respectable he becomes. The scandalous
+; are not cast: already ostracised, a church visit cannot lift them in one pass.
 ; ----------------------------------------------------------------------------
-
 
 (think rehabilitation
   (cooldown 15 d try-until-succ)
   (role @self {@self isa [k human], condition [k alive]}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-              {@self repute [k disreputable]}   ; derive-maintained band - cached
+              {@self repute [k disreputable]}
     (when    (>= (days-since-last {@self WORSHIP /succ /ever}) 15))
     (declare-utility idle (* 10 (min (* (days-since-last {@self WORSHIP /succ /ever}) 2) 40)))
-    (effects       (begin-goal {@self WORSHIP}))
-    (when-unsupported-effects (set-outcome {@self goal {@self WORSHIP}} /succ))))
+    (effects (maintain-proposal {@self attend-church-service}))))

@@ -1,10 +1,10 @@
-; drink - the drink ACT-BODY (action), proposed by go-drink in a pub. The {@self DRINK}
+; DRINK - the drink, proposed by go-drink once he stands in a bar-room. The {@self DRINK}
 ; act-belief IS the episodic drinking memory days-since-last and the sobriety classifier read.
 
 (action {@self DRINK}:?DRINK
   (motor body legs)
   (duration (seconds 90 min))
-  (init (check (is-a (spatial @self building) [k pub-building])))
+  (init (check (stands-in-room [k bar-room])))
   (effects
     ; Intoxication accumulates as a lifetime-drinking proxy (v1 - no decay); the
     ; sobriety classifier reads the attr back. Locationless by design: pub

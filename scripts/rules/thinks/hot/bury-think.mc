@@ -69,7 +69,7 @@
                   (select (score (months-since-death ?corpse)) (policy argmax))
       (role ?church [k church-building] (select (score (near @self ?church)) (policy roulette unknown-last))
         (when (>= (months-since-death ?corpse) 1))
-        (declare-utility obligation (above WORSHIP))
+        (declare-utility obligation (above attend-church-service))
         (effects (maintain-proposal {@self go ?church}))))))
 
 ; ONSITE rung. While the priest is CO-PRESENT with the overdue body, PROPOSE
@@ -84,7 +84,7 @@
                   (spatial ?corpse co-located @self)
                   (select (score (months-since-death ?corpse)) (policy argmax))
       (when (>= (months-since-death ?corpse) 1))
-      (declare-utility obligation (above WORSHIP))
+      (declare-utility obligation (above attend-church-service))
       (effects (maintain-proposal {@self BURY ?corpse})))))
 
 ; ANNOUNCE rung. The rite is silent; the WORDS are their own act. Once the priest's own
