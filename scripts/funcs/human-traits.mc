@@ -91,19 +91,19 @@
   (record [k italic])
   (record [k schoolroom])
   (record [k scrawl]))
-; What a school's hands range over: slant in degrees, weight as stroke thickening, size in
-; points, letter and line spacing in points added, regularity 0 (shaky) to 1 (even). A hand
-; is dealt from the middle of each range, bell-shaped, and never outside it.
+; What a school's hands range over: slant in degrees, weight as stroke thickening, letter and
+; line spacing in points added, regularity 0 (shaky) to 1 (even). A hand is dealt from the
+; middle of each range, bell-shaped, and never outside it.
 (define-table handwriting_aspect_bounds
-  (fields school slant-lo slant-hi weight-lo weight-hi size-lo size-hi
+  (fields school slant-lo slant-hi weight-lo weight-hi
           letter-lo letter-hi line-lo line-hi regularity-lo regularity-hi)
-  (record [k copperplate]  15.0 30.0 -0.05 0.10 10.0 13.0 -0.5 1.0  0.0 2.0 0.80 0.95)
-  (record [k spencerian]   20.0 40.0 -0.10 0.05 10.0 14.0  0.0 1.5  0.0 3.0 0.75 0.95)
-  (record [k round-hand]    5.0 20.0  0.00 0.15 10.0 13.0 -0.5 1.0  0.0 2.0 0.80 0.95)
-  (record [k commercial]   10.0 35.0  0.00 0.20  9.0 14.0 -1.0 2.0 -1.0 3.0 0.55 0.80)
-  (record [k italic]        0.0 10.0 -0.05 0.10  9.0 13.0 -0.5 1.5  0.0 3.0 0.70 0.90)
-  (record [k schoolroom]   -5.0 15.0  0.05 0.25 11.0 16.0  0.0 2.0  0.0 4.0 0.45 0.70)
-  (record [k scrawl]      -15.0 45.0  0.00 0.30  9.0 18.0 -1.0 4.0 -2.0 6.0 0.15 0.45))
+  (record [k copperplate]  15.0 30.0 -0.05 0.10 -0.5 1.0  0.0 2.0 0.80 0.95)
+  (record [k spencerian]   20.0 40.0 -0.10 0.05  0.0 1.5  0.0 3.0 0.75 0.95)
+  (record [k round-hand]    5.0 20.0  0.00 0.15 -0.5 1.0  0.0 2.0 0.80 0.95)
+  (record [k commercial]   10.0 35.0  0.00 0.20 -1.0 2.0 -1.0 3.0 0.55 0.80)
+  (record [k italic]        0.0 10.0 -0.05 0.10 -0.5 1.5  0.0 3.0 0.70 0.90)
+  (record [k schoolroom]   -5.0 15.0  0.05 0.25  0.0 2.0  0.0 4.0 0.45 0.70)
+  (record [k scrawl]      -15.0 45.0  0.00 0.30 -1.0 4.0 -2.0 6.0 0.15 0.45))
 (define-table appearance_dist
   (fields value weight)
   (record [k ugly]          1)
@@ -234,14 +234,13 @@
   (set-attr ?h handwriting (random-unheld-subkind ?school [k human] handwriting))
   (for-each-row handwriting_aspect_bounds
       [/school ?s] [/slant-lo ?slant-lo] [/slant-hi ?slant-hi]
-      [/weight-lo ?weight-lo] [/weight-hi ?weight-hi] [/size-lo ?size-lo] [/size-hi ?size-hi]
+      [/weight-lo ?weight-lo] [/weight-hi ?weight-hi]
       [/letter-lo ?letter-lo] [/letter-hi ?letter-hi] [/line-lo ?line-lo] [/line-hi ?line-hi]
       [/regularity-lo ?regularity-lo] [/regularity-hi ?regularity-hi]
     (if (is-a ?school ?s)
       (then
         (set-attr ?h hand-slant (deal-hand-aspect ?slant-lo ?slant-hi))
         (set-attr ?h hand-weight (deal-hand-aspect ?weight-lo ?weight-hi))
-        (set-attr ?h hand-size (deal-hand-aspect ?size-lo ?size-hi))
         (set-attr ?h hand-letter-spacing (deal-hand-aspect ?letter-lo ?letter-hi))
         (set-attr ?h hand-line-spacing (deal-hand-aspect ?line-lo ?line-hi))
         (set-attr ?h hand-regularity (deal-hand-aspect ?regularity-lo ?regularity-hi))

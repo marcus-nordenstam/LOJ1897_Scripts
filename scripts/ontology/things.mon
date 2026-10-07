@@ -51,7 +51,7 @@
             (attrs physical-motors game-role birth-date death-date death-cause age age-band age-span
                    chronotype
                    gender appearance height girth hair-color eye-color handwriting hand-slant hand-weight
-                   hand-size hand-letter-spacing hand-line-spacing hand-regularity attractiveness name
+                   hand-letter-spacing hand-line-spacing hand-regularity attractiveness name
                    condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite pain
                    openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
                    volatility withdrawal narcissism machiavellianism psychopathy sadism strength dexterity

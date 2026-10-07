@@ -112,11 +112,10 @@
 (attr handwriting (type kind) (default @nothing) (imperceptible))
 # The aspects of that hand as it is today, dealt at birth within the school's bounds and
 # stamped by WRITE beside the hand, so a letter keeps the hand its writer had on the day:
-# slant in degrees, weight as stroke thickening, size in points, letter and line spacing in
-# points added, regularity 0 (shaky) to 1 (even).
+# slant in degrees, weight as stroke thickening, letter and line spacing in points added,
+# regularity 0 (shaky) to 1 (even). Size is no aspect: every hand is written at the page's size.
 (attr hand-slant (type float) (range -15 45) (default 0.0) (imperceptible))
 (attr hand-weight (type float) (range -0.3 0.3) (default 0.0) (imperceptible))
-(attr hand-size (type float) (range 8 18) (default 12.0) (imperceptible))
 (attr hand-letter-spacing (type float) (range -2 4) (default 0.0) (imperceptible))
 (attr hand-line-spacing (type float) (range -2 6) (default 0.0) (imperceptible))
 (attr hand-regularity (type float) (range 0 1) (default 1.0) (imperceptible))
