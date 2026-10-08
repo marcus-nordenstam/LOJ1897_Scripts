@@ -91,14 +91,14 @@
 (spatial-label top        (store stack) (head))
 (spatial-label items      (store stack) (down))
 
-# The struct children a pop's (structs ..) names: the slot and its kind. A (mob-offset) slot is
-# created with its owner, at the offset its owner's .mob composition gives that kind.
-(struct left-hand (child) [k left-hand] (mob-offset))
-(struct right-hand (child) [k right-hand] (mob-offset))
-(struct head (child) [k head] (mob-offset))
-(struct left-eye (child) [k left-eye] (mob-offset))
-(struct right-eye (child) [k right-eye] (mob-offset))
-(struct mouth (child) [k mouth] (mob-offset))
-(struct torso (child) [k torso] (mob-offset))
-(struct left-ring-finger (child) [k left-ring-finger] (mob-offset))
-(struct right-ring-finger (child) [k right-ring-finger] (mob-offset))
+# The struct children a pop's (structs ..) names: the slot and its kind. An (authored-offset) slot is
+# created with its owner, at the offset its owner's composition gives that kind.
+(struct left-hand (child) [k left-hand] (authored-offset))
+(struct right-hand (child) [k right-hand] (authored-offset))
+(struct head (child) [k head] (authored-offset))
+(struct left-eye (child) [k left-eye] (authored-offset))
+(struct right-eye (child) [k right-eye] (authored-offset))
+(struct mouth (child) [k mouth] (authored-offset))
+(struct torso (child) [k torso] (authored-offset))
+(struct left-ring-finger (child) [k left-ring-finger] (authored-offset))
+(struct right-ring-finger (child) [k right-ring-finger] (authored-offset))
