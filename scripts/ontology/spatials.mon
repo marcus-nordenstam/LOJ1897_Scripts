@@ -90,8 +90,6 @@
 (spatial-label co-located-building (store space) (co) (rung building))
 (spatial-label room       (store space) (first) (rung-role room))
 (spatial-label neighbours (store space) (neighbours))
-(spatial-label passages   (store space) (passages))
-(spatial-label beyond     (store space) (beyond))
 (spatial-label gripped-by (store grip))
 (spatial-label grip       (store grip) (down))
 (spatial-label hold       (store grip) (down) (descend))

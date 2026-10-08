@@ -5,12 +5,16 @@
 ; on that point across the floor, and there is no box centre to mistake for a floor. A spot
 ; he cannot close in on is refused and the walk fails, so his proposer finds him another.
 ;
-; ONE body, and the LOD branch sits at the movement write and nowhere else. Only a
-; PRESENTED man on a navmesh navigates: the body plans through the nav graph, polls the
-; search, steers the character at the next unpassed waypoint every frame, and on arrival
-; relocates him onto the spot and sets its own /succ. Everyone else - every unpresented man, and a presented one where no
-; navmesh covers the route - is dumb travel: the act's one cap tick relocates him and the
-; cap commits /succ. So the duration is LOD-aware: the scheduled path needs a cap, since
+; ONE body, and the LOD branch sits at the movement write and nowhere else. Only a PRESENTED
+; man on a navmesh navigates: the walk is planned as he sees the world now - through every door
+; and window but the ones he sees shut, round those when it can - and the body steers the
+; character at the next unpassed waypoint every frame, re-plans when he sees a door it crosses
+; shut, and on arrival relocates him onto the spot and sets its own /succ. When the only way
+; lies through a barrier he sees shut, the walk ends /fail with the barrier in its barred-by,
+; for the go that proposed it to open. Everyone else - every unpresented man, and a presented
+; one where no navmesh covers the route - is dumb travel: the act's one cap tick relocates him
+; and the cap commits /succ, unless every way there crosses a barrier the world holds shut and
+; locked: then he stops before the first, sees it, and the walk ends /fail barred by it. So the duration is LOD-aware: the scheduled path needs a cap, since
 ; that tick IS the act, and the steered path must not have one, or it would commit /succ
 ; at the estimate with the man still in the street.
 ;
@@ -46,8 +50,8 @@
                               (travel-minutes @self ?dest (default_errand_min)))
                          min))))
 
-  ; A navigating walk starts its search now, so the first effects tick already has a plan
-  ; to poll. The player walks where his keys point, to no spot at all.
+  ; A walk a navmesh covers starts its search now, so the first effects tick already has a
+  ; plan to poll. The player walks where his keys point, to no spot at all.
   (init
     (if (is-npc)
         (then (check (is-spot ?dest))
@@ -59,14 +63,22 @@
       (case (is-player)
         (steer-heading @self))
       (case (not (walk-navigates ?dest))
-        (relocate @self ?dest))
+        (locked-barrier-spot @self ?dest): ?stop
+        (if (is-spot ?stop)
+            (then (bb-write ?WALK barred-by (locked-barrier @self ?dest))
+                  (relocate @self ?stop)
+                  (set-outcome ?WALK /fail))
+            (else (relocate @self ?dest))))
       (else
-        ; Re-planned when the goal drifts (a destination that is a person moves) or a
-        ; crossed passage flipped; otherwise a report. While the search is pending or
+        ; Re-planned when the goal drifts or he sees a door it crosses shut; otherwise a
+        ; report. While the search is pending or
         ; working he does NOTHING this tick - no fallback steering through unknown
         ; space, which is the point of the async search.
         (switch (nav-ensure-path @self ?dest)
           (on failed (set-outcome ?WALK /fail))
+          (on blocked
+            (bb-write ?WALK barred-by (nav-barrier @self))
+            (set-outcome ?WALK /fail))
           (on ready
             (nav-steer-target @self ?dest):?steer
             (stand-offset @self ?dest): ?offset

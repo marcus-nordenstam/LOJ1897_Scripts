@@ -47,53 +47,6 @@
               (break)))))))
   ?found)
 
-; @self could stand in ?space: a free floor spot his size, asked without claiming it.
-(define-func can-stand-in (?space)
-  (is-spot (find-spot @self [/on_floor_of ?space] [/near @self] [/at_or_near @self])))
-
-; The space of kind ?kind that ?place - a building or a unit - holds itself, nearest @self, that
-; he knows and has floor free to stand on, or @nothing. One whose floor has no room for him - too
-; low a storey, or full - is passed over.
-(define-func nearest-standable (?place ?kind)
-  (bind @nothing ?space)
-  (bind -1.0 ?best)
-  (for-each ?r (spatial ?place parts ?kind)
-    (if (can-stand-in ?r)
-      (then
-        (bind (distance @self ?r) ?d)
-        (if (or (< ?best 0.0) (< ?d ?best))
-          (then
-            (bind ?r ?space)
-            (bind ?d ?best))))))
-  ?space)
-
-; The threshold of ?place, both ways: the front door it holds itself, else any passage of its
-; own - the first with floor for him. @nothing when none has.
-(define-func entrance-space (?place)
-  (nearest-standable ?place [k front-door]): ?main
-  (if (substantial ?main)
-      (then ?main)
-      (else (nearest-standable ?place [k passage]))))
-
-; @self knows every part of ?kind ?place has.
-(define-func knows-every (?place ?kind)
-  (>= (count (spatial ?place parts ?kind))
-      (count (spatial ?place parts ?kind /env))))
-
-; Standing at ?place's door he sees what lies behind it: the passages and rooms it holds itself.
-(define-func look-through-door (?place)
-  (for-each ?way (spatial ?place parts [k passage] /env)
-    (observe ?way))
-  (for-each ?way (spatial ?place parts [k room] /env)
-    (observe ?way)))
-
-; The barrier that closes the passage ?way: a door or a window is its own barrier, and an
-; opening has none, so it is always open.
-(define-func barrier-of (?way)
-  (if (is-a ?way [k opening])
-      (then @nothing)
-      (else ?way)))
-
 ; ?barrier bars the way as @self believes it: shut and unbroken. @nothing bars nothing.
 (define-func barred (?barrier)
   (and (substantial ?barrier)
@@ -104,13 +57,6 @@
 (define-func barred-locked (?barrier)
   (and (barred ?barrier)
        (substantial (any {?barrier lock-status [k locked]}))))
-
-; ?bldg is entered as a whole: through a passage its units share, or - holding no units - as
-; its own one household. A building of units without a shared passage is entered unit by unit,
-; each through its own door.
-(define-func enters-as-building (?bldg)
-  (or (not (empty (spatial ?bldg parts [k passage] /env)))
-      (empty (spatial ?bldg parts [k unit] /env))))
 
 ; The place a business or a household holds in ?bldg: its one unit, or the building itself when
 ; it holds none. A building of several units does not say which of them - the caller must.

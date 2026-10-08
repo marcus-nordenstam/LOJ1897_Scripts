@@ -39,9 +39,11 @@
     (children shut))
 
   # A barrier's lock state (@excl). The lock-status attr on a door / window / drawer;
-  # a part loads unlocked. Perceived on sight so a thief can case it.
+  # a part loads unlocked. Perceived on sight so a thief can case it. A shut barrier
+  # holding a nav_locked value stops every walk that meets it.
   (child lock-status
-    (children locked unlocked))
+    (child locked (facets nav_locked))
+    (children unlocked))
 
   # Structural integrity of a barrier (@excl - distinct from the life-state
   # `condition` axis). The integrity attr on a door / window: intact until forced

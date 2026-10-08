@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; open-barrier ?barrier - open a shut door or window: walk up to it, then OPEN it. Succeeds when
 ; the OPEN it caused does, and fails when that OPEN fails - the barrier was locked after all.
-; The enter and exit tasks propose it for the barrier that closes the opening they would pass
-; through, only while @self believes it shut and not locked.
+; go proposes it for the barrier its walk was barred by, only while @self believes it shut and
+; not locked.
 ; ----------------------------------------------------------------------------
 
 (task {@self open-barrier ?barrier}:?open-barrier

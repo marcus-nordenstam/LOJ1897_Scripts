@@ -1,22 +1,25 @@
 ; ----------------------------------------------------------------------------
-; go ?dest - THE movement task, and the only one a chain proposes: only go and its own legs
-; (exit-unit / exit-building / enter-building / enter-unit) propose WALK. ?dest is anything a man can be bound for: a spot, a building,
-; a room, a person, a thing. The rungs are a preemptive-or, so each reads only what makes it
-; the one to run - every rung above it has already failed:
+; go ?dest - THE movement task, and the only one a chain proposes: only go proposes WALK. ?dest
+; is anything a man can be bound for: a spot, a building, a room, a person, a thing. The rungs
+; are a preemptive-or, so each reads only what makes it the one to run - every rung above it
+; has already failed:
 ;
 ;   arrived                          -> succeed
 ;   unseen, believed in a space      -> go to that space, where he will see it; not there -> fail
 ;   unseen, in the house at premises -> tour the house; a tour that shows it not -> fail
-;   in a unit that is not dest's     -> exit-unit
-;   in the wrong building            -> exit-building
-;   out of doors, dest's building
-;     entered as a whole             -> enter-building (its shared door, or a unit-less one)
-;   dest in a unit he is not in      -> enter-unit (its own door: from the street for a row
-;                                       house, from the shared hallway for a block of flats)
 ;   unseen, no house at its premises -> find-building; a search that finds none -> fail
+;   a walk barred by a barrier he
+;     believes locked, or could not
+;     open                           -> fail
+;   a walk barred by one he sees
+;     shut                           -> open-barrier, and the next walk goes through it
 ;   far from dest                    -> WALK to its travel spot: a heading, no search, no claim
 ;   near dest, or dest is a spot     -> WALK to the spot he will stand on: the dest spot, a
 ;                                       claimed spot on its floor, before him or by him
+;
+; Which rooms, doors and streets lie between is the WALK's: its route is planned on the navmesh
+; as he sees the world now, and a barrier he sees shut in the only way ends it /fail with the
+; barrier in its barred-by.
 ;
 ; FAR and NEAR split at near_building_m, and far is the NEGATION of near: a grounded thing
 ; with no box answers @unknown to (distance ..), and a distance he cannot measure is not near.
@@ -55,33 +58,6 @@
                    (or (< (distance @self ?dest) (near_reach_m))
                        (substantial (any {@self WALK ? /succ /caused_by ?go})))))): ?there
   ?there)
-
-; The unit ?dest lies in as @self believes it, @nothing for a dest in no unit.
-(define-func go-unit (?dest)
-  (cond (case (is-spot ?dest) (tolerate (spatial (spot-anchor ?dest) unit)))
-        (case (not (grounded ?dest)) @nothing)
-        (case (is-a ?dest [k unit]) ?dest)
-        (else (tolerate (spatial ?dest unit)))): ?u
-  (if (substantial ?u) (then ?u) (else @nothing)))
-
-; How far crossing ?passage takes @self toward ?dest, read off the space beyond it.
-(define-func dest-progress-amount (?passage ?dest)
-  (tolerate (spatial ?passage beyond)): ?far
-  (bind (go-unit ?dest) ?unit)
-  (bind (go-building ?dest) ?bldg)
-  (bind (if (is-a ?dest [k space]) (then ?dest) (else (tolerate (spatial ?dest space)))) ?there)
-  (bind (tolerate (distance ?far ?dest)) ?gap)
-  (bind (cond (case (unsubstantial ?far) 0.0)
-              (case (and (substantial ?there) (= ?far ?there)) (progress_reaches_space_amount))
-              (case (and (substantial ?unit) (spatial ?far unit ?unit)) (progress_reaches_unit_amount))
-              (case (and (substantial ?bldg) (spatial ?far building ?bldg)) (progress_reaches_building_amount))
-              (case (and (unsubstantial ?bldg) (is-a ?far [k exterior-space])) (progress_reaches_building_amount))
-              (case (substantial ?gap) (/ 1.0 (+ 1.0 ?gap)))
-              (else 0.0))
-        ?amount)
-  (if (has-facet ?passage nav_last_resort)
-      (then (- ?amount (progress_last_resort_penalty)))
-      (else ?amount)))
 
 (define-func go-unseen (?dest)
   (and (not (is-spot ?dest)) (not (grounded ?dest))))
@@ -149,37 +125,6 @@
             {@self wander ?house /succ /caused_by ?go})
       (effects (set-outcome ?go /fail)))
     (try
-      (when (spatial @self unit): ?my-unit
-            (substantial ?my-unit)
-            (not (= (go-unit ?dest) ?my-unit)))
-      (effects
-        (check (is-a ?my-unit [k unit]))
-        (maintain-proposal {@self exit-unit ?my-unit})))
-    (try
-      (when (spatial @self building): ?here
-            (substantial ?here)
-            (not (= (go-building ?dest) ?here)))
-      (effects
-        (check (is-a ?here [k building]))
-        (maintain-proposal {@self exit-building ?here})))
-    (try
-      (when (unsubstantial (spatial @self building))
-            (go-building ?dest): ?building
-            (substantial ?building)
-            (enters-as-building ?building))
-      (effects
-        (check (is-a ?building [k building]))
-        (check (grounded ?building))
-        (maintain-proposal {@self enter-building ?building})))
-    (try
-      (when (go-unit ?dest): ?unit
-            (substantial ?unit)
-            (not (spatial @self unit ?unit)))
-      (effects
-        (check (is-a ?unit [k unit]))
-        (check (grounded ?unit))
-        (maintain-proposal {@self enter-unit ?unit})))
-    (try
       (when (go-unseen ?dest)
             -{@self find-building ?dest ? /fail}
             (current-exterior @self): ?region)
@@ -190,6 +135,18 @@
       (when (go-unseen ?dest)
             {@self find-building ?dest ? /fail})
       (effects (set-outcome ?go /fail)))
+    (try
+      (when {@self WALK ? /fail /caused_by ?go}:?WALK
+            (bb-read ?WALK barred-by): ?barrier
+            (barred ?barrier)
+            (or (barred-locked ?barrier)
+                (substantial (any {@self open-barrier ?barrier /fail /caused_by ?go}))))
+      (effects (set-outcome ?go /fail)))
+    (try
+      (when {@self WALK ? /fail /caused_by ?go}:?WALK
+            (bb-read ?WALK barred-by): ?barrier
+            (barred ?barrier))
+      (effects (maintain-proposal {@self open-barrier ?barrier})))
     (try
       (when (not (is-spot ?dest))
             (not (go-near ?dest))
