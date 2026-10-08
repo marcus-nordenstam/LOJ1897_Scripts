@@ -30,33 +30,33 @@
       (effects (maintain-proposal {@self WALK ?spot})))
     (try
       (when (< (distance @self ?bldg) (near_building_m))
-            (not (knows-every ?bldg [k entrance])))
+            (not (knows-every ?bldg [k passage])))
       (when -{?bldg struct-status [k closed]})
       (effects
         (look-through-door ?bldg)
-        (expect (knows-every ?bldg [k entrance]) "enter-building: looking through the door taught him every entrance")))
+        (expect (knows-every ?bldg [k passage]) "enter-building: looking through the door taught him every passage")))
     (try
       (when (< (distance @self ?bldg) (near_building_m))
-            (knows-every ?bldg [k entrance])
+            (knows-every ?bldg [k passage])
             (unsubstantial (entrance-space ?bldg)))
       (when -{?bldg struct-status [k closed]})
       (effects (expect @false "enter-building: no entrance of its own has floor to stand on")))
     (try
       (when (< (distance @self ?bldg) (near_building_m))
-            (knows-every ?bldg [k entrance])
+            (knows-every ?bldg [k passage])
             (entrance-space ?bldg): ?way
             (substantial ?way)
-            (barrier-of ?bldg ?way): ?barrier
+            (barrier-of ?way): ?barrier
             (barred ?barrier)
             (not (barred-locked ?barrier)))
       (when -{?bldg struct-status [k closed]})
       (effects (maintain-proposal {@self open-barrier ?barrier})))
     (try
       (when (< (distance @self ?bldg) (near_building_m))
-            (knows-every ?bldg [k entrance])
+            (knows-every ?bldg [k passage])
             (entrance-space ?bldg): ?way
             (substantial ?way)
-            (not (barred (barrier-of ?bldg ?way))))
+            (not (barred (barrier-of ?way))))
       (when -{?bldg struct-status [k closed]})
       (when (poll (stand-spot-in ?way): ?spot))
       (effects

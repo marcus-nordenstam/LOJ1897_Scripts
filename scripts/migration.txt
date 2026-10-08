@@ -4,9 +4,8 @@
 # Re-save scenes after loading to persist the new names.
 # A line whose old name is a WHOLE stored kind string ("commercial-building pub") maps that
 # string; any other remap rewrites a WORD wherever it appears in a stored kind path, so a
-# term the ontology reuses for a new kind is never remapped by word: `opening` (once the
-# door / window parent, now movable-barrier) names the interior-space opening, and no line
-# maps it.
+# term the ontology reuses for a new kind is never remapped by word: `opening` names the
+# doorless passage, and no line maps it.
 
 # --- Still stored by scenes not yet re-saved (2026-10-06) ---------------------------------
 # Open and save each, then delete these lines: Theatres/ 0_Labs_Layered_Materials_1,
@@ -20,3 +19,11 @@ kind commercial-building hospital = hospital-building
 kind commercial-building newspaper = newspaper-building
 kind commercial-building pub = pub-building
 kind commercial-building restaurant = restaurant-building
+
+# --- Openings are passages, not spaces (2026-10-08) -------------------------------------
+# Each lands on the doorless opening. One a door or a window overlaps is then a loud export
+# error, because that barrier generates the passage itself: delete the opening in the Editor.
+kind entrance = opening
+kind main-entrance = opening
+kind window-opening = opening
+kind doorway = opening

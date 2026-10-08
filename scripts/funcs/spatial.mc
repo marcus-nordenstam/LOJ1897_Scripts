@@ -67,44 +67,32 @@
             (bind ?d ?best))))))
   ?space)
 
-; The threshold of ?place, both ways: the main entrance it holds itself, else any entrance of
-; its own - the first with floor for him. @nothing when none has. A building's are the entrances
-; its units share; a unit's are its own door.
+; The threshold of ?place, both ways: the front door it holds itself, else any passage of its
+; own - the first with floor for him. @nothing when none has.
 (define-func entrance-space (?place)
-  (nearest-standable ?place [k main-entrance]): ?main
+  (nearest-standable ?place [k front-door]): ?main
   (if (substantial ?main)
       (then ?main)
-      (else (nearest-standable ?place [k entrance]))))
+      (else (nearest-standable ?place [k passage]))))
 
 ; @self knows every part of ?kind ?place has.
 (define-func knows-every (?place ?kind)
   (>= (count (spatial ?place parts ?kind))
       (count (spatial ?place parts ?kind /env))))
 
-; Standing at ?place's door he sees what lies behind it: the entrances and rooms it holds itself.
+; Standing at ?place's door he sees what lies behind it: the passages and rooms it holds itself.
 (define-func look-through-door (?place)
-  (for-each ?way (spatial ?place parts [k entrance] /env)
+  (for-each ?way (spatial ?place parts [k passage] /env)
     (observe ?way))
   (for-each ?way (spatial ?place parts [k room] /env)
     (observe ?way)))
 
-; The first ?kind part of ?whole @self knows whose box overlaps ?thing, or @nothing.
-(define-func first-overlapping-part (?whole ?kind ?thing)
-  (bind @nothing ?found)
-  (for-each ?part (spatial ?whole parts ?kind)
-    (if (and (unsubstantial ?found) (overlaps ?part ?thing))
-      (then (bind ?part ?found))))
-  ?found)
-
-; The movable barrier that closes ?way, an opening of ?place (a building or a unit): one of
-; ?place's own parts, else - for a unit - one of its building's. @nothing when he knows none,
-; and an opening with no barrier is always open.
-(define-func barrier-of (?place ?way)
-  (first-overlapping-part ?place [k movable-barrier] ?way): ?own
-  (cond (case (substantial ?own) ?own)
-        (case (is-a ?place [k unit])
-          (first-overlapping-part (spatial ?place building) [k movable-barrier] ?way))
-        (else @nothing)))
+; The barrier that closes the passage ?way: a door or a window is its own barrier, and an
+; opening has none, so it is always open.
+(define-func barrier-of (?way)
+  (if (is-a ?way [k opening])
+      (then @nothing)
+      (else ?way)))
 
 ; ?barrier bars the way as @self believes it: shut and unbroken. @nothing bars nothing.
 (define-func barred (?barrier)
@@ -117,11 +105,11 @@
   (and (barred ?barrier)
        (substantial (any {?barrier lock-status [k locked]}))))
 
-; ?bldg is entered as a whole: through an entrance its units share, or - holding no units - as
-; its own one household. A building of units without a shared entrance is entered unit by unit,
+; ?bldg is entered as a whole: through a passage its units share, or - holding no units - as
+; its own one household. A building of units without a shared passage is entered unit by unit,
 ; each through its own door.
 (define-func enters-as-building (?bldg)
-  (or (not (empty (spatial ?bldg parts [k entrance] /env)))
+  (or (not (empty (spatial ?bldg parts [k passage] /env)))
       (empty (spatial ?bldg parts [k unit] /env))))
 
 ; The place a business or a household holds in ?bldg: its one unit, or the building itself when

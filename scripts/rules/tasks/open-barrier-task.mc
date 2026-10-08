@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self open-barrier ?barrier}:?open-barrier
-  (tar @excl [k movable-barrier] @object)
+  (tar @excl [k door|window] @object)
   (preemptive-or
     (try
       (when {@self OPEN ?barrier /succ /caused_by ?open-barrier})

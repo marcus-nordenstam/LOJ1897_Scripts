@@ -683,16 +683,23 @@
         # `name`, an address-sign its building's `address`.
         (child sign
           (children building-name-sign address-sign))
-        # A movable barrier closes an opening (interior-space opening): shut and intact it bars
-        # the way, ajar or broken it lets a body through.
-        (child movable-barrier (+ facets nav_barrier) (facets nav_barrier)
+        # A passage is a way through a wall and never a space: nothing is filed in one and nobody
+        # stands in one. A door or a window gates its own passage - shut and intact it bars the
+        # way - and an opening is a gap with no barrier, so it carries none of the barrier attrs.
+        (child passage (composition passage) (+ nav_passage)
           (decorations
             (attrs open-amount hinge-side swing-angle)
             (attr opening-status (auto-percept) (ext-per obs))
             (attr lock-status (auto-percept) (ext-per obs))
             (attr integrity (auto-percept) (ext-per obs)))
           (population (cap 4096))
-          (children window door))))
+          (child opening
+            (decorations
+              (attrs -open-amount -hinge-side -swing-angle -opening-status -lock-status -integrity))
+            (population (cap 4096) (non-occluder)))
+          (child door (+ facets nav_barrier) (facets nav_barrier)
+            (children front-door))
+          (child window (facets nav_barrier nav_last_resort)))))
     (child gm
       (population (cap 1) (imperceptible)))
     (child instance
@@ -734,21 +741,13 @@
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
       (population (cap 4096) (always-visible) (non-occluder))
-      (children bar-back)
-      # An opening is the gap in a wall a body passes through between inside and out, and the
-      # navigation passage that crosses it; its movable barrier, when it has one, opens and
-      # shuts it. A window-opening is crossed only when no entrance will do.
-      (child opening (+ nav_passage)
-        (child entrance (facets entrance)
-          (child main-entrance (facets entrance)))
-        (child window-opening (facets nav_last_resort)))
-      (children doorway)
-      # One home: the rooms, openings and fixed parts a household holds. Always a building's
+      # One home: the rooms, passages and fixed parts a household holds. Always a building's
       # part - a house has one, a duplex two, an apartment building one per apartment.
       (child unit (composition unit)
         (decorations (states breakfast-hour lunch-hour supper-hour)))
       (child room
         (children kitchen dining-room restaurant-dining-room hallway living-room bedroom staircase nave bar-room)
+        (children bar-back stage auditorium)
         # Rooms the crime arcs need.
         # study: private workroom; canonical Victorian crime-scene
         # room (where a gentleman drinks port and reads in the
@@ -767,8 +766,7 @@
       # A closed sub-space of a room, a fixture or a prop: never stood in, never a floor.
       (child compartment (composition compartment)
         (child hiding-spot-compartment
-          (children floorboard-cache book-cache jewelry-box-lining painting-cache secret-chamber)))
-      (children stage auditorium))
+          (children floorboard-cache book-cache jewelry-box-lining painting-cache secret-chamber))))
     (child exterior-space
       (decorations
         (attrs variant birth-date address)

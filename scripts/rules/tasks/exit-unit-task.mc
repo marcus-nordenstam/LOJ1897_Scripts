@@ -26,7 +26,7 @@
   (cease (if (not (spatial @self unit ?unit)) (then (set-outcome ?exit-unit /succ))))
   (stable-or
     (try
-      (when (empty (spatial ?unit parts [k entrance]))
+      (when (empty (spatial ?unit parts [k passage]))
             -{@self wander ?unit /succ /caused_by ?exit-unit})
       (effects (maintain-proposal {@self wander ?unit})))
 
@@ -35,7 +35,7 @@
       ; entrance has no floor free for him holds the stage until a spot frees.
       (stage
         (bind (entrance-space ?unit) ?entry)
-        (when (or (substantial ?entry) (empty (spatial ?unit parts [k entrance]))))
+        (when (or (substantial ?entry) (empty (spatial ?unit parts [k passage]))))
         (bind (cond (case (unsubstantial ?entry) @nothing)
                     (case (spatial @self space ?entry) @nothing)
                     (else (stand-spot-in ?entry)))
@@ -46,7 +46,7 @@
 
       ; A door he believes shut he opens; one he believes locked holds him inside.
       (stage
-        (bind (if (substantial ?entry) (then (barrier-of ?unit ?entry)) (else @nothing)) ?barrier)
+        (bind (if (substantial ?entry) (then (barrier-of ?entry)) (else @nothing)) ?barrier)
         (when (not (barred-locked ?barrier)))
         (effects
           (if (barred ?barrier)

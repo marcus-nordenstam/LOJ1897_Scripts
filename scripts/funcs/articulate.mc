@@ -7,11 +7,11 @@
 ; ----------------------------------------------------------------------------
 
 (define-func articulate (?thing ?amount)
-  (if (is-a ?thing [k movable-barrier])
-      (then (swing ?thing ?amount (attr ?thing hinge-side) (attr ?thing swing-angle)))
-      (else (slide ?thing ?amount (attr ?thing drawer-travel))))
+  (if (is-a ?thing [k drawer])
+      (then (slide ?thing ?amount (attr ?thing drawer-travel)))
+      (else (swing ?thing ?amount (attr ?thing hinge-side) (attr ?thing swing-angle))))
   (set-attr ?thing open-amount ?amount))
 
 ; ?thing swings or slides: a movable barrier or a drawer.
 (define-func articulated (?thing)
-  (or (is-a ?thing [k movable-barrier]) (is-a ?thing [k drawer])))
+  (or (is-a ?thing [k door]) (is-a ?thing [k window]) (is-a ?thing [k drawer])))

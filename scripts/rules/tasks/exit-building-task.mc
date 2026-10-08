@@ -18,14 +18,14 @@
   (cease (if (not (spatial @self building ?bldg)) (then (set-outcome ?exit-building /succ))))
   (stable-or
     (try
-      (when (empty (spatial ?bldg parts [k entrance]))
+      (when (empty (spatial ?bldg parts [k passage]))
             -{@self wander ?bldg /succ /caused_by ?exit-building})
       (effects (maintain-proposal {@self wander ?bldg})))
 
     (sequence
       (stage
         (bind (entrance-space ?bldg) ?entry)
-        (when (or (substantial ?entry) (empty (spatial ?bldg parts [k entrance]))))
+        (when (or (substantial ?entry) (empty (spatial ?bldg parts [k passage]))))
         (bind (cond (case (unsubstantial ?entry) @nothing)
                     (case (spatial @self space ?entry) @nothing)
                     (else (stand-spot-in ?entry)))
@@ -35,7 +35,7 @@
               (then (maintain-proposal {@self WALK ?step})))))
 
       (stage
-        (bind (if (substantial ?entry) (then (barrier-of ?bldg ?entry)) (else @nothing)) ?barrier)
+        (bind (if (substantial ?entry) (then (barrier-of ?entry)) (else @nothing)) ?barrier)
         (when (not (barred-locked ?barrier)))
         (effects
           (if (barred ?barrier)
