@@ -31,5 +31,5 @@
 (think bring-at-dest
   (goal {@self BRING ?ware ?dest})
   (role @self (spatial @self space ?dest)
-    (when (poll (rest-spot ?dest ?ware): ?spot))
+    (when (poll (rest-spot ?dest (held-ware @self ?ware)): ?spot))
     (effects (maintain-proposal {@self BRING ?ware ?spot}))))

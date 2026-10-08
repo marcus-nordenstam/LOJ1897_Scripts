@@ -1,13 +1,22 @@
 ; ----------------------------------------------------------------------------
-; collections - the pile COUNT reads, as funcs.
+; collections - the pile and ware reads, as funcs.
 ;
-; These were macros. A macro is textual expansion into the caller's var space, and
-; these three need a body - a local, a walk over candidates, then a value - which is
-; a FUNCTION, not a substitution. As macros their (do ..) handed back the walk's own
-; result instead of the closing expression, so every one of them answered @true and
-; every (> (believed-home-food-count ..) 0) in the meal aspect read false. The pile
-; MUTATORS stay macros in collection-macros.mc: they thread an output var by design.
+; A read needs a body - a local, a walk over candidates, then a value - which is a
+; FUNCTION, not a macro: a macro's (do ..) hands back the walk's own result instead of
+; the closing expression.
 ; ----------------------------------------------------------------------------
+
+; (held-ware ?who ?ware): a thing ?who BELIEVES it holds that is ?ware - an instance of
+; the kind, or a pile whose content is the kind - or @nothing. What he has stowed is held
+; too, so a ware is never matched by the pile kind alone.
+(define-func held-ware (?who ?ware)
+  (bind @nothing ?held)
+  (for-each ?cand (spatial ?who hold)
+    (if (or (is-a ?cand ?ware)
+            (and (is-a ?cand [k pile]) {?cand content-kind ?ware}))
+        (then (bind ?cand ?held)
+              (break))))
+  ?held)
 
 ; (held-pile-count ?who ?kind): the loaf-count ?who BELIEVES it carries in the ?kind
 ; pile (0 if none) - belief-honest (no /env), so it is legal in a (when). Reading

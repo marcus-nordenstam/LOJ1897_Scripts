@@ -154,7 +154,7 @@
 (think provision-rearm
   (role ?home {@self home ?home}
               (spatial ?home room [k kitchen]): ?kitchen
-    (when (not (empty (spatial @self hold [k pile]))))
+    (when (substantial (held-ware @self [k food])))
     (declare-utility duty (if (spatial @self space ?kitchen) (then 1000) (else 900)))
-    (effects       (begin-goal {@self BRING [k pile] ?kitchen}))
-    (when-unsupported-effects (set-outcome {@self goal {@self BRING [k pile] ?kitchen}} /succ))))
+    (effects       (begin-goal {@self BRING [k food] ?kitchen}))
+    (when-unsupported-effects (set-outcome {@self goal {@self BRING [k food] ?kitchen}} /succ))))
