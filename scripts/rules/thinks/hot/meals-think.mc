@@ -429,7 +429,7 @@
 ;     (spatial @self building): ?shop
 ;     (if (and (= ?found 0) ?shop (is-a ?shop [k shop]))
 ;         (then
-;           (for-each ?room (spatial ?shop parts [k room] /env)
+;           (for-each ?room (spatial ?shop rooms /env)
 ;             (do
 ;               (bind 0 ?shelf_pile)
 ;               (pile-at-into ?room [k food] ?shelf_pile)

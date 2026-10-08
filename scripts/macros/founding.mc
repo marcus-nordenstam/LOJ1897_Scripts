@@ -154,7 +154,7 @@
 ;      (then
 ;        (claim-deed ?wp)
 ;        (delist ?wp)
-;        (for-each ?room (spatial ?wp parts [k room] /env)
+;        (for-each ?room (spatial ?wp rooms /env)
 ;            (spatial-write ?room struct_parent ?wp))
 ;        (spatial ?wp room): ?back
 ;        (check ?back)
@@ -207,7 +207,7 @@
 ;(define-macro employ-beliefs (?org ?wp ?job-kind ?level ?reg)
 ;  (do
 ;    (begin-belief {?wp occupant @self})
-;    (for-each ?room (spatial ?wp parts [k room] /env)
+;    (for-each ?room (spatial ?wp rooms /env)
 ;        (spatial-write ?room struct_parent ?wp))
 ;    (table-match income_by_level level ?level income ?salary)
 ;    (if (table-match (attr ?reg writing) worker (name @self) job ?job-kind job-id ?eb-line

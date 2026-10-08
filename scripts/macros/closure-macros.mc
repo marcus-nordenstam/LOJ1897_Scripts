@@ -8,7 +8,8 @@
 ; coordination channel (perception at co-presence), not a mind edit.
 ;
 ; (shutter-building ?wp): shutter the premises ?wp by writing its struct-status = [k closed]
-; (a perceivable physical fact on the BUILDING, ontology/attrs.mon). Since NPCs always front-
+; (a perceivable physical fact on the BUILDING, ontology/attrs.mon) and locking every door that
+; leads out of it, so no walk enters a closed building at either LOD. Since NPCs always front-
 ; park a building on arrival, a worker RE-OBSERVES it every commute and INTERNALIZES
 ; {?wp struct-status [k closed]} fresh, and reconcile-closed drops his own stale employment
 ; beliefs off that PERCEIVED belief - no mind but his own is written. MARK, not destroy:
@@ -17,5 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 ; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
-;(define-macro shutter-building (?wp)
-;  (set-attr ?wp struct-status [k closed]))
+;(define-func shutter-building (?wp)
+;  (set-attr ?wp struct-status [k closed])
+;  (for-each ?door (spatial ?wp exits [k door] /env)
+;    (set-attr ?door lock-status [k locked])))

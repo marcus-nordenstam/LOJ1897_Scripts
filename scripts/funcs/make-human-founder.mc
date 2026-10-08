@@ -14,7 +14,7 @@
 (include "age.mc")
 
 (define-func make-human (?home ?class ?gender)
-  (head (spatial ?home parts [k room] /env)): ?room
+  (head (spatial ?home rooms /env)): ?room
   (check ?room)
   (if ?room
     (then

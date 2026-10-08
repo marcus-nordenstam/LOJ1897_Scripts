@@ -29,7 +29,7 @@
                  (is-a (spatial @self building): ?shop [k shop])))
       (effects
         (bind 0 ?found)
-        (for-each ?room (spatial ?shop parts [k room] /env)
+        (for-each ?room (spatial ?shop rooms /env)
           (for-each ?item (spatial ?room contents ?kind /env) [/limit 1]
             (if (= ?found 0) (then (bind ?item ?goods) (bind 1 ?found)))))
         (if (= ?found 1)

@@ -46,7 +46,7 @@
     (check ?shop)
     (if ?shop
         (then
-          (spatial ?shop parts [k room] /env): ?rooms
+          (spatial ?shop rooms /env): ?rooms
           ; Validate the shelves against belief - every room of the shop.
           (for-each ?room ?rooms
             (for-each ?item (spatial ?room contents)

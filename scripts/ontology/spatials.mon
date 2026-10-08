@@ -32,13 +32,11 @@
 #   (neighbours)                 the rooms a room's composition links it to, as a list. Default
 #                                = the ones the mind has met - standing in a room shows you
 #                                the doorways out of it - /env = every one
-#   (passages)                   the doors, windows and openings of a space, a unit or a
-#                                building, as a list: a space's own, a unit's, a building's that
-#                                lead outdoors. /boundary keeps those leading out of a unit or
-#                                outdoors, /interior those within one unit. Default = the ones the
-#                                mind has met, /env = every one
-#   (beyond)                     the space on the side of a passage @self is not in - from
-#                                outdoors, the inside
+#   (rooms)                      the rooms a building or unit holds - its own and its units' -
+#                                as a list. Default = the ones the mind has met, /env = every one
+#   (exits)                      the doors, windows and openings leading out of a building, unit
+#                                or room, as a list. Default = the ones the mind has met, /env =
+#                                every one
 #   (first)                      single first-known child match: (spatial ?whole room [k K])
 #                                yields one perceived child of ?whole is-a the label's (rung
 #                                <kind>) range, further narrowed by K when given
@@ -90,6 +88,8 @@
 (spatial-label co-located-building (store space) (co) (rung building))
 (spatial-label room       (store space) (first) (rung-role room))
 (spatial-label neighbours (store space) (neighbours))
+(spatial-label rooms      (store part) (rooms))
+(spatial-label exits      (store part) (exits))
 (spatial-label gripped-by (store grip))
 (spatial-label grip       (store grip) (down))
 (spatial-label hold       (store grip) (down) (descend))

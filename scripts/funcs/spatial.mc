@@ -36,7 +36,7 @@
 ; nothing is claimed - each call sees what the calls before it placed.
 (define-func seed-rest-spot (?place ?kind)
   (spatial ?place room /env): ?found
-  (for-each ?room (spatial ?place parts [k room] /env)
+  (for-each ?room (spatial ?place rooms /env)
     (if (is-spot ?found) (then (break)))
     (for-each ?surface (spatial ?room contents [k loose-furniture] /env)
       (if (or (is-a ?surface [k writing-desk]) (is-a ?surface [k table]))
