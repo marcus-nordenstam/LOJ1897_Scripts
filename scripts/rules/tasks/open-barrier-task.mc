@@ -21,4 +21,4 @@
       (when (poll (maintain-claim-spot @self [/near ?barrier] [/at_or_near @self]): ?spot))
       (effects
         (check (is-spot ?spot))
-        (maintain-proposal {@self WALK ?spot})))))
+        (maintain-proposal {@self go ?spot})))))

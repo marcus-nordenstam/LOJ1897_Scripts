@@ -31,6 +31,10 @@
 (define-func walk-navigates (?dest)
   (and (presented-lod) (nav-navigable @self ?dest)))
 
+; When the go this walk serves began: a barrier he has seen shut since then bars its route.
+(define-func walk-since (?WALK)
+  (start-time (caused-by ?WALK {@self go ?})))
+
 (action {@self WALK ?dest}:?WALK
   (motor legs)
   (obs)
@@ -56,7 +60,7 @@
     (if (is-npc)
         (then (check (is-spot ?dest))
               (if (walk-navigates ?dest)
-                  (then (nav-ensure-path @self ?dest))))))
+                  (then (nav-ensure-path @self ?dest (walk-since ?WALK)))))))
 
   (effects
     (cond
@@ -74,7 +78,7 @@
         ; report. While the search is pending or
         ; working he does NOTHING this tick - no fallback steering through unknown
         ; space, which is the point of the async search.
-        (switch (nav-ensure-path @self ?dest)
+        (switch (nav-ensure-path @self ?dest (walk-since ?WALK))
           (on failed (set-outcome ?WALK /fail))
           (on blocked
             (bb-write ?WALK barred-by (nav-barrier @self))
