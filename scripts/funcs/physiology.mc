@@ -110,14 +110,39 @@
   (emit-body-bands ?sleepiness ?appetite)
   (if (eq ?act SLEEP) (then (book-bedtime-alarm ?fatigue ?mask))))
 
-; A jump window opens at midnight after a month nobody lived: the body is the one an ordinary
-; waking day leaves - just into the sleepy band on his own clock, calm, fed at supper.
-(define-func /window-start midnight_body ()
-  (+ (sleepy_min) (band-dead-band)): ?sleepiness
-  (- ?sleepiness (circadian-pressure (time seconds))): ?fatigue
+; True when ?job's shift on weekday ?wd runs past midnight.
+(define-func shift-wraps-midnight (?job ?wd)
+  (table-match weekday_hours_label weekday ?wd label ?swm-label)
+  (if (none {?job ?swm-label ?})
+      (then @false)
+      (else (gt (any {?job ?swm-label ?}).target (any {?job ?swm-label ?}).auxiliary))))
+
+; True when @self lives by night: his shift last night or tonight runs past midnight.
+(define-func lives-by-night ()
+  (time weekday): ?lbn-today
+  (if (= ?lbn-today 1) (then 7) (else (- ?lbn-today 1))): ?lbn-yesterday
+  (if (none {@self job ?})
+      (then @false)
+      (else (or (shift-wraps-midnight (any {@self job ?}).target ?lbn-today)
+                (shift-wraps-midnight (any {@self job ?}).target ?lbn-yesterday)))))
+
+; A jump window opens at the town's waking hour after a month nobody lived: the body is the one a
+; night's sleep leaves - rested, calm, as hungry as the night's fast made him. A man who lives by
+; night comes to it spent from his shift instead, with the debt that sleeps him till his waking hour.
+(define-func /window-start morning_body ()
+  (* (- (night_waking_hour) (+ /float (hour (time seconds)) (/ /float (minute (time seconds)) (minutes_per_hour))))
+     (minutes_per_hour)): ?until-waking-min
+  (if (lives-by-night)
+      (then (- (* (/ ?until-waking-min (minutes_per_hour)) (fatigue_recover_per_hour))
+               (circadian-pressure (+ (time seconds) (seconds ?until-waking-min min)))))
+      (else 0.0)): ?fatigue
+  (circadian-pressure (time seconds)): ?clock
+  (clamp (+ ?fatigue ?clock) 0.0 (fatigue_max)): ?sleepiness
+  (* (overnight_fast_hours) (hunger_accrue_per_hour)): ?hunger
+  (clamp (- ?hunger (max 0.0 ?clock)) 0.0 (hunger_max)): ?appetite
   (set-attr @self adrenaline 0.0)
   (set-attr @self fatigue ?fatigue)
   (set-attr @self sleepiness ?sleepiness)
-  (set-attr @self hunger 0.0)
-  (set-attr @self appetite 0.0)
-  (emit-body-bands ?sleepiness 0.0))
+  (set-attr @self hunger ?hunger)
+  (set-attr @self appetite ?appetite)
+  (emit-body-bands ?sleepiness ?appetite))

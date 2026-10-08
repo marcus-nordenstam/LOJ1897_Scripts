@@ -32,6 +32,8 @@
 ; sleepy; an unslept debt turns it in the day, and that is a nap. A sleep ends once the debt
 ; left and the body clock together no longer press, never before the inertia floor.
 (define-macro sleep_inertia_min () 120.0)
+; The hour a man who lives by night wakes at when a window finds him off his shift.
+(define-macro night_waking_hour () 12.0)
 (define-macro body_clock_step_min () 10.0)
 (define-macro body_clock_search_steps () 144.0)
 
@@ -39,6 +41,8 @@
 ; reduce it content-side (set-attr @self hunger ...).
 (define-macro hunger_accrue_per_hour () (/ 1.0 16.0))
 (define-macro hunger_max () 2.0)
+; The fast from supper to waking a window's morning finds him at.
+(define-macro overnight_fast_hours () 10.0)
 
 ; THE BANDS the mind knows its body by - run_physiology mints them from the ADRENALINE-MASKED
 ; drives, and no rule reads the drives themselves. Alertness over sleepiness: < tired_min alert,
