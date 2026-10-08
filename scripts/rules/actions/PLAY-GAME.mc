@@ -4,7 +4,7 @@
 ; The drive is an abstract {@self PLAY-GAME} goal (gamble-go routes to a pub); the act only
 ; accrues the addiction disposition and ends its OWN act-belief, never the goal, like drink_action.
 
-(action {@self PLAY-GAME}
+(action {@self PLAY-GAME}:?PLAY-GAME
   (motor body legs)
   (track-skill-level [k gaming])
   (duration (seconds 90 min))
@@ -15,4 +15,4 @@
     ; deepens the pull. The sobriety + wealth classifiers read it graded.
     (set-attr @self gambling-addiction
               (min 1.0 (+ (attr @self gambling-addiction) 0.5)))
-    (set-outcome {@self PLAY-GAME} /succ)))
+    (set-outcome ?PLAY-GAME /succ)))

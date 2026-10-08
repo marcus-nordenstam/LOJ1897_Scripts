@@ -22,7 +22,7 @@
 ; and no clock has a say. The ten minutes is the scheduled length.
 ; ----------------------------------------------------------------------------
 
-(action {@self WRITE ?doc ?sentence}
+(action {@self WRITE ?doc ?sentence}:?WRITE
   (track-skill-level [k literacy])
   (motor right-hand legs)
   (obs)
@@ -68,4 +68,4 @@
     (if (substantial ?to) (then (set-attr ?doc addressee ?to)))
     (tolerate (msg-rider ?sentence address): ?dest)
     (if (substantial ?dest) (then (set-attr ?doc destination ?dest)))
-    (set-outcome {@self WRITE ?doc ?sentence} /succ)))
+    (set-outcome ?WRITE /succ)))

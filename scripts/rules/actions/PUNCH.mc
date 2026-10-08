@@ -6,7 +6,7 @@
 ; violent act on its own actor), never on the blow.
 ; ----------------------------------------------------------------------------
 
-(action {@self PUNCH ?foe}
+(action {@self PUNCH ?foe}:?PUNCH
   (motor body legs)
   (track-skill-level [k martial])
   (obs) (theme violent-to) (construed-act harm-act) (contradicts safety) (duration (seconds 1 min))
@@ -17,4 +17,4 @@
                 (set-attr ?foe awareness [k unconscious]))
       (on graze (yield-evidence ?foe [k torso] [k bruise])
                 (inflict-pain ?foe (punch_graze_pain))))
-    (set-outcome {@self PUNCH ?foe} /succ)))
+    (set-outcome ?PUNCH /succ)))

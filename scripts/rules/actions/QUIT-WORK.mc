@@ -4,9 +4,9 @@
 ; commits the retirement (fires the worker) AT the workplace.
 ; ----------------------------------------------------------------------------
 
-(action {@self QUIT-WORK}
+(action {@self QUIT-WORK}:?QUIT-WORK
   (motor body legs)
   (duration (seconds 60 min))
   (effects
     (fire-self)
-    (set-outcome {@self QUIT-WORK} /succ)))
+    (set-outcome ?QUIT-WORK /succ)))

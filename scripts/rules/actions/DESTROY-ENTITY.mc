@@ -11,7 +11,7 @@
 ; keeps - see realize-destroyed.
 ; ----------------------------------------------------------------------------
 
-(action {@self DESTROY-ENTITY ?thing}
+(action {@self DESTROY-ENTITY ?thing}:?DESTROY-ENTITY
   (motor body legs)
   (duration (seconds 1 min))
   (effects
@@ -19,4 +19,4 @@
       (end-beliefs-about ?thing [/exclude condition|internment|DESTROY-ENTITY])
       (begin-belief {?thing condition [k consumed]}))
     (destroy-entity ?thing)
-    (set-outcome {@self DESTROY-ENTITY ?thing} /succ)))
+    (set-outcome ?DESTROY-ENTITY /succ)))

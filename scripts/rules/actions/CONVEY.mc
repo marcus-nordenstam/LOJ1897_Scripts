@@ -17,11 +17,11 @@
 ; search sub-goal fatigued out promoted here off-site and filed the body into
 ; whatever building the bearer stood in. The act-label lives in the cached
 ; self-role gate, so the promotion scan rejects O(1) before any mind-entry.
-(action {@self CONVEY ?corpse}
+(action {@self CONVEY ?corpse}:?CONVEY
   (motor body legs)
   (duration (seconds 15 min))
   (effects
     ; PLACEMENT (not travel): deposit the carried body into a room of this church.
     (relocate ?corpse (find-spot ?corpse [/on_floor_of (spatial @self space)] [/near @self]))
-    (set-outcome {@self CONVEY ?corpse} /succ)))
+    (set-outcome ?CONVEY /succ)))
 ; go_action (the shared travel act) lives in actions/go_action.mc.

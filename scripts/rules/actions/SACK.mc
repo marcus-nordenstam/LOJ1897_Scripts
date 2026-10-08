@@ -4,7 +4,7 @@
 ; dwell completion that fires the worker and seeds his grudge toward the boss.
 ; ----------------------------------------------------------------------------
 
-(action {@self SACK ?worker}
+(action {@self SACK ?worker}:?SACK
   (motor body legs)
   (duration (seconds 45 min))
   (effects
@@ -20,4 +20,4 @@
     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
     ; party's own reflex on the act. Commented out pending that redesign.
     ; (nudge-stance ?worker @self warmth -0.5)
-    (set-outcome {@self SACK} /succ)))
+    (set-outcome ?SACK /succ)))

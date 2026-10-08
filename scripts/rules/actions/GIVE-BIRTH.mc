@@ -30,7 +30,7 @@
 (include "../../funcs/human-traits.mc")
 (include "../../funcs/age.mc")
 
-(action {@self GIVE-BIRTH ?father}
+(action {@self GIVE-BIRTH ?father}:?GIVE-BIRTH
   (motor body legs)
   (presentation
     (preroll 0.0) (in 0.5) (out 0.5))
@@ -69,4 +69,4 @@
     (set-attr @self pregnant-when @nothing)
     (set-attr @self pregnant-by @nothing)
     (end-belief {@self pregnant ?father})
-    (set-outcome {@self GIVE-BIRTH ?father} /succ)))
+    (set-outcome ?GIVE-BIRTH /succ)))

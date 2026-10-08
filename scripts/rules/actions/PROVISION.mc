@@ -13,7 +13,7 @@
 ; A pure act: the BUY CAP (basket vs larder shortfall vs what is already in
 ; hand) is the proposing think's arithmetic and rides the pattern; the body
 ; only fills the basket at the shop it stands in - the physical grabbing.
-(action {@self PROVISION ?cap}
+(action {@self PROVISION ?cap}:?PROVISION
   (motor body legs)
   (duration (seconds 15 min))
   (effects
@@ -43,4 +43,4 @@
                         (bind ?new_basket ?hand_pile)))
               (set-attr ?hand_pile count (+ (attr ?hand_pile count) ?grab))
               (begin-belief {@self provisions-shop ?shop})))))
-    (set-outcome {@self PROVISION ?cap} /succ)))
+    (set-outcome ?PROVISION /succ)))

@@ -17,7 +17,7 @@
 
 (include "../../macros/tunables.mc")
 
-(action {@self ADMIT-IMMIGRANT ?office}
+(action {@self ADMIT-IMMIGRANT ?office}:?ADMIT-IMMIGRANT
   (motor body legs)
   (duration (seconds (admission_minutes) min))
   (effects
@@ -31,4 +31,4 @@
     (table-sample-weighted gender_dist value weight): ?gender
     (make-human ?imm-home [k lower] ?gender): ?newcomer
     (check (substantial ?newcomer))
-    (set-outcome {@self ADMIT-IMMIGRANT ?office} /succ)))
+    (set-outcome ?ADMIT-IMMIGRANT /succ)))

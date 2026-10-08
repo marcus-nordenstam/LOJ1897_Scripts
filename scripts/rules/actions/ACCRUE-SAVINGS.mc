@@ -7,10 +7,10 @@
 
 (include "../../macros/collection-macros.mc")
 
-(action {@self ACCRUE-SAVINGS ?pile ?net}
+(action {@self ACCRUE-SAVINGS ?pile ?net}:?ACCRUE-SAVINGS
   (motor body legs)
   (duration 0)
   (effects
     (set-attr ?pile count (+ (attr ?pile count) ?net))
     (observe ?pile)
-    (set-outcome {@self ACCRUE-SAVINGS ?pile ?net} /succ)))
+    (set-outcome ?ACCRUE-SAVINGS /succ)))

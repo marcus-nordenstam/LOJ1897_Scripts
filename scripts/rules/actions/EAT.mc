@@ -18,7 +18,7 @@
 
 (include "../../macros/collection-macros.mc")
 
-(action {@self EAT ?food ?owner}
+(action {@self EAT ?food ?owner}:?EAT
   (motor body legs)
   (duration (seconds 30 min))
   (effects
@@ -32,4 +32,4 @@
     (set-attr @self hunger (max 0.0 (- (attr @self hunger) 0.5)))
     (if ?owner
         (then (record-crime @self ?owner steal steal @u @u)))
-    (set-outcome {@self EAT ?food ?owner} /succ)))
+    (set-outcome ?EAT /succ)))

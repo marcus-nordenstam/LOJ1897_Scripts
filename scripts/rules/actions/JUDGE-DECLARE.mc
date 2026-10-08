@@ -9,7 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(action {@self JUDGE-DECLARE ?winner ?sport}
+(action {@self JUDGE-DECLARE ?winner ?sport}:?JUDGE-DECLARE
   (motor body legs)
   (track-skill-level [k officiating])
   ; (obs): the declaration is made to the assembled - co-present racers WITNESS
@@ -22,4 +22,4 @@
     (begin-belief ?winner {?winner win ?sport})
     ; (the scoreboard clearing is the meet-judged twin's - sporting_judge_think.mc
     ;  - off this declaration's /succ record.)
-    (set-outcome {@self JUDGE-DECLARE} /succ)))
+    (set-outcome ?JUDGE-DECLARE /succ)))

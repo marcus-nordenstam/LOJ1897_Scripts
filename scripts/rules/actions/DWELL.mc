@@ -13,7 +13,7 @@
 ; duties, waiting out an occasion - so it inherits its proposer's utility and competes on
 ; it like any other act. It carried (idle-action) once, which made it yield at equal
 ; utility to anything purposeful, and that is how a man wandered off his shift.
-(action {@self DWELL ?place ?until}
+(action {@self DWELL ?place ?until}:?DWELL
   (motor body legs)
   (duration (seconds (minutes-until-hour ?until) min))
-  (effects (set-outcome {@self DWELL ?place ?until} /succ)))
+  (effects (set-outcome ?DWELL /succ)))

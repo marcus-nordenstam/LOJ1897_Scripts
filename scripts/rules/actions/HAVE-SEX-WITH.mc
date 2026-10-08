@@ -48,4 +48,4 @@
     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
     ; party's own reflex on the act. Commented out pending that redesign.
     ; (nudge-stance ?paramour @self attraction 0.10)
-    (set-outcome {@self HAVE-SEX-WITH ?paramour} /succ)))
+    (set-outcome ?HAVE-SEX-WITH /succ)))

@@ -9,7 +9,7 @@
 ;                       decision's maintenance then retires the goal.
 ; ----------------------------------------------------------------------------
 
-(task {@self back ?org}
+(task {@self back ?org}:?back
   (tar [k org] @object)
   (role ?wp {?org workplace ?wp}
     (and
@@ -20,4 +20,4 @@
         (when (spatial @self building ?wp))
         (effects
           (begin-belief {@self backed-by ?org})
-          (set-outcome {@self back ?org} /succ))))))
+          (set-outcome ?back /succ))))))

@@ -17,9 +17,9 @@
 ; fallback-ranked closing act can be selected.
 ; ----------------------------------------------------------------------------
 
-(action {@self HOLD-MEET-RUN ?art}
+(action {@self HOLD-MEET-RUN ?art}:?HOLD-MEET-RUN
   (motor body legs)
   (track-skill-level [k officiating])
   (duration (seconds 30 min))
   (effects
-    (set-outcome {@self HOLD-MEET-RUN} /succ)))
+    (set-outcome ?HOLD-MEET-RUN /succ)))

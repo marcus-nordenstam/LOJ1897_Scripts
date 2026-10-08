@@ -17,7 +17,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(action {@self MAKE-CACHE ?building}
+(action {@self MAKE-CACHE ?building}:?MAKE-CACHE
   (motor body legs)
   (duration 0)
   (effects
@@ -69,4 +69,4 @@
               (observe ?cache): ?known
               (begin-belief {@self hiding-spot ?known})
               (bind 1 ?made))))
-    (set-outcome {@self MAKE-CACHE} /succ)))
+    (set-outcome ?MAKE-CACHE /succ)))

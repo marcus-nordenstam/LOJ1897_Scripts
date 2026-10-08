@@ -37,7 +37,7 @@
 
 ; The stocktake round itself: the goal, at the counter, is the leaf and promotes
 ; here. The begun-then-ended {@self STOCKTAKE} act-belief IS the round (30 min).
-(action {@self STOCKTAKE}
+(action {@self STOCKTAKE}:?STOCKTAKE
   (motor body legs)
   (track-skill-level [k accountancy])
   (duration (seconds 30 min))
@@ -76,4 +76,4 @@
               (create-entity [k knife] ?room): ?blade)
             (repeat (- (shop_weapon_stock) (count (spatial ?room contents [k toxin] /env)))
               (create-entity [k white-arsenic] ?room): ?tox))))
-    (set-outcome {@self STOCKTAKE} /succ)))
+    (set-outcome ?STOCKTAKE /succ)))

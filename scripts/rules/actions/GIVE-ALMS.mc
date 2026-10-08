@@ -3,7 +3,7 @@
 ; begun at commit, ended by (set-outcome {..} /succ) at completion - IS the episodic memory
 ; days-since-last reads. No aim, no end-goal.
 
-(action {@self GIVE-ALMS ?church}
+(action {@self GIVE-ALMS ?church}:?GIVE-ALMS
   (motor body legs)
   (duration (seconds 60 min))
   (effects
@@ -11,4 +11,4 @@
     ; the give ongoing forever, and a later identical sum would trip the self-act
     ; contradiction tripwire). The generosity classifier reads it.
     (begin-belief {@self give (random-int 10 100) /momentary})
-    (set-outcome {@self GIVE-ALMS ?church} /succ)))
+    (set-outcome ?GIVE-ALMS /succ)))

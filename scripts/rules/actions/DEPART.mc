@@ -54,9 +54,9 @@
 
 ; The packing day: he settles his affairs and leaves - his posts, his home, his marriage,
 ; then the world.
-(action {@self DEPART}
+(action {@self DEPART}:?DEPART
   (motor body legs)
   (duration (seconds 480 min))                     ; ~a day spent packing up and settling affairs
   (effects
-    (set-outcome {@self DEPART} /succ)
+    (set-outcome ?DEPART /succ)
     (destroy-entity @self)))

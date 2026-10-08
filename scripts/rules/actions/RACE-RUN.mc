@@ -15,7 +15,7 @@
 ; The run: the sport + the judging organiser arrive ON the action pattern
 ; (compete reads the summons and passes them); the body reads only its own
 ; physiology - the physics of the run - and writes the records.
-(action {@self RACE-RUN ?sport ?judge}
+(action {@self RACE-RUN ?sport ?judge}:?RACE-RUN
   (motor body legs)
   (track-skill-level [k athletics])
   (duration (seconds 30 min))
@@ -33,4 +33,4 @@
     (if (spatial ?judge co-located @self)
         (then (begin-belief ?judge {@self race-result ?perf ?sport})))
     (end-belief {?judge summon @self ?sport})
-    (set-outcome {@self RACE-RUN ?sport ?judge} /succ)))
+    (set-outcome ?RACE-RUN /succ)))

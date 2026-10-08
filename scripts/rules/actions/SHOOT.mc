@@ -4,7 +4,7 @@
 ; (obs); blame is runtime, never on the shot.
 ; ----------------------------------------------------------------------------
 
-(action {@self SHOOT ?foe}
+(action {@self SHOOT ?foe}:?SHOOT
   (motor body legs)
   (track-skill-level [k martial])
   (obs) (theme violent-to) (construed-act harm-act) (contradicts safety) (duration (seconds 1 min))
@@ -16,4 +16,4 @@
       (on graze (yield-evidence ?foe [k right-hand] [k puncture-wound])
                 (inflict-pain ?foe (shot_graze_pain))
                 (if (chance (blow_succumb_prob)) (then (kill-blow ?foe shoot)))))
-    (set-outcome {@self SHOOT ?foe} /succ)))
+    (set-outcome ?SHOOT /succ)))

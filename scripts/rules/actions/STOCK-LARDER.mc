@@ -19,7 +19,7 @@
 
 ; ?spot is the kitchen floor spot the proposing rung holds for a new pile; the rung gives
 ; it back when it ceases, once the larder reads stocked.
-(action {@self STOCK-LARDER ?kitchen ?spot}
+(action {@self STOCK-LARDER ?kitchen ?spot}:?STOCK-LARDER
   (motor body legs)
   (duration (seconds 5 min))
   (effects
@@ -35,4 +35,4 @@
     ; He filled it himself, so he knows it is there - without this the pile exists and
     ; the larder still reads empty to the only mind that matters.
     (observe ?pile)
-    (set-outcome {@self STOCK-LARDER ?kitchen ?spot} /succ)))
+    (set-outcome ?STOCK-LARDER /succ)))

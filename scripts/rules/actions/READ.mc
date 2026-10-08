@@ -176,4 +176,4 @@
               (if -{?ihost invite @self ?iocc}
                   (then (begin-belief {?ihost invite @self ?iocc}))))))
       (else (adopt-msg (attr ?doc writing))))
-    (set-outcome {@self READ ?doc} /succ)))
+    (set-outcome ?READ /succ)))

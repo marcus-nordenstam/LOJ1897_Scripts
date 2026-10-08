@@ -9,7 +9,7 @@
 
 (include "../../macros/collection-macros.mc")
 
-(action {@self BRING ?ware ?spot}
+(action {@self BRING ?ware ?spot}:?BRING
   (motor body legs)
   (duration (seconds 5 min))
   (effects
@@ -32,4 +32,4 @@
                 (if ?larder
                     (then (set-attr ?larder count (+ (attr ?larder count) (attr ?item count)))
                           (destroy-entity ?item)))))))
-    (set-outcome {@self BRING ?ware ?spot} /succ)))
+    (set-outcome ?BRING /succ)))

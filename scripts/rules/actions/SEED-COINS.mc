@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(action {@self SEED-COINS ?home}
+(action {@self SEED-COINS ?home}:?SEED-COINS
   (motor body legs)
   (duration 0)
   (effects
@@ -24,4 +24,4 @@
             (begin-belief {@self own ?pile})
             (begin-belief {@self coin-pile ?pile})
             (bind 1 ?made))))
-    (set-outcome {@self SEED-COINS ?home} /succ)))
+    (set-outcome ?SEED-COINS /succ)))

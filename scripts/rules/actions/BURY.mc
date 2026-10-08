@@ -15,7 +15,7 @@
 ; notice). The rite writes into NO other mind.
 ; ----------------------------------------------------------------------------
 
-(action {@self BURY ?corpse}
+(action {@self BURY ?corpse}:?BURY
   (motor body legs)
   (duration (seconds 60 min))
   (effects
@@ -33,5 +33,5 @@
       (end-beliefs-about ?corpse [/exclude condition|internment|BURY])
       (begin-belief {?corpse internment [k buried]}))
     (destroy-entity ?corpse)
-    (set-outcome {@self BURY ?corpse} /succ)))
+    (set-outcome ?BURY /succ)))
 ; go_action (the shared travel act) lives in actions/go_action.mc.
