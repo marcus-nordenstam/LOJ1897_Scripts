@@ -64,6 +64,25 @@
         (else (tolerate (spatial ?dest unit)))): ?u
   (if (substantial ?u) (then ?u) (else @nothing)))
 
+; How far crossing ?passage takes @self toward ?dest, read off the space beyond it.
+(define-func dest-progress-amount (?passage ?dest)
+  (tolerate (spatial ?passage beyond)): ?far
+  (bind (go-unit ?dest) ?unit)
+  (bind (go-building ?dest) ?bldg)
+  (bind (if (is-a ?dest [k space]) (then ?dest) (else (tolerate (spatial ?dest space)))) ?there)
+  (bind (tolerate (distance ?far ?dest)) ?gap)
+  (bind (cond (case (unsubstantial ?far) 0.0)
+              (case (and (substantial ?there) (= ?far ?there)) (progress_reaches_space_amount))
+              (case (and (substantial ?unit) (spatial ?far unit ?unit)) (progress_reaches_unit_amount))
+              (case (and (substantial ?bldg) (spatial ?far building ?bldg)) (progress_reaches_building_amount))
+              (case (and (unsubstantial ?bldg) (is-a ?far [k exterior-space])) (progress_reaches_building_amount))
+              (case (substantial ?gap) (/ 1.0 (+ 1.0 ?gap)))
+              (else 0.0))
+        ?amount)
+  (if (has-facet ?passage nav_last_resort)
+      (then (- ?amount (progress_last_resort_penalty)))
+      (else ?amount)))
+
 (define-func go-unseen (?dest)
   (and (not (is-spot ?dest)) (not (grounded ?dest))))
 

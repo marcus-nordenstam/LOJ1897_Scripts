@@ -200,6 +200,15 @@
 (define-macro near_space_m             () 6.0)
 (define-macro near_reach_m             () 1.5)
 
+; What crossing a passage brings a man toward where he is going, read off the space beyond it:
+; reaching the dest's own space, then its unit, then its building (or the outdoors, for a dest out
+; of doors) outrank any passage that only brings him nearer, which scores under 1. A passage
+; crossed only when nothing else will do (a window) drops below every other.
+(define-macro progress_reaches_space_amount    () 4.0)
+(define-macro progress_reaches_unit_amount     () 3.0)
+(define-macro progress_reaches_building_amount () 2.0)
+(define-macro progress_last_resort_penalty     () 5.0)
+
 ; The household cook's public-bb claim lifetime, in hsim cycles (= months). The
 ; sitting cook RE-POSTS it every cycle (renew-cook), so the ttl only bounds how
 ; fast a DEAD or emigrated cook's household re-elects.
