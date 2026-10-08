@@ -621,6 +621,11 @@
           (attr opening-status (auto-percept) (ext-per obs))
           (attr lock-status (auto-percept) (ext-per obs)))
         (population (cap 1024) (blocks-spots)))
+      # A leaf of a double-door: it swings about its own hinge-side edge as its double-door opens,
+      # and keeps no state of its own.
+      (child door-leaf
+        (decorations (attrs hinge-side swing-angle))
+        (population (cap 4096) (always-visible) (blocks-spots)))
       (child body-part
         # A (motor) kind is a motor an act occupies; the set is these kinds in declaration
         # order, so this order IS the motor index. legs is the base layer, and mind - the
@@ -698,7 +703,7 @@
               (attrs -open-amount -hinge-side -swing-angle -opening-status -lock-status -integrity))
             (population (cap 4096) (non-occluder)))
           (child door (+ facets nav_barrier) (facets nav_barrier)
-            (children front-door))
+            (children front-door double-door))
           (child window (facets nav_barrier nav_last_resort)))))
     (child gm
       (population (cap 1) (imperceptible)))

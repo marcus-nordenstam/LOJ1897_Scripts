@@ -146,6 +146,13 @@
 ; mouth that stops working after a few dozen conversations.
 (declare-func end-speech (args ?who))
 
+; (openable-target ?thing) - what the player's aim at ?thing opens or closes: a door-leaf's
+; double-door, else ?thing. The host hands it to openable-hint, openable-act and the act.
+(define-func openable-target (?thing)
+  (if (is-a ?thing [k door-leaf])
+      (then (spatial ?thing parent /env))
+      (else ?thing)))
+
 ; (openable-in-reach ?thing) - ?thing swings or slides and @self can reach it: the
 ; precondition OPEN and CLOSE check, asserted here by their proposer, the player's aim.
 (define-func openable-in-reach (?thing)

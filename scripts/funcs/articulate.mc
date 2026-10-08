@@ -6,10 +6,15 @@
 ; OPEN, CLOSE and FORCE-ENTRY.
 ; ----------------------------------------------------------------------------
 
+; A double-door holds still as its passage's throat while its door-leaf parts swing, each by its
+; own hinge-side and swing-angle.
 (define-func articulate (?thing ?amount)
-  (if (is-a ?thing [k drawer])
-      (then (slide ?thing ?amount (attr ?thing drawer-travel)))
-      (else (swing ?thing ?amount (attr ?thing hinge-side) (attr ?thing swing-angle))))
+  (cond (case (is-a ?thing [k drawer])
+              (slide ?thing ?amount (attr ?thing drawer-travel)))
+        (case (is-a ?thing [k double-door])
+              (for-each ?leaf (spatial ?thing parts [k door-leaf] /env)
+                (swing ?leaf ?amount (attr ?leaf hinge-side) (attr ?leaf swing-angle))))
+        (else (swing ?thing ?amount (attr ?thing hinge-side) (attr ?thing swing-angle))))
   (set-attr ?thing open-amount ?amount))
 
 ; ?thing swings or slides: a movable barrier or a drawer.
