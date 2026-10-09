@@ -26,10 +26,6 @@
 (define-func passage-spot (?passage ?side)
   (maintain-claim-spot @self [/on_floor_of ?side] [/near ?passage] [/at_or_near @self]))
 
-; The building ?place is or lies in, as @self believes it: its exterior is that building's space.
-(define-func place-building (?place)
-  (if (is-a ?place [k building]) (then ?place) (else (tolerate (spatial ?place building)))))
-
 ; @self stands in a space of kind ?kind, as he believes it.
 (define-func stands-in-room (?kind)
   (tolerate (spatial @self space)): ?here

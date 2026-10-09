@@ -63,7 +63,7 @@
               (attrs visual-sensor sound-sensor parentless emigrating intoxication gambling-addiction))
             (population (cap 4096) (raycast-visible) (sentient) (non-occluder) (blocks-spots)))
           ; The player stands IN a space like anyone else: reach, co-presence and a room's
-          ; contents all read the space edge, and an unlocatable actor is within reach of nothing.
+          ; contents all read the space edge, and an actor in no space is within reach of nothing.
           (child human-player
             (decorations
               (spatials space))
