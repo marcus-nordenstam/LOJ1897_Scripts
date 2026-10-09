@@ -15,7 +15,7 @@
     (and
       (try
         (when (not (spatial @self building ?wp)))
-        (effects (maintain-proposal {@self go ?wp})))
+        (effects (maintain-proposal {@self enter ?wp})))
       (try
         (when (spatial @self building ?wp))
         (effects

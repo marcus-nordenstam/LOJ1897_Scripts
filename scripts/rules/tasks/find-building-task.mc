@@ -37,7 +37,7 @@
                  (substantial ?dest)
                  (observed ?dest /not)
                  (travel-spot (spatial ?dest bounds /env)): ?spot
-                 {@self go ?spot /succ /caused_by ?find-building}))
+                 {@self go-to ?spot /succ /caused_by ?find-building}))
       (effects (observe ?dest)))
     (try
       (when (and (latch-eval (closest-unobserved [k building] ?region): ?dest)
@@ -46,7 +46,7 @@
                  (travel-spot (spatial ?dest bounds /env)): ?spot))
       (effects
         (check (is-spot ?spot))
-        (maintain-proposal {@self go ?spot})))
+        (maintain-proposal {@self go-to ?spot})))
     (try
       (when (unsubstantial (closest-unobserved [k building] ?region)))
       (effects (set-outcome ?find-building /fail)))))

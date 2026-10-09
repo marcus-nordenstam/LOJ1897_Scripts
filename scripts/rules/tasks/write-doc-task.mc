@@ -25,7 +25,7 @@
         (effects
           (spatial ?doc space): ?room
           (if (substantial ?room)
-              (then (maintain-proposal {@self go ?doc}))))))
+              (then (maintain-proposal {@self go-to ?doc}))))))
     (try
       (role @self (or (spatial ?doc held-by @self)
                       (spatial ?doc co-located @self))

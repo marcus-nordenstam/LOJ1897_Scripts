@@ -78,7 +78,7 @@
     (try
       (when (substantial ?agenda)
             (not (standing-before ?partner)))
-      (effects (maintain-proposal {@self go ?partner})))
+      (effects (maintain-proposal {@self go-to ?partner})))
     (try
       (lint-waive cacheable-read-in-when)
       (when (keeping-company ?partner ?agenda ?converse))
@@ -95,7 +95,7 @@
       (effects (maintain-proposal {@self CHAT ?partner})))
 
     (try
-      (when {@self go ?partner /fail /caused_by ?converse})
+      (when {@self go-to ?partner /fail /caused_by ?converse})
       (effects (end-conversation ?partner)))
 
     ; Opening it: the hail, once he stands before him.

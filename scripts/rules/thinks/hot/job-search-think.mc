@@ -31,7 +31,7 @@
       (role @self (not (spatial @self building ?board))
         (when (hours (business_open_hour) (business_close_hour)) (job-seeker @self ?age))
         (declare-utility errand)
-        (effects (maintain-proposal {@self go ?board}))))))
+        (effects (maintain-proposal {@self go-to ?board}))))))
 
 (think seek-board-find
   (aspect labour)

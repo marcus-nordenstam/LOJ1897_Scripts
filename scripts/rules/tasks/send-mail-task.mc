@@ -11,14 +11,13 @@
   (tar [k document] @object)
   (aux [k stack] @object)
   (sequence
-    ; go, NEVER the raw WALK: reaching a place is go's whole job and it dispatches to enter or
-    ; WALK by what the destination is. WALK alone cannot let him into a building he is not
-    ; already in, so a man posting from across town never arrived and STACK-PUT's reach check
-    ; aborted the run.
+    ; go-to, NEVER the raw WALK: reaching a thing is go-to's whole job, and the doors between
+    ; are enter's. WALK alone cannot let him into a building he is not already in, so a man
+    ; posting from across town never arrived and STACK-PUT's reach check aborted the run.
     (stage
       (effects
         (if (not (spatial ?out co-located @self))
-            (then (maintain-proposal {@self go ?out})))))
+            (then (maintain-proposal {@self go-to ?out})))))
 
     ; The put is proposed only AT the pile: the walk is the stage before, but a man can be
     ; pulled away between stages, and STACK-PUT asserts the reach it is given. The stage

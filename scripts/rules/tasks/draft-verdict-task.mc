@@ -82,7 +82,7 @@
             (effects
               (if (and (= ?kind [k offer-letter])
                        (not (spatial ?reg co-located @self)))
-                  (then (maintain-proposal {@self go ?reg})))))
+                  (then (maintain-proposal {@self go-to ?reg})))))
           (stage
             (role @self {?org employee-register ?reg})
             (when {?p name ?rname}

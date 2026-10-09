@@ -21,7 +21,7 @@
                      -{@self report-crime ?focus /succ /ever}
                      (not (is-a (spatial @self building) [k police-station]))))
           (declare-utility errand)
-          (effects (maintain-proposal {@self go ?station})))))
+          (effects (maintain-proposal {@self enter ?station})))))
     ; knows no station -> search the region for one; the search's own /fail is what the
     ; abandon try below reads as "this town has no police station".
     (try

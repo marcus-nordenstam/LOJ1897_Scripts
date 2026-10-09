@@ -13,7 +13,7 @@
 ;     ending it - the act only accrues the addiction, never the goal.
 ;   gamble-go (maintenance): not at a pub, but knows one - roulette the nearest known
 ;     pub and head to it via the generic go task (§5.11). It roulettes a pub once and
-;     holds {@self go ?venue} so it STICKS with that pub (no re-roulette while walking);
+;     holds {@self enter ?venue} so it STICKS with that pub (no re-roulette while walking);
 ;     on arrival (spatial @self building ?venue) the (when) drops and when-unsupported-effects end the go proposal.
 ;     The go task steps the gambler INSIDE.
 ;   gamble-at-pub (terminal): AT a pub, the standing {@self PLAY-GAME} drive is PROPOSED
@@ -24,7 +24,7 @@
 
 
 ; MAINTENANCE - not at a pub, but knows one: head to it via the generic go task
-; (§5.11). It roulettes a pub once and holds {@self go ?venue} so it STICKS with that
+; (§5.11). It roulettes a pub once and holds {@self enter ?venue} so it STICKS with that
 ; pub (no re-roulette while walking); on arrival (spatial @self building ?venue) the (when) drops and
 ; when-unsupported-effects end the go proposal. The go task steps the gambler INSIDE the pub, so
 ; at-place-kind then holds and gamble-at-pub proposes {@self PLAY-GAME}.
@@ -33,7 +33,7 @@
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?venue [k pub-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
       (role @self (not (spatial @self building ?venue))
-        (effects (maintain-proposal {@self go ?venue}))))))
+        (effects (maintain-proposal {@self enter ?venue}))))))
 
 ; TERMINAL step (act_body_purification): the gamble act is now PROPOSED, guarded by being AT a
 ; pub, not promoted by the bare {@self PLAY-GAME} goal. Because `play_game` is a proposed label

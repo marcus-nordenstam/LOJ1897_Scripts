@@ -17,7 +17,7 @@
       (role ?go_dest [k school]
             (select (score (near @self ?go_dest)) (policy roulette unknown-last))
         (when (not (is-a (spatial @self building) [k school])))
-        (effects (maintain-proposal {@self go ?go_dest}))))
+        (effects (maintain-proposal {@self enter ?go_dest}))))
 
     ; MATRICULATE: at a school -> record my study. Minting {@self study ...} trips the
     ; decision's completion role, which withdraws the task.

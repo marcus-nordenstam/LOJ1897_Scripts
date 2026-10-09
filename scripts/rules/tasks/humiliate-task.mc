@@ -19,7 +19,7 @@
         (when (and (alive ?victim)
                    (not (spatial ?victim co-located @self))
                    (unknown (spatial ?victim space))))
-        (effects (maintain-proposal {@self go ?vhome}))))
+        (effects (maintain-proposal {@self enter ?vhome}))))
     (try
       (when (and (alive ?victim)
                  (or (spatial ?victim co-located @self) (spatial ?victim space))

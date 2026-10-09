@@ -20,10 +20,10 @@
       (when {@self SAY ? /succ /caused_by ?tell})
       (effects (set-outcome ?tell /succ)))
     (try
-      (when {@self go ?audience /fail /caused_by ?tell})
+      (when {@self go-to ?audience /fail /caused_by ?tell})
       (effects (set-outcome ?tell /fail)))
     (try
       (when (or (unsubstantial ?audience) (within-voice ?audience ?msg)))
       (effects (maintain-proposal {@self SAY ?msg ?audience})))
     (try
-      (effects (maintain-proposal {@self go ?audience})))))
+      (effects (maintain-proposal {@self go-to ?audience})))))

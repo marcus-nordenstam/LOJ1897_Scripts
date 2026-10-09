@@ -23,7 +23,7 @@
         (stage
           (effects
             (if (not (spatial @self building ?board))
-                (then (maintain-proposal {@self go ?board})))))
+                (then (maintain-proposal {@self go-to ?board})))))
 
         (stage
           (effects
@@ -63,7 +63,7 @@
           (role @self {?org employee-register ?reg})
           (effects
             (if (not (spatial ?reg co-located @self))
-                (then (maintain-proposal {@self go ?reg})))))
+                (then (maintain-proposal {@self go-to ?reg})))))
         (stage
           (role @self {?org employee-register ?reg}
                       (spatial ?reg co-located @self))

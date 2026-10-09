@@ -25,4 +25,4 @@
   (role ?home {@self home ?home}
               (not (spatial @self unit ?home))
     (declare-utility idle fallback)
-    (effects (maintain-proposal {@self go ?home}))))
+    (effects (maintain-proposal {@self enter ?home}))))

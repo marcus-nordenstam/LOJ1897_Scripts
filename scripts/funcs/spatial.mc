@@ -12,6 +12,20 @@
   (or (spatial ?x building ?place)
       (spatial ?x unit ?place)))
 
+; ?x is inside ?space: a room, or a building or a unit of one.
+(define-func within-space (?x ?space)
+  (or (spatial ?x space ?space)
+      (within-place ?x ?space)))
+
+; The claimed floor spot before ?passage on the side of space ?side - the free floor of ?side
+; nearest the passage. Polled like rest-spot, and likewise the asking rung's claim.
+(define-func passage-spot (?passage ?side)
+  (maintain-claim-spot @self [/on_floor_of ?side] [/near ?passage] [/at_or_near @self]))
+
+; The building ?place is or lies in, as @self believes it: its exterior is that building's space.
+(define-func place-building (?place)
+  (if (is-a ?place [k building]) (then ?place) (else (tolerate (spatial ?place building)))))
+
 ; @self stands in a space of kind ?kind, as he believes it.
 (define-func stands-in-room (?kind)
   (tolerate (spatial @self space)): ?here
@@ -89,14 +103,13 @@
   (bind (stand-spot-before ?person) ?spot)
   (substantial (any {@self WALK ?spot /succ})))
 
-; The box @self heads for when far from ?ent: the one he sees, else the one he remembers, and
-; for a structure he never had a box for, the world's - where a building stands is public.
+; The box @self heads for: the one he sees, else the one he remembers. A structure he never had
+; a box for is find-building's.
 (define-func known-box (?ent)
   (tolerate (spatial ?ent bounds)): ?seen
   (tolerate (spatial ?ent bounds /most-recent-memory)): ?remembered
   (cond (case (substantial ?seen) ?seen)
         (case (substantial ?remembered) ?remembered)
-        (case (is-a ?ent [k structure]) (spatial ?ent bounds /env))
         (else @nothing)): ?known
   ?known)
 

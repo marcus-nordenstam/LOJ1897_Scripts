@@ -15,7 +15,7 @@
       (role ?job {@self job ?job}
         (role ?org {?job org ?org} {?org workplace ?wp}
           (when (not (spatial @self building ?wp)))
-          (effects (maintain-proposal {@self go ?wp})))))
+          (effects (maintain-proposal {@self enter ?wp})))))
 
     ; TELL: at the workplace -> tell him his next rung; he hears and adopts {?worker job.level ?next}.
     (try

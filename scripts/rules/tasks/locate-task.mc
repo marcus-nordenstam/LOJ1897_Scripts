@@ -20,7 +20,7 @@
     (try
       (when (and (not (locate-known ?thing ?bldg))
                  (not (within-place @self ?bldg))))
-      (effects (maintain-proposal {@self go ?bldg})))
+      (effects (maintain-proposal {@self enter ?bldg})))
     (try
       (when (and (not (locate-known ?thing ?bldg))
                  (within-place @self ?bldg)))

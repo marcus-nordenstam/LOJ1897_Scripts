@@ -51,7 +51,7 @@
   (role ?agency {?agency isa [k house-agency]}
                 {?agency workplace ?venue}
                 (not (spatial @self building ?venue))
-    (effects (maintain-proposal {@self go ?venue}))))
+    (effects (maintain-proposal {@self enter ?venue}))))
 
 ; CASE C - @self knows NO house agency at all: consult the parish incorporations
 ; register (the orient chain, orient_errand.mc), which mints a mental org object +

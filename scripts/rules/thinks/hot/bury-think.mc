@@ -21,7 +21,7 @@
 ; whose coroner window (>= 1 month, so a physician could examine the body -
 ; EXAMINE.act) has elapsed:
 ;
-;   bury-route: while NOT co-present with the body, hold {@self go ?church}
+;   bury-route: while NOT co-present with the body, hold {@self enter ?church}
 ;     (the generic go task routes him into a church he knows - the graveyard
 ;     room the convey deposit files bodies into). CEASES the instant co-present
 ;     flips true (he has reached the body).
@@ -56,7 +56,7 @@
 ; ----------------------------------------------------------------------------
 
 ; ROUTE rung. Held while the priest is NOT yet co-present with the overdue body:
-; roulette the nearest church he knows ONCE, hold {@self go ?church} (the
+; roulette the nearest church he knows ONCE, hold {@self enter ?church} (the
 ; go task does the actual travel), and cease it on arrival (co-located flips
 ; true). No known church -> the rung never selects; a co-present body still
 ; buries via bury-onsite. The rouletted ?church is stashed at fire, so the hold
@@ -70,7 +70,7 @@
       (role ?church [k church-building] (select (score (near @self ?church)) (policy roulette unknown-last))
         (when (>= (months-since-death ?corpse) 1))
         (declare-utility obligation (above attend-church-service))
-        (effects (maintain-proposal {@self go ?church}))))))
+        (effects (maintain-proposal {@self enter ?church}))))))
 
 ; ONSITE rung. While the priest is CO-PRESENT with the overdue body, PROPOSE
 ; {@self BURY ?corpse} - the winning proposal promotes bury_act

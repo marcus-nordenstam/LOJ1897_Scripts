@@ -22,7 +22,7 @@
       (role ?stk [k mail-stack] (within-place ?stk ?prem)
                                 (not (spatial ?stk co-located @self))
         (when (spatial ?stk space))
-        (effects (maintain-proposal {@self go ?stk}))))
+        (effects (maintain-proposal {@self go-to ?stk}))))
     (try
       (role ?stk [k mail-stack] (within-place ?stk ?prem)
                                 (spatial ?stk co-located @self)

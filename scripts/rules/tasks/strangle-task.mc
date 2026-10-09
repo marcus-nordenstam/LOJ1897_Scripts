@@ -17,14 +17,14 @@
                  -{?victim condition [k dead]}
                  (spatial ?victim space)))
       (declare-utility survival)
-      (effects (maintain-proposal {@self go ?victim})))
+      (effects (maintain-proposal {@self go-to ?victim})))
     (try
       (role ?vhome {?victim home ?vhome}
         (when (and (not (spatial ?victim co-located @self))
                    -{?victim condition [k dead]}
                    (unknown (spatial ?victim space))))
         (declare-utility survival)
-        (effects (maintain-proposal {@self go ?vhome}))))
+        (effects (maintain-proposal {@self enter ?vhome}))))
 
     ; THE BLOW: co-present with a living victim - CHOKE the life out of them.
     (try
