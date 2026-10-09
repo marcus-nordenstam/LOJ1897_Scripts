@@ -40,7 +40,7 @@
   ; has a pair of its own.
   (for-each ?mb (env-entities [k building])
     (spatial ?mb parts [k unit] /env): ?units
-    (for-each ?household (if (empty ?units) (then (list ?mb)) (else ?units))
+    (for-each ?household (if (empty ?units) (then ?mb) (else ?units))
       (spatial ?household room /env): ?mroom
       (if ?mroom
         (then
