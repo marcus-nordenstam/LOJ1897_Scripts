@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; enter-room ?place ?room-kind - stand in a room of kind ?room-kind of ?place, a concrete
-; building or unit (go-to-bed hands his home; seek-room hands the venue it found). He enters a
+; building or unit (go-to-bed hands his home; locate-room hands the venue it found). He enters a
 ; room of the kind he knows, or locates one; a place he finds none in fails the outing.
 ; ----------------------------------------------------------------------------
 
