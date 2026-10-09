@@ -59,7 +59,7 @@
 
 (think day-go-to-work
   ; Shift on or imminent and not yet at the workplace: go there. The workplace ?wp may be a
-  ; premises BUILDING (shop / office) or a ROOM (a gentleman's home study / back-office); enter
+  ; premises BUILDING (shop / office) or a ROOM (a gentleman's home study / back-office); go-to
   ; reaches either - the building first, then the room.
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
@@ -69,4 +69,4 @@
             (latch-eval (any {?job ?tl ?}): ?shift (bind ?shift.target ?start) (bind ?shift.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
             (or (hours ?start ?end) (work-starts-soon ?start ?end)))
       (declare-utility duty)
-      (effects       (maintain-proposal {@self enter ?wp})))))
+      (effects       (maintain-proposal {@self go-to ?wp})))))

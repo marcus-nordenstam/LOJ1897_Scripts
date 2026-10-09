@@ -27,7 +27,7 @@
                    -{?victim condition [k dead]}
                    (unknown (spatial ?victim space))))
         (declare-utility survival)
-        (effects (maintain-proposal {@self enter ?vhome}))))
+        (effects (maintain-proposal {@self go-to ?vhome}))))
 
     ; THE SHOT: armed, co-present with a living victim - fire.
     (try

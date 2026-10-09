@@ -7,4 +7,4 @@
   (and (>= ?age 16)
        (<= ?age 55)
        (!= ?repute [k scandalous])
-       (not (and {?w wealth ?wl} (>= ?wl (seek_job_wealth_ceiling))))))
+       (not (and (any {?w wealth ?wl}) (>= ?wl (seek_job_wealth_ceiling))))))

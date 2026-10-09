@@ -208,7 +208,7 @@
 ; ---- the shared approach: the <place> drives a leaf-first go sub-goal --------
 
 ; Not yet at the eat place -> head there via the generic go task (go-task.mc),
-; like worship. A MAINTENANCE rung (§5.11/§5.12): hold {@self enter ?place} while
+; like worship. A MAINTENANCE rung (§5.11/§5.12): hold {@self go-to ?place} while
 ; not at the place, cease it on arrival (at-place). The go task's sub-acts are
 ; the live leaves while routing; on arrival they collapse and the eat goal becomes
 ; the leaf and promotes to eat_act. ?place is bound from the eat goal (fixed, not
@@ -227,7 +227,7 @@
   (when    (not (or (spatial @self building ?place)
                     (spatial @self space ?place))))
   (effects
-           (maintain-proposal {@self enter ?place})))
+           (maintain-proposal {@self go-to ?place})))
 
 
 ; TERMINAL step (act_body_purification): the meal is now PROPOSED, guarded by being AT its place.

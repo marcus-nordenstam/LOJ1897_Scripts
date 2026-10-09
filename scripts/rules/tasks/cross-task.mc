@@ -1,25 +1,29 @@
 ; ----------------------------------------------------------------------------
-; cross ?passage - stand before it on my side, open it if I see it shut, walk through. The one
-; block that touches a passage: nothing else proposes OPEN on one. A (sequence ..): the head is
-; the passage, which turns over once per cross; every stage re-tests the world, so a man already
-; at the door falls through to the OPEN. Stage 1's test is his own box against a claimed spot,
-; the one read that lives in a (when ..); a passage he believes locked, or that would not open,
-; fails the cross.
+; cross ?passage ?to - from its near side, open it if he sees it shut, and step through into ?to,
+; the space beyond it. The proposer fixes ?to while he stands on the near side, so the near side
+; is the passage's side beyond ?to wherever he walks meanwhile. The one block that touches a
+; passage: nothing else proposes OPEN on one. A (sequence ..): the head is the passage, which
+; turns over once per cross; every stage tests the world in its effects, so a man already at the
+; door, or a door already open, falls through to the next stage. Stage 1 is a go-to, inside his own domain, so a door it meets on the way
+; is crossed by that go-to; stage 3 is the one short hop across. A passage he believes locked, an
+; OPEN that fails, or a step he cannot make fails the cross.
 ; ----------------------------------------------------------------------------
 
-(task {@self cross ?passage}:?cross
+(task {@self cross ?passage ?to}:?cross
   (tar @excl [k passage] @object)
-  (init (check (substantial (tolerate (spatial ?passage beyond (spatial @self space))))))
+  (init (check (substantial (tolerate (spatial ?passage beyond ?to)))))
   (and
     (sequence
-      (stage (bind (passage-spot ?passage (spatial @self space)) ?before)
-             (when (not (overlaps ?before @self)))
-             (effects (maintain-proposal {@self WALK ?before})))
-      (stage (when (barred ?passage))
-             (effects (maintain-proposal {@self OPEN ?passage})))
-      (stage (bind (passage-spot ?passage (spatial ?passage beyond (spatial @self space))) ?beyond)
+      (stage (bind (passage-spot ?passage (spatial ?passage beyond ?to)) ?before)
+             (effects (if (not (overlaps ?before @self))
+                          (then (maintain-proposal {@self go-to ?before})))))
+      (stage (effects (if (barred ?passage)
+                          (then (maintain-proposal {@self OPEN ?passage})))))
+      (stage (bind (passage-spot ?passage ?to) ?beyond)
              (effects (maintain-proposal {@self WALK ?beyond})))
       (stage (effects (set-outcome ?cross /succ))))
     (try (role @self (or (barred-locked ?passage)
-                         {@self OPEN ?passage /fail /caused_by ?cross})
+                         {@self OPEN ?passage /fail /caused_by ?cross}
+                         {@self go-to ? /fail /caused_by ?cross}
+                         {@self WALK ? /fail /caused_by ?cross})
            (effects (set-outcome ?cross /fail))))))

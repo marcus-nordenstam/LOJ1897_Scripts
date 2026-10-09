@@ -18,9 +18,9 @@
            (role @self {@self enter-room ?here ?room-kind /fail /caused_by ?locate-room}
              (effects (set-outcome ?locate-room /fail)))))
     (try (role ?bldg [k building] (is-a ?bldg ?building-kind)
-                     -{@self enter ?bldg /fail /caused_by ?locate-room}
+                     -{@self go-to ?bldg /fail /caused_by ?locate-room}
                      (select (score (near @self ?bldg)) (policy roulette unknown-last))
-           (effects (maintain-proposal {@self enter ?bldg}))))
+           (effects (maintain-proposal {@self go-to ?bldg}))))
     (try (role @self -{@self find-building ?building-kind ? /fail}
            (effects (maintain-proposal {@self find-building ?building-kind (current-exterior @self)}))))
     (try (effects (set-outcome ?locate-room /fail)))))

@@ -25,7 +25,7 @@
         ; if you're not at the job's workplace, then go there
         (try
           (role @self (not (or (spatial @self building ?wp) (spatial @self space ?wp)))
-            (effects (maintain-proposal {@self enter ?wp}))))
+            (effects (maintain-proposal {@self go-to ?wp}))))
 
         ; if you're at the workplace and in the same room as the recruiter, then announce
         ; yourself - who you are and what you are here for - so that the recruiter knows.

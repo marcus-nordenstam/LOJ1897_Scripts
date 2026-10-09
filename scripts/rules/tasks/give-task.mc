@@ -26,7 +26,7 @@
         (when (and (= (spatial ?thing held-by) @self)
                    (not (spatial ?recipient co-located @self))
                    (unknown (spatial ?recipient space))))
-        (effects (maintain-proposal {@self enter ?rhome}))))
+        (effects (maintain-proposal {@self go-to ?rhome}))))
     (try
       (when (and (= (spatial ?thing held-by) @self)
                  (spatial ?recipient co-located @self)

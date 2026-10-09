@@ -13,7 +13,7 @@
            (effects (set-outcome ?enter-room /succ))))
     (try (role ?room (spatial ?place rooms) (is-a ?room ?room-kind)
                      (select (score (near @self ?room)) (policy roulette unknown-last))
-           (effects (maintain-proposal {@self enter ?room}))))
+           (effects (maintain-proposal {@self go-to ?room}))))
     (try (role @self -{@self locate ?room-kind ?place /fail}
            (effects (maintain-proposal {@self locate ?room-kind ?place}))))
     (try (effects (set-outcome ?enter-room /fail)))))

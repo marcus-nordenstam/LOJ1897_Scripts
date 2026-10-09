@@ -54,7 +54,7 @@
 ; (answers-to ?speaker) - @self is bound to heed ?speaker's hail: his master, his mother or
 ; his father.
 (define-func answers-to (?speaker)
-  (or {@self master ?speaker} {@self mother ?speaker} {@self father ?speaker}))
+  (or (any {@self master ?speaker}) (any {@self mother ?speaker}) (any {@self father ?speaker})))
 
 ; (hail-worth ?speaker) - what taking up ?speaker's hail is worth to @self, as a packed
 ; utility: an obligation when he answers to ?speaker, else a want that rises with how close
@@ -68,7 +68,7 @@
 
 ; (rebuffs ?speaker) - @self rebuffs ?speaker's hail: he despises him and does not answer to him.
 (define-func rebuffs (?speaker)
-  (and {@self despise ?speaker} (not (answers-to ?speaker))))
+  (and (any {@self despise ?speaker}) (not (answers-to ?speaker))))
 
 ; (would-engage ?speaker) - talking with ?speaker is worth more to @self than anything else he
 ; has going: the conversation would win selection now.

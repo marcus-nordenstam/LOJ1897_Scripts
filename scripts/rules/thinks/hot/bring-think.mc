@@ -18,12 +18,12 @@
 
 ; The go sub-goal INHERITS the bring goal's drive through /caused_by (worship-go
 ; shape) - the MINTING chain owns the utility (provisioning: provision-rearm 90).
-; <dest> may be a premises BUILDING or a ROOM (provisioning aims the kitchen); enter
+; <dest> may be a premises BUILDING or a ROOM (provisioning aims the kitchen); go-to
 ; reaches either - the building first, then the room.
 (think bring-go
   (goal {@self BRING ?ware ?dest})
   (role @self (not (spatial @self space ?dest))
-    (effects (maintain-proposal {@self enter ?dest}))))
+    (effects (maintain-proposal {@self go-to ?dest}))))
 
 ; AT the destination: claim the floor spot the ware will rest on - polled until the search
 ; answers one - and PROPOSE the put-down act with it (goals never propose themselves). No

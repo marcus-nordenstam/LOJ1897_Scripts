@@ -34,4 +34,4 @@
           (role @self (not (spatial @self building ?venue))
             (when (and {?occ hours ?start ?end}
                        (hours (- ?start (attend-prep-lead)) ?end)))
-            (effects (maintain-proposal {@self enter ?venue}))))))))
+            (effects (maintain-proposal {@self go-to ?venue}))))))))

@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; BREAK-WINDOW ?win - smash a window: it stays where it stands, broken - a permanent passable
 ; gap, so the leaf is not swung and its opening-status is left as it was. Like FORCE-ENTRY it
-; only breaches the way; the enter task's WALK-in step carries the actor through.
+; only breaches the way; the go-to that wanted him through crosses it.
 ; ----------------------------------------------------------------------------
 
 (action {@self BREAK-WINDOW ?win}:?BREAK-WINDOW

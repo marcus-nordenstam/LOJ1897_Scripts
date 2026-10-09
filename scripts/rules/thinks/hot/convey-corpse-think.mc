@@ -19,7 +19,7 @@
 ;     for the observances), capped as an errand.
 ;   AT a church (case A): convey-at-church proposes {@self CONVEY ?corpse} - the leaf
 ;     label promotes to convey_act (the deposit); the bare goal never self-promotes.
-;   know a church (case B): convey-go holds {@self enter ?church} /caused_by the goal.
+;   know a church (case B): convey-go holds {@self go-to ?church} /caused_by the goal.
 ;   know none  (case C): convey-find holds {@self find-building [k church-building]}.
 ;
 ; The go / find sub-goals fire only while NOT at a church; at a church neither is
@@ -89,7 +89,7 @@
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?church [k church-building] (select (score (near @self ?church)) (policy roulette unknown-last))
       (when    (not (is-a (spatial @self building) [k church-building])))
-      (effects (maintain-proposal {@self enter ?church})))))
+      (effects (maintain-proposal {@self go-to ?church})))))
 
 ; CASE C - not at a church and knows none: search for one (find-building.mc runs it).
 (think convey-find

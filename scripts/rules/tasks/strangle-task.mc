@@ -24,7 +24,7 @@
                    -{?victim condition [k dead]}
                    (unknown (spatial ?victim space))))
         (declare-utility survival)
-        (effects (maintain-proposal {@self enter ?vhome}))))
+        (effects (maintain-proposal {@self go-to ?vhome}))))
 
     ; THE BLOW: co-present with a living victim - CHOKE the life out of them.
     (try

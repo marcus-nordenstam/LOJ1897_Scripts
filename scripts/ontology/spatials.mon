@@ -39,14 +39,24 @@
 ;                                every one
 ;   (beyond)                     (spatial ?passage beyond ?here): the space on the far side of
 ;                                ?passage from ?here - the room there, or the exterior space its
-;                                outer end stands in. @fail when the mind has not met the passage
-;                                or the far side; /env reads the world
+;                                outer end stands in. @unknown when the mind has not met the
+;                                passage or the far side; /env reads the world
 ;   (linked)                     (spatial ?a trivially-linked ?b): PREDICATE, true when a body
 ;                                walks from space ?a to space ?b through no passage - the same
 ;                                room, rooms joined by neighbour links (a gap with no door), a
 ;                                room whose outer wall stands open to the outdoors, or two
 ;                                exterior spaces. Default walks the links between rooms the mind
 ;                                has met; /env every link
+;   (leg)                        (spatial @self leg ?dest): the next DOMAIN - an enclosure, or one
+;                                exterior space - on his way to ?dest: the enclosure he stands in
+;                                when ?dest lies outside it, else the node of ?dest's containment
+;                                chain just below the lowest one holding his exterior (an exterior
+;                                he walks into, or an enclosure he enters). @nothing when ?dest lies
+;                                in his own domain; @unknown when either chain is unknown
+;   (barrier)                    (spatial @self barrier ?dest): the first passage he believes shut
+;                                on every way from his space to ?dest's he knows, on the fewest
+;                                crossings through the rooms he has met. @nothing when one is open,
+;                                or he knows none; /env reads the world's shut passages
 ;   (first)                      single first-known child match: (spatial ?whole room [k K])
 ;                                yields one perceived child of ?whole is-a the label's (rung
 ;                                <kind>) range, further narrowed by K when given
@@ -104,6 +114,8 @@
 (spatial-label exits      (store part) (exits))
 (spatial-label beyond     (store space) (beyond))
 (spatial-label trivially-linked (store space) (linked))
+(spatial-label leg        (store space) (leg))
+(spatial-label barrier    (store space) (barrier))
 (spatial-label gripped-by (store grip))
 (spatial-label grip       (store grip) (down))
 (spatial-label hold       (store grip) (down) (descend))

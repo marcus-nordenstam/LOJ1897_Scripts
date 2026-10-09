@@ -35,7 +35,7 @@
   (goal {@self stow ?item})
   (role ?home {@self home ?home}
               (not (spatial @self unit ?home))
-    (effects (maintain-proposal {@self enter ?home}))))
+    (effects (maintain-proposal {@self go-to ?home}))))
 
 ; AT home: PROPOSE the put-away act (goals never propose themselves). stow_act reads the carried
 ; item off the standing {@self stow} goal and ends it, so the propose is label-only.

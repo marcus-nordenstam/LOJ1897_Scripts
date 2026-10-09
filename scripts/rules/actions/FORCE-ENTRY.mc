@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; FORCE-ENTRY ?door - break a locked door: it swings open and stays broken, unlocked and ajar.
-; Does NOT move the actor inside - it only breaches the way so the enter task's WALK-in step
-; can path through. A permanent, perceivable change (a forced door stays broken).
+; Does NOT move the actor inside - it only breaches the way, and the go-to that wanted him through
+; crosses it. A permanent, perceivable change (a forced door stays broken).
 ; ----------------------------------------------------------------------------
 
 (action {@self FORCE-ENTRY ?door}:?FORCE-ENTRY

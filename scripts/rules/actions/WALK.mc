@@ -1,26 +1,27 @@
 ; ----------------------------------------------------------------------------
-; WALK - the one travel act, at both LODs. The tasks reason about the destination - go-to stands
-; him beside a thing in his closure, enter and exit take him across a trivial link, cross takes
-; him through one passage - and WALK gets there. ?dest is a SPOT and nothing else - a point on a
-; floor one man can stand on and hold, so arrival is his centre standing on that point across
-; the floor, and there is no box centre to mistake for a floor. A spot he cannot close in on is
-; refused and the walk fails, so his proposer finds him another.
+; WALK - the one travel act, at both LODs. The tasks reason about the destination - go-to walks
+; him inside his domain or into the next one, cross takes him through one passage - and WALK
+; gets there. ?dest is a SPOT and nothing else - a point on a floor one man can stand on and
+; hold, so arrival is his centre standing on that point across the floor, and there is no box
+; centre to mistake for a floor. A spot he cannot close in on is refused and the walk fails, so
+; his proposer finds him another. Every proposer is go-to or cross (mlint walk-proposer).
 ;
-; A WALK never meets a shut door: its spot lies in a space trivially linked to his, or beyond a
-; passage of his space he sees ajar or broken, and the proposer established that. Every
-; proposer is one of the four movement tasks (mlint walk-proposer).
+; The WORLD decides where a walk stops, never what he believes: a way that crosses a passage the
+; world holds shut or locked stops before it, he sees it there, and the walk fails with the
+; passage in its barred-by - his proposer crosses it on the next look.
 ;
 ; ONE body, and the branch sits at the movement write and nowhere else, on the CLOCK first and
 ; the LOD second. Under the jump clock nothing happens between instants: the act's one cap tick
-; relocates him and the cap commits /succ. Under the real clock a PRESENTED man on a navmesh
-; navigates: the walk is planned as he sees the world now, the body steers the character at the
-; next unpassed waypoint every frame, re-plans when he sees a door it crosses shut, and on arrival
-; relocates him onto the spot and sets its own /succ; when the only way lies through a barrier
-; he sees shut, the walk ends /fail with the barrier in its barred-by. An unpresented man under
-; the real clock, and a presented one where no navmesh covers the route, relocates at the cap
-; tick as under the jump clock. So the duration is clock- and LOD-aware: the scheduled path
-; needs a cap, since that tick IS the act, and the steered path must not have one, or it would
-; commit /succ at the estimate with the man still in the street.
+; relocates him - onto the spot, or before the first passage the world bars on every way there -
+; and the cap commits /succ. Under the real clock a PRESENTED man on a navmesh navigates: the
+; walk is planned as he sees the world now, the body steers the character at the next unpassed
+; waypoint every frame, re-plans when he sees a door it crosses shut, and on arrival relocates him
+; onto the spot and sets its own /succ; when the only way lies through a barrier he sees shut,
+; the walk ends /fail with the barrier in its barred-by. An unpresented man under the real clock,
+; and a presented one where no navmesh covers the route, relocates at the cap tick as under the
+; jump clock. So the duration is clock- and LOD-aware: the scheduled path needs a cap, since that
+; tick IS the act, and the steered path must not have one, or it would commit /succ at the
+; estimate with the man still in the street.
 ;
 ; The PLAYER walks this act too, injected with no spot: his keys put a heading on the act
 ; every frame and (steer-heading ..) walks it, so key release is what ends him.
@@ -34,19 +35,17 @@
 ; When the movement task this walk serves began: a barrier he has seen shut since then bars its
 ; route.
 (define-func walk-since (?WALK)
-  (start-time (caused-by ?WALK {@self go-to|enter|exit|cross ?})))
+  (start-time (caused-by ?WALK {@self go-to|cross ?})))
 
-; The walk crosses no shut passage: the spot's space is trivially linked to his, or lies beyond a
-; passage of his space he sees ajar or broken.
-(define-func walk-reaches (?dest)
-  (spatial @self space): ?here
-  (spatial ?dest space): ?there
-  (bind @false ?open)
-  (for-each ?passage (spatial ?here exits)
-    (tolerate (spatial ?passage beyond ?here)): ?far
-    (if (and (substantial ?far) (= ?far ?there) (not (barred ?passage)))
-        (then (bind @true ?open) (break))))
-  (or (spatial ?here trivially-linked ?there) ?open))
+; Where the world stops a walk nobody watches: before the first passage it bars on every way to
+; ?dest, which he sees there, failing the walk - else on ?dest itself.
+(define-func walk-relocate (?WALK ?dest)
+  (way-barrier-spot @self ?dest (walk-since ?WALK)): ?stop
+  (if (is-spot ?stop)
+      (then (bb-write ?WALK barred-by (way-barrier @self ?dest (walk-since ?WALK)))
+            (relocate @self ?stop)
+            (set-outcome ?WALK /fail))
+      (else (relocate @self ?dest))))
 
 (action {@self WALK ?dest}:?WALK
   (motor legs)
@@ -72,7 +71,6 @@
   (init
     (if (is-npc)
         (then (check (is-spot ?dest))
-              (expect (walk-reaches ?dest) "WALK: the spot lies across a passage the proposer did not open")
               (if (walk-navigates ?dest)
                   (then (nav-ensure-path @self ?dest (walk-since ?WALK)))))))
 
@@ -81,9 +79,9 @@
       (case (is-player)
         (steer-heading @self))
       (case (jump-clock)
-        (relocate @self ?dest))
+        (walk-relocate ?WALK ?dest))
       (case (not (walk-navigates ?dest))
-        (relocate @self ?dest))
+        (walk-relocate ?WALK ?dest))
       (else
         ; Re-planned when the goal drifts or he sees a door it crosses shut; otherwise a
         ; report. While the search is pending or working he does NOTHING this tick - no

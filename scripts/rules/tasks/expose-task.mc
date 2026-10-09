@@ -24,7 +24,7 @@
                    -{@self spouse ?partner}
                    (not (spatial ?victim co-located @self))
                    (unknown (spatial ?victim space))))
-        (effects (maintain-proposal {@self enter ?vhome}))))
+        (effects (maintain-proposal {@self go-to ?vhome}))))
     (try
       (when (and -{@self spouse ?victim}
                  {?victim lover|HAVE-SEX-WITH ?partner /ever}

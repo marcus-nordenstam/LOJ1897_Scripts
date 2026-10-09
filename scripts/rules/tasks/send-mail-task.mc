@@ -11,9 +11,7 @@
   (tar [k document] @object)
   (aux [k stack] @object)
   (sequence
-    ; go-to, NEVER the raw WALK: reaching a thing is go-to's whole job, and the doors between
-    ; are enter's. WALK alone cannot let him into a building he is not already in, so a man
-    ; posting from across town never arrived and STACK-PUT's reach check aborted the run.
+    ; go-to, NEVER the raw WALK: reaching a thing, and the doors between, is go-to's whole job.
     (stage
       (effects
         (if (not (spatial ?out co-located @self))

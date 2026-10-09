@@ -104,7 +104,7 @@
   (bind (known-age ?other) ?their-age)
   (if (and (substantial ?my-sex) (substantial ?their-sex)
            (drawn-to (= ?my-sex ?their-sex))
-           (not {@self (kin-labels) ?other})
+           -{@self (kin-labels) ?other}
            (or (< ?my-age 0.0) (>= ?my-age (adult-age)))
            (or (< ?their-age 0.0) (>= ?their-age (adult-age)))
            (table-match mate_value_weights gender ?my-sex looks ?w-looks status ?w-status))

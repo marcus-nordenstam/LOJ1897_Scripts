@@ -27,7 +27,7 @@
       (role ?vhome {?victim home ?vhome}
         (when (and (not (spatial ?victim co-located @self))
                    (unknown (spatial ?victim space))))
-        (effects (maintain-proposal {@self enter ?vhome}))))
+        (effects (maintain-proposal {@self go-to ?vhome}))))
 
     ; TELL him the disinheritance. He ADOPTS {benefactor disinherit victim} from the
     ; utterance - real told-knowledge, no fiat cross-mind write.

@@ -26,7 +26,7 @@
                    -{@self lover ?paramour}
                    (not (spatial ?paramour co-located @self))
                    (unknown (spatial ?paramour space))))
-        (effects (maintain-proposal {@self enter ?phome}))))
+        (effects (maintain-proposal {@self go-to ?phome}))))
     (try
       (no-role [k human] {@self spouse ?norole} (spatial ?norole co-located @self))
       (role @self {@self gender ?gender}

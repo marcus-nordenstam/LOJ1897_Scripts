@@ -25,7 +25,7 @@
                    (not (attr-is ?victim awareness [k unconscious]))
                    (unknown (spatial ?victim space))))
         (declare-utility survival)
-        (effects (maintain-proposal {@self enter ?vhome}))))
+        (effects (maintain-proposal {@self go-to ?vhome}))))
 
     ; THE BEATING: PUNCH a co-present, conscious victim.
     (try

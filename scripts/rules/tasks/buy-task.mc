@@ -15,7 +15,7 @@
         (role @self (not (spatial @self building ?shop))
           (when (empty (spatial @self hold ?kind)))
           (declare-utility fallback)
-          (effects (maintain-proposal {@self enter ?shop})))))
+          (effects (maintain-proposal {@self go-to ?shop})))))
     ; knows no shop -> search the region for one, until the search proves there is none.
     (try
       (no-role [k shop])
