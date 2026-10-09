@@ -1,90 +1,90 @@
-# Spatial-struct + spatial-label declarations (spatial_struct_unification_plan.md sections 3-4).
-#
-# A SPATIAL-STRUCT is a physical edge store (the storage). A SPATIAL-LABEL is a named
-# lens / belief-label over one struct; the (spatial ?ent <label>) read op and the
-# (spatial-write ...) op resolve their relation argument to a label record, never a
-# hardcoded C++ name compare. Each label names the struct it reads and its decorations:
-#   (store space|grip|stack)     which physical edge store this label reads
-#   (up)                         single-target read (default; explicit for clarity)
-#   (down)                       list read (the store's inverse / occupants side)
-#   (ascend)                     one struct-parent hop after an up-view
-#   (descend)                    struct-parts hop before a down-view
-#   (rung <kind>)                a LADDER rung: the subject's known container at (or
-#                                above) the granularity of <kind> - ascend the known
-#                                containment chain to the first node is-a <kind>. @unknown
-#                                when <kind> is finer than what the mind knows. Kept
-#                                content-supplied (building=building, town=town) so the
-#                                engine never names a level. NOT used by `space`: a space
-#                                is whatever directly contains the entity (see below).
-#   (rung-role <role>)           a ladder rung, or a (first) child range, by COMPOSITION role
-#                                (enclosure|unit|room|compartment|fixture) instead of kind:
-#                                the first node whose kind takes that role. A room range
-#                                looks inside the units of the whole it reads.
-#   (payload)                    the finest rung: (spatial ?x bounds) yields the exact box
-#                                via the live perceiving-pointer (live-only; @unknown when
-#                                not perceiving). /env reads env ground truth.
-#   (head)                       peek the ordered head (ordered store only)
-#   (co)                         co-presence PREDICATE: (spatial ?a co-located ?b) is true
-#                                when a shares b's container. BARE = same immediate place;
-#                                add (rung <kind>) to compare at that container level (see
-#                                co-located-building). Kind arg0 tests any occupant of that
-#                                scope
-#   (neighbours)                 the rooms a room's composition links it to, as a list. Default
-#                                = the ones the mind has met - standing in a room shows you
-#                                the doorways out of it - /env = every one
-#   (rooms)                      the rooms a building or unit holds - its own and its units' -
-#                                as a list. Default = the ones the mind has met, /env = every one
-#   (exits)                      the doors and windows leading out of a building, unit or
-#                                room, as a list. Default = the ones the mind has met, /env =
-#                                every one
-#   (beyond)                     (spatial ?passage beyond ?here): the space on the far side of
-#                                ?passage from ?here - the room there, or the exterior space its
-#                                outer end stands in. @fail when the mind has not met the passage
-#                                or the far side; /env reads the world
-#   (linked)                     (spatial ?a trivially-linked ?b): PREDICATE, true when a body
-#                                walks from space ?a to space ?b through no passage - the same
-#                                room, rooms joined by neighbour links (a gap with no door), a
-#                                room whose outer wall stands open to the outdoors, or two
-#                                exterior spaces. Default walks the links between rooms the mind
-#                                has met; /env every link
-#   (first)                      single first-known child match: (spatial ?whole room [k K])
-#                                yields one perceived child of ?whole is-a the label's (rung
-#                                <kind>) range, further narrowed by K when given
-#
-# A relation's RANGE is fixed by the relation, and a query never returns a kind
-# outside it - that is what keeps a call-site's expectation unambiguous. `space` is
-# the entity's directly-containing space: a room indoors, the smallest enclosing
-# exterior-space outdoors, @unknown when the mind does not know. It is a single up-hop
-# (the whereabouts parent), NOT a ladder ascent - it always lands on a space. `building`
-# is its OWN relation (a building is-a object, not a space), so it reads the containment
-# chain separately. `town` is a rung of the SPACE chain now - a town IS an exterior
-# space - so it names the coarsest space holding you, where `space` names the finest.
-#
-# QUALIFIER (spec, no consumers yet): /ascend [k K] and /descend [k K] walk a relation
-# WITHIN its own range - K MUST be is-a that range or the query is a load error. So
-# (spatial ?x space /ascend [k area]) is legal (area is-a space) and climbs nested
-# exterior spaces neighborhood -> area -> ...; (spatial ?x space /ascend [k building])
-# is rejected (building is not a space). Use `building` / `town` for those levels.
-#
-# STORES: the physical edge types + their behavior. The store id is declaration
-# ORDER (space=0, grip=1, stack=2), which the engine addresses by name through
-# the registry - no placement enum survives in C++. Flags: (mobile) edges move at
-# runtime; (excl) a child has one parent; (ordered) the store maintains head order
-# (stack top); (subjective) a mind's value can diverge from env truth. Stores MUST
-# precede the views that reference them.
+; Spatial-struct + spatial-label declarations (spatial_struct_unification_plan.md sections 3-4).
+;
+; A SPATIAL-STRUCT is a physical edge store (the storage). A SPATIAL-LABEL is a named
+; lens / belief-label over one struct; the (spatial ?ent <label>) read op and the
+; (spatial-write ...) op resolve their relation argument to a label record, never a
+; hardcoded C++ name compare. Each label names the struct it reads and its decorations:
+;   (store space|grip|stack)     which physical edge store this label reads
+;   (up)                         single-target read (default; explicit for clarity)
+;   (down)                       list read (the store's inverse / occupants side)
+;   (ascend)                     one struct-parent hop after an up-view
+;   (descend)                    struct-parts hop before a down-view
+;   (rung <kind>)                a LADDER rung: the subject's known container at (or
+;                                above) the granularity of <kind> - ascend the known
+;                                containment chain to the first node is-a <kind>. @unknown
+;                                when <kind> is finer than what the mind knows. Kept
+;                                content-supplied (building=building, town=town) so the
+;                                engine never names a level. NOT used by `space`: a space
+;                                is whatever directly contains the entity (see below).
+;   (rung-role <role>)           a ladder rung, or a (first) child range, by COMPOSITION role
+;                                (enclosure|unit|room|compartment|fixture) instead of kind:
+;                                the first node whose kind takes that role. A room range
+;                                looks inside the units of the whole it reads.
+;   (payload)                    the finest rung: (spatial ?x bounds) yields the exact box
+;                                via the live perceiving-pointer (live-only; @unknown when
+;                                not perceiving). /env reads env ground truth.
+;   (head)                       peek the ordered head (ordered store only)
+;   (co)                         co-presence PREDICATE: (spatial ?a co-located ?b) is true
+;                                when a shares b's container. BARE = same immediate place;
+;                                add (rung <kind>) to compare at that container level (see
+;                                co-located-building). Kind arg0 tests any occupant of that
+;                                scope
+;   (neighbours)                 the rooms a room's composition links it to, as a list. Default
+;                                = the ones the mind has met - standing in a room shows you
+;                                the doorways out of it - /env = every one
+;   (rooms)                      the rooms a building or unit holds - its own and its units' -
+;                                as a list. Default = the ones the mind has met, /env = every one
+;   (exits)                      the doors and windows leading out of a building, unit or
+;                                room, as a list. Default = the ones the mind has met, /env =
+;                                every one
+;   (beyond)                     (spatial ?passage beyond ?here): the space on the far side of
+;                                ?passage from ?here - the room there, or the exterior space its
+;                                outer end stands in. @fail when the mind has not met the passage
+;                                or the far side; /env reads the world
+;   (linked)                     (spatial ?a trivially-linked ?b): PREDICATE, true when a body
+;                                walks from space ?a to space ?b through no passage - the same
+;                                room, rooms joined by neighbour links (a gap with no door), a
+;                                room whose outer wall stands open to the outdoors, or two
+;                                exterior spaces. Default walks the links between rooms the mind
+;                                has met; /env every link
+;   (first)                      single first-known child match: (spatial ?whole room [k K])
+;                                yields one perceived child of ?whole is-a the label's (rung
+;                                <kind>) range, further narrowed by K when given
+;
+; A relation's RANGE is fixed by the relation, and a query never returns a kind
+; outside it - that is what keeps a call-site's expectation unambiguous. `space` is
+; the entity's directly-containing space: a room indoors, the smallest enclosing
+; exterior-space outdoors, @unknown when the mind does not know. It is a single up-hop
+; (the whereabouts parent), NOT a ladder ascent - it always lands on a space. `building`
+; is its OWN relation (a building is-a object, not a space), so it reads the containment
+; chain separately. `town` is a rung of the SPACE chain now - a town IS an exterior
+; space - so it names the coarsest space holding you, where `space` names the finest.
+;
+; QUALIFIER (spec, no consumers yet): /ascend [k K] and /descend [k K] walk a relation
+; WITHIN its own range - K MUST be is-a that range or the query is a load error. So
+; (spatial ?x space /ascend [k area]) is legal (area is-a space) and climbs nested
+; exterior spaces neighborhood -> area -> ...; (spatial ?x space /ascend [k building])
+; is rejected (building is not a space). Use `building` / `town` for those levels.
+;
+; STORES: the physical edge types + their behavior. The store id is declaration
+; ORDER (space=0, grip=1, stack=2), which the engine addresses by name through
+; the registry - no placement enum survives in C++. Flags: (mobile) edges move at
+; runtime; (excl) a child has one parent; (ordered) the store maintains head order
+; (stack top); (subjective) a mind's value can diverge from env truth. Stores MUST
+; precede the views that reference them.
 (spatial space    (mobile) (excl) (subjective))
 (spatial grip     (mobile) (excl) (recurse-on-obs))
 (spatial stack    (mobile) (excl) (ordered))
 (spatial part     (immutable) (excl))
-# Road geometry: a road's shape is a spline, not a containment. Declared here so the
-# (spatials spline) that names it references something, like every other decoration.
+; Road geometry: a road's shape is a spline, not a containment. Declared here so the
+; (spatials spline) that names it references something, like every other decoration.
 (spatial spline   (immutable) (excl))
 
-# The immutable structural topology (the old struct_skeleton), read through the
-# same fused (spatial ?ent <view> /env?) op: `parts` = a whole's children (down).
-# Default plane = belief-honest (perceived); /env = every edge in the environment
-# (all rooms of a building, etc.). A part's enclosing whole (the up-read) is the
-# `parent` term, resolved per-archetype by the op's struct fallback.
+; The immutable structural topology (the old struct_skeleton), read through the
+; same fused (spatial ?ent <view> /env?) op: `parts` = a whole's children (down).
+; Default plane = belief-honest (perceived); /env = every edge in the environment
+; (all rooms of a building, etc.). A part's enclosing whole (the up-read) is the
+; `parent` term, resolved per-archetype by the op's struct fallback.
 (spatial-label parts (store part) (down))
 
 (spatial-label bounds     (store space) (payload))
@@ -110,8 +110,8 @@
 (spatial-label top        (store stack) (head))
 (spatial-label items      (store stack) (down))
 
-# The struct children a pop's (structs ..) names: the slot and its kind. An (authored-offset) slot is
-# created with its owner, at the offset its owner's composition gives that kind.
+; The struct children a pop's (structs ..) names: the slot and its kind. An (authored-offset) slot is
+; created with its owner, at the offset its owner's composition gives that kind.
 (struct left-hand (child) [k left-hand] (authored-offset))
 (struct right-hand (child) [k right-hand] (authored-offset))
 (struct head (child) [k head] (authored-offset))

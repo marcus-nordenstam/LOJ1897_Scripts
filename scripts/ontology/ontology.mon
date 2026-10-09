@@ -1,46 +1,46 @@
 
-# ============================================================================
-# Merlin ontology - top-level index. The `using` lines below pull in the
-# kind taxonomy + relation taxonomy that make up the entire ontology.
-#
-# ----------------------------------------------------------------------------
-# Brief overview
-# ----------------------------------------------------------------------------
-# Nouns are objects or concepts.
-#
-# States represent something you HAVE or that you ARE.  Unless already
-# declared in spatial or attr declarations, they must be declared in states.mon.
-#
-# A noun is a kind and nothing else. A state that shares a noun's name
-# (spouse, gender, job, ..) is a relation in its own right and is declared in
-# states.mon with its own fields; a clause whose label is a noun with no such
-# declaration is a load error.
-#
-# Acts (tasks and actions) are things an NPC DOES.  They are NOT declared
-# in .mon files; instead they are declared in rules:
-# * action rules implicitly declares the action-label as an ontological action.
-# * task rules implicitly declares the task-label as an ontological task.
-#
-# ----------------------------------------------------------------------------
-# Construals are tags, not beliefs
-# ----------------------------------------------------------------------------
-# The appraisal cascade categorises a task by reading the `construed-act`
-# tags on the task's declaration (e.g.
-# `confess-letter ... (construed-act honour-act)`) at the anchor's
-# task-label. It does NOT mint construal beliefs. Anchors carry their tags
-# via the relation_def lookup; categorize runs one reaction row per tag
-# per POV (patient / actor / third_party / sadist). Promote a construal
-# to a belief only if RETE alpha-indexing genuinely requires it.
-#
-# Outcome is a substrate property, not a tag bucket. A failed kill is a
-# leaf kill-task whose victim survived; the anchor and its tags are the
-# same whether the victim died or lived. Survivor cascades differ
-# because more living perceivers run the standard reaction rows, not
-# because the anchor's tags changed.
-#
-# ============================================================================
+; ============================================================================
+; Merlin ontology - top-level index. The `using` lines below pull in the
+; kind taxonomy + relation taxonomy that make up the entire ontology.
+;
+; ----------------------------------------------------------------------------
+; Brief overview
+; ----------------------------------------------------------------------------
+; Nouns are objects or concepts.
+;
+; States represent something you HAVE or that you ARE.  Unless already
+; declared in spatial or attr declarations, they must be declared in states.mon.
+;
+; A noun is a kind and nothing else. A state that shares a noun's name
+; (spouse, gender, job, ..) is a relation in its own right and is declared in
+; states.mon with its own fields; a clause whose label is a noun with no such
+; declaration is a load error.
+;
+; Acts (tasks and actions) are things an NPC DOES.  They are NOT declared
+; in .mon files; instead they are declared in rules:
+; * action rules implicitly declares the action-label as an ontological action.
+; * task rules implicitly declares the task-label as an ontological task.
+;
+; ----------------------------------------------------------------------------
+; Construals are tags, not beliefs
+; ----------------------------------------------------------------------------
+; The appraisal cascade categorises a task by reading the `construed-act`
+; tags on the task's declaration (e.g.
+; `confess-letter ... (construed-act honour-act)`) at the anchor's
+; task-label. It does NOT mint construal beliefs. Anchors carry their tags
+; via the relation_def lookup; categorize runs one reaction row per tag
+; per POV (patient / actor / third_party / sadist). Promote a construal
+; to a belief only if RETE alpha-indexing genuinely requires it.
+;
+; Outcome is a substrate property, not a tag bucket. A failed kill is a
+; leaf kill-task whose victim survived; the anchor and its tags are the
+; same whether the victim died or lived. Survivor cascades differ
+; because more living perceivers run the standard reaction rows, not
+; because the anchor's tags changed.
+;
+; ============================================================================
 
-# Concepts, names, objects, etc.
+; Concepts, names, objects, etc.
 
 (using concepts)
 (using english-names)
@@ -48,7 +48,7 @@
 (using st-revier-names)
 (using things)
 
-# Relations
+; Relations
 
 (using states)
 (using tasks)

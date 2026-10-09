@@ -1,727 +1,727 @@
-# NOTE: Words in parenthesis -- such as (attitude) -- are used for GROUPING only.
-#
-# Every state relation is declared here (see Merlin/docs/knowledge_design_notes.md):
-# the verb / predicate states (know, owe, like, hate, ...), the historical-sim
-# situation predicates, and the states that share a name with a noun (spouse,
-# gender, job, ...) - a noun is a kind, and a relation on it is declared as a
-# relation. Env attrs contribute the physical realization of a state.
+; NOTE: Words in parenthesis -- such as (attitude) -- are used for GROUPING only.
+;
+; Every state relation is declared here (see Merlin/docs/knowledge_design_notes.md):
+; the verb / predicate states (know, owe, like, hate, ...), the historical-sim
+; situation predicates, and the states that share a name with a noun (spouse,
+; gender, job, ...) - a noun is a kind, and a relation on it is declared as a
+; relation. Env attrs contribute the physical realization of a state.
 
-# Spatial predicate states.
+; Spatial predicate states.
 (state within-reach-of (tar [k object|space] @object))
 (state facing (tar [k object|space] @object))
 
-# `frequent` is the whereabouts-HABIT summary, minted by the habit tally (a per-mind
-# count of where a man spends each part of his day, read off the `space` spatial label's
-# (theme frequent) in spatials.mon) as one ongoing {X frequent <place>} gist - "X habitually
-# goes to <place>". Whereabouts are spatial memories, never beliefs, so no belief fuse
-# folds into it. Behavioural, not a physical state; unconstrained target, non-excl (many
-# places over overlapping spans). Must differ from `space` (`space` is @excl).
+; `frequent` is the whereabouts-HABIT summary, minted by the habit tally (a per-mind
+; count of where a man spends each part of his day, read off the `space` spatial label's
+; (theme frequent) in spatials.mon) as one ongoing {X frequent <place>} gist - "X habitually
+; goes to <place>". Whereabouts are spatial memories, never beliefs, so no belief fuse
+; folds into it. Behavioural, not a physical state; unconstrained target, non-excl (many
+; places over overlapping spans). Must differ from `space` (`space` is @excl).
 (state frequent (tar ?) (aux [k part-of-day]))
 
-# to believe that someone ELSE knows something; theory-of-knowledge
+; to believe that someone ELSE knows something; theory-of-knowledge
 (state know (tar @pattern))
 
-# avoid: a held aversive state w.r.t. an embedded task pattern,
-# a substance, a person, a place, or any other symbol. Composes
-# with task patterns to express "subject is in the avoid-state
-# of X": {son avoid {son marry girl}} means son is currently
-# refraining from / disinclined toward the marry-girl task.
-# {witness avoid {witness tell secret}} expresses the silenced-
-# witness state. {actor avoid alcohol} expresses sobriety as a
-# held aversion to a substance. Persists across intervals; ends
-# when the avoiding circumstance lifts. Causes (the reason
-# the subject avoids the thing) ride the /causes slot, not a
-# sub-kind. Read by deliberation (an actor's standing avoid-
-# beliefs suppress branches that would put them in the avoided
-# state) and by `urge` (the task that argues a target into an
-# avoid-state).
+; avoid: a held aversive state w.r.t. an embedded task pattern,
+; a substance, a person, a place, or any other symbol. Composes
+; with task patterns to express "subject is in the avoid-state
+; of X": {son avoid {son marry girl}} means son is currently
+; refraining from / disinclined toward the marry-girl task.
+; {witness avoid {witness tell secret}} expresses the silenced-
+; witness state. {actor avoid alcohol} expresses sobriety as a
+; held aversion to a substance. Persists across intervals; ends
+; when the avoiding circumstance lifts. Causes (the reason
+; the subject avoids the thing) ride the /causes slot, not a
+; sub-kind. Read by deliberation (an actor's standing avoid-
+; beliefs suppress branches that would put them in the avoided
+; state) and by `urge` (the task that argues a target into an
+; avoid-state).
 (state avoid (tar ?))
 
 (state expect-answer (tar ?))
 (state expect-question (tar ?))
 
-# meet: an arranged meeting between two people; the aux carries the
-# venue. A tryst-note's writing quotes it ({author meet recipient
-# /aux <hotel>}) - the paper that names the place.
+; meet: an arranged meeting between two people; the aux carries the
+; venue. A tryst-note's writing quotes it ({author meet recipient
+; /aux <hotel>}) - the paper that names the place.
 (state meet (tar [k human] @object) (aux ?))
 
-# extort: the STANDING coercion - the subject presses an unmet
-# demand on the target; aux carries the demand clause ({target
-# lover subject} for the jilted ex-lover; nothing = a silence
-# demand). Deliberately distinct from the `coerce` TASK: the task
-# commits as a point-interval act-record (the threat as an act),
-# while THIS is the ongoing relation the repeat-demand coercion
-# pass walks monthly and the victim's exposure-risk pressure hangs
-# its /caused_by on. Ends when the demand is met, the secret leaks, or
-# a party dies.
+; extort: the STANDING coercion - the subject presses an unmet
+; demand on the target; aux carries the demand clause ({target
+; lover subject} for the jilted ex-lover; nothing = a silence
+; demand). Deliberately distinct from the `coerce` TASK: the task
+; commits as a point-interval act-record (the threat as an act),
+; while THIS is the ongoing relation the repeat-demand coercion
+; pass walks monthly and the victim's exposure-risk pressure hangs
+; its /caused_by on. Ends when the demand is met, the secret leaks, or
+; a party dies.
 (state extort (tar [k human] @object) (aux ?) (facets blackmailable))
 
-# ---- Contract killing (the hire_assassin redesign) ----------------
-# commission: the STANDING murder contract - the instigator (subject)
-# has hired the killer (target) to murder the aux victim. Ongoing
-# (the extort-anchor shape); ends when the hit is done or a party
-# dies. blackmailable: an instigator who commissioned a murder is
-# exposed to the killer's later leverage.
+; ---- Contract killing (the hire_assassin redesign) ----------------
+; commission: the STANDING murder contract - the instigator (subject)
+; has hired the killer (target) to murder the aux victim. Ongoing
+; (the extort-anchor shape); ends when the hit is done or a party
+; dies. blackmailable: an instigator who commissioned a murder is
+; exposed to the killer's later leverage.
 (state commission (tar [k human] @object) (aux [k human] @object) (facets blackmailable))
-# hired-by: the reciprocal the KILLER holds - {killer hired-by
-# instigator /aux victim}. The killer's knowledge of who paid him is
-# the latent blackmail-back leverage (deferred).
+; hired-by: the reciprocal the KILLER holds - {killer hired-by
+; instigator /aux victim}. The killer's knowledge of who paid him is
+; the latent blackmail-back leverage (deferred).
 (state hired-by (tar [k human] @object) (aux [k human] @object) (facets blackmailable))
-# vouched-for: the connection edge that UNLOCKS commissioning - the
-# subject has been introduced to / can deal with the target (a
-# for-hire killer or a go-between fixer). Minted by the connection
-# gate (seek_killer_connection); read as the precondition for a
-# commission.
+; vouched-for: the connection edge that UNLOCKS commissioning - the
+; subject has been introduced to / can deal with the target (a
+; for-hire killer or a go-between fixer). Minted by the connection
+; gate (seek_killer_connection); read as the precondition for a
+; commission.
 (state vouched-for (tar [k human] @object))
-# sought-introduction: the WITNESS record - the subject (the asked
-# acquaintance) remembers that the aux instigator asked them to be
-# put in touch with a hard man. A permanent evidence thread ("he
-# asked me where to find someone who'd do violence"). Held in the
-# asked party's mind.
+; sought-introduction: the WITNESS record - the subject (the asked
+; acquaintance) remembers that the aux instigator asked them to be
+; put in touch with a hard man. A permanent evidence thread ("he
+; asked me where to find someone who'd do violence"). Held in the
+; asked party's mind.
 (state sought-introduction (tar [k human] @object) (aux ?))
 
-# Household mealtimes - the COOK's authority (tell-only comms plan,
-# ruling 11): {<home> breakfast-hour 6} / {<home> lunch-hour 12} /
-# {<home> supper-hour 18}, held per-mind. The cook DECIDES them
-# (set-mealtimes, household.mc - genesis of her own decision, with
-# per-cook variation) and SAYS them; residents adopt from the say or
-# re-learn through the ask-the-cook channel ((ask-to) /
-# (asked-me-about) - so a forgotten mealtime self-heals by asking).
-# The 2h meal window opens AT the hour; the meal aspect (meals.mc)
-# gate on it. Int-hour target (a scalar - bypasses tar checks).
+; Household mealtimes - the COOK's authority (tell-only comms plan,
+; ruling 11): {<home> breakfast-hour 6} / {<home> lunch-hour 12} /
+; {<home> supper-hour 18}, held per-mind. The cook DECIDES them
+; (set-mealtimes, household.mc - genesis of her own decision, with
+; per-cook variation) and SAYS them; residents adopt from the say or
+; re-learn through the ask-the-cook channel ((ask-to) /
+; (asked-me-about) - so a forgotten mealtime self-heals by asking).
+; The 2h meal window opens AT the hour; the meal aspect (meals.mc)
+; gate on it. Int-hour target (a scalar - bypasses tar checks).
 (state breakfast-hour (tar ? @excl))
 (state lunch-hour (tar ? @excl))
 (state supper-hour (tar ? @excl))
 
-# The cook's personal grocery-run slot (2a staggering, household.mc
-# set_shop_schedule / plan_provisioning). Each cook picks a random
-# weekday (0-6, 0=Sunday) and start hour ONCE, so the town's grocer
-# trips spread across the week and day instead of every household
-# converging on the one shop the same day (the 256-contents stampede).
-# Int scalar targets, held on the cook's OWN self-object.
+; The cook's personal grocery-run slot (2a staggering, household.mc
+; set_shop_schedule / plan_provisioning). Each cook picks a random
+; weekday (0-6, 0=Sunday) and start hour ONCE, so the town's grocer
+; trips spread across the week and day instead of every household
+; converging on the one shop the same day (the 256-contents stampede).
+; Int scalar targets, held on the cook's OWN self-object.
 (state shop-weekday (tar ? @excl))
 (state shop-hour (tar ? @excl))
 
-# under-suspicion: the graded wariness an observer has accumulated
-# toward someone hiding something (see Docs/hsim/hsim_social.md).
-# Held in the OBSERVER's mind about the watched person:
-# {<wife> under-suspicion 0.6} = "in my eyes she is 0.6 suspect".
-# Accrues from unexplained absences, handled letters in an unknown
-# hand, and public indiscretions; past a threshold a hostile observer
-# ACTS (engineers an interception - the Alice Yapp pattern). Distinct
-# from the `suspect` trust-band verb-state (the stance projection):
-# this is an evidence-accumulator, not an affective stance. No decay
-# (a Victorian misgiving, once seeded, is nursed). One value at a
-# time per watched person.
+; under-suspicion: the graded wariness an observer has accumulated
+; toward someone hiding something (see Docs/hsim/hsim_social.md).
+; Held in the OBSERVER's mind about the watched person:
+; {<wife> under-suspicion 0.6} = "in my eyes she is 0.6 suspect".
+; Accrues from unexplained absences, handled letters in an unknown
+; hand, and public indiscretions; past a threshold a hostile observer
+; ACTS (engineers an interception - the Alice Yapp pattern). Distinct
+; from the `suspect` trust-band verb-state (the stance projection):
+; this is an evidence-accumulator, not an affective stance. No decay
+; (a Victorian misgiving, once seeded, is nursed). One value at a
+; time per watched person.
 (state under-suspicion (tar ? @excl))
 
-# (under_attack RETIRED: the victim's threat perception is no longer a minted
-# state - fight_defence reads the WITNESSED violent act directly, matched by the
-# (theme-labels violent-to) comptime expansion, and latches its counter-fight off it.)
+; (under_attack RETIRED: the victim's threat perception is no longer a minted
+; state - fight_defence reads the WITNESSED violent act directly, matched by the
+; (theme-labels violent-to) comptime expansion, and latches its counter-fight off it.)
 
-# Attitudes - persistent dispositions toward a person, object or
-# fact. These are the DRIVERS of emotion, not emotions themselves:
-# emotions are transient affective states, declared as the `emotion`
-# noun-taxonomy in concepts.mon. //appraisal_input marks the whole
-# block as context the appraisal categorizer consults. See
-# Docs/emotion/emotion_system.md.
-# ---- attitude ----
-# The affiliative / evaluative / epistemic attitudes (like, hate,
-# admires, respects, distrusts) are RETIRED - they are now the
-# continuous stance scalars projecting to infinitive verb-states
-# (like/admire/distrust/...) in the (stance) block above.
-# value: a held virtue - the identity / values appraisal input.
+; Attitudes - persistent dispositions toward a person, object or
+; fact. These are the DRIVERS of emotion, not emotions themselves:
+; emotions are transient affective states, declared as the `emotion`
+; noun-taxonomy in concepts.mon. //appraisal_input marks the whole
+; block as context the appraisal categorizer consults. See
+; Docs/emotion/emotion_system.md.
+; ---- attitude ----
+; The affiliative / evaluative / epistemic attitudes (like, hate,
+; admires, respects, distrusts) are RETIRED - they are now the
+; continuous stance scalars projecting to infinitive verb-states
+; (like/admire/distrust/...) in the (stance) block above.
+; value: a held virtue - the identity / values appraisal input.
 (state value (appraisal_input) (tar ?) (disclosure friend))
-# justify: a held cognitive narrative that frames a past or
-# planned act as acceptable.
-# Target is a `narrative` kind ({@self justify they-deserved-it
-# /aux <victim>}). Pre-perpetration deliberation events mint
-# justify on the chosen harmful branch as the actor commits;
-# post-perpetration the actor-POV reaction row mints it when
-# moral-violation pressure crosses threshold. Each held
-# justification discounts inhibition so
-# the second bar is lower than the first - the rationalization
-# feedback loop that turns a one-off crime into a habit.
-# Detective-gameplay payoff: a guilty NPC's justify beliefs are
-# queryable through normal interrogation.
+; justify: a held cognitive narrative that frames a past or
+; planned act as acceptable.
+; Target is a `narrative` kind ({@self justify they-deserved-it
+; /aux <victim>}). Pre-perpetration deliberation events mint
+; justify on the chosen harmful branch as the actor commits;
+; post-perpetration the actor-POV reaction row mints it when
+; moral-violation pressure crosses threshold. Each held
+; justification discounts inhibition so
+; the second bar is lower than the first - the rationalization
+; feedback loop that turns a one-off crime into a habit.
+; Detective-gameplay payoff: a guilty NPC's justify beliefs are
+; queryable through normal interrogation.
 (state justify (appraisal_input) (tar [k narrative] @object) (self-known))
-# infatuation RETIRED: directed
-# attraction is now the one-sided attraction stance scalar, projected
-# to fancy/desire/crave verb-state beliefs (the same regulator/
-# regulated split as warmth/esteem/trust). crush-forms reads the
-# attraction verb.
-# identity: the salient role(s) an NPC self-identifies as
-# (parent / spouse / worker / christian / ...). Each
-# identity is a held belief that biases categorize
-# thresholds, deliberate affinities, and the
-# justify-narrative pick. Non-@excl: an NPC may hold
-# multiple identities simultaneously; their composite is
-# the "I am X first" weighting. Derived from substrate
-# state in hsim_derive::classify_identities (kids -> parent,
-# job -> worker, ...); explicit identity-adoption events
-# may extend the set.
+; infatuation RETIRED: directed
+; attraction is now the one-sided attraction stance scalar, projected
+; to fancy/desire/crave verb-state beliefs (the same regulator/
+; regulated split as warmth/esteem/trust). crush-forms reads the
+; attraction verb.
+; identity: the salient role(s) an NPC self-identifies as
+; (parent / spouse / worker / christian / ...). Each
+; identity is a held belief that biases categorize
+; thresholds, deliberate affinities, and the
+; justify-narrative pick. Non-@excl: an NPC may hold
+; multiple identities simultaneously; their composite is
+; the "I am X first" weighting. Derived from substrate
+; state in hsim_derive::classify_identities (kids -> parent,
+; job -> worker, ...); explicit identity-adoption events
+; may extend the set.
 (state identity (appraisal_input) (tar [k role]))
 
-# Relational stance (see Docs/social/relational_stance.md) - the durable, signed,
-# per-target orientation toward another person: the slow leaky integral
-# of the directed emotions felt about that target (Class I) plus standing
-# contributions (Class II). FOUR orthogonal scalars; the structural tie
-# (bond) is the separate `relationship` block, NOT part of this vector.
-# The continuous magnitude lives in the _stance_by_object cache; the
-# belief stores only the crossed BAND in /aux (a *_band kind,
-# concepts.mon), re-minted on a band crossing like skilled-in. The
-# neutral middle has no belief. appraisal_input so a band change
-# recontextualizes the target's past acts. Non-@excl: one belief per
-# (label, target).
-# Relational stance - the
-# DISCRETE projection of the continuous warmth/esteem/trust/attraction
-# scalars. The regulator (the scalars) lives in the _stance_by_object
-# cache, NOT here; each scalar projects to one infinitive verb-state per
-# band as it crosses a threshold, and that verb belief - {@self like sue}
-# - is what rules / NLG / recall read. Target scope per axis: warmth ->
-# ANY object instance; esteem/trust -> agents (human|org); attraction ->
-# human. Per axis at most one verb is held toward a given target.
-# ---- stance ----
-# warmth axis (affiliative): strong / mild, each side
+; Relational stance (see Docs/social/relational_stance.md) - the durable, signed,
+; per-target orientation toward another person: the slow leaky integral
+; of the directed emotions felt about that target (Class I) plus standing
+; contributions (Class II). FOUR orthogonal scalars; the structural tie
+; (bond) is the separate `relationship` block, NOT part of this vector.
+; The continuous magnitude lives in the _stance_by_object cache; the
+; belief stores only the crossed BAND in /aux (a *_band kind,
+; concepts.mon), re-minted on a band crossing like skilled-in. The
+; neutral middle has no belief. appraisal_input so a band change
+; recontextualizes the target's past acts. Non-@excl: one belief per
+; (label, target).
+; Relational stance - the
+; DISCRETE projection of the continuous warmth/esteem/trust/attraction
+; scalars. The regulator (the scalars) lives in the _stance_by_object
+; cache, NOT here; each scalar projects to one infinitive verb-state per
+; band as it crosses a threshold, and that verb belief - {@self like sue}
+; - is what rules / NLG / recall read. Target scope per axis: warmth ->
+; ANY object instance; esteem/trust -> agents (human|org); attraction ->
+; human. Per axis at most one verb is held toward a given target.
+; ---- stance ----
+; warmth axis (affiliative): strong / mild, each side
 (state adore (appraisal_input) (tar [k object] @object))
 (state like (appraisal_input) (tar [k object] @object))
 (state dislike (appraisal_input) (tar [k object] @object) (self-known))
 (state detest (appraisal_input) (tar [k object] @object) (self-known))
-# esteem axis (look up / look down)
+; esteem axis (look up / look down)
 (state revere (appraisal_input) (tar [k human|org] @object))
 (state admire (appraisal_input) (tar [k human|org] @object))
 (state disdain (appraisal_input) (tar [k human|org] @object) (self-known))
 (state despise (appraisal_input) (tar [k human|org] @object) (self-known))
-# trust axis (will you keep faith)
+; trust axis (will you keep faith)
 (state rely (appraisal_input) (tar [k human|org] @object))
 (state trust (appraisal_input) (tar [k human|org] @object))
 (state distrust (appraisal_input) (tar [k human|org] @object))
-# attraction axis (one-sided pull)
+; attraction axis (one-sided pull)
 (state fancy (appraisal_input) (tar [k human] @object))
 (state desire (appraisal_input) (tar [k human] @object))
 (state crave (appraisal_input) (tar [k human] @object))
-# dread axis (one-sided fear OF a person - the long-tail of the fear
-# emotion: durable, slow-decay, so you remember whom you fear for a
-# lifetime. Verbs avoid the `fear` emotion-kind name (taxonomy clash).
+; dread axis (one-sided fear OF a person - the long-tail of the fear
+; emotion: durable, slow-decay, so you remember whom you fear for a
+; lifetime. Verbs avoid the `fear` emotion-kind name (taxonomy clash).
 (state wary (appraisal_input) (tar [k human] @object))
 (state dread (appraisal_input) (tar [k human] @object))
 (state terror (appraisal_input) (tar [k human] @object))
 
-# seem - the abduced-IMPRESSION relation (abduction v2): an
-# observer's perceived-character conclusion about another person,
-# minted by abduce_witnessed_episode when a witnessed episode's
-# emitting gate reads a trait attr mapped by an
-# (impression <attr> [k impression <leaf>] <w>) row in
-# definitions/signals.mc. The target is an impression KIND leaf
-# (concepts.mon). Non-@excl: a person can seem hot-tempered AND
-# cruel - each leaf is an independent conclusion.
+; seem - the abduced-IMPRESSION relation (abduction v2): an
+; observer's perceived-character conclusion about another person,
+; minted by abduce_witnessed_episode when a witnessed episode's
+; emitting gate reads a trait attr mapped by an
+; (impression <attr> [k impression <leaf>] <w>) row in
+; definitions/signals.mc. The target is an impression KIND leaf
+; (concepts.mon). Non-@excl: a person can seem hot-tempered AND
+; cruel - each leaf is an independent conclusion.
 (state seem (tar [k impression]))
 
-# Construals are tags, not beliefs. Each construal is one of
-# the construed-act sub-kinds in concepts.mon (wrong-act,
-# harm-act, betray-act, etc.) declared on a task / ACTION;
-# categorize() reads the tag set on the anchor's label and
-# dispatches one reaction row per tag per POV. No construal
-# beliefs are minted; the anchor itself is the /causes link.
+; Construals are tags, not beliefs. Each construal is one of
+; the construed-act sub-kinds in concepts.mon (wrong-act,
+; harm-act, betray-act, etc.) declared on a task / ACTION;
+; categorize() reads the tag set on the anchor's label and
+; dispatches one reaction row per tag per POV. No construal
+; beliefs are minted; the anchor itself is the /causes link.
 
-# Semantic summaries (see Docs/memory/memory_system.md).
-# Distilled gists minted by fuse_old_memories when N routine episodes
-# sharing the same (theme, subject, target) accumulate. The peak-
-# intensity episode is retained as exemplar (in /causes); the rest
-# are forgotten. Authored here as ordinary verb-states so they
-# render through the existing NLG / belief-recall paths. Each one
-# is named in a (theme ...) clause on the underlying episode
-# relations below. Appraisal_input - a held "X is rude to me"
-# influences future categorization of X's acts.
-# ---- semantic_summary ----
+; Semantic summaries (see Docs/memory/memory_system.md).
+; Distilled gists minted by fuse_old_memories when N routine episodes
+; sharing the same (theme, subject, target) accumulate. The peak-
+; intensity episode is retained as exemplar (in /causes); the rest
+; are forgotten. Authored here as ordinary verb-states so they
+; render through the existing NLG / belief-recall paths. Each one
+; is named in a (theme ...) clause on the underlying episode
+; relations below. Appraisal_input - a held "X is rude to me"
+; influences future categorization of X's acts.
+; ---- semantic_summary ----
 (state rude-to (appraisal_input) (tar [k human] @object))
 (state violent-to (appraisal_input) (tar [k human] @object))
 (state thief-to (appraisal_input) (tar [k human] @object))
 (state coercive-to (appraisal_input) (tar [k human] @object))
-# mention: the spoken-of-topic gist - the subject has SPOKEN OF the
-# target concept, a witnessed remark distilled to its topic (not an
-# enacted state). {<despairing> mention [k suicide]}
-# held in a confidant's mind is the suicidal-ideation testimony
-# minted when the suicide branch is deliberated (the
-# valet-testimony half of the Not-Proven engine). A real
-# confide/say replaces it when hsim deliberation composes
-# utterances.
+; mention: the spoken-of-topic gist - the subject has SPOKEN OF the
+; target concept, a witnessed remark distilled to its topic (not an
+; enacted state). {<despairing> mention [k suicide]}
+; held in a confidant's mind is the suicidal-ideation testimony
+; minted when the suicide branch is deliberated (the
+; valet-testimony half of the Not-Proven engine). A real
+; confide/say replaces it when hsim deliberation composes
+; utterances.
 (state mention (appraisal_input) (tar ?))
 
-# Social predicate states. The noun-form social roles (mother,
-# friend, spouse, ...) are declared at the end of this file.
-# ---- social ----
-# The three independent axes of "having a thing":
-# (a) Legal - own / lease / rent / borrow (verb-states below).
-# (b) Physical grip - the placement index's grip edge (the hand
-#     grips the item), read in .mc as (spatial ?hand grip) /
-#     (spatial ?item gripped-by) / the composed (spatial ?actor
-#     hold); the hand-holds-item reasoning is done in .mc, not C++.
-# (c) Access / welcome - physical reach and social permission are
-#     .mc reasoning too (co-presence, (public)-space checks, own /
-#     lease / rent / borrow), authored in the events that need them.
-#
-# own: legal ownership. Subject is the owner; target is the
-# owned thing (movable prop, building, space, OR an org - you can
-# legally own a business/household yet hold no job in it, a state
-# distinct from heading it ({@self job [k org-head]}) or being
-# employed by it ({@self job ?j} + {?j salary ?})). Authored by
-# `.mc` transactions (BuyBuilding, founding, inheritance) and by
-# reading documents (title-deed) whose writings encode the legal fact.
-# object subsumes structure (a building is-a object), so object|space|org
-# covers props, buildings, spaces AND orgs within the 3-kind field cap.
+; Social predicate states. The noun-form social roles (mother,
+; friend, spouse, ...) are declared at the end of this file.
+; ---- social ----
+; The three independent axes of "having a thing":
+; (a) Legal - own / lease / rent / borrow (verb-states below).
+; (b) Physical grip - the placement index's grip edge (the hand
+;     grips the item), read in .mc as (spatial ?hand grip) /
+;     (spatial ?item gripped-by) / the composed (spatial ?actor
+;     hold); the hand-holds-item reasoning is done in .mc, not C++.
+; (c) Access / welcome - physical reach and social permission are
+;     .mc reasoning too (co-presence, (public)-space checks, own /
+;     lease / rent / borrow), authored in the events that need them.
+;
+; own: legal ownership. Subject is the owner; target is the
+; owned thing (movable prop, building, space, OR an org - you can
+; legally own a business/household yet hold no job in it, a state
+; distinct from heading it ({@self job [k org-head]}) or being
+; employed by it ({@self job ?j} + {?j salary ?})). Authored by
+; `.mc` transactions (BuyBuilding, founding, inheritance) and by
+; reading documents (title-deed) whose writings encode the legal fact.
+; object subsumes structure (a building is-a object), so object|space|org
+; covers props, buildings, spaces AND orgs within the 3-kind field cap.
 (state own (tar [k object|space|org] @object))
-# hold: physical grip - what the actor currently has in
-# hand / on body / in carried containers. Dual purpose:
-# goal-target verb-state ({@self goal {@self hold ?t}}) AND
-# name of the composed placement view (spatial ?actor hold)
-# (struct-descent to the hands, then their grip edges). When
-# the predicate matches a standing goal, the engine ends the
-# satisfied belief.
+; hold: physical grip - what the actor currently has in
+; hand / on body / in carried containers. Dual purpose:
+; goal-target verb-state ({@self goal {@self hold ?t}}) AND
+; name of the composed placement view (spatial ?actor hold)
+; (struct-descent to the hands, then their grip edges). When
+; the predicate matches a standing goal, the engine ends the
+; satisfied belief.
 (state hold (tar [k object] @object))
-# lease: premises rental. Subject is the lessee, target is
-# the leased premises (building / space), aux is the lessor.
-# Interval-ends on lease expiry / termination.
+; lease: premises rental. Subject is the lessee, target is
+; the leased premises (building / space), aux is the lessor.
+; Interval-ends on lease expiry / termination.
 (state lease (tar [k structure|space] @object) (aux [k human|org] @object))
-# rent: movable-prop rental (carriage, horse, tools). Distinct
-# from lease by target kind (object vs space). Aux is the
-# lessor.
+; rent: movable-prop rental (carriage, horse, tools). Distinct
+; from lease by target kind (object vs space). Aux is the
+; lessor.
 (state rent (tar [k object] @object) (aux [k human|org] @object))
-# borrow: free loan, no payment. Interval-ends on return.
-# Aux is the lender.
+; borrow: free loan, no payment. Interval-ends on return.
+; Aux is the lender.
 (state borrow (tar [k object] @object) (aux [k human|org] @object))
-# sell: shopkeeper's memory of an over-the-counter purchase.
-# Subject is the seller (a clerk / shopkeeper, or in some
-# cases the shop org itself); target is the item (a specific
-# weapon entity or a leaf-kind reference); aux is the buyer.
-# Minted by hsim::acquire_weapon in purchase mode; the
-# belief decays under normal forgetting so "if recent" the
-# shopkeeper still remembers, but a years-stale sale fades.
+; sell: shopkeeper's memory of an over-the-counter purchase.
+; Subject is the seller (a clerk / shopkeeper, or in some
+; cases the shop org itself); target is the item (a specific
+; weapon entity or a leaf-kind reference); aux is the buyer.
+; Minted by hsim::acquire_weapon in purchase mode; the
+; belief decays under normal forgetting so "if recent" the
+; shopkeeper still remembers, but a years-stale sale fades.
 (state sell (tar [k object] @object) (aux [k human] @object))
-# owe: {debtor owe creditor <debt>} - debtor is the subject,
-# creditor the target. The auxiliary slot holds the debt - an
-# integer amount for a money debt, a debt mobject for a non-money
-# obligation. One owe belief per (debtor, creditor) pair; the
-# amount is updated in place.
+; owe: {debtor owe creditor <debt>} - debtor is the subject,
+; creditor the target. The auxiliary slot holds the debt - an
+; integer amount for a money debt, a debt mobject for a non-money
+; obligation. One owe belief per (debtor, creditor) pair; the
+; amount is updated in place.
 (state owe (tar [k human|org] @object))
-# inherit: {heir inherit <thing> <benefactor>} - the HAVE-state of a
-# bequest, one relation per inherited object (partial / split
-# inheritances are expressible per thing). Tense lives in the
-# interval: today only the REALISED form exists (minted by the
-# death-trigger estate settlement, inherit-estate). The prospect
-# ("I will inherit") is ruled to be the SAME relation under a
-# future tense (/futr), replacing the retired heir_of - blocked on
-# engine future-interval support; wills and disinherit re-wire to
-# it when that lands.
+; inherit: {heir inherit <thing> <benefactor>} - the HAVE-state of a
+; bequest, one relation per inherited object (partial / split
+; inheritances are expressible per thing). Tense lives in the
+; interval: today only the REALISED form exists (minted by the
+; death-trigger estate settlement, inherit-estate). The prospect
+; ("I will inherit") is ruled to be the SAME relation under a
+; future tense (/futr), replacing the retired heir_of - blocked on
+; engine future-interval support; wills and disinherit re-wire to
+; it when that lands.
 (state inherit (tar ?) (aux [k human] @object))
-# member-of: club / society membership - distinct from employment
-# (`employer`). Non-exclusive: an NPC may join several.
+; member-of: club / society membership - distinct from employment
+; (`employer`). Non-exclusive: an NPC may join several.
 (state member-of (tar [k org] @object) (self-known))
-# participant: the roster of a game OBJECT - {<game> participant
-# <person>}. Subject is the game (overriding the block's human
-# default), target a co-player. The inverse, player-side belief is
-# {@self play <game>} (tasks.mon); the two are wired symmetrically
-# per-mind, like family membership.
+; participant: the roster of a game OBJECT - {<game> participant
+; <person>}. Subject is the game (overriding the block's human
+; default), target a co-player. The inverse, player-side belief is
+; {@self play <game>} (tasks.mon); the two are wired symmetrically
+; per-mind, like family membership.
 (state participant (tar [k human] @object))
-# dwell / work are activity TASKS, not states - they live in
-# tasks.mon ({@self dwell <home>} / {@self work <org>}).
-# backed-by: an investor who has put up founding capital for this
-# NPC's venture (the investment event). Subject is the backed
-# party, target the investor - a patron (human) or an investment
-# firm (org): invest_errand seals an org target, patronage a
-# human one. Non-exclusive - a venture may have several backers.
-# A non-passive rename is an open ruling.
+; dwell / work are activity TASKS, not states - they live in
+; tasks.mon ({@self dwell <home>} / {@self work <org>}).
+; backed-by: an investor who has put up founding capital for this
+; NPC's venture (the investment event). Subject is the backed
+; party, target the investor - a patron (human) or an investment
+; firm (org): invest_errand seals an org target, patronage a
+; human one. Non-exclusive - a venture may have several backers.
+; A non-passive rename is an open ruling.
 (state backed-by (tar [k human|org] @object) (disclosure acquaintance))
-# captor-of: {captor captor-of victim} - kidnap-in-progress
-# relationship. Ended by release / escape / mortality.
+; captor-of: {captor captor-of victim} - kidnap-in-progress
+; relationship. Ended by release / escape / mortality.
 (state captor-of (tar [k human] @object))
-# circumstance-of-death: {victim circumstance-of-death
-# <incident>} - the cause-of-death narrative witnesses
-# form when perceiving a death scene. F2 gossip carries it
-# village-wide so the staged story crystallizes. @excl -
-# one held narrative per observer per victim.
+; circumstance-of-death: {victim circumstance-of-death
+; <incident>} - the cause-of-death narrative witnesses
+; form when perceiving a death scene. F2 gossip carries it
+; village-wide so the staged story crystallizes. @excl -
+; one held narrative per observer per victim.
 (state circumstance-of-death (tar [k incident] @excl @object))
-# suspect: {victim suspect culprit /aux <act-clause>} - whom
-# the holder believes wronged them, the aux quoting the act
-# suspected of. Minted when filing a crime report whose
-# grievance names its actor; the crime_report letter carries
-# the same sentence for the player. Non-exclusive - several
-# suspicions may stand at once.
+; suspect: {victim suspect culprit /aux <act-clause>} - whom
+; the holder believes wronged them, the aux quoting the act
+; suspected of. Minted when filing a crime report whose
+; grievance names its actor; the crime_report letter carries
+; the same sentence for the player. Non-exclusive - several
+; suspicions may stand at once.
 (state suspect (tar [k human] @object) (aux ?))
 
-# Occasions (the occasion/ceremony model). Two roles share this block:
-#  (a) the DECORATIONS on an occasion Mental Object (concepts.mon
-#      `occasion`) - subject overridden to `occasion`. {<occ> host
-#      <human>} + {<occ> date <date>} are the CONSTITUTIVE identity pair
-#      (recall-or-mint keys on them, so two occasions sharing a host OR a
-#      venue stay distinct); {<occ> venue <building>} + {<occ> hours
-#      <start> /aux <end>} describe it. No env occasion entity exists; the
-#      shared host + venue + date anchors are what make every attendee's
-#      local occasion object refer to the same gathering.
-#  (b) the per-holder APPOINTMENT beliefs (human subject) the window-start
-#      review scans: {@self organize <occ>} = I am throwing it (host);
-#      {<host> invite @self /aux <occ>} = I was invited (guest) - ONE
-#      host-subject relation, two holders. Their intervals close when
-#      the date passes (the expiry sweep) or when something blocks
-#      attendance.
-# ---- occasion_agenda ----
+; Occasions (the occasion/ceremony model). Two roles share this block:
+;  (a) the DECORATIONS on an occasion Mental Object (concepts.mon
+;      `occasion`) - subject overridden to `occasion`. {<occ> host
+;      <human>} + {<occ> date <date>} are the CONSTITUTIVE identity pair
+;      (recall-or-mint keys on them, so two occasions sharing a host OR a
+;      venue stay distinct); {<occ> venue <building>} + {<occ> hours
+;      <start> /aux <end>} describe it. No env occasion entity exists; the
+;      shared host + venue + date anchors are what make every attendee's
+;      local occasion object refer to the same gathering.
+;  (b) the per-holder APPOINTMENT beliefs (human subject) the window-start
+;      review scans: {@self organize <occ>} = I am throwing it (host);
+;      {<host> invite @self /aux <occ>} = I was invited (guest) - ONE
+;      host-subject relation, two holders. Their intervals close when
+;      the date passes (the expiry sweep) or when something blocks
+;      attendance.
+; ---- occasion_agenda ----
 (state host (tar [k human] @object))
 (state venue (tar [k building|space] @object))
-# `held-on` (the occasion's date), NOT the core temporal `date` relation
-# (year/month/day/hour/date/...): reusing `date` would impose this
-# (sub occasion) constraint on every time object's own `date` belief.
+; `held-on` (the occasion's date), NOT the core temporal `date` relation
+; (year/month/day/hour/date/...): reusing `date` would impose this
+; (sub occasion) constraint on every time object's own `date` belief.
 (state held-on (tar ?))
 (state hours (tar ?) (aux ?))
 (state organize (tar [k occasion] @object))
-# invite: {<host> invite <guest> /aux <occ>}. The host records it as
-# he posts the letters (attend_host_review / the no-show walk read
-# his own rows); the guest is TOLD the same host-subject belief at
-# delivery and reads his appointments as {?host invite @self /aux
-# ?occ} (review_appointments).
+; invite: {<host> invite <guest> /aux <occ>}. The host records it as
+; he posts the letters (attend_host_review / the no-show walk read
+; his own rows); the guest is TOLD the same host-subject belief at
+; delivery and reads his appointments as {?host invite @self /aux
+; ?occ} (review_appointments).
 (state invite (tar [k human] @object) (aux [k occasion] @object))
-# Sporting-event goal-drivers (sporting_event / sporting-judge chains).
-# hold-meet: the club officer's standing goal to run a meet (tar = the
-# club's articles). judge-meet: the judge's standing goal to officiate.
+; Sporting-event goal-drivers (sporting_event / sporting-judge chains).
+; hold-meet: the club officer's standing goal to run a meet (tar = the
+; club's articles). judge-meet: the judge's standing goal to officiate.
 (state hold-meet (tar ?))
 (state judge-meet)
 
-# Competence - the domains an NPC is practically skilled in. Targets a
-# `domain` kind (concepts.mon): the academic-field disciplines (classics,
-# medicine, accountancy), the martial / illicit competences
-# (marksmanship, forgery), the performance-art / athletics skills, etc.
-# The earned-competence band of the unified domain axis (interest ->
-# skilled-in -> calling). The /aux holds a `competence-level`
-# (novice / trained / expert); absent /aux is treated as novice.
-# Non-exclusive: an NPC may be skilled in several domains; each is its
-# own belief.
-# ---- competence ----
+; Competence - the domains an NPC is practically skilled in. Targets a
+; `domain` kind (concepts.mon): the academic-field disciplines (classics,
+; medicine, accountancy), the martial / illicit competences
+; (marksmanship, forgery), the performance-art / athletics skills, etc.
+; The earned-competence band of the unified domain axis (interest ->
+; skilled-in -> calling). The /aux holds a `competence-level`
+; (novice / trained / expert); absent /aux is treated as novice.
+; Non-exclusive: an NPC may be skilled in several domains; each is its
+; own belief.
+; ---- competence ----
 (state skilled-in (tar [k domain]) (aux ?) (self-known))
-# skill-level: per-ACT competence, emitted by the action pipeline as an
-# act decorated (track-skill-level) is performed - skill accrues on
-# completion, decays over time, and thresholds into a rung
-# (skill_level_pipeline_plan.md). Target is the act performed; /aux is
-# the earned skill_rung. Exclusive per act (a new rung supersedes the
-# prior), handled by the pipeline's band-emit. The general successor to
-# skilled-in: competence keyed by the acts you perform, not a domain.
+; skill-level: per-ACT competence, emitted by the action pipeline as an
+; act decorated (track-skill-level) is performed - skill accrues on
+; completion, decays over time, and thresholds into a rung
+; (skill_level_pipeline_plan.md). Target is the act performed; /aux is
+; the earned skill_rung. Exclusive per act (a new rung supersedes the
+; prior), handled by the pipeline's band-emit. The general successor to
+; skilled-in: competence keyed by the acts you perform, not a domain.
 (state skill-level (tar ?) (aux [k skill-level]) (self-known))
-# school-grades: the credential earned on graduating a school - target
-# is the school/curriculum, /aux the letter grade (A..F). Minted by the
-# graduate act; the successor to skilled-in [k <school>_curriculum],
-# which conflated a grade with competence.
+; school-grades: the credential earned on graduating a school - target
+; is the school/curriculum, /aux the letter grade (A..F). Minted by the
+; graduate act; the successor to skilled-in [k <school>_curriculum],
+; which conflated a grade with competence.
 (state school-grades (tar ?) (aux [k school-grade]))
-# serve: military / naval service, a seeded biographical
-# self-belief ({@self serve <rank>}). Tense lives in the
-# interval (the interval-tense doctrine): ONGOING = still
-# serving, ENDED = discharged veteran. The rank is the target
-# (a military-rank kind, concepts.mon). Seeded by
-# seed_military_service (alongside the martial skill the
-# service conferred); the NPC KNOWS it, so the interrogation /
-# background-query path can answer "were you in the army?"
-# with the rank. Drives the contract-killing pool (a
-# discharged or serving soldier with the bad-seed or
-# desperation gate is for-hire) and the soldier identity.
+; serve: military / naval service, a seeded biographical
+; self-belief ({@self serve <rank>}). Tense lives in the
+; interval (the interval-tense doctrine): ONGOING = still
+; serving, ENDED = discharged veteran. The rank is the target
+; (a military-rank kind, concepts.mon). Seeded by
+; seed_military_service (alongside the martial skill the
+; service conferred); the NPC KNOWS it, so the interrogation /
+; background-query path can answer "were you in the army?"
+; with the rank. Drives the contract-killing pool (a
+; discharged or serving soldier with the bad-seed or
+; desperation gate is for-hire) and the soldier identity.
 (state serve (tar [k military-rank]))
 
-# Non-kin social bonds (relocated from the concept tree - they are
-# relations, not nouns, and nothing queried their old is-a
-# `relationship` position). close-to is the confidant tie the
-# disclosure bands / voice disposition read; relied-on-by /
-# respected-by are dormant utility bonds (matchable vocabulary, no
-# current producer); renaming the passive forms is an open ruling.
-# ---- bond ----
+; Non-kin social bonds (relocated from the concept tree - they are
+; relations, not nouns, and nothing queried their old is-a
+; `relationship` position). close-to is the confidant tie the
+; disclosure bands / voice disposition read; relied-on-by /
+; respected-by are dormant utility bonds (matchable vocabulary, no
+; current producer); renaming the passive forms is an open ruling.
+; ---- bond ----
 (state close-to (tar [k human] @object) (disclosure close_friend) (closeness close_friend) (describe-in bonds))
 (state relied-on-by (tar [k human] @object))
 (state respected-by (tar [k human] @object))
 
-# Vocational / educational states (relocated from the concept tree -
-# relations, not nouns).
-# ---- vocational ----
+; Vocational / educational states (relocated from the concept tree -
+; relations, not nouns).
+; ---- vocational ----
 (state retire (tar ? @excl))
-# carrying-loot: the thief's transient "I hold stolen ?item, to stow it"
-# self-state. Minted by the theft act (steal), read by want-stow which OWNS
-# the {@self stow ?item} goal, ended by stow_act when the loot is put away.
-# DEFINED so it PERSISTS the carry-home journey (an undefined /obs label is
-# disproved by self-perception every cycle).
+; carrying-loot: the thief's transient "I hold stolen ?item, to stow it"
+; self-state. Minted by the theft act (steal), read by want-stow which OWNS
+; the {@self stow ?item} goal, ended by stow_act when the loot is put away.
+; DEFINED so it PERSISTS the carry-home journey (an undefined /obs label is
+; disproved by self-perception every cycle).
 (state carrying-loot (tar ?))
-# stow: the goal to put loot away (want-stow OWNS {@self stow ?item
-# ?place}, stow_act ends it). tar = the loot item, aux = the cache.
+; stow: the goal to put loot away (want-stow OWNS {@self stow ?item
+; ?place}, stow_act ends it). tar = the loot item, aux = the cache.
 (state stow (tar ?) (aux ?))
-# staff-household: the standing goal a household head holds to fill
-# its servant posts (staff_household_think mints {@self staff-household}).
+; staff-household: the standing goal a household head holds to fill
+; its servant posts (staff_household_think mints {@self staff-household}).
 (state staff-household)
-# since: the year the job was taken up, held on the job object ({?j since <year>}).
-# Drives tenure for the duty-assignment seniority comparison. Stamped at hire.
+; since: the year the job was taken up, held on the job object ({?j since <year>}).
+; Drives tenure for the duty-assignment seniority comparison. Stamped at hire.
 (state since (tar ? @excl))
-# THE ESTABLISHMENT. A JOB is a thing in its own right, distinct from
-# whoever happens to hold it, and its identity is (org, job-id): the org's
-# own reference for the seat. An IDENTIFIER, not a position - the register
-# keys its rows by it, so a row that moves is still the same job, and the
-# notice quotes it so a reader can key the seat the same way the officer
-# does. That is what lets ONE object serve every mind that speaks of it -
-# the officer reading his ledger, the man who holds it, a colleague reading
-# the roster. The object persists as the worker cell is filled and emptied.
-# THE occupancy fact is {?worker job ?job} (Concepts: job) - the one belief for
-# "this man holds this seat", whoever holds it; a seat with no such belief is
-# vacant. There is no second fact held on the job.
-# offered-to - the post has been OFFERED to this man and he has not yet taken it
-# up. A state of the JOB: the officer pencils it against
-# the ledger line, and the man learns it by reading the offer letter, so both ends
-# hold the same fact about the same seat. It is what an acceptance SPENDS - the
-# act that fills the seat ends the offer - and what a lapse clears when nobody
-# comes. Not a memory of having offered: that would be an act worn as a state.
+; THE ESTABLISHMENT. A JOB is a thing in its own right, distinct from
+; whoever happens to hold it, and its identity is (org, job-id): the org's
+; own reference for the seat. An IDENTIFIER, not a position - the register
+; keys its rows by it, so a row that moves is still the same job, and the
+; notice quotes it so a reader can key the seat the same way the officer
+; does. That is what lets ONE object serve every mind that speaks of it -
+; the officer reading his ledger, the man who holds it, a colleague reading
+; the roster. The object persists as the worker cell is filled and emptied.
+; THE occupancy fact is {?worker job ?job} (Concepts: job) - the one belief for
+; "this man holds this seat", whoever holds it; a seat with no such belief is
+; vacant. There is no second fact held on the job.
+; offered-to - the post has been OFFERED to this man and he has not yet taken it
+; up. A state of the JOB: the officer pencils it against
+; the ledger line, and the man learns it by reading the offer letter, so both ends
+; hold the same fact about the same seat. It is what an acceptance SPENDS - the
+; act that fills the seat ends the offer - and what a lapse clears when nobody
+; comes. Not a memory of having offered: that would be an act worn as a state.
 (state offered-to (tar [k human] @excl @object))
 (state job-id (tar ? @excl))
-# DUTIES (capability-based org dispatch). A duty is an obligation TO a party of a
-# given kind; its aux is the TASK the holder is obliged to perform (the duty tasks
-# live in tasks.mon like every task). duty-to is the FULFILLMENT belief (behaviour
-# role-casts on it and fire-binds the party): (role @self (believes {@self duty-to
-# ?org [k <duty-task>]})). duty-holder is the org-side MIRROR (the assigner's
-# ledger-derived knowledge of who holds each duty). Both non-exclusive. Assignment
-# (which job-holder gets which duty) is authored in .mc over the org's
-# employee-register document + its `duties` list; behaviour NEVER dispatches on job
-# kind or rank - only on the held duty.
+; DUTIES (capability-based org dispatch). A duty is an obligation TO a party of a
+; given kind; its aux is the TASK the holder is obliged to perform (the duty tasks
+; live in tasks.mon like every task). duty-to is the FULFILLMENT belief (behaviour
+; role-casts on it and fire-binds the party): (role @self (believes {@self duty-to
+; ?org [k <duty-task>]})). duty-holder is the org-side MIRROR (the assigner's
+; ledger-derived knowledge of who holds each duty). Both non-exclusive. Assignment
+; (which job-holder gets which duty) is authored in .mc over the org's
+; employee-register document + its `duties` list; behaviour NEVER dispatches on job
+; kind or rank - only on the held duty.
 (state duty-to (tar [k human|org] @object) (aux [k task]))
 (state duty-holder (tar [k human] @object) (aux [k task]))
-# Education life-cycle. study names the field a pupil reads and the
-# school they read it at ({@self study <field> /aux <school>});
-# schooling is the schooling-level outcome left behind when the
-# pupil leaves. A graduate's credential is the `diploma` document
-# noun (Objects.mon) - already a state, so no diploma relation is
-# declared here. `study` shares its NAME with the `study` room
-# kind (Spaces.mon); kind references disambiguate with the full
-# path (the hiding-spot precedent, concepts.mon).
+; Education life-cycle. study names the field a pupil reads and the
+; school they read it at ({@self study <field> /aux <school>});
+; schooling is the schooling-level outcome left behind when the
+; pupil leaves. A graduate's credential is the `diploma` document
+; noun (Objects.mon) - already a state, so no diploma relation is
+; declared here. `study` shares its NAME with the `study` room
+; kind (Spaces.mon); kind references disambiguate with the full
+; path (the hiding-spot precedent, concepts.mon).
 (state study (tar @excl [k academic-field]) (aux [k org] @object))
 (state schooling (tar ? @excl))
 
-# Achievements - sporting / competitive participation and victories.
-# Targets stay unconstrained until the Phase 6 sports events pin the
-# event / trophy kinds. Non-exclusive: a life accumulates many.
-# ---- achievement ----
-# win: an achievement you HAVE (conferred by the judge's
-# declaration, not performed) - hence a state, not an act; the
-# past victory reads through the interval tense.
+; Achievements - sporting / competitive participation and victories.
+; Targets stay unconstrained until the Phase 6 sports events pin the
+; event / trophy kinds. Non-exclusive: a life accumulates many.
+; ---- achievement ----
+; win: an achievement you HAVE (conferred by the judge's
+; declaration, not performed) - hence a state, not an act; the
+; past victory reads through the interval tense.
 (state win (tar ?))
-# Club-meet mechanics (sporting_event / hold-meet POV chain). The
-# competitor's participation memory is his own ended race_run
-# act-belief; the organiser's meet record is his ended
-# hold_meet_run act-belief; the call to compete is the told
-# organiser-subject `summon` act (tasks.mon) - none needs a state
-# here. race-result: a competitor's self-simulated performance
-# (tar = a 0..1 score; aux = the sport it was scored in), minted into
-# the co-present organiser, who argmaxes the winner from the ones he
-# holds.
+; Club-meet mechanics (sporting_event / hold-meet POV chain). The
+; competitor's participation memory is his own ended race_run
+; act-belief; the organiser's meet record is his ended
+; hold_meet_run act-belief; the call to compete is the told
+; organiser-subject `summon` act (tasks.mon) - none needs a state
+; here. race-result: a competitor's self-simulated performance
+; (tar = a 0..1 score; aux = the sport it was scored in), minted into
+; the co-present organiser, who argmaxes the winner from the ones he
+; holds.
 (state race-result (tar ?) (aux ?))
 
-# Zero-sum outcome records. NOT tasks - act-RECORDS minted by
-# classifiers from base substrate facts (`{actor hired_at ?org}`,
-# `{actor spouse ?partner}`, `{actor own ?lot_won_at_auction}`)
-# when the substrate shows a competing patient. The tag drives
-# the patient's rivalry-pressure via the reaction cascade.
-# ---- rivalrous_outcome ----
-# outdo: actor positionally outcompetes patient (won a post
-# the patient applied for; outbid them at auction; married
-# the partner they courted).
+; Zero-sum outcome records. NOT tasks - act-RECORDS minted by
+; classifiers from base substrate facts (`{actor hired_at ?org}`,
+; `{actor spouse ?partner}`, `{actor own ?lot_won_at_auction}`)
+; when the substrate shows a competing patient. The tag drives
+; the patient's rivalry-pressure via the reaction cascade.
+; ---- rivalrous_outcome ----
+; outdo: actor positionally outcompetes patient (won a post
+; the patient applied for; outbid them at auction; married
+; the partner they courted).
 (state outdo (appraisal_input) (tar [k human] @object) (aux ?) (construed-act rivalrous-act) (abduct))
-# public-humiliation: the class-tagged status-injury fact a humiliate
-# act SAYs aloud ({@self public-humiliation ?victim}); the victim
-# perceives + construes it (degrade-act cascade). INTERIM content - the
-# construed-act / barb-content wiring is the deferred follow-up.
+; public-humiliation: the class-tagged status-injury fact a humiliate
+; act SAYs aloud ({@self public-humiliation ?victim}); the victim
+; perceives + construes it (degrade-act cascade). INTERIM content - the
+; construed-act / barb-content wiring is the deferred follow-up.
 (state public-humiliation (appraisal_input) (tar [k human] @object))
-# confront-publicly: the status-injury fact an expose act broadcasts
-# ({@self confront-publicly ?victim}); the expose-chain crime row + the
-# gossip news ground-alt read it. Sibling of public-humiliation.
+; confront-publicly: the status-injury fact an expose act broadcasts
+; ({@self confront-publicly ?victim}); the expose-chain crime row + the
+; gossip news ground-alt read it. Sibling of public-humiliation.
 (state confront-publicly (appraisal_input) (tar [k human] @object))
 
-# Loss-outcome records. NOT tasks - act-RECORDS minted by the
-# absence-discovery classifier (the hse arrival sweep) when an
-# owner finds a possession GONE from their own home: subject is
-# the missing PROP, target the wronged discoverer. The thief's
-# identity is deliberately absent - the owner knows the thing was
-# taken, never (yet) by whom; knowing would be telepathy. The
-# suffer-loss-act reaction is therefore focusless (anger/distress
-# at no one, resource-scarcity pressure) - see ms1/reactions.ms1.
-# ---- loss_outcome ----
-# stolen-from: the discoverer's "someone took my X" memory,
-# dated at DISCOVERY (the sweep that found it gone), not at
-# the unknown taking time. reportable_crime: a discovered
-# theft is what a victim takes to the police station.
+; Loss-outcome records. NOT tasks - act-RECORDS minted by the
+; absence-discovery classifier (the hse arrival sweep) when an
+; owner finds a possession GONE from their own home: subject is
+; the missing PROP, target the wronged discoverer. The thief's
+; identity is deliberately absent - the owner knows the thing was
+; taken, never (yet) by whom; knowing would be telepathy. The
+; suffer-loss-act reaction is therefore focusless (anger/distress
+; at no one, resource-scarcity pressure) - see ms1/reactions.ms1.
+; ---- loss_outcome ----
+; stolen-from: the discoverer's "someone took my X" memory,
+; dated at DISCOVERY (the sweep that found it gone), not at
+; the unknown taking time. reportable_crime: a discovered
+; theft is what a victim takes to the police station.
 (state stolen-from (appraisal_input) (tar [k human] @object) (construed-act suffer-loss-act) (facets reportable_crime))
 
-# Acquired interior drives (F4.3). A drive is neither an emotion nor a
-# heritable temperament - it is deposited by a life of events and then
-# shapes which events cast the NPC.
-#   interest - the casual-pull band of the unified `domain` axis
-#     (interest -> skilled-in -> calling): an NPC is drawn to a domain
-#     without (yet) practising it. {@self interest <domain>}. Seeded
-#     hereditary in mx_make_human + grown by the substrate-rooted S3
-#     acquisition events (parental_seeding / peer_propagation /
-#     mentor_inspired / temperament_drift) and shed by interest-lapses
-#     (an unskilled interest only). Non-exclusive. (Was a noun-kind doubling as a label
-#     before the PR-skill-life domain collapse; now an explicit
-#     verb-state so the label keeps validating its domain targets.)
-#   calling - the life-organising band: a drive toward a `domain`, seeded
-#     once in childhood for a minority of NPCs and never shed by
-#     interest-lapses. @excl - one overriding calling ({@self calling
-#     music} / {@self calling engineering}). Drives event-casting and
-#     feeds the `purpose` felt-life dimension.
-#   craving - an acquired compulsive drive (addiction to drink); durable
-#     - reform resists it, never erases it - and non-exclusive (an NPC
-#     may crave more than one thing). The target is the craved substance
-#     kind: {@self craving alcohol}.
-# ---- drive ----
+; Acquired interior drives (F4.3). A drive is neither an emotion nor a
+; heritable temperament - it is deposited by a life of events and then
+; shapes which events cast the NPC.
+;   interest - the casual-pull band of the unified `domain` axis
+;     (interest -> skilled-in -> calling): an NPC is drawn to a domain
+;     without (yet) practising it. {@self interest <domain>}. Seeded
+;     hereditary in mx_make_human + grown by the substrate-rooted S3
+;     acquisition events (parental_seeding / peer_propagation /
+;     mentor_inspired / temperament_drift) and shed by interest-lapses
+;     (an unskilled interest only). Non-exclusive. (Was a noun-kind doubling as a label
+;     before the PR-skill-life domain collapse; now an explicit
+;     verb-state so the label keeps validating its domain targets.)
+;   calling - the life-organising band: a drive toward a `domain`, seeded
+;     once in childhood for a minority of NPCs and never shed by
+;     interest-lapses. @excl - one overriding calling ({@self calling
+;     music} / {@self calling engineering}). Drives event-casting and
+;     feeds the `purpose` felt-life dimension.
+;   craving - an acquired compulsive drive (addiction to drink); durable
+;     - reform resists it, never erases it - and non-exclusive (an NPC
+;     may crave more than one thing). The target is the craved substance
+;     kind: {@self craving alcohol}.
+; ---- drive ----
 (state interest (tar [k domain]) (disclosure acquaintance) (talkable))
 (state calling (tar [k domain] @excl) (disclosure friend))
 (state craving (tar ?) (self-known))
-# forage: the transient food-acquisition goal (meals_think mints
-# {@self forage}, the food-source desires drive it). A goal-driver
-# label, not a disposition; defined so the goal clause is a valid term.
+; forage: the transient food-acquisition goal (meals_think mints
+; {@self forage}, the food-source desires drive it). A goal-driver
+; label, not a disposition; defined so the goal clause is a valid term.
 (state forage)
-# life-aim - the existential-frame drive: what the NPC
-# wants their LIFE to amount to. Target is a life-aim kind
-# (legacy-aim / wealth-aim / piety-aim / respectability-aim
-# / autonomy-aim / power-aim / belonging-aim). Distinct
-# from calling (DOMAIN: music / engineering / soldiering)
-# and from craving (substance-targeted compulsion). DERIVED
-# by hsim_derive::classify-life-aim annually from substrate
-# (Big Five + Dark Tetrad + class trajectory + bond counts
-# + worship); never minted by events. Feeds the
-# LIFE_AIM_ALIGN factor in the unified weight formula used
-# by deliberation / perpetration / incident outcome
-# selectors. NOT @excl - the classifier explicitly ends the
-# prior dominant belief with k_unforgettable salience on a
-# qualitative shift, so multi-decade life-aim history is
-# queryable as repeated {@self life-aim ?} beliefs with
-# non-overlapping intervals. See PR-aim-history.
+; life-aim - the existential-frame drive: what the NPC
+; wants their LIFE to amount to. Target is a life-aim kind
+; (legacy-aim / wealth-aim / piety-aim / respectability-aim
+; / autonomy-aim / power-aim / belonging-aim). Distinct
+; from calling (DOMAIN: music / engineering / soldiering)
+; and from craving (substance-targeted compulsion). DERIVED
+; by hsim_derive::classify-life-aim annually from substrate
+; (Big Five + Dark Tetrad + class trajectory + bond counts
+; + worship); never minted by events. Feeds the
+; LIFE_AIM_ALIGN factor in the unified weight formula used
+; by deliberation / perpetration / incident outcome
+; selectors. NOT @excl - the classifier explicitly ends the
+; prior dominant belief with k_unforgettable salience on a
+; qualitative shift, so multi-decade life-aim history is
+; queryable as repeated {@self life-aim ?} beliefs with
+; non-overlapping intervals. See PR-aim-history.
 (state life-aim (tar [k life-aim]) (disclosure friend))
 
-# Derived dimensions (F3.2) - each a single numeric quality, computed
-# and cached by an F3.5 classifier, never authored by hand (the same
-# status as the derived {?thing age ?age}). @excl - one ongoing value
-# per subject; the value is a number, so /tar stays unconstrained.
-# ---- dimension ----
-# Conduct - all 0..100 by hsim_derive convention; the (range LO
-# HI) on each line is the canonical source for hse_engine's
-# (chance ...) static-bound analyser (no parallel hardcoded
-# table in C++ - data-driven from the .mon files).
+; Derived dimensions (F3.2) - each a single numeric quality, computed
+; and cached by an F3.5 classifier, never authored by hand (the same
+; status as the derived {?thing age ?age}). @excl - one ongoing value
+; per subject; the value is a number, so /tar stays unconstrained.
+; ---- dimension ----
+; Conduct - all 0..100 by hsim_derive convention; the (range LO
+; HI) on each line is the canonical source for hse_engine's
+; (chance ...) static-bound analyser (no parallel hardcoded
+; table in C++ - data-driven from the .mon files).
 (state honesty (tar ? @excl) (range 0 1))
 (state sobriety (tar ? @excl) (range 0 1))
 (state piety (tar ? @excl) (range 0 1))
-# devoutness - the piety SIGNAL banded to a piety-band KIND
-# (devout/observant/secular) by the derived-signals engine
-# (definitions/signals.mc). The band is the discrete, queryable
-# belief; the continuous magnitude lives OFF the belief timeline
-# in the per-mind signal table.
+; devoutness - the piety SIGNAL banded to a piety-band KIND
+; (devout/observant/secular) by the derived-signals engine
+; (definitions/signals.mc). The band is the discrete, queryable
+; belief; the continuous magnitude lives OFF the belief timeline
+; in the per-mind signal table.
 (state devoutness (tar [k piety-band] @excl))
 (state diligence (tar ? @excl) (range 0 1))
-# chastity - the self-derived TRUE chastity float (@self-only,
-# secret-inclusive). Others judge a person's chastity PER-OBSERVER, on
-# demand from the liaisons they themselves know of ((count-beliefs-about
-# ?other lover)); there is no omniscient public chastity band.
+; chastity - the self-derived TRUE chastity float (@self-only,
+; secret-inclusive). Others judge a person's chastity PER-OBSERVER, on
+; demand from the liaisons they themselves know of ((count-beliefs-about
+; ?other lover)); there is no omniscient public chastity band.
 (state chastity (tar ? @excl) (range 0 1))
 (state decorum (tar ? @excl) (range 0 1))
 (state generosity (tar ? @excl) (range 0 1))
-# work-standing - a BOSS's subjective assessment of an EMPLOYEE's job
-# performance (Section 4.11 career model; NOT self-derived). Held in
-# the boss's mind as {<employee> work-standing <0..1>}, nudged by the
-# employee's workday conduct + any workplace incident; promotion /
-# firing read it. The boss is the org head (or, in a household, the
-# steward over the staff, the head over the steward).
+; work-standing - a BOSS's subjective assessment of an EMPLOYEE's job
+; performance (Section 4.11 career model; NOT self-derived). Held in
+; the boss's mind as {<employee> work-standing <0..1>}, nudged by the
+; employee's workday conduct + any workplace incident; promotion /
+; firing read it. The boss is the org head (or, in a household, the
+; steward over the staff, the head over the steward).
 (state work-standing (tar ? @excl) (range 0 1))
-# Conduct-risk
+; Conduct-risk
 (state aggression (tar ? @excl) (range 0 1))
 (state criminality (tar ? @excl) (range 0 1))
-# disinhibition: the externalizing temperament - low industriousness
-# + low politeness + high volatility. The temperamental root of
-# impulsive / antisocial conduct; the drinking events read the
-# aspects directly, this caches the fused score for the F3 cascade
-# and the interview.
+; disinhibition: the externalizing temperament - low industriousness
+; + low politeness + high volatility. The temperamental root of
+; impulsive / antisocial conduct; the drinking events read the
+; aspects directly, this caches the fused score for the F3 cascade
+; and the interview.
 (state disinhibition (tar ? @excl) (range 0 1))
-# inhibition: the moral/conscientious brake (plan section
-# 10.3-AFFECT item D). Fuses Big Five aspects (politeness +
-# industriousness + compassion), F3 dimensions (piety + decorum -
-# disinhibition), held virtues, current stress, and held
-# rationalizations. Higher inhibition = less likely to cross moral
-# lines under pressure; deliberation events read this to weight
-# their forgive / confess / kill branches. The runaway feedback
-# loop is built in: stress lowers inhibition, lowered inhibition
-# makes a harm branch likelier to fire, the harm event mints
-# justify beliefs which further lower inhibition.
+; inhibition: the moral/conscientious brake (plan section
+; 10.3-AFFECT item D). Fuses Big Five aspects (politeness +
+; industriousness + compassion), F3 dimensions (piety + decorum -
+; disinhibition), held virtues, current stress, and held
+; rationalizations. Higher inhibition = less likely to cross moral
+; lines under pressure; deliberation events read this to weight
+; their forgive / confess / kill branches. The runaway feedback
+; loop is built in: stress lowers inhibition, lowered inhibition
+; makes a harm branch likelier to fire, the harm event mints
+; justify beliefs which further lower inhibition.
 (state inhibition (tar ? @excl) (range 0 1))
-# The 1.0-centered multipliers an aggressive / a prosocial outlet rides (0..4).
+; The 1.0-centered multipliers an aggressive / a prosocial outlet rides (0..4).
 (state aggressive-tilt (tar ? @excl) (range 0 4))
 (state prosocial-tilt (tar ? @excl) (range 0 4))
 (state infidelity-disposition (tar ? @excl) (range 0 1))
-# Material
+; Material
 (state wealth (tar ? @excl) (range 0 1))
 (state income-security (tar ? @excl) (range 0 1))
-# Standing
+; Standing
 (state prestige (tar ? @excl) (range 0 1))
 (state breeding (tar ? @excl) (range 0 1))
 (state influence (tar ? @excl) (range 0 1))
 (state connectedness (tar ? @excl) (range 0 1))
-# Physical / mental
+; Physical / mental
 (state constitution (tar ? @excl) (range 0 1))
 (state affliction (tar ? @excl) (range 0 1))
 (state soundness (tar ? @excl) (range 0 1))
-# Mind
+; Mind
 (state radicalism (tar ? @excl) (range 0 1))
 (state education (tar ? @excl) (range 0 1))
-# Felt life - contentment / agitation are the valence / arousal
-# halves of mood; their classifiers read
-# derive_mood. agitation is added by the emotion model.
+; Felt life - contentment / agitation are the valence / arousal
+; halves of mood; their classifiers read
+; derive_mood. agitation is added by the emotion model.
 (state belonging (tar ? @excl) (range 0 1))
 (state contentment (tar ? @excl) (range 0 1))
 (state agitation (tar ? @excl) (range 0 1))
-# stress: the salience-weighted aggregate of standing `pressure`
-# beliefs (plan section 10.3-AFFECT item F). Sibling to
-# contentment / agitation; written by derive_mood. 0..100. Read by
-# the inhibition classifier (item D) and the stress-biased
-# categorize() threshold (item G) - both produce the runaway
-# feedback loop that turns simmering pressure into paranoid
-# construal and crime-decision motivation.
+; stress: the salience-weighted aggregate of standing `pressure`
+; beliefs (plan section 10.3-AFFECT item F). Sibling to
+; contentment / agitation; written by derive_mood. 0..100. Read by
+; the inhibition classifier (item D) and the stress-biased
+; categorize() threshold (item G) - both produce the runaway
+; feedback loop that turns simmering pressure into paranoid
+; construal and crime-decision motivation.
 (state stress (tar ? @excl) (range 0 1))
 (state purpose (tar ? @excl) (range 0 1))
 (state autonomy (tar ? @excl) (range 0 1))
-# Rootedness in the community - tenure, employer, property, kin,
-# club memberships. The life-satisfaction band classifier reads
-# it to distinguish a LONER (low life_sat with high rootedness:
-# established but solitary by character) from an ADRIFT drifter
-# (low life_sat with low rootedness: newly arrived, no anchor).
+; Rootedness in the community - tenure, employer, property, kin,
+; club memberships. The life-satisfaction band classifier reads
+; it to distinguish a LONER (low life_sat with high rootedness:
+; established but solitary by character) from an ADRIFT drifter
+; (low life_sat with low rootedness: newly arrived, no anchor).
 (state rootedness (tar ? @excl) (range 0 1))
-# family-alignment (PR-skill-life S7) - how far the NPC's drives
-# (interest / skilled-in / calling domains) echo their LIVING
-# parents'. 1 = every drive follows the family path; 0 = full
-# divergence (the rebellion signal). classify_family_alignment caches
-# it annually; a parent reads each child's score to feel the
-# autonomy-loss pressure when a child strikes out on their own.
+; family-alignment (PR-skill-life S7) - how far the NPC's drives
+; (interest / skilled-in / calling domains) echo their LIVING
+; parents'. 1 = every drive follows the family path; 0 = full
+; divergence (the rebellion signal). classify_family_alignment caches
+; it annually; a parent reads each child's score to feel the
+; autonomy-loss pressure when a child strikes out on their own.
 (state family-alignment (tar ? @excl) (range 0 1))
 
-# starve - the physiology-to-belief seam marker. Minted/ended by the
-# meals starving_watch pair at the hunger threshold crossing, so the
-# starvation-tail chains gate on a CACHED self-belief instead of
-# re-reading the hunger attr per deliberation. Label-only self state.
+; starve - the physiology-to-belief seam marker. Minted/ended by the
+; meals starving_watch pair at the hunger threshold crossing, so the
+; starvation-tail chains gate on a CACHED self-belief instead of
+; re-reading the hunger attr per deliberation. Label-only self state.
 (state starve)
 
-# Gestation: {?woman pregnant ?father}. Private physiological state (no
-# disclosure - not gossiped), ended at delivery by the update_physiology
-# gestation timer; gates re-conception while carried.
+; Gestation: {?woman pregnant ?father}. Private physiological state (no
+; disclosure - not gossiped), ended at delivery by the update_physiology
+; gestation timer; gates re-conception while carried.
 (state pregnant (tar [k human] @excl @object))
 
-# Document -> org back-link: the inverse of org-state's `record`
-# (concepts.mon). Lets any mind reconstruct its own per-mind org
-# object from the stable articles-of-incorporation env anchor, via
-# mx_imagine_or_recall(orgkind, mx_observe(articles), "declares-org").
+; Document -> org back-link: the inverse of org-state's `record`
+; (concepts.mon). Lets any mind reconstruct its own per-mind org
+; object from the stable articles-of-incorporation env anchor, via
+; mx_imagine_or_recall(orgkind, mx_observe(articles), "declares-org").
 (state declares-org (tar [k org] @excl @object))
 
-# household-cook - @self is THE cook of <home> (one per household,
-# elected via the home's public-bb `cook` marker; provisioning_think).
+; household-cook - @self is THE cook of <home> (one per household,
+; elected via the home's public-bb `cook` marker; provisioning_think).
 (state household-cook (tar [k unit] @excl @object))
 
-# Historical-sim-only situation predicates (hsim_ prefix). Read by the
-# event engine to drive crime / drama template eligibility and role
-# binding. Pruned from NPC minds at the historical -> interactive
-# phase transition.
-# ---- hsim ----
+; Historical-sim-only situation predicates (hsim_ prefix). Read by the
+; event engine to drive crime / drama template eligibility and role
+; binding. Pruned from NPC minds at the historical -> interactive
+; phase transition.
+; ---- hsim ----
 (state hsim-motive (tar @excl))
 (state hsim-secret-at-risk)
 (state hsim-publicly-humiliated)
@@ -734,14 +734,14 @@
 (state hsim-business-failing)
 (state hsim-homeless)
 
-# The relations that were once minted for a noun by its declaration (a noun IS
-# a state) are declared here, one row per noun the corpus uses as a relation,
-# carrying what the noun line said: (sub ..) / (tar ..) / (aux ..) / bond and
-# kin flags / disclosure / construed-act. A state's fields are its own; the
-# noun is only its value kinds. An env attr on one of these enriches the row
-# (its transmission mechanism and per-field flags), so the row leaves those out.
+; The relations that were once minted for a noun by its declaration (a noun IS
+; a state) are declared here, one row per noun the corpus uses as a relation,
+; carrying what the noun line said: (sub ..) / (tar ..) / (aux ..) / bond and
+; kin flags / disclosure / construed-act. A state's fields are its own; the
+; noun is only its value kinds. An env attr on one of these enriches the row
+; (its transmission mechanism and per-field flags), so the row leaves those out.
 
-# Nouns the rules and funcs use as relation labels.
+; Nouns the rules and funcs use as relation labels.
 (state abandonment-act (tar [k abandonment-act] @object))
 (state accomplice (tar [k human] @object) (aux ?))
 (state acquaintance (tar [k human] @object) (inclusive_bond) (disclosure acquaintance) (closeness acquaintance) (describe-in bonds) (talkable))
@@ -807,10 +807,10 @@
 (state workplace (tar [k building|space] @object @excl))
 (state wrong-act (tar [k wrong-act] @object))
 
-# A task someone means to do; the func-contract fixture kind_value.mc reads it.
+; A task someone means to do; the func-contract fixture kind_value.mc reads it.
 (state todo (tar [k task]))
 
-# Nouns the tables use as relation labels (occupation_shifts day-label).
+; Nouns the tables use as relation labels (occupation_shifts day-label).
 (state mon-hours (tar ? @excl) (aux ?))
 (state tue-hours (tar ? @excl) (aux ?))
 (state wed-hours (tar ? @excl) (aux ?))
@@ -819,7 +819,7 @@
 (state sat-hours (tar ? @excl) (aux ?))
 (state sun-hours (tar ? @excl) (aux ?))
 
-# Nouns an env attr realizes - the attr adds the mechanism.
+; Nouns an env attr realizes - the attr adds the mechanism.
 (state age-band (tar [k age-band] @excl))
 (state age-span (tar [k age-band]))
 (state appearance (tar [k appearance] @excl))

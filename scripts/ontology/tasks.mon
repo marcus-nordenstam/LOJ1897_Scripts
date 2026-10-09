@@ -1,6 +1,6 @@
-# Tasks declared by row rather than by a (task ..) head: duties an org assigns
-# (org_duties, tables/duty-tables.mc) that no rule performs yet. A duty is a TASK label -
-# {@self duty-to ?org [k <duty>]} - so the name is a task term under act > task.
+; Tasks declared by row rather than by a (task ..) head: duties an org assigns
+; (org_duties, tables/duty-tables.mc) that no rule performs yet. A duty is a TASK label -
+; {@self duty-to ?org [k <duty>]} - so the name is a task term under act > task.
 (task dismiss_staff (sub [k human] @object))
 (task review_staff (sub [k human] @object))
 (task keep_records (sub [k human] @object))
