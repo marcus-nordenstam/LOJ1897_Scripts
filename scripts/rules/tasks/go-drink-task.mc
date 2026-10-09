@@ -12,5 +12,4 @@
            (effects (maintain-proposal {@self DRINK}))))
     (try (role @self {@self locate-room [k pub-building] [k bar-room] /fail /caused_by ?go-drink}
            (effects (set-outcome ?go-drink /fail))))
-    (try (when @true)
-         (effects (maintain-proposal {@self locate-room [k pub-building] [k bar-room]})))))
+    (try (effects (maintain-proposal {@self locate-room [k pub-building] [k bar-room]})))))

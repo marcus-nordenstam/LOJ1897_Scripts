@@ -12,5 +12,4 @@
            (effects (maintain-proposal {@self WORSHIP}))))
     (try (role @self {@self locate-room [k church-building] [k nave] /fail /caused_by ?attend-church-service}
            (effects (set-outcome ?attend-church-service /fail))))
-    (try (when @true)
-         (effects (maintain-proposal {@self locate-room [k church-building] [k nave]})))))
+    (try (effects (maintain-proposal {@self locate-room [k church-building] [k nave]})))))

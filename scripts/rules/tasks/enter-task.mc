@@ -28,7 +28,7 @@
            (effects (set-outcome ?enter /fail))))
     (try (role ?passage (spatial ?space exits)
                     (spatial (spatial @self space) trivially-linked (spatial ?passage beyond ?space))
-                    (select (score (near @self ?passage)) (policy best))
+                    (select (score (near @self ?passage)) (policy argmax))
            (effects (maintain-proposal {@self cross ?passage}))))
     (try (role ?bldg (spatial ?space building)
            (role @self (not (is-a ?space [k building]))
@@ -48,5 +48,4 @@
            (role @self (not (within-place ?space ?other))
                        -{@self exit ?other /fail /caused_by ?enter}
              (effects (maintain-proposal {@self exit ?other})))))
-    (try (when @true)
-         (effects (set-outcome ?enter /fail)))))
+    (try (effects (set-outcome ?enter /fail)))))

@@ -22,5 +22,4 @@
            (effects (maintain-proposal {@self SLEEP}))))
     (try (role @self {@self enter-room ?home [k bedroom] /fail /caused_by ?go-to-bed}
            (effects (maintain-proposal {@self enter ?home}))))
-    (try (when @true)
-         (effects (maintain-proposal {@self enter-room ?home [k bedroom]})))))
+    (try (effects (maintain-proposal {@self enter-room ?home [k bedroom]})))))

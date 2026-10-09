@@ -23,5 +23,4 @@
            (effects (maintain-proposal {@self enter ?bldg}))))
     (try (role @self -{@self find-building ?building-kind ? /fail}
            (effects (maintain-proposal {@self find-building ?building-kind (current-exterior @self)}))))
-    (try (when @true)
-         (effects (set-outcome ?locate-room /fail)))))
+    (try (effects (set-outcome ?locate-room /fail)))))

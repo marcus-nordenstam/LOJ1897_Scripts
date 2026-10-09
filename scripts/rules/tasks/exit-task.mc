@@ -28,14 +28,13 @@
     (try (role ?outside (spatial ?place space)
            (role ?passage (spatial ?place exits)
                       (spatial (spatial @self space) trivially-linked (spatial ?passage beyond ?outside))
-                      (select (score (near @self ?passage)) (policy best))
+                      (select (score (near @self ?passage)) (policy argmax))
              (effects (maintain-proposal {@self cross ?passage})))))
     (try (role ?outside (spatial ?place space)
            (role ?passage (spatial ?place exits)
                       -{@self enter (spatial ?passage beyond ?outside) /fail /caused_by ?exit}
-                      (select (score (near @self ?passage)) (policy best))
+                      (select (score (near @self ?passage)) (policy argmax))
              (effects (maintain-proposal {@self enter (spatial ?passage beyond ?outside)})))))
     (try (role @self -{@self wander ?place /succ /caused_by ?exit}
            (effects (maintain-proposal {@self wander ?place}))))
-    (try (when @true)
-         (effects (set-outcome ?exit /fail)))))
+    (try (effects (set-outcome ?exit /fail)))))

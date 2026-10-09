@@ -16,5 +16,4 @@
            (effects (maintain-proposal {@self enter ?room}))))
     (try (role @self -{@self locate ?room-kind ?place /fail}
            (effects (maintain-proposal {@self locate ?room-kind ?place}))))
-    (try (when @true)
-         (effects (set-outcome ?enter-room /fail)))))
+    (try (effects (set-outcome ?enter-room /fail)))))

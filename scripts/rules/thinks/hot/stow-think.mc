@@ -35,7 +35,6 @@
   (goal {@self stow ?item})
   (role ?home {@self home ?home}
               (not (spatial @self unit ?home))
-    (when ?item)
     (effects (maintain-proposal {@self enter ?home}))))
 
 ; AT home: PROPOSE the put-away act (goals never propose themselves). stow_act reads the carried
@@ -44,7 +43,6 @@
   (goal {@self stow ?item})
   (role ?home {@self home ?home}
               (spatial @self unit ?home)
-    (when ?item)
     ; The put-away place is DECIDED here: a fashioned hiding spot for a
     ; worth-hiding item (priced above the loot floor), else 0 (the body puts
     ; it openly in the room it stands in).
