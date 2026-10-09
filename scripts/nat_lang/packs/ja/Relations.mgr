@@ -40,12 +40,8 @@
 :RELP
 "兄弟"                  sibling                 .
 "親"                    parent                  .
-"兄たち"                 brother                 .
-"姉たち"                 sister                  .
 "子供 たち"             child                   .
-"いとこ たち"            cousin                  .
 "友達 たち"             friend                   .
-"隣人 たち"             neighbour               .
 
 
 :REL
@@ -60,24 +56,12 @@
 "お父さん"               father                  .
 "父親"                  father                  .
 "親"                    parent                  .
-"兄"                    brother                 .
-"弟"                    brother                 .
-"姉"                    sister                  .
-"妹"                    sister                  .
 "兄弟"                  sibling                 .
 "子供"                  child                   .
 "息子"                  child                   .
 "娘"                    child                   .
-"祖母"                  grandmother             .
-"おばあさん"             grandmother             .
-"祖父"                  grandfather             .
-"おじいさん"             grandfather             .
-"いとこ"                cousin                  .
 "友達"                  friend                  .
 "友人"                  friend                  .
-"隣人"                  neighbour               .
-"敵"                    enemy                   .
 "家"                    home                    .
-"出身地"                birthplace              .
 "性別"                  gender                  .
 "階級"                  class-situation         .

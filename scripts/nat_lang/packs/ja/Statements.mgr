@@ -166,19 +166,7 @@
 
 ; Sibling-by-birth-order - v1 defaults to elder forms (兄, 姉). See
 ; Relations.mgr header note 1.
-" $sub_np(NP) の 兄 は $value(NP) です "
-{ $sub_np(NP) /pres brother $value(NP) }
-:: deferential
-.
-" $sub_np(NP) の 兄 は $value(NP) だ "
-{ $sub_np(NP) /pres brother $value(NP) } .
 
-" $sub_np(NP) の 姉 は $value(NP) です "
-{ $sub_np(NP) /pres sister $value(NP) }
-:: deferential
-.
-" $sub_np(NP) の 姉 は $value(NP) だ "
-{ $sub_np(NP) /pres sister $value(NP) } .
 
 " $sub_np(NP) の 子供 は $value(NP) です "
 { $sub_np(NP) /pres child $value(NP) }
@@ -203,20 +191,8 @@
 " $sub_np(NP) の 友達 は $value(NP) だ "
 { $sub_np(NP) /pres friend $value(NP) } .
 
-" $sub_np(NP) の 隣人 は $value(NP) です "
-{ $sub_np(NP) /pres neighbour $value(NP) }
-:: deferential
-.
-" $sub_np(NP) の 隣人 は $value(NP) だ "
-{ $sub_np(NP) /pres neighbour $value(NP) } .
 
 ; Birthplace / home
-" $sub_np(NP) の 出身地 は $value(NP) です "
-{ $sub_np(NP) /pres birthplace $value(NP) }
-:: deferential
-.
-" $sub_np(NP) の 出身地 は $value(NP) だ "
-{ $sub_np(NP) /pres birthplace $value(NP) } .
 
 " $sub_np(NP) の 家 は $value(NP) です "
 { $sub_np(NP) /pres home $value(NP) }

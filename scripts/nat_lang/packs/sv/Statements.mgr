@@ -94,22 +94,14 @@
 { $sub_np(NP) /pres parent $value(NP) } .
 " $sub_np(NP) ++s syskon är $value(NP) "
 { $sub_np(NP) /pres sibling $value(NP) } .
-" $sub_np(NP) ++s bror är $value(NP) "
-{ $sub_np(NP) /pres brother $value(NP) } .
-" $sub_np(NP) ++s syster är $value(NP) "
-{ $sub_np(NP) /pres sister $value(NP) } .
 " $sub_np(NP) ++s barn är $value(NP) "
 { $sub_np(NP) /pres child $value(NP) } .
 " $sub_np(NP) ++s make är $value(NP) "
 { $sub_np(NP) /pres spouse $value(NP) } .
 " $sub_np(NP) ++s vän är $value(NP) "
 { $sub_np(NP) /pres friend $value(NP) } .
-" $sub_np(NP) ++s granne är $value(NP) "
-{ $sub_np(NP) /pres neighbour $value(NP) } .
 
 ; Birthplace / home
-" $sub_np(NP) ++s födelseort är $value(NP) "
-{ $sub_np(NP) /pres birthplace $value(NP) } .
 " $sub_np(NP) ++s hemort är $value(NP) "
 { $sub_np(NP) /pres home $value(NP) } .
 

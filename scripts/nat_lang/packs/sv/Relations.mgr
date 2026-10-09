@@ -25,12 +25,8 @@
 :RELP
 "syskon"                sibling                 .
 "föräldrar"             parent                  .
-"bröder"                brother                 .
-"systrar"               sister                  .
 "barn"                  child                   .
-"kusiner"               cousin                  .
 "vänner"                friend                  .
-"grannar"               neighbour               .
 
 
 :REL
@@ -44,21 +40,11 @@
 "far"                   father                  .
 "pappa"                 father                  .
 "förälder"              parent                  .
-"bror"                  brother                 .
-"syster"                sister                  .
 "syskon"                sibling                 .
 "barn"                  child                   .
 "son"                   child                   .
 "dotter"                child                   .
-"mormor"                grandmother             .
-"farmor"                grandmother             .
-"morfar"                grandfather             .
-"farfar"                grandfather             .
-"kusin"                 cousin                  .
 "vän"                   friend                  .
-"granne"                neighbour               .
-"fiende"                enemy                   .
 "hemort"                home                    .
-"födelseort"            birthplace              .
 "kön"                   gender                  .
 "klass"                 class-situation         .

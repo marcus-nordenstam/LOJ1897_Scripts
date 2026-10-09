@@ -13,10 +13,6 @@
 "was pregnant by"                   /past pregnant-by           .
 "is"                                /pres isa                   .
 "was"                               /past isa                   .
-"does"                              /pres do                    .
-"did"                               /past do                    .
-"is near"                           /pres near                  .
-"was near"                          /past near                  .
 "knows "                            /pres know                  .
 "knew "                             /past know                  .
 

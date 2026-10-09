@@ -98,8 +98,6 @@ _
 
 ; HACK!
 ; we need to do this in some other way, but for the moment, let's define npc and player as complete NP
-"npc"       npc     .
-"player"    player  .
 
 ; A general noun-phrase:
 

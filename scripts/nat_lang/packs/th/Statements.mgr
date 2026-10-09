@@ -126,10 +126,6 @@
 { $sub_np(NP) /pres sibling $value(NP) } .
 
 ; Birth-order sibling - v1 defaults to the elder forms (พี่ชาย, พี่สาว).
-" พี่ชาย ของ $sub_np(NP) คือ $value(NP) "
-{ $sub_np(NP) /pres brother $value(NP) } .
-" พี่สาว ของ $sub_np(NP) คือ $value(NP) "
-{ $sub_np(NP) /pres sister $value(NP) } .
 
 " ลูก ของ $sub_np(NP) คือ $value(NP) "
 { $sub_np(NP) /pres child $value(NP) } .
@@ -137,12 +133,8 @@
 { $sub_np(NP) /pres spouse $value(NP) } .
 " เพื่อน ของ $sub_np(NP) คือ $value(NP) "
 { $sub_np(NP) /pres friend $value(NP) } .
-" เพื่อนบ้าน ของ $sub_np(NP) คือ $value(NP) "
-{ $sub_np(NP) /pres neighbour $value(NP) } .
 
 ; Birthplace / home
-" บ้านเกิด ของ $sub_np(NP) คือ $value(NP) "
-{ $sub_np(NP) /pres birthplace $value(NP) } .
 " บ้าน ของ $sub_np(NP) คือ $value(NP) "
 { $sub_np(NP) /pres home $value(NP) } .
 

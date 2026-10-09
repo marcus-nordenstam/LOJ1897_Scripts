@@ -31,12 +31,8 @@
 :RELP
 "พี่น้อง"               sibling                 .
 "พ่อแม่"               parent                  .
-"พี่ชายและน้องชาย"      brother                 .
-"พี่สาวและน้องสาว"      sister                  .
 "ลูก ๆ"                child                   .
-"ลูกพี่ลูกน้อง"          cousin                  .
 "เพื่อน ๆ"             friend                  .
-"เพื่อนบ้าน"           neighbour               .
 
 
 :REL
@@ -49,23 +45,11 @@
 "พ่อ"                 father                  .
 "คุณพ่อ"               father                  .
 "พ่อแม่"               parent                  .
-"พี่ชาย"               brother                 .
-"น้องชาย"             brother                 .
-"พี่สาว"               sister                  .
-"น้องสาว"             sister                  .
 "พี่น้อง"               sibling                 .
 "ลูก"                 child                   .
 "ลูกชาย"              child                   .
 "ลูกสาว"              child                   .
-"ย่า"                 grandmother             .
-"ยาย"                 grandmother             .
-"ปู่"                  grandfather             .
-"ตา"                  grandfather             .
-"ลูกพี่ลูกน้อง"          cousin                  .
 "เพื่อน"               friend                  .
-"เพื่อนบ้าน"           neighbour               .
-"ศัตรู"                 enemy                   .
 "บ้าน"                home                    .
-"บ้านเกิด"             birthplace              .
 "เพศ"                 gender                  .
 "ชนชั้น"              class-situation         .

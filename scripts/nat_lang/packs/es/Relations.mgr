@@ -29,12 +29,8 @@
 :RELP
 "hermanos"              sibling                 .
 "padres"                parent                  .
-"hermanos"              brother                 .
-"hermanas"              sister                  .
 "hijos"                 child                   .
-"primos"                cousin                  .
 "amigos"                friend                  .
-"vecinos"               neighbour               .
 
 
 :REL
@@ -50,21 +46,10 @@
 "padre"                 father                  .
 "papá"                  father                  .
 "progenitor"            parent                  .
-"hermano"               brother                 .
-"hermana"               sister                  .
 "hijo"                  child                   .
 "hija"                  child                   .
-"abuela"                grandmother             .
-"abuelo"                grandfather             .
-"primo"                 cousin                  .
-"prima"                 cousin                  .
 "amigo"                 friend                  .
 "amiga"                 friend                  .
-"vecino"                neighbour               .
-"vecina"                neighbour               .
-"enemigo"               enemy                   .
-"enemiga"               enemy                   .
 "hogar"                 home                    .
-"lugar de nacimiento"   birthplace              .
 "género"                gender                  .
 "clase"                 class-situation         .

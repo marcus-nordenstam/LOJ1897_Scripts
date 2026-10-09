@@ -97,22 +97,14 @@
 { $sub_np(NP) /pres parent $value(NP) } .
 " el hermano o la hermana de $sub_np(NP) es $value(NP) "
 { $sub_np(NP) /pres sibling $value(NP) } .
-" el hermano de $sub_np(NP) es $value(NP) "
-{ $sub_np(NP) /pres brother $value(NP) } .
-" la hermana de $sub_np(NP) es $value(NP) "
-{ $sub_np(NP) /pres sister $value(NP) } .
 " el hijo de $sub_np(NP) es $value(NP) "
 { $sub_np(NP) /pres child $value(NP) } .
 " el esposo de $sub_np(NP) es $value(NP) "
 { $sub_np(NP) /pres spouse $value(NP) } .
 " el amigo de $sub_np(NP) es $value(NP) "
 { $sub_np(NP) /pres friend $value(NP) } .
-" el vecino de $sub_np(NP) es $value(NP) "
-{ $sub_np(NP) /pres neighbour $value(NP) } .
 
 ; Birthplace / home
-" el lugar de nacimiento de $sub_np(NP) es $value(NP) "
-{ $sub_np(NP) /pres birthplace $value(NP) } .
 " el hogar de $sub_np(NP) es $value(NP) "
 { $sub_np(NP) /pres home $value(NP) } .
 

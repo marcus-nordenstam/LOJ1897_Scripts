@@ -109,11 +109,6 @@
 ( any { $who(POSS) /pres age } ).target
 .
 
-; birthplace
-"where [was|were] $who(Q_NP) born"
-( any { $who(Q_NP) /pres birthplace } ).target
-.
-
 ; alive / dead
 "$verb(VERB|be) $who(Q_NP) alive"
 ( prob { $who(Q_NP) /pres condition [k alive] } )
@@ -460,17 +455,8 @@
 "are you acquainted with $person(Q_NP)"
 ( prob { ?_you /pres acquaintance $person(Q_NP) } )
 .
-"is $person(Q_NP) your enemy"
-( prob { ?_you /pres enemy $person(Q_NP) } )
-.
-"do you have a quarrel with $person(Q_NP)"
-( prob { ?_you /pres rival $person(Q_NP) } )
-.
 "[who|whom] do you [trust|trust most|rely on]"
 ( o /known { ?_you /pres trust @o } )
-.
-"who are you at odds with"
-( o /known { ?_you /pres enemy @o } )
 .
 
 
@@ -523,9 +509,6 @@
 .
 "did you get on with $person(Q_NP)"
 ( prob { ?_you /pres friend $person(Q_NP) } )
-.
-"did you quarrel with $person(Q_NP)"
-( prob { ?_you /pres enemy $person(Q_NP) } )
 .
 "were you afraid of $person(Q_NP)"
 ( prob { ?_you /ever emotion [k fear ] $person(Q_NP) } )
@@ -633,9 +616,6 @@
 "#which-det #home-noun do you [live at|reside at|live in]"
 ( any { ?_you /pres home } ).target
 .
-"#which-det [town|parish] were you born in"
-( any { ?_you /pres birthplace } ).target
-.
 
 ; --- Profession: the employer ENTITY (org) -----------------------------------
 "#which-det #firm-noun [do you work for|employs you]"
@@ -695,9 +675,6 @@
 .
 "[your date of birth|when you were born]"
 ( any { ?_you /pres birth-date } ).target
-.
-"where you were born"
-( any { ?_you /pres birthplace } ).target
 .
 "[your address|where you live]"
 ( any { ?_you /pres home } ).target
