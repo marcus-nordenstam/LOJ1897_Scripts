@@ -15,7 +15,9 @@
   (and
     (sequence
       (stage (bind (passage-spot ?passage (spatial ?passage beyond ?to)) ?before)
-             (effects (if (not (overlaps ?before @self))
+             (effects (expect (unsubstantial (spatial @self leg ?before))
+                              "cross: the near side of the passage lies outside his domain")
+                      (if (not (overlaps ?before @self))
                           (then (maintain-proposal {@self go-to ?before})))))
       (stage (effects (if (barred ?passage)
                           (then (maintain-proposal {@self OPEN ?passage})))))

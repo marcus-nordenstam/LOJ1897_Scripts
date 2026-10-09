@@ -16,8 +16,8 @@
 ;   the leg is the enclosure he stands in       -> no door left: wander it
 ;   the leg is an enclosure he stands outside   -> no door of it known: go-to a spot by it,
 ;                                                  and seeing it teaches its doors
-;   the leg is an enclosure, tried              -> walked up to it, a door failed or the
-;                                                  wander is done, and no door left: fail
+;   the leg is an enclosure no rung above takes -> fail: walked up to it, a door failed or
+;                                                  the wander is done; untried is an expect
 ;   the leg is an exterior space                -> WALK into it
 ;   in his domain, a door he believes shut on
 ;   every way he knows                          -> cross it; that cross failed -> fail
@@ -50,6 +50,15 @@
                    (or (< (distance @self ?dest) (near_reach_m))
                        (substantial (any {@self WALK ? /succ /caused_by ?go-to})))))): ?there
   ?there)
+
+; A door of ?enclosure he knows, which a body goes in or out by - a window never is.
+(define-func go-has-way (?enclosure)
+  (bind @false ?found)
+  (for-each ?passage (spatial ?enclosure exits)
+    (if (not (has-facet ?passage nav_last_resort))
+        (then (bind @true ?found)
+              (break))))
+  ?found)
 
 (define-func go-unseen (?dest)
   (if (is-spot ?dest) (then @false) (else (not (grounded ?dest)))))
@@ -133,6 +142,7 @@
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (not (is-a ?leg [k exterior-space]))
              (role ?passage (spatial ?leg exits)
+                            (not (has-facet ?passage nav_last_resort))
                             -{@self cross ?passage ? /fail /caused_by ?go-to}
                             (substantial (tolerate (spatial ?passage beyond (spatial @self space))))
                             (select (score (near @self ?passage)) (policy argmax unknown-last))
@@ -144,16 +154,18 @@
              (effects (maintain-proposal {@self wander ?leg})))))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (not (is-a ?leg [k exterior-space]))
-                       (empty (spatial ?leg exits))
+                       (not (go-has-way ?leg))
                        -{@self go-to ? /succ /caused_by ?go-to}
              (when (stand-spot-by ?leg): ?spot (is-spot ?spot))
              (effects (maintain-proposal {@self go-to ?spot})))))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (not (is-a ?leg [k exterior-space]))
-                       (or {@self go-to ? /succ /caused_by ?go-to}
-                           {@self cross ? /fail /caused_by ?go-to}
-                           {@self wander ?leg /succ /caused_by ?go-to})
-             (effects (set-outcome ?go-to /fail)))))
+             (effects
+               (expect (or (substantial (any {@self go-to ? /succ /caused_by ?go-to}))
+                           (substantial (any {@self cross ? /fail /caused_by ?go-to}))
+                           (substantial (any {@self wander ?leg /succ /caused_by ?go-to})))
+                       "go-to: an enclosure ahead and no door of it he can cross, untried")
+               (set-outcome ?go-to /fail)))))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (is-a ?leg [k exterior-space])
              (when (stand-spot-in ?leg): ?spot (is-spot ?spot))
