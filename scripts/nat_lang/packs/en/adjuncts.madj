@@ -1,0 +1,84 @@
+; -----------------------------------------------------------------------------
+; adjuncts.madj - the English edge adjuncts: the words a sentence may open or
+; close with that carry no meaning the grammar reads, and the register each
+; sets on what was said. Matched on TOKENS at the sentence's edges, only after
+; the exact parse failed (an adjunct word can be content: "are you well"); a
+; proper name set off by a comma at an edge is a vocative too and rides the
+; /addressee rider.
+;
+; Format: `<phrase> <role> [<axis> [<value>]]`
+;   role   discourse | vocative | politeness | protected
+;   axis   tone warm-joy|cold-anger|anxious-fear|heavy-grief|proud|light
+;          warmth hostile|cool|warm|fond
+;          formality intimate|familiar|formal|deferential
+;          confidentiality          (no value: the speaker asks for discretion)
+;          authority                (no value: the speaker invokes office or law)
+; A `protected` word is never stripped from an edge and never skipped by a
+; relaxed reading: the negations, which turn a question's meaning over.
+; -----------------------------------------------------------------------------
+
+; Politeness.
+please              politeness   warmth warm
+if you please       politeness   warmth warm
+if you would        politeness   formality formal
+if it please you    politeness   formality deferential
+kindly              politeness   warmth warm
+thank you           politeness   warmth warm
+i beg your pardon   politeness   formality deferential
+begging your pardon politeness   formality deferential
+
+; Vocatives.
+sir                 vocative     formality formal
+madam               vocative     formality formal
+ma'am               vocative     formality formal
+mister              vocative     formality formal
+your honour         vocative     formality deferential
+your worship        vocative     formality deferential
+my lord             vocative     formality deferential
+my lady             vocative     formality deferential
+officer             vocative     formality formal
+constable           vocative     formality formal
+inspector           vocative     formality formal
+doctor              vocative     formality formal
+father              vocative     formality formal
+reverend            vocative     formality formal
+friend              vocative     warmth warm
+my friend           vocative     warmth fond
+my dear             vocative     warmth fond
+my good man         vocative     formality familiar
+my good woman       vocative     formality familiar
+mate                vocative     formality familiar
+man                 vocative     formality familiar
+you fool            vocative     warmth hostile
+you dog             vocative     warmth hostile
+you wretch          vocative     warmth hostile
+you liar            vocative     warmth hostile
+
+; Discourse markers.
+well                discourse
+now                 discourse
+so                  discourse
+then                discourse
+say                 discourse
+pray                discourse    formality formal
+look here           discourse    formality familiar
+oi                  discourse    formality familiar
+hey                 discourse    formality familiar
+come                discourse
+come now            discourse
+right               discourse
+anyway              discourse
+in confidence       discourse    confidentiality
+between ourselves   discourse    confidentiality
+in the name of the law discourse authority
+by order of the court  discourse authority
+
+; Protected: never stripped, never skipped.
+not                 protected
+no                  protected
+never               protected
+nor                 protected
+neither             protected
+nobody              protected
+nothing             protected
+none                protected

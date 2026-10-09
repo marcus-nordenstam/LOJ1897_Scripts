@@ -1,11 +1,21 @@
-# English verb conjugation (Phase 8.2)
-# Format: verb <base> <tense> = <inflected>
-# v1 ships 3sg only.
+; English verb conjugation (Phase 8.2)
+; Format: verb <base> <tense> = <inflected>
+; v1 ships 3sg only.
 
 verb be    /pres = is
+verb be    /pres/1sg = am
+verb be    /pres/2sg = are
 verb be    /past = was
+verb be    /past/2sg = were
+
+verb do    /pres = does
+verb do    /pres/1sg = do
+verb do    /pres/2sg = do
+verb do    /past = did
 
 verb have  /pres = has
+verb have  /pres/1sg = have
+verb have  /pres/2sg = have
 verb have  /past = had
 
 verb love  /pres = loves
@@ -14,7 +24,7 @@ verb love  /past = loved
 verb work  /pres = works
 verb work  /past = worked
 
-# Behavioural interest prose (Statements.mgr behavioural block).
+; Behavioural interest prose (Statements.mgr behavioural block).
 verb spend    /pres = spends
 verb spend    /past = spent
 

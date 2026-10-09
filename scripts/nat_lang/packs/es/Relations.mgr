@@ -1,16 +1,16 @@
 
-# -----------------------------------------------------------------------------
-# Relations.mgr - Spanish-pack kinship + attribute relations (Phase 8).
-#
-# Spanish kinship is gendered (madre/padre, hermano/hermana, abuelo/abuela,
-# etc.). Each entry maps a Spanish term to the canonical English ontology
-# label - labels are language-neutral; only the surface text differs.
-#
-# Plural forms (hermanos/hermanas, padres) go in RELP. The Spanish masculine
-# plural "hermanos" is canonically used as a mixed-or-unknown-gender plural,
-# which lets it carry the generic `brother` label for v1; same shape as
-# Swedish's "bröder".
-# -----------------------------------------------------------------------------
+; -----------------------------------------------------------------------------
+; Relations.mgr - Spanish-pack kinship + attribute relations (Phase 8).
+;
+; Spanish kinship is gendered (madre/padre, hermano/hermana, abuelo/abuela,
+; etc.). Each entry maps a Spanish term to the canonical English ontology
+; label - labels are language-neutral; only the surface text differs.
+;
+; Plural forms (hermanos/hermanas, padres) go in RELP. The Spanish masculine
+; plural "hermanos" is canonically used as a mixed-or-unknown-gender plural,
+; which lets it carry the generic `brother` label for v1; same shape as
+; Swedish's "bröder".
+; -----------------------------------------------------------------------------
 
 :PASSIVE_PNAME_REL
 "se llama"              /pres name              .

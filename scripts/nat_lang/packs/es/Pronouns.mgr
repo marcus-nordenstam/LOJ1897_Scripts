@@ -1,24 +1,24 @@
 
-# -----------------------------------------------------------------------------
-# Pronouns.mgr - Spanish-pack first/second-person pronouns (Phase 8).
-#
-# Spanish has a tú (informal) vs usted (formal) split that pairs naturally
-# with the two-tier formality intent-tag scheme (untagged = tú, deferential
-# = usted). Both bind to ?_you - the .mc rule layer doesn't distinguish them.
-#
-# v1 ships:
-#   yo / mí / mi   - first-person (singular). mi is the possessive determiner.
-#                    Plural (nosotros, nuestro) is a follow-up.
-#   tú / ti / tu   - second-person informal singular.
-#   usted / su     - second-person formal singular.
-#   él / ella      - third-person; covered in NounPhrases via PNAME / REG_NP
-#                    so not strictly needed here.
-#
-# Possessive forms in Spanish AGREE in number (mi/mis, tu/tus, su/sus) and
-# in some cases gender (nuestro/nuestra). v1 emits singular forms only;
-# plurals would need agreement consulted at realize time - same shared hook
-# as Swedish adjective agreement (deferred).
-# -----------------------------------------------------------------------------
+; -----------------------------------------------------------------------------
+; Pronouns.mgr - Spanish-pack first/second-person pronouns (Phase 8).
+;
+; Spanish has a tú (informal) vs usted (formal) split that pairs naturally
+; with the two-tier formality intent-tag scheme (untagged = tú, deferential
+; = usted). Both bind to ?_you - the .mc rule layer doesn't distinguish them.
+;
+; v1 ships:
+;   yo / mí / mi   - first-person (singular). mi is the possessive determiner.
+;                    Plural (nosotros, nuestro) is a follow-up.
+;   tú / ti / tu   - second-person informal singular.
+;   usted / su     - second-person formal singular.
+;   él / ella      - third-person; covered in NounPhrases via PNAME / REG_NP
+;                    so not strictly needed here.
+;
+; Possessive forms in Spanish AGREE in number (mi/mis, tu/tus, su/sus) and
+; in some cases gender (nuestro/nuestra). v1 emits singular forms only;
+; plurals would need agreement consulted at realize time - same shared hook
+; as Swedish adjective agreement (deferred).
+; -----------------------------------------------------------------------------
 
 :PRONOUN
 
@@ -36,9 +36,9 @@
 "esto"   ?_this  .
 "eso"    ?_this  .
 
-# Third-person second-mention pronouns. Spanish renders cleanly for
-# post-preposition use ("una carta sobre ella"); pre-verbal clitic
-# placement ("la vio") would need a separate path.
+; Third-person second-mention pronouns. Spanish renders cleanly for
+; post-preposition use ("una carta sobre ella"); pre-verbal clitic
+; placement ("la vio") would need a separate path.
 
 "ella"   ?_third_s
 :: agree:f

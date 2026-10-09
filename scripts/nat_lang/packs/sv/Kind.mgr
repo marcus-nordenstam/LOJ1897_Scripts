@@ -1,11 +1,11 @@
 
-# Swedish KIND_PLUR - mirror packs/en/Kind.mgr's role: plural surface forms
-# map to the singular ontology kind atom. Used by the tell_beliefs shortcut
-# templates so "berätta om dina syskon" enumerates siblings while "berätta
-# om din syster" falls through to tell_about (single referent).
+; Swedish KIND_PLUR - mirror packs/en/Kind.mgr's role: plural surface forms
+; map to the singular ontology kind atom. Used by the tell_beliefs shortcut
+; templates so "berätta om dina syskon" enumerates siblings while "berätta
+; om din syster" falls through to tell_about (single referent).
 :KIND_PLUR
 
-# Kinship plurals
+; Kinship plurals
 "bröder"                [k brother]             .
 "systrar"               [k sister]              .
 "syskon"                [k sibling]             .
@@ -36,6 +36,6 @@
 "fiender"               [k enemy]               .
 "älskare"               [k lover]               .
 
-# Collective concept plurals
+; Collective concept plurals
 "intressen"             interest                .
 "relationer"            [k relationship]        .

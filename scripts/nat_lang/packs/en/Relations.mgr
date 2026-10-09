@@ -2,9 +2,9 @@
 :ACTIVE_REL
 "lives at"              /pres home              .
 "lived at"              /past home              .
-# Whereabouts: the dated location memory {X location <venue>}. The past form
-# answers "where were you" (the act-memory alibi substrate); the present form
-# renders a standing whereabouts (e.g. a prop's current building).
+; Whereabouts: the dated location memory {X location <venue>}. The past form
+; answers "where were you" (the act-memory alibi substrate); the present form
+; renders a standing whereabouts (e.g. a prop's current building).
 "is at"                /pres location          .
 "was at"               /past location          .
 
@@ -14,8 +14,8 @@
 "name was"              /past name              .
 
 
-# age is rendered by the dedicated bare-is template ("X is 56") in
-# Statements.mgr; only the past form keeps a possessive surface here.
+; age is rendered by the dedicated bare-is template ("X is 56") in
+; Statements.mgr; only the past form keeps a possessive surface here.
 :PASSIVE_NUM_REL
 "age was"               /past age               .
 
@@ -36,9 +36,9 @@
 "$rel(REL) are"         /pres $rel(REL)         .
 "$rel(REL) were"        /past $rel(REL)         .
 
-# Plural relation names. Used by plural-answer questions ("who are your
-# siblings"). Labels themselves remain singular - the plural form is just
-# the surface noun. Mirrors the entries in :REL below.
+; Plural relation names. Used by plural-answer questions ("who are your
+; siblings"). Labels themselves remain singular - the plural form is just
+; the surface noun. Mirrors the entries in :REL below.
 :RELP
 "siblings"              sibling                 .
 "half siblings"         half-sibling            .
@@ -137,10 +137,10 @@
 "family"                family                  .
 "game-role"             game-role               .
 
-# Attribute-style possessive relations - rendered "X's gender is ...".
-# Kind-valued targets, rendered by KIND in :NP. nationality is NOT here -
-# it is rendered by the dedicated bare-is template ("X is english") in
-# Statements.mgr; keeping it in :REL too would let the longer possessive
-# phrase outsort the bare-is form (see the greedy lexicon sort).
+; Attribute-style possessive relations - rendered "X's gender is ...".
+; Kind-valued targets, rendered by KIND in :NP. nationality is NOT here -
+; it is rendered by the dedicated bare-is template ("X is english") in
+; Statements.mgr; keeping it in :REL too would let the longer possessive
+; phrase outsort the bare-is form (see the greedy lexicon sort).
 "gender"                gender                  .
 "social class"          class-situation         .

@@ -1,38 +1,38 @@
 
-# -----------------------------------------------------------------------------
-# NounPhrases.mgr - Swedish-pack noun phrases (Phase 7).
-#
-# Mirrors packs/en/NounPhrases.mgr structurally - same phrase-class hierarchy
-# (NP = VARIABLE | PRONOUN | REG_NP | PNAME | KIND). Re-declaring the classes
-# here is idempotent (read_grammar_dir's _phrase_classes.add no-ops on
-# duplicates) so the Swedish pack reuses the global class graph.
-# -----------------------------------------------------------------------------
+; -----------------------------------------------------------------------------
+; NounPhrases.mgr - Swedish-pack noun phrases (Phase 7).
+;
+; Mirrors packs/en/NounPhrases.mgr structurally - same phrase-class hierarchy
+; (NP = VARIABLE | PRONOUN | REG_NP | PNAME | KIND). Re-declaring the classes
+; here is idempotent (read_grammar_dir's _phrase_classes.add no-ops on
+; duplicates) so the Swedish pack reuses the global class graph.
+; -----------------------------------------------------------------------------
 
 :REG_NP
 
-# Sentinel atoms
+; Sentinel atoms
 "okänd"                 @unknown                .
 "osäker"                @unknown%               .
 "ingenting"             _                       .
 
-# A named object such as "Anna Andersson"
+; A named object such as "Anna Andersson"
 "$pname(PNAME)"
 ( o $pname(PNAME) )
 .
 
-# "the late Anna Andersson" - utterable_msg emits this form for a referent
-# whose name belief has been ended (death-propagation set its interval-end).
-# Mirrors packs/en/NounPhrases.mgr's "the late ..." template; required so a
-# tell_about response that names a deceased person renders cleanly in Swedish
-# instead of falling through to a realize miss in _assemble_nl. "framlidne" is
-# the standard Swedish formal form for "the late"; v1 ships it for both
-# masculine and feminine subjects (gender-inflected variants are a Phase 7.1
-# morphology follow-up - see dialogue_nlg_phase7_design.md section 7.5).
+; "the late Anna Andersson" - utterable_msg emits this form for a referent
+; whose name belief has been ended (death-propagation set its interval-end).
+; Mirrors packs/en/NounPhrases.mgr's "the late ..." template; required so a
+; tell_about response that names a deceased person renders cleanly in Swedish
+; instead of falling through to a realize miss in _assemble_nl. "framlidne" is
+; the standard Swedish formal form for "the late"; v1 ships it for both
+; masculine and feminine subjects (gender-inflected variants are a Phase 7.1
+; morphology follow-up - see dialogue_nlg_phase7_design.md section 7.5).
 "framlidne $pname(PNAME)"
 ( o { @o /past name $pname(PNAME) } )
 .
 
-# An un-named object known only by its kind
+; An un-named object known only by its kind
 "en $kind(KIND)"
 ( o $kind(KIND) )
 .
@@ -40,33 +40,33 @@
 ( o $kind(KIND) )
 .
 
-# "min mor" / "min far" / etc - first-person possessive
+; "min mor" / "min far" / etc - first-person possessive
 "min $rel(REL)"
 ( o { ?_I /pres $rel(REL) @o } )
 .
 
-# "din mor" / "din far" / etc - second-person possessive
+; "din mor" / "din far" / etc - second-person possessive
 "din $rel(REL)"
 ( o { ?_you /pres $rel(REL) @o } )
 .
 
-# "Annas mor" - genitive name + relation. Swedish genitive is the
-# possessor's name + "s" (parallels English's "Anna's mother"). The +'s
-# bind-token glues to the preceding name when generated; on parse the
-# tokenizer splits "Annas" into "Anna" + "s" only if a space precedes;
-# v1 expects authored input as "Annas mor" written exactly.
+; "Annas mor" - genitive name + relation. Swedish genitive is the
+; possessor's name + "s" (parallels English's "Anna's mother"). The +'s
+; bind-token glues to the preceding name when generated; on parse the
+; tokenizer splits "Annas" into "Anna" + "s" only if a space precedes;
+; v1 expects authored input as "Annas mor" written exactly.
 "$pname(PNAME) ++s $rel(REL)"
 ( o { $pname(PNAME) /pres $rel(REL) @o } )
 .
 
 
-# v1 NP composition: same subclass order as English, so a Swedish pronoun
-# wins over a Swedish noun-phrase, a pname wins over a bare kind, etc.
+; v1 NP composition: same subclass order as English, so a Swedish pronoun
+; wins over a Swedish noun-phrase, a pname wins over a bare kind, etc.
 :NP = VARIABLE|PRONOUN|REG_NP|PNAME|KIND
 
 
-# Oxford-comma plural NP-list. Swedish uses "och" (and) before the last
-# element and commas between others, same shape as English.
+; Oxford-comma plural NP-list. Swedish uses "och" (and) before the last
+; element and commas between others, same shape as English.
 :NP_PLUR
 "$np(NP)"                                          $np(NP)                                          .
 "$np(NP) och $np(NP)"                              $np(NP) and $np(NP)                              .
@@ -74,16 +74,16 @@
 "$np(NP) ++, $np_plur(NP_PLUR)"                    $np(NP) , $np_plur(NP_PLUR)                      .
 
 
-# Question-context NPs. v1 ships only the bare statement-flavour NP; the
-# question grammar isn't wired in Swedish yet (tell_about works through
-# statements). Adding Q_NP is a follow-up.
+; Question-context NPs. v1 ships only the bare statement-flavour NP; the
+; question grammar isn't wired in Swedish yet (tell_about works through
+; statements). Adding Q_NP is a follow-up.
 :Q_REG_NP
 
 "$pname(PNAME)"
 ( o /known $pname(PNAME) )
 .
 
-# "the late Anna Andersson" - question-context dead-name form.
+; "the late Anna Andersson" - question-context dead-name form.
 "framlidne $pname(PNAME)"
 ( o /known { @o /past name $pname(PNAME) } )
 .

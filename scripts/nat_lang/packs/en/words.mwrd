@@ -1,0 +1,25 @@
+; -----------------------------------------------------------------------------
+; words.mwrd - English word classes: sets of interchangeable words a grammar
+; phrase names as `#<class>`. One line per class, `<class> | <member> | ..`,
+; the FIRST member canonical: the matcher consumes the longest member standing
+; at that point of the input, realize says the first. A class costs no
+; production and serves every phrase that names it, so a synonym is one word
+; here, never another line in Questions.mgr.
+; -----------------------------------------------------------------------------
+
+; The wrappers a question may be put inside: "could you tell me what your name is".
+ask-wrapper   | tell me | could you tell me | can you tell me | would you tell me | will you tell me | may i ask | might i ask | do you know | pray tell me | pray | i should like to know | i want to know | i wonder
+
+; Nouns and verbs the questions vary on.
+job-noun      | trade | occupation | profession | line of work | calling | employment | line | business
+living-verb   | earn | make | get
+pub-noun      | public house | tavern | inn | alehouse | pub | bar
+church-noun   | church | chapel
+frequent-verb | drink at | drink in | frequent | go to | patronise | patronize | use
+attend-verb   | attend | worship at | go to | belong to | frequent
+which-det     | what | which
+home-noun     | house | address | home | lodgings | residence
+firm-noun     | firm | house | establishment | concern | employer | company
+kill-verb     | killed | murdered | slain | done in
+dear-adj      | closest | dearest | best | nearest | oldest
+spouse-noun   | wife | husband | spouse

@@ -6,21 +6,21 @@ $kind(KIND)
 .
 
 
-# Plural-only kind class for kind-quantified content requests like
-# "tell me about your brothers" / "tell me about your interests" /
-# "tell me about your relationships". Strict-plural - no auto-stripping.
-# Singular surface forms ("brother", "interest") deliberately don't match
-# this class so they fall through to the tell_about NP-recall path
-# ("tell me about your brother" -> the (o {?_you mother @o}) recall).
-#
-# MC binding is a kind atom [k <singular>] so the runtime kind-in-label-
-# position lowering does its is_a expansion - "tell me about your
-# relationships" expands via [k relationship] to match all kinship-labeled
-# beliefs. The singular MC kind is the canonical ontology atom; the plural
-# is purely a surface concern.
+; Plural-only kind class for kind-quantified content requests like
+; "tell me about your brothers" / "tell me about your interests" /
+; "tell me about your relationships". Strict-plural - no auto-stripping.
+; Singular surface forms ("brother", "interest") deliberately don't match
+; this class so they fall through to the tell_about NP-recall path
+; ("tell me about your brother" -> the (o {?_you mother @o}) recall).
+;
+; MC binding is a kind atom [k <singular>] so the runtime kind-in-label-
+; position lowering does its is_a expansion - "tell me about your
+; relationships" expands via [k relationship] to match all kinship-labeled
+; beliefs. The singular MC kind is the canonical ontology atom; the plural
+; is purely a surface concern.
 :KIND_PLUR
 
-# Kinship plurals (mirror the surface forms in :RELP, Relations.mgr).
+; Kinship plurals (mirror the surface forms in :RELP, Relations.mgr).
 "brothers"              [k brother]             .
 "sisters"               [k sister]              .
 "siblings"              [k sibling]             .
@@ -48,9 +48,9 @@ $kind(KIND)
 "enemies"               [k enemy]               .
 "lovers"                [k lover]               .
 
-# Collective concept plurals - the isa expansion picks up child kinds.
-# `interest` is a relation label (not a kind) after the domain collapse, so it
-# binds the literal label (no [k ...] kind-expansion); the query then matches
-# {?sub interest ?} directly. `relationships` still expands the kind tree.
+; Collective concept plurals - the isa expansion picks up child kinds.
+; `interest` is a relation label (not a kind) after the domain collapse, so it
+; binds the literal label (no [k ...] kind-expansion); the query then matches
+; {?sub interest ?} directly. `relationships` still expands the kind tree.
 "interests"             interest                .
 "relationships"         [k relationship]        .

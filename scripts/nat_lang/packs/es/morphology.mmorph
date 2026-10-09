@@ -1,29 +1,29 @@
-# -----------------------------------------------------------------------------
-# morphology.mmorph - Spanish-pack morphology (Phase 8).
-#
-# Spanish cardinal numbers: 0..30 are individual lexicalized words; 31..99
-# follow the regular tens-de-tens + "y" + ones pattern (treinta y uno).
-# 16..29 also have single-word forms (dieciséis, veintiuno...) - the table
-# authors them directly so the composer never visits them.
-#
-# Composition style = spanish: 31..99 = tens_w + " y " + ones_w; 100 = "cien"
-# alone, 101..999 = "ciento" + " " + rem (the .mmorph authors hundred: ciento;
-# the composer special-cases 100 to emit "cien").
-#
-# Apocope: "uno" -> "un" before masculine nouns (un padre, not uno padre);
-# "veintiuno" -> "veintiún", "treinta y uno" -> "treinta y un". Every v1
-# Spanish template that emits a $num(NUM) hole does so before a masculine
-# noun ("años" in tiene/tenía N años, the only number-bearing slots), so the
-# .mmorph authors the apocoped X1 forms (21 = veintiún) and compose_spanish
-# emits "un" instead of "uno" in the 31..91 join. When templates with
-# feminine-noun contexts arrive (counting "hijas" etc.), thread an agreement
-# feature through render_number_words.
-# -----------------------------------------------------------------------------
+; -----------------------------------------------------------------------------
+; morphology.mmorph - Spanish-pack morphology (Phase 8).
+;
+; Spanish cardinal numbers: 0..30 are individual lexicalized words; 31..99
+; follow the regular tens-de-tens + "y" + ones pattern (treinta y uno).
+; 16..29 also have single-word forms (dieciséis, veintiuno...) - the table
+; authors them directly so the composer never visits them.
+;
+; Composition style = spanish: 31..99 = tens_w + " y " + ones_w; 100 = "cien"
+; alone, 101..999 = "ciento" + " " + rem (the .mmorph authors hundred: ciento;
+; the composer special-cases 100 to emit "cien").
+;
+; Apocope: "uno" -> "un" before masculine nouns (un padre, not uno padre);
+; "veintiuno" -> "veintiún", "treinta y uno" -> "treinta y un". Every v1
+; Spanish template that emits a $num(NUM) hole does so before a masculine
+; noun ("años" in tiene/tenía N años, the only number-bearing slots), so the
+; .mmorph authors the apocoped X1 forms (21 = veintiún) and compose_spanish
+; emits "un" instead of "uno" in the 31..91 join. When templates with
+; feminine-noun contexts arrive (counting "hijas" etc.), thread an agreement
+; feature through render_number_words.
+; -----------------------------------------------------------------------------
 
 style: spanish
 hundred: ciento
 
-# Ones
+; Ones
 number 0  = cero
 number 1  = uno
 number 2  = dos
@@ -35,7 +35,7 @@ number 7  = siete
 number 8  = ocho
 number 9  = nueve
 
-# Teens
+; Teens
 number 10 = diez
 number 11 = once
 number 12 = doce
@@ -47,7 +47,7 @@ number 17 = diecisiete
 number 18 = dieciocho
 number 19 = diecinueve
 
-# Twenties (single-word) - the composer never visits 20..29 because of these
+; Twenties (single-word) - the composer never visits 20..29 because of these
 number 20 = veinte
 number 21 = veintiún
 number 22 = veintidós
@@ -59,7 +59,7 @@ number 27 = veintisiete
 number 28 = veintiocho
 number 29 = veintinueve
 
-# Tens (composer fills 31..99 = "treinta y uno" etc.)
+; Tens (composer fills 31..99 = "treinta y uno" etc.)
 number 30 = treinta
 number 40 = cuarenta
 number 50 = cincuenta

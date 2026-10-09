@@ -1,19 +1,19 @@
-# -----------------------------------------------------------------------------
-# morphology.mmorph - English-pack morphology (Phase 7, plan section 7.1).
-#
-# Currently scoped to cardinal-number-to-words. compose style = english adds
-# hyphens between tens and ones ("twenty-four") and uses "and" between
-# hundreds and the residual ("one hundred and twenty-three").
-#
-# Authored data; mirrors the C++ tables that lived in nat_lang_utils.cc
-# before Phase 7. Non-interned and hot-reloadable - editing this file needs
-# no .msb regen.
-# -----------------------------------------------------------------------------
+; -----------------------------------------------------------------------------
+; morphology.mmorph - English-pack morphology (Phase 7, plan section 7.1).
+;
+; Currently scoped to cardinal-number-to-words. compose style = english adds
+; hyphens between tens and ones ("twenty-four") and uses "and" between
+; hundreds and the residual ("one hundred and twenty-three").
+;
+; Authored data; mirrors the C++ tables that lived in nat_lang_utils.cc
+; before Phase 7. Non-interned and hot-reloadable - editing this file needs
+; no .msb regen.
+; -----------------------------------------------------------------------------
 
 style: english
 hundred: hundred
 
-# Ones
+; Ones
 number 0 = zero
 number 1 = one
 number 2 = two
@@ -25,7 +25,7 @@ number 7 = seven
 number 8 = eight
 number 9 = nine
 
-# Teens
+; Teens
 number 10 = ten
 number 11 = eleven
 number 12 = twelve
@@ -37,7 +37,7 @@ number 17 = seventeen
 number 18 = eighteen
 number 19 = nineteen
 
-# Tens (the composer fills 21..29 = "twenty-one".."twenty-nine" etc.)
+; Tens (the composer fills 21..29 = "twenty-one".."twenty-nine" etc.)
 number 20 = twenty
 number 30 = thirty
 number 40 = forty

@@ -1,15 +1,15 @@
 
 :ST
 
-# OPENING - person_description's introducing vocative. Renders the description
-# subject's name as a standalone phrase ("Thomas Jones.") so the body's first
-# clause can pronominalise from the very next sentence. The MC mirrors the
-# generic-possessive template's predicate-splice shape (so the matcher's
-# proven path applies); the NL emits only the name. Tagged `:: intro` - the
-# slot-bound intent that only `select opening:` requests, guaranteeing this
-# template wins the match against the structurally-identical possessive form
-# below. The discourse planner routes only the description subject's own
-# name belief into the opening slot, so this never fires for other objects.
+; OPENING - person_description's introducing vocative. Renders the description
+; subject's name as a standalone phrase ("Thomas Jones.") so the body's first
+; clause can pronominalise from the very next sentence. The MC mirrors the
+; generic-possessive template's predicate-splice shape (so the matcher's
+; proven path applies); the NL emits only the name. Tagged `:: intro` - the
+; slot-bound intent that only `select opening:` requests, guaranteeing this
+; template wins the match against the structurally-identical possessive form
+; below. The discourse planner routes only the description subject's own
+; name belief into the opening slot, so this never fires for other objects.
 "$pname(PNAME)"
 { $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
 :: intro
@@ -31,13 +31,13 @@
 @false
 .
 
-# Formulaic phrases
+; Formulaic phrases
 "$form(FORM)"
 $form(FORM)
 .
 
 
-# Command-statements
+; Command-statements
 
 "tell me about $obj(Q_NP)"
 { ?_I /pres goal { ?_you /pres tell_about $obj(Q_NP) ?_I } }
@@ -47,28 +47,28 @@ $form(FORM)
 { ?_I /pres goal { ?_you /pres tell_about $obj(Q_NP) ?_I } }
 .
 
-# Kind-quantified content request: "tell me about Olivia's relationships",
-# "tell me about her interests", "tell me about his children". The
-# $state_kind hole uses KIND_PLUR (Kind.mgr) - PLURAL-ONLY surface forms,
-# strict, no auto-stripping. Singular kinship like "tell me about your
-# brother" deliberately does NOT match this template; it falls through to
-# the "tell me about $obj(Q_NP)" path above. Q_NP resolves the referent
-# any-tense + /known - (o /known {?_you /ever brother @o}) - so a DECEASED
-# relative (kinship belief ends at death) still resolves instead of failing a
-# present-tense recall, and an unknown referent yields @unknown rather than an
-# invented object. Plural surface forms
-# ("brothers", "interests") match here and the (every {?_you brother ? ?})
-# search enumerates all matching beliefs. KIND_PLUR's MC binding is a kind
-# atom [k <singular>] so the runtime isa expansion picks up child kinds for
-# collective queries like "relationships".
+; Kind-quantified content request: "tell me about Olivia's relationships",
+; "tell me about her interests", "tell me about his children". The
+; $state_kind hole uses KIND_PLUR (Kind.mgr) - PLURAL-ONLY surface forms,
+; strict, no auto-stripping. Singular kinship like "tell me about your
+; brother" deliberately does NOT match this template; it falls through to
+; the "tell me about $obj(Q_NP)" path above. Q_NP resolves the referent
+; any-tense + /known - (o /known {?_you /ever brother @o}) - so a DECEASED
+; relative (kinship belief ends at death) still resolves instead of failing a
+; present-tense recall, and an unknown referent yields @unknown rather than an
+; invented object. Plural surface forms
+; ("brothers", "interests") match here and the (every {?_you brother ? ?})
+; search enumerates all matching beliefs. KIND_PLUR's MC binding is a kind
+; atom [k <singular>] so the runtime isa expansion picks up child kinds for
+; collective queries like "relationships".
 "tell me about $obj(NP) ++'s $state_kind(KIND_PLUR)"
 { ?_I /pres goal { ?_you /pres tell_beliefs { $obj(NP) $state_kind(KIND_PLUR) ? ? } ?_I } }
 .
 
-# Possessive-pronoun shortcut: "tell me about your relationships" - no
-# trailing 's needed because "your" / "my" / "his" / "her" already encode
-# the possessive. NPC describes its own beliefs (subject = ?_you = @self
-# in the receiving rule), which avoids any cross-mind subject resolution.
+; Possessive-pronoun shortcut: "tell me about your relationships" - no
+; trailing 's needed because "your" / "my" / "his" / "her" already encode
+; the possessive. NPC describes its own beliefs (subject = ?_you = @self
+; in the receiving rule), which avoids any cross-mind subject resolution.
 "tell me about your $state_kind(KIND_PLUR)"
 { ?_I /pres goal { ?_you /pres tell_beliefs { ?_you $state_kind(KIND_PLUR) ? ? } ?_I } }
 .
@@ -78,34 +78,34 @@ $form(FORM)
 .
 
 
-# BARE-IS ATTRIBUTE STATEMENTS
-# e.g. "john is 56", "john is english", "john is a physician".
-# Each template names its specific label (age / nationality / job). The
-# $kind(KIND|/isa|<ancestor>) qualifier restricts the value to that label's
-# kind, so the three templates never poach each other's values and so they
-# are not confused with the generic "X is <kind>" -> isa STATE rule below.
-# Note: non-terminal qualifiers are pipe-separated with NO spaces - the
-# phrase tokenizer splits on whitespace before parsing the (...) payload.
-# Placed before the possessive and generic-state templates so they take
-# priority in both directions (first-match-wins, see _translate).
+; BARE-IS ATTRIBUTE STATEMENTS
+; e.g. "john is 56", "john is english", "john is a physician".
+; Each template names its specific label (age / nationality / job). The
+; $kind(KIND|/isa|<ancestor>) qualifier restricts the value to that label's
+; kind, so the three templates never poach each other's values and so they
+; are not confused with the generic "X is <kind>" -> isa STATE rule below.
+; Note: non-terminal qualifiers are pipe-separated with NO spaces - the
+; phrase tokenizer splits on whitespace before parsing the (...) payload.
+; Placed before the possessive and generic-state templates so they take
+; priority in both directions (first-match-wins, see _translate).
 
 "$sub_np(NP) $verb(VERB|be) $num(NUM)"
 { $sub_np(NP) /ever age $num(NUM) }
 .
 
-# Terse age - clipped, comma-attached, no copula. The clerk-ledger voice: a
-# fact dropped on the floor without ceremony. Picked by the .mph age select
-# when cog:abstract holds (the speaker compresses to the claim). /ever so a
-# deceased subject's age renders the same clipped form (tense is carried by
-# the surrounding clauses, not the bare number).
+; Terse age - clipped, comma-attached, no copula. The clerk-ledger voice: a
+; fact dropped on the floor without ceremony. Picked by the .mph age select
+; when cog:abstract holds (the speaker compresses to the claim). /ever so a
+; deceased subject's age renders the same clipped form (tense is carried by
+; the surrounding clauses, not the bare number).
 " $sub_np(NP) ++, $num(NUM) "
 { $sub_np(NP) /ever age $num(NUM) }
 :: terse curt
 .
 
-# Elaborated age - the schooled voice. Picked by the .mph age select when
-# schooling:high holds; the speaker reaches for the more formal periphrasis
-# instead of the bare copula. Same belief shape - parse accepts either.
+; Elaborated age - the schooled voice. Picked by the .mph age select when
+; schooling:high holds; the speaker reaches for the more formal periphrasis
+; instead of the bare copula. Same belief shape - parse accepts either.
 " $sub_np(NP) has attained the age of $num(NUM) years "
 { $sub_np(NP) /pres age $num(NUM) }
 :: elaborated
@@ -115,17 +115,17 @@ $form(FORM)
 { $sub_np(NP) /ever nationality $kind(KIND|/isa|nationality) }
 .
 
-# class-situation is a kind-valued state ([k lower] / [k middle] / [k upper]);
-# the trailing "-class" suffix reads naturally for all three values.
+; class-situation is a kind-valued state ([k lower] / [k middle] / [k upper]);
+; the trailing "-class" suffix reads naturally for all three values.
 "$sub_np(NP) $verb(VERB|be) $kind(KIND|/isa|class-situation) ++-class"
 { $sub_np(NP) /ever class-situation $kind(KIND|/isa|class-situation) }
 .
 
-# Occupation - several phrasings of the same belief shape. "works as a X" is
-# the longer / more conversational default; "is a X" is the curt / terse form;
-# "makes his living as a X" is the affectionate / approving form, picked when
-# the speaker holds the subject in regard. All materialize the same belief, so
-# parsing accepts any of them.
+; Occupation - several phrasings of the same belief shape. "works as a X" is
+; the longer / more conversational default; "is a X" is the curt / terse form;
+; "makes his living as a X" is the affectionate / approving form, picked when
+; the speaker holds the subject in regard. All materialize the same belief, so
+; parsing accepts any of them.
 "$sub_np(NP) $verb(VERB|work) as a $kind(KIND|/isa|job)"
 { $sub_np(NP) /ever job $kind(KIND|/isa|job) }
 .
@@ -135,44 +135,44 @@ $form(FORM)
 :: curt terse
 .
 
-# Warm - the speaker approves of the subject's livelihood; "makes his living"
-# casts honest labour as a virtue. The 1897-narrator turn of phrase.
+; Warm - the speaker approves of the subject's livelihood; "makes his living"
+; casts honest labour as a virtue. The 1897-narrator turn of phrase.
 "$sub_np(NP) makes his living as a $kind(KIND|/isa|job)"
 { $sub_np(NP) /pres job $kind(KIND|/isa|job) }
 :: warm
 .
 
-# Elaborated - the schooled voice. "By profession" carries the periphrastic
-# formality the educated speaker reaches for. Picked by the .mph occupation
-# select when schooling:high holds.
+; Elaborated - the schooled voice. "By profession" carries the periphrastic
+; formality the educated speaker reaches for. Picked by the .mph occupation
+; select when schooling:high holds.
 "$sub_np(NP) is by profession a $kind(KIND|/isa|job)"
 { $sub_np(NP) /pres job $kind(KIND|/isa|job) }
 :: elaborated
 .
 
-# Flowery - the romantic-narrator's reach. "Plies the trade of" is 1897 high
-# style for occupation - the kind of phrasing a well-read speaker uses without
-# irony. Same belief shape as the neutral form.
+; Flowery - the romantic-narrator's reach. "Plies the trade of" is 1897 high
+; style for occupation - the kind of phrasing a well-read speaker uses without
+; irony. Same belief shape as the neutral form.
 "$sub_np(NP) plies the trade of a $kind(KIND|/isa|job)"
 { $sub_np(NP) /pres job $kind(KIND|/isa|job) }
 :: flowery
 .
 
 
-# THIRD-PARTY KINSHIP / RELATION STATEMENTS.
-# e.g. "John's father is Maurice", "John's spouse is Mary".
-#
-# These are the explicit per-label forms the description renderer relies on.
-# A generic "$sub_np ++'s $passive_rel(PASSIVE_REL) $np" template exists below
-# but the structural realize's predicate-fragment path rejects PASSIVE_REL's
-# non-terminal label position (_realize_predicate in nat_lang_realize.cc), so
-# these label-literal templates carry the description corpus. Mirrors the
-# bare-is statements (age / nationality / job) above.
+; THIRD-PARTY KINSHIP / RELATION STATEMENTS.
+; e.g. "John's father is Maurice", "John's spouse is Mary".
+;
+; These are the explicit per-label forms the description renderer relies on.
+; A generic "$sub_np ++'s $passive_rel(PASSIVE_REL) $np" template exists below
+; but the structural realize's predicate-fragment path rejects PASSIVE_REL's
+; non-terminal label position (_realize_predicate in nat_lang_realize.cc), so
+; these label-literal templates carry the description corpus. Mirrors the
+; bare-is statements (age / nationality / job) above.
 
-# Phase 8.2 - one template covers both tenses. $verb(VERB|be) emits "is" /
-# "was" by reading the surrounding belief's tense at realize; at parse the
-# matcher deconjugates the input and replaces the MC's /ever placeholder
-# with the recovered tense before committing.
+; Phase 8.2 - one template covers both tenses. $verb(VERB|be) emits "is" /
+; "was" by reading the surrounding belief's tense at realize; at parse the
+; matcher deconjugates the input and replaces the MC's /ever placeholder
+; with the recovered tense before committing.
 " $sub_np(NP) ++'s mother $verb(VERB|be) $value(NP) "
 { $sub_np(NP) /ever mother $value(NP) } .
 " $sub_np(NP) ++'s father $verb(VERB|be) $value(NP) "
@@ -196,10 +196,10 @@ $form(FORM)
 " $sub_np(NP) ++'s neighbour is $value(NP) "
 { $sub_np(NP) /pres neighbour $value(NP) } .
 
-# Terse / curt variants - fronted-name, dropped copula. The clerkly form a
-# brisk speaker reaches for when reciting a kinship roster: "Emily, Charlotte's
-# mother." Same belief shape as the neutral form above; parse accepts either.
-# The .mph relations select picks these when cog:abstract or intent:terse holds.
+; Terse / curt variants - fronted-name, dropped copula. The clerkly form a
+; brisk speaker reaches for when reciting a kinship roster: "Emily, Charlotte's
+; mother." Same belief shape as the neutral form above; parse accepts either.
+; The .mph relations select picks these when cog:abstract or intent:terse holds.
 " $value(NP) ++, $sub_np(NP) ++'s mother "
 { $sub_np(NP) /pres mother $value(NP) }
 :: terse curt
@@ -245,9 +245,9 @@ $form(FORM)
 :: terse curt
 .
 
-# Warm variants - "dear" prepended, the affectionate-narrator's gloss for kin
-# the speaker holds in regard. Mirrors the first-person "my dear mother" form
-# above; same belief shape as the neutral third-party templates.
+; Warm variants - "dear" prepended, the affectionate-narrator's gloss for kin
+; the speaker holds in regard. Mirrors the first-person "my dear mother" form
+; above; same belief shape as the neutral third-party templates.
 " $sub_np(NP) ++'s dear mother is $value(NP) "
 { $sub_np(NP) /pres mother $value(NP) }
 :: warm
@@ -281,10 +281,10 @@ $form(FORM)
 :: warm
 .
 
-# Elaborated kinship - "esteemed" prepended, the schooled-narrator's adjective
-# of choice for naming kin in the formal periphrastic register. Picked by the
-# .mph relations select when schooling:high holds. Same belief shape as the
-# neutral forms, so parse accepts either.
+; Elaborated kinship - "esteemed" prepended, the schooled-narrator's adjective
+; of choice for naming kin in the formal periphrastic register. Picked by the
+; .mph relations select when schooling:high holds. Same belief shape as the
+; neutral forms, so parse accepts either.
 " $sub_np(NP) ++'s esteemed mother is $value(NP) "
 { $sub_np(NP) /pres mother $value(NP) }
 :: elaborated
@@ -310,82 +310,82 @@ $form(FORM)
 :: elaborated
 .
 
-# Birthplace / home are object-valued; same possessive shape.
+; Birthplace / home are object-valued; same possessive shape.
 " $sub_np(NP) ++'s birthplace is $value(NP) "
 { $sub_np(NP) /pres birthplace $value(NP) } .
 " $sub_np(NP) ++'s home is $value(NP) "
 { $sub_np(NP) /pres home $value(NP) } .
 
-# ---------------------------------------------------------------------------
-# REGARD-SLOT CLAUSES - love and emotion beliefs.
-# ---------------------------------------------------------------------------
-# The .mph person_description schema's `regard` slot is filled by {X love Y}
-# and {X emotion <kind> <focus>} beliefs (see discourse_planner.cc's slot_for_label).
-# Several intent-tagged variants per shape: the .mph regard select walks
-# warm -> flowery -> blunt -> curt -> deferential -> neutral, falling through
-# until a template carrying the chosen intent exists for the belief.
-#
-# Belief shapes:
-#   { X /pres love Y }                     - 3 args, Y is a human object.
-#   { X /pres emotion [k <kind>] }         - 3 args, ambient (no focus, aux=_).
-#   { X /pres emotion [k <kind>] Y }       - 4 args, Y is what the feeling is
-#                                            about (the focus, in aux slot).
-#
-# All variants share their belief shape with the neutral fallback - parsing
-# any of the surface forms recovers the same MC.
+; ---------------------------------------------------------------------------
+; REGARD-SLOT CLAUSES - love and emotion beliefs.
+; ---------------------------------------------------------------------------
+; The .mph person_description schema's `regard` slot is filled by {X love Y}
+; and {X emotion <kind> <focus>} beliefs (see discourse_planner.cc's slot_for_label).
+; Several intent-tagged variants per shape: the .mph regard select walks
+; warm -> flowery -> blunt -> curt -> deferential -> neutral, falling through
+; until a template carrying the chosen intent exists for the belief.
+;
+; Belief shapes:
+;   { X /pres love Y }                     - 3 args, Y is a human object.
+;   { X /pres emotion [k <kind>] }         - 3 args, ambient (no focus, aux=_).
+;   { X /pres emotion [k <kind>] Y }       - 4 args, Y is what the feeling is
+;                                            about (the focus, in aux slot).
+;
+; All variants share their belief shape with the neutral fallback - parsing
+; any of the surface forms recovers the same MC.
 
-# --- LOVE (relationship) ----------------------------------------------------
+; --- LOVE (relationship) ----------------------------------------------------
 
-# Neutral - the unmarked statement of love. The .mph fallback chain always
-# ends here, so EVERY love belief renders even when no intent matches.
+; Neutral - the unmarked statement of love. The .mph fallback chain always
+; ends here, so EVERY love belief renders even when no intent matches.
 " $sub_np(NP) $verb(VERB|love) $value(NP) "
 { $sub_np(NP) /ever love $value(NP) } .
 
-# Warm - the affectionate narrator's gloss. "Loves dearly" tags the love
-# with the speaker's own approval; the warmest non-flowery reading.
+; Warm - the affectionate narrator's gloss. "Loves dearly" tags the love
+; with the speaker's own approval; the warmest non-flowery reading.
 " $sub_np(NP) loves $value(NP) dearly "
 { $sub_np(NP) /pres love $value(NP) }
 :: warm
 .
 
-# Flowery - the romantic-narrator's grand register. The figurative reach a
-# sensory speaker takes when describing someone they themselves love.
+; Flowery - the romantic-narrator's grand register. The figurative reach a
+; sensory speaker takes when describing someone they themselves love.
 " $sub_np(NP) holds $value(NP) dear above all the world "
 { $sub_np(NP) /pres love $value(NP) }
 :: flowery
 .
 
-# Elaborated - the schooled voice. Periphrastic, slightly formal, the way a
-# well-read speaker glosses an affection without quite reaching for the
-# romantic. Picked by the .mph regard select when schooling:high holds.
+; Elaborated - the schooled voice. Periphrastic, slightly formal, the way a
+; well-read speaker glosses an affection without quite reaching for the
+; romantic. Picked by the .mph regard select when schooling:high holds.
 " $sub_np(NP) bears a deep and abiding affection for $value(NP) "
 { $sub_np(NP) /pres love $value(NP) }
 :: elaborated
 .
 
-# Blunt - the matter-of-fact recital, no varnish. Picked when the speaker
-# resents the subject and grudgingly reports the bond as fact.
+; Blunt - the matter-of-fact recital, no varnish. Picked when the speaker
+; resents the subject and grudgingly reports the bond as fact.
 " $sub_np(NP) dotes on $value(NP) "
 { $sub_np(NP) /pres love $value(NP) }
 :: blunt
 .
 
-# Curt - the dismissive aside, half-shrugged. "Carries a torch for" carries
-# the faint disapproval a brisk gossip puts on someone else's attachment.
+; Curt - the dismissive aside, half-shrugged. "Carries a torch for" carries
+; the faint disapproval a brisk gossip puts on someone else's attachment.
 " $sub_np(NP) carries a torch for $value(NP) "
 { $sub_np(NP) /pres love $value(NP) }
 :: curt
 .
 
-# Deferential - cautious, formal, "given to understand". Picked when the
-# speaker fears the subject and reports the bond at a respectful remove.
+; Deferential - cautious, formal, "given to understand". Picked when the
+; speaker fears the subject and reports the bond at a respectful remove.
 " $sub_np(NP) is given to a deep regard for $value(NP) "
 { $sub_np(NP) /pres love $value(NP) }
 :: deferential
 .
 
 
-# --- EMOTION : AFFECTION (object focus) ------------------------------------
+; --- EMOTION : AFFECTION (object focus) ------------------------------------
 " $sub_np(NP) is fond of $value(NP) "
 { $sub_np(NP) /pres emotion [k affection ] $value(NP) } .
 " $sub_np(NP) feels great tenderness toward $value(NP) "
@@ -397,7 +397,7 @@ $form(FORM)
 :: curt
 .
 
-# --- EMOTION : JOY ---------------------------------------------------------
+; --- EMOTION : JOY ---------------------------------------------------------
 " $sub_np(NP) delights in $value(NP) "
 { $sub_np(NP) /pres emotion [k joy ] $value(NP) } .
 " $sub_np(NP) takes the greatest joy in $value(NP) "
@@ -411,7 +411,7 @@ $form(FORM)
 " $sub_np(NP) is glad "
 { $sub_np(NP) /pres emotion [k joy ] } .
 
-# --- EMOTION : PRIDE -------------------------------------------------------
+; --- EMOTION : PRIDE -------------------------------------------------------
 " $sub_np(NP) is proud of $value(NP) "
 { $sub_np(NP) /pres emotion [k pride ] $value(NP) } .
 " $sub_np(NP) takes a great pride in $value(NP) "
@@ -423,7 +423,7 @@ $form(FORM)
 :: blunt
 .
 
-# --- EMOTION : GRIEF -------------------------------------------------------
+; --- EMOTION : GRIEF -------------------------------------------------------
 " $sub_np(NP) grieves for $value(NP) "
 { $sub_np(NP) /pres emotion [k grief ] $value(NP) } .
 " $sub_np(NP) is heartbroken over $value(NP) "
@@ -441,7 +441,7 @@ $form(FORM)
 " $sub_np(NP) is sad "
 { $sub_np(NP) /pres emotion [k grief ] } .
 
-# --- EMOTION : ANGER (the "resents" reading) ------------------------------
+; --- EMOTION : ANGER (the "resents" reading) ------------------------------
 " $sub_np(NP) is angry at $value(NP) "
 { $sub_np(NP) /pres emotion [k anger ] $value(NP) } .
 " $sub_np(NP) cannot abide $value(NP) "
@@ -459,7 +459,7 @@ $form(FORM)
 " $sub_np(NP) is angry "
 { $sub_np(NP) /pres emotion [k anger ] } .
 
-# --- EMOTION : FEAR --------------------------------------------------------
+; --- EMOTION : FEAR --------------------------------------------------------
 " $sub_np(NP) is afraid of $value(NP) "
 { $sub_np(NP) /pres emotion [k fear ] $value(NP) } .
 " $sub_np(NP) lives in great dread of $value(NP) "
@@ -477,7 +477,7 @@ $form(FORM)
 " $sub_np(NP) is afraid "
 { $sub_np(NP) /pres emotion [k fear ] } .
 
-# --- EMOTION : SHAME -------------------------------------------------------
+; --- EMOTION : SHAME -------------------------------------------------------
 " $sub_np(NP) is ashamed of $value(NP) "
 { $sub_np(NP) /pres emotion [k shame ] $value(NP) } .
 " $sub_np(NP) bears a deep shame over $value(NP) "
@@ -489,7 +489,7 @@ $form(FORM)
 :: curt
 .
 
-# --- EMOTION : GUILT -------------------------------------------------------
+; --- EMOTION : GUILT -------------------------------------------------------
 " $sub_np(NP) feels guilty about $value(NP) "
 { $sub_np(NP) /pres emotion [k guilt ] $value(NP) } .
 " $sub_np(NP) cannot forgive himself for $value(NP) "
@@ -501,7 +501,7 @@ $form(FORM)
 :: warm
 .
 
-# --- EMOTION : ENVY --------------------------------------------------------
+; --- EMOTION : ENVY --------------------------------------------------------
 " $sub_np(NP) envies $value(NP) "
 { $sub_np(NP) /pres emotion [k envy ] $value(NP) } .
 " $sub_np(NP) cannot help but envy $value(NP) "
@@ -513,7 +513,7 @@ $form(FORM)
 :: curt
 .
 
-# --- EMOTION : JEALOUSY ---------------------------------------------------
+; --- EMOTION : JEALOUSY ---------------------------------------------------
 " $sub_np(NP) is jealous of $value(NP) "
 { $sub_np(NP) /pres emotion [k jealousy ] $value(NP) } .
 " $sub_np(NP) burns with jealousy over $value(NP) "
@@ -525,7 +525,7 @@ $form(FORM)
 :: curt
 .
 
-# --- EMOTION : CONTEMPT ---------------------------------------------------
+; --- EMOTION : CONTEMPT ---------------------------------------------------
 " $sub_np(NP) holds $value(NP) in contempt "
 { $sub_np(NP) /pres emotion [k contempt ] $value(NP) } .
 " $sub_np(NP) has no time at all for $value(NP) "
@@ -537,7 +537,7 @@ $form(FORM)
 :: flowery
 .
 
-# --- EMOTION : DISGUST ----------------------------------------------------
+; --- EMOTION : DISGUST ----------------------------------------------------
 " $sub_np(NP) is disgusted by $value(NP) "
 { $sub_np(NP) /pres emotion [k disgust ] $value(NP) } .
 " $sub_np(NP) cannot stomach $value(NP) "
@@ -549,7 +549,7 @@ $form(FORM)
 :: flowery
 .
 
-# --- EMOTION : GRATITUDE --------------------------------------------------
+; --- EMOTION : GRATITUDE --------------------------------------------------
 " $sub_np(NP) is grateful to $value(NP) "
 { $sub_np(NP) /pres emotion [k gratitude ] $value(NP) } .
 " $sub_np(NP) owes $value(NP) a debt of the heart "
@@ -561,7 +561,7 @@ $form(FORM)
 :: deferential
 .
 
-# --- EMOTION : HOPE / RELIEF / DISTRESS (ambient + focused) ---------------
+; --- EMOTION : HOPE / RELIEF / DISTRESS (ambient + focused) ---------------
 " $sub_np(NP) hopes for $value(NP) "
 { $sub_np(NP) /pres emotion [k hope ] $value(NP) } .
 " $sub_np(NP) is hopeful "
@@ -575,22 +575,22 @@ $form(FORM)
 " $sub_np(NP) is distressed "
 { $sub_np(NP) /pres emotion [k distress ] } .
 
-# ---------------------------------------------------------------------------
+; ---------------------------------------------------------------------------
 
-# BEHAVIOURAL INTEREST PROSE - one template per domain kind. A description
-# voices an interest as the behaviour it produces ("she haunts the curiosity
-# shops"), not as inventory ("she is interested in antiques"). Each entry
-# leads with a $verb hole so the surrounding belief's tense carries (a
-# deceased subject's interests render in the past); the literal tail after
-# the verb must stay non-finite (no "whenever the weather allows" - the baked
-# present tense would survive into past renderings). MUST come before the
-# generic interested-in templates below - the realize matcher is first-match-
-# wins by file order, so a kind-literal entry placed later would lose to the
-# variable-kind generic. Untagged = neutral; behavioural variants for the
-# warm / curt / elaborated voices are a follow-up. An unauthored future kind
-# falls through to the generic "interested in" form.
+; BEHAVIOURAL INTEREST PROSE - one template per domain kind. A description
+; voices an interest as the behaviour it produces ("she haunts the curiosity
+; shops"), not as inventory ("she is interested in antiques"). Each entry
+; leads with a $verb hole so the surrounding belief's tense carries (a
+; deceased subject's interests render in the past); the literal tail after
+; the verb must stay non-finite (no "whenever the weather allows" - the baked
+; present tense would survive into past renderings). MUST come before the
+; generic interested-in templates below - the realize matcher is first-match-
+; wins by file order, so a kind-literal entry placed later would lose to the
+; variable-kind generic. Untagged = neutral; behavioural variants for the
+; warm / curt / elaborated voices are a follow-up. An unauthored future kind
+; falls through to the generic "interested in" form.
 
-# academic-field
+; academic-field
 " $sub_np(NP) $verb(VERB|spend) long hours with the Greek and Latin authors "
 { $sub_np(NP) /ever interest [k classics ] } .
 " $sub_np(NP) $verb(VERB|tinker) endlessly with machines and contrivances "
@@ -620,7 +620,7 @@ $form(FORM)
 " $sub_np(NP) $verb(VERB|attend) the public lectures "
 { $sub_np(NP) /ever interest [k science ] } .
 
-# performance-art
+; performance-art
 " $sub_np(NP) $verb(VERB|go) to every concert in town "
 { $sub_np(NP) /ever interest [k music ] } .
 " $sub_np(NP) $verb(VERB|go) to the theatre at every opportunity "
@@ -628,7 +628,7 @@ $form(FORM)
 " $sub_np(NP) $verb(VERB|spend) a great deal of time in the library "
 { $sub_np(NP) /ever interest [k literature ] } .
 
-# martial
+; martial
 " $sub_np(NP) $verb(VERB|practise) with pistol and rifle "
 { $sub_np(NP) /ever interest [k marksmanship ] } .
 " $sub_np(NP) $verb(VERB|handle) a knife with uncommon familiarity "
@@ -644,7 +644,7 @@ $form(FORM)
 " $sub_np(NP) $verb(VERB|ride) at every opportunity "
 { $sub_np(NP) /ever interest [k riding ] } .
 
-# illicit
+; illicit
 " $sub_np(NP) $verb(VERB|know) a great deal about poisons "
 { $sub_np(NP) /ever interest [k poisoning-knowledge ] } .
 " $sub_np(NP) $verb(VERB|have) a suspicious talent for imitating another's hand "
@@ -658,7 +658,7 @@ $form(FORM)
 " $sub_np(NP) $verb(VERB|poke) about in other people's business "
 { $sub_np(NP) /ever interest [k detecting ] } .
 
-# athletics / avocation / devotional / civic
+; athletics / avocation / devotional / civic
 " $sub_np(NP) $verb(VERB|turn) out for every sporting contest "
 { $sub_np(NP) /ever interest [k sports ] } .
 " $sub_np(NP) $verb(VERB|haunt) the curiosity shops "
@@ -670,94 +670,94 @@ $form(FORM)
 " $sub_np(NP) $verb(VERB|go) to the suffrage meetings "
 { $sub_np(NP) /ever interest [k suffrage-cause ] } .
 
-# Interest is a kind-valued plural-attr; one belief per interest topic. KIND
-# strips the bracket form so [k music] -> "music". The neutral default - kept
-# as the fallback the .mph select chain always lands on. $verb(VERB|be) carries
-# both tenses (is / was interested in) so a deceased subject's interests render.
-# With the behavioural templates above, this generic form fires only for
-# unauthored kinds, for the aggregated interest_description list, and for the
-# parse direction.
+; Interest is a kind-valued plural-attr; one belief per interest topic. KIND
+; strips the bracket form so [k music] -> "music". The neutral default - kept
+; as the fallback the .mph select chain always lands on. $verb(VERB|be) carries
+; both tenses (is / was interested in) so a deceased subject's interests render.
+; With the behavioural templates above, this generic form fires only for
+; unauthored kinds, for the aggregated interest_description list, and for the
+; parse direction.
 " $sub_np(NP) $verb(VERB|be) interested in $kind(KIND|/isa|domain) "
 { $sub_np(NP) /ever interest $kind(KIND|/isa|domain) } .
 
-# Warm - the speaker holds the subject in regard. "Fond of" softens the bare
-# fact into approval; the interest becomes something the subject is loved for.
+; Warm - the speaker holds the subject in regard. "Fond of" softens the bare
+; fact into approval; the interest becomes something the subject is loved for.
 " $sub_np(NP) is fond of $kind(KIND|/isa|domain) "
 { $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
 :: warm
 .
 
-# Flowery - the .mph escalates warm to flowery when cog:sensory holds.
-# A figurative, romantic-narrator reach: not an interest, but a passion.
+; Flowery - the .mph escalates warm to flowery when cog:sensory holds.
+; A figurative, romantic-narrator reach: not an interest, but a passion.
 " $sub_np(NP) has a great love of $kind(KIND|/isa|domain) "
 { $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
 :: flowery
 .
 
-# Elaborated - the schooled voice. "Takes a serious interest in" frames the
-# interest as a considered pursuit rather than a bare preference. Picked by
-# the .mph interest select when schooling:high holds.
+; Elaborated - the schooled voice. "Takes a serious interest in" frames the
+; interest as a considered pursuit rather than a bare preference. Picked by
+; the .mph interest select when schooling:high holds.
 " $sub_np(NP) takes a serious interest in $kind(KIND|/isa|domain) "
 { $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
 :: elaborated
 .
 
-# Curt - the speaker resents the subject. Dismissive bare-acknowledgement form
-# - "cares for" said with a shrug, the way the disapproving narrator concedes
-# a fact they don't think much of.
+; Curt - the speaker resents the subject. Dismissive bare-acknowledgement form
+; - "cares for" said with a shrug, the way the disapproving narrator concedes
+; a fact they don't think much of.
 " $sub_np(NP) cares for $kind(KIND|/isa|domain) "
 { $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
 :: curt
 .
 
 
-# POSSESSIVE RELATIONS EXPRESSED IN THE PASSIVE FORM
-# e.g. john's mother is/was...
+; POSSESSIVE RELATIONS EXPRESSED IN THE PASSIVE FORM
+; e.g. john's mother is/was...
 
-# First-person possessive with any attribute (my X is Y)
-# e.g. my game-role is npc, my mother is $mother
+; First-person possessive with any attribute (my X is Y)
+; e.g. my game-role is npc, my mother is $mother
 " $my(PRONOUN) $rel(REL) $verb(VERB|be) $value(NP) "
 { $my(PRONOUN) /ever $rel(REL) $value(NP) }
 .
 
-# Affectionate variant - the sentence planner picks this when the speaker's
-# regard toward the subject (the $value here) is `loves` or the slot's intent
-# preference is `warm`. The MC belief shape is identical to the neutral form,
-# so parsing accepts either; only the generation choice differs.
+; Affectionate variant - the sentence planner picks this when the speaker's
+; regard toward the subject (the $value here) is `loves` or the slot's intent
+; preference is `warm`. The MC belief shape is identical to the neutral form,
+; so parsing accepts either; only the generation choice differs.
 " $my(PRONOUN) dear $rel(REL) is $value(NP) "
 { $my(PRONOUN) /pres $rel(REL) $value(NP) }
 :: warm
 .
 
-# Curt variant - "Mary, my mother" - drops the copula. The literal comma is
-# tokenised as its own NL token; the bind-tokens ("++,") would only matter for
-# generation glue, and on parse the matcher walks tokens left-to-right.
+; Curt variant - "Mary, my mother" - drops the copula. The literal comma is
+; tokenised as its own NL token; the bind-tokens ("++,") would only matter for
+; generation glue, and on parse the matcher walks tokens left-to-right.
 " $value(NP) ++, $my(PRONOUN) $rel(REL) "
 { $my(PRONOUN) /pres $rel(REL) $value(NP) }
 :: curt
 .
 
 
-# any possessive relation that is a proper name, e.g. john's name is ...
-# Uses PNAME for the value so proper names get [n ...] wrapper
+; any possessive relation that is a proper name, e.g. john's name is ...
+; Uses PNAME for the value so proper names get [n ...] wrapper
 " $sub_np(NP) ++'s $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME)"
 { $sub_np(NP)      $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) } .
 
-# any possessive relation that is a number, e.g. john's age is 20
+; any possessive relation that is a number, e.g. john's age is 20
 " $sub_np(NP) ++'s $num_rel(PASSIVE_NUM_REL) $num(NUM)"
 { $sub_np(NP)      $num_rel(PASSIVE_NUM_REL) $num(NUM) } .
 
-# any possessive PLURAL relation that is a noun-phrase, e.g. john's friends are sam and mary
+; any possessive PLURAL relation that is a noun-phrase, e.g. john's friends are sam and mary
 " $sub_np(NP) ++'s $passive_rel(PASSIVE_REL_PLUR) $conj(CONJ) "
 { $sub_np(NP)      $passive_rel(PASSIVE_REL_PLUR) $conj(CONJ) }
 .
 
-# any possessive relation that is a noun-phrase, e.g. john's friend is a big red pig
+; any possessive relation that is a noun-phrase, e.g. john's friend is a big red pig
 " $sub_np(NP) ++'s $passive_rel(PASSIVE_REL) $np(NP) "
 { $sub_np(NP)      $passive_rel(PASSIVE_REL) $np(NP) }
 .
 
-# any possessive relation involving 'this', e.g. this is/was john's friend
+; any possessive relation involving 'this', e.g. this is/was john's friend
 "this is $sub_np(NP) ++'s $rel(REL)"
 { $sub_np(NP) /pres $rel(REL) ( this ) }
 .
@@ -765,7 +765,7 @@ $form(FORM)
 { $sub_np(NP) /past $rel(REL) ( this ) }
 .
 
-# extended to include the name, e.g. this is john's friend sam
+; extended to include the name, e.g. this is john's friend sam
 "this is $sub_np(NP) ++'s $rel(REL) $pname(PNAME)"
 { $sub_np(NP) /pres $rel(REL) ( this $pname(PNAME) ) }
 .
@@ -774,17 +774,17 @@ $form(FORM)
 .
 
 
-# POSSESSIVE RELATIONS EXPRESSED AS VERBS (ACTIVE relations)
-# e.g. john lives/lived at ... (instead of the passive john's home is/was)
+; POSSESSIVE RELATIONS EXPRESSED AS VERBS (ACTIVE relations)
+; e.g. john lives/lived at ... (instead of the passive john's home is/was)
 
 " $sub_np(NP)  $active_rel(ACTIVE_REL)  $obj_np(NP) "
 { $sub_np(NP)  $active_rel(ACTIVE_REL)  $obj_np(NP) }
 .
 
 
-# SPEECH ACTIONS
-# SAY is the ONE verbal action label - the payload func discriminates the
-# mood ($msg = statement, $qs = question).
+; SPEECH ACTIONS
+; SAY is the ONE verbal action label - the payload func discriminates the
+; mood ($msg = statement, $qs = question).
 
 " $sub_np(NP) says ++:   $msg(MSG) to $obj_np(NP)"
 { $sub_np(NP) /pres SAY $msg(MSG)    $obj_np(NP) }
@@ -800,7 +800,7 @@ $form(FORM)
 { $sub_np(NP) /past SAY $qs(QS)    $obj_np(NP) }
 .
 
-# SPEECH TASKS
+; SPEECH TASKS
 
 " $sub_np(NP) tells      $obj_np(NP) ++: $msg(MSG)"
 { $sub_np(NP) /pres tell $msg(MSG)       $obj_np(NP) }
@@ -817,19 +817,19 @@ $form(FORM)
 .
 
 
-#
-# Reported speech
-#
-# Reported speech is translated in a two-step process; we separately translate the message (appearing here as '_')
-# followed by translating the actual speaking event.  We do this because the speaker/recipient pronouns in the 
-# message may not match those of the speaking event.  For example, in "John said 'you are mean' to me", 'you' in the
-# message refers to 'me' in the speaking event.
-#
-#"$speaker(NP) said to $recipient(NP) ++: '_'"
-#{ $speaker(NP) UTTER _ $recipient(NP) /past }
-#.
+;
+; Reported speech
+;
+; Reported speech is translated in a two-step process; we separately translate the message (appearing here as '_')
+; followed by translating the actual speaking event.  We do this because the speaker/recipient pronouns in the 
+; message may not match those of the speaking event.  For example, in "John said 'you are mean' to me", 'you' in the
+; message refers to 'me' in the speaking event.
+;
+;"$speaker(NP) said to $recipient(NP) ++: '_'"
+;{ $speaker(NP) UTTER _ $recipient(NP) /past }
+;.
 
-# ACTION-SENTENCES
+; ACTION-SENTENCES
 
 " $sub_np(NP) $action(SPECIAL_ACTION)"
 { $sub_np(NP) $action(SPECIAL_ACTION) }
@@ -841,7 +841,7 @@ $form(FORM)
 { $sub_np(NP) $action(INTRANS_ACTION) }
 .
 
-# TASK-SENTENCES
+; TASK-SENTENCES
 
 " $sub_np(NP) $task(SPECIAL_TASK)"
 { $sub_np(NP) $task(SPECIAL_TASK) }
@@ -853,7 +853,7 @@ $form(FORM)
 { $sub_np(NP) $task(INTRANS_TASK) }
 .
 
-# STATE-SENTENCES
+; STATE-SENTENCES
 
 " $sub_np(NP) $state(SPECIAL_STATE) "
 { $sub_np(NP) $state(SPECIAL_STATE) }
@@ -864,29 +864,29 @@ $form(FORM)
 .
 
 
-# =============================================================================
-# DETECTIVE-INTERROGATION RESPONSE GRAMMAR (questionnaire.txt)
-# -----------------------------------------------------------------------------
-# Full-sentence renderings for the belief labels surfaced by the new
-# Questions.mgr detective pack. The direct-answer path returns a bare value
-# (".target") and renders it as a noun phrase ("A physician.", "At the Red
-# Lion."); these templates give the FULL-SENTENCE form used when the NPC
-# volunteers the fact, when a person_description voices it, and for the parse
-# direction. Each names its specific label (no generic-state poaching), mirrors
-# the existing job / nationality / home shapes above, and uses /ever so a
-# deceased subject's history still renders. Placed at end-of-file so first-
-# match-wins by file order never lets these outsort an earlier template.
-# =============================================================================
+; =============================================================================
+; DETECTIVE-INTERROGATION RESPONSE GRAMMAR (questionnaire.txt)
+; -----------------------------------------------------------------------------
+; Full-sentence renderings for the belief labels surfaced by the new
+; Questions.mgr detective pack. The direct-answer path returns a bare value
+; (".target") and renders it as a noun phrase ("A physician.", "At the Red
+; Lion."); these templates give the FULL-SENTENCE form used when the NPC
+; volunteers the fact, when a person_description voices it, and for the parse
+; direction. Each names its specific label (no generic-state poaching), mirrors
+; the existing job / nationality / home shapes above, and uses /ever so a
+; deceased subject's history still renders. Placed at end-of-file so first-
+; match-wins by file order never lets these outsort an earlier template.
+; =============================================================================
 
-# --- APPLICATION STATUS (the labour-market reply-letter lifecycle) -----------
-# "<application-NP> has been offered / rejected / accepted". The status kinds
-# (applied/offered/rejected/accepted) resolve via /isa status.
+; --- APPLICATION STATUS (the labour-market reply-letter lifecycle) -----------
+; "<application-NP> has been offered / rejected / accepted". The status kinds
+; (applied/offered/rejected/accepted) resolve via /isa status.
 " $sub_np(NP) has been $status(KIND|/isa|status) "
 { $sub_np(NP) /pres status $status(KIND|/isa|status) }
 .
 
-# --- AUTHORED-LETTER STATEMENTS (first-person @self POV; distinct surfaces so
-#     they don't collide with the 3rd-person descriptive templates below) ------
+; --- AUTHORED-LETTER STATEMENTS (first-person @self POV; distinct surfaces so
+;     they don't collide with the 3rd-person descriptive templates below) ------
 " I have taken $value(NP) as a lover "
 { ?_I /pres lover $value(NP) } .
 " $sub_np(NP) has taken me as a lover "
@@ -920,7 +920,7 @@ $form(FORM)
 " I urge $obj_np(NP) to kill $value(NP) "
 { ?_I /pres urge $obj_np(NP) { $obj_np(NP) /pres kill $value(NP) } } .
 
-# --- EMPLOYER (org-valued; distinct from the job-kind templates above) -------
+; --- EMPLOYER (org-valued; distinct from the job-kind templates above) -------
 " $sub_np(NP) $verb(VERB|work) for $value(NP) "
 { $sub_np(NP) /ever employer $value(NP) } .
 " $sub_np(NP) is employed by $value(NP) "
@@ -932,7 +932,7 @@ $form(FORM)
 :: flowery
 .
 
-# --- MEMBER_OF (clubs / societies) -------------------------------------------
+; --- MEMBER_OF (clubs / societies) -------------------------------------------
 " $sub_np(NP) belongs to $value(NP) "
 { $sub_np(NP) /ever member-of $value(NP) } .
 " $sub_np(NP) is a member of $value(NP) "
@@ -940,27 +940,27 @@ $form(FORM)
 :: elaborated
 .
 
-# --- STUDY (academic-field) --------------------------------------------------
+; --- STUDY (academic-field) --------------------------------------------------
 " $sub_np(NP) studied $kind(KIND|/isa|academic-field) "
 { $sub_np(NP) /past study $kind(KIND|/isa|academic-field) } .
 " $sub_np(NP) studies $kind(KIND|/isa|academic-field) "
 { $sub_np(NP) /pres study $kind(KIND|/isa|academic-field) } .
 
-# --- MASTER (apprenticeship) -------------------------------------------------
+; --- MASTER (apprenticeship) -------------------------------------------------
 " $sub_np(NP) was apprenticed to $value(NP) "
 { $sub_np(NP) /past master $value(NP) } .
 " $sub_np(NP) ++'s master is $value(NP) "
 { $sub_np(NP) /pres master $value(NP) } .
 
-# --- SKILLED_IN (domain) -----------------------------------------------------
+; --- SKILLED_IN (domain) -----------------------------------------------------
 " $sub_np(NP) $verb(VERB|be) skilled in $kind(KIND|/isa|domain) "
 { $sub_np(NP) /ever skilled-in $kind(KIND|/isa|domain) } .
 
-# --- SERVE (military-rank) ---------------------------------------------------
+; --- SERVE (military-rank) ---------------------------------------------------
 " $sub_np(NP) served as a $kind(KIND|/isa|military-rank) "
 { $sub_np(NP) /past serve $kind(KIND|/isa|military-rank) } .
 
-# --- REPUTE (repute band; distinct surface from class/isa) -------------------
+; --- REPUTE (repute band; distinct surface from class/isa) -------------------
 " $sub_np(NP) ++'s reputation is $kind(KIND|/isa|repute) "
 { $sub_np(NP) /ever repute $kind(KIND|/isa|repute) } .
 " $sub_np(NP) $verb(VERB|be) considered $kind(KIND|/isa|repute) "
@@ -968,7 +968,7 @@ $form(FORM)
 :: elaborated
 .
 
-# --- OWE (creditor; debt as a standing relation) -----------------------------
+; --- OWE (creditor; debt as a standing relation) -----------------------------
 " $sub_np(NP) owes money to $value(NP) "
 { $sub_np(NP) /pres owe $value(NP) } .
 " $sub_np(NP) owed money to $value(NP) "
@@ -978,9 +978,9 @@ $form(FORM)
 :: curt
 .
 
-# --- STANCE VERBS (trust / distrust / suspect) -------------------------------
-# Yes/No answers render without these; the statement forms are for volunteering
-# ("I suspect Mr Hale") and the parse direction.
+; --- STANCE VERBS (trust / distrust / suspect) -------------------------------
+; Yes/No answers render without these; the statement forms are for volunteering
+; ("I suspect Mr Hale") and the parse direction.
 " $sub_np(NP) trusts $value(NP) "
 { $sub_np(NP) /pres trust $value(NP) } .
 " $sub_np(NP) distrusts $value(NP) "

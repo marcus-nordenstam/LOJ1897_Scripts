@@ -1,12 +1,12 @@
 
-# -----------
-# Formulaics
-# -----------
+; -----------
+; Formulaics
+; -----------
 
 :FORM
 
-#"Good day to you"                   ( formulaic opening goodDay @unknown )    .
-#"Good day to you, too"              ( formulaic response goodDay @unknown )  .
+;"Good day to you"                   ( formulaic opening goodDay @unknown )    .
+;"Good day to you, too"              ( formulaic response goodDay @unknown )  .
 
 "Good day"                          ( formulaic [] opening greeting )              .
 "Good day to you"                   ( formulaic [] response greeting )             .
@@ -17,16 +17,16 @@
 "How do you do, $name(PNAME)"       ( formulaic [] opening how_do $name(PNAME) )    .
 "How do you do, $name(PNAME) <r>"   ( formulaic [] response how_do $name(PNAME) )  .
 
-#"A moment, if you please; I am engaged in conversation"                        ( formulaic refusal conv busy ) .
+;"A moment, if you please; I am engaged in conversation"                        ( formulaic refusal conv busy ) .
 "I can't talk right now because $st(ST)"                                        ( formulaic [] refusal $st(ST) ) .
 "I can't stop now"                                                              ( formulaic [] refusal busy ) .
 "Leave me be"                                                                   ( formulaic [] rebuff ) .
 
-# Letter envelope lines. "Signed, <name>" is the AUTHOR rider, "To <name>" the
-# ADDRESSEE rider: the composer (compose_nl_msg) lifts a (/rider ..) form into the
-# msg's rider list, never its content, and decode resolves @i / @you from them.
-# $name(PNAME) takes a proper name ([n ...]) or a ?var bound to a name-symbol.
-# Case-insensitive via the lowercasing preprocess.
+; Letter envelope lines. "Signed, <name>" is the AUTHOR rider, "To <name>" the
+; ADDRESSEE rider: the composer (compose_nl_msg) lifts a (/rider ..) form into the
+; msg's rider list, never its content, and decode resolves @i / @you from them.
+; $name(PNAME) takes a proper name ([n ...]) or a ?var bound to a name-symbol.
+; Case-insensitive via the lowercasing preprocess.
 "Signed, $name(PNAME)"                                                          ( /author $name(PNAME) ) .
 "To $name(PNAME)"                                                               ( /addressee $name(PNAME) ) .
 
@@ -42,11 +42,11 @@
 
 
 
-# Leavetaking (initiating)
-#"Bye"
+; Leavetaking (initiating)
+;"Bye"
 "Goodbye"
 ( formulaic [] leave_taking bye ) .
 
-# Leavetaking (response)
-#"Bye"
-#"Goodbye"
+; Leavetaking (response)
+;"Bye"
+;"Goodbye"

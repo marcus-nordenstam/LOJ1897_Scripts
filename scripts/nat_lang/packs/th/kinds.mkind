@@ -1,19 +1,19 @@
-# -----------------------------------------------------------------------------
-# kinds.mkind - Thai-pack kind-atom localization (Phase 8).
-# -----------------------------------------------------------------------------
+; -----------------------------------------------------------------------------
+; kinds.mkind - Thai-pack kind-atom localization (Phase 8).
+; -----------------------------------------------------------------------------
 
-# Nationality
+; Nationality
 irish           ไอริช
 english         อังกฤษ
 french          ฝรั่งเศส
 st-revieran     เซนต์เรเวียน
 
-# Class
+; Class
 upper           ชั้นสูง
 middle          ชั้นกลาง
 lower           แรงงาน
 
-# Interest
+; Interest
 literature      วรรณกรรม
 music           ดนตรี
 theatre-art     ละคร
@@ -26,13 +26,13 @@ antiques        ของเก่า
 sports          กีฬา
 suffrage-cause  สิทธิเลือกตั้ง
 
-# Sport disciplines
+; Sport disciplines
 cricket         คริกเก็ต
 rowing          พายเรือ
 rugby           รักบี้
 horse-racing    แข่งม้า
 
-# Job
+; Job
 editor          บรรณาธิการ
 printer         ช่างพิมพ์
 journalist      นักข่าว
@@ -68,10 +68,10 @@ hatmaker        ช่างทำหมวก
 tailor          ช่างตัดเสื้อ
 baker           คนทำขนมปัง
 
-# Gender
+; Gender
 male            ชาย
 female          หญิง
 
-# Gambling / substances
+; Gambling / substances
 gambling        การพนัน
 alcohol         เหล้า

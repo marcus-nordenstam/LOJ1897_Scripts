@@ -1,6 +1,6 @@
 
 :SPECIAL_ACTION
-# OFFER struck (labour-market `offered` is a status; giving is expressed via `give`).
+; OFFER struck (labour-market `offered` is a status; giving is expressed via `give`).
 "takes $obj_np(NP) with $gripper_np(NP)"            /pres TAKE $obj_np(NP) $gripper_np(NP)  .
 "took $obj_np(NP) with $gripper_np(NP)"             /past TAKE $obj_np(NP) $obj_np(NP)      .
 "puts $obj_np(NP) on their $bodypart_np(NP)"        /pres WEAR $obj_np(NP) $bodypart_np(NP) .

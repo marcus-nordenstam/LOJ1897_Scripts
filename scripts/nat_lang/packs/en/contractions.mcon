@@ -1,12 +1,12 @@
-# -----------------------------------------------------------------------------
-# contractions.mcon - English contractions and the full forms they stand for.
-#
-# Format: `<full form> | <contraction>[ | <contraction2> ...]`. Parse rewrites a
-# contraction as its full form, in the player's input and in every template's
-# match tokens alike, so "what's your name" and "what is your name" are one
-# question; what an NPC says keeps the template's own spelling. Only words whose
-# 's can never be a possessive are listed - "John's" stays a possessive.
-# -----------------------------------------------------------------------------
+; -----------------------------------------------------------------------------
+; contractions.mcon - English contractions and the full forms they stand for.
+;
+; Format: `<full form> | <contraction>[ | <contraction2> ...]`. Parse rewrites a
+; contraction as its full form, in the player's input and in every template's
+; match tokens alike, so "what's your name" and "what is your name" are one
+; question; what an NPC says keeps the template's own spelling. Only words whose
+; 's can never be a possessive are listed - "John's" stays a possessive.
+; -----------------------------------------------------------------------------
 
 what is   | what's
 where is  | where's

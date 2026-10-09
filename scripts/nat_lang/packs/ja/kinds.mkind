@@ -1,24 +1,24 @@
-# -----------------------------------------------------------------------------
-# kinds.mkind - Japanese-pack kind-atom localization (Phase 8).
-#
-# Canonical ontology hstrs (English convention) -> Japanese surface forms.
-# Used by realize when emitting [k <kind>] atoms inside Japanese templates,
-# e.g. "$sub_np は $kind(KIND|/isa|nationality) ++人です" renders the
-# nationality kind as アイルランド rather than the canonical "irish".
-# -----------------------------------------------------------------------------
+; -----------------------------------------------------------------------------
+; kinds.mkind - Japanese-pack kind-atom localization (Phase 8).
+;
+; Canonical ontology hstrs (English convention) -> Japanese surface forms.
+; Used by realize when emitting [k <kind>] atoms inside Japanese templates,
+; e.g. "$sub_np は $kind(KIND|/isa|nationality) ++人です" renders the
+; nationality kind as アイルランド rather than the canonical "irish".
+; -----------------------------------------------------------------------------
 
-# Nationality
+; Nationality
 irish           アイルランド
 english         イギリス
 french          フランス
 st-revieran     セントレヴィエラ
 
-# Class
+; Class
 upper           上流
 middle          中流
 lower           労働者
 
-# Interest
+; Interest
 literature      文学
 music           音楽
 theatre-art     演劇
@@ -31,13 +31,13 @@ antiques        骨董品
 sports          スポーツ
 suffrage-cause  参政権
 
-# Sport disciplines
+; Sport disciplines
 cricket         クリケット
 rowing          ボート
 rugby           ラグビー
 horse-racing    競馬
 
-# Job
+; Job
 editor          編集者
 printer         印刷工
 journalist      記者
@@ -73,10 +73,10 @@ hatmaker        帽子職人
 tailor          仕立て屋
 baker           パン職人
 
-# Gender
+; Gender
 male            男
 female          女
 
-# Gambling / substances
+; Gambling / substances
 gambling        賭博
 alcohol         酒
