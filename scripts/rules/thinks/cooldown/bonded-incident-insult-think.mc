@@ -51,7 +51,7 @@
       ; Anger load is @self-only and (emotion-load) is not cheap - compute it ONCE and
       ; derive the ladder context from it, so neither the (when) nor the per-row
       ; select-row (when) re-evaluates it.
-      (bind (emotion-load @self [k anger]) ?emo_load)
+      (bind (emotion-load [k anger]) ?emo_load)
       (bind (if (> ?emo_load 0.5) (then displaced_anger) (else dispositional)) ?emo_ctx)
 
       ; The actor's impulse (dispositional base + displaced anger) and the victim-

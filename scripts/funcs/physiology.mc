@@ -28,10 +28,8 @@
 
 ; The hour of the instant ?t on @self's own clock, 0 .. 24.
 (define-func circadian-hour (?t)
-  (- (+ /float (hour ?t) (/ /float (minute ?t) (minutes_per_hour))) (attr @self chronotype)): ?u
-  (cond (case (< ?u 0.0) (+ ?u (hours_per_day)))
-        (case (>= ?u (hours_per_day)) (- ?u (hours_per_day)))
-        (else ?u)))
+  (modulo (- (+ /float (hour ?t) (/ /float (minute ?t) (minutes_per_hour))) (attr @self chronotype))
+          (hours_per_day)))
 
 ; The body clock's pressure toward sleep at the instant ?t: +amp at night, -amp by day,
 ; ramping across his midnight and his morning hour.

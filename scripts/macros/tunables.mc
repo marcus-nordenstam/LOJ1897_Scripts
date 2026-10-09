@@ -21,6 +21,9 @@
 (define-macro business_open_hour  () 8)
 (define-macro business_close_hour () 17)
 
+; The clock hours of a day: (time hour) runs from 0 to one less.
+(define-macro clock_hours () 24)
+
 
 ; Labour market: the wealth ceiling above which an NPC does NOT seek waged work (the
 ; independently wealthy). Wealth is the {@self wealth ?w} belief (~0..1.25, balance/120);

@@ -12,9 +12,10 @@
 ;   the leg is an enclosure                     -> cross its nearest door he has not failed,
 ;                                                  out of it or into it
 ;   the leg is the enclosure he stands in       -> no door left: wander it
-;   the leg is an enclosure he stands away from -> no door of it known: WALK up to it, and
-;                                                  seeing it teaches its doors
-;   the leg is an enclosure he stands at        -> no door left to try: fail
+;   the leg is an enclosure he stands outside   -> no door of it known: go-to a spot by it,
+;                                                  and seeing it teaches its doors
+;   the leg is an enclosure, tried              -> walked up to it, a door failed or the
+;                                                  wander is done, and no door left: fail
 ;   the leg is an exterior space                -> WALK into it
 ;   in his domain, a door he believes shut on
 ;   every way he knows                          -> cross it; that cross failed -> fail
@@ -49,15 +50,19 @@
   ?there)
 
 (define-func go-unseen (?dest)
-  (and (not (is-spot ?dest)) (not (grounded ?dest))))
+  (if (is-spot ?dest) (then @false) (else (not (grounded ?dest)))))
+
+; A thing he has placed: grounded, and no spot.
+(define-func go-placed-thing (?dest)
+  (if (is-spot ?dest) (then @false) (else (grounded ?dest))))
 
 ; A dest go-to can reach: a spot, a thing he has placed, one he believes in some space, or one
 ; whose address he knows.
 (define-func go-reachable (?dest)
-  (or (is-spot ?dest)
-      (grounded ?dest)
-      (substantial (tolerate (spatial ?dest space)))
-      (substantial (any {?dest address}))))
+  (cond (case (is-spot ?dest) @true)
+        (else (or (grounded ?dest)
+                  (substantial (tolerate (spatial ?dest space)))
+                  (substantial (any {?dest address}))))))
 
 ; Where the next WALK heads for a thing with no spot of its own: its box, seen or remembered.
 (define-func go-travel-spot (?dest)
@@ -118,12 +123,14 @@
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (not (is-a ?leg [k exterior-space]))
                        (empty (spatial ?leg exits))
-                       (> (distance @self ?leg) (near_reach_m))
+                       -{@self go-to ? /succ /caused_by ?go-to}
              (when (stand-spot-by ?leg): ?spot (is-spot ?spot))
-             (effects (maintain-proposal {@self WALK ?spot})))))
+             (effects (maintain-proposal {@self go-to ?spot})))))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (not (is-a ?leg [k exterior-space]))
-                       (<= (distance @self ?leg) (near_reach_m))
+                       (or {@self go-to ? /succ /caused_by ?go-to}
+                           {@self cross ? /fail /caused_by ?go-to}
+                           {@self wander ?leg /succ /caused_by ?go-to})
              (effects (set-outcome ?go-to /fail)))))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (is-a ?leg [k exterior-space])
@@ -138,5 +145,5 @@
            (effects (set-outcome ?go-to /fail))))
     (try (when (go-stand-spot ?dest): ?spot (is-spot ?spot))
          (effects (maintain-proposal {@self WALK ?spot})))
-    (try (role @self (grounded ?dest) (not (is-spot ?dest))
+    (try (role @self (go-placed-thing ?dest)
            (effects (expect @false "go-to: a placed thing with no spot to stand on"))))))

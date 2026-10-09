@@ -6,8 +6,10 @@
 ; dwell's surviving proposal re-aims at the SAME boundary on resumption (the
 ; action recomputes the minutes at each promotion - the stay's physics). The
 ; proposer's (when) window must fell the bout at its own boundary, so a stale
-; ?until never survives into the next block.
+; ?until never survives into the next block. Hour 24 is the coming midnight.
 ; ----------------------------------------------------------------------------
+
+(include "../../macros/tunables.mc")
 
 ; STAYING PUT IS NOT IDLING. A dwell is proposed for a reason - manning a post between
 ; duties, waiting out an occasion - so it inherits its proposer's utility and competes on
@@ -15,5 +17,5 @@
 ; utility to anything purposeful, and that is how a man wandered off his shift.
 (action {@self DWELL ?place ?until}:?DWELL
   (motor body legs)
-  (duration (seconds (minutes-until-hour ?until) min))
+  (duration (seconds (minutes-until-hour (modulo ?until (clock_hours))) min))
   (effects (set-outcome ?DWELL /succ)))

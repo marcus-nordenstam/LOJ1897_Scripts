@@ -84,15 +84,14 @@
     (check ?fa-ist)
     (push ?art ?fa-ist)))
 
-; take-premises - the head takes possession of the org's building: he SEES it and its rooms
-; (a placement write resolves passively, so an unseen room cannot be written about) and
-; learns which building they belong to. Owning the premises stands in for exploring them.
+; take-premises - the head takes possession of the org's building: he SEES it and its rooms,
+; and seeing a room teaches its whole containment chain - its unit, the building, the exterior.
+; Owning the premises stands in for exploring them.
 (define-func take-premises (?wp)
   (do
     (observe ?wp)
     (for-each ?room (spatial ?wp rooms /env)
-      (observe ?room)
-      (spatial-write ?room struct_parent ?wp))))
+      (observe ?room))))
 
 ; seat-org-head - the MENTAL half of founding, shared by every route into a head seat. The
 ; head gets his org object the same way anyone else does: he LOOKS AT the articles and READS

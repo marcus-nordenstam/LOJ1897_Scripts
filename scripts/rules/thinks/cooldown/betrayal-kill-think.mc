@@ -51,7 +51,7 @@
         (effects
           ; Dual (kill BOTH) when the outrage clears the bar; else the more-blamed corner.
           (cond
-            (case (>= (+ (emotion-load @self [k anger])
+            (case (>= (+ (emotion-load [k anger])
                          (+ ?decorum ?machiavellianism)) 2.5)
               (if -{?partner condition [k dead]}
                   (then (maintain-proposal {@self kill ?partner /caused_by ?anger_bond})))
