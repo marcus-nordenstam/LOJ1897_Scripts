@@ -2,7 +2,9 @@
 ; go-to ?dest - stand beside, near or inside ?dest: a spot, a thing, a person, a space or a
 ; building. Movement is go-to and cross, over DOMAINS - an enclosure, or one exterior space - and
 ; a go-to WALK never leaves its domain: between domains the way is the containment tree, one leg
-; at a time, (spatial @self leg ?dest) naming the next. The rungs are a preemptive-or:
+; at a time, (spatial @self leg ?dest) naming the next. An enclosure with a room open on the
+; outdoors through no passage is no domain: he walks in and out of it as he walks the street.
+; The rungs are a preemptive-or:
 ;
 ;   arrived                                     -> succeed
 ;   unseen, believed in a space                 -> go-to that space, where he will see it;
@@ -69,14 +71,34 @@
   (tolerate (travel-spot (known-box ?dest))): ?spot
   ?spot)
 
+; The room of a building or unit he walks into from where he stands, through no passage - an
+; open wall - or @nothing.
+(define-func go-walk-in-room (?enclosure)
+  (bind @nothing ?found)
+  (for-each ?room (spatial ?enclosure rooms)
+    (if (spatial ?room trivially-linked (spatial @self space))
+        (then (bind ?room ?found)
+              (break))))
+  ?found)
+
+; Where he stands at a thing: in the room he walks into of a building or unit open to him, by
+; anything else he has a box for, else toward the box he remembers.
+(define-func go-thing-stand-spot (?dest)
+  (if (or (is-a ?dest [k building]) (is-a ?dest [k unit]))
+      (then (bind (go-walk-in-room ?dest) ?room))
+      (else (bind @nothing ?room)))
+  (cond (case (substantial ?room) (stand-spot-in ?room))
+        (case (substantial (tolerate (spatial ?dest bounds))) (stand-spot-by ?dest))
+        (else (go-travel-spot ?dest))): ?spot
+  ?spot)
+
 ; The spot he will stand on: the spot itself, a claimed spot on a space's floor, before a man,
-; or by a thing.
+; or at a thing.
 (define-func go-stand-spot (?dest)
   (cond (case (is-spot ?dest) ?dest)
         (case (is-a ?dest [k space]) (stand-spot-in ?dest))
         (case (is-a ?dest [k human]) (stand-spot-before ?dest))
-        (case (substantial (tolerate (spatial ?dest bounds))) (stand-spot-by ?dest))
-        (else (go-travel-spot ?dest))): ?spot
+        (else (go-thing-stand-spot ?dest))): ?spot
   ?spot)
 
 (task {@self go-to ?dest}:?go-to
