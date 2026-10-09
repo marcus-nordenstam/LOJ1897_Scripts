@@ -12,10 +12,14 @@
   (or (spatial ?x building ?place)
       (spatial ?x unit ?place)))
 
-; ?x is inside ?space: a room, or a building or a unit of one.
+; ?x is inside ?space: a room, or a building or a unit of one; for an exterior space, out of
+; doors in it - a man in a house in the town stands in the house, not in the town's open ground.
 (define-func within-space (?x ?space)
-  (or (spatial ?x space ?space)
-      (within-place ?x ?space)))
+  (tolerate (spatial ?x space)): ?here
+  (cond (case (not (is-a ?space [k exterior-space]))
+              (or (spatial ?x space ?space) (within-place ?x ?space)))
+        (case (unsubstantial ?here) @false)
+        (else (and (is-a ?here [k exterior-space]) (spatial ?x space ?space)))))
 
 ; The claimed floor spot before ?passage on the side of space ?side - the free floor of ?side
 ; nearest the passage. Polled like rest-spot, and likewise the asking rung's claim.
