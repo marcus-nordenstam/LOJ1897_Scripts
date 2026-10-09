@@ -31,9 +31,9 @@
 (think gamble-go
   (goal {@self PLAY-GAME})
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    (role ?venue [k pub-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
-      (role @self (not (spatial @self building ?venue))
-        (effects (maintain-proposal {@self go-to ?venue}))))))
+    (role ?venue [k pub-building] (not (spatial @self building ?venue))
+                  (select (score (near @self ?venue)) (policy roulette unknown-last))
+      (effects (maintain-proposal {@self go-to ?venue})))))
 
 ; TERMINAL step (act_body_purification): the gamble act is now PROPOSED, guarded by being AT a
 ; pub, not promoted by the bare {@self PLAY-GAME} goal. Because `play_game` is a proposed label

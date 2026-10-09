@@ -113,9 +113,9 @@
              (role ?passage (spatial ?leg exits)
                             -{@self cross ?passage ? /fail /caused_by ?go-to}
                             (substantial (tolerate (spatial ?passage beyond (spatial @self space))))
-                            (select (score (near @self ?passage)) (policy argmax))
-               (role ?to (spatial ?passage beyond (spatial @self space))
-                 (effects (maintain-proposal {@self cross ?passage ?to})))))))
+                            (select (score (near @self ?passage)) (policy argmax unknown-last))
+               (effects (bind (spatial ?passage beyond (spatial @self space)) ?to)
+                        (maintain-proposal {@self cross ?passage ?to}))))))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (spatial @self space ?leg)
                        -{@self wander ?leg /succ /caused_by ?go-to}

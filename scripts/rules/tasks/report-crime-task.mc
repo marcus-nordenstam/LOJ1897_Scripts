@@ -13,9 +13,9 @@
   (tar ?)
   (and
     (try
-      (role ?station [k police-station] (select (score (near @self ?station)) (policy roulette unknown-last))
+      (role ?station [k police-station] (not (spatial @self building ?station))
+                     (select (score (near @self ?station)) (policy roulette unknown-last))
         (role @self {@self education ?education}
-                    (not (spatial @self building ?station))
           (when (and {? stolen-from @self}
                      (>= ?education (literacy-education-min))
                      -{@self report-crime ?focus /succ /ever}

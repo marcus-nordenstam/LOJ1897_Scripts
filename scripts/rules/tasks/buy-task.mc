@@ -11,11 +11,11 @@
   (and
     ; not at a shop -> head to a shop @self KNOWS (any shop carries the stock).
     (try
-      (role ?shop [k shop] (select (score (near @self ?shop)) (policy roulette unknown-last))
-        (role @self (not (spatial @self building ?shop))
-          (when (empty (spatial @self hold ?kind)))
-          (declare-utility fallback)
-          (effects (maintain-proposal {@self go-to ?shop})))))
+      (role ?shop [k shop] (not (spatial @self building ?shop))
+                    (select (score (near @self ?shop)) (policy roulette unknown-last))
+        (when (empty (spatial @self hold ?kind)))
+        (declare-utility fallback)
+        (effects (maintain-proposal {@self go-to ?shop}))))
     ; knows no shop -> search the region for one, until the search proves there is none.
     (try
       (no-role [k shop])

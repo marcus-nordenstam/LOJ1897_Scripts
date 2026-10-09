@@ -27,11 +27,11 @@
   (role @self {@self age ?age}
               -{@self job ?}
               -{@self apply-for ? /pres}
-    (role ?board [k church-building] (select (score (near @self ?board)) (policy roulette unknown-last))
-      (role @self (not (spatial @self building ?board))
-        (when (hours (business_open_hour) (business_close_hour)) (job-seeker @self ?age))
-        (declare-utility errand)
-        (effects (maintain-proposal {@self go-to ?board}))))))
+    (role ?board [k church-building] (not (spatial @self building ?board))
+                 (select (score (near @self ?board)) (policy roulette unknown-last))
+      (when (hours (business_open_hour) (business_close_hour)) (job-seeker @self ?age))
+      (declare-utility errand)
+      (effects (maintain-proposal {@self go-to ?board})))))
 
 (think seek-board-find
   (aspect labour)
