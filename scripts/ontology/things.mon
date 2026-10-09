@@ -686,8 +686,8 @@
         (child sign
           (children building-name-sign address-sign))
         # A passage is a way through a wall and never a space: nothing is filed in one and nobody
-        # stands in one. A door or a window gates its own passage - shut and intact it bars the
-        # way - and an opening is a gap with no barrier, so it carries none of the barrier attrs.
+        # stands in one. A passage IS a movable barrier - a door or a window - gating its own way:
+        # shut and intact it bars it. A gap with no barrier is a neighbour link, never a passage.
         (child passage (composition passage) (+ nav_passage)
           (decorations
             (attrs open-amount hinge-side swing-angle)
@@ -695,13 +695,9 @@
             (attr lock-status (auto-percept) (ext-per obs))
             (attr integrity (auto-percept) (ext-per obs)))
           (population (cap 4096))
-          (child opening
-            (decorations
-              (attrs -open-amount -hinge-side -swing-angle -opening-status -lock-status -integrity))
-            (population (cap 4096) (non-occluder)))
-          (child door (+ facets nav_barrier) (facets nav_barrier)
+          (child door
             (children front-door double-door))
-          (child window (facets nav_barrier nav_last_resort)))))
+          (child window (facets nav_last_resort)))))
     (child gm
       (population (cap 1) (imperceptible)))
     (child instance
