@@ -37,7 +37,9 @@
 "..."                                                                           ( formulaic [] opening player_talk ) .
 "Yes?"                                                                          ( formulaic [] response player_talk ) .
 
-"..."                                                                           ( formulaic [] leave_taking player_bye ) .
+; The player's leave-taking shows the same three dots as his hail; the hail is what "..."
+; reads as, so this one is said and never read.
+"..."                                                                           ( formulaic [] leave_taking player_bye ) :: realize-only .
 
 
 

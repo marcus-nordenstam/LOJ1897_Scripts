@@ -1,8 +1,7 @@
 
-; Some proposals carry an activity-object
 :SPECIAL_STATE
-"proposes that $obj(ST|QS|MSG|NP)"  /pres proposal $obj(ST|QS|MSG|NP) $activityObj(KIND)  .
-"proposed that $obj(ST|QS|MSG|NP)"  /past proposal $obj(ST|QS|MSG|NP) $activityObj(KIND)  .
+"proposes that $obj(ST|QS|MSG|NP)"  /pres proposal $obj(ST|QS|MSG|NP)  .
+"proposed that $obj(ST|QS|MSG|NP)"  /past proposal $obj(ST|QS|MSG|NP)  .
 "urged that $obj(ST|QS|MSG|NP)"     /past urge $obj(ST|QS|MSG|NP)                          .
 
 :STATE
@@ -20,6 +19,4 @@
 "was near"                          /past near                  .
 "knows "                            /pres know                  .
 "knew "                             /past know                  .
-"has a conversation with"           /pres conversation          .
-"had a conversation with"           /past conversation          .
 

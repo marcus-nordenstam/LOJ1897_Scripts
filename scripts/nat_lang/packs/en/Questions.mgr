@@ -17,11 +17,6 @@
 ( qs [] ( any { $np(Q_NP) /pres name } ).target )
 .
 
-;"right then, what's yer pleasure"
-;"what are ye havin'"
-"what'll it be then"
-( qs [] ( any { ?_you /pres order ? ?_i } ).target )
-.
 
 "$qs_phrase(QSP) ++?"
 ( qs [] $qs_phrase(QSP) )
@@ -568,13 +563,7 @@
 "did you kill $person(Q_NP)"
 ( prob { ?_you /ever kill $person(Q_NP) } )
 .
-"have you ever assaulted anyone"
-( prob { ?_you /ever assault ? } )
-.
-"who do you [suspect|think did it|believe is guilty]"
-( o /known { ?_you /pres suspect @o } )
-.
-"who do you think #kill-verb $person(Q_NP)"
+"who do you [suspect|think did it|believe is guilty|think killed him|think killed her|think did the murder]"
 ( o /known { ?_you /pres suspect @o } )
 .
 "do you suspect $person(Q_NP)"
@@ -616,9 +605,6 @@
 
 ; --- 10. ALIBI (extends the crime-night set already above) -------------------
 
-"where were you on the night of the murder"
-( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) )
-.
 "can you account for your whereabouts the night $person(Q_NP) died"
 ( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) )
 .

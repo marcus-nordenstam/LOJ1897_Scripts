@@ -4,17 +4,7 @@
 "gave $obj_np(NP) to $rec_np(NP)"   /past give $obj_np(NP) $rec_np(NP)     .
 
 :TRANS_TASK
-"is getting acquainted with"    /pres get_acquainted_with         .
-"was getting acquainted with"   /past get_acquainted_with         .
-"maintains that"                /pres maintain                  .
-"maintained that"               /past maintain                  .
-"goes to"                       /pres go_entity                 .
-"went to"                       /past go_entity                 .
-"wants to know"                 /pres seek_answers               .
-"wanted to know"                /past seek_answers               .
 "gets"                          /pres get                       .
 "got"                           /past get                       .
 
 :INTRANS_TASK
-"prepares to enter the game"                        /pres startup               .
-"prepared to enter the game"                        /past startup               .

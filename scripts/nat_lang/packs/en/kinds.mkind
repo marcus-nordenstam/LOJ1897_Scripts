@@ -134,3 +134,10 @@ O-blood                       O
 medium-girth                  medium
 medium-height                 medium
 medium-strength               medium
+
+; === kinship, as a question names it ===========================================
+; "relations" means a man's relationships - mother, spouse, sibling - never the
+; structural root kind [k relation] the singular rules would make of it; the .pl
+; form is what the parse reads, the unmarked one what realize says.
+relationship                  relationship
+relationship.pl               relations

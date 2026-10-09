@@ -94,17 +94,6 @@ _
 ( o [k application ] { ?_you submit /past @o } { @o job $job(NP) } { @o org $org(NP) } )
 .
 
-"$thing(INDEF_KIND) at $np(NP)"
-$thing(INDEF_KIND)  { @o /pres obb $np(NP) }
-.
-
-"$thing(INDEF_KIND) named $pname(PNAME) at $np(NP)"
-$thing(INDEF_KIND) $pname(PNAME) { @o /pres obb $np(NP) }
-.
-
-"that $sub_np(NP) marries $obj_np(NP)"
-{ $sub_np(NP) /pres marry $obj_np(NP) }
-.
 
 
 ; HACK!

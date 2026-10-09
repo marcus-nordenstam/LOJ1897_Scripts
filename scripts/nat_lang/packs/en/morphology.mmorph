@@ -11,6 +11,12 @@
 ; -----------------------------------------------------------------------------
 
 style: english
+
+; The plural endings the parse strips from an input word to find the kind it names, in
+; order: countries -> country, boxes -> box, dogs -> dog. `singular: <suffix> [<replacement>]`.
+singular: ies y
+singular: es
+singular: s
 hundred: hundred
 
 ; Ones
