@@ -6,8 +6,8 @@
 ;;   - each title-deed the deceased owned: owner -> @self, and @self mints {own};
 ;;   - each articles-of-incorporation the deceased founded: founder -> @self;
 ;;   - the coin pile the will bequeathed (?pile, resolved from the will's location
-;;     descriptor): its count is merged into @self's own pile and the empty pile
-;;     destroyed, so @self keeps a single pile the coin-balance pointer reads.
+;;     descriptor): its count is merged into @self's carrying cash and the empty pile
+;;     destroyed.
 ;; ?pile rides in from the {@self inherit ?pile} belief the will-reading adopted.
 ;; ----------------------------------------------------------------------------
 
@@ -32,9 +32,9 @@
 ;    (for-each ?founder (every {? founder ?dead})
 ;      (bind ?founder.subject ?iorg)
 ;      (begin-belief {?iorg founder @self}))
-;    ; Coins: merge the bequeathed pile into @self's own, then destroy the empty.
+;    ; Coins: merge the bequeathed pile into @self's carrying cash, then destroy the empty.
 ;    (if (substantial ?pile)
 ;        (then
-;          (pile-add (any {@self coin-pile ?}).target (attr ?pile count))
+;          (pile-add (attr @self carrying-cash) (attr ?pile count))
 ;          (destroy-entity ?pile)))
 ;    (set-outcome {@self INHERIT ?dead ?pile} /succ)))

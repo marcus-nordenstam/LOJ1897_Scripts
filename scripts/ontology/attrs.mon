@@ -163,6 +163,8 @@
 # The felt hurt of the body, 0 none .. 1 agony. A blow writes it on its victim (PUNCH /
 # SHOOT / STRANGLE through inflict-pain); only its bearer feels it.
 (attr pain (type float) (range 0 1) (int-per feel) (ext-per imperceptible) (state-flags-tar @excl))
+# The coin pile a man carries stowed about him: his carrying cash. Felt by him, unseen by others.
+(attr carrying-cash (type entity) (default @nothing) (int-per feel) (ext-per imperceptible))
 
 # Appetite = the ADRENALINE-MASKED hunger (raw hunger is the untouched debt). Derived by the
 # run_physiology func; suppressed mid-fight. Imperceptible: the mind knows it only as its
@@ -260,9 +262,10 @@
 # there are no items/top/in-stack attrs.
 
 # Pile (fungible-item collection). A co-present observer mints exactly two
-# beliefs regardless of count: {pile content-kind [k <kind>]} + {pile count N}.
-(attr content-kind (type kind thing) (per obs) (auto-percept))
-(attr count (type int) (range 0 1000000) (per obs) (auto-percept))
+# beliefs regardless of count: {pile content-kind [k <kind>]} + {pile count N}. A man
+# FEELS both on a pile he has stowed about him (his carrying cash).
+(attr content-kind (type kind thing) (int-per feel) (ext-per obs) (auto-percept))
+(attr count (type int) (range 0 1000000) (int-per feel) (ext-per obs) (auto-percept))
 
 # Weather (region)
 (attr rain (type kind strength-measurement) (default heavy) (per obs) (auto-percept))

@@ -36,3 +36,16 @@
           (declare-utility duty)
           (effects       (begin-goal {@self STOCKTAKE}))
           (when-unsupported-effects (set-outcome {@self goal {@self STOCKTAKE}} /succ)))))))
+
+; A shop its keeper stands in with no till he knows of gets one: buyers pay into it.
+(think plan-open-till
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+    (role ?job {@self job ?job}
+      (role ?org {?job org ?org}
+        (role ?wp {?org workplace ?wp} (spatial @self building ?wp)
+          (no-role [k pile] {?norole content-kind [k coin]}
+                            (spatial ?norole building ?wp)
+                            (unknown (spatial ?norole gripped-by)))
+          (when (is-a ?wp [k shop]))
+          (declare-utility duty)
+          (effects (maintain-proposal {@self open-till ?wp})))))))

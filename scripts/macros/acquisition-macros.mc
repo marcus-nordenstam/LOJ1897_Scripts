@@ -8,3 +8,6 @@
 
 ; (procure_fee): the coins a hired procurer takes on top of the item's price. Tunable.
 (define-macro procure_fee () 20)
+
+; (bribe_coins): the coins a briber counts out of his carrying cash for his victim. Tunable.
+(define-macro bribe_coins () 5)

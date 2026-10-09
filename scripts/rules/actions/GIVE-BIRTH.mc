@@ -29,6 +29,7 @@
 (include "../../macros/tunables.mc")
 (include "../../funcs/human-traits.mc")
 (include "../../funcs/age.mc")
+(include "../../funcs/money.mc")
 
 (action {@self GIVE-BIRTH ?father}:?GIVE-BIRTH
   (motor body legs)
@@ -52,6 +53,7 @@
     (set-attr ?baby parentless 0)
     (set-attr ?baby birth-date (create-date (time year) (time month) (time day)))
     (start-aging ?baby)
+    (seed-carrying-cash ?baby)
     ; The newborn's own kin beliefs, minted IN the mind being created - the same
     ; thing make-human does for a founder, and the only mind this body writes to
     ; besides the actor's own. The two-arg form externalizes each field and

@@ -27,7 +27,7 @@
     (declare-utility survival)
     (effects
       (any {@self strength ?strength})
-      (any {@self coin-pile.count ?coins=0})
+      (any {@self carrying-cash.count ?coins=0})
       (cond
         (case (>= ?strength (strangling_strength))
               (maintain-proposal {@self strangle ?victim}))

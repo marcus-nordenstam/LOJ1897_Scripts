@@ -6,6 +6,13 @@
 ; the closing expression.
 ; ----------------------------------------------------------------------------
 
+; (pile-add ?pile ?count): the one write of a pile's count - ?count units onto it, or off it
+; when negative. A pile never goes below empty.
+(define-func pile-add (?pile ?count)
+  (+ (attr ?pile count) ?count): ?total
+  (check (>= ?total 0))
+  (set-attr ?pile count ?total))
+
 ; (held-ware ?who ?ware): a thing ?who BELIEVES it holds that is ?ware - an instance of
 ; the kind, or a pile whose content is the kind - or @nothing. What he has stowed is held
 ; too, so a ware is never matched by the pile kind alone.

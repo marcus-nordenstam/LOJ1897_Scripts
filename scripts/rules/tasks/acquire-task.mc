@@ -30,7 +30,7 @@
     (try
       (when (not (is-a ?disc [k covert])))
       (effects
-        (any {@self coin-pile.count ?coins=0})
+        (any {@self carrying-cash.count ?coins=0})
         (maintain-proposal {@self buy ?kind}
           [/feasible (>= ?coins (price ?kind))]
           [/cost (money-cost-util ?coins (price ?kind))])))
@@ -39,7 +39,7 @@
       (role ?agent {?agent isa [k human], condition [k alive]} {@self (closeness-labels acquaintance) ?agent /ever}
         (when (is-a ?disc [k covert]))
         (effects
-          (any {@self coin-pile.count ?coins=0})
+          (any {@self carrying-cash.count ?coins=0})
           (maintain-proposal {@self hire-procure ?agent ?kind}
             [/feasible (>= ?coins (+ (price ?kind) (procure_fee)))]
             [/cost (money-cost-util ?coins (+ (price ?kind) (procure_fee)))]))))

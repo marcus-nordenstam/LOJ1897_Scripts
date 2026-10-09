@@ -249,7 +249,7 @@
                (spatial @self space ?place)))
   (effects
     (any {@self enthusiasm ?enthusiasm})
-    (any {@self coin-pile.count ?coins=0})
+    (any {@self carrying-cash.count ?coins=0})
     (tolerate (or (is-a ?place [k pub-building]) (is-a ?place [k restaurant-building]))): ?dining-out
     (maintain-proposal {@self eat ?meal ?place}
       [/affect (if ?dining-out (then (* ?enthusiasm 20.0)) (else 0.0))]

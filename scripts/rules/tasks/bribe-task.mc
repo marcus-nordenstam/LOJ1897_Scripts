@@ -1,11 +1,12 @@
 ; ----------------------------------------------------------------------------
-; bribe ?victim - buy the victim's silence with cash. @self conjures a coin (the single
-; buildable unit of cash - a real gripped prop) and HANDS IT OVER via give: the give task
-; takes the coin, reaches the co-present victim, and OFFERs it hand-to-hand. Private, no
-; cross-mind write; the punctual OFFER is visually unwitnessed - the point of a bribe. The
-; ended {@self bribe ?victim} belief IS the deed memory; the crime row records it.
-; A dead victim -> abandon.
+; bribe ?victim - buy the victim's silence with cash. @self counts (bribe_coins) out of his
+; carrying cash into his hand and HANDS IT OVER via give: the give task reaches the
+; co-present victim and OFFERs it hand-to-hand. Private, no cross-mind write; the punctual
+; OFFER is visually unwitnessed - the point of a bribe. The ended {@self bribe ?victim}
+; belief IS the deed memory; the crime row records it. A dead victim -> abandon.
 ; ----------------------------------------------------------------------------
+
+(include "../../macros/acquisition-macros.mc")
 
 (task {@self bribe ?victim}:?bribe
   (track-skill-level [k illicit])
@@ -14,17 +15,20 @@
   (facets reportable_crime)
   (and
     (try
-      (role ?coin [k coin] (spatial ?coin co-located @self)
+      (role ?counted [k pile] {?counted content-kind [k coin]} (= (spatial ?counted held-by) @self)
         (when (and (alive ?victim)
                    -{@self bribe ?victim /succ /ever}))
         (declare-utility errand)
-        (effects (maintain-proposal {@self give ?coin ?victim}))))
+        (effects (maintain-proposal {@self give ?counted ?victim}))))
     (try
-      (no-role [k coin] (spatial ?norole co-located @self))
-      (when (and (alive ?victim)
-                 -{@self bribe ?victim /succ /ever}
-                 -{@self give ? ?victim}))
-      (effects (maintain-proposal {@self CREATE-ENTITY [k coin]})))
+      (role ?cash {@self carrying-cash ?cash} {?cash count ?cash-count}
+        (no-role [k pile] {?norole content-kind [k coin]} (= (spatial ?norole held-by) @self))
+        (when (and (alive ?victim)
+                   -{@self bribe ?victim /succ /ever}
+                   -{@self give ? ?victim}
+                   (>= ?cash-count (bribe_coins))
+                   (empty (spatial (spatial @self right-hand) grip))))
+        (effects (maintain-proposal {@self PILE-SPLIT ?cash (bribe_coins)}))))
     (try
       (when {@self give ? ?victim /succ /caused_by ?bribe})
       (effects

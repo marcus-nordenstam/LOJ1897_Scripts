@@ -24,13 +24,13 @@
 _
 .
 
-# A coin pile named by its owner.
+# A man's money: the coin pile he carries, his carrying cash.
 "[my money|the money I own]"
-( o [k pile ] { ?_I own @o } )
+( o [k pile ] { ?_I carrying-cash @o } )
 .
 
 "the money of $owner(NP)"
-( o [k pile ] { $owner(NP) own @o } )
+( o [k pile ] { $owner(NP) carrying-cash @o } )
 .
 
 # A named object such as John Smith

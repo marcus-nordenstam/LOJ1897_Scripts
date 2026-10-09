@@ -27,7 +27,7 @@
                     adore like dislike detest revere admire disdain despise
                     rely trust distrust fancy desire crave wary dread
                     terror seem rude-to violent-to thief-to coercive-to mention own
-                    coin-pile hold lease rent borrow sell owe inherit
+                    hold lease rent borrow sell owe inherit
                     member-of participant backed-by captor-of circumstance-of-death suspect host venue
                     held-on hours organize invite hold-meet judge-meet skilled-in skill-level
                     school-grades serve close-to relied-on-by respected-by retire carrying-loot stow
@@ -55,7 +55,7 @@
                    condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite pain
                    openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
                    volatility withdrawal narcissism machiavellianism psychopathy sadism strength dexterity
-                   agility endurance pregnant-by awareness internment)
+                   agility endurance pregnant-by awareness internment carrying-cash)
             (structs left-hand right-hand head left-eye right-eye mouth torso))
           (child human-npc
             (decorations
@@ -117,10 +117,7 @@
         # fluid inside it is the forensic proof.
         (children cup decanter)
         (child jewelry-box (price 25)))
-      # Currency - a single coin: the buildable unit of cash (a plain gripped
-      # prop). A bribe / gift hands over ONE via give -> OFFER. Not a wealth
-      # model - the coin entity IS the cash: a real, transferable, discoverable
-      # object, never a fictional sum.
+      # Currency - the unit a coin pile counts: cash is a pile whose content-kind is coin.
       (child coin (price 1) (facets totable))
       (child accessory (+ facets totable) (facets totable)
         (children cufflink)
@@ -319,7 +316,7 @@
             (spatials -grip -in-stack)
             (attrs -color -condition -name -writing -grip-force -addressee -addressee-duty
                    -destination -blemishes content-kind count))
-          (population (cap 4096))))
+          (population (cap 16384))))
       (child sporting-gear (+ facets totable) (facets totable)
         (child ball
           (children football))

@@ -12,6 +12,7 @@
 
 (include "human-traits.mc")
 (include "age.mc")
+(include "money.mc")
 
 (define-func make-human (?home ?class ?gender)
   (head (spatial ?home rooms /env)): ?room
@@ -37,6 +38,7 @@
             (create-date (- (time year) ?age) (random-int 1 12) (random-int 1 28)))
           (set-attr ?h name (sample-name ?gender ?nat ?class))
           (start-aging ?h)
+          (seed-carrying-cash ?h)
           (seed-human-self-beliefs ?h ?class ?nat ?home)
           ?h)))))
 
