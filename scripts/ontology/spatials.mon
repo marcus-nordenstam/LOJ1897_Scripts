@@ -34,9 +34,19 @@
 #                                the doorways out of it - /env = every one
 #   (rooms)                      the rooms a building or unit holds - its own and its units' -
 #                                as a list. Default = the ones the mind has met, /env = every one
-#   (exits)                      the doors, windows and openings leading out of a building, unit
-#                                or room, as a list. Default = the ones the mind has met, /env =
+#   (exits)                      the doors and windows leading out of a building, unit or
+#                                room, as a list. Default = the ones the mind has met, /env =
 #                                every one
+#   (beyond)                     (spatial ?passage beyond ?here): the space on the far side of
+#                                ?passage from ?here - the room there, or the exterior space its
+#                                outer end stands in. @fail when the mind has not met the passage
+#                                or the far side; /env reads the world
+#   (linked)                     (spatial ?a trivially-linked ?b): PREDICATE, true when a body
+#                                walks from space ?a to space ?b through no passage - the same
+#                                room, rooms joined by neighbour links (a gap with no door), a
+#                                room whose outer wall stands open to the outdoors, or two
+#                                exterior spaces. Default walks the links between rooms the mind
+#                                has met; /env every link
 #   (first)                      single first-known child match: (spatial ?whole room [k K])
 #                                yields one perceived child of ?whole is-a the label's (rung
 #                                <kind>) range, further narrowed by K when given
@@ -90,6 +100,8 @@
 (spatial-label neighbours (store space) (neighbours))
 (spatial-label rooms      (store part) (rooms))
 (spatial-label exits      (store part) (exits))
+(spatial-label beyond     (store space) (beyond))
+(spatial-label trivially-linked (store space) (linked))
 (spatial-label gripped-by (store grip))
 (spatial-label grip       (store grip) (down))
 (spatial-label hold       (store grip) (down) (descend))
