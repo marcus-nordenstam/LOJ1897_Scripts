@@ -47,8 +47,11 @@
 ; THE BANDS the mind knows its body by - run_physiology mints them from the ADRENALINE-MASKED
 ; drives, and no rule reads the drives themselves. Alertness over sleepiness: < tired_min alert,
 ; < sleepy_min tired, else sleepy. Satiety over appetite: < hungry_min sated, < famished_min
-; hungry, else famished.
+; hungry, else famished. Tired is set past the day's debt plus the body clock's evening ramp, so a
+; man rested at 06:00 turns tired between 22:10 and 22:40 by his chronotype and sleeps until his
+; morning (05:00 - 07:00); set it under the evening and a day's debt alone turns him tired at
+; dusk, into a nap the day-phase clock ends three hours later.
 (define-macro sleepy_min () 1.0)
-(define-macro tired_min () 0.5)
+(define-macro tired_min () 0.75)
 (define-macro famished_min () 1.1)
 (define-macro hungry_min () 0.5)
