@@ -52,15 +52,15 @@
             (case (>= (+ (emotion-load [k anger])
                          (+ ?decorum ?machiavellianism)) 2.5)
               (if -{?partner condition [k dead]}
-                  (then (maintain-intent {@self intent kill ?partner} /caused_by ?anger_bond)))
+                  (then (maintain-intent {@self intent {@self kill ?partner}} /caused_by ?anger_bond)))
               (if -{?interloper condition [k dead]}
-                  (then (maintain-intent {@self intent kill ?interloper} /caused_by ?contempt_bond))))
+                  (then (maintain-intent {@self intent {@self kill ?interloper}} /caused_by ?contempt_bond))))
             (case (>= (+ ?narcissism (+ (- 1.0 ?compassion) (+ ?decorum (if (< (stance-band ?partner warmth) 0.0) (then 1.0) (else 0.0)))))
                       (+ (+ (max 0.0 (stance-band ?partner warmth)) (* 0.5 (stance-band ?partner attraction)))
                          (+ ?compassion
                             (if (< (stance-band ?interloper warmth) 0.0) (then (- 0.0 (stance-band ?interloper warmth))) (else 0.0)))))
               (if -{?partner condition [k dead]}
-                  (then (maintain-intent {@self intent kill ?partner} /caused_by ?anger_bond))))
+                  (then (maintain-intent {@self intent {@self kill ?partner}} /caused_by ?anger_bond))))
             (else
               (if -{?interloper condition [k dead]}
-                  (then (maintain-intent {@self intent kill ?interloper} /caused_by ?contempt_bond))))))))))
+                  (then (maintain-intent {@self intent {@self kill ?interloper}} /caused_by ?contempt_bond))))))))))

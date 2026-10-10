@@ -66,4 +66,4 @@
                           (* 0.4 ?openness))))))
 
       (declare-utility want)
-      (effects (maintain-intent {@self intent wed ?bride} /caused_by ?aim)))))
+      (effects (maintain-intent {@self intent {@self wed ?bride}} /caused_by ?aim)))))

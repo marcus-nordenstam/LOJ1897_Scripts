@@ -64,4 +64,4 @@
                                 (* (- 1.0 ?inhibition) (* 0.5 (+ ?volatility ?psychopathy))))))))
       (declare-utility want)
       (effects
-        (maintain-intent {@self intent kill ?victim} /caused_by ?crave_bond)))))
+        (maintain-intent {@self intent {@self kill ?victim}} /caused_by ?crave_bond)))))

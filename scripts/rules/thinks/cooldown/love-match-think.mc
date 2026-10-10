@@ -76,4 +76,4 @@
       (when (latch-eval (chance 0.3)))
 
       (declare-utility want)
-      (effects (maintain-intent {@self intent wed ?beloved} /caused_by ?fancy)))))
+      (effects (maintain-intent {@self intent {@self wed ?beloved}} /caused_by ?fancy)))))

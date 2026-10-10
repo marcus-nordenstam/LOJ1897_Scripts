@@ -4,7 +4,7 @@
 ; it is released by 0.75 of its remaining salience.
 ; ----------------------------------------------------------------------------
 
-(reflex {@self intent expose|humiliate|coerce|seduce|bribe ?target /succ}:?intent
+(reflex {@self intent {@self expose|humiliate|coerce|seduce|bribe ?target} /succ}:?intent
   (effects
     (for-each ?pressure (every {@self pressure ? ?})
       (if (has-cause ?intent ?pressure)

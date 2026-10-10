@@ -5,17 +5,17 @@
 ; grievance that caused it (spent-grievance).
 ; ----------------------------------------------------------------------------
 
-(driver {@self intent expose ?target}:?intent
+(driver {@self intent {@self expose ?target}}:?intent
   (effects (maintain-proposal {@self expose ?target})))
 
-(driver {@self intent humiliate ?target}:?intent
+(driver {@self intent {@self humiliate ?target}}:?intent
   (effects (maintain-proposal {@self humiliate ?target})))
 
-(driver {@self intent coerce ?target}:?intent
+(driver {@self intent {@self coerce ?target}}:?intent
   (effects (maintain-proposal {@self coerce ?target})))
 
-(driver {@self intent seduce ?target}:?intent
+(driver {@self intent {@self seduce ?target}}:?intent
   (effects (maintain-proposal {@self seduce ?target})))
 
-(driver {@self intent bribe ?target}:?intent
+(driver {@self intent {@self bribe ?target}}:?intent
   (effects (maintain-proposal {@self bribe ?target})))

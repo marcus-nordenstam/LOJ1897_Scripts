@@ -64,4 +64,4 @@
 
       (declare-utility want)
       (effects
-        (maintain-intent {@self intent kill ?victim} /caused_by ?aim)))))
+        (maintain-intent {@self intent {@self kill ?victim}} /caused_by ?aim)))))

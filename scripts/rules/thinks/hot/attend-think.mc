@@ -30,7 +30,7 @@
     ; the warmth-scaled guest base.
     (declare-utility errand (cond
                       (case {@self physical-mobility [k bedridden]} 0)
-                      (case {@self intent kill ?} (max (attend-crasher-value)
+                      (case {@self intent {@self kill ?}} (max (attend-crasher-value)
                                                              (attend-guest-scaled ?occ)))
                       (else (attend-guest-scaled ?occ))))
     (effects (maintain-proposal {@self attend ?occ}))))

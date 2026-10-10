@@ -17,7 +17,7 @@
                       {@self desire|crave ?instigator}
                       (!= ?instigator @self)
       (role ?victim {?victim isa [k human], condition [k alive]}
-                    {?instigator intent kill ?victim}:?their-intent
+                    {?instigator intent {?instigator kill ?victim}}:?their-intent
                     -{?victim condition [k dead]}
                     (!= ?victim @self)
         (when (and (>= (stance-band ?instigator attraction) 2.0)
@@ -27,4 +27,4 @@
           (if -{@self accomplice ?instigator}
               (then (begin-belief {@self accomplice ?instigator ?their-intent})))
           (any {@self accomplice ?instigator}): ?accomplice
-          (maintain-intent {@self intent kill ?victim} /caused_by ?accomplice))))))
+          (maintain-intent {@self intent {@self kill ?victim}} /caused_by ?accomplice))))))

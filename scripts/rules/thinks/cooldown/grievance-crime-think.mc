@@ -37,7 +37,7 @@
                          (chance (* (crime-scale)
                                     (* 0.4 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects (maintain-intent {@self intent expose ?target} /caused_by ?pressure)))))
+      (effects (maintain-intent {@self intent {@self expose ?target}} /caused_by ?pressure)))))
 
 (intender expose-wrongdoing
   (cooldown 1 m try-once)
@@ -52,7 +52,7 @@
                          (chance (* (crime-scale)
                                     (* 0.5 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects (maintain-intent {@self intent expose ?target} /caused_by ?pressure)))))
+      (effects (maintain-intent {@self intent {@self expose ?target}} /caused_by ?pressure)))))
 
 ; ---- humiliate -------------------------------------------------------------
 ; Put the focus down in public - the status answer to a status injury.
@@ -68,7 +68,7 @@
                          (chance (* (crime-scale)
                                     (* 0.5 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects (maintain-intent {@self intent humiliate ?target} /caused_by ?pressure)))))
+      (effects (maintain-intent {@self intent {@self humiliate ?target}} /caused_by ?pressure)))))
 
 ; ---- coerce ----------------------------------------------------------------
 ; Press a threat on the focus. Silencing the source of a slight and holding on to
@@ -85,7 +85,7 @@
                          (chance (* (crime-scale)
                                     (* 0.10 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects (maintain-intent {@self intent coerce ?target} /caused_by ?pressure)))))
+      (effects (maintain-intent {@self intent {@self coerce ?target}} /caused_by ?pressure)))))
 
 (intender coerce-hold
   (cooldown 1 m try-once)
@@ -99,7 +99,7 @@
                          (chance (* (crime-scale)
                                     (* 0.20 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects (maintain-intent {@self intent coerce ?target} /caused_by ?pressure)))))
+      (effects (maintain-intent {@self intent {@self coerce ?target}} /caused_by ?pressure)))))
 
 ; ---- seduce ----------------------------------------------------------------
 ; Replace what was lost by taking someone else's attachment.
@@ -115,7 +115,7 @@
                          (chance (* (crime-scale)
                                     (* 0.2 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects (maintain-intent {@self intent seduce ?target} /caused_by ?pressure)))))
+      (effects (maintain-intent {@self intent {@self seduce ?target}} /caused_by ?pressure)))))
 
 ; ---- bribe -----------------------------------------------------------------
 ; Buy the focus's silence. A crime, but not an aggression - no disposition tilt
@@ -131,4 +131,4 @@
                          (chance (* (crime-scale)
                                     (* 0.4 (grievance-drive ?pressure ?target 1.0)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects (maintain-intent {@self intent bribe ?target} /caused_by ?pressure)))))
+      (effects (maintain-intent {@self intent {@self bribe ?target}} /caused_by ?pressure)))))

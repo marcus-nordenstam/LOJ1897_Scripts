@@ -57,4 +57,4 @@
 
       (declare-utility want)
       (effects
-        (maintain-intent {@self intent kill ?spouse} /caused_by ?spouse_bond)))))
+        (maintain-intent {@self intent {@self kill ?spouse}} /caused_by ?spouse_bond)))))

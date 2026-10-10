@@ -79,4 +79,4 @@
 
         (declare-utility want)
         (effects
-          (maintain-intent {@self intent kill ?victim} /caused_by ?wealth_bond))))))
+          (maintain-intent {@self intent {@self kill ?victim}} /caused_by ?wealth_bond))))))

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; betrothal - the class-parity match: an unmarried man resolves to wed a woman of his class
-; and age whom he fancies, an INTENT ({@self intent wed ?bride}) that stands until he is
+; and age whom he fancies, an INTENT ({@self intent {@self wed ?bride}}) that stands until he is
 ; married. pursue-wed (thinks/hot/wed-think.mc) proposes to her, plans the wedding and weds.
 ; ----------------------------------------------------------------------------
 
@@ -69,4 +69,4 @@
                            (= ?lover-class ?my-class)))))
 
       (declare-utility want)
-      (effects (maintain-intent {@self intent wed ?bride} /caused_by ?fancy)))))
+      (effects (maintain-intent {@self intent {@self wed ?bride}} /caused_by ?fancy)))))

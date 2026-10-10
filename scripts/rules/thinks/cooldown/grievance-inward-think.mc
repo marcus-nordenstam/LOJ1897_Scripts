@@ -27,7 +27,7 @@
                                       (* 0.01 (grievance-drive ?pressure ?target 1.0)))))
                (despairing @self)))
     (declare-utility survival)
-    (effects (maintain-intent {@self intent DIE [k suicide]} /caused_by ?pressure))))
+    (effects (maintain-intent {@self intent {@self DIE [k suicide]}} /caused_by ?pressure))))
 
 (intender suicide-grief
   (cooldown 1 m try-once)
@@ -37,7 +37,7 @@
                                       (* 0.03 (grievance-drive ?pressure ?target 1.0)))))
                (despairing @self)))
     (declare-utility survival)
-    (effects (maintain-intent {@self intent DIE [k suicide]} /caused_by ?pressure))))
+    (effects (maintain-intent {@self intent {@self DIE [k suicide]}} /caused_by ?pressure))))
 
 (think strive-rivalry
   (cooldown 1 m try-once)

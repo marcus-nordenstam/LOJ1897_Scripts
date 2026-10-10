@@ -104,4 +104,4 @@
                                    (if {@self life-aim [k power-aim]} (then 2.0) (else 1.0))))))))
       (declare-utility want)
       (effects
-        (maintain-intent {@self intent kill ?victim} /caused_by ?fixation_bond)))))
+        (maintain-intent {@self intent {@self kill ?victim}} /caused_by ?fixation_bond)))))
