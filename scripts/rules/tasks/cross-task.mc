@@ -5,10 +5,10 @@
 ; passage: nothing else proposes OPEN on one. A (sequence ..): the head is the passage, which
 ; turns over once per cross; every stage tests the world in its effects, so a man already at the
 ; door, or a door already open, falls through to the next stage. Stage 1, while the passage is
-; shut, is a go-to inside his own domain to a stance within reach of it - a crowd at the door
-; holds him until one is free - and a door it meets on the way is crossed by that go-to; stage 3
-; is the one short hop across. A passage he believes locked, an OPEN that fails, or a step he
-; cannot make fails the cross.
+; shut, is a go-to inside his own domain to a stance within reach of it, and a door it meets on
+; the way is crossed by that go-to; stage 3 is the one short hop across. A passage he believes
+; locked, a shut one he can find no stance by, an OPEN that fails, or a step he cannot make fails
+; the cross, and the go-to that proposed it tries another way.
 ; ----------------------------------------------------------------------------
 
 (task {@self cross ?passage ?to}:?cross
@@ -16,15 +16,17 @@
   (init (check (substantial (tolerate (spatial ?passage beyond ?to)))))
   (and
     (sequence
-      (stage (bind (if (barred ?passage)
-                       (then (passage-stance ?passage (spatial ?passage beyond ?to)))
-                       (else @nothing))
+      (stage (bind (tolerate (if (barred ?passage)
+                                 (then (passage-stance ?passage (spatial ?passage beyond ?to)))
+                                 (else @nothing)))
                    ?before)
-             (effects (if (is-spot ?before)
-                          (then (expect (unsubstantial (spatial @self leg ?before))
-                                        "cross: the near side of the passage lies outside his domain")
-                                (if (not (overlaps ?before @self))
-                                    (then (maintain-proposal {@self go-to ?before})))))))
+             (effects (cond (case (is-spot ?before)
+                                  (expect (unsubstantial (spatial @self leg ?before))
+                                          "cross: the near side of the passage lies outside his domain")
+                                  (if (not (overlaps ?before @self))
+                                      (then (maintain-proposal {@self go-to ?before}))))
+                            (case (barred ?passage)
+                                  (set-outcome ?cross /fail)))))
       (stage (when (or (not (barred ?passage)) (spatial @self can-reach ?passage)))
              (effects (if (barred ?passage)
                           (then (maintain-proposal {@self OPEN ?passage})))))
