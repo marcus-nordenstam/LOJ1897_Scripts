@@ -19,7 +19,7 @@
     (check (substantial ?applicant-name))
     (tolerate (closest [k employee-register]): ?reg)
     (check (substantial ?reg))
-    (check (spatial ?reg co-located @self /env))
+    (check (spatial @self can-reach ?reg /env))
     (check (table-set ?reg (where job-id ?job-id)
                            offered ?applicant-name offer-date (time date)))
     (set-outcome ?RECORD-OFFER /succ)))

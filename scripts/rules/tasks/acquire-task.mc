@@ -22,7 +22,7 @@
     ; RETRIEVE - an instance already in my home, unheld -> fetch it.
     (try
       (role ?mine (is-a ?mine ?kind) {@self own ?mine} (spatial ?mine building (any {@self home ?}).target)
-        (when (and (not (spatial ?mine co-located @self))
+        (when (and (not (spatial @self can-reach ?mine))
                    (unknown (spatial ?mine held-by))))
         (declare-utility always-pick)
         (effects (maintain-proposal {@self get ?mine}))))

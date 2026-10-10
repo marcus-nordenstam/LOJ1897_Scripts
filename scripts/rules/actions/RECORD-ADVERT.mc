@@ -12,6 +12,6 @@
   (tar [k document] @object)
   (duration (seconds 5 min))
   (effects
-    (check (spatial ?reg co-located @self /env))
+    (check (spatial @self can-reach ?reg /env))
     (check (table-set ?reg (where job-id ?job-id) advertise-date (time date)))
     (set-outcome ?RECORD-ADVERT /succ)))

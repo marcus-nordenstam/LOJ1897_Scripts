@@ -24,11 +24,11 @@
       (effects (check (or (empty (spatial (spatial @self left-hand) grip))
                           (empty (spatial (spatial @self right-hand) grip))))))
     (try
-      (role @self (spatial ?item co-located @self)
+      (role @self (spatial @self can-reach ?item)
         (when (empty (spatial (spatial @self right-hand) grip)))
         (effects (maintain-proposal {@self GRASP ?item (spatial @self right-hand)}))))
     (try
-      (role @self (spatial ?item co-located @self)
+      (role @self (spatial @self can-reach ?item)
         (when (empty (spatial (spatial @self left-hand) grip)))
         (when (not (empty (spatial (spatial @self right-hand) grip))))
         (effects (maintain-proposal {@self GRASP ?item (spatial @self left-hand)}))))

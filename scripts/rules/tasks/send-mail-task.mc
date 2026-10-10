@@ -14,14 +14,14 @@
     ; go-to, NEVER the raw WALK: reaching a thing, and the doors between, is go-to's whole job.
     (stage
       (effects
-        (if (not (spatial ?out co-located @self))
+        (if (not (spatial @self can-reach ?out))
             (then (maintain-proposal {@self go-to ?out})))))
 
     ; The put is proposed only AT the pile: the walk is the stage before, but a man can be
     ; pulled away between stages, and STACK-PUT asserts the reach it is given. The stage
     ; HOLDS until he is back at it.
     (stage
-      (role @self (spatial ?out co-located @self))
+      (role @self (spatial @self can-reach ?out))
       (effects (maintain-proposal {@self STACK-PUT ?doc ?out})))
 
     (stage

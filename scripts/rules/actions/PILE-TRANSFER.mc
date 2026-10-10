@@ -8,7 +8,7 @@
   (duration (seconds 1 min))
   (effects
     (check (= (spatial ?held held-by) @self))
-    (check (within-reach ?into))
+    (check (spatial @self can-reach ?into /env))
     (check (attr-is ?into content-kind (attr ?held content-kind)))
     (pile-add ?into (attr ?held count))
     (destroy-entity ?held)

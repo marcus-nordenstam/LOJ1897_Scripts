@@ -197,11 +197,9 @@
 ; THE ONE MOVEMENT THRESHOLD, at three scales. Outside it a man heads for the SHAPE of
 ; where he is going and reserves nothing, because a spot held from across town is a spot
 ; taken from whoever is standing in it; inside it he CLAIMS a spot and finishes on what
-; he actually got. A street's worth for a building, a room's width for a space, and
-; arm's length for a thing he means to touch.
+; he actually got. A street's worth for a building and a room's width for a space.
 (define-macro near_building_m          () 20.0)
 (define-macro near_space_m             () 6.0)
-(define-macro near_reach_m             () 1.5)
 
 ; The household cook's public-bb claim lifetime, in hsim cycles (= months). The
 ; sitting cook RE-POSTS it every cycle (renew-cook), so the ttl only bounds how

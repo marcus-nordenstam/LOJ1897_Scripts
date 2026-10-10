@@ -1,30 +1,38 @@
 ; ----------------------------------------------------------------------------
-; catch-up (think). Away from the table, @self proposes SAYING their OWN recent
-; news (a new spouse / fiancee / child / friendship) to whoever is CO-PRESENT; the
-; shared say_to act says it aloud. The listener ?guest is bound by the location
-; JOIN ({@self location ?loc} + {?guest location ?loc}, cf. introduce.mc - the guest
-; perceived sharing @self's room), and @self proposes ONE fact they have not heard.
-; Hearing it, a guest files @self as the source and can pass "did you hear, X had a
-; child" along - self-news cascades onward as ordinary gossip.
+; catch-up (think). Away from the table, @self tells one co-present listener - the nearest
+; who has not yet heard it all - ONE piece of his own news (a new spouse / fiancee / child /
+; friendship). Hearing it, a guest files @self as the source and can pass "did you hear, X had
+; a child" along - self-news cascades onward as ordinary gossip.
 ;
-; Fired per NPC monthly; the gates (extraversion-weighted chance + a minimum
-; age) live in (when). Dedup is PER-LISTENER (the tell's aux is the guest), so a
-; guest hears each fact only once. Proposing nothing (all heard, or nobody
-; co-present) is a safe no-op. Meal-table chatter is table_talk_think.mc.
+; The gates (extraversion-weighted chance + a minimum age) live in (when). Dedup is
+; PER-LISTENER (the tell's aux is the guest), so a guest hears each fact only once.
+; Meal-table chatter is table_talk_think.mc.
 ; ----------------------------------------------------------------------------
 
+
+; The first piece of @self's own news ?guest has not been told, or @nothing. The dedup is per
+; listener: the tell's aux is the guest, so {@self tell <msg> ?guest /succ} is "have I told
+; THIS guest this".
+(define-func catch-up-news-for (?guest)
+  (bind @nothing ?untold)
+  (for-each ?belief (every {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?})
+    (utterable-msg [] ?belief): ?msg
+    (if -{@self tell ?msg ?guest /succ}
+        (then (bind ?msg ?untold)
+              (break))))
+  ?untold)
 
 (think catch-up
   (cooldown 1 m try-once)
   (rng-stream behaviour)
-
-  ; ?guest is anyone CO-PRESENT: sourced OBJECTIVELY from @self's current room (env
-  ; contents), each guest passively perceived - enumerated, so each co-present listener
-  ; hears their own untold slice of @self's news.
+  ; ?guest is one co-present listener with news of his still untold, the nearest: a crowd is
+  ; caught up with one face after another.
   (role @self {@self enthusiasm ?enthusiasm}
               {@self age ?age}
     (role ?guest {?guest isa [k human], condition [k alive]}
                  (spatial ?guest co-located @self)
+                 (substantial (catch-up-news-for ?guest))
+                 (select (score (near @self ?guest)) (policy argmax unknown-last))
 
       ; His age rides the @self role; the extraversion-weighted chance is a non-belief gate.
       (when (and (chance (* 0.25 (+ 0.5 ?enthusiasm)))
@@ -33,16 +41,5 @@
       (declare-utility want)
 
       (effects
-        ; Propose telling ?guest ONE piece of my OWN news they have not heard. for-each-present-tense-belief
-        ; walks my {@self <label> ?} beliefs across the relationship labels, binding the matched
-        ; label + its target; the dedup is PER-GUEST - the tell's aux is the listener, so {@self
-        ; tell <msg> ?guest /succ} is "have I told THIS guest this". (break) stops at the first untold
-        ; fact. Proposing nothing is a safe no-op.
-        (for-each ?belief (every {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?})
-          (do
-            (utterable-msg [] ?belief): ?msg
-            (if -{@self tell ?msg ?guest /succ}
-                (then (maintain-proposal {@self tell ?msg ?guest}) 
-                      (break)))))))))
-
-  
+        (catch-up-news-for ?guest): ?msg
+        (maintain-proposal {@self tell ?msg ?guest})))))

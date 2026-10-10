@@ -25,7 +25,7 @@
     (check (substantial ?where)))
 
   (effects
-    (check (spatial ?working-stack co-located @self /env))
+    (check (spatial @self can-reach ?working-stack /env))
     (create-entity [k stack] ?where): ?done
     (cond
       (case (substantial ?done)

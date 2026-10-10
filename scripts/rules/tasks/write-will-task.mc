@@ -21,7 +21,7 @@
       (effects
         (for-each ?own (every {@self own ?})
           (bind ?own.target ?owned)
-          (if (and (is-a ?owned [k will]) (spatial ?owned co-located @self))
+          (if (and (is-a ?owned [k will]) (spatial @self can-reach ?owned))
               (then (maintain-proposal {@self DESTROY-ENTITY ?owned}))))))
 
     (stage

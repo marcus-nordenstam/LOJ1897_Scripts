@@ -157,7 +157,7 @@
 ; precondition OPEN and CLOSE check, asserted here by their proposer, the player's aim.
 (define-func openable-in-reach (?thing)
   (and (articulated ?thing)
-       (spatial ?thing co-located @self /env)))
+       (spatial @self can-reach ?thing /env)))
 
 ; (openable-hint ?thing) - the word the host shows beside the aim dot for ?thing: Locked for a
 ; locked door or drawer, Open for a shut one, Close for an ajar one; @false for a thing that

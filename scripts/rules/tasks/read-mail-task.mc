@@ -20,12 +20,12 @@
         (effects (maintain-proposal {@self locate [k mail-stack] ?prem}))))
     (try
       (role ?stk [k mail-stack] (within-place ?stk ?prem)
-                                (not (spatial ?stk co-located @self))
+                                (not (spatial @self can-reach ?stk))
         (when (spatial ?stk space))
         (effects (maintain-proposal {@self go-to ?stk}))))
     (try
       (role ?stk [k mail-stack] (within-place ?stk ?prem)
-                                (spatial ?stk co-located @self)
+                                (spatial @self can-reach ?stk)
                                 -{@self take-my-letters ?stk /succ /caused_by ?read-mail}
         (declare-utility errand)
         (effects

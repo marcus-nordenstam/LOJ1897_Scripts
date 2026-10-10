@@ -9,7 +9,7 @@
   (track-skill-level [k illicit])
   (tar [k object] @object) (duration (seconds 2 min))
   (effects
-    (check (spatial ?door co-located @self))
+    (check (spatial @self can-reach ?door /env))
     (articulate ?door 1.0)
     (set-attr ?door integrity [k broken])
     (set-attr ?door lock-status [k unlocked])

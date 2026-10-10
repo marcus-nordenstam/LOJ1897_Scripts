@@ -9,7 +9,7 @@
   (duration (seconds 1 min))
   (effects
     (spatial @self right-hand /env): ?hand
-    (check (within-reach ?from))
+    (check (spatial @self can-reach ?from /env))
     (check (empty (spatial ?hand grip /env)))
     (check (>= (attr ?from count) ?count))
     (create-entity [k pile] (spatial @self space /env)): ?split

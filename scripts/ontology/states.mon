@@ -7,7 +7,6 @@
 ; relation. Env attrs contribute the physical realization of a state.
 
 ; Spatial predicate states.
-(state within-reach-of (tar [k object|space] @object))
 (state facing (tar [k object|space] @object))
 
 ; `frequent` is the whereabouts-HABIT summary, minted by the habit tally (a per-mind

@@ -9,7 +9,7 @@
   (duration (seconds 1 min))
   (effects
     ; The twin of STACK-TAKE's: a man files a paper in the pile he is standing at.
-    (check (spatial ?stack co-located @self /env))
+    (check (spatial @self can-reach ?stack /env))
     (bury ?doc ?stack)
     ; The paper is on a pile again, so it owes none a return: the note STACK-TAKE wrote when
     ; it came off one is discharged here, by the act that put it back.

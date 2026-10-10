@@ -24,7 +24,7 @@
           (bb-clear ?denounce alias)
           (set-outcome ?denounce /fail)))
       (try
-        (role ?ltr [k forged-letter] (spatial ?ltr co-located @self)
+        (role ?ltr [k forged-letter] (spatial @self can-reach ?ltr)
                                      {@self WRITE ?ltr ? /succ}
                                      -{@self send-mail ?ltr ? /succ}
           (role ?out [k outgoing-mail-stack] (within-place ?out ?my-home)
@@ -33,7 +33,7 @@
               (check (substantial (attr ?ltr destination)))
               (maintain-proposal {@self send-mail ?ltr ?out})))))
       (try
-        (role ?ltr [k forged-letter] (spatial ?ltr co-located @self)
+        (role ?ltr [k forged-letter] (spatial @self can-reach ?ltr)
                                      (unsubstantial (attr ?ltr writing))
           (role ?station [k police-station] {?station address ?station-address}
             (select (policy first-match))

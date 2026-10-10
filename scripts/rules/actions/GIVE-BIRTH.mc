@@ -17,9 +17,10 @@
 ; the parents' job in their own rung, where their own beliefs are readable.
 ;
 ; Who ELSE learns of the child is not settled here either. The newborn knows its
-; own parents (it is born of them) and the mother knows her child (she bore it);
-; every other relative learns the ordinary way, by meeting the baby or being told
-; about it. There is no write into a third mind anywhere in this body.
+; own parents and the mother knows her child; every other relative learns the
+; ordinary way, by meeting the baby or being told about it. The newborn's mind is
+; seeded the way world-gen seeds a founder's - (enter-mind ?baby), the one seam
+; that writes a mind other than the actor's - before it has ever deliberated.
 ;
 ; Delivering ENDS the pregnancy - the pregnant-when / pregnant-by physiology and
 ; the {@self pregnant ?} self-belief that gated her out of re-conceiving - so she
@@ -33,6 +34,7 @@
 
 (action {@self GIVE-BIRTH ?father}:?GIVE-BIRTH
   (motor body legs)
+  (xaction ?xgive-birth)
   (presentation
     (preroll 0.0) (in 0.5) (out 0.5))
   (duration (seconds (birth_labour_minutes) min))
@@ -54,14 +56,16 @@
     (set-attr ?baby birth-date (create-date (time year) (time month) (time day)))
     (start-aging ?baby)
     (seed-carrying-cash ?baby)
-    ; The newborn's own kin beliefs, minted IN the mind being created - the same
-    ; thing make-human does for a founder, and the only mind this body writes to
-    ; besides the actor's own. The two-arg form externalizes each field and
-    ; observes it into the holder, so the baby meets its parents on the way in.
-    (begin-belief ?baby {?baby mother @self})
-    (begin-belief ?baby {?baby parent @self})
-    (begin-belief ?baby {?baby father ?father})
-    (begin-belief ?baby {?baby parent ?father})
+    ; The parents are read off the act's abs twin: inside the baby's mind the
+    ; mother's own symbols name nothing.
+    (enter-mind ?baby)
+    (observe ?xgive-birth.subject): ?known-mother
+    (observe ?xgive-birth.target): ?known-father
+    (begin-belief {@self mother ?known-mother})
+    (begin-belief {@self parent ?known-mother})
+    (begin-belief {@self father ?known-father})
+    (begin-belief {@self parent ?known-father})
+    (exit-mind)
     ; The mother's own belief about the child she just bore. SEE it first: a
     ; belief field converts into the believer's realm, so an object the mind has
     ; never met lands as @fail.

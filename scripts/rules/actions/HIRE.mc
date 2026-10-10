@@ -17,7 +17,7 @@
     (check (substantial (name ?worker)))
     (tolerate (closest [k employee-register]): ?reg)
     (check (substantial ?reg))
-    (check (spatial ?reg co-located @self /env))
+    (check (spatial @self can-reach ?reg /env))
     (check (table-set ?reg (where job-id ?job-id worker @nothing)
                            worker (name ?worker) level [k trainee]
                            hiring-date (time date)

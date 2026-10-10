@@ -52,7 +52,7 @@
         (stable-or
           ; Getting to the pile is send-mail's own business.
           (try
-            (role ?ltr [k love-letter] (spatial ?ltr co-located @self)
+            (role ?ltr [k love-letter] (spatial @self can-reach ?ltr)
                                        {@self WRITE ?ltr ? /succ}
                                        -{@self send-mail ?ltr ? /succ}
               (role ?out [k outgoing-mail-stack] (within-place ?out ?my-home)
@@ -68,7 +68,7 @@
           ; addressee and address off the riders, so there is no addressing deed. Not knowing where
           ; she lives is a gate, not a check: he simply cannot post to her yet.
           (try
-            (role ?ltr [k love-letter] (spatial ?ltr co-located @self)
+            (role ?ltr [k love-letter] (spatial @self can-reach ?ltr)
                                        (unsubstantial (attr ?ltr writing))
               (when {?paramour home ?her-home}
                     {?her-home address ?her-address})

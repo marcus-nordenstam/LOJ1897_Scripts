@@ -49,7 +49,7 @@
                         [/postlude (bind (bb-read ?CREATE-ENTITY created) ?ltr)
                                    (bb-write ?report-crime letter ?ltr)])))))
         (stage
-          (when (spatial ?ltr co-located @self))
+          (when (spatial @self can-reach ?ltr))
           (effects
             (any {?loot stolen-from @self})
             (if (unsubstantial (attr ?ltr writing))

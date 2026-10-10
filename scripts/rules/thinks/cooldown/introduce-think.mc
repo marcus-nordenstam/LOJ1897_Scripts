@@ -3,7 +3,6 @@
 (think introduce
   (cooldown 1 m try-once)
   (rng-stream behaviour)
-
   (role @self {@self enthusiasm ?enthusiasm}
     (role ?stranger 
          {?stranger isa [k human], condition [k alive]}
@@ -14,6 +13,8 @@
          ; stranger again and the minute cooldown greeted him afresh: 960 greetings in one
          ; afternoon (measured), a body never free for sleep, and the sim down for it.
          -{@self tell ? ?stranger /succ}
+         ; One stranger at a time, the nearest: a crowd is met one face after another.
+         (select (score (near @self ?stranger)) (policy argmax unknown-last))
   
       ; Sociability gate: an extraverted NPC strikes up an introduction more readily.
       (when (chance (* 0.5 (+ 0.4 ?enthusiasm))))

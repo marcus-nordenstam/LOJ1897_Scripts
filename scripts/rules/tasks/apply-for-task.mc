@@ -35,7 +35,7 @@
         ; stale belief with its env attrs reading true (measured: it was pushed out of the
         ; officer's hand into this man's out-box). The form is never in hand (measured).
         (stage
-          (role ?app [k application] (spatial ?app co-located @self)
+          (role ?app [k application] (spatial @self can-reach ?app)
                                      {@self WRITE ?app ? /succ}
                                      -{@self send-mail ?app ? /succ}
                                      (substantial (attr ?app writing))

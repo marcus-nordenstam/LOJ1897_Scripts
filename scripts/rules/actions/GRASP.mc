@@ -30,7 +30,7 @@
   (effects
     ; The proposer's job, asserted here: a rule that proposes a grasp it cannot reach,
     ; or with a full hand, is the authoring error and not this act's problem.
-    (check (spatial ?item co-located @self /env))
+    (check (spatial @self can-reach ?item /env))
     (check (empty (spatial ?hand grip /env)))
     (grip-into-hand ?item ?hand)
     ; A thing in a hand is a thing you can see - which matters when it was STOWED and

@@ -23,7 +23,7 @@
       (stage
         (role ?stk [k mail-stack] (spatial ?stk building ?wp))
         (effects
-          (if (not (spatial ?stk co-located @self))
+          (if (not (spatial @self can-reach ?stk))
               (then (maintain-proposal {@self go-to ?stk})))))
 
       (stage

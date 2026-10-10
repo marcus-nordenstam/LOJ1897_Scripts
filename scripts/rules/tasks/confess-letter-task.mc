@@ -18,7 +18,7 @@
     (try
       (role @self -{@self send-mail ? ? /succ /caused_by ?confess-letter}
         (role ?my-home {@self home ?my-home}
-          (role ?ltr [k confession-letter] (spatial ?ltr co-located @self)
+          (role ?ltr [k confession-letter] (spatial @self can-reach ?ltr)
                                            {@self WRITE ?ltr ? /succ}
                                            -{@self send-mail ?ltr ? /succ}
             (role ?out [k outgoing-mail-stack] (within-place ?out ?my-home)
@@ -30,7 +30,7 @@
 
     (try
       (role @self -{@self send-mail ? ? /succ /caused_by ?confess-letter}
-        (role ?ltr [k confession-letter] (spatial ?ltr co-located @self)
+        (role ?ltr [k confession-letter] (spatial @self can-reach ?ltr)
                                          (unsubstantial (attr ?ltr writing))
           (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
                      -{@self spouse ?partner /ever}

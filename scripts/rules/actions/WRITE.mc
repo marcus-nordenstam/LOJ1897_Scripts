@@ -34,7 +34,7 @@
   (presentation
     (preroll 0.0) (in 0.4) (out 0.4))
   (effects
-    (tolerate (spatial ?doc co-located @self /env)): ?at-hand
+    (tolerate (spatial @self can-reach ?doc /env)): ?at-hand
     (if (not ?at-hand)
       (then
         (tolerate (spatial @self space /env)): ?self-space-env
@@ -43,7 +43,7 @@
         (tolerate (spatial ?doc space)): ?doc-space-mind
         (tolerate (spatial ?doc held-by /env)): ?holder-env
         (tolerate (spatial ?doc held-by)): ?holder-mind
-        (tolerate (spatial ?doc co-located @self)): ?co-mind
+        (tolerate (spatial @self can-reach ?doc)): ?co-mind
         (tolerate (distance (spatial ?doc bounds /env) (spatial @self bounds /env))): ?gap-env
         (tolerate (distance ?doc @self)): ?gap-mind
         (tolerate (presented-lod)): ?presented

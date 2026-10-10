@@ -4,7 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (think pocket-coins
-  (role ?cash {@self carrying-cash ?cash}
+  (role ?cash {@self carrying-cash ?cash} (spatial @self can-reach ?cash)
     (role ?loose [k pile] {?loose content-kind [k coin]} (= (spatial ?loose held-by) @self)
       (declare-utility want fallback)
       (effects (maintain-proposal {@self PILE-TRANSFER ?loose ?cash})))))

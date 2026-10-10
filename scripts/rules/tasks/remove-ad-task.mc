@@ -28,7 +28,7 @@
           (for-each ?WRITE (every {@self WRITE ? ? /succ})
             (bind ?WRITE.target ?ad)
             (if (and (is-a ?ad [k job-posting])
-                     (spatial ?ad co-located @self))
+                     (spatial @self can-reach ?ad))
                 (then (maintain-proposal {@self DESTROY-ENTITY ?ad})
                       (break))))))
 
@@ -37,11 +37,11 @@
       (stage
         (role ?reg {?org employee-register ?reg})
         (effects
-          (if (not (spatial ?reg co-located @self))
+          (if (not (spatial @self can-reach ?reg))
               (then (maintain-proposal {@self go-to ?reg})))))
       (stage
         (role @self {?org employee-register ?reg}
-                    (spatial ?reg co-located @self))
+                    (spatial @self can-reach ?reg))
         (when {?job job-id ?job-id})
         (effects
           (maintain-proposal {@self STRIKE-ADVERT ?reg ?job-id})))

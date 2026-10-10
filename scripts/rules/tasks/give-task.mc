@@ -17,25 +17,25 @@
       (effects (maintain-proposal {@self take ?thing})))
     (try
       (when (and (= (spatial ?thing held-by) @self)
-                 (not (spatial ?recipient co-located @self))
+                 (not (spatial @self can-reach ?recipient))
                  (spatial ?recipient space)))
       (declare-utility fallback)
       (effects (maintain-proposal {@self go-to ?recipient})))
     (try
       (role ?rhome {?recipient home ?rhome}
         (when (and (= (spatial ?thing held-by) @self)
-                   (not (spatial ?recipient co-located @self))
+                   (not (spatial @self can-reach ?recipient))
                    (unknown (spatial ?recipient space))))
         (effects (maintain-proposal {@self go-to ?rhome}))))
     (try
       (when (and (= (spatial ?thing held-by) @self)
-                 (spatial ?recipient co-located @self)
+                 (spatial @self can-reach ?recipient)
                  (empty (spatial (spatial ?recipient right-hand) grip))))
       (declare-utility (above go-to))
       (effects (maintain-proposal {@self OFFER-RIGHT ?thing ?recipient})))
     (try
       (when (and (= (spatial ?thing held-by) @self)
-                 (spatial ?recipient co-located @self)
+                 (spatial @self can-reach ?recipient)
                  (not (empty (spatial (spatial ?recipient right-hand) grip)))))
       (declare-utility (above go-to))
       (effects (maintain-proposal {@self OFFER-LEFT ?thing ?recipient})))

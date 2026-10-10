@@ -37,8 +37,7 @@
   ?house)
 
 ; At a spot: standing on it. In a space: inside it, or out of doors in an exterior one. At a man: on the spot before him this
-; go-to walked him onto. At a thing: in its space and within reach, or on the spot by it this
-; go-to walked him onto - the nearest free floor to a thing set on furniture can be out of reach.
+; go-to walked him onto. At a thing: within reach of it.
 (define-func go-arrived (?dest ?go-to)
   (cond (case (is-spot ?dest) (overlaps ?dest @self))
         (case (is-a ?dest [k building]) (spatial @self building ?dest))
@@ -46,9 +45,7 @@
         (case (is-a ?dest [k space]) (within-space @self ?dest))
         (case (is-a ?dest [k human]) (and (spatial ?dest co-located @self)
                                            (substantial (any {@self WALK ? /succ /caused_by ?go-to}))))
-        (else (and (spatial ?dest co-located @self)
-                   (or (< (distance @self ?dest) (near_reach_m))
-                       (substantial (any {@self WALK ? /succ /caused_by ?go-to})))))): ?there
+        (else (spatial @self can-reach ?dest))): ?there
   ?there)
 
 ; A door of ?enclosure he knows, which a body goes in or out by - a window never is.
@@ -180,4 +177,5 @@
     (try (when (go-stand-spot ?dest): ?spot (is-spot ?spot))
          (effects (maintain-proposal {@self WALK ?spot})))
     (try (role @self (go-placed-thing ?dest)
-           (effects (expect @false "go-to: a placed thing with no spot to stand on"))))))
+           (effects (expect (substantial (tolerate (spatial ?dest bounds)))
+                            "go-to: a placed thing with no box to stand by"))))))

@@ -20,7 +20,7 @@
     (try
       ; AT HAND is held OR in the room: a form in the hand has no space to walk to.
       (role @self (not (spatial ?doc held-by @self))
-                  (not (spatial ?doc co-located @self))
+                  (not (spatial @self can-reach ?doc))
         (declare-utility obligation)
         (effects
           (spatial ?doc space): ?room
@@ -28,7 +28,7 @@
               (then (maintain-proposal {@self go-to ?doc}))))))
     (try
       (role @self (or (spatial ?doc held-by @self)
-                      (spatial ?doc co-located @self))
+                      (spatial @self can-reach ?doc))
                   -{@self WRITE ?doc ? /succ /caused_by ?write-doc}
         (declare-utility obligation)
         (effects (maintain-proposal {@self WRITE ?doc ?sentence}))))

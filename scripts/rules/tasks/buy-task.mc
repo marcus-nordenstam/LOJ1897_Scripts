@@ -29,7 +29,7 @@
     (sequence
       (role ?cash {@self carrying-cash ?cash}
         (role ?till [k pile] {?till content-kind [k coin]}
-                    (spatial ?till co-located @self)
+                    (spatial @self can-reach ?till)
                     (unknown (spatial ?till gripped-by))
           (when (and (empty (spatial @self hold ?kind))
                      (is-a (spatial @self building): ?shop [k shop])))
@@ -66,7 +66,7 @@
             (when {@self /succ PILE-TRANSFER ? ?till /caused_by ?buy})
             (bind (bb-read ?buy goods) ?goods)
             (effects
-              (if (spatial ?goods co-located @self)
+              (if (spatial @self can-reach ?goods)
                   (then (maintain-proposal {@self GRASP ?goods (spatial @self right-hand)}))))))))
     ; concluded: an instance of the kind is in hand.
     (try

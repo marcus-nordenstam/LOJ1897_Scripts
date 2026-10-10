@@ -65,7 +65,7 @@
   (role @self {@self job [k priest]}
     (role ?corpse {?corpse condition [k dead]}
                   {?corpse internment [k unburied]}
-                  (not (spatial ?corpse co-located @self))
+                  (not (spatial @self can-reach ?corpse))
                   (select (score (months-since-death ?corpse)) (policy argmax))
       (role ?church [k church-building] (select (score (near @self ?church)) (policy roulette unknown-last))
         (when (>= (months-since-death ?corpse) 1))
@@ -81,7 +81,7 @@
   (role @self {@self job [k priest]}
     (role ?corpse {?corpse condition [k dead]}
                   {?corpse internment [k unburied]}
-                  (spatial ?corpse co-located @self)
+                  (spatial @self can-reach ?corpse)
                   (select (score (months-since-death ?corpse)) (policy argmax))
       (when (>= (months-since-death ?corpse) 1))
       (declare-utility obligation (above attend-church-service))

@@ -21,7 +21,7 @@
     (preroll 0.0) (in 0.3) (out 0.3))
 
   (effects
-    (check (spatial ?stack co-located @self /env))
+    (check (spatial @self can-reach ?stack /env))
     (check (empty (spatial ?hand grip /env)))
     (pop ?stack ?hand): ?taken
     (cond

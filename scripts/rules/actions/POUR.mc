@@ -19,5 +19,5 @@
     (check (substantial ?vessel)))
 
   (effects
-    (check (spatial ?vessel co-located @self /env))
+    (check (spatial @self can-reach ?vessel /env))
     (set-outcome ?POUR /succ)))

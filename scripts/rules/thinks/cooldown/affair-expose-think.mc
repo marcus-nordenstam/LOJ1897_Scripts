@@ -20,7 +20,7 @@
         ; Make the paper, pen it, post it - three deeds, each reading the world for what is done.
         (stable-or
           (try
-            (role ?ltr [k denunciation-letter] (spatial ?ltr co-located @self)
+            (role ?ltr [k denunciation-letter] (spatial @self can-reach ?ltr)
                                                {@self WRITE ?ltr ? /succ}
                                                -{@self send-mail ?ltr ? /succ}
               (role ?out [k outgoing-mail-stack] (within-place ?out ?my-home)
@@ -33,7 +33,7 @@
           ; is meant to reach (they cohabit, so it lands in their shared pile and only the spouse
           ; reads it). No spouse, no betrayal to expose, and the gate simply never opens.
           (try
-            (role ?ltr [k denunciation-letter] (spatial ?ltr co-located @self)
+            (role ?ltr [k denunciation-letter] (spatial @self can-reach ?ltr)
                                                (unsubstantial (attr ?ltr writing))
               (when (any {?cheater spouse ?betrayed})
                     (alive ?betrayed)

@@ -20,7 +20,7 @@
     (check (substantial ?part)))
 
   (effects
-    (check (spatial ?article co-located @self /env))
+    (check (spatial @self can-reach ?article /env))
     (set-attr ?part wear ?article)
     ; Worn is not held: the hand that offered it up lets go, and the article rides the
     ; part from here. It is set on the floor spot nearest him in his own space, which is

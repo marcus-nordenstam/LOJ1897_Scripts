@@ -7,7 +7,7 @@
     (spatial ?recipient left-hand /env): ?recipient-hand
     (do
       (check (= (spatial ?thing held-by) @self))
-      (check (spatial @self co-located ?recipient))
+      (check (spatial @self can-reach ?recipient /env))
       (check (empty (spatial ?recipient-hand grip /env)))
       (spatial-write ?thing gripped-by ?recipient-hand /env)
       (set-outcome ?OFFER-LEFT /succ))))
@@ -19,7 +19,7 @@
     (spatial ?recipient right-hand /env): ?recipient-hand
     (do
       (check (= (spatial ?thing held-by) @self))
-      (check (spatial @self co-located ?recipient))
+      (check (spatial @self can-reach ?recipient /env))
       (check (empty (spatial ?recipient-hand grip /env)))
       (spatial-write ?thing gripped-by ?recipient-hand /env)
       (set-outcome ?OFFER-RIGHT /succ))))

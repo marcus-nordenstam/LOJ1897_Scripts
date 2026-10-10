@@ -21,7 +21,7 @@
         ; itself comes from PERCEIVING him - this is the key that finds the pair.
         (child human (grounding-anchors name)
           (decorations
-            (states physical-mobility jilt todo insult urge frequent facing within-reach-of
+            (states physical-mobility jilt todo insult urge frequent facing
                     know avoid expect-answer expect-question meet extort commission hired-by
                     vouched-for sought-introduction shop-weekday shop-hour under-suspicion value justify identity
                     adore like dislike detest revere admire disdain despise

@@ -16,7 +16,7 @@
     (preroll 0.0) (in 0.2) (out 0.2))
 
   (init
-    (check (spatial ?thing co-located @self /env)))
+    (check (spatial @self can-reach ?thing /env)))
 
   (effects
     (bind (max 0.0 (- (attr ?thing open-amount) (/ (act-dt) (open_seconds)))) ?amount)

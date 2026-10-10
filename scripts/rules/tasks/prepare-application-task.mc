@@ -24,7 +24,7 @@
     ; proposes WRITE is what guarantees it. An errand interrupted mid-form leaves the
     ; blank where it lay, and the stage HOLDS until he is back at it.
     (stage
-      (when (spatial ?app co-located @self)
+      (when (spatial @self can-reach ?app)
             {@self name ?myName}
             {@self home ?myHome}
             {?myHome address ?myAddress}

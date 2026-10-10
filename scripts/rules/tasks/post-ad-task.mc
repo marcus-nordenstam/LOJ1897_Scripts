@@ -62,11 +62,11 @@
         (stage
           (role @self {?org employee-register ?reg})
           (effects
-            (if (not (spatial ?reg co-located @self))
+            (if (not (spatial @self can-reach ?reg))
                 (then (maintain-proposal {@self go-to ?reg})))))
         (stage
           (role @self {?org employee-register ?reg}
-                      (spatial ?reg co-located @self))
+                      (spatial @self can-reach ?reg))
           (when {?job job-id ?job-id})
           (effects
             (maintain-proposal {@self RECORD-ADVERT ?reg ?job-id})))

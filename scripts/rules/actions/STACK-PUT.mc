@@ -17,7 +17,7 @@
     (cond (case (presented-lod) procedural)
           (else (seconds 1 min))))
   (effects
-    (check (spatial ?stack co-located @self /env))
+    (check (spatial @self can-reach ?stack /env))
     (push ?doc ?stack)
     (observe ?doc)
     ; The paper is on a pile again, so it owes none a return: the note STACK-TAKE wrote when

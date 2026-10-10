@@ -21,10 +21,17 @@
         (case (unsubstantial ?here) @false)
         (else (and (is-a ?here [k exterior-space]) (spatial ?x space ?space)))))
 
-; The claimed floor spot before ?passage on the side of space ?side - the free floor of ?side
-; nearest the passage. Polled like rest-spot, and likewise the asking rung's claim.
+; The claimed floor spot by ?passage on the side of space ?side - the free floor of ?side nearest
+; the passage, where a step through it lands. Polled like rest-spot, and likewise the asking
+; rung's claim.
 (define-func passage-spot (?passage ?side)
   (maintain-claim-spot @self [/on_floor_of ?side] [/near ?passage] [/at_or_near @self]))
+
+; The claimed stance on the side of space ?side from which @self can reach ?passage, to work it.
+; @fail while every such stance is taken.
+(define-func passage-stance (?passage ?side)
+  (maintain-claim-spot @self [/on_floor_of ?side] [/near ?passage] [/at_or_near @self]
+                       [/can_reach ?passage]))
 
 ; @self stands in a space of kind ?kind, as he believes it.
 (define-func stands-in-room (?kind)
@@ -86,15 +93,18 @@
 (define-func stand-spot-in (?space)
   (maintain-claim-spot @self [/on_floor_of ?space] [/near @self] [/at_or_near @self]))
 
-; Where @self stands to be BY a thing: the free floor spot of its space nearest it. Not the
-; spot before its face - a thing set on furniture has the furniture there.
+; Where @self stands to be BY a thing: the free floor spot of its space nearest it, within reach
+; of it; @fail while every such stance is taken. Not the spot before its face - a thing set on
+; furniture has the furniture there.
 (define-func stand-spot-by (?ent)
-  (maintain-claim-spot @self [/on_floor_of (spatial ?ent space)] [/near ?ent] [/at_or_near @self]))
+  (maintain-claim-spot @self [/on_floor_of (spatial ?ent space)] [/near ?ent] [/at_or_near @self]
+                       [/can_reach ?ent]))
 
 ; Where @self stands to face a man: the free floor before his front nearest him, else beside him
-; when his front is taken.
+; when his front is taken - within reach of him either way.
 (define-func stand-spot-before (?person)
-  (maintain-claim-spot @self [/in_front_of ?person] [/near ?person] [/at_or_near @self]): ?front
+  (maintain-claim-spot @self [/in_front_of ?person] [/near ?person] [/at_or_near @self]
+                       [/can_reach ?person]): ?front
   (if (is-spot ?front) (then ?front) (else (stand-spot-by ?person))))
 
 ; @self has walked onto the spot before ?person. The WALK that reaches it says so: a presented

@@ -9,6 +9,6 @@
   (track-skill-level [k illicit])
   (tar [k object] @object) (duration (seconds 1 min))
   (effects
-    (check (spatial ?win co-located @self))
+    (check (spatial @self can-reach ?win /env))
     (set-attr ?win integrity [k broken])
     (set-outcome ?BREAK-WINDOW /succ)))
