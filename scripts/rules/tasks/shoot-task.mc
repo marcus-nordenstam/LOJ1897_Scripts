@@ -1,16 +1,16 @@
 ; ----------------------------------------------------------------------------
-; shoot (task) - a killing method the kill task proposes (argmax over kill_method_table),
-; chosen when a firearm's whereabouts is known. ARM first (means_think drives
-; the shop errand while this task runs and @self holds no firearm), then reach the victim
-; and TRIGGER_FIREARM until dead. The reach + shot rungs gate on being ARMED, so an unarmed
-; shooter does not chase the victim empty-handed - it fetches the gun first. The blows
-; (TRIGGER_FIREARM) are the (obs) witnessed acts that carry the blame.
+; shoot ?victim - a killing means pursue-kill (thinks/hot/kill-think.mc) proposes to a man
+; holding a firearm: reach the victim (where he is, else his home) and SHOOT until he is dead.
+; The blows (SHOOT) are the (obs) witnessed acts that carry the blame.
 ; ----------------------------------------------------------------------------
 
 
 (task {@self shoot ?victim}:?shoot
   (track-skill-level [k marksmanship])
   (tar [k human] @object)
+  (construed-act harm-act) (theme violent-to) (contradicts life)
+  (facets reportable_crime blackmailable)
+  (init (check (not (empty (spatial @self hold [k firearm])))))
   (and
     ; REACH (armed only): route to the victim's known location, else their home.
     (try

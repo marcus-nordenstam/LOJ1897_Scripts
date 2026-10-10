@@ -184,8 +184,8 @@
 ; warmth axis (affiliative): strong / mild, each side
 (state adore (appraisal_input) (tar [k object] @object))
 (state like (appraisal_input) (tar [k object] @object))
-(state dislike (appraisal_input) (tar [k object] @object) (self-known))
-(state detest (appraisal_input) (tar [k object] @object) (self-known))
+(state dislike (appraisal_input) (tar [k object] @object) (self-known) (motivation))
+(state detest (appraisal_input) (tar [k object] @object) (self-known) (motivation))
 ; esteem axis (look up / look down)
 (state revere (appraisal_input) (tar [k human|org] @object))
 (state admire (appraisal_input) (tar [k human|org] @object))
@@ -196,9 +196,9 @@
 (state trust (appraisal_input) (tar [k human|org] @object))
 (state distrust (appraisal_input) (tar [k human|org] @object))
 ; attraction axis (one-sided pull)
-(state fancy (appraisal_input) (tar [k human] @object))
-(state desire (appraisal_input) (tar [k human] @object))
-(state crave (appraisal_input) (tar [k human] @object))
+(state fancy (appraisal_input) (tar [k human] @object) (motivation))
+(state desire (appraisal_input) (tar [k human] @object) (motivation))
+(state crave (appraisal_input) (tar [k human] @object) (motivation))
 ; dread axis (one-sided fear OF a person - the long-tail of the fear
 ; emotion: durable, slow-decay, so you remember whom you fear for a
 ; lifetime. Verbs avoid the `fear` emotion-kind name (taxonomy clash).
@@ -302,7 +302,7 @@
 ; integer amount for a money debt, a debt mobject for a non-money
 ; obligation. One owe belief per (debtor, creditor) pair; the
 ; amount is updated in place.
-(state owe (tar [k human|org] @object))
+(state owe (tar [k human|org] @object) (motivation))
 ; inherit: {heir inherit <thing> <benefactor>} - the HAVE-state of a
 ; bequest, one relation per inherited object (partial / split
 ; inheritances are expressible per thing). Tense lives in the
@@ -463,7 +463,7 @@
 ; (which job-holder gets which duty) is authored in .mc over the org's
 ; employee-register document + its `duties` list; behaviour NEVER dispatches on job
 ; kind or rank - only on the held duty.
-(state duty-to (tar [k human|org] @object) (aux [k task]))
+(state duty-to (tar [k human|org] @object) (aux [k task]) (motivation))
 (state duty-holder (tar [k human] @object) (aux [k task]))
 ; Education life-cycle. study names the field a pupil reads and the
 ; school they read it at ({@self study <field> /aux <school>});
@@ -552,9 +552,9 @@
 ;     may crave more than one thing). The target is the craved substance
 ;     kind: {@self craving alcohol}.
 ; ---- drive ----
-(state interest (tar [k domain]) (disclosure acquaintance) (talkable))
-(state calling (tar [k domain] @excl) (disclosure friend))
-(state craving (tar ?) (self-known))
+(state interest (tar [k domain]) (disclosure acquaintance) (talkable) (motivation))
+(state calling (tar [k domain] @excl) (disclosure friend) (motivation))
+(state craving (tar ?) (self-known) (motivation))
 ; forage: the transient food-acquisition goal (meals_think mints
 ; {@self forage}, the food-source desires drive it). A goal-driver
 ; label, not a disposition; defined so the goal clause is a valid term.
@@ -575,7 +575,7 @@
 ; qualitative shift, so multi-decade life-aim history is
 ; queryable as repeated {@self life-aim ?} beliefs with
 ; non-overlapping intervals. See PR-aim-history.
-(state life-aim (tar [k life-aim]) (disclosure friend))
+(state life-aim (tar [k life-aim]) (disclosure friend) (motivation))
 
 ; Derived dimensions (F3.2) - each a single numeric quality, computed
 ; and cached by an F3.5 classifier, never authored by hand (the same
@@ -683,7 +683,7 @@
 ; meals starving_watch pair at the hunger threshold crossing, so the
 ; starvation-tail chains gate on a CACHED self-belief instead of
 ; re-reading the hunger attr per deliberation. Label-only self state.
-(state starve)
+(state starve (motivation))
 
 ; Gestation: {?woman pregnant ?father}. Private physiological state (no
 ; disclosure - not gossiped), ended at delivery by the update_physiology
@@ -740,12 +740,12 @@
 (state degrade-act (tar [k degrade-act] @object))
 (state display-ad (tar [k job] @object))
 (state economic-situation (tar [k economic-situation] @object @excl))
-(state emotion (tar [k emotion] @object) (episodic))
+(state emotion (tar [k emotion] @object) (episodic) (motivation))
 (state employee-register (tar [k employee-register] @object) (obs))
 (state expose-act (tar [k expose-act] @object))
 (state father (tar [k human] @object @excl) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable) (self-known))
 (state fiancee (tar [k human] @object @excl) (exclusive_bond) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in spouse) (talkable))
-(state hair-color-fixation (tar [k color]))
+(state hair-color-fixation (tar [k color]) (motivation))
 (state eye-color-fixation (tar [k color]))
 (state founder (tar [k human] @object @excl))
 (state friend (tar [k human] @object) (inclusive_bond) (disclosure acquaintance) (closeness friend) (describe-in bonds) (talkable))
@@ -778,7 +778,7 @@
 (state repute (tar [k repute] @object @excl))
 (state rivalrous-act (tar [k rivalrous-act] @object))
 (state salary (tar ? @excl))
-(state satiety (tar [k satiety] @object @excl) (self-known))
+(state satiety (tar [k satiety] @object @excl) (self-known) (motivation))
 (state sibling (tar [k human] @object) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in siblings) (talkable))
 (state slight-act (tar [k slight-act] @object))
 (state social-trajectory (tar [k social-trajectory] @object @excl))

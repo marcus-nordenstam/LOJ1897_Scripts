@@ -19,7 +19,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(think bonded-incident-assault
+(driver bonded-incident-assault
   (cooldown 1 m try-once)
   (rng-stream incidents)
 

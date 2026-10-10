@@ -8,3 +8,7 @@
 (task protect (sub [k human] @object))
 (task officiate (sub [k human] @object))
 (task admit_member (sub [k human] @object))
+; kill and acquire are pursued as intents ({@self intent kill ?victim}): their drivers pick the
+; means (thinks/hot/kill-think.mc, thinks/hot/acquire-think.mc) and no task performs them whole.
+(task kill (tar [k human] @object))
+(task acquire (tar ?))

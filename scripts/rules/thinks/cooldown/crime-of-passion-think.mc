@@ -22,7 +22,7 @@
 ;   - (crave-rival ?beloved) resolves the victim - the beloved's spouse / lover read
 ;     in the ACTOR'S own mind, else the beloved (the one irreducible computation,
 ;     exposed as a verb);
-;   - (effects ...) MAINTAIN-proposes the {@self kill <victim>} task /caused_by-pinned
+;   - (effects ...) mints the intent {@self intent kill <victim>} /caused_by-pinned
 ;     to the crave belief; the kill task picks the method and drives the blow, and the
 ;     drive fades when the crave does.
 ;
@@ -32,7 +32,7 @@
 
 
 
-(think crime-of-passion
+(intender crime-of-passion
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
@@ -60,9 +60,8 @@
       ; FALLBACK - a discovered betrayal routes to betrayal-kill.mc.
       (when (and (not (knows-affair))
                  -{?victim condition [k dead]}
-                 (or {@self kill ?victim}
-                     (chance (* (crime-scale) 0.02
+                 (latch-eval (chance (* (crime-scale) 0.02
                                 (* (- 1.0 ?inhibition) (* 0.5 (+ ?volatility ?psychopathy))))))))
       (declare-utility want)
       (effects
-        (maintain-proposal {@self kill ?victim /caused_by ?crave_bond})))))
+        (maintain-intent {@self intent kill ?victim} /caused_by ?crave_bond)))))

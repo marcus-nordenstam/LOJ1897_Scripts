@@ -31,3 +31,8 @@
               (then
                 (if (table-match income_by_level level ?level income ?income)
                     (then (pile-add (attr ?h carrying-cash) ?income)))))))))
+
+; (carrying-cash-count ?who): the coins ?who carries, 0 when he carries none.
+(define-func carrying-cash-count (?who)
+  (any {?who carrying-cash.count ?coins=0}): ?cash
+  ?coins)

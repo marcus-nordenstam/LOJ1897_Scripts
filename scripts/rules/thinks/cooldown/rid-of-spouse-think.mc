@@ -16,19 +16,18 @@
 ;     OR the spouse's assault record against the actor) plus the propensity roll
 ;     (misery * (0.5+psychopathy) * disinhibition * (1-compassion) *
 ;     (1 + spouse-wealth) * unmarriageable-lover-mult, at the 0.02 base rate);
-;   - (effects ...) MAINTAIN-proposes {@self kill <spouse>} /caused_by-pinned to the
-;     held detest / dislike belief, else the spouse-wealth belief - all READ, never
-;     re-minted, so the drive fades as the reason does ("kill <spouse> <- {@self detest
-;     <spouse>}" or "... <- {<spouse> wealth 0.8}"). The (when) drops the drive when the
+;   - (effects ...) mints the intent {@self intent kill <spouse>} /caused_by-pinned to the
+;     held detest / dislike belief - READ, never re-minted, so the intent fades as the
+;     reason does ("kill <spouse> <- {@self detest <spouse>}"). The intent ends when the
 ;     spouse dies and latches the one-time impulse so it is not re-rolled.
-; attempt_harm then consumes the proposal and executes a method as usual.
+; pursue-kill (thinks/hot/kill-think.mc) carries it out.
 ;
 ; Kept rare by design (the misery gate + base rate). To A/B, rename / remove this
 ; file (runtime-loaded; no rebuild).
 ; ----------------------------------------------------------------------------
 
 
-(think rid-of-spouse
+(intender rid-of-spouse
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
@@ -36,15 +35,9 @@
               {@self psychopathy ?psychopathy}
               {@self inhibition ?inhibition} 
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
-    (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse} {?spouse wealth ?spouse-wealth} (select (policy first-match))
-
-      ; The REASON: the held detest belief, else dislike, else the spouse-wealth belief.
-      ; Read as the /caused_by anchor, never re-minted, so the drive fades as the reason
-      ; does. The attitude / wealth beliefs are minted elsewhere by the appraisal chains.
-      (cond
-        (case {@self detest ?spouse}  (any {@self detest ?spouse}))
-        (case {@self dislike ?spouse} (any {@self dislike ?spouse}))
-        (else                         (any {?spouse wealth}))): ?spouse_bond
+    (role ?spouse {?spouse isa [k human], condition [k alive]} {@self spouse ?spouse} {?spouse wealth ?spouse-wealth}
+                  {@self detest|dislike ?spouse}:?spouse_bond
+                  (select (policy first-match))
 
       ; Misery gate (deep hatred OR abuse) + propensity. misery counts the two:
       ; hated = warmth band toward the spouse <= -2 (the detest band); abused = the
@@ -53,8 +46,7 @@
       (when (and (or (<= (stance-band ?spouse warmth) (detest-warmth-max))
                      {?spouse (theme-labels violent-to) @self /ever})
                  -{?spouse condition [k dead]}
-                 (or {@self kill ?spouse}
-                     (chance
+                 (latch-eval (chance
                        (* (crime-scale) 0.02
                           (* (+ (if (<= (stance-band ?spouse warmth) (detest-warmth-max)) (then 1.0) (else 0.0))
                                 (if {?spouse (theme-labels violent-to) @self /ever} (then 1.0) (else 0.0)))
@@ -65,4 +57,4 @@
 
       (declare-utility want)
       (effects
-        (maintain-proposal {@self kill ?spouse /caused_by ?spouse_bond})))))
+        (maintain-intent {@self intent kill ?spouse} /caused_by ?spouse_bond)))))

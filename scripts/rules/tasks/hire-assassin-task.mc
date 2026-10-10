@@ -1,10 +1,8 @@
 ; ----------------------------------------------------------------------------
-; hire-assassin (task) - a killing method the kill task proposes (argmax over
-; kill_method_table), chosen when @self can afford it (coin-balance gate). FOR NOW it
-; boils down to a SAY: reach a known third party and solicit them to kill the victim.
-; The hired killer choosing their own method + actually carrying it out is deferred
-; (the old commission_killing conspiracy seam) - so today this is the solicitation act,
-; and the kill task re-picks a method if no death follows.
+; hire-assassin ?victim - a killing means pursue-kill (thinks/hot/kill-think.mc) proposes to
+; a man with the fee in his pocket. It is a SAY: reach a known third party and solicit him to
+; kill the victim. The solicitation is the performance, so it ends the intent; the hired man
+; carrying it out is conspiracy-adoption's (thinks/cooldown/conspiracy-adoption-think.mc).
 ;
 ; TODO - @self solicits ANYONE it personally knows, with no belief about whether
 ; they would ever take the work. The knowledge half is missing on both sides:
@@ -23,6 +21,8 @@
 
 (task {@self hire-assassin ?victim}:?hire-assassin
   (tar [k human] @object)
+  (construed-act harm-act) (theme violent-to) (contradicts life)
+  (facets reportable_crime blackmailable)
   (role ?killer {?killer isa [k human], condition [k alive]}
                 {@self (closeness-labels acquaintance) ?killer /ever}
                 (!= ?killer ?victim)
@@ -31,7 +31,7 @@
       (try
         (when (or (spatial ?killer co-located @self) (spatial ?killer space)))
         (declare-utility survival always-pick)
-        (effects (maintain-proposal {@self tell (utterable-msg [] {?killer kill ?victim}) ?killer})))
+        (effects (maintain-proposal {@self tell (utterable-msg [] {@self intent kill ?victim} {?killer kill ?victim}) ?killer})))
 
       ; CONCLUDE once the solicitation has been spoken.
       (try

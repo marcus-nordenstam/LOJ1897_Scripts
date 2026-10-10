@@ -59,7 +59,7 @@
         (begin-belief {@self eye-color-fixation ?eye-color})))))
 
 ; --- the hunt ---------------------------------------------------------------
-(think predation
+(intender predation
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
@@ -96,13 +96,12 @@
 
       ; Disposition floor + rate. lethal = mean(psychopathy, sadism); propensity =
       ; (1 - inhibition) * lethal, DOUBLED for {@self life-aim power-aim}. The lethal tip
-      ; fires ONCE then the running kill proposal latches it.
+      ; fires ONCE then the latch holds it.
       (when (and (>= (* 0.5 (+ ?psychopathy ?sadism)) 0.65)
                  -{?victim condition [k dead]}
-                 (or {@self kill ?victim}
-                     (chance (* (crime-scale) 0.005
+                 (latch-eval (chance (* (crime-scale) 0.005
                                 (* (* (- 1.0 ?inhibition) (* 0.5 (+ ?psychopathy ?sadism)))
                                    (if {@self life-aim [k power-aim]} (then 2.0) (else 1.0))))))))
       (declare-utility want)
       (effects
-        (maintain-proposal {@self kill ?victim /caused_by ?fixation_bond})))))
+        (maintain-intent {@self intent kill ?victim} /caused_by ?fixation_bond)))))

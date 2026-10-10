@@ -2,21 +2,15 @@
 ; The UNLAWFUL grievance outlets - one rule per way of spending a standing
 ; {@self pressure <kind> /aux <focus>} belief on a crime against its focus.
 ;
-; Each rule owns the WHOLE arc of its outlet: a role binds the grievance itself
-; (the durable REASON, read never re-minted, so the drive fades the moment the
-; grievance is spent), a (chance ...) tip opens the campaign, the RUNNING act
-; latches the gate so a live attempt is not re-rolled away, and the act's own
-; /succ record - pinned to this grievance by /caused_by - RELEASES it. Acting on a
-; grievance is what spends it, so the rule that drove the act is the rule that
-; discharges the pressure; no other rule may.
+; Each rule is an INTENDER: a role binds the grievance itself (the durable REASON, read never
+; re-minted), a latched (chance ...) tip resolves on the crime, and the intent it mints - caused
+; by the grievance - stands while the grievance does. pursue-<act> (thinks/hot/grievance-crime-think.mc)
+; carries it out, and the act concluding /succ ends the intent, which RELEASES the grievance:
+; acting on a grievance is what spends it.
 ;
-; Release is gradual (0.75 of the remaining salience a month) rather than one-shot:
-; the pressure floors, pressure-intensity reads ~0, decay forgets the belief and
-; the role stops binding. That termination is structural, so it needs no recency
-; window to stop it re-firing.
-;
-; maintain-proposal means the proposal withdraws by itself the instant the reason
-; goes - the crime task competes globally on the want tier and owns its own outcome.
+; Release is gradual (0.75 of the remaining salience per spent intent) rather than one-shot:
+; the pressure floors, pressure-intensity reads ~0, decay forgets the belief and the role
+; stops binding.
 ;
 ; The preconditions each outlet needs are ROLE FILTERS / gate conjuncts here, not
 ; multiply-by-zero factors in a scorer: an other-directed aggression never aims at
@@ -30,146 +24,111 @@
 ; ---- expose ----------------------------------------------------------------
 ; Make the focus's discreditable material public. Two grievances drive it and they
 ; are different acts: answering a slight against yourself, and answering a wrong.
-(think expose-slight
+(intender expose-slight
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k humiliation|status-loss|rivalry-pressure] ?target}:?pressure
-      (when (or {@self expose ?target /succ /caused_by ?pressure}
-                (and (not (= ?target @self))
-                     -{?target condition [k dead]}
+      (when (and (not (= ?target @self))
                      {?target lover|HAVE-SEX-WITH ? /ever}
-                     (or {@self expose ?target}
+                     (latch-eval
                          (chance (* (crime-scale)
-                                    (* 0.4 (grievance-drive ?pressure ?target ?aggressive-tilt))))))))
+                                    (* 0.4 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects
-        (if {@self expose ?target /succ /caused_by ?pressure}
-            (then (discharge-pressure ?pressure 0.75))
-            (else (maintain-proposal {@self expose ?target /caused_by ?pressure})))))))
+      (effects (maintain-intent {@self intent expose ?target} /caused_by ?pressure)))))
 
-(think expose-wrongdoing
+(intender expose-wrongdoing
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k injustice] ?target}:?pressure
-      (when (or {@self expose ?target /succ /caused_by ?pressure}
-                (and (not (= ?target @self))
-                     -{?target condition [k dead]}
+      (when (and (not (= ?target @self))
                      {?target lover|HAVE-SEX-WITH ? /ever}
-                     (or {@self expose ?target}
+                     (latch-eval
                          (chance (* (crime-scale)
-                                    (* 0.5 (grievance-drive ?pressure ?target ?aggressive-tilt))))))))
+                                    (* 0.5 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects
-        (if {@self expose ?target /succ /caused_by ?pressure}
-            (then (discharge-pressure ?pressure 0.75))
-            (else (maintain-proposal {@self expose ?target /caused_by ?pressure})))))))
+      (effects (maintain-intent {@self intent expose ?target} /caused_by ?pressure)))))
 
 ; ---- humiliate -------------------------------------------------------------
 ; Put the focus down in public - the status answer to a status injury.
-(think humiliate-slight
+(intender humiliate-slight
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k humiliation|rivalry-pressure] ?target}:?pressure
-      (when (or {@self humiliate ?target /succ /caused_by ?pressure}
-                (and (not (= ?target @self))
-                     -{?target condition [k dead]}
-                     (or {@self humiliate ?target}
+      (when (and (not (= ?target @self))
+                     (latch-eval
                          (chance (* (crime-scale)
-                                    (* 0.5 (grievance-drive ?pressure ?target ?aggressive-tilt))))))))
+                                    (* 0.5 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects
-        (if {@self humiliate ?target /succ /caused_by ?pressure}
-            (then (discharge-pressure ?pressure 0.75))
-            (else (maintain-proposal {@self humiliate ?target /caused_by ?pressure})))))))
+      (effects (maintain-intent {@self intent humiliate ?target} /caused_by ?pressure)))))
 
 ; ---- coerce ----------------------------------------------------------------
 ; Press a threat on the focus. Silencing the source of a slight and holding on to
 ; someone you are losing are the same act for opposite reasons, so they are two rules.
-(think coerce-silence
+(intender coerce-silence
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k humiliation] ?target}:?pressure
-      (when (or {@self coerce ?target /succ /caused_by ?pressure}
-                (and (not (= ?target @self))
-                     -{?target condition [k dead]}
-                     (or {@self coerce ?target}
+      (when (and (not (= ?target @self))
+                     (latch-eval
                          (chance (* (crime-scale)
-                                    (* 0.10 (grievance-drive ?pressure ?target ?aggressive-tilt))))))))
+                                    (* 0.10 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects
-        (if {@self coerce ?target /succ /caused_by ?pressure}
-            (then (discharge-pressure ?pressure 0.75))
-            (else (maintain-proposal {@self coerce ?target /caused_by ?pressure})))))))
+      (effects (maintain-intent {@self intent coerce ?target} /caused_by ?pressure)))))
 
-(think coerce-hold
+(intender coerce-hold
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k attachment-loss] ?target}:?pressure
-      (when (or {@self coerce ?target /succ /caused_by ?pressure}
-                (and (not (= ?target @self))
-                     -{?target condition [k dead]}
-                     (or {@self coerce ?target}
+      (when (and (not (= ?target @self))
+                     (latch-eval
                          (chance (* (crime-scale)
-                                    (* 0.20 (grievance-drive ?pressure ?target ?aggressive-tilt))))))))
+                                    (* 0.20 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects
-        (if {@self coerce ?target /succ /caused_by ?pressure}
-            (then (discharge-pressure ?pressure 0.75))
-            (else (maintain-proposal {@self coerce ?target /caused_by ?pressure})))))))
+      (effects (maintain-intent {@self intent coerce ?target} /caused_by ?pressure)))))
 
 ; ---- seduce ----------------------------------------------------------------
 ; Replace what was lost by taking someone else's attachment.
-(think seduce-replacement
+(intender seduce-replacement
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k attachment-loss] ?target}:?pressure
-      (when (or {@self seduce ?target /succ /caused_by ?pressure}
-                (and (not (= ?target @self))
-                     -{?target condition [k dead]}
-                     (or {@self seduce ?target}
+      (when (and (not (= ?target @self))
+                     (latch-eval
                          (chance (* (crime-scale)
-                                    (* 0.2 (grievance-drive ?pressure ?target ?aggressive-tilt))))))))
+                                    (* 0.2 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects
-        (if {@self seduce ?target /succ /caused_by ?pressure}
-            (then (discharge-pressure ?pressure 0.75))
-            (else (maintain-proposal {@self seduce ?target /caused_by ?pressure})))))))
+      (effects (maintain-intent {@self intent seduce ?target} /caused_by ?pressure)))))
 
 ; ---- bribe -----------------------------------------------------------------
 ; Buy the focus's silence. A crime, but not an aggression - no disposition tilt
 ; steers it, so the drive is the grievance's heat alone.
-(think bribe-to-bury
+(intender bribe-to-bury
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k exposure-risk] ?target}:?pressure
-      (when (or {@self bribe ?target /succ /caused_by ?pressure}
-                (and (not (= ?target @self))
-                     -{?target condition [k dead]}
-                     (or {@self bribe ?target}
+      (when (and (not (= ?target @self))
+                     (latch-eval
                          (chance (* (crime-scale)
-                                    (* 0.4 (grievance-drive ?pressure ?target 1.0))))))))
+                                    (* 0.4 (grievance-drive ?pressure ?target 1.0)))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects
-        (if {@self bribe ?target /succ /caused_by ?pressure}
-            (then (discharge-pressure ?pressure 0.75))
-            (else (maintain-proposal {@self bribe ?target /caused_by ?pressure})))))))
+      (effects (maintain-intent {@self intent bribe ?target} /caused_by ?pressure)))))

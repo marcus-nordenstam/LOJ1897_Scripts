@@ -1,15 +1,16 @@
 ; ----------------------------------------------------------------------------
-; strangle (task) - a killing method the kill task proposes (argmax over
-; kill_method_table). Bare-handed: reach the victim, then CHOKE until they are dead. The blows
-; (CHOKE) are the (obs) witnessed violent acts that carry the blame; this task is the
-; actor's plan, not a witnessed act, so it needs no decoration of its own. Concludes
-; bottom-up on the victim's death (this hand's grip, or another's - the goal is moot).
+; strangle ?victim - a killing means pursue-kill (thinks/hot/kill-think.mc) proposes to a
+; strong hand: reach the victim, then STRANGLE until he is dead. The blows are the (obs)
+; witnessed violent acts that carry the blame. Concludes on the victim's death, this hand's
+; or another's.
 ; ----------------------------------------------------------------------------
 
 
 (task {@self strangle ?victim}:?strangle
   (track-skill-level [k garrotting])
   (tar [k human] @object)
+  (construed-act harm-act) (theme violent-to) (contradicts life)
+  (facets reportable_crime blackmailable)
   (and
     ; REACH: route to the victim's known location, else their home.
     (try

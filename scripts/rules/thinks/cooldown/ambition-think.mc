@@ -17,11 +17,11 @@
 ;     shares my own org object - a read of my own beliefs, no telepathy.
 ;   - (when ...) is the disposition pre-gate (ambition = mean(machiavellianism,
 ;     narcissism), scaled by disinhibition, at the 0.03 base rate).
-;   - (effects ...) MAINTAIN-proposes {@self kill <head>} UNCAUSED: the ambition is a
-;     structural root desire (no emotion bond - the succession stake lives in the role
-;     gates, so there is no reason belief to pin). The (when) drops the drive when the
+;   - (effects ...) mints the intent {@self intent kill <head>} caused by his power-aim,
+;     the life-aim the ambition is (the succession stake lives in the role gates). The
+;     intent ends when the
 ;     victim dies and latches the one-time impulse so it is not re-rolled.
-; attempt_harm then consumes the proposal and executes a kill method. The payoff is real:
+; pursue-kill (thinks/hot/kill-think.mc) carries it out. The payoff is real:
 ; promote_on_vacancy (propagate_death) lifts the actor into the vacated head rank.
 ;
 ; Kept rare by design (0.03 base rate + a senior non-head is uncommon). To A/B the
@@ -29,7 +29,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(think ambition
+(intender ambition
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
@@ -37,6 +37,7 @@
   (role @self {@self machiavellianism ?machiavellianism}
               {@self narcissism ?narcissism}
               {@self inhibition ?inhibition}
+              {@self life-aim [k power-aim]}:?aim
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self job.org ?org}
               {@self job.level [k senior]}
@@ -53,15 +54,14 @@
 
       ; Same-org pin + disposition pre-gate. ambition = mean(machiavellianism, narcissism);
       ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity. The tip fires
-      ; ONCE then the running kill proposal latches it; drop the drive if the victim dies.
+      ; ONCE then the latch holds it; drop the drive if the victim dies.
       (when (and {?victim job.org ?org}
                  -{?victim condition [k dead]}
-                 (or {@self kill ?victim}
-                     (chance (* (crime-scale) 0.03
+                 (latch-eval (chance (* (crime-scale) 0.03
                                 (* (- 1.0 ?inhibition)
                                    (* 0.5 (+ ?machiavellianism
                                              ?narcissism))))))))
 
       (declare-utility want)
       (effects
-        (maintain-proposal {@self kill ?victim})))))
+        (maintain-intent {@self intent kill ?victim} /caused_by ?aim)))))

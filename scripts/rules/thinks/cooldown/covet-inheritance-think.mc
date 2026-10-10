@@ -16,26 +16,27 @@
 ;   - (when ...) is the disposition pre-gate (callous-acquisitive: machiavellianism
 ;     + psychopathy, scaled by disinhibition, at the covet base rate) plus the
 ;     wealth floor on the chosen benefactor,
-;   - (effects ...) MAINTAIN-proposes {@self kill <victim>} /caused_by-pinned to the
+;   - (effects ...) mints the intent {@self intent kill <victim>} /caused_by-pinned to the
 ;     benefactor's wealth belief (read, never re-minted, so the drive fades as the
 ;     wealth belief does). The victim is the benefactor's heir-apparent: if the ACTOR
 ;     is that heir, the benefactor is the obstacle (impatient heir); otherwise the
 ;     front-running heir is the obstacle (clear the succession). The (when) drops the
 ;     drive when the victim dies, and latches the one-time impulse so it is not re-rolled.
-; attempt_harm then consumes the proposal and executes a kill method as usual.
+; pursue-kill (thinks/hot/kill-think.mc) carries it out.
 ;
 ; Kept rare by design (the 0.02 base rate below). To A/B the motive, rename /
 ; remove this file (runtime-loaded; no rebuild).
 ; ----------------------------------------------------------------------------
 
 
-(think covet-inheritance
+(intender covet-inheritance
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
   (role @self {@self machiavellianism ?machiavellianism}
               {@self psychopathy ?psychopathy}
-              {@self inhibition ?inhibition} 
+              {@self inhibition ?inhibition}
+              {@self life-aim [k wealth-aim]}
     ; The wealthiest co-heir benefactor the actor KNOWS. The kin edge is the
     ; object-cache filter (Shape-1 {@self <label> ?cand}); (select (score ...)) ranks the
     ; cached set by believed wealth and binds the single richest. The wealth
@@ -67,16 +68,15 @@
 
         ; Disposition pre-gate + wealth floor. greed = mean(machiavellianism, psychopathy);
         ; propensity = (1 - inhibition) * greed; fire at k_covet_base_rate * propensity. The
-        ; tip fires ONCE then the running kill proposal latches it; drop the drive if the
+        ; tip fires ONCE then the latch holds it; drop the drive if the
         ; victim dies.
         (when (and (>= ?benefactor-wealth 0.5)
                    -{?victim condition [k dead]}
-                   (or {@self kill ?victim}
-                       (chance (* (crime-scale) 0.02
+                   (latch-eval (chance (* (crime-scale) 0.02
                                   (* (- 1.0 ?inhibition)
                                      (* 0.5 (+ ?machiavellianism
                                                ?psychopathy))))))))
 
         (declare-utility want)
         (effects
-          (maintain-proposal {@self kill ?victim /caused_by ?wealth_bond}))))))
+          (maintain-intent {@self intent kill ?victim} /caused_by ?wealth_bond))))))

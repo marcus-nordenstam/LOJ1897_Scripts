@@ -57,8 +57,8 @@
         ; and only while @self is not answering it lethally: a killer keeps the secret,
         ; since exposing the affair would advertise the motive.
         (role @self {@self emotion [k anger] ?partner}
-          (when (and -{@self kill ?partner}
-                     -{@self kill ?interloper}))
+                    -{@self intent kill ?partner}
+                    -{@self intent kill ?interloper}
 
           (effects
             (any {@self decorum ?decorum=0.5})
