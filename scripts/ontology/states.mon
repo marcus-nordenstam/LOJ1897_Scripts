@@ -753,7 +753,7 @@
 (state harm-act (tar [k harm-act] @object))
 (state help-act (tar [k help-act] @object))
 (state hiding-spot (tar [k interior-space] @object))
-(state home (tar [k unit] @object @excl) (disclosure acquaintance) (talkable))
+(state home (tar [k building|unit] @object @excl) (disclosure acquaintance) (talkable))
 (state honour-act (tar [k honour-act] @object))
 (state insult (tar [k insult] @object) (construed-act slight-act))
 (state jilt (tar [k jilt] @object) (construed-act abandonment-act wrong-act))
