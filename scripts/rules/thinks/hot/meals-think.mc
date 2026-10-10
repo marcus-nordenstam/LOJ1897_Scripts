@@ -173,19 +173,27 @@
       (effects       (begin-goal {@self eat [k supper] ?home}))
       (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?home}} /succ)))))
 
+(define-func eat-dining-out (?place)
+  (tolerate (or (is-a ?place [k pub-building]) (is-a ?place [k restaurant-building]))): ?dining-out
+  ?dining-out)
+
+(define-func eat-affordable (?meal ?place)
+  (any {@self carrying-cash.count ?coins=0}): ?cash
+  (or (not (eat-dining-out ?place)) (>= ?coins (price ?meal ?place))): ?affordable
+  ?affordable)
+
 ; EATING OUT - no food at home (as the diner KNOWS) in the supper window and
-; wealth permits: a pub supper (lower/middle), a restaurant one (upper). The
+; the cash he carries pays for it: a pub supper (lower/middle), a restaurant one (upper). The
 ; venue is the eat place; eat-go walks there. It never competes with the home
 ; supper, whose stock gate is this one's negation.
 (think want-eat-out-pub
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
   (role @self {@self satiety [k hungry|famished]}
-              {@self wealth ?wealth} 
               -{@self class-situation [k upper]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
       (role ?venue [k pub-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
-        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?wealth 0.2)
+        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (eat-affordable [k supper] ?venue)
                    (= (believed-home-food-count ?home) 0)))
         (declare-utility (meal-utility-band) default)
         (effects       (begin-goal {@self eat [k supper] ?venue}))
@@ -195,11 +203,11 @@
   ; upper-class only - the CACHED self-gate skips the majority (and the
   ; larder belief-fold below) with zero eval.
   (role @self {@self satiety [k hungry|famished]}
-              {@self class-situation [k upper], wealth ?wealth}
+              {@self class-situation [k upper]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
       (role ?venue [k restaurant-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
-        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (> ?wealth 0.2)
+        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (eat-affordable [k supper] ?venue)
                    (= (believed-home-food-count ?home) 0)))
         (declare-utility (meal-utility-band) default)
         (effects       (begin-goal {@self eat [k supper] ?venue}))
@@ -224,8 +232,9 @@
   ; ?place is a BUILDING for every routine routing (home / pub / restaurant), or the
   ; gentry study ROOM - the OR covers both, in-building for the former, believes-
   ; location for the latter.
-  (when    (not (or (spatial @self building ?place)
-                    (spatial @self space ?place))))
+  (when    (and (not (or (spatial @self building ?place)
+                         (spatial @self space ?place)))
+                (eat-affordable ?meal ?place)))
   (effects
            (maintain-proposal {@self go-to ?place})))
 
@@ -250,11 +259,11 @@
   (effects
     (any {@self enthusiasm ?enthusiasm})
     (any {@self carrying-cash.count ?coins=0})
-    (tolerate (or (is-a ?place [k pub-building]) (is-a ?place [k restaurant-building]))): ?dining-out
+    (eat-dining-out ?place): ?dining-out
     (maintain-proposal {@self eat ?meal ?place}
       [/affect (if ?dining-out (then (* ?enthusiasm 20.0)) (else 0.0))]
       [/cost (money-cost-util ?coins (if ?dining-out (then (price ?meal ?place)) (else 0)))]
-      [/feasible (or (not ?dining-out) (>= ?coins (price ?meal ?place)))])))
+      [/feasible (eat-affordable ?meal ?place)])))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
 ; thinks/provisioning_think.mc; the general carry-to-a-place chain in
