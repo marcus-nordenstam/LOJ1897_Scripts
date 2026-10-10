@@ -91,14 +91,14 @@
 
 ; ----------------------------------------------------------------------------
 ; ask-mealtimes - the ask-the-cook channel (ruling 12). A resident who does not know
-; the house's supper hour ASKS the cook: a conversation whose agenda is the question.
-; The cook answers it as anyone answers a question put to him in conversation
-; (tasks/converse-task.mc). Semantic self-healing: mealtime knowledge can never be
+; the house's supper hour ASKS the cook: he hails her (tasks/hail-task.mc) and, once she has
+; taken him up, holds a conversation whose agenda is the question. The cook answers it as
+; anyone answers a question put to him in conversation (tasks/converse-task.mc). Semantic self-healing: mealtime knowledge can never be
 ; permanently lost while the cook lives. Think placement keeps it beside
 ; set-mealtimes, whose decision it completes.
 ; ----------------------------------------------------------------------------
 
-(think ask-mealtimes
+(driver ask-mealtimes
   (cooldown 1 m try-until-succ)
   (rng-stream behaviour)
 
@@ -120,9 +120,15 @@
         ; Learning the house's hours beats settling into a leisure day.
         (declare-utility idle (above rest))
 
-        (effects
-          (utterable-qs [] {?home supper-hour ?}): ?qs
-          (maintain-proposal {@self converse ?cook ?qs}))))))
+        (stable-or
+          (try
+            (when (not (conversing-with ?cook @self)))
+            (effects (maintain-proposal {@self hail ?cook})))
+          (try
+            (when (conversing-with @self ?cook) (conversing-with ?cook @self))
+            (effects
+              (utterable-qs [] {?home supper-hour ?}): ?qs
+              (maintain-proposal {@self converse ?cook ?qs}))))))))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the
 ; pressure-driven cook errand in thinks/provisioning_think.mc - the kitchen

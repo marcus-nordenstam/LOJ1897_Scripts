@@ -11,9 +11,10 @@
 
 ; mortality_by_age is auto-loaded from tables/.
 
-(think mortality-old-age
+(driver mortality-old-age
   ; PER-NPC: fires once a month for each living NPC (self_actor = @self).
-  ; The per-age (when (chance ?per_month)) IS the rate; the monthly cooldown is the cadence.
+  ; The per-age (when (chance ?per_month)) IS the rate; the monthly cooldown is the cadence. The
+  ; roll is latched, so the DIE it proposes holds until it is done.
   (cooldown 1 m try-once)
   (rng-stream deaths)
 
@@ -31,8 +32,8 @@
     (bind (/ ?per_year 12.0) ?per_month)
 
     (when (and (>= ?age 15)
-               (chance ?per_month)))
+               (latch-eval (chance ?per_month))))
 
     (declare-utility survival)
-    (effects (begin-goal {@self DIE [k old-age]}))
+    (effects (maintain-proposal {@self DIE [k old-age]}))
 ))

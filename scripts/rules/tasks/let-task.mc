@@ -5,7 +5,8 @@
 ; (the durable "advertised to let" signal landlord_estate / list-to-let consume, and the
 ; latch that retracts the standing let intent). One sequence; the listing it inscribes
 ; is the one it CREATED, kept under the running task's own key, so a restart re-reads
-; that key instead of penning a second sheet. Promoted at the house agency office.
+; that key instead of penning a second sheet. Proposed by list-to-let
+; (thinks/cooldown/list-to-let-think.mc), which holds the to-let stack he goes to.
 ; ----------------------------------------------------------------------------
 
 (task {@self LET ?prop}:?LET

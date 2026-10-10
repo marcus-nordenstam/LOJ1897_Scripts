@@ -76,6 +76,43 @@
   (mint-band {@self alertness} ?sleepiness [k sleepy] (sleepy_min) [k tired] (tired_min) [k alert] -1)
   (mint-band {@self satiety} ?appetite [k famished] (famished_min) [k hungry] (hungry_min) [k sated] -1))
 
+; The band a drive ?v stands in - 0 below ?low, 1 below ?high, 2 above - as mint-band settles
+; it: within the dead band of a threshold it keeps the band ?was.
+(define-func drive-band (?v ?low ?high ?was)
+  (bind (band-dead-band) ?dead)
+  (cond (case (>= ?v (+ ?high ?dead)) 2)
+        (case (and (>= ?v (+ ?low ?dead)) (< ?v (- ?high ?dead))) 1)
+        (case (< ?v (- ?low ?dead)) 0)
+        (else ?was)))
+
+; How long a waking act begun now may run before his body crosses a band he knows it by -
+; alertness or satiety - stepped forward through the same drives run_physiology advances, from
+; the body as last charged plus the ?uncharged minutes since. ?max when nothing crosses within
+; it. The engine cuts an act longer than an hour to this, so he decides again as it changes.
+(define-func /body-horizon body-horizon (?uncharged ?max)
+  (bind (attr @self fatigue) ?fatigue)
+  (bind (attr @self hunger) ?hunger)
+  (bind (attr @self adrenaline) ?adrenaline)
+  (bind (drive-band (attr @self sleepiness) (tired_min) (sleepy_min) 0) ?alertness-was)
+  (bind (drive-band (attr @self appetite) (hungry_min) (famished_min) 0) ?satiety-was)
+  (bind ?max ?horizon)
+  (bind 0.0 ?k)
+  (repeat (body_clock_search_steps)
+    (bind (+ ?k 1.0) ?k)
+    (bind (* ?k (body_clock_step_min)) ?m)
+    (if (> ?m ?max) (then (break)))
+    (bind (/ (+ ?uncharged ?m) (minutes_per_hour)) ?hours)
+    (bind (circadian-pressure (+ (time seconds) (seconds ?m min))) ?clock)
+    (bind (- 1.0 (clamp (- ?adrenaline (* ?hours (adrenaline_decay_per_hour))) 0.0 (adrenaline_max))) ?mask)
+    (bind (clamp (+ ?fatigue (* ?hours (fatigue_accrue_per_hour))) 0.0 (fatigue_max)) ?f)
+    (bind (clamp (* ?mask (+ ?f ?clock)) 0.0 (fatigue_max)) ?sleepiness)
+    (bind (clamp (+ ?hunger (* ?hours (hunger_accrue_per_hour))) 0.0 (hunger_max)) ?h)
+    (bind (clamp (* ?mask (- ?h (max 0.0 ?clock))) 0.0 (hunger_max)) ?appetite)
+    (if (or (not (= (drive-band ?sleepiness (tired_min) (sleepy_min) ?alertness-was) ?alertness-was))
+            (not (= (drive-band ?appetite (hungry_min) (famished_min) ?satiety-was) ?satiety-was)))
+        (then (bind ?m ?horizon) (break))))
+  ?horizon)
+
 (define-func /physiology run_physiology (?duration ?act)
   ; WHICH ACT RECOVERS THE BODY IS CONTENT, so it is decided here. The engine used to
   ; answer this by comparing the concluded act against a hardcoded SLEEP and handing

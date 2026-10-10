@@ -3,35 +3,21 @@
 ; the omniscient world-act/landlord_duties.mc). An owner advertises his OWN
 ; vacant residential building to let, from his OWN knowledge - no world scan.
 ;
-; The annual disposition (a yearly timer) mints a standing intent {@self LET ?prop} for each vacant
+; The annual disposition (a yearly timer) proposes {@self LET ?prop} for each vacant
 ; dwelling he owns. Vacancy is read entirely from his own beliefs (the
 ; knowledge-honest signal): a dwelling he owns, that is-a residential, that is
 ; NOT his home, that he holds no tenant belief for, and that he has not already
 ; listed. Inheritance deeds him the dwelling ({@self own}); a tenant's death /
 ; emigration ends his {?prop tenant}, so the vacancy surfaces without a scan.
 ;
-; Routing then walks him to a house agency, where list_to_let_act (action) files
-; the for-lease-listing and mints {?prop availability for-rent} - the durable "to
-; let" signal landlord_estate.mc already reads, AND the completion that retracts the
-; intent: the same {?prop availability for-rent} drops the ?prop role, so the decision's
-; when-unsupported-effects end {@self LET ?prop}. It mirrors the worship chain's routing so the
-; supply never goes dormant merely because @self has not yet learned which orgs are
-; house agencies:
-;   KNOWS an agency, not there -> list-to-let-go   (travel to its office).
-;   KNOWS no agency at all      -> list_to_let_find  (orient to learn one).
-; AT a known agency the go sub-goal is spent, the let goal is the leaf and promotes to
-; list_to_let_act - no dwell rung (list-to-let owns the goal's whole life).
-;
-;   list-to-let       : yearly timer - mint the standing {@self LET ?prop} intent;
-;                       cease it when the dwelling's availability flips to for-rent.
-;   list-to-let-go    : hold the intent, knows an agency, not there -> travel there.
-;   list_to_let_find  : hold the intent, knows NO agency -> orient (learn one).
+; He proposes the let task (tasks/let-task.mc), which pens the listing, takes it to the
+; agency's to-let stack and mints {?prop availability for-rent} - the durable "to let" signal
+; landlord_estate.mc reads, and the one that ends this driver's ?prop role. Knowing a to-let
+; stack is the task's precondition, so it is this driver's to hold.
 ; ----------------------------------------------------------------------------
 
 
-(think list-to-let
-  ; ANNUAL: a yearly timer mints the standing let intent once per year; (begin-goal) is
-  ; idempotent.
+(driver list-to-let
   (cooldown 1 y try-until-succ)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
     ; His OWN vacant residential holdings (object-cache role over his beliefs).
@@ -40,6 +26,6 @@
                 -{@self home ?prop}            ; not where he lives
                 -{?prop tenant ?}              ; no sitting tenant
                 -{?prop availability [k for-rent]}  ; not already listed
-      (declare-utility errand)
-      (effects       (begin-goal {@self LET ?prop}))
-      (when-unsupported-effects (set-outcome {@self goal {@self LET ?prop}} /succ)))))
+      (role ?stk [k for-lease-listing-stack] (select (policy first-match))
+        (declare-utility errand)
+        (effects (maintain-proposal {@self LET ?prop}))))))

@@ -2,10 +2,10 @@
 ; conversation.mc - who hears whom, how a man answers being hailed, and how a conversation
 ; he opened goes.
 ;
-; Speech has two tasks and no other rule proposes SAY: tell (tasks/tell-task.mc) says one
-; thing where its audience can hear it, and converse (tasks/converse-task.mc) holds an
-; exchange - it opens with a hail, says each of its lines through tell, and waits for the
-; answers.
+; Speech has one task that proposes SAY: tell (tasks/tell-task.mc) says one thing where its
+; audience can hear it. A conversation is four tasks, each saying its lines through tell: hail
+; opens it, take-up accepts it, converse holds the exchange while it is open, and take-leave
+; ends it.
 ;
 ; A CONVERSATION is a contract on the public blackboard: each party's (conversing ..) names
 ; the other while he takes part. The hailer posts his before he hails; the man hailed posts
@@ -73,7 +73,7 @@
 ; (would-engage ?speaker) - talking with ?speaker is worth more to @self than anything else he
 ; has going: the conversation would win selection now.
 (define-func would-engage (?speaker)
-  (> (hail-worth ?speaker) (top-competing-utility {@self converse ?speaker})))
+  (> (hail-worth ?speaker) (top-competing-utility {@self take-up ?speaker})))
 
 ; (happened-since ?event ?since) - ?event came no earlier than ?since: than its end once it is
 ; over, than its start while it runs.
@@ -116,11 +116,16 @@
   (and (is-belief ?told)
        (or (not (is-qs ?agenda)) (said-to-me-since ?partner ?told))))
 
-; (converse-concluded ?partner) - the converse task @self took up for his converse goal with
-; ?partner has ended.
-(define-func converse-concluded (?partner)
-  (any-happened-since (every {@self converse ?partner /past})
-                      (any {@self goal {@self converse ?partner}})))
+; (took-up ?caller) - @self took up a conversation ?caller opened, and has hailed ?caller
+; himself no time since: the open conversation is ?caller's, not one @self opened.
+(define-func took-up (?caller)
+  (bind @nothing ?found)
+  (for-each ?take-up (every {@self take-up ?caller /succ})
+    (if (not (any-happened-since (every {@self hail ?caller /past}) ?take-up))
+        (then
+          (bind @true ?found)
+          (break))))
+  ?found)
 
 ; (can-hail ?thing) - the player can hail ?thing: a living man within (k-hail-reach) of him, as
 ; the world has it - the player holds no beliefs. The man hailed stays where he stands, so the

@@ -786,7 +786,7 @@
 (state owns-building (tar [k building] @object))
 (state parent (tar [k human] @object) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable))
 (state physical-mobility (tar [k physical-mobility] @object @excl))
-(state pressure (tar [k pressure] @object))
+(state pressure (tar [k pressure] @object) (motivation))
 (state provision-act (tar [k provision-act] @object))
 (state provisions-shop (tar [k structure] @object @excl) (disclosure acquaintance))
 (state record (tar [k document] @object @excl))

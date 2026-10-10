@@ -1,12 +1,9 @@
 ; ----------------------------------------------------------------------------
-; meals - the npc-THINK half of the UNIFIED eat aspect (the acts + the meals-local
-; define-macros live in npc-act/meals.mc). This file holds the meal desires, the
-; at-home idle yield, the shared approach (eat-go), the provisioning approach
-; desires, and the starvation-tail desires.
+; meals - the drivers of the UNIFIED eat aspect: the meal desires, the at-home idle yield,
+; and the starvation-tail desires.
 ;
-; ONE act-goal serves every routine meal: {@self eat [k <meal>] <place>} - a
-; desire mints it in its window; the <place> drives a leaf-first approach (eat-go);
-; at the place it promotes to the shared eat_act (npc-act/meals.mc).
+; ONE task serves every routine meal: {@self eat [k <meal>] <place>} (tasks/eat-task.mc) - a
+; desire proposes it in its window, and the task walks to the <place> and eats there.
 ;
 ; UTILITY IS PROXIMITY TO THE MEALTIME, NEVER HUNGER (ruling 10): each desire is
 ; eligible only inside its believed window. Hunger is pure physiology - it
@@ -35,55 +32,32 @@
 
 ; ------------------------------------------------------- the mealtime yield
 
-; idle-at-home - the at-home idle, CAPPED to yield at the household's next
-; mealtime. Intra-day eligibility is only sampled at act completions, so an
-; uncapped multi-hour idle leaps clean over a 2h meal window (the engine's
-; bare fallback idles in 3h blocks - the household would idle straight past
-; supper). This authored idle owns the at-home nothing-to-do slot and ends
-; at the next meal hour, so the meal chains get their deliberation instant.
-; An unknown mealtime contributes a huge sentinel (minutes-until-hour) and
-; drops out of the (min ...).
-(think idle-at-home
+; idle-at-home - the at-home nothing-to-do slot, a DWELL in blocks, one per canonical meal
+; window, each aimed at its ABSOLUTE boundary hour. Intra-day eligibility is only sampled at
+; act completions, so an uncapped multi-hour idle would leap clean over a meal window; ending
+; each block at the next meal boundary gives the meal drivers their deliberation instant (a
+; household's own +-1h mealtime shift just moves who wins the boundary). Each (hours ..) rung
+; ends its bout at its boundary, so a resumed dwell never carries a stale ?until across
+; windows; post-supper the block runs to midnight and the sleep aspect takes over long before.
+(driver idle-at-home
   (role ?home {@self home ?home}
               (spatial @self unit ?home)
     (declare-utility idle fallback)
-    (effects       (begin-goal {@self DWELL ?home}))
-    (when-unsupported-effects (set-outcome {@self goal {@self DWELL ?home}} /succ))))
-
-; TERMINAL step (act_body_purification): the at-home dwell is now PROPOSED, guarded by being at
-; home, not auto-promoted by the bare {@self DWELL ?home} goal. idle-at-home holds the goal (util
-; 2, the at-home nothing-to-do slot); the dwell promotes ONLY here, ONLY at home. The proposal
-; inherits the idle utility from the {@self DWELL ?home} goal it /causes (via the (goal ...) gate).
-; The idle blocks, one per canonical meal window, each aimed at its ABSOLUTE
-; boundary hour (the eat chains decide the actual eating at those completions;
-; a household's own +-1h mealtime shift just moves who wins the boundary).
-; Each (hours ..) window ends its bout at its boundary, so a resumed dwell never
-; carries a stale ?until across windows; post-supper the block runs to
-; midnight and the sleep aspect takes over long before.
-(think dwell-at-home-morning
-  (goal    {@self DWELL ?home})
-  (role @self (spatial @self unit ?home)
-    (when (hours 0 12))
-    (effects (maintain-proposal {@self DWELL ?home 12}))))
-
-(think dwell-at-home-afternoon
-  (goal    {@self DWELL ?home})
-  (role @self (spatial @self unit ?home)
-    (when (hours 12 18))
-    (effects (maintain-proposal {@self DWELL ?home 18}))))
-
-(think dwell-at-home-evening
-  (goal    {@self DWELL ?home})
-  (role @self (spatial @self unit ?home)
-    (when (hours 18 0))
-    (effects (maintain-proposal {@self DWELL ?home 24}))))
+    (stable-or
+      (try
+        (when (hours 0 12))
+        (effects (maintain-proposal {@self DWELL ?home 12})))
+      (try
+        (when (hours 12 18))
+        (effects (maintain-proposal {@self DWELL ?home 18})))
+      (try
+        (when (hours 18 0))
+        (effects (maintain-proposal {@self DWELL ?home 24}))))))
 
 ; ============================ the unified eat aspect ==========================
-; Every routine meal is ONE act-goal {@self eat [k <meal>] <place>}: a desire
-; mints it in its window, the <place> drives a leaf-first approach (eat-go), and
-; at the place the goal promotes to the shared eat_act. The begun-then-ended
-; act-belief IS the meal memory (target = the meal occasion, aux = the place);
-; there is no separate dine record.
+; Every routine meal is ONE task {@self eat [k <meal>] <place>}: a desire proposes it in its
+; window, and the task walks to the <place> and eats there. The ended act-belief IS the meal
+; memory (target = the meal occasion, aux = the place); there is no separate dine record.
 
 (include "../../../macros/intensity-macros.mc")
 (include "../../../macros/collection-macros.mc")
@@ -118,7 +92,7 @@
       (effects
         (observe ?kitchen)))))
 
-; ---- the meal desires (mint {@self eat [k <meal>] <place>}) ----------------
+; ---- the meal desires (propose {@self eat [k <meal>] <place>}) -------------
 
 ; A hungry man wants his meal as a need, a famished one as a crisis.
 (define-macro meal-utility-band () (if (any {@self satiety [k famished]}) (then crisis) (else need)))
@@ -129,18 +103,21 @@
 (define-macro meal-window-hours ()      2)
 (define-macro supper-lead-hours ()      1)
 
-(think want-breakfast
+(driver want-breakfast
   (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home breakfast-hour ?}
                 (spatial @self unit ?home)
       (when (hours (household-breakfast-hour) (+ (household-breakfast-hour) (breakfast-window-hours))) (> (believed-home-food-count ?home) 0))
       (declare-utility (meal-utility-band) default)
-      (effects       (begin-goal {@self eat [k breakfast] ?home}))
-      (when-unsupported-effects (set-outcome {@self goal {@self eat [k breakfast] ?home}} /succ)))))
+      (effects
+        (maintain-proposal {@self eat [k breakfast] ?home}
+          [/affect (meal-affect ?home)]
+          [/cost (meal-cost [k breakfast] ?home)]
+          [/feasible (eat-affordable [k breakfast] ?home)])))))
 
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
-(think want-lunch-work
+(driver want-lunch-work
   (role @self {@self satiety [k hungry|famished]}
     (role ?job {@self job ?job}
       (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
@@ -148,30 +125,39 @@
                  (spatial @self building ?wp)                    ; residual gate, re-checked at the when-seam
         (when (hours 12 14))
         (declare-utility (meal-utility-band) default)
-        (effects       (begin-goal {@self eat [k lunch] ?wp}))
-        (when-unsupported-effects (set-outcome {@self goal {@self eat [k lunch] ?wp}} /succ))))))
+        (effects
+          (maintain-proposal {@self eat [k lunch] ?wp}
+            [/affect (meal-affect ?wp)]
+            [/cost (meal-cost [k lunch] ?wp)]
+            [/feasible (eat-affordable [k lunch] ?wp)]))))))
 
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch-hour.
-(think want-lunch-home
+(driver want-lunch-home
   (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home lunch-hour ?}
                 (spatial @self unit ?home)
       (when (hours (household-lunch-hour) (+ (household-lunch-hour) (meal-window-hours))) (> (believed-home-food-count ?home) 0))
       (declare-utility (meal-utility-band) default)
-      (effects       (begin-goal {@self eat [k lunch] ?home}))
-      (when-unsupported-effects (set-outcome {@self goal {@self eat [k lunch] ?home}} /succ)))))
+      (effects
+        (maintain-proposal {@self eat [k lunch] ?home}
+          [/affect (meal-affect ?home)]
+          [/cost (meal-cost [k lunch] ?home)]
+          [/feasible (eat-affordable [k lunch] ?home)])))))
 
 ; SUPPER at home - the FAMILY table. The window opens an hour early so eat-go's
 ; travel (30 min) lands the household home by the cook's hour.
-(think want-supper
+(driver want-supper
   (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
       (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (> (believed-home-food-count ?home) 0))
       (declare-utility (meal-utility-band) default)
-      (effects       (begin-goal {@self eat [k supper] ?home}))
-      (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?home}} /succ)))))
+      (effects
+        (maintain-proposal {@self eat [k supper] ?home}
+          [/affect (meal-affect ?home)]
+          [/cost (meal-cost [k supper] ?home)]
+          [/feasible (eat-affordable [k supper] ?home)])))))
 
 (define-func eat-dining-out (?place)
   (tolerate (or (is-a ?place [k pub-building]) (is-a ?place [k restaurant-building]))): ?dining-out
@@ -182,11 +168,29 @@
   (or (not (eat-dining-out ?place)) (>= ?coins (price ?meal ?place))): ?affordable
   ?affordable)
 
+; PER-MEANS intrinsics: a supper BOUGHT OUT differs from the free table not in the hunger it
+; serves but in its own means-profile - it costs COIN, the sociable relish it (enthusiasm, the
+; affiliative aspect of Extraversion), and a purse too light cannot buy it (eat-affordable).
+; The cost is the meal's buy-price marked up by the venue ((price ?meal ?place)) through
+; (money-cost-util) to the felt utility of the diner's marginal value of money. Only a
+; BOUGHT-OUT meal is charged; a home / workplace meal is eaten from one's own larder.
+(define-func meal-affect (?place)
+  (any {@self enthusiasm ?enthusiasm=0.0})
+  (if (eat-dining-out ?place) (then (* ?enthusiasm 20.0)) (else 0.0)))
+
+(define-func meal-cost (?meal ?place)
+  (any {@self carrying-cash.count ?coins=0})
+  (money-cost-util ?coins (if (eat-dining-out ?place) (then (price ?meal ?place)) (else 0))))
+
+; At the meal's place: in its building, or in its room for a meal taken in one.
+(define-func at-meal-place (?place)
+  (or (spatial @self building ?place) (spatial @self space ?place)))
+
 ; EATING OUT - no food at home (as the diner KNOWS) in the supper window and
 ; the cash he carries pays for it: a pub supper (lower/middle), a restaurant one (upper). The
 ; venue is the eat place; eat-go walks there. It never competes with the home
 ; supper, whose stock gate is this one's negation.
-(think want-eat-out-pub
+(driver want-eat-out-pub
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
   (role @self {@self satiety [k hungry|famished]}
               -{@self class-situation [k upper]}
@@ -196,10 +200,13 @@
         (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (eat-affordable [k supper] ?venue)
                    (= (believed-home-food-count ?home) 0)))
         (declare-utility (meal-utility-band) default)
-        (effects       (begin-goal {@self eat [k supper] ?venue}))
-        (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?venue}} /succ))))))
+        (effects
+          (maintain-proposal {@self eat [k supper] ?venue}
+            [/affect (meal-affect ?venue)]
+            [/cost (meal-cost [k supper] ?venue)]
+            [/feasible (eat-affordable [k supper] ?venue)]))))))
 
-(think want-eat-out-restaurant
+(driver want-eat-out-restaurant
   ; upper-class only - the CACHED self-gate skips the majority (and the
   ; larder belief-fold below) with zero eval.
   (role @self {@self satiety [k hungry|famished]}
@@ -210,68 +217,19 @@
         (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (eat-affordable [k supper] ?venue)
                    (= (believed-home-food-count ?home) 0)))
         (declare-utility (meal-utility-band) default)
-        (effects       (begin-goal {@self eat [k supper] ?venue}))
-        (when-unsupported-effects (set-outcome {@self goal {@self eat [k supper] ?venue}} /succ))))))
-
-; ---- the shared approach: the <place> drives a leaf-first go sub-goal --------
-
-; Not yet at the eat place -> head there via the generic go task (go-task.mc),
-; like worship. A MAINTENANCE rung (§5.11/§5.12): hold {@self go-to ?place} while
-; not at the place, cease it on arrival (at-place). The go task's sub-acts are
-; the live leaves while routing; on arrival they collapse and the eat goal becomes
-; the leaf and promotes to eat_act. ?place is bound from the eat goal (fixed, not
-; rouletted). For breakfast / home-lunch / work-lunch the diner is already at the
-; place, so eat-go is SELECTED but its (when) is false and mints nothing (never a
-; spurious go proposal) - the eat goal promotes directly.
-(think eat-go
-  (goal    {@self eat ?meal ?place})
-  ; at-place, but BIND-FREE: (at-place)/(in-room) expand to (bind {@self location
-  ; ?loc}) which hard-errors when holding_when_holds re-evaluates this maintenance
-  ; (when) with the fire-time stash restored (?loc already bound). (believes {@self
-  ; location ?place}) is the same "standing in ?place" test as an existence check.
-  ; ?place is a BUILDING for every routine routing (home / pub / restaurant), or the
-  ; gentry study ROOM - the OR covers both, in-building for the former, believes-
-  ; location for the latter.
-  (when    (and (not (or (spatial @self building ?place)
-                         (spatial @self space ?place)))
-                (eat-affordable ?meal ?place)))
-  (effects
-           (maintain-proposal {@self go-to ?place})))
-
-
-; TERMINAL step (act_body_purification): the meal is now PROPOSED, guarded by being AT its place.
-; Because `eat` is a proposed label every {@self eat [k <meal>] <place>} desire drops out of the
-; auction (it still persists + drives eat-go); the meal promotes ONLY here, ONLY once the diner is
-; at the place - closing the "eat where there is no food" off-place fall-through. The proposal
-; inherits the meal's own utility from the eat goal it /causes (via the (goal ...) gate).
-;
-; PER-MEANS intrinsics: a supper BOUGHT OUT differs from the free table not in the shared hunger
-; it serves but in its own means-profile - it costs COIN, the sociable relish it (enthusiasm, the
-; affiliative aspect of Extraversion), and a purse too light cannot buy it. The (cost ...) is the
-; meal's ontological buy-price marked up by the venue ((price ?meal ?place) = the meal's cost scaled
-; by the venue markup), run through (money-cost-util) to the felt utility of the actor's marginal value
-; of money (dear to a pauper, nothing to a lord). Only a BOUGHT-OUT meal is charged; a home / workplace meal is eaten
-; from one's own larder, so its cost + feasibility fold to nothing (the dining-out? gates below).
-(think eat-at-place
-  (goal    {@self eat ?meal ?place})
-  (when    (or (spatial @self building ?place)
-               (spatial @self space ?place)))
-  (effects
-    (any {@self enthusiasm ?enthusiasm})
-    (any {@self carrying-cash.count ?coins=0})
-    (eat-dining-out ?place): ?dining-out
-    (maintain-proposal {@self eat ?meal ?place}
-      [/affect (if ?dining-out (then (* ?enthusiasm 20.0)) (else 0.0))]
-      [/cost (money-cost-util ?coins (if ?dining-out (then (price ?meal ?place)) (else 0)))]
-      [/feasible (eat-affordable ?meal ?place)])))
+        (effects
+          (maintain-proposal {@self eat [k supper] ?venue}
+            [/affect (meal-affect ?venue)]
+            [/cost (meal-cost [k supper] ?venue)]
+            [/feasible (eat-affordable [k supper] ?venue)]))))))
 
 ; (PROVISIONING - the cook keeping the kitchen larder stocked - lives in
 ; thinks/provisioning_think.mc; the general carry-to-a-place chain in
 ; thinks/bring_think.mc. Meals only EAT here.)
 
 ; (EATING OUT is folded into the unified eat aspect above: want-eat-out-pub /
-; want-eat-out-restaurant mint {@self eat [k supper] <venue>}, eat-go walks
-; there, and eat_act runs the meal - no venue prop consumed.)
+; want-eat-out-restaurant propose {@self eat [k supper] <venue>}, and the eat task walks
+; there and runs the meal - no venue prop consumed.)
 
 ; THE STARVATION TAIL (ruling 15) - past famished (appetite > 1.3) food-seeking
 ; overrides schedule and window. Every food-source chain carries the SAME convex

@@ -1,9 +1,7 @@
 ; ----------------------------------------------------------------------------
-; die-now - the act a death decision stands for. Whatever decided he dies (age, disease,
-; his own despair) minted {@self goal {@self DIE ?cause}}; this keeps DIE proposed until
-; it is done, which ends him.
+; pursue-DIE - a death decided on as an intent (a suicide, thinks/cooldown/grievance-inward-think.mc)
+; is carried out by proposing DIE until it is done, which ends him and the intent with him.
 ; ----------------------------------------------------------------------------
 
-(think die-now
-  (goal {@self DIE ?cause})
+(driver {@self intent DIE ?cause}:?intent
   (effects (maintain-proposal {@self DIE ?cause})))

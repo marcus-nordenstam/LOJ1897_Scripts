@@ -8,19 +8,20 @@
 ; sets an epidemic env state and a per-NPC roll tests against it. This rule is
 ; only the age-independent background rate.
 ;
-; (die @self) marks @self dead (condition/death-date); the zero-role burial sweep
+; The roll is latched: the DIE it proposes holds until it is done, and a hold re-check must not
+; roll again. (die @self) marks @self dead (condition/death-date); the zero-role burial sweep
 ; destroys the corpse later. propagate-death first (reads @self's living ties).
 ; ----------------------------------------------------------------------------
 
 
-(think mortality-disease
+(driver mortality-disease
   (cooldown 1 m try-once)
   (rng-stream deaths)
 
   (role @self {@self age ?age}
 
     (when (and (>= ?age 1)
-               (chance 0.0008)))   ; ~1% per year background disease rate
+               (latch-eval (chance 0.0008))))   ; ~1% per year background disease rate
 
     (declare-utility survival)
-    (effects (begin-goal {@self DIE [k disease-death]}))))
+    (effects (maintain-proposal {@self DIE [k disease-death]}))))

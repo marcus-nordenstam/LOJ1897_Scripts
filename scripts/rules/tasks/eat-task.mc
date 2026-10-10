@@ -1,7 +1,8 @@
 ; ----------------------------------------------------------------------------
-; eat ?meal ?place - the unified meal task (breakfast / lunch / supper, incl. eating out).
-; The act-belief {@self eat [k <meal>] <place>} IS the episodic meal memory. Its three
-; INCLUSIVE tries co-fire at the table:
+; eat ?meal ?place - the unified meal task (breakfast / lunch / supper, incl. eating out),
+; proposed by the meal drivers (thinks/hot/meals-think.mc). The act-belief
+; {@self eat [k <meal>] <place>} IS the episodic meal memory. Away from the place he walks
+; there, while he can pay for it; at the place three INCLUSIVE tries co-fire at the table:
 ;   take_meal   - propose the EAT action (the physical eating); its ended outcome is
 ;                 copied onto the eat task at the cease (bottom-up conclusion). A home
 ;                 supper resolves a real food prop to destroy; otherwise abstract (?food 0).
@@ -16,6 +17,11 @@
   (aux [k structure|space] @object)
   (and
     (try
+      (when (and (not (at-meal-place ?place))
+                 (eat-affordable ?meal ?place)))
+      (effects (maintain-proposal {@self go-to ?place})))
+    (try
+      (when (at-meal-place ?place))
       (declare-utility (switch (kind ?meal)
                  (on [k breakfast] 820)
                  (on [k lunch]     850)
@@ -45,7 +51,7 @@
     (try
       (role ?home {@self home ?home}
         (role @self -{@self tell ? ? /succ /caused_by ?eat}
-          (when (and (= ?place ?home) (latch-eval (chance 0.25))))
+          (when (and (= ?place ?home) (at-meal-place ?place) (latch-eval (chance 0.25))))
           (effects
             (for-each ?breakfast-hour (every {?home breakfast-hour ?})
                 (bind ?breakfast-hour.target ?b)
@@ -62,6 +68,7 @@
       (role ?diner {?diner isa [k human], condition [k alive]}
                    (spatial ?diner co-located @self)
                    (select (score 1) (policy roulette))
+        (when (at-meal-place ?place))
         (effects
           (for-each ?belief (every {@self spouse|fiancee|child|job|interest|birthplace|home|mother|father|sibling|friend|nationality|calling|value|life-aim ?})
             (do
