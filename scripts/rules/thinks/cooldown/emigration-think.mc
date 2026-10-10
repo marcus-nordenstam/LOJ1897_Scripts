@@ -1,37 +1,18 @@
 ; ----------------------------------------------------------------------------
-; Emigration - the DECISION to leave the parish. Leaving happens to a SPECIFIC
-; person, not to the world, so it is a per-NPC decision, with @self bound to
-; each living NPC. The
-; young-adult template gates @self to a fertile-age adult, and a per-month
-; (chance) - scaled by the parish's crowding (population-pressure) and by @self's
-; own openness - rolls the departure. @self is bound O(1); there is no role cast.
-;
-; This is a pure DECISION think (mirrors clubs.mc club_resignation): it only mints
-; the standing act-goal {@self DEPART}. The teardown - quitting the job, releasing
-; the home, and leaving the world - is @self's OWN act (npc-act/depart.mc), which
-; acts entirely on @self and @self's own beliefs. No mark, no sweep: a departing
-; person removes THEMSELVES.
-;
-; (begin-goal ...) not (excl-goal ...): the decision fires once (a monthly chance),
-; so the goal must LATCH until the depart act consumes it. An excl-goal evaporates
-; the moment a cycle stops re-stamping it, and this think will not re-fire.
-;
-; Crowding feedback: at carrying capacity (pressure 1.0) the monthly base is
-; 0.00125 ~= a 1.5%/yr baseline; a crowded parish raises the outflow, a sparse one
-; (immigration territory) sheds almost no one.
+; emigration - a fertile-age adult decides to leave the parish, a monthly chance scaled by
+; the parish's crowding (population-pressure) and his own openness. At carrying capacity the
+; base 0.00125 a month is about 1.5% a year. The roll is latched, so the emigrate task
+; (tasks/emigrate-task.mc) holds until he is gone. A man who owns anything stays: he has
+; no way yet to sell up.
 ; ----------------------------------------------------------------------------
 
-
-(think emigration
+(driver emigration
   (cooldown 1 m try-once)
   (rng-stream migrations)
-
   (role @self {@self openness ?openness}
               {@self isa [k human], condition [k alive]}
               {@self age-band [k youth|young-adult|middle-aged]}
-
-    (when (chance (* 0.00125 (+ 0.5 ?openness) (population-pressure))))
-
+              -{@self own ?}
+    (when (latch-eval (chance (* 0.00125 (+ 0.5 ?openness) (population-pressure)))))
     (declare-utility errand)
-    (effects
-      (begin-goal {@self DEPART}))))
+    (effects (maintain-proposal {@self emigrate}))))

@@ -1,31 +1,10 @@
 ; ----------------------------------------------------------------------------
-; sporting-judge (think) - the organiser's decision to DECLARE the meet winner.
-; Split out of the old judge_meet_act (act_body_purification): choosing the victor is an
-; argmax over the race-result beliefs the co-present racers minted into the organiser -
-; that is deliberation, so it lives here; the observable declaration (honours) is the
-; dumb judge_declare_act (JUDGE-DECLARE.mc).
-;
-; open_meet_act summoned the field; the want_judge think holds the standing
-; {@self judge-meet} goal while any race-result stands unjudged (sporting_event_think.mc).
-; Each racer's race_act mints {?racer race-result <score> <sport>} into the organiser as
-; he finishes (aux = the sport, so the declaration knows which contest it crowns).
-; This think casts the current top scorer and proposes {@self JUDGE-DECLARE ?winner ?sport},
-; so the proposal tracks the leader as stragglers report; once
-; it wins the auction judge_declare_act declares that racer, and meet-judged clears the
-; scoreboard, which (via want_judge) retracts the judge-meet goal.
+; sporting-judge - the meet's scoreboard: once the organiser has declared the winner
+; (JUDGE-DECLARE) he clears it, and each loser who raced takes the winner's outdo.
 ; ----------------------------------------------------------------------------
 
-
-(think sporting-judge
-  (goal {@self judge-meet})
-  (role ?winner [k human]
-                {?winner race-result ?result ?sport}
-                (select (score ?result) (policy argmax))
-    (effects (maintain-proposal {@self JUDGE-DECLARE ?winner ?sport}))))
-
 ; Scoreboard clear: once the declaration is made, the organiser retires the
-; race-result beliefs so next year's meet starts clean (which also closes the
-; judge-meet goal via want_judge). The rivalrous outdo now rides the witnessed
+; race-result beliefs so next year's meet starts clean. The rivalrous outdo now rides the witnessed
 ; declaration in each LOSER's mind (outdone-at-meet), not an anchor minted from
 ; here. The days-since guard scopes the gate to the declaration's own day (an
 ; ended /succ declare persists as a memory - without it last year's declaration

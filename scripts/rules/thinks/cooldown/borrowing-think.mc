@@ -1,57 +1,20 @@
 ; ----------------------------------------------------------------------------
-; borrowing - an F3.7 behaviour seed rule. Once in a while an adult takes on a
-; debt to another adult, gaining an `owe` belief. The F3.5 wealth classifier
-; counts distinct creditors: debt is the v1 poverty signal, so the debtors are
-; exactly the population the deserving / undeserving-poor vertical classifies.
-;
-; ONE loan pursuit at a time: the decision is a monthly PULSE (cooldown +
-; cease-after-fire) gated on holding NO TAKE-LOAN goal, so a landed roll mints
-; exactly one goal and the next decision waits for its conclusion. The (not owe)
-; filter keeps it one debt per creditor pair. The goal's END is owned by the
-; twin outcome rules below (conventions): borrowing-done concludes it when the
-; loan-call records the debt; borrowing-abandoned withdraws it if the creditor
-; dies first (else the standing goal would block all future borrowing).
-; The errand rungs (borrow_errand_think.mc) perform the goal; the loan-call act
-; (borrow_errand_action.mc) records the {owe}.
+; borrowing - once in a while an adult borrows from another adult whose home he knows: he
+; calls on him there (tasks/seek-loan-task.mc). One creditor at a time; the roll is latched,
+; and TAKE-LOAN's {@self owe ?creditor} drops that creditor from the cast.
 ; ----------------------------------------------------------------------------
 
-
-(think borrowing
+(driver borrowing
   (cooldown 1 m try-once)
   (rng-stream behaviour)
-  (cease-after-fire)
-
-  (role @self   {@self industriousness ?industriousness}
+  (role @self {@self industriousness ?industriousness}
               {@self isa [k human], condition [k alive]}
-                {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    ; The home filter keeps the pursuit PERFORMABLE: the errand calls on the
-    ; creditor at home, and there is no directory - an unknown address would
-    ; strand the goal forever behind the no-goal gate.
+              {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?creditor {?creditor isa [k human], condition [k alive]}
                     {?creditor age-band [k youth|young-adult|middle-aged|mature|elderly]}
                     {?creditor home ?}
                     -{@self owe ?creditor}
-
-      ; The borrow roll: low industriousness (less self-supporting) takes on debt
-      ; more often. One evaluation round per cooldown period; the no-goal gate caps
-      ; the round at one landed pursuit.
-      (when (and -{@self goal {@self TAKE-LOAN ?}}
-                 (chance (* 0.005 (- 1.5 ?industriousness)))))
-
+                    (select (policy first-match))
+      (when (latch-eval (chance (* 0.005 (- 1.5 ?industriousness)))))
       (declare-utility errand)
-      (effects (begin-goal {@self TAKE-LOAN ?creditor})))))
-
-; Outcome twin: the loan-call recorded the debt - the pursuit succeeded.
-(think borrowing-done
-  (goal {@self TAKE-LOAN ?creditor})
-  (role @self {@self owe ?creditor}
-    (effects (set-outcome {@self goal {@self TAKE-LOAN ?creditor}} /succ))))
-
-; Outcome twin: the creditor is KNOWN dead - withdraw the pursuit. POSITIVE death
-; knowledge only: a merely-decayed alive belief must not abandon the errand. The
-; gate binds ?creditor, so the death test rides a (role @self ...) filter over that
-; gate var (symmetric with borrowing-done's own-belief role above).
-(think borrowing-abandoned
-  (goal {@self TAKE-LOAN ?creditor})
-  (role @self {?creditor condition [k dead]}
-    (effects (set-outcome {@self goal {@self TAKE-LOAN ?creditor}} /succ))))
+      (effects (maintain-proposal {@self seek-loan ?creditor})))))

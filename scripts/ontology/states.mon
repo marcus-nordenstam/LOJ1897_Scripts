@@ -378,11 +378,8 @@
 ; delivery and reads his appointments as {?host invite @self /aux
 ; ?occ} (review_appointments).
 (state invite (tar [k human] @object) (aux [k occasion] @object))
-; Sporting-event goal-drivers (sporting_event / sporting-judge chains).
-; hold-meet: the club officer's standing goal to run a meet (tar = the
-; club's articles). judge-meet: the judge's standing goal to officiate.
+; hold-meet: the club officer's standing goal to run a meet (tar = the club's articles).
 (state hold-meet (tar ?))
-(state judge-meet)
 
 ; Competence - the domains an NPC is practically skilled in. Targets a
 ; `domain` kind (concepts.mon): the academic-field disciplines (classics,
@@ -435,19 +432,6 @@
 ; Vocational / educational states (relocated from the concept tree -
 ; relations, not nouns).
 ; ---- vocational ----
-(state retire (tar ? @excl))
-; carrying-loot: the thief's transient "I hold stolen ?item, to stow it"
-; self-state. Minted by the theft act (steal), read by want-stow which OWNS
-; the {@self stow ?item} goal, ended by stow_act when the loot is put away.
-; DEFINED so it PERSISTS the carry-home journey (an undefined /obs label is
-; disproved by self-perception every cycle).
-(state carrying-loot (tar ?))
-; stow: the goal to put loot away (want-stow OWNS {@self stow ?item
-; ?place}, stow_act ends it). tar = the loot item, aux = the cache.
-(state stow (tar ?) (aux ?))
-; staff-household: the standing goal a household head holds to fill
-; its servant posts (staff_household_think mints {@self staff-household}).
-(state staff-household)
 ; since: the year the job was taken up, held on the job object ({?j since <year>}).
 ; Drives tenure for the duty-assignment seniority comparison. Stamped at hire.
 (state since (tar ? @excl))

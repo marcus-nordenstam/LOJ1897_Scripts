@@ -28,6 +28,7 @@
   (lint-waive env-read-outside-action)
   (tar ?)
   (aux ?)
+  (preparatory)
   ; Seeing the sought venue is what makes its proposer let go, so the withdrawal is where
   ; the search learns it succeeded.
   (cease (if (substantial (find-building-found ?sought)) (then (set-outcome ?find-building /succ))))

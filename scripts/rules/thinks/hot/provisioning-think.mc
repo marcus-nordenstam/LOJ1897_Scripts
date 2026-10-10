@@ -9,24 +9,9 @@
 ; sitting cook re-posts the marker each cycle, so the ttl only clears a DEAD
 ; (or emigrated) cook and the household re-elects.
 ;
-; THE ERRAND (the worship/drink shape - a pressure, a go, a do-at-the-place):
-;   want-provisions : cook + the believed kitchen larder is low -> the standing
-;                     {@self PROVISION} goal (the pressure).
-;   provision-go    : knows the provisions shop -> travel there. Provisioning
-;                     NEVER wanders generic shops: the ONLY venue is the shop
-;                     the cook KNOWS sells provisions ({@self provisions-shop}).
-;   provision_orient: knows NO provisions shop -> read the public register of
-;                     incorporations at the church (the orient errand), which
-;                     teaches where the grocer trades.
-;   provision-act   : AT the known shop the standing goal is the leaf and
-;                     (npc-act/provision-act.mc) promotes on its own when: buy a
-;                     basket and mint {@self BRING [k food] <kitchen>} - the
-;                     general bring chain carries it home and puts it down IN the
-;                     kitchen.
-;   provision-rearm : laden with food = the standing pressure to deliver it, so
-;                     re-mint the bring goal each deliberation; a full hand is a
-;                     live pressure re-read every cycle, so the basket can never
-;                     fossilize in hand across the window gap.
+; THE ERRAND: want-provisions sends the cook to the shop he knows sells provisions, never a
+; generic one (tasks/provision-task.mc); provision-rearm carries the basket home to the
+; kitchen (tasks/carry-home-task.mc).
 ; ----------------------------------------------------------------------------
 
 (include "../../../macros/tunables.mc")
@@ -88,73 +73,25 @@
     (effects (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles)))))
 
 ; ---- the pressure: the kitchen larder is low --------------------------------
+; The kitchen resolves from the cook's own spatial index of the home. He buys at the shop he
+; knows sells provisions (tasks/provision-task.mc); knowing none, he does not provision.
 
-(think want-provisions
-  ; The kitchen resolves from the cook's OWN spatial index of the home (the home pre-teach
-  ; learns its rooms): the kind-cast bind picks the is-a kitchen target. It BINDS,
-  ; so it is role work; only the stock compare is a gate condition.
-  (role ?home {@self household-cook ?home}
-              (spatial ?home room [k kitchen]): ?kitchen
-    (when (< (believed-pile-count ?kitchen [k food]) (larder_low_water)))
-    (declare-utility duty)
-    (effects       (begin-goal {@self PROVISION}))
-    (when-unsupported-effects (set-outcome {@self goal {@self PROVISION}} /succ))))
-
-; TERMINAL step (act_body_purification): the buy is PROPOSED, guarded by being at a shop - the
-; at-place-kind precondition (identity is enforced by
-; the routing: provision-go walks only to the KNOWN provisions shop). Because `provision` is a
-; proposed label, auto_propose skips the {@self PROVISION} goal (it still persists + drives
-; provision-go/orient), so the buy promotes ONLY here, ONLY at a shop - closing the off-shop
-; spurious-promotion hole a bare pure act would open.
-(think provision-at-shop
-  (goal    {@self PROVISION})
-  ; The buy cap is DECIDED here (basket, larder shortfall, what is in hand)
-  ; and rides the act pattern - the counter-stop body does no counting.
-  (role @self (is-a (spatial @self building) [k shop])
+(driver want-provisions
+  (role ?shop {@self provisions-shop ?shop}
     (role ?home {@self household-cook ?home}
                 (spatial ?home room [k kitchen]): ?kitchen
-      (when    (and (believed-pile-count ?kitchen [k food]): ?blv
-                    (held-pile-count @self [k food]): ?inh
-                    (- (min (carry_cap) (- (larder_target) ?blv)) ?inh): ?cap
-                    (> ?cap 0)))
-      (effects (maintain-proposal {@self PROVISION ?cap})))))
-
-; ---- the errand: go to THE provisions shop (never a generic one) ------------
-; The go sub-goal INHERITS the provision goal's drive through /caused_by (the
-; worship-go shape - no own utility); at the shop the go retires, the standing
-; goal is the leaf, and provision-act promotes on its when.
-
-(think provision-go
-  (goal {@self PROVISION})
-  ; THE known shop, as a role: the (any ..) + truthiness test was a rule-scope bind doing
-  ; a role's job - with no candidate there is simply no activation.
-  (role ?shop {@self provisions-shop ?shop}
-              (not (spatial @self building ?shop))
-    (effects (maintain-proposal {@self go-to ?shop}))))
-
-; MAINTENANCE co-minter of the shared {@self ORIENT} search: while the provisioner knows no
-; provisions shop, mint the orient goal; cease the moment orient_act learns one ({@self
-; provisions-shop}). No (no-goal) dedup - under multi-rule support each chain co-mints its own
-; source on {@self ORIENT} and withdraws it independently; the goal lives until the last withdraws.
-; DORMANT - this lane never ran; revived on the form deeds / articles with its own gauntlet.
-;(think provision_orient
-;  (goal {@self PROVISION})
-;  (role @self -{@self provisions-shop ?}
-;    (effects       (begin-goal {@self ORIENT}))
-;    (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ))))
+      (when (< (believed-pile-count ?kitchen [k food]) (larder_low_water)))
+      (declare-utility duty)
+      (effects (maintain-proposal {@self provision ?shop})))))
 
 ; ---- the delivery drive ------------------------------------------------------
-; Laden with food = the standing pressure to deliver it, re-stamped per
-; deliberation (so the intention survives the window gap). ONE desire owns the
-; bring goal's whole utility: 90 on the road (outbids the 77 provision pull the
-; moment the basket is in hand; bring-go inherits it via /caused_by), MAXIMUM once
-; standing at the kitchen - the put-down takes a minute and nobody beds down
-; still holding the shopping.
+; Laden with food: carry it home to the kitchen (tasks/carry-home-task.mc). 900 on the road
+; outbids the provision pull the moment the basket is in hand; 1000 once standing in the
+; kitchen - the put-down takes a minute and nobody beds down still holding the shopping.
 
-(think provision-rearm
+(driver provision-rearm
   (role ?home {@self home ?home}
               (spatial ?home room [k kitchen]): ?kitchen
     (when (substantial (held-ware @self [k food])))
     (declare-utility duty (if (spatial @self space ?kitchen) (then 1000) (else 900)))
-    (effects       (begin-goal {@self BRING [k food] ?kitchen}))
-    (when-unsupported-effects (set-outcome {@self goal {@self BRING [k food] ?kitchen}} /succ))))
+    (effects (maintain-proposal {@self carry-home [k food] ?kitchen}))))

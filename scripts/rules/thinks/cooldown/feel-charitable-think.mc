@@ -1,32 +1,16 @@
 ; ----------------------------------------------------------------------------
-; The CHARITY aspect (B4 pressure model). ONE think:
-;   feel-charitable (think): almsgiving is a VIRTUE - a duty-style pressure
-;     (like worship) = days-since-last-alms ramp x COMPASSION, capped LOW as a
-;     rare leisure act (charity is occasional, not a fixture). The uncompassionate
-;     never clear a routine act. At a church -> the give_alms act-goal there; else
-;     -> a `go` sub-act-goal to a church (the Victorian charity venue).
-;   give_alms_act (action, give_alms.mc): the durative almsgiving - mints the
-;     punctual {@self give <sum>} record the generosity classifier reads, ends the
-;     act. The {@self GIVE-ALMS <church>} act-belief IS the episodic memory
-;     days-since-last reads. No aim, no end-goal.
-;
-; COOLDOWN: the drive returns on a ~20-day refractory; the days-since-last ramp is
-; the utility SHAPE and the cooldown is the floor.
+; feel-charitable - almsgiving is a virtue: a days-since-last-alms ramp x compassion, capped
+; low, so it stays a rare leisure act and the uncompassionate never give. He gives at the
+; church he knows nearest (tasks/give-charity-task.mc). The 20-day cooldown is the floor.
 ; ----------------------------------------------------------------------------
 
 
-(think feel-charitable
+(driver feel-charitable
   (cooldown 20 d try-until-succ)
   (role @self {@self compassion ?compassion}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    ; The nearest church the NPC KNOWS (role-cast; no known church -> no fire).
     (role ?venue [k church-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
       (when (>= (days-since-last {@self GIVE-ALMS /succ /ever}) 20))
-      ; compassion x a slow days-since ramp, capped low (rare deep-idle draw); the
-      ; uncompassionate stay below every routine act, so they never give.
       (declare-utility want (* 10.0 (* ?compassion
                   (min (* (days-since-last-float {@self GIVE-ALMS /succ /ever}) 0.8) 25.0))))
-      (effects
-        (if (spatial @self building ?venue)
-            (then (begin-goal {@self GIVE-ALMS ?venue}))
-            (else (maintain-proposal {@self go-to ?venue})))))))
+      (effects (maintain-proposal {@self give-charity ?venue})))))
