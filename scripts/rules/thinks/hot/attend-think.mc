@@ -7,12 +7,11 @@
 ; organize write) and only the held-on date test rides (when).
 ;
 ;   want_attend (guest / host) : raise the shared attend task (attend-task.mc).
-;   want-wed                   : a wedding principal raises the vow duty (wed-task.mc).
 ;
 ; A host and a guest share one attend task; the tier and desirability of attending are
 ; these drivers' to set (the host is bound to his own occasion, over the working day; a
-; guest's willingness scales with warmth toward the host). A wedding principal
-; additionally runs the wed duty.
+; guest's willingness scales with warmth toward the host). The wedding itself is pursue-wed's
+; (wed-think.mc).
 ; maintain-proposal throughout: the desire self-withdraws once held-on leaves the
 ; current month; the task concludes itself once the occasion's hours are over.
 ;
@@ -42,16 +41,6 @@
     (when (date-in-current-month ?held-on))
     (declare-utility obligation always-pick)
     (effects (maintain-proposal {@self attend ?occ}))))
-
-; A wedding principal: organizing a wedding whose day has come, still betrothed and
-; unmarried -> raise the vow duty. The [k wedding]:?occ kind-cast narrows the role to
-; wedding occasions.
-(think want-wed
-  (role ?occ {@self organize [k wedding]:?occ} {?occ held-on ?held-on}
-    (role @self {@self fiancee ?} (none {@self spouse @something})
-      (when (date-in-current-month ?held-on))
-      (declare-utility obligation always-pick)
-      (effects (maintain-proposal {@self wed ?occ})))))
 
 ; The vow was SPOKEN. Saying it IS believing it - the say channel mints the spoken
 ; {@self spouse ?betrothed} in the speaker's own mind and every hearer's. What the vow

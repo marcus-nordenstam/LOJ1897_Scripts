@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (define-macro attend-prep-lead      () 3)       ; hours before start an attendee sets out
+(define-macro wedding-lead-months   () 5)       ; months between planning a wedding and its day
 (define-macro attend-crasher-value  () 500.0)    ; a kill-driven crasher's floor within the guest tier
 (define-macro attend-guest-base     () 850.0)    ; the willing guest's value within the guest tier
 

@@ -19,6 +19,7 @@
 
 
 (task {@self plan-gathering ?kind ?months}:?plan-gathering
+  (preparatory)
   (sequence
     (role ?my-home {@self home ?my-home}
 

@@ -1,16 +1,11 @@
 ; ----------------------------------------------------------------------------
-; Betrothal. The matching half of the old single-rule marriage: for each
-; unmarried, un-betrothed adult woman, with a small annual chance, sample an
-; unmarried, un-betrothed adult man whose age is within 15 years and whose
-; class matches. It sets the {fiancee} bond on the couple only; the wedding
-; (a separate rule, five months later) consumes betrothed couples.
-;
-; Topology: ?bride is independent (role[0], enumerated). ?groom depends on
-; ?bride's age and class via filters that reference ?bride.
+; betrothal - the class-parity match: an unmarried man resolves to wed a woman of his class
+; and age whom he fancies, an INTENT ({@self intent wed ?bride}) that stands until he is
+; married. pursue-wed (thinks/hot/wed-think.mc) proposes to her, plans the wedding and weds.
 ; ----------------------------------------------------------------------------
 
 
-(think betrothal
+(intender betrothal
   (cooldown 1 m try-once)
   (rng-stream marriages)
 
@@ -26,7 +21,6 @@
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self gender [k male]}
               -{@self spouse ?}
-              -{@self fiancee ?}
               -{@self repute [k scandalous]}
               -{@self repute [k disreputable]}
               {@self age-band ?peer_band}
@@ -36,7 +30,9 @@
                  -{?bride spouse ?}
                  ;; Not already spoken-for (he avoids a woman he KNOWS is engaged or
                  ;; attached; a secret he has not heard does not stop the match).
-                 -{?bride fiancee ?}
+                 (or -{?bride fiancee ?} {?bride fiancee @self})
+                 (or -{@self fiancee ?} {@self fiancee ?bride})
+                 {@self fancy|desire|crave ?bride}:?fancy
                  -{?bride lover ?}
                  ;; A fallen woman (divorced for adultery) is shut out absolutely.
                  -{?bride prototype [k fallen-woman]}
@@ -73,16 +69,4 @@
                            (= ?lover-class ?my-class)))))
 
       (declare-utility want)
-
-      (effects
-        (begin-belief {@self fiancee ?bride})
-        ; The bride's own engagement belief lands in HER mind (the wedding rule
-        ; recovers the groom from the bride's fiancee belief, either side initiating).
-        (begin-belief ?bride {?bride fiancee @self})
-        ; @self (the groom) discloses his friend-tier profile to the bride (the tell she
-        ; hears and adopts) - the honest replacement for the believe_about profile-copy,
-        ; delivered by co-presence. His own knowledge of her pre-exists from courtship.
-        (every {@self (disclosure-tier-labels friend) ?}): ?facts
-        (if ?facts
-            (then (maintain-proposal {@self tell (utterable-msg [] ?facts) ?bride})))
-        ))))
+      (effects (maintain-intent {@self intent wed ?bride} /caused_by ?fancy)))))

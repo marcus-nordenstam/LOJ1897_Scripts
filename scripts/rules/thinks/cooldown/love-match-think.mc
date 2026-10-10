@@ -1,29 +1,12 @@
 ; ----------------------------------------------------------------------------
-; love-match (think) - affect-driven betrothal.
-;
-; A suitor who FANCIES someone (the one-sided attraction scalar -> the `fancy`
-; verb-state belief, ignited by crush-forms and deepened by court) becomes
-; betrothed to them: a love match. Class need NOT match (the romance that crosses
-; class lines); the hard requirement is MUTUAL fancy. This runs ALONGSIDE the
-; class-parity `betrothal` (the arranged path): fancied pairs pair here, everyone
-; else there. That coexistence IS the bond/affect split - a marriage bond forms
-; from love here, or from family/class fit there.
-;
-; A mental change (the fiancee bond), so think. RELATIONAL: the proposal is
-; keyed on the standing mutual `fancy`, not co-presence - a mutually-smitten pair
-; rarely coincides physically by chance, so (like all courtship FORMATION) the
-; co-present gate is dropped (the settled reversion). Re-uses the _betrothal
-; kind/log so the existing wedding rule consumes the couple unchanged. Fired by
-; the per-NPC emergent pass MONTHLY; the per-suitor (chance) gives the courtship
-; duration before the mutually-fancied pair commit (a tuning knob).
-;
-; The fancy gate is (is-attracted-to @self ?beloved) - the band-ladder believes
-; (attraction at least the `fancy` band, an EXPLICIT verb-state belief read). The
-; believer (@self) is the enumerated outer role; ?beloved is the attracted target.
+; love-match - affect-driven betrothal: a suitor who fancies someone who fancies him back
+; resolves to wed them, across class lines, keyed on the standing mutual fancy rather than
+; co-presence. The per-suitor chance is the courtship's length. Its intent is pursued like
+; betrothal's (thinks/hot/wed-think.mc).
 ; ----------------------------------------------------------------------------
 
 
-(think love-match
+(intender love-match
   (cooldown 1 m try-once)
   (rng-stream marriages)
 
@@ -32,7 +15,6 @@
   (role @self
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self age-band ?peer_band}
-              -{@self fiancee ?}
               -{@self spouse ?}
               -{@self repute [k scandalous]}
               ;; Fallen-woman gate, class-modulated (late-Victorian model): the
@@ -48,7 +30,8 @@
     ;; HIM (confess-fancy minted {?beloved fancy @self} in his mind). No mind peek.
     (role ?beloved {?beloved isa [k human], condition [k alive]}
                   {?beloved age-band [k young-adult|middle-aged|mature|elderly]}
-                  -{?beloved fiancee ?}
+                  (or -{?beloved fiancee ?} {?beloved fiancee @self})
+                  (or -{@self fiancee ?} {@self fiancee ?beloved})
                   -{?beloved spouse ?}
                   -{?beloved repute [k scandalous]}
                   ;; Pair half of the fallen-woman gate: a fallen party (either
@@ -60,7 +43,7 @@
                       {?beloved class-situation [k lower]})
                   ; the heart of it: @self is attracted to this person (attraction
                   ; at least the `fancy` band, the explicit band-ladder belief) ...
-                  {@self fancy|desire|crave ?beloved}
+                  {@self fancy|desire|crave ?beloved}:?fancy
                   ; ... and MUTUAL fancy - she fancies him BACK, and SAID SO. A love
                   ; match is a meeting of two hearts: court builds her fancy toward
                   ; him, confess-fancy carries her admission into his mind, and only
@@ -93,16 +76,4 @@
       (when (latch-eval (chance 0.3)))
 
       (declare-utility want)
-
-      (effects
-        ; Symmetric fiancee bond + mutual profile sync - identical to betrothal, so
-        ; the existing wedding rule consumes the couple (it recovers the groom from
-        ; the bride's fiancee belief regardless of which side initiated).
-        (begin-belief {@self fiancee ?beloved})
-        (begin-belief ?beloved {?beloved fiancee @self})
-        ; @self discloses their friend-tier profile to the beloved (the tell they hear
-        ; and adopt); @self's knowledge of the beloved pre-exists from courtship.
-        (every {@self (disclosure-tier-labels friend) ?}): ?facts
-        (if ?facts
-            (then (maintain-proposal {@self tell (utterable-msg [] ?facts) ?beloved})))
-        ))))
+      (effects (maintain-intent {@self intent wed ?beloved} /caused_by ?fancy)))))

@@ -1,18 +1,11 @@
 ; ----------------------------------------------------------------------------
-; advantageous-match (Phase 9.3). An exemplary woman may marry above her
-; class. Where the ordinary `betrothal` rule requires class parity between
-; bride and groom, this rule relaxes the ceiling for a bride whose
-; respectability_situation is `exemplary` - a spotless reputation is the
-; recognised lift over a one-class-above match.
-;
-; The mechanics mirror betrothal: assert the symmetric {fiancee} beliefs +
-; mutual believe-about, so the existing wedding rule consumes the couple
-; the same way it consumes betrothal's output. Re-fire is guarded by the
-; (not (believes ...)) filter on both bride and groom.
+; advantageous-match - an exemplary woman may marry above her class: a man whose life aims
+; at respectability or wealth resolves to wed one a class below him. Its intent is pursued
+; like betrothal's (thinks/hot/wed-think.mc).
 ; ----------------------------------------------------------------------------
 
 
-(think advantageous-match
+(intender advantageous-match
   (cooldown 1 m try-once)
   (rng-stream marriages)
 
@@ -40,7 +33,7 @@
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self gender [k male]}
               -{@self spouse ?}
-              -{@self fiancee ?}
+              {@self life-aim [k respectability-aim|wealth-aim]}:?aim
               -{@self repute [k scandalous]}
               -{@self repute [k disreputable]}
               {@self age-band ?peer_band}
@@ -55,7 +48,8 @@
                  -{?bride spouse ?}
                  {?bride age-span ?peer_band}
                  (none {@self (kin-labels) ?bride})
-                 -{?bride fiancee ?}
+                 (or -{?bride fiancee ?} {?bride fiancee @self})
+                 (or -{@self fiancee ?} {@self fiancee ?bride})
                  {?bride repute [k exemplary]}
                  (or (and {@self class-situation [k middle]}
                           {?bride class-situation [k lower]})
@@ -72,15 +66,4 @@
                           (* 0.4 ?openness))))))
 
       (declare-utility want)
-
-      (effects
-        (begin-belief {@self fiancee ?bride})
-        ; The bride's own engagement belief lands in HER mind (wedding recovers the
-        ; groom from the bride's fiancee belief, either side initiating).
-        (begin-belief ?bride {?bride fiancee @self})
-        ; @self (the groom) discloses his friend-tier profile to the bride (the tell she
-        ; hears and adopts); his own knowledge of her pre-exists from courtship.
-        (every {@self (disclosure-tier-labels friend) ?}): ?facts
-        (if ?facts
-            (then (maintain-proposal {@self tell (utterable-msg [] ?facts) ?bride})))
-        ))))
+      (effects (maintain-intent {@self intent wed ?bride} /caused_by ?aim)))))

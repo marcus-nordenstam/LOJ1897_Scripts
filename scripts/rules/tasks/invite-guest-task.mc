@@ -18,6 +18,7 @@
 
 
 (task {@self invite-guest ?guest ?occ}:?invite-guest
+  (preparatory)
   (and
     (sequence
       (role ?my-home {@self home ?my-home}
