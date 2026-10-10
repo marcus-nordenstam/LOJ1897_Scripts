@@ -33,6 +33,12 @@
   (maintain-claim-spot @self [/on_floor_of ?side] [/near ?passage] [/at_or_near @self]
                        [/can_reach ?passage]))
 
+; There is a stance by ?passage on the side of space ?side, though others may hold every one:
+; the door can be reached at all, crowd or no crowd.
+(define-func passage-stance-exists (?passage ?side)
+  (is-spot (find-spot @self [/on_floor_of ?side] [/near ?passage] [/at_or_near @self]
+                      [/can_reach ?passage] /unclaimed)))
+
 ; @self stands in a space of kind ?kind, as he believes it.
 (define-func stands-in-room (?kind)
   (tolerate (spatial @self space)): ?here
