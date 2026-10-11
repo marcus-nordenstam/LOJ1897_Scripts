@@ -2,7 +2,7 @@
 ; bury ?corpse - the priest's rite over a body: walk to the nearest church he knows while the
 ; body is out of his reach (bodies are carried to a church, convey-corpse), BURY it once it is
 ; within reach, then tell whoever is present that the interment is done. BURY tells him the
-; body is buried, which discharges his obligation (reflexes/obliged-burial.mc).
+; body is buried, which discharges his obligation (reflexes/obligation-burial.mc).
 ; ----------------------------------------------------------------------------
 
 (task {@self bury ?corpse}:?bury

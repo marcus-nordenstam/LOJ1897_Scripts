@@ -3,7 +3,7 @@
 ; occasion is ordinary mail: the invitation letter's two sentences ({<host> invite
 ; @self /aux <occ>} + {<occ> held-on <date>}) are adopted when @self reads his post. The
 ; invitation, or organizing the occasion himself, obliges him to attend
-; (reflexes/obliged-attend.mc); these drivers read that obligation and fire the DOING when the
+; (reflexes/obligation-attend.mc); these drivers read that obligation and fire the DOING when the
 ; day has come, only the held-on date test riding (when). A month gone by unattended lapses
 ; the obligation and strains him (attendance-lapsed).
 ;
@@ -22,8 +22,8 @@
 
 ; A guest: I hold an invitation to an occasion whose day has come -> attend it.
 (driver want-attend-guest
-  (role ?occ {@self obliged ?occ attend}
-             {?occ held-on ?held-on}
+  (role ?occ {?occ held-on ?held-on}
+             {@self obligation {@self attend ?occ} ?}
              {? invite @self ?occ}
     (when (date-in-current-month ?held-on))
     ; Desirability within the tier: 0 bedridden, a floor for a kill-driven crasher, else
@@ -36,8 +36,8 @@
     (effects (maintain-proposal {@self attend ?occ}))))
 
 (driver want-attend-host
-  (role ?occ {@self obliged ?occ attend}
-             {@self organize ?occ}
+  (role ?occ {@self organize ?occ}
+             {@self obligation {@self attend ?occ} ?}
              {?occ held-on ?held-on}
     (when (date-in-current-month ?held-on))
     (declare-utility obligation always-pick)
@@ -48,12 +48,12 @@
 (think attendance-lapsed
   (cooldown 1 d try-once)
   (cease-after-fire)
-  (role ?occ {@self obliged ?occ attend}:?obliged
-             {?occ held-on ?held-on}:?date
+  (role ?occ {?occ held-on ?held-on}:?date
+             {@self obligation {@self attend ?occ} ?}:?obligation
     (when (date-before-current-month ?held-on))
     (effects
       (mint-pressure-caused [k obligation-strain] @nothing 336 ?date)
-      (end-belief ?obliged))))
+      (end-belief ?obligation))))
 
 (think vow-realized
   (role ?betrothed {@self fiancee ?betrothed}

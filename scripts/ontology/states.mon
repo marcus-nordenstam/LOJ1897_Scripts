@@ -459,9 +459,10 @@
 ; employee-register document + its `duties` list; behaviour NEVER dispatches on job
 ; kind or rank - only on the held duty.
 (state duty-to (tar [k human|org] @object) (aux [k task]) (motivation))
-; {@self obliged ?patient <task>}: @self owes ?patient the task - an obligation an event created
-; (a death: bury; an invitation: attend), read by the driver that discharges it.
-(state obliged (tar [k human|occasion] @object) (aux [k task]) (motivation) (disclosure acquaintance))
+; {@self obligation {@self <act> ..} ?owed-to}: one concrete act @self owes, the act clause
+; nested, the aux the party it is owed to, /caused_by its ground - a duty meeting its occasion
+; (a death: the priest buries), an invitation, a promise. duty-to is the standing norm.
+(state obligation (tar ?) (aux ?) (motivation) (disclosure acquaintance) (talkable))
 (state duty-holder (tar [k human] @object) (aux [k task]))
 ; Education life-cycle. study names the field a pupil reads and the
 ; school they read it at ({@self study <field> /aux <school>});
