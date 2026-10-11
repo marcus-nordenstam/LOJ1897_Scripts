@@ -46,14 +46,12 @@
 ; An occasion's month gone by unattended: the obligation lapses and strains @self over the missed
 ; occasion, the strain caused by its date, which he still remembers.
 (think attendance-lapsed
-  (cooldown 1 d try-once)
-  (cease-after-fire)
   (role ?occ {?occ held-on ?held-on}:?date
              {@self obligation {@self attend ?occ} ?}
     (when (date-before-current-month ?held-on))
     (effects
       (any {@self obligation {@self attend ?occ} ?}): ?obligation
-      (mint-pressure-caused [k obligation-strain] ?occ 336 ?date)
+      (mint-pressure-caused [k obligation-strain] ?occ 336.0 ?date)
       (end-belief ?obligation))))
 
 (think vow-realized

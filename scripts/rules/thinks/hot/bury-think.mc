@@ -15,8 +15,6 @@
     (effects (maintain-proposal {@self bury ?corpse}))))
 
 (think burial-lapsed
-  (cooldown 1 d try-once)
-  (cease-after-fire)
   (role ?corpse {@self obligation {@self bury ?corpse} ?corpse}:?obligation
     (when (>= (elapsed /days ?obligation) (burial_grace_days)))
-    (effects (mint-pressure-caused [k obligation-strain] @nothing 720 ?obligation))))
+    (effects (mint-pressure-caused [k obligation-strain] @nothing 720.0 ?obligation))))
