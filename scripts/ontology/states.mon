@@ -44,21 +44,16 @@
 ; /aux <hotel>}) - the paper that names the place.
 (state meet (tar [k human] @object) (aux ?))
 
-; extort: the STANDING coercion - the subject presses an unmet
-; demand on the target; aux carries the demand clause ({target
-; lover subject} for the jilted ex-lover; nothing = a silence
-; demand). Deliberately distinct from the `coerce` TASK: the task
-; commits as a point-interval act-record (the threat as an act),
-; while THIS is the ongoing relation the repeat-demand coercion
-; pass walks monthly and the victim's exposure-risk pressure hangs
-; its /caused_by on. Ends when the demand is met, the secret leaks, or
-; a party dies.
-(state extort (tar [k human] @object) (aux ?) (facets blackmailable))
+; threaten: a conditional the subject presses on the target, told to him and held by both -
+; {?c threaten ?v (consequence <condition> <outcome> <deadline>)}: if the condition still holds
+; at the deadline (-{?v pay ?c /during <told> <deadline>}), the outcome follows ({?c expose
+; ?v}). The coercer holds it as his commitment, the victim as his dread.
+(state threaten (tar [k human] @object) (aux ?) (facets blackmailable) (motivation) (disclosure intimate) (talkable))
 
 ; ---- Contract killing (the hire_assassin redesign) ----------------
 ; commission: the STANDING murder contract - the instigator (subject)
 ; has hired the killer (target) to murder the aux victim. Ongoing
-; (the extort-anchor shape); ends when the hit is done or a party
+; (the threaten-anchor shape); ends when the hit is done or a party
 ; dies. blackmailable: an instigator who commissioned a murder is
 ; exposed to the killer's later leverage.
 (state commission (tar [k human] @object) (aux [k human] @object) (facets blackmailable))
@@ -744,7 +739,7 @@
 (state employee-register (tar [k employee-register] @object) (obs))
 (state expose-act (tar [k expose-act] @object))
 (state father (tar [k human] @object @excl) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable) (self-known))
-(state fiancee (tar [k human] @object @excl) (exclusive_bond) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in spouse) (talkable))
+(state fiancee (tar [k human] @object @excl) (exclusive_bond) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in spouse) (talkable) (motivation))
 (state hair-color-fixation (tar [k color]) (motivation))
 (state eye-color-fixation (tar [k color]))
 (state founder (tar [k human] @object @excl))

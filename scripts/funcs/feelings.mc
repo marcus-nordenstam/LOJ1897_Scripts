@@ -69,6 +69,11 @@
 (define-func mint-emotion (?kind ?focus ?hours)
   (mint-emotion-caused ?kind ?focus ?hours @nothing))
 
+; A pressure over ?cause, a belief that stands while it is felt.
+(define-func mint-pressure-caused (?kind ?focus ?hours ?cause)
+  (mint-feeling pressure ?kind ?focus (feeling-salience ?kind ?hours) (max-pressure-salience) @false
+                ?cause))
+
 (define-func mint-pressure (?kind ?focus ?hours)
   (end-where ?orphan {@self pressure ? ?} (not (has-live-cause ?orphan)))
   (mint-feeling pressure ?kind ?focus (feeling-salience ?kind ?hours) (max-pressure-salience) @false

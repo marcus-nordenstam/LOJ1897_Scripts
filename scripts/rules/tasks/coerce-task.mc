@@ -1,13 +1,14 @@
 ; ----------------------------------------------------------------------------
-; coerce ?victim - press a threat on the victim to standing effect. @self reaches the
-; victim and SAYs the threat aloud (the real auditory channel - the co-present victim
-; ADOPTS {<speaker> extort @self}, the coercion anchor his own coercion-pressure reads;
-; anyone else in earshot hears it too). NO fiat cross-mind write. @self also holds the
-; ACTOR-side {@self extort ?victim} anchor in his OWN mind, which coercion_think then
-; re-presses monthly. The deed is recorded by method - blackmail when @self holds
-; leverage, else threaten_violence. The ended {@self coerce ?victim} belief IS the deed
-; memory. No live victim -> abandon.
+; coerce ?victim - press a threat on the victim: reach him and SAY it aloud, a conditional he
+; adopts and anyone in earshot hears - pay me by the deadline or I expose you:
+; {@self threaten ?victim (consequence -{?victim pay @self /during <told> <deadline>}
+; {@self expose ?victim} <deadline>)}. Said, @self holds the same threat as his commitment
+; (thinks/cooldown/threat-think.mc carries it out or lets it lapse). The told time rides the
+; running task, so the threat he holds names the window he spoke. The deed is recorded by
+; method - blackmail when @self holds leverage, else threaten_violence.
 ; ----------------------------------------------------------------------------
+
+(include "../../macros/tunables.mc")
 
 (task {@self coerce ?victim}:?coerce
   (track-skill-level [k illicit])
@@ -23,17 +24,30 @@
         (effects (maintain-proposal {@self go-to ?vhome}))))
     (try
       (when (and (or (spatial ?victim co-located @self) (spatial ?victim space))
-                 -{@self extort ?victim}))
+                 -{@self threaten ?victim ?}))
       (declare-utility errand always-pick)
-      (effects (maintain-proposal {@self tell (utterable-msg [] {@self extort ?victim}) ?victim})))
+      (effects
+        (if (not (bb-any ?coerce told))
+            (then (bb-write ?coerce told (time seconds))))
+        (bind (bb-read ?coerce told) ?told)
+        (bind (+ ?told (seconds (threat_grace_days) d)) ?deadline)
+        (maintain-proposal
+          {@self tell (utterable-msg []
+                        {@self threaten ?victim
+                          (consequence -{?victim pay @self /during ?told ?deadline} {@self expose ?victim} ?deadline)})
+                      ?victim})))
     (try
       (when {@self tell ? ?victim /succ /caused_by ?coerce})
       (effects
-        (if -{@self extort ?victim} (then (begin-belief {@self extort ?victim})))
+        (bind (bb-read ?coerce told) ?told)
+        (bind (+ ?told (seconds (threat_grace_days) d)) ?deadline)
+        (begin-belief {@self threaten ?victim
+                        (consequence -{?victim pay @self /during ?told ?deadline} {@self expose ?victim} ?deadline)})
         (if (or (any {?victim lover|HAVE-SEX-WITH ? /ever})
-                (any {?victim extort|commission|hired-by|kill ? /ever}))
+                (any {?victim threaten|commission|hired-by|kill ? /ever}))
             (then (record-crime @self ?victim blackmail coerce @u @u))
             (else (record-crime @self ?victim threaten_violence coerce @u @u)))
+        (bb-clear ?coerce told)
         (set-outcome ?coerce /succ)))
     (try
       (when (not (alive ?victim)))

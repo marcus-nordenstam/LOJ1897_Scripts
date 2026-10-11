@@ -6,7 +6,13 @@
 ; ----------------------------------------------------------------------------
 
 (driver {@self intent {@self expose ?target}}:?intent
-  (effects (maintain-proposal {@self expose ?target})))
+  (role ?partner {?partner isa [k human]}
+                 {?target lover|HAVE-SEX-WITH ?partner /ever}
+                 -{?target spouse ?partner /ever}
+                 -{@self spouse ?partner}
+                 -{@self spouse ?target}
+                 (select (policy first-match))
+    (effects (maintain-proposal {@self expose ?target}))))
 
 (driver {@self intent {@self humiliate ?target}}:?intent
   (effects (maintain-proposal {@self humiliate ?target})))

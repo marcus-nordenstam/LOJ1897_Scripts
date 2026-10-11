@@ -1,37 +1,32 @@
 ; ----------------------------------------------------------------------------
-; wed ?occ - a wedding principal's own duty at the ceremony: get to the church and
-; SPEAK the vow (say_to the betrothed "you are my spouse"). The vow is the one
-; physical act - speech - by which the marriage is made; the party HEARS and adopts
-; it (no fiat cross-mind write). Both principals hold {@self organize <wedding>} and
-; each raises this duty; whoever vows first marries, the other HEARS and reciprocates
-; (spouse-reciprocate, attend_think.mc) then fails the unmarried gate - the tell-memory
-; dedup covers the same-window gap before reciprocation lands. This duty is separate
-; from (and runs alongside) the shared attend task; its own go rung gets him there.
+; wed ?partner - speak the vow to the betrothed at the wedding: the one physical act - speech -
+; by which the marriage is made ({@self spouse ?partner} said to him); the partner HEARS and
+; adopts it, no fiat cross-mind write. The wedding is the one this principal organizes or was
+; invited to, on its day; the task gets him to its venue and has him speak there. Whoever vows
+; first marries, the other hears and reciprocates (spouse-reciprocate, thinks/hot/attend-think.mc).
 ; ----------------------------------------------------------------------------
 
-(task {@self wed ?occ}:?wed
-  (tar [k occasion] @object)
-  (and
-    ; ALARM: think again when the window opens.
-    (try
-      (when {?occ hours ?start ?end})
-      (effects (set-occasion-alarm ?start)))
+(include "../../macros/occasion-macros.mc")
 
-    ; VOW: at the church, still my betrothed, not yet vowed -> speak it.
-    (try
-      (role @self {@self fiancee ?betrothed} (none {@self spouse @something})
-        (role ?venue {?occ venue ?venue}
-          (role @self (spatial @self building ?venue)
-            (when (and {?occ hours ?start ?end}
-                       (hours (- ?start (attend-prep-lead)) ?end)
-                       -{@self tell (msg ? {@self spouse ?betrothed}) ?betrothed /succ}))
-            (effects (maintain-proposal {@self tell (utterable-msg [] {@self spouse ?betrothed}) ?betrothed}))))))
-
-    ; GO: not at the church yet -> head to it (in the window).
-    (try
-      (role @self {@self fiancee ?} (none {@self spouse @something})
-        (role ?venue {?occ venue ?venue}
-          (role @self (not (spatial @self building ?venue))
-            (when (and {?occ hours ?start ?end}
-                       (hours (- ?start (attend-prep-lead)) ?end)))
-            (effects (maintain-proposal {@self go-to ?venue}))))))))
+(task {@self wed ?partner}:?wed
+  (tar [k human] @object)
+  (role ?occ [k wedding] {?occ hours ?start ?end} {?occ venue ?venue}
+             (or {@self organize ?occ} {? invite @self ?occ})
+             (select (policy first-match))
+    (and
+      (try
+        (effects (set-occasion-alarm ?start)))
+      (try
+        (role @self {@self fiancee ?partner} (none {@self spouse @something})
+                    (spatial @self building ?venue)
+          (when (and (hours (- ?start (attend-prep-lead)) ?end)
+                     -{@self tell (msg ? {@self spouse ?partner}) ?partner /succ}))
+          (effects (maintain-proposal {@self tell (utterable-msg [] {@self spouse ?partner}) ?partner}))))
+      (try
+        (role @self {@self fiancee ?partner} (none {@self spouse @something})
+                    (not (spatial @self building ?venue))
+          (when (hours (- ?start (attend-prep-lead)) ?end))
+          (effects (maintain-proposal {@self go-to ?venue}))))
+      (try
+        (when {@self spouse ?partner})
+        (effects (set-outcome ?wed /succ))))))

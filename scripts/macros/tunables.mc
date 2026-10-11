@@ -229,3 +229,8 @@
 ; One basket: what the cook carries home in one trip. MUST stay under the
 ; hand's grip capacity (single-valued once bag-as-stack lands).
 (define-macro carry_cap () 8)
+
+; (threat_grace_days): the days a threat gives its victim before the coercer carries it out.
+(define-macro threat_grace_days () 7)
+; (arranged_match_grace_days): the days a father gives a daughter to wed the man he chose.
+(define-macro arranged_match_grace_days () 180)

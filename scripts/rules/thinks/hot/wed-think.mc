@@ -16,6 +16,14 @@
     (declare-utility want)
     (effects (maintain-intent {@self intent {@self wed ?partner}} /caused_by ?fancy))))
 
+; A betrothal obliges: whoever holds one resolves to wed, whatever brought it about (an arranged
+; groom may not fancy his bride).
+(intender honour-betrothal
+  (role ?partner {@self fiancee ?partner}:?betrothal
+                 -{@self spouse ?}
+    (declare-utility obligation)
+    (effects (maintain-intent {@self intent {@self wed ?partner}} /caused_by ?betrothal))))
+
 ; Told she is betrothed to him, she holds the betrothal in her own mind.
 (think fiancee-reciprocate
   (role @self -{@self spouse ?}
@@ -31,11 +39,11 @@
     (try
       (role ?occ {@self organize [k wedding]:?occ} {?occ held-on ?held-on}
         (when (date-in-current-month ?held-on))
-        (effects (maintain-proposal {@self wed ?occ}))))
+        (effects (maintain-proposal {@self wed ?partner}))))
     (try
       (role ?occ [k wedding] {? invite @self ?occ} {?occ held-on ?held-on}
         (when (date-in-current-month ?held-on))
-        (effects (maintain-proposal {@self wed ?occ}))))
+        (effects (maintain-proposal {@self wed ?partner}))))
     (try
       (role ?occ {@self organize [k wedding]:?occ}
                  -{@self invite ?partner ?occ}

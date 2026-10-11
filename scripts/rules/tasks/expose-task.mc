@@ -2,9 +2,8 @@
 ; expose ?victim - denounce the victim's non-spousal liaison publicly. @self tells the
 ; victim the secret to his face (the room hears {?victim lover ?partner} through the real
 ; auditory channel), then publish-secret-about seeds
-; the victim's circle and the scandal spreads town-wide. A published secret is spent
-; leverage, so any standing {@self extort ?victim} anchor ends. The ended {@self expose
-; ?victim} belief IS the deed memory; the crime row records it. Nothing to expose
+; the victim's circle and the scandal spreads town-wide. The ended {@self expose ?victim}
+; belief IS the deed memory; the crime row records it. Nothing to expose
 ; (no known liaison) or a dead victim -> abandon.
 ;
 ; DEFERRED: the anonymous_letter sibling method (a covert posted denunciation) - the
@@ -41,7 +40,6 @@
         ; already the honest channel; the spread belongs to the hearers' own adoption.
         ; Commented out pending that redesign.
         ; (publish-secret-about @self ?victim)
-        (if {@self extort ?victim} (then (end-belief {@self extort ?victim})))
         (record-crime @self ?victim confront-publicly expose @u @u)
         (set-outcome ?expose /succ)))
     (try

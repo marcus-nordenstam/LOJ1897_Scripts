@@ -11,3 +11,6 @@
 
 ; (bribe_coins): the coins a briber counts out of his carrying cash for his victim. Tunable.
 (define-macro bribe_coins () 5)
+
+; (blackmail_coins): the coins a blackmailer demands and his victim counts out to pay him. Tunable.
+(define-macro blackmail_coins () 20)

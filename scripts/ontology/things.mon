@@ -22,7 +22,7 @@
         (child human (grounding-anchors name)
           (decorations
             (states physical-mobility jilt todo insult urge frequent facing
-                    know avoid expect-answer expect-question meet extort commission hired-by
+                    know avoid expect-answer expect-question meet threaten commission hired-by
                     vouched-for sought-introduction shop-weekday shop-hour under-suspicion value justify identity
                     adore like dislike detest revere admire disdain despise
                     rely trust distrust fancy desire crave wary dread
