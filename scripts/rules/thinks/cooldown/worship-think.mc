@@ -7,8 +7,8 @@
 ;   want-worship:      a churchgoer (some politeness) overdue for a service. The pressure
 ;                      ramps with days since the last one, swung by politeness.
 ;   sunday-observance: the devout's observance. Devoutness makes worship a standing duty to
-;                      his parish (worship-duty); a week without worship turns it into the
-;                      week's obligation (sabbath), which this driver reads at the obligation band and
+;                      his parish (worship-duty); each Sunday turns it into the day's
+;                      obligation (sabbath), which this driver reads at the obligation band and
 ;                      attending discharges (reflexes/obligation-worship.mc).
 ; A third drive, rehabilitation (rehabilitation-think.mc), raises the same task on a
 ; disreputable man's 15-day itch; the sources sum on the one proposal.
@@ -35,10 +35,10 @@
     (role ?church [k church-org] {@self member-of ?church}
       (effects (maintain-belief {@self duty-to ?church attend-church-service})))))
 
-; A week gone by without worship turns the duty into the week's obligation to attend a service.
+; Sunday turns the duty into the day's obligation to attend the service.
 (think sabbath
   (role ?church {@self duty-to ?church attend-church-service}:?duty
-    (when (and (>= (days-since-last {@self WORSHIP /succ /ever}) (days_per_week))
+    (when (and (= (time weekday) (sunday_weekday))
                (none {@self obligation {@self attend-church-service} ?church})))
     (effects (begin-belief {@self obligation {@self attend-church-service} ?church /caused_by ?duty}))))
 
@@ -47,12 +47,12 @@
     (declare-utility obligation)
     (effects (maintain-proposal {@self attend-church-service}))))
 
-; A week's obligation left unmet for a week lapses and strains him, the strain caused by the
+; A Sunday gone by unattended: the obligation lapses and strains him, the strain caused by the
 ; duty he still holds.
 (think sabbath-lapsed
   (role ?church {@self duty-to ?church attend-church-service}:?duty
                 {@self obligation {@self attend-church-service} ?church}:?obligation
-    (when (>= (elapsed /days ?obligation) (days_per_week)))
+    (when (!= (time weekday) (sunday_weekday)))
     (effects
       (mint-pressure-caused [k obligation-strain] @nothing 168.0 ?duty)
       (end-belief ?obligation))))
