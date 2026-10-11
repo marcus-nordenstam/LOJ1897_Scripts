@@ -459,6 +459,9 @@
 ; employee-register document + its `duties` list; behaviour NEVER dispatches on job
 ; kind or rank - only on the held duty.
 (state duty-to (tar [k human|org] @object) (aux [k task]) (motivation))
+; {@self obliged ?patient <task>}: @self owes ?patient the task - an obligation an event created
+; (a death: bury; an invitation: attend), read by the driver that discharges it.
+(state obliged (tar [k human|occasion] @object) (aux [k task]) (motivation) (disclosure acquaintance))
 (state duty-holder (tar [k human] @object) (aux [k task]))
 ; Education life-cycle. study names the field a pupil reads and the
 ; school they read it at ({@self study <field> /aux <school>});

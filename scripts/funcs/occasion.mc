@@ -4,6 +4,12 @@
   (and (= (year ?d) (year (time date)))
        (= (month ?d) (month (time date)))))
 
+; ?d fell in a month before the current one.
+(define-func date-before-current-month (?d)
+  (or (< (year ?d) (year (time date)))
+      (and (= (year ?d) (year (time date)))
+           (< (month ?d) (month (time date))))))
+
 ; Wake at the window's opening, so an attendee busy elsewhere gets the chance to set out.
 (define-func set-occasion-alarm (?start)
   (set-think-alarm (+ (time seconds)

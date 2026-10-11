@@ -234,3 +234,7 @@
 (define-macro threat_grace_days () 7)
 ; (arranged_match_grace_days): the days a father gives a daughter to wed the man he chose.
 (define-macro arranged_match_grace_days () 180)
+
+; Days a priest may leave a body he knows of unburied, the coroner's month included, before
+; his obligation to bury it strains him.
+(define-macro burial_grace_days () 90)

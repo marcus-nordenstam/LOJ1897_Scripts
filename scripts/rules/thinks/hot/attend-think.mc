@@ -1,10 +1,11 @@
 ; ----------------------------------------------------------------------------
 ; attend drivers - the DESIRES that raise the occasion tasks. Learning of an
 ; occasion is ordinary mail: the invitation letter's two sentences ({<host> invite
-; @self /aux <occ>} + {<occ> held-on <date>}) are adopted when @self reads his post,
-; so no scan reconstructs them here. These drivers only fire the DOING when the day
-; has come: the occasion is bound by a ROLE (change-driven, wakes on the invite /
-; organize write) and only the held-on date test rides (when).
+; @self /aux <occ>} + {<occ> held-on <date>}) are adopted when @self reads his post. The
+; invitation, or organizing the occasion himself, obliges him to attend
+; (reflexes/obliged-attend.mc); these drivers read that obligation and fire the DOING when the
+; day has come, only the held-on date test riding (when). A month gone by unattended lapses
+; the obligation and strains him (attendance-lapsed).
 ;
 ;   want_attend (guest / host) : raise the shared attend task (attend-task.mc).
 ;
@@ -20,11 +21,10 @@
 ; ----------------------------------------------------------------------------
 
 ; A guest: I hold an invitation to an occasion whose day has come -> attend it.
-(think want-attend-guest
-  ; alpha = occasions I know (?occ is the subject, so the cache can index it);
-  ; the invite is the residual filter that keeps only the ones I was asked to.
-  (role ?occ {?occ held-on ?held-on}
-              {? invite @self ?occ}
+(driver want-attend-guest
+  (role ?occ {@self obliged ?occ attend}
+             {?occ held-on ?held-on}
+             {? invite @self ?occ}
     (when (date-in-current-month ?held-on))
     ; Desirability within the tier: 0 bedridden, a floor for a kill-driven crasher, else
     ; the warmth-scaled guest base.
@@ -35,16 +35,26 @@
                       (else (attend-guest-scaled ?occ))))
     (effects (maintain-proposal {@self attend ?occ}))))
 
-; A host: I am organizing an occasion whose day has come -> attend it too.
-(think want-attend-host
-  (role ?occ {@self organize ?occ} {?occ held-on ?held-on}
+(driver want-attend-host
+  (role ?occ {@self obliged ?occ attend}
+             {@self organize ?occ}
+             {?occ held-on ?held-on}
     (when (date-in-current-month ?held-on))
     (declare-utility obligation always-pick)
     (effects (maintain-proposal {@self attend ?occ}))))
 
-; The vow was SPOKEN. Saying it IS believing it - the say channel mints the spoken
-; {@self spouse ?betrothed} in the speaker's own mind and every hearer's. What the vow
-; does NOT say still closes: the betrothal ends, and the kin residue runs.
+; An occasion's month gone by unattended: the obligation lapses and strains @self, the strain
+; caused by the occasion's date he still remembers.
+(think attendance-lapsed
+  (cooldown 1 d try-once)
+  (cease-after-fire)
+  (role ?occ {@self obliged ?occ attend}:?obliged
+             {?occ held-on ?held-on}:?date
+    (when (date-before-current-month ?held-on))
+    (effects
+      (mint-pressure-caused [k obligation-strain] @nothing 336 ?date)
+      (end-belief ?obliged))))
+
 (think vow-realized
   (role ?betrothed {@self fiancee ?betrothed}
                    {@self spouse ?betrothed}
