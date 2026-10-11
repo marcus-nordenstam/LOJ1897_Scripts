@@ -7,8 +7,8 @@
 :STATE
 "proposes that"                     /pres proposal              .
 "proposed that"                     /past proposal              .
-"has the goal: "                    /pres goal                  .
-"had the goal: "                    /past goal                  .
+"intends: "                         /pres intent                .
+"intended: "                        /past intent                .
 "is pregnant by"                    /pres pregnant-by           .
 "was pregnant by"                   /past pregnant-by           .
 "is"                                /pres isa                   .

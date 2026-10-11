@@ -182,10 +182,6 @@
 ( any { $np(Q_NP) /past name } ).target
 .
 
-"does $sub_np(Q_NP) want $goal(NP)"
-( prob { $sub_np(Q_NP) /pres goal $goal(NP) } )
-.
-
 
 ; =============================================================================
 ; DETECTIVE-INTERROGATION QUESTION PACK (questionnaire.txt categories)
