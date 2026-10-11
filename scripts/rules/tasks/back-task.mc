@@ -1,12 +1,6 @@
 ; ----------------------------------------------------------------------------
-; back - the investment task: approach the firm, then seal the backing.
-;
-; The decision (business_think.mc `investment`) mints {@self goal {@self back <org>}};
-; promotion makes the `back` task RUN. The shared role binds ?wp, the org's workplace.
-;
-;   OUTSIDE the firm -> route there (maintain the go proposal).
-;   AT the firm      -> seal {@self backed-by <org>} and conclude the task; the
-;                       decision's maintenance then retires the goal.
+; back ?org - the investment task: the clerk calls at his firm (the investment driver,
+; business-think.mc, proposes it) and seals {@self backed-by ?org} there.
 ; ----------------------------------------------------------------------------
 
 (task {@self back ?org}:?back
