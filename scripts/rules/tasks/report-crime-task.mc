@@ -6,7 +6,8 @@
 ; there (a discoverable institutional record no resident reads), plus a {@self suspect
 ; ?focus} belief for a named live culprit. The ended {@self report-crime ?focus} belief
 ; IS the report memory (act/state doctrine) and the re-report dedup. Literacy required.
-; Already reported this target, nothing stolen, illiterate, or no known station -> abandon.
+; A station is known (its drivers search for one first). Already reported this target,
+; nothing stolen, or illiterate -> abandon.
 ; ----------------------------------------------------------------------------
 
 (task {@self report-crime ?focus}:?report-crime
@@ -21,17 +22,6 @@
                      -{@self report-crime ?focus /succ /ever}
                      (not (is-a (spatial @self building) [k police-station]))))
           (effects (maintain-proposal {@self go-to ?station})))))
-    ; knows no station -> search the region for one; the search's own /fail is what the
-    ; abandon try below reads as "this town has no police station".
-    (try
-      (no-role [k police-station])
-      (role @self {@self education ?education}
-        (when (and {? stolen-from @self}
-                   (>= ?education (literacy-education-min))
-                   -{@self report-crime ?focus /succ /ever}
-                   -{@self find-building [k police-station] ? /fail}
-                   (current-exterior @self): ?rg))
-        (effects (maintain-proposal {@self find-building [k police-station] ?rg}))))
     (sequence
       (role @self {@self education ?education}
         (stage
@@ -63,7 +53,6 @@
     (try
       (when (or -{? stolen-from @self}
                 -{@self education ?}
-                {@self find-building [k police-station] ? /fail}
                 {@self report-crime ?focus /succ /ever}))
       (effects (set-outcome ?report-crime /fail)))
     (try

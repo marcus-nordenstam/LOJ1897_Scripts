@@ -3,7 +3,7 @@
 ; (STOCKTAKE stocks them), so: walk to a shop, find a shelf item of the kind, count its
 ; price out of the carrying-cash-pile, pay it into the shop's till, and take the item. The
 ; shelf sweep is the burgle/means loot-walk shape (env-truth room + content sweep, first
-; hit is the pick). Concludes on hand.
+; hit is the pick). Concludes on hand. A shop is known: the acquire driver searches for one first.
 ; ----------------------------------------------------------------------------
 
 (task {@self buy ?kind}:?buy
@@ -16,14 +16,6 @@
         (when (empty (spatial @self hold ?kind)))
         (declare-utility fallback)
         (effects (maintain-proposal {@self go-to ?shop}))))
-    ; knows no shop -> search the region for one, until the search proves there is none.
-    (try
-      (no-role [k shop])
-      (when (and (empty (spatial @self hold ?kind))
-                 -{@self find-building [k shop] ? /fail}
-                 (current-exterior @self): ?rg))
-      (declare-utility fallback)
-      (effects (maintain-proposal {@self find-building [k shop] ?rg})))
     ; at a shop with a till -> the goods, the price counted into the hand, paid into the
     ; till, the goods taken. The goods are taken only once the price is in the till.
     (sequence

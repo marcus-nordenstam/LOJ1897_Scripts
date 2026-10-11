@@ -4,7 +4,8 @@
 ; gated on (nobody-watching) - a snatch waits for the shelf to be unobserved - and no
 ; coin changes hands. The wronged party is the source's proprietor; the take concludes
 ; the theft and lands the crime row. The ended {@self steal ?kind} belief IS the
-; deed memory (act/state doctrine) - no fiat record.
+; deed memory (act/state doctrine) - no fiat record. A shop is known: the acquire driver
+; searches for one first.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/acquisition-macros.mc")
@@ -22,14 +23,6 @@
         (when (empty (spatial @self hold ?kind)))
         (declare-utility fallback)
         (effects (maintain-proposal {@self go-to ?shop}))))
-    ; knows no shop -> search the region for one, until the search proves there is none.
-    (try
-      (no-role [k shop])
-      (when (and (empty (spatial @self hold ?kind))
-                 -{@self find-building [k shop] ? /fail}
-                 (current-exterior @self): ?rg))
-      (declare-utility fallback)
-      (effects (maintain-proposal {@self find-building [k shop] ?rg})))
     ; at a source, unwatched -> take a shelf item of the kind (the guarded snatch).
     (try
       (when (and (empty (spatial @self hold ?kind))
