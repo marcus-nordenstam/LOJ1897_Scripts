@@ -69,7 +69,9 @@
     ; The letter is in the post: the confession is made.
     (try
       (when {@self send-mail ? ? /succ /caused_by ?confess-letter})
-      (effects (set-outcome ?confess-letter /succ)))
+      (effects
+        (spend-grievance ?confess-letter)
+        (set-outcome ?confess-letter /succ)))
     (try
       (when (or (not (and {@self lover|HAVE-SEX-WITH ?partner /ever}
                           -{@self spouse ?partner /ever}))

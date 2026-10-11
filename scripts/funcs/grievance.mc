@@ -10,6 +10,15 @@
 ; base weight: the grievance's heat, the caller's class multiplier (its aggressive-tilt /
 ; prosocial-tilt, or 1 for an outlet no disposition steers), and the compounding a held
 ; rationalisation about the focus adds (its narrative is the target, the focus the aux).
+(define-macro grievance_spent_fraction () 0.75)
+
+; (spend-grievance ?act): the act ?act was done on a grievance's behalf and succeeded, so every
+; pressure that caused it is released by grievance_spent_fraction of its remaining salience.
+(define-func spend-grievance (?act)
+  (for-each ?pressure (every {@self pressure ? ?})
+    (if (has-cause ?act ?pressure)
+        (then (discharge-pressure ?pressure (grievance_spent_fraction))))))
+
 (define-func grievance-drive (?pressure ?focus ?tilt)
   (* (pressure-intensity ?pressure)
      (* ?tilt (+ 1.0 (* (k-justify-per) (prob {@self justify ? ?focus}))))))

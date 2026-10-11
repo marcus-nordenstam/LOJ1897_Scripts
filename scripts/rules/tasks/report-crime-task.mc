@@ -60,6 +60,7 @@
           (effects
             (if (alive ?focus) (then (begin-belief {@self suspect ?focus})))
             (bb-clear ?report-crime letter)
+            (spend-grievance ?report-crime)
             (set-outcome ?report-crime /succ)))))
     (try
       (when (or -{? stolen-from @self}

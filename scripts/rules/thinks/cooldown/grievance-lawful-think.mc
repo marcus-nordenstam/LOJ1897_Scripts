@@ -2,9 +2,8 @@
 ; The LAWFUL grievance outlets - confessing and reporting. Same shape as the
 ; unlawful file: one rule per way of spending a standing pressure, a role binding
 ; the grievance as the durable reason, a running-act latch on the gate, a
-; maintain-proposal that withdraws itself when the reason goes, and the act's own
-; /succ record - pinned to this grievance by /caused_by - releasing it. A lawful
-; outlet spends the grievance that drove it just as an unlawful one does.
+; maintain-proposal that withdraws itself when the reason goes; the act, concluding /succ,
+; spends the grievance that caused it (spend-grievance), as an unlawful outlet's intent does.
 ;
 ; These roll against (k-grievance-rate) rather than (crime-scale): switching crime
 ; off must not also switch off the town's lawful answers to a grievance.
@@ -24,15 +23,12 @@
               {@self prosocial-tilt ?prosocial-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k injustice] ?target}:?pressure
-      (when (or {@self report-crime ?target /succ /caused_by ?pressure}
-                {@self report-crime ?target}
+      -{@self report-crime ?target /succ /caused_by ?pressure}
+      (when (or {@self report-crime ?target}
                 (chance (* (k-grievance-rate)
                            (* 0.5 (grievance-drive ?pressure ?target ?prosocial-tilt))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects
-        (if {@self report-crime ?target /succ /caused_by ?pressure}
-            (then (discharge-pressure ?pressure 0.75))
-            (else (maintain-proposal {@self report-crime ?target /caused_by ?pressure})))))))
+      (effects (maintain-proposal {@self report-crime ?target /caused_by ?pressure})))))
 
 (driver report-for-relief
   (cooldown 1 m try-once)
@@ -41,15 +37,12 @@
               {@self prosocial-tilt ?prosocial-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k resource-scarcity] ?target}:?pressure
-      (when (or {@self report-crime ?target /succ /caused_by ?pressure}
-                {@self report-crime ?target}
+      -{@self report-crime ?target /succ /caused_by ?pressure}
+      (when (or {@self report-crime ?target}
                 (chance (* (k-grievance-rate)
                            (* 0.3 (grievance-drive ?pressure ?target ?prosocial-tilt))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects
-        (if {@self report-crime ?target /succ /caused_by ?pressure}
-            (then (discharge-pressure ?pressure 0.75))
-            (else (maintain-proposal {@self report-crime ?target /caused_by ?pressure})))))))
+      (effects (maintain-proposal {@self report-crime ?target /caused_by ?pressure})))))
 
 ; ---- confess-letter --------------------------------------------------------
 ; Put it in writing. Confessing because the secret is about to break and confessing
@@ -61,15 +54,12 @@
               {@self prosocial-tilt ?prosocial-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k exposure-risk] ?target}:?pressure
-      (when (or {@self confess-letter ?target /succ /caused_by ?pressure}
-                {@self confess-letter ?target}
+      -{@self confess-letter ?target /succ /caused_by ?pressure}
+      (when (or {@self confess-letter ?target}
                 (chance (* (k-grievance-rate)
                            (* 0.2 (grievance-drive ?pressure ?target ?prosocial-tilt))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects
-        (if {@self confess-letter ?target /succ /caused_by ?pressure}
-            (then (discharge-pressure ?pressure 0.75))
-            (else (maintain-proposal {@self confess-letter ?target /caused_by ?pressure})))))))
+      (effects (maintain-proposal {@self confess-letter ?target /caused_by ?pressure})))))
 
 (driver confess-remorse
   (cooldown 1 m try-once)
@@ -78,12 +68,9 @@
               {@self prosocial-tilt ?prosocial-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k moral-violation] ?target}:?pressure
-      (when (or {@self confess-letter ?target /succ /caused_by ?pressure}
-                {@self confess-letter ?target}
+      -{@self confess-letter ?target /succ /caused_by ?pressure}
+      (when (or {@self confess-letter ?target}
                 (chance (* (k-grievance-rate)
                            (* 0.5 (grievance-drive ?pressure ?target ?prosocial-tilt))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects
-        (if {@self confess-letter ?target /succ /caused_by ?pressure}
-            (then (discharge-pressure ?pressure 0.75))
-            (else (maintain-proposal {@self confess-letter ?target /caused_by ?pressure})))))))
+      (effects (maintain-proposal {@self confess-letter ?target /caused_by ?pressure})))))
