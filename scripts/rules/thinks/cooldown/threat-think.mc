@@ -30,10 +30,10 @@
 (driver answer-threat-pay
   (role ?coercer {?coercer isa [k human], condition [k alive]}
                  {?coercer threaten @self (consequence (none {@self pay ?coercer /ever}) ?outcome ?deadline)}:?threat
-                 -{@self pay ?coercer /succ /caused_by ?threat}
+                 -{@self pay ?coercer ? /succ /caused_by ?threat}
     (declare-utility want)
-    (effects (maintain-proposal {@self pay ?coercer}
-               [/feasible (>= (carrying-cash-count @self) (blackmail_coins))]))))
+    (effects (maintain-proposal {@self pay ?coercer (blackmail_coins)}
+               [/feasible (>= (carrying-cash-pile-count @self) (blackmail_coins))]))))
 
 ; A daughter told she will be disinherited unless she weds the man her father chose resolves
 ; to wed him, caused by the threat.

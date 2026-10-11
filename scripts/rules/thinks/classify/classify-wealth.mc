@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; wealth (classifier). Derives the 0..1 {@self wealth} dimension from the coins a man
-; feels in his carrying cash and the estate his home stands for, each time the count he
+; feels in his carrying-cash-pile and the estate his home stands for, each time the count he
 ; feels changes. classify-economic-situation bands it.
 ; ----------------------------------------------------------------------------
 
@@ -8,7 +8,7 @@
 
 (think classify-wealth
   (role @self {@self age ?age}
-    (role ?cash {@self carrying-cash ?cash} {?cash count ?coins}
+    (role ?carrying-cash-pile {@self carrying-cash-pile ?carrying-cash-pile} {?carrying-cash-pile count ?coins}
       (when (>= ?age (wealth_age_min)))
       (effects
         (any {@self home ?home=@nothing})

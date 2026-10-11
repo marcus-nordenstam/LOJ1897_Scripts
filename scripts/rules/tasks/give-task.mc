@@ -1,10 +1,12 @@
 ; ----------------------------------------------------------------------------
-; give ?thing ?recipient - hand a held thing to a co-present person. Decomposes into
-; general primitives: take (if unheld) -> go (if the recipient is elsewhere, seeking
-; their home when their whereabouts are unknown) -> the sided OFFER that re-edges the
-; grip into the recipient's free hand. The ended {@self give ?thing ?recipient} belief
-; IS the give memory (act/state doctrine). Conclusive outcome: the grip landed on the
-; recipient. Abandon: no live recipient to give to.
+; give ?thing ?recipient - hand a held thing to a person. While it runs it posts
+; `receive-from` @self on the recipient's public bb, so he receives it (tasks/receive-task.mc),
+; coming within reach and facing @self, and posting `receiving` himself on @self's public bb
+; while he is. @self takes the thing if he does not hold it, AWAITs the recipient where he
+; stands until the recipient is receiving, then holds it out with the hand that holds it
+; (OFFER-LEFT / OFFER-RIGHT) until the recipient takes it. The ended
+; {@self give ?thing ?recipient} belief IS the give memory (act/state doctrine). Conclusive
+; outcome: the recipient holds it. Abandon: no live recipient to give to.
 ; ----------------------------------------------------------------------------
 
 (task {@self give ?thing ?recipient}:?give
@@ -12,35 +14,27 @@
   (aux [k human] @object)
   (and
     (try
-      (when (!= (spatial ?thing held-by) @self))
-      (declare-utility fallback)
+      (effects (bb-public-maintain ?recipient receive-from @self)))
+    (try
+      (when (and (!= (spatial ?thing held-by) @self)
+                 (!= (spatial ?thing held-by) ?recipient)))
       (effects (maintain-proposal {@self take ?thing})))
     (try
       (when (and (= (spatial ?thing held-by) @self)
-                 (not (spatial @self can-reach ?recipient))
-                 (spatial ?recipient space)))
-      (declare-utility fallback)
-      (effects (maintain-proposal {@self go-to ?recipient})))
+                 (not (bb-public-any @self receiving ?recipient))))
+      (effects (maintain-proposal {@self AWAIT ?recipient})))
     (try
-      (role ?rhome {?recipient home ?rhome}
-        (when (and (= (spatial ?thing held-by) @self)
-                   (not (spatial @self can-reach ?recipient))
-                   (unknown (spatial ?recipient space))))
-        (effects (maintain-proposal {@self go-to ?rhome}))))
-    (try
-      (when (and (= (spatial ?thing held-by) @self)
+      (when (and (= (spatial ?thing gripped-by) (spatial @self right-hand))
                  (spatial @self can-reach ?recipient)
-                 (empty (spatial (spatial ?recipient right-hand) grip))))
-      (declare-utility (above go-to))
+                 (bb-public-any @self receiving ?recipient)))
       (effects (maintain-proposal {@self OFFER-RIGHT ?thing ?recipient})))
     (try
-      (when (and (= (spatial ?thing held-by) @self)
+      (when (and (= (spatial ?thing gripped-by) (spatial @self left-hand))
                  (spatial @self can-reach ?recipient)
-                 (not (empty (spatial (spatial ?recipient right-hand) grip)))))
-      (declare-utility (above go-to))
+                 (bb-public-any @self receiving ?recipient)))
       (effects (maintain-proposal {@self OFFER-LEFT ?thing ?recipient})))
     (try
-      (when {@self /succ OFFER-LEFT|OFFER-RIGHT ?thing ?recipient /caused_by ?give})
+      (when (= (spatial ?thing held-by) ?recipient))
       (effects (set-outcome ?give /succ)))
     (try
       (when (not (alive ?recipient)))

@@ -164,13 +164,13 @@
   ?dining-out)
 
 (define-func eat-affordable (?meal ?place)
-  (any {@self carrying-cash.count ?coins=0}): ?cash
+  (any {@self carrying-cash-pile.count ?coins=0})
   (or (not (eat-dining-out ?place)) (>= ?coins (price ?meal ?place))): ?affordable
   ?affordable)
 
 ; PER-MEANS intrinsics: a supper BOUGHT OUT differs from the free table not in the hunger it
 ; serves but in its own means-profile - it costs COIN, the sociable relish it (enthusiasm, the
-; affiliative aspect of Extraversion), and a purse too light cannot buy it (eat-affordable).
+; affiliative aspect of Extraversion), and a carrying-cash-pile too light cannot buy it (eat-affordable).
 ; The cost is the meal's buy-price marked up by the venue ((price ?meal ?place)) through
 ; (money-cost-util) to the felt utility of the diner's marginal value of money. Only a
 ; BOUGHT-OUT meal is charged; a home / workplace meal is eaten from one's own larder.
@@ -179,7 +179,7 @@
   (if (eat-dining-out ?place) (then (* ?enthusiasm 20.0)) (else 0.0)))
 
 (define-func meal-cost (?meal ?place)
-  (any {@self carrying-cash.count ?coins=0})
+  (any {@self carrying-cash-pile.count ?coins=0})
   (money-cost-util ?coins (if (eat-dining-out ?place) (then (price ?meal ?place)) (else 0))))
 
 ; At the meal's place: in its building, or in its room for a meal taken in one.

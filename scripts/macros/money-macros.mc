@@ -1,14 +1,14 @@
 ; ----------------------------------------------------------------------------
 ; money_macros - the money tunables. Money is coin piles (content-kind coin, count the
-; coins), moved by the general pile acts; a man's spendable money is his carrying cash,
+; coins), moved by the general pile acts; a man's spendable money is his carrying-cash-pile,
 ; the coin pile he has stowed about him, whose count he feels.
 ; ----------------------------------------------------------------------------
 
 ; The money curve tunables (were the C++ money_cost_util constants). money_utility_scale
 ; MUST match the engine k_utility_value_scale (utility_bands.h) - the felt cost lands on
 ; the same 0-1000 value axis every other (affect)/(cost) adjustment does.
-(define-macro money_purse_reference () 100.0)   ; a comfortable liquid balance
-(define-macro money_purse_reserve   () 15.0)    ; survival floor the cost diverges toward
+(define-macro money_reference_balance () 100.0)   ; a comfortable liquid balance
+(define-macro money_reserve_balance   () 15.0)    ; survival floor the cost diverges toward
 (define-macro money_utility_scale   () 10.0)    ; = k_utility_value_scale
 
 ; The yearly pay day: the calendar pays every worker his year's wage (funcs/money.mc pay-wage).

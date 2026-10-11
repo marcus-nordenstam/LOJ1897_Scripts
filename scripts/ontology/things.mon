@@ -55,7 +55,7 @@
                    condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite pain
                    openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
                    volatility withdrawal narcissism machiavellianism psychopathy sadism strength dexterity
-                   agility endurance pregnant-by awareness internment carrying-cash)
+                   agility endurance pregnant-by awareness internment carrying-cash-pile)
             (structs left-hand right-hand head left-eye right-eye mouth torso))
           (child human-npc
             (decorations

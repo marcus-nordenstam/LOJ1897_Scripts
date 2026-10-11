@@ -55,7 +55,7 @@
     (set-attr ?baby parentless 0)
     (set-attr ?baby birth-date (create-date (time year) (time month) (time day)))
     (start-aging ?baby)
-    (seed-carrying-cash ?baby)
+    (seed-carrying-cash-pile ?baby)
     ; The parents are read off the act's abs twin: inside the baby's mind the
     ; mother's own symbols name nothing.
     (enter-mind ?baby)

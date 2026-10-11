@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; hire-assassin ?victim - a killing means pursue-kill (thinks/hot/kill-think.mc) proposes to
-; a man with the fee in his pocket. It is a SAY: reach a known third party and solicit him to
+; a man with the fee in his carrying-cash-pile. It is a SAY: reach a known third party and solicit him to
 ; kill the victim. The solicitation is the performance, so it ends the intent; the hired man
 ; carrying it out is conspiracy-adoption's (thinks/cooldown/conspiracy-adoption-think.mc).
 ;

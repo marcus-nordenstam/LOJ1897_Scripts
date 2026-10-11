@@ -38,7 +38,7 @@
             (create-date (- (time year) ?age) (random-int 1 12) (random-int 1 28)))
           (set-attr ?h name (sample-name ?gender ?nat ?class))
           (start-aging ?h)
-          (seed-carrying-cash ?h)
+          (seed-carrying-cash-pile ?h)
           (seed-human-self-beliefs ?h ?class ?nat ?home)
           ?h)))))
 

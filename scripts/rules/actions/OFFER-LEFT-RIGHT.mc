@@ -1,25 +1,32 @@
-
+; ----------------------------------------------------------------------------
+; OFFER-LEFT / OFFER-RIGHT ?thing ?recipient - hold ?thing out in the left / right hand for
+; ?recipient to take. The offer places nothing: it posts `take` ?thing on the recipient's
+; public bb, and the recipient, receiving (tasks/receive-task.mc), takes it with a hand of
+; his own choosing and clears the entry. It stands until its proposer withdraws it.
+; ----------------------------------------------------------------------------
 
 (action {@self OFFER-LEFT ?thing ?recipient}:?OFFER-LEFT
-  (motor body legs)
-  (tar [k object] @object) (aux [k human] @object) (duration 0)
-  (effects
-    (spatial ?recipient left-hand /env): ?recipient-hand
-    (do
-      (check (= (spatial ?thing held-by) @self))
-      (check (spatial @self can-reach ?recipient /env))
-      (check (empty (spatial ?recipient-hand grip /env)))
-      (spatial-write ?thing gripped-by ?recipient-hand /env)
-      (set-outcome ?OFFER-LEFT /succ))))
+  (motor left-hand legs)
+  (obs)
+  (tar [k object] @object) (aux [k human] @object)
+  (construed-act provision-act)
+  (duration procedural)
+  (presentation
+    (preroll 0.0) (in 0.3) (out 0.3))
+  (init
+    (check (= (spatial ?thing gripped-by /env) (spatial @self left-hand /env)))
+    (check (spatial @self can-reach ?recipient /env))
+    (bb-public-write ?recipient take ?thing)))
 
 (action {@self OFFER-RIGHT ?thing ?recipient}:?OFFER-RIGHT
-  (motor body legs)
-  (tar [k object] @object) (aux [k human] @object) (duration 0)
-  (effects
-    (spatial ?recipient right-hand /env): ?recipient-hand
-    (do
-      (check (= (spatial ?thing held-by) @self))
-      (check (spatial @self can-reach ?recipient /env))
-      (check (empty (spatial ?recipient-hand grip /env)))
-      (spatial-write ?thing gripped-by ?recipient-hand /env)
-      (set-outcome ?OFFER-RIGHT /succ))))
+  (motor right-hand legs)
+  (obs)
+  (tar [k object] @object) (aux [k human] @object)
+  (construed-act provision-act)
+  (duration procedural)
+  (presentation
+    (preroll 0.0) (in 0.3) (out 0.3))
+  (init
+    (check (= (spatial ?thing gripped-by /env) (spatial @self right-hand /env)))
+    (check (spatial @self can-reach ?recipient /env))
+    (bb-public-write ?recipient take ?thing)))

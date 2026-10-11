@@ -25,7 +25,7 @@
     (try
       (when (and (or (spatial ?victim co-located @self) (spatial ?victim space))
                  -{@self threaten ?victim ?}))
-      (declare-utility errand always-pick)
+      (declare-utility always-pick)
       (effects
         (if (not (bb-any ?coerce told))
             (then (bb-write ?coerce told (time seconds))))

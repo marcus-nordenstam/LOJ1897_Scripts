@@ -13,6 +13,32 @@
   (check (>= ?total 0))
   (set-attr ?pile count ?total))
 
+; (split-pile-into-hand ?from ?count ?hand): count ?count units off ?from, within @self's
+; reach, into a new pile of the same content gripped in ?hand, which must be empty. Returns the
+; new pile as @self knows it.
+(define-func split-pile-into-hand (?from ?count ?hand)
+  (check (spatial @self can-reach ?from /env))
+  (check (empty (spatial ?hand grip /env)))
+  (check (>= (attr ?from count) ?count))
+  (create-entity [k pile] (spatial @self space /env)): ?split
+  (set-attr ?split content-kind (attr ?from content-kind))
+  (set-attr ?split count 0)
+  (pile-add ?from (- 0 ?count))
+  (pile-add ?split ?count)
+  (grip-into-hand ?split ?hand))
+
+; (coin-pile-in-hand ?who): a coin pile ?who BELIEVES he holds in a hand, or @nothing. His
+; carrying-cash-pile is stowed about him, never in a hand.
+(define-func coin-pile-in-hand (?who)
+  (bind @nothing ?in-hand)
+  (for-each ?cand (spatial ?who hold)
+    (if (and (is-a ?cand [k pile])
+             {?cand content-kind [k coin]}
+             (= (spatial ?cand held-by) ?who))
+        (then (bind ?cand ?in-hand)
+              (break))))
+  ?in-hand)
+
 ; (held-ware ?who ?ware): a thing ?who BELIEVES it holds that is ?ware - an instance of
 ; the kind, or a pile whose content is the kind - or @nothing. What he has stowed is held
 ; too, so a ware is never matched by the pile kind alone.

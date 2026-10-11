@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; pursue-kill - an intent to kill ({@self intent {@self kill ?victim}}, minted by the homicide
 ; intenders under thinks/cooldown/) is carried out by the first means @self has: a strong
-; hand strangles, a man holding a firearm shoots, a man with the fee in his pocket hires it
+; hand strangles, a man holding a firearm shoots, a man with the fee in his carrying-cash-pile hires it
 ; done. With none he resolves to get a gun - a sub-intent, worth what the killing is worth.
 ; The killing act concluding ends the intent; the victim dying ends its intenders.
 ; ----------------------------------------------------------------------------
@@ -19,7 +19,7 @@
       (when (not (empty (spatial @self hold [k firearm]))))
       (effects (maintain-proposal {@self shoot ?victim})))
     (try
-      (when (>= (carrying-cash-count @self) (assassin_fee_coins)))
+      (when (>= (carrying-cash-pile-count @self) (assassin_fee_coins)))
       (effects (maintain-proposal {@self hire-assassin ?victim})))
     (try
       (when (empty (spatial @self hold [k firearm])))

@@ -31,7 +31,7 @@
                  -{@self spouse ?partner}
                  (or (spatial ?victim co-located @self) (spatial ?victim space))
                  -{@self tell ? ?victim /succ /caused_by ?expose}))
-      (declare-utility errand always-pick)
+      (declare-utility always-pick)
       (effects (maintain-proposal {@self tell (utterable-msg [] {?victim lover ?partner}) ?victim})))
     (try
       (when {@self tell ? ?victim /succ /caused_by ?expose})

@@ -25,15 +25,15 @@
         (when (not (has-cause ?intent {@self intent {@self kill ?}})))
         (effects
           (maintain-proposal {@self buy ?kind}
-            [/feasible (>= (carrying-cash-count @self) (price ?kind))]
-            [/cost (money-cost-util (carrying-cash-count @self) (price ?kind))]))))
+            [/feasible (>= (carrying-cash-pile-count @self) (price ?kind))]
+            [/cost (money-cost-util (carrying-cash-pile-count @self) (price ?kind))]))))
     (try
       (role ?agent {?agent isa [k human], condition [k alive]} {@self (closeness-labels acquaintance) ?agent /ever}
         (when (has-cause ?intent {@self intent {@self kill ?}}))
         (effects
           (maintain-proposal {@self hire-procure ?agent ?kind}
-            [/feasible (>= (carrying-cash-count @self) (+ (price ?kind) (procure_fee)))]
-            [/cost (money-cost-util (carrying-cash-count @self) (+ (price ?kind) (procure_fee)))]))))
+            [/feasible (>= (carrying-cash-pile-count @self) (+ (price ?kind) (procure_fee)))]
+            [/cost (money-cost-util (carrying-cash-pile-count @self) (+ (price ?kind) (procure_fee)))]))))
     (try
       (role ?shop [k shop] (select (policy first-match))
         (when (> (crime-scale) 0.0))
