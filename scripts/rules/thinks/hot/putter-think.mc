@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(think want-putter
+(driver want-putter
   (lock)
   (cooldown 1 m try-until-succ)
   (role ?home {@self home ?home}

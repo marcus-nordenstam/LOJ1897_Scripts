@@ -50,7 +50,7 @@
 
 ; The child is due. A woman at term bears it ahead of any errand - labour is not
 ; something she chooses to postpone - but below the survival aspects.
-(think deliver
+(driver deliver
   (cooldown 1 d try-until-succ)
 
   (role @self {@self pregnant ?}

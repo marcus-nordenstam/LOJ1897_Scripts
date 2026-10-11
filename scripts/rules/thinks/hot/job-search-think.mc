@@ -20,7 +20,7 @@
 ; --- pre-commit: visit the parish board while jobless and not already applying -----
 ; Two cases, complementary on whether @self KNOWS a church: he heads to one he knows, or
 ; he searches the region for one (the find-building task walks the unobserved structures).
-(think seek-board-visit
+(driver seek-board-visit
   (aspect labour)
   (cooldown 1 m try-until-succ)
   (rng-stream employment)
@@ -33,7 +33,7 @@
       (declare-utility errand)
       (effects (maintain-proposal {@self go-to ?board})))))
 
-(think seek-board-find
+(driver seek-board-find
   (aspect labour)
   (cooldown 1 m try-until-succ)
   (rng-stream employment)
@@ -52,7 +52,7 @@
 
 ; --- at the board, READ each notice not yet read (the physical knowledge channel - no
 ; doc-record pull).
-(think seek-read-board
+(driver seek-read-board
   (aspect labour)
   ; HOT, not cooldown: standing beside an unread notice is an opportunity, and the wake that
   ; admits it (the notice perceived, the room entered) would be dropped by a cooling rule.
@@ -69,7 +69,7 @@
 ; WORKPLACE the advert named. apply-for's /succ is the applied record: one application per
 ; post, ever; the verdict comes back by letter (take-up-offer below). Admitted in business
 ; hours only: at closing the errand is withdrawn, since an office reached after it is shut.
-(think seek-apply-pick
+(driver seek-apply-pick
   (aspect labour)
   ; ONE application at a time: the lock admits a single activation, held for as long as
   ; the maintained apply-for runs; it releases when the activation retires (hired, or the
@@ -112,7 +112,7 @@
 ; cannot accept it for a seat other than the one offered: the belief carries the post, so
 ; the errand takes the post. Once the errand has CONCLUDED either way he does not go again -
 ; a man turned away does not keep returning.
-(think take-up-offer
+(driver take-up-offer
   (aspect labour)
   (role ?job {?job offered-to @self}
     ; No -{@self job ?} here: the word that makes the seat his lands while the errand is

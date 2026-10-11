@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; work_attendance (think) - the daily WORK-ATTENDANCE thinks. The
-; shift-stay act lives in npc-act/work_attendance.mc.
+; work-attendance - the daily WORK-ATTENDANCE drivers, reading the job @self holds (a duty).
+; The shift itself is tasks/work-task.mc.
 ;
 ; The labour market (employment.mc / business.mc / apprenticeship.mc) mints the
 ; job beliefs but never moves anyone; THIS chain is what physically gets
@@ -37,7 +37,7 @@
 ; re-read live against the stashed shift) then own the cease: the held re-check ends the
 ; goal the cycle a gate drops (shift end, or leaving the workplace).
 
-(think day-work
+(driver day-work
   (role @self {@self industriousness ?industriousness}
     (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
@@ -57,7 +57,7 @@
 ; The work TASK's performance tries (at_post_morning / at_post_afternoon / shift_over) live
 ; in tasks/work-task.mc. day-go-to-work below stays a DRIVER (no task gate).
 
-(think day-go-to-work
+(driver day-go-to-work
   ; Shift on or imminent and not yet at the workplace: go there. The workplace ?wp may be a
   ; premises BUILDING (shop / office) or a ROOM (a gentleman's home study / back-office); go-to
   ; reaches either - the building first, then the room.

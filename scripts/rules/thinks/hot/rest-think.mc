@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; rest (think) - the FATIGUE / REST aspect: a real physiological fatigue model
+; rest (drivers) - the FATIGUE / REST aspect: a real physiological fatigue model
 ; drives when an NPC sleeps.
 ;
 ; A man knows his tiredness only as his {@self alertness <band>}, which run_physiology
@@ -14,14 +14,14 @@
 
 (include "../../../macros/intensity-macros.mc")
 
-(think sleep
+(driver sleep
   (role @self {@self alertness [k tired|sleepy]}
     (role ?home {@self home ?home}
       (declare-utility (if {@self alertness [k sleepy]} (then crisis) (else need)) default)
       (effects (maintain-proposal {@self go-to-bed ?home})))))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
-(think idle-go-home
+(driver idle-go-home
   (role ?home {@self home ?home}
               (not (spatial @self unit ?home))
     (declare-utility idle fallback)

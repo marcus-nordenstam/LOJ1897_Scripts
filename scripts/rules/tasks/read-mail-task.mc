@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
-; read-mail ?prem - fetch and read @self's mail at ?prem's mailbox. If @self does not know
-; where ?prem's incoming mail-stack is, LOCATE it (wandering ?prem); once known, go to its
-; room, lift the letters addressed to @self via take-my-letters, and read each held one.
+; read-mail ?prem - fetch and read @self's mail at ?prem's mailbox, whose mail-stack @self
+; knows (its driver locates an unknown one first): go to its room, lift the letters addressed
+; to @self via take-my-letters, and read each held one.
 ; Concluded once the stack is swept this round and @self's hands are empty of letters. The
 ; stack binds SCOPED to ?prem via (within-place ?stk ?prem). NO give-up try: an interrupted
 ; round RESUMES on the next premises visit (the rungs propose nothing from afar).
@@ -11,12 +11,6 @@
 (task {@self read-mail ?prem}:?read-mail
   (tar @excl [k building|unit] @object)
   (and
-    ; The locate's own /fail is the "no mail-stack here" record, exactly as find-building's is for
-    ; seek-board-find - without reading it this rung re-proposes the search for ever.
-    (try
-      (role @self -{@self locate [k mail-stack] ?prem /succ}
-            -{@self locate [k mail-stack] ?prem /fail}
-        (effects (maintain-proposal {@self locate [k mail-stack] ?prem}))))
     (try
       (role ?stk [k mail-stack] (within-place ?stk ?prem)
                                 (not (spatial @self can-reach ?stk))
@@ -37,9 +31,4 @@
       (role ?stk [k mail-stack] (within-place ?stk ?prem)
         (when (and {@self take-my-letters ?stk /succ /caused_by ?read-mail}
                    (empty (spatial @self hold [k letter]))))
-        (effects (set-outcome ?read-mail /succ))))
-    ; The search concluded that ?prem holds no mail-stack: there is no round to run here, so the
-    ; task fails rather than holding its band while re-proposing a search that already answered.
-    (try
-      (when {@self locate [k mail-stack] ?prem /fail})
-      (effects (set-outcome ?read-mail /fail)))))
+        (effects (set-outcome ?read-mail /succ))))))

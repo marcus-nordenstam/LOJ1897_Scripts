@@ -683,7 +683,7 @@
 ; Gestation: {?woman pregnant ?father}. Private physiological state (no
 ; disclosure - not gossiped), ended at delivery by the update_physiology
 ; gestation timer; gates re-conception while carried.
-(state pregnant (tar [k human] @excl @object))
+(state pregnant (tar [k human] @excl @object) (motivation))
 
 ; Document -> org back-link: the inverse of org-state's `record`
 ; (concepts.mon). Lets any mind reconstruct its own per-mind org
@@ -724,7 +724,7 @@
 (state accomplice (tar [k human] @object) (aux ?))
 (state acquaintance (tar [k human] @object) (inclusive_bond) (disclosure acquaintance) (closeness acquaintance) (describe-in bonds) (talkable))
 (state aid-act (tar [k aid-act] @object))
-(state alertness (tar [k alertness] @object @excl) (self-known))
+(state alertness (tar [k alertness] @object @excl) (self-known) (motivation))
 (state appropriation-act (tar [k appropriation-act] @object))
 (state availability (tar [k availability] @object @excl))
 (state betray-act (tar [k betray-act] @object))
@@ -752,7 +752,7 @@
 (state honour-act (tar [k honour-act] @object))
 (state insult (tar [k insult] @object) (construed-act slight-act))
 (state jilt (tar [k jilt] @object) (construed-act abandonment-act wrong-act))
-(state job (tar [k job] @object) (disclosure stranger) (talkable) (self-known))
+(state job (tar [k job] @object) (disclosure stranger) (talkable) (self-known) (motivation))
 (state level (tar [k level] @object @excl))
 (state love (tar ?) (exclusive_bond))
 (state lover (tar [k human] @object) (inclusive_bond) (appraisal_input) (disclosure intimate) (closeness intimate) (construed-act intimacy-act) (describe-in spouse) (talkable) (self-known))
