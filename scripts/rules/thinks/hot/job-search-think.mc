@@ -50,19 +50,6 @@
     (effects
              (maintain-proposal {@self find-building [k church-building] ?rg}))))
 
-; --- an application is posted from the home out-box: a job-seeker who does not know where it
-; is finds it before he applies, so apply-for never stops mid-errand to look.
-(driver seek-know-outbox
-  (aspect labour)
-  (role @self {@self age ?age}
-              -{@self job ?}
-    (role ?home {@self home ?home}
-      (no-role [k outgoing-mail-stack] (within-place ?norole ?home))
-      (when (and (job-seeker @self ?age)
-                 -{@self locate [k outgoing-mail-stack] ?home /fail}))
-      (declare-utility errand)
-      (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?home})))))
-
 ; --- at the board, READ each notice not yet read (the physical knowledge channel - no
 ; doc-record pull).
 (driver seek-read-board
