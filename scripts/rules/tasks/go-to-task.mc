@@ -108,6 +108,7 @@
   ?spot)
 
 (task {@self go-to ?dest}:?go-to
+  (lint-waive task-no-preparation)
   (init
     (check (or (is-spot ?dest) (is-a ?dest [k thing])))
     (check (go-reachable ?dest)))

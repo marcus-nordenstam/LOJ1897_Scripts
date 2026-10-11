@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self locate-room ?building-kind ?room-kind}:?locate-room
+  (lint-waive task-no-preparation)
   (cease (if (and (stands-in-room ?room-kind) (stands-in-building ?building-kind))
              (then (set-outcome ?locate-room /succ))))
   (preemptive-or
