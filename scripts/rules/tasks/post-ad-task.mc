@@ -14,6 +14,7 @@
 
 (task {@self post-ad ?org ?job}:?post-ad
   (aspect labour)
+  (lint-waive task-no-preparation)
   (tar [k org] @object)
   (aux [k job] @object)
   (and
