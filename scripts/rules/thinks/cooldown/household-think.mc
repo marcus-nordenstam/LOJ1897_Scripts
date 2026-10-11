@@ -22,10 +22,9 @@
 ; ----------------------------------------------------------------------------
 
 
+(include "../../../macros/home-macros.mc")
+
 (define-macro read-intellect-threshold () 0.5)
-(define-macro household-breakfast-hour () 6)
-(define-macro household-lunch-hour ()     12)
-(define-macro household-supper-hour ()    18)
 
 (driver household-day
   (cooldown 1 m try-until-succ)
@@ -49,17 +48,10 @@
 ; tasks/rest-task.mc and tasks/read-at-task.mc.
 
 ; ----------------------------------------------------------------------------
-; set-mealtimes (driver) - the COOK decides the household mealtimes
-; (tell-only comms plan, ruling 11). Fires for the ONE person
-; (household-cook ?home) resolves (hired cook > woman of the house > adult
-; daughter > head) when her OWN mind lacks the home's supper-hour - so it
-; fires once per cook per home (and again only if the cook changes homes or
-; the beliefs are somehow lost). The hours are HER decision (genesis, not
-; communication): the household's breakfast / lunch / supper hours. She then SAYS them aloud - the household is home
-; (asleep co-presence), so the residents adopt the facts from the say; any
-; straggler self-heals through the ask-the-cook channel below.
-; The missing-belief gate comes FIRST so the (household-cook) resolution
-; (an entity scan) runs only while the mealtimes are actually unset.
+; set-mealtimes (driver) - the woman of the house, holding the duty, fixes the household's meal
+; hours while her own mind lacks the home's supper hour: she proposes the set-mealtimes task
+; (tasks/set-mealtimes-task.mc), which says the hours aloud to the household and then holds them
+; herself. Any straggler self-heals through the ask-the-cook channel below.
 ; ----------------------------------------------------------------------------
 
 ; The woman of the house owes her household its meal hours, a standing duty.
@@ -79,23 +71,11 @@
   ; the hours; the (not supper-hour) filter then empties for the whole household.
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self gender [k female]}
-              {@self duty-to ? set-mealtimes}
-    (role ?home {@self home ?home}
-      ; Latched: the hours this fire sets would fell a live residual and withdraw the tell that
-      ; announces them; latched at onset, the activation holds through the announcement.
-      (when (latch-eval -{?home supper-hour ?}))
-
-      (declare-utility want)
-
-      (effects
-        (begin-belief {?home breakfast-hour (household-breakfast-hour)})
-        (begin-belief {?home lunch-hour (household-lunch-hour)})
-        (begin-belief {?home supper-hour (household-supper-hour)})
-        ; Say the house's hours aloud - the household hears and adopts.
-        (maintain-proposal {@self tell (utterable-msg [] {?home breakfast-hour (household-breakfast-hour)}
-                                                   {?home lunch-hour (household-lunch-hour)}
-                                                   {?home supper-hour (household-supper-hour)}) _})
-        ))))
+    (role ?household [k household] {@self duty-to ?household set-mealtimes}
+      (role ?home {@self home ?home}
+        (when -{?home supper-hour ?})
+        (declare-utility want)
+        (effects (maintain-proposal {@self set-mealtimes ?household}))))))
 
 ; ----------------------------------------------------------------------------
 ; ask-mealtimes - the ask-the-cook channel (ruling 12). A resident who does not know

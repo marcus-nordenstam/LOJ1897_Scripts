@@ -69,24 +69,4 @@
 
       (declare-utility want)
 
-      (effects
-        ; Reciprocal lover bond + mutual profile sync (mirrors betrothal's shape so
-        ; downstream consumers see a fully-wired pair).
-        (begin-belief {@self lover ?b})
-        ; The reciprocal bond lands in ?b's own mind (so ?b knows of the pairing).
-        (begin-belief ?b {?b lover @self})
-        ; A lover bond is constructed on physical attraction - BOTH sides hold at
-        ; least the `fancy` band (0.4 clears the 0.24 entry threshold; ?b may have
-        ; reciprocated with warmth only, but becoming lovers grows the attraction).
-        ; This is what lets love-match marry the pair later: it keys on `fancy`.
-        (nudge-stance ?b attraction 0.4)
-        ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
-        ; party's own reflex on the act. Commented out pending that redesign.
-        ; (nudge-stance ?b @self attraction 0.4)
-        ; @self discloses their friend-tier profile to ?b (the tell they hear and adopt);
-        ; @self's knowledge of ?b pre-exists. Friend-tier keeps @self's other lovers
-        ; (intimate-tier) unspoken.
-        (every {@self (disclosure-tier-labels friend) ?}): ?facts
-        (if ?facts
-            (then (maintain-proposal {@self tell (utterable-msg [] ?facts) ?b})))
-        ))))
+      (effects (maintain-proposal {@self take-lover ?b})))))

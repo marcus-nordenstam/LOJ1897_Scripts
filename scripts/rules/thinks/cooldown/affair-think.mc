@@ -65,28 +65,4 @@
 
       (declare-utility want)
 
-      (effects
-        ; Reciprocal lover bond + mutual profile sync (mirrors lovers.mc's shape so
-        ; downstream consumers - betrayal detection, the romantic-rival derive - see a
-        ; fully-wired pair). @self's spouse will read {@self lover ?lover} in the
-        ; obsession pass and route blame.
-        (begin-belief {@self lover ?lover})
-        ; The reciprocal bond lands in the LOVER's own mind (so the lover knows of the
-        ; affair, and their own spouse's obsession pass can read {?lover lover @self}).
-        (begin-belief ?lover {?lover lover @self})
-        ; Ground the pull in the stance substrate ON BOTH SIDES - a lover bond is
-        ; constructed on physical attraction, so both hold at least the `fancy` band
-        ; (0.4 clears the 0.24 band-entry threshold). Without the reciprocal nudge a
-        ; paramour could "be a lover" while fancying nobody, which broke love-match's
-        ; ability to marry the pair once both were free.
-        (nudge-stance ?lover attraction 0.4)
-        ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
-        ; party's own reflex on the act. Commented out pending that redesign.
-        ; (nudge-stance ?lover @self attraction 0.4)
-        ; @self discloses their friend-tier profile to the lover (the tell they hear and
-        ; adopt); @self's knowledge of the lover pre-exists. Friend-tier, so @self does
-        ; not reveal their OTHER lovers (that is intimate-tier, above this band).
-        (every {@self (disclosure-tier-labels friend) ?}): ?facts
-        (if ?facts
-            (then (maintain-proposal {@self tell (utterable-msg [] ?facts) ?lover})))
-        ))))
+      (effects (maintain-proposal {@self take-lover ?lover})))))

@@ -11,3 +11,6 @@
 
 
 
+
+; A lover bond is built on attraction: becoming lovers lifts the pull to at least this.
+(define-macro lover_attraction_floor () 0.4)

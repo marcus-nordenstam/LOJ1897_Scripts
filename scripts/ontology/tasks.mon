@@ -8,9 +8,6 @@
 (task protect (sub [k human] @object))
 (task officiate (sub [k human] @object))
 (task admit_member (sub [k human] @object))
-; set-mealtimes ?household - fix the household's meal hours; the duty of the woman of the
-; house to her household (thinks/cooldown/household-think.mc).
-(task set-mealtimes (tar [k household] @object))
 ; kill and acquire are pursued as intents ({@self intent kill ?victim}): their drivers pick the
 ; means (thinks/hot/kill-think.mc, thinks/hot/acquire-think.mc) and no task performs them whole.
 (task kill (tar [k human] @object))
