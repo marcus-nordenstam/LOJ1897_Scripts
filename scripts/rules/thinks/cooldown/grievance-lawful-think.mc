@@ -16,41 +16,40 @@
 
 ; ---- report-crime ----------------------------------------------------------
 ; Take it to the police. Indignation and want are different motives for the same
-; report, so they are two intenders with their own weights; pursue-report-crime
-; (thinks/hot/report-crime-think.mc) finds a station and files it.
-(intender report-injustice
+; walk to the station, so they are two rules with their own weights.
+(driver report-injustice
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
               {@self prosocial-tilt ?prosocial-tilt}
-              {@self education ?education}
-              {? stolen-from @self}
     (role ?target {?target isa [k human], condition [k alive]}
-                  {@self pressure [k injustice] ?target}:?pressure
-                  -{@self report-crime ?target /succ}
-      (when (and (>= ?education (literacy-education-min))
-                 -{@self find-building [k police-station] ? /fail}
-                 (latch-eval (chance (* (k-grievance-rate)
-                                        (* 0.5 (grievance-drive ?pressure ?target ?prosocial-tilt)))))))
+      {@self pressure [k injustice] ?target}:?pressure
+      (when (or {@self report-crime ?target /succ /caused_by ?pressure}
+                {@self report-crime ?target}
+                (chance (* (k-grievance-rate)
+                           (* 0.5 (grievance-drive ?pressure ?target ?prosocial-tilt))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects (maintain-intent {@self intent {@self report-crime ?target}} /caused_by ?pressure)))))
+      (effects
+        (if {@self report-crime ?target /succ /caused_by ?pressure}
+            (then (discharge-pressure ?pressure 0.75))
+            (else (maintain-proposal {@self report-crime ?target /caused_by ?pressure})))))))
 
-(intender report-for-relief
+(driver report-for-relief
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
               {@self prosocial-tilt ?prosocial-tilt}
-              {@self education ?education}
-              {? stolen-from @self}
     (role ?target {?target isa [k human], condition [k alive]}
-                  {@self pressure [k resource-scarcity] ?target}:?pressure
-                  -{@self report-crime ?target /succ}
-      (when (and (>= ?education (literacy-education-min))
-                 -{@self find-building [k police-station] ? /fail}
-                 (latch-eval (chance (* (k-grievance-rate)
-                                        (* 0.3 (grievance-drive ?pressure ?target ?prosocial-tilt)))))))
+      {@self pressure [k resource-scarcity] ?target}:?pressure
+      (when (or {@self report-crime ?target /succ /caused_by ?pressure}
+                {@self report-crime ?target}
+                (chance (* (k-grievance-rate)
+                           (* 0.3 (grievance-drive ?pressure ?target ?prosocial-tilt))))))
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
-      (effects (maintain-intent {@self intent {@self report-crime ?target}} /caused_by ?pressure)))))
+      (effects
+        (if {@self report-crime ?target /succ /caused_by ?pressure}
+            (then (discharge-pressure ?pressure 0.75))
+            (else (maintain-proposal {@self report-crime ?target /caused_by ?pressure})))))))
 
 ; ---- confess-letter --------------------------------------------------------
 ; Put it in writing. Confessing because the secret is about to break and confessing
