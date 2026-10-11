@@ -15,3 +15,6 @@
 ; means (thinks/hot/kill-think.mc, thinks/hot/acquire-think.mc) and no task performs them whole.
 (task kill (tar [k human] @object))
 (task acquire (tar ?))
+; get-job is pursued as an intent ({@self intent {@self get-job}}): its driver reads the parish
+; board and applies (thinks/hot/job-search-think.mc); taking up an offer performs it.
+(task get-job)

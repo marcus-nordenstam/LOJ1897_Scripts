@@ -79,7 +79,7 @@
       (when (>= (count (every {@self draft-verdict ?p ?job /succ})) 2))
       (effects (expect @false "labour: two verdicts drafted for one applicant about one seat")))))
 
-; TWO APPLICATIONS IN FLIGHT. seek-apply-pick admits one at a time; a second means the lock
+; TWO APPLICATIONS IN FLIGHT. pursue-get-job admits one at a time; a second means the lock
 ; or the /pres gate has failed. Gated on the running task, as a running act must be; the
 ; task's own push drives the re-evaluation.
 (audit apply-for-audit-two-in-flight

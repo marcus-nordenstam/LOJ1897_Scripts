@@ -3,9 +3,9 @@
 ; (its org and line make it that seat): go home, write + address the application
 ; (prepare-application), hand the paper to the mail chain from the HOME out-box, done - an
 ; hour's errand, not a lifecycle. Its /succ is the "applied" record the driver reads
-; (seek-apply-pick applies once per seat). The verdict arrives weeks later as a TYPED
+; (pursue-get-job applies once per seat). The verdict arrives weeks later as a TYPED
 ; letter in the home post: reading an offer-letter drives accept-job-offer
-; (job-search-think), a rejection-letter drives nothing. Drivers stay in job-search-think.
+; (job-search-think), a rejection-letter drives nothing.
 ;
 ; One sequence: home, form, post, done; each stage reads the world for what is already
 ; done. The out-box is located by the sibling try once the form is in hand and no pile is
@@ -14,6 +14,7 @@
 
 (task {@self apply-for ?job}:?apply-for
   (aspect labour)
+  (preparatory)
   (tar [k job] @object)
   (and
     (sequence

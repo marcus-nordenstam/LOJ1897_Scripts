@@ -20,6 +20,8 @@
 ; picked between them.
 (define-macro business_open_hour  () 8)
 (define-macro business_close_hour () 17)
+; Days between a job-seeker's readings of the parish job board.
+(define-macro board_visit_days () 30)
 
 ; The clock hours of a day: (time hour) runs from 0 to one less.
 (define-macro clock_hours () 24)
