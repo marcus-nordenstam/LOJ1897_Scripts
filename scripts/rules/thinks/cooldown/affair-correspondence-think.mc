@@ -23,9 +23,10 @@
 ; ----------------------------------------------------------------------------
 
 
-(think affair-correspondence
+(driver affair-correspondence
   (cooldown 1 m try-once)
   (rng-stream incidents)
+  (declare-utility want)
 
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}

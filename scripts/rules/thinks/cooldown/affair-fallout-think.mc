@@ -35,9 +35,10 @@
 ; ----------------------------------------------------------------------------
 
 
-(think affair-fallout
+(driver affair-fallout
   (cooldown 1 m try-once)
   (rng-stream incidents)
+  (declare-utility want)
 
   (role @self 
     ; The unfaithful partner: a spouse or lover of the actor's.
