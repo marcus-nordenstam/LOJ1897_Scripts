@@ -13,7 +13,7 @@
   (and
     (try
       (when (or (spatial ?agent co-located @self) (spatial ?agent space)))
-      (declare-utility errand always-pick)
+      (declare-utility always-pick)
       (effects (maintain-proposal {@self tell (utterable-msg [] {?agent acquire ?kind}) ?agent})))
     (try
       (when {@self tell ? ?agent /succ /caused_by ?hire-procure})

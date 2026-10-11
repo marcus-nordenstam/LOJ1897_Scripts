@@ -16,7 +16,6 @@
   (and
     (try
       (role @self -{@self wander ?home /succ /caused_by ?putter}
-        (declare-utility idle)
         (effects (maintain-proposal {@self wander ?home}))))
     (try
       (when (and (spatial @self space): ?room

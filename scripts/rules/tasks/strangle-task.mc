@@ -17,21 +17,19 @@
       (when (and (not (spatial ?victim co-located @self))
                  -{?victim condition [k dead]}
                  (spatial ?victim space)))
-      (declare-utility survival)
       (effects (maintain-proposal {@self go-to ?victim})))
     (try
       (role ?vhome {?victim home ?vhome}
         (when (and (not (spatial ?victim co-located @self))
                    -{?victim condition [k dead]}
                    (unknown (spatial ?victim space))))
-        (declare-utility survival)
         (effects (maintain-proposal {@self go-to ?vhome}))))
 
     ; THE BLOW: co-present with a living victim - CHOKE the life out of them.
     (try
       (when (and (spatial ?victim co-located @self)
                  -{?victim condition [k dead]}))
-      (declare-utility survival always-pick)
+      (declare-utility always-pick)
       (effects (maintain-proposal {@self STRANGLE ?victim})))
 
     ; CONCLUDE: the victim is dead - the method is spent.

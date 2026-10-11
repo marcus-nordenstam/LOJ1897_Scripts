@@ -4,7 +4,7 @@
 ; want-drink, which excludes him. It raises the same go-drink task.
 ; ----------------------------------------------------------------------------
 
-(think relapse
+(driver relapse
   (cooldown 1 d try-once)
   (role @self {@self withdrawal ?withdrawal}
               {@self industriousness ?industriousness}

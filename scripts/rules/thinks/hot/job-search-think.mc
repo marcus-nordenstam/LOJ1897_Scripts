@@ -99,7 +99,7 @@
                                       (on [k middle] 1)
                                       (else 0)))
                    -{@self apply-for ?job /succ}))
-        (declare-utility errand)
+        (declare-utility errand (above read-mail))
         (effects
                  (maintain-proposal {@self apply-for ?job}))))))
 

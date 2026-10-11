@@ -18,7 +18,6 @@
                  (not (empty (spatial @self hold [k firearm])))
                  -{?victim condition [k dead]}
                  (spatial ?victim space)))
-      (declare-utility survival)
       (effects (maintain-proposal {@self go-to ?victim})))
     (try
       (role ?vhome {?victim home ?vhome}
@@ -26,7 +25,6 @@
                    (not (empty (spatial @self hold [k firearm])))
                    -{?victim condition [k dead]}
                    (unknown (spatial ?victim space))))
-        (declare-utility survival)
         (effects (maintain-proposal {@self go-to ?vhome}))))
 
     ; THE SHOT: armed, co-present with a living victim - fire.
@@ -34,7 +32,7 @@
       (when (and (spatial ?victim co-located @self)
                  (not (empty (spatial @self hold [k firearm])))
                  -{?victim condition [k dead]}))
-      (declare-utility survival always-pick)
+      (declare-utility always-pick)
       (effects (maintain-proposal {@self SHOOT ?victim})))
 
     ; CONCLUDE: the victim is dead - the method is spent.

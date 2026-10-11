@@ -18,7 +18,6 @@
                  -{@self lover ?paramour}
                  (not (spatial ?paramour co-located @self))
                  (spatial ?paramour space)))
-      (declare-utility errand)
       (effects (maintain-proposal {@self go-to ?paramour})))
     (try
       (role ?phome {?paramour home ?phome}
@@ -36,7 +35,7 @@
                    -{?paramour gender ?gender}
                    (none {@self (kin-labels) ?paramour})
                    -{@self HAVE-SEX-WITH ?paramour /succ /caused_by ?seduce}))
-        (declare-utility errand always-pick)
+        (declare-utility always-pick)
         (effects (maintain-proposal {@self HAVE-SEX-WITH ?paramour}))))
     (try
       (when {@self lover ?paramour})

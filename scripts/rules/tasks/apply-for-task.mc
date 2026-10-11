@@ -18,7 +18,6 @@
   (and
     (sequence
       (role ?home {@self home ?home}
-        (declare-utility errand (above read-mail))
 
         (stage
           (effects
@@ -50,5 +49,4 @@
       (role ?home {@self home ?home}
         (no-role [k outgoing-mail-stack])
         (when (not (empty (spatial @self hold [k application]))))
-        (declare-utility errand)
         (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?home}))))))

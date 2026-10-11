@@ -13,7 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(think engagement-party
+(driver engagement-party
   (cooldown 1 m try-until-succ)
   (rng-stream marriages)
 

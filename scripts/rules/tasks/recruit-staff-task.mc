@@ -50,7 +50,6 @@
       (try
         (role ?reg {?org employee-register ?reg}
           (when (>= (days-since-last {@self read-doc ?reg /succ}) 1))
-          (declare-utility obligation)
           (effects (maintain-proposal {@self read-doc ?reg}))))
 
       ; POST A NOTICE for an open post that has none. ONE posting at a time: two concurrent
@@ -65,7 +64,6 @@
                    -{?org display-ad ?job}
           (when (kind ?job): ?jk
                 (= (count-notices-for-kind ?org ?jk) 0))
-          (declare-utility obligation)
           (effects (maintain-proposal {@self post-ad ?org ?job}))))
 
       ; TAKE THE NOTICE DOWN for a post that has since been filled.
@@ -74,7 +72,6 @@
                    {?job job-id ?}
                    {? job ?job}
                    {?org display-ad ?job}
-          (declare-utility obligation)
           (effects (maintain-proposal {@self remove-ad ?org ?job}))))
 
       ; THE OFFICE POST, once a day while a notice stands: an application only exists in
@@ -84,7 +81,6 @@
         (role ?wp {?org workplace ?wp}
                   {?org display-ad ?}
           (when (>= (days-since-last {@self collect-applications ?wp /succ}) 1))
-          (declare-utility obligation)
           (effects (maintain-proposal {@self collect-applications ?wp}))))
 
       ; READ each form in hand, ONE AT A TIME. Reading is how the man on it comes to be
@@ -95,7 +91,6 @@
         (lock)
         (role ?app [k application] (spatial ?app held-by @self)
                                    -{@self READ ?app /succ}
-          (declare-utility obligation)
           (effects (maintain-proposal {@self read-doc ?app}))))
 
       ; THE OFFER: an unanswered form, the man who wrote it, an unfilled seat of his kind.
@@ -123,7 +118,6 @@
                            -{?job offered-to ?}
                            -{@self draft-verdict ?p ?job /succ}
           (when (not (proposed {@self draft-verdict ? ?})))
-          (declare-utility obligation)
           (effects (begin-proposal {@self draft-verdict ?p ?job}))))
 
       ; THE REJECTION: the seat he asked for is held, and he was never answered about it.
@@ -134,7 +128,6 @@
                            {? job ?job}
                            -{@self draft-verdict ?p ?job /succ}
           (when (not (proposed {@self draft-verdict ? ?})))
-          (declare-utility obligation)
           (effects (begin-proposal {@self draft-verdict ?p ?job}))))
 
       ; A MAN AT THE COUNTER: his accept-job-offer is observable - running, or concluded the
@@ -153,5 +146,5 @@
                              -{@self hire-applicant ?man ? /succ}
                              -{@self hire-applicant ?man ? /fail}
                              (spatial ?man co-located @self)
-          (declare-utility obligation always-pick)
+          (declare-utility always-pick)
           (effects (maintain-proposal {@self hire-applicant ?man ?job})))))))

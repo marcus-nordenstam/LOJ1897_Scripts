@@ -18,7 +18,6 @@
   (tar @excl [k structure] @object)
   (and
     (sequence
-      (declare-utility obligation)
 
       (stage
         (role ?stk [k mail-stack] (spatial ?stk building ?wp))
@@ -35,7 +34,6 @@
     (try
       (role @self -{@self locate [k mail-stack] ?wp /succ}
             -{@self locate [k mail-stack] ?wp /fail}
-        (declare-utility obligation)
         (effects (maintain-proposal {@self locate [k mail-stack] ?wp}))))
 
     (try

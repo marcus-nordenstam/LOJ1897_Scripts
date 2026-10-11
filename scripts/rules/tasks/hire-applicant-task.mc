@@ -41,7 +41,7 @@
                     -{?applicant job ?}  ; he holds no seat I know of
                     -{? job ?job}        ; and nobody holds the one he came for
                     -{@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
-          (declare-utility obligation always-pick)
+          (declare-utility always-pick)
           (effects
             (any {?job job-id ?line})
             (maintain-proposal {@self HIRE ?applicant ?line}))))
@@ -54,7 +54,7 @@
       (try
         (role @self {@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
                     -{@self tell ? ?applicant /succ /caused_by ?hire-applicant}
-          (declare-utility obligation always-pick)
+          (declare-utility always-pick)
           (effects
             (any {?job job-id ?line})
             (kind ?job): ?jk
@@ -69,7 +69,7 @@
       (try
         (role @self {@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
                     {@self tell ? ?applicant /succ /caused_by ?hire-applicant}
-          (declare-utility obligation always-pick)
+          (declare-utility always-pick)
           (effects (set-outcome ?hire-applicant /succ))))
 
       ; TURN HIM AWAY: his seat is held, and not by him - he is told who holds it, and that
@@ -81,7 +81,7 @@
                     -{?applicant job ?}   ; and it is not him
                     -{@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
                     -{@self tell ? ?applicant /succ /caused_by ?hire-applicant}
-          (declare-utility obligation always-pick)
+          (declare-utility always-pick)
           (effects
             (any {?job job-id ?line})
             (kind ?job): ?jk
@@ -96,5 +96,5 @@
                     -{?applicant job ?}
                     -{@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
                     {@self tell ? ?applicant /succ /caused_by ?hire-applicant}
-          (declare-utility obligation always-pick)
+          (declare-utility always-pick)
           (effects (set-outcome ?hire-applicant /fail)))))))

@@ -33,7 +33,7 @@
     ; utterance - real told-knowledge, no fiat cross-mind write.
     (try
       (when (or (spatial ?victim co-located @self) (spatial ?victim space)))
-      (declare-utility errand always-pick)
+      (declare-utility always-pick)
       (effects
         (maintain-proposal {@self tell (utterable-msg [] {@self disinherit ?victim}) ?victim})))
 

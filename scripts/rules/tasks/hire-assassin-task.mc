@@ -30,7 +30,7 @@
       ; SOLICIT: put the contract to the prospective killer (the words are the deed).
       (try
         (when (or (spatial ?killer co-located @self) (spatial ?killer space)))
-        (declare-utility survival always-pick)
+        (declare-utility always-pick)
         (effects (maintain-proposal {@self tell (utterable-msg [] {@self intent {@self kill ?victim}} {?killer kill ?victim}) ?killer})))
 
       ; CONCLUDE once the solicitation has been spoken.

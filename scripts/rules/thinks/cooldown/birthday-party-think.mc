@@ -22,7 +22,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(think birthday-party
+(driver birthday-party
   (cooldown 1 m try-once)
   (rng-stream friendships)
 

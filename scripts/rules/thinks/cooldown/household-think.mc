@@ -27,7 +27,7 @@
 (define-macro household-lunch-hour ()     12)
 (define-macro household-supper-hour ()    18)
 
-(think household-day
+(driver household-day
   (cooldown 1 m try-until-succ)
 
   (role @self {@self intellect ?intellect}

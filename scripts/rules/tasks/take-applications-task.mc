@@ -10,7 +10,6 @@
   (and
     (try
       (role @self -{@self stack-browse ?stack ? /succ /caused_by ?take-applications}
-        (declare-utility obligation)
         (effects
           (maintain-proposal
             {@self stack-browse ?stack

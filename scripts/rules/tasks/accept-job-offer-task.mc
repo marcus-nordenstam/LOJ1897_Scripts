@@ -17,7 +17,6 @@
 (task {@self accept-job-offer ?job}:?accept-job-offer
   (aspect labour)
   (tar [k job] @object)
-  (declare-utility obligation)
   ; The seat's org keeps its door at ?wp - where the errand goes.
   (role ?org {?job org ?org}
     (role ?wp {?org workplace ?wp}

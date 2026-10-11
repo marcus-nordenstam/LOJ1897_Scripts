@@ -29,7 +29,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(think jilt
+(driver jilt
   (cooldown 1 m try-once)
   (rng-stream marriages)
 
@@ -78,7 +78,7 @@
 ; clerk's pressure stack is identical either way.
 ; ----------------------------------------------------------------------------
 
-(think jilt-for-station
+(driver jilt-for-station
   (cooldown 1 m try-once)
   (rng-stream marriages)
 

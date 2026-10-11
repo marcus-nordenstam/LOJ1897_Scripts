@@ -20,7 +20,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(think confide
+(driver confide
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 

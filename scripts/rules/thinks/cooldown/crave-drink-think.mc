@@ -4,7 +4,7 @@
 ; which raises the same task.
 ; ----------------------------------------------------------------------------
 
-(think want-drink
+(driver want-drink
   (cooldown 3 d try-once)
   (role @self {@self industriousness ?industriousness}
               {@self withdrawal ?withdrawal}

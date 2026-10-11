@@ -38,7 +38,7 @@
   (record dispositional    1    (cond (case (matches ?girth.target [k fat|thin]) ?girth)
                                       (case (= ?height.target [k short])       ?height))))
 
-(think bonded-incident-insult
+(driver bonded-incident-insult
   (cooldown 1 m try-once)
   (rng-stream incidents)
 

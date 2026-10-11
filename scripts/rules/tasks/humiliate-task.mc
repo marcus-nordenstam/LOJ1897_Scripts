@@ -24,7 +24,7 @@
       (when (and (alive ?victim)
                  (or (spatial ?victim co-located @self) (spatial ?victim space))
                  -{@self tell ? ?victim /succ /caused_by ?humiliate}))
-      (declare-utility errand always-pick)
+      (declare-utility always-pick)
       (effects (maintain-proposal
                  {@self tell (utterable-msg [] {@self public-humiliation ?victim}) ?victim})))
     (try

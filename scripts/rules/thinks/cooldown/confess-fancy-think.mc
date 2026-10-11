@@ -19,7 +19,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(think confess-fancy
+(driver confess-fancy
   (cooldown 1 m try-until-succ)
   (rng-stream marriages)
 
