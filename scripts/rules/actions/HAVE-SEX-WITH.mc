@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; consummate (action) - the durative intimate act of an affair. The
-; think half (thinks/hot/affair-consummate.mc) decides - whenever two lovers
+; think half (drivers/affair-consummate-driver.mc) decides - whenever two lovers
 ; are co-present and it is discreet enough - and PROMOTES this act; here the act
 ; RUNS for its duration, which is what holds both lovers co-present long enough
 ; for the tryst to land (and long enough for a prying servant to catch them).

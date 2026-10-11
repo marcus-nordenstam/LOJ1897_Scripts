@@ -3,7 +3,7 @@
 ; chose and that he will disinherit her unless she weds him within the grace he gives:
 ; {@self threaten ?daughter (consequence -{?daughter wed ?groom /during <told> <deadline>}
 ; {@self disinherit ?daughter} <deadline>)}; then he tells the groom. Both told, he holds the
-; threat as his commitment (thinks/cooldown/threat-think.mc). The told time rides the running
+; threat as his commitment (intenders/threat-intender.mc). The told time rides the running
 ; task, so the threat he holds names the window he spoke.
 ; ----------------------------------------------------------------------------
 

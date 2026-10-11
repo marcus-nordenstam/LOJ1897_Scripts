@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; propose-marriage ?partner - go to her and tell her they are betrothed; told, he holds the
-; betrothal himself, and she holds it in hers (fiancee-reciprocate, thinks/hot/wed-think.mc).
+; betrothal himself, and she holds it in hers (fiancee-reciprocate, thinks/wed-think.mc).
 ; PREPARATION for a wedding, so only a driver proposes it.
 ; ----------------------------------------------------------------------------
 

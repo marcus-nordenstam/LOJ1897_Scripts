@@ -6,7 +6,7 @@
 ; latch that retracts the standing let intent). One sequence; the listing it inscribes
 ; is the one it CREATED, kept under the running task's own key, so a restart re-reads
 ; that key instead of penning a second sheet. Proposed by list-to-let
-; (thinks/cooldown/list-to-let-think.mc), which holds the to-let stack he goes to.
+; (drivers/list-to-let-driver.mc), which holds the to-let stack he goes to.
 ; ----------------------------------------------------------------------------
 
 (task {@self LET ?prop}:?LET

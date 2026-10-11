@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; strangle ?victim - a killing means pursue-kill (thinks/hot/kill-think.mc) proposes to a
+; strangle ?victim - a killing means pursue-kill (drivers/kill-driver.mc) proposes to a
 ; strong hand: reach the victim, then STRANGLE until he is dead. The blows are the (obs)
 ; witnessed violent acts that carry the blame. Concludes on the victim's death, this hand's
 ; or another's.

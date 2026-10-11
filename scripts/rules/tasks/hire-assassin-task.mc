@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
-; hire-assassin ?victim - a killing means pursue-kill (thinks/hot/kill-think.mc) proposes to
+; hire-assassin ?victim - a killing means pursue-kill (drivers/kill-driver.mc) proposes to
 ; a man with the fee in his carrying-cash-pile. It is a SAY: reach a known third party and solicit him to
 ; kill the victim. The solicitation is the performance, so it ends the intent; the hired man
-; carrying it out is conspiracy-adoption's (thinks/cooldown/conspiracy-adoption-think.mc).
+; carrying it out is conspiracy-adoption's (intenders/conspiracy-adoption-intender.mc).
 ;
 ; TODO - @self solicits ANYONE it personally knows, with no belief about whether
 ; they would ever take the work. The knowledge half is missing on both sides:

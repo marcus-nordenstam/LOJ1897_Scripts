@@ -15,7 +15,7 @@
 ;
 ; A HAIL is a (formulaic opening ..) said to @self by a man whose (conversing ..) names him.
 ; It is always answered, and how is his choice: he takes up the conversation, declines it
-; for what he is busy with, or rebuffs a man he despises (thinks/hot/answer-hail-think.mc).
+; for what he is busy with, or rebuffs a man he despises (drivers/answer-hail-driver.mc).
 ;
 ; The funcs at the foot are the player's side, asked by the host: whom he can hail, his
 ; opening and parting lines, and whether a man has taken him up.

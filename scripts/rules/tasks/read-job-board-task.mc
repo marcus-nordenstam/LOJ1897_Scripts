@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; read-job-board ?board - go to the parish church that keeps the job board and read every
 ; notice posted there that @self has not read (read-doc); reading a notice is how he learns
-; of the vacancy it names. Preparation for getting a job (thinks/hot/job-search-think.mc).
+; of the vacancy it names. Preparation for getting a job (drivers/job-search-driver.mc).
 ; ----------------------------------------------------------------------------
 
 (task {@self read-job-board ?board}:?read-job-board

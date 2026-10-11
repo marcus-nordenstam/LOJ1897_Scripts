@@ -3,7 +3,7 @@
 ; adopts and anyone in earshot hears - pay me by the deadline or I expose you:
 ; {@self threaten ?victim (consequence -{?victim pay @self /during <told> <deadline>}
 ; {@self expose ?victim} <deadline>)}. Said, @self holds the same threat as his commitment
-; (thinks/cooldown/threat-think.mc carries it out or lets it lapse). The told time rides the
+; (intenders/threat-intender.mc carries it out, thinks/threat-think.mc lets it lapse). The told time rides the
 ; running task, so the threat he holds names the window he spoke. The deed is recorded by
 ; method - blackmail when @self holds leverage, else threaten_violence.
 ; ----------------------------------------------------------------------------

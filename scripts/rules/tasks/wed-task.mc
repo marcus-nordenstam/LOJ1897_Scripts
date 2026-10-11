@@ -3,7 +3,7 @@
 ; by which the marriage is made ({@self spouse ?partner} said to him); the partner HEARS and
 ; adopts it, no fiat cross-mind write. The wedding is the one this principal organizes or was
 ; invited to, on its day; the task gets him to its venue and has him speak there. Whoever vows
-; first marries, the other hears and reciprocates (spouse-reciprocate, thinks/hot/attend-think.mc).
+; first marries, the other hears and reciprocates (spouse-reciprocate, thinks/attend-think.mc).
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/occasion-macros.mc")

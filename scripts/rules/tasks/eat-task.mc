@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; eat ?meal ?place - the unified meal task (breakfast / lunch / supper, incl. eating out),
-; proposed by the meal drivers (thinks/hot/meals-think.mc). The act-belief
+; proposed by the meal drivers (drivers/meals-driver.mc). The act-belief
 ; {@self eat [k <meal>] <place>} IS the episodic meal memory. Away from the place he walks
 ; there, while he can pay for it; at the place three INCLUSIVE tries co-fire at the table:
 ;   take_meal   - propose the EAT action (the physical eating); its ended outcome is

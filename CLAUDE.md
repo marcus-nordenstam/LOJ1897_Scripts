@@ -18,7 +18,9 @@ scripts/
     rules/          THE behaviour corpus, loaded whole.
                     actions/   one (action ..) per file - the physical primitives
                     tasks/     one (task ..) per file - orchestrators and concrete tasks
-                    thinks/    the drivers in the audit/, hot/ and cooldown/ lanes, and
+                    intenders/ the (intender ..) rules, <topic>-intender.mc
+                    drivers/   the (driver ..) rules, shortcut and intent-headed, <topic>-driver.mc
+                    thinks/    the (think ..) rules, <topic>-think.mc, plus audit/ and
                                classify/: one classify-* think per file, banding what a
                                mind already believes
                     reflexes/  the reflex rules

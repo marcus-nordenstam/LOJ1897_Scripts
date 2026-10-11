@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; back ?org - the investment task: the clerk calls at his firm (the investment driver,
-; business-think.mc, proposes it) and seals {@self backed-by ?org} there.
+; business-driver.mc, proposes it) and seals {@self backed-by ?org} there.
 ; ----------------------------------------------------------------------------
 
 (task {@self back ?org}:?back

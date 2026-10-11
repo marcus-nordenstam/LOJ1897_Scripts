@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; take-lover ?lover - become someone's lover: tell them so ({@self lover ?lover}), then share the
 ; friend-tier profile, then hold the bond oneself, grounded in attraction. The lover hears it and
-; decides in their own mind (accept-lover, thinks/hot/accept-lover-think.mc). Proposed by lovers
-; and affair (thinks/cooldown/).
+; decides in their own mind (accept-lover, thinks/accept-lover-think.mc). Proposed by lovers
+; and affair (drivers/).
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/affair-macros.mc")

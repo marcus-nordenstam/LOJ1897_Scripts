@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; shoot ?victim - a killing means pursue-kill (thinks/hot/kill-think.mc) proposes to a man
+; shoot ?victim - a killing means pursue-kill (drivers/kill-driver.mc) proposes to a man
 ; holding a firearm: reach the victim (where he is, else his home) and SHOOT until he is dead.
 ; The blows (SHOOT) are the (obs) witnessed acts that carry the blame.
 ; ----------------------------------------------------------------------------

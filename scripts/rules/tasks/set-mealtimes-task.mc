@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; set-mealtimes ?household - say the household's meal hours aloud at home, so the household
 ; hears and adopts them, then hold them herself. Proposed by the set-mealtimes driver
-; (thinks/cooldown/household-think.mc).
+; (drivers/household-driver.mc).
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/home-macros.mc")
