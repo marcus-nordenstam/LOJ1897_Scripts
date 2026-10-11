@@ -15,7 +15,7 @@
   (do
     (form-match (attr ?art writing) articles_form
         [/org-kind ?ok] [/org-name ?onm] [/workplace ?owp] [/register ?oreg] [/owners ?oowners])
-    (o {?art declares-org @o}): ?org
+    (o ?ok {?art declares-org @o}): ?org
     (begin-belief {?art declares-org ?org})
     (begin-belief {?org isa ?ok})
     (begin-belief {?org name ?onm})

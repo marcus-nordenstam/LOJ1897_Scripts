@@ -6,4 +6,6 @@
   (seed_property)
   (initialize-minds)
   (wed-founders)
-  (seat-founding-heads))
+  (seat-founding-heads)
+  (found-households)
+  (join-parishes))

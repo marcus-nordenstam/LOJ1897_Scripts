@@ -7,7 +7,7 @@
 ;   want-worship:      a churchgoer (some politeness) overdue for a service. The pressure
 ;                      ramps with days since the last one, swung by politeness.
 ;   sunday-observance: the devout's observance. Devoutness makes worship a standing duty to
-;                      the church (worship-duty); each Sunday turns it into the day's
+;                      his parish (worship-duty); each Sunday turns it into the day's
 ;                      obligation (sabbath), which this driver reads at the obligation band and
 ;                      attending discharges (reflexes/obligation-worship.mc).
 ; A third drive, rehabilitation (rehabilitation-think.mc), raises the same task on a
@@ -27,11 +27,12 @@
                                       0.0 1.0)) (clamp (+ 1.0 (delib-ctr ?politeness (k-drive-trait-swing))) 0.0 2.0)))
     (effects (maintain-proposal {@self attend-church-service}))))
 
-; A devout man's standing duty to the church he knows, held while he is devout.
+; A devout man's standing duty to his parish, the church org he is a member of, held while he
+; is devout.
 (think worship-duty
   (role @self {@self devoutness [k devout]}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
-    (role ?church [k church-building] (select (score (near @self ?church)) (policy argmax))
+    (role ?church [k church-org] {@self member-of ?church}
       (effects (maintain-belief {@self duty-to ?church attend-church-service})))))
 
 ; Sunday turns the duty into the day's obligation to attend the service.

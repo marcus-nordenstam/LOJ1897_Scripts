@@ -49,7 +49,7 @@
 ; tasks/rest-task.mc and tasks/read-at-task.mc.
 
 ; ----------------------------------------------------------------------------
-; set-mealtimes (think) - the COOK decides the household mealtimes
+; set-mealtimes (driver) - the COOK decides the household mealtimes
 ; (tell-only comms plan, ruling 11). Fires for the ONE person
 ; (household-cook ?home) resolves (hired cook > woman of the house > adult
 ; daughter > head) when her OWN mind lacks the home's supper-hour - so it
@@ -62,12 +62,12 @@
 ; (an entity scan) runs only while the mealtimes are actually unset.
 ; ----------------------------------------------------------------------------
 
-; The woman of the house holds the household's meal hours as a standing duty.
+; The woman of the house owes her household its meal hours, a standing duty.
 (think household-duty
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self gender [k female]}
-    (role ?home {@self home ?home}
-      (effects (maintain-belief {@self duty-to ?home set-mealtimes})))))
+    (role ?household [k household] {@self member-of ?household}
+      (effects (maintain-belief {@self duty-to ?household set-mealtimes})))))
 
 (driver set-mealtimes
   (cooldown 1 m try-until-succ)
@@ -79,7 +79,8 @@
   ; the hours; the (not supper-hour) filter then empties for the whole household.
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self gender [k female]}
-    (role ?home {@self duty-to ?home set-mealtimes}
+              {@self duty-to ? set-mealtimes}
+    (role ?home {@self home ?home}
       ; Latched: the hours this fire sets would fell a live residual and withdraw the tell that
       ; announces them; latched at onset, the activation holds through the announcement.
       (when (latch-eval -{?home supper-hour ?}))

@@ -86,3 +86,45 @@
   (add-table-entry ?art (table-entry articles_form owners
                           [[owner ?tuc-name] [is-org @false] [struck @false]]))
   (seat-org-head ?art ?tuc-wp ?tuc-reg ?head-role))
+
+; found-households - every founder's household is an org he holds himself and his co-founders
+; members of. Founders under one roof are seated in its first room (make-human), so at
+; bootstrap the room they stand in is the home they share.
+(define-func found-households ()
+  (for-each ?h (env-entities [k human])
+    (found-household ?h)))
+
+(define-func found-household (?h)
+  (spatial ?h space /env): ?fh-room
+  (enter-mind ?h)
+  (o [k household] {@self member-of @o}): ?fh-household
+  (begin-belief {@self member-of ?fh-household})
+  (for-each ?m (env-entities [k human])
+    (if (and (not (= ?m ?h)) (= (spatial ?m space /env) ?fh-room))
+        (then
+          (observe ?m): ?fh-member
+          (begin-belief {?fh-member member-of ?fh-household}))))
+  (exit-mind))
+
+; join-parishes - every founder belongs to the parish: he knows the church org by its articles,
+; as its head does (seat-org-head), and is a member of it.
+(define-func join-parishes ()
+  (bind @nothing ?jp-art)
+  (for-each ?art (env-entities [k articles-of-incorporation])
+    (form-match (attr ?art writing) articles_form [/org-kind ?jp-kind])
+    (if (is-a ?jp-kind [k church-org])
+        (then
+          (bind ?art ?jp-art)
+          (break))))
+  (if (substantial ?jp-art)
+      (then
+        (for-each ?h (env-entities [k human])
+          (join-parish ?h ?jp-art)))))
+
+(define-func join-parish (?h ?art)
+  (enter-mind ?h)
+  (observe ?art)
+  (adopt-aoc ?art)
+  (o {?art declares-org @o}): ?jp-church
+  (begin-belief {@self member-of ?jp-church})
+  (exit-mind))
