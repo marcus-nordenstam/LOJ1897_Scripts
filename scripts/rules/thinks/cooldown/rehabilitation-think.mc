@@ -9,7 +9,7 @@
 ; are not cast: already ostracised, a church visit cannot lift them in one pass.
 ; ----------------------------------------------------------------------------
 
-(think rehabilitation
+(driver rehabilitation
   (cooldown 15 d try-until-succ)
   (role @self {@self isa [k human], condition [k alive]}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}

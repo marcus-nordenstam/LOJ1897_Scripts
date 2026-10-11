@@ -24,7 +24,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(think affair
+(driver affair
   (cooldown 1 m try-once)
   (rng-stream incidents)
 

@@ -24,7 +24,7 @@
 ; SEEK: a lover shares my building but we are not yet alone together. Slip to a
 ; vacant room (the same one they resolve). Fire while apart, OR while together with
 ; the spouse in the room (the cue to peel away). Needs somewhere private to go.
-(think tryst-slip
+(driver tryst-slip
   (cooldown 1 d try-once)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}
@@ -48,7 +48,7 @@
 
 ; ACT: alone in a room with the lover -> consummate. ?paramour is a live third-party
 ; lover @self BELIEVES shares his room (the location co-location role filter).
-(think affair-consummate
+(driver affair-consummate
   (cooldown 1 d try-once)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}

@@ -8,7 +8,7 @@
 ; branch keeps proposing it with the same innocent.
 ; ----------------------------------------------------------------------------
 
-(think self-insertion
+(driver self-insertion
   (cooldown 1 m try-once)
   (rng-stream perpetration)
   (role @self {@self narcissism ?narcissism}

@@ -4,14 +4,15 @@
 ; ----------------------------------------------------------------------------
 
 (reflex {?corpse condition [k dead]}
-  (when (and {@self job [k priest]}
-             {?corpse internment [k unburied]}
-             (none {@self obligation {@self bury ?corpse} ?corpse})))
   (effects
     (any {@self job [k priest]}): ?office
-    (begin-belief {@self obligation {@self bury ?corpse} ?corpse /caused_by ?office})))
+    (if (and (substantial ?office)
+             {?corpse internment [k unburied]}
+             (none {@self obligation {@self bury ?corpse} ?corpse}))
+        (then (begin-belief {@self obligation {@self bury ?corpse} ?corpse /caused_by ?office})))))
 
 (reflex {?corpse internment [k buried]}
   (effects
-    (for-each ?obligation (every {@self obligation {@self bury ?corpse} ?corpse})
-      (end-belief ?obligation))))
+    (any {@self obligation {@self bury ?corpse} ?corpse}): ?obligation
+    (if (substantial ?obligation)
+        (then (end-belief ?obligation)))))

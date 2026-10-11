@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(think flee-foe
+(driver flee-foe
   (cooldown 1 m try-once)
 
   (role @self {@self volatility ?volatility}

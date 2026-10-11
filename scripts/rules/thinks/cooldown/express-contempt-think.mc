@@ -27,7 +27,7 @@
   (record cold_contempt  2  ?lover)
   (record cold_contempt  1  (if (<= ?decorum.target 0.35) (then ?decorum))))
 
-(think express-contempt
+(driver express-contempt
   (cooldown 1 m try-once)
   (rng-stream incidents)
 

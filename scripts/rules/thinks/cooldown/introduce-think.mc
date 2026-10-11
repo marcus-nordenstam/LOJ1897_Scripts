@@ -1,6 +1,6 @@
 
 
-(think introduce
+(driver introduce
   (cooldown 1 m try-once)
   (rng-stream behaviour)
   (role @self {@self enthusiasm ?enthusiasm}

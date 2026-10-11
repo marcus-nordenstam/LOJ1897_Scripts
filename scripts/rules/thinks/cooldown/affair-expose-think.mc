@@ -1,5 +1,5 @@
 
-(think affair-expose
+(driver affair-expose
   (cooldown 1 m try-once)
   (rng-stream incidents)
 

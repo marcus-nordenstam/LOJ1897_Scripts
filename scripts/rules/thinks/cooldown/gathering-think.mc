@@ -24,7 +24,7 @@
 
 ; The host's planning decision (think). ~2% of grown NPCs each month decide to
 ; throw a dinner party at home, set about three months ahead.
-(think plan-gathering
+(driver plan-gathering
   (cooldown 1 m try-once)
   (rng-stream behaviour)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
@@ -37,7 +37,7 @@
 ; them is not wired: no co-presence op survives, and an occasion is a nameless abstract
 ; object that cannot ride a spoken wire either, so today the host stages a supper only
 ; he knows about.
-(think plan-impromptu-supper
+(driver plan-impromptu-supper
   (cooldown 1 m try-once)
   (rng-stream behaviour)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
@@ -60,7 +60,7 @@
 ; very thing it mints, or the promoted task fells its own proposal. The
 ; {@self invite ?guest ?occ} the task mints on success is what takes each friend off
 ; the role for good.
-(think want-invite-guest
+(driver want-invite-guest
   (lock)
   (role ?occ {@self organize ?occ}
              {?occ held-on ?held-on}

@@ -17,7 +17,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(think fight-defend
+(driver fight-defend
   (cooldown 1 m try-once)
 
   ; Bind the aggressor + the witnessed violent act (the /caused_by handle); a believed-dead

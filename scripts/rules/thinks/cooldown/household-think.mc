@@ -62,7 +62,14 @@
 ; (an entity scan) runs only while the mealtimes are actually unset.
 ; ----------------------------------------------------------------------------
 
-(think set-mealtimes
+; The woman of the house holds the household's meal hours as a standing duty.
+(think household-duty
+  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+              {@self gender [k female]}
+    (role ?home {@self home ?home}
+      (effects (maintain-belief {@self duty-to ?home set-mealtimes})))))
+
+(driver set-mealtimes
   (cooldown 1 m try-until-succ)
 
   ; The COOK is the woman of the house - self-identified from @self's OWN gender
@@ -72,7 +79,7 @@
   ; the hours; the (not supper-hour) filter then empties for the whole household.
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self gender [k female]}
-    (role ?home {@self home ?home}
+    (role ?home {@self duty-to ?home set-mealtimes}
       ; Latched: the hours this fire sets would fell a live residual and withdraw the tell that
       ; announces them; latched at onset, the activation holds through the announcement.
       (when (latch-eval -{?home supper-hour ?}))

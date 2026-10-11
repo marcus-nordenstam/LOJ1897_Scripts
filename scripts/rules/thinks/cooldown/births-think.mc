@@ -23,7 +23,7 @@
 ; odds that a coupling takes. Their product is the monthly conception rate.
 (define-macro marital_coupling_chance () 0.5)
 
-(think marital-coupling
+(driver marital-coupling
   (cooldown 1 m try-once)
   (rng-stream births)
 

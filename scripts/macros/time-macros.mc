@@ -18,6 +18,9 @@
 ; so a just-before-midnight now still sees an early-morning start as soon.
 (define-macro work-lead-hours () 2)
 
+; (time weekday) of a Sunday (1=Sun .. 7=Sat, the weekday_hours_label table's key).
+(define-macro sunday_weekday () 1)
+
 
 ; Elapsed days since the most recent ?what. The (none ..) gate answers "never done"
 ; FIRST, so the recall only runs when a record exists. The record is handed to

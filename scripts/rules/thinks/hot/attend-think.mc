@@ -43,16 +43,17 @@
     (declare-utility obligation always-pick)
     (effects (maintain-proposal {@self attend ?occ}))))
 
-; An occasion's month gone by unattended: the obligation lapses and strains @self, the strain
-; caused by the occasion's date he still remembers.
+; An occasion's month gone by unattended: the obligation lapses and strains @self over the missed
+; occasion, the strain caused by its date, which he still remembers.
 (think attendance-lapsed
   (cooldown 1 d try-once)
   (cease-after-fire)
   (role ?occ {?occ held-on ?held-on}:?date
-             {@self obligation {@self attend ?occ} ?}:?obligation
+             {@self obligation {@self attend ?occ} ?}
     (when (date-before-current-month ?held-on))
     (effects
-      (mint-pressure-caused [k obligation-strain] @nothing 336 ?date)
+      (any {@self obligation {@self attend ?occ} ?}): ?obligation
+      (mint-pressure-caused [k obligation-strain] ?occ 336 ?date)
       (end-belief ?obligation))))
 
 (think vow-realized

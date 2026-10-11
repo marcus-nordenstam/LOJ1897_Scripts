@@ -13,5 +13,6 @@
 
 (reflex {@self attend ?occ /succ}
   (effects
-    (for-each ?obligation (every {@self obligation {@self attend ?occ} ?})
-      (end-belief ?obligation))))
+    (any {@self obligation {@self attend ?occ} ?}): ?obligation
+    (if (substantial ?obligation)
+        (then (end-belief ?obligation)))))

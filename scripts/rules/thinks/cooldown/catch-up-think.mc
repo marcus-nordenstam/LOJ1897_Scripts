@@ -22,7 +22,7 @@
               (break))))
   ?untold)
 
-(think catch-up
+(driver catch-up
   (cooldown 1 m try-once)
   (rng-stream behaviour)
   ; ?guest is one co-present listener with news of his still untold, the nearest: a crowd is
