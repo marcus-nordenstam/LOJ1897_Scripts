@@ -6,14 +6,19 @@
 
 (include "../../macros/affair-macros.mc")
 
+; How readily @self takes ?suitor as a lover: the pull towards them, or the stray in their own
+; character, whichever is the greater.
+(define-func lover-acceptance (?suitor)
+  (any {@self infidelity-disposition ?infidelity-disposition=0.0})
+  (max (prob {@self fancy|desire|crave ?suitor}) ?infidelity-disposition))
+
 (think accept-lover
   (rng-stream marriages)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
     (role ?suitor {?suitor isa [k human], condition [k alive]}
                   {?suitor lover @self}
                   -{@self lover ?suitor}
-      (when (latch-eval (chance (max (prob {@self fancy|desire|crave ?suitor})
-                                     (any {@self infidelity-disposition ?=0.0}).target))))
+      (when (latch-eval (chance (lover-acceptance ?suitor))))
       (effects
         (begin-belief {@self lover ?suitor})
         (nudge-stance ?suitor attraction (lover_attraction_floor))))))
