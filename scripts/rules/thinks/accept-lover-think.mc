@@ -6,11 +6,12 @@
 
 (include "../../macros/affair-macros.mc")
 
-; How readily @self takes ?suitor as a lover: the pull towards them, or the stray in their own
-; character, whichever is the greater.
+; How readily @self takes ?suitor as a lover: the pull towards them (none when he holds no
+; belief of one), or the stray in their own character, whichever is the greater.
 (define-func lover-acceptance (?suitor)
   (any {@self infidelity-disposition ?infidelity-disposition=0.0})
-  (max (prob {@self fancy|desire|crave ?suitor}) ?infidelity-disposition))
+  (prob {@self fancy|desire|crave ?suitor}): ?pull
+  (max (if (substantial ?pull) (then ?pull) (else 0.0)) ?infidelity-disposition))
 
 (think accept-lover
   (rng-stream marriages)
