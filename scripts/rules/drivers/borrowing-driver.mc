@@ -4,6 +4,15 @@
 ; and TAKE-LOAN's {@self owe ?creditor} drops that creditor from the cast.
 ; ----------------------------------------------------------------------------
 
+; A home of ?creditor's that go-to can take @self to.
+(define-func has-reachable-home (?creditor)
+  (bind @false ?found)
+  (for-each ?home (every {?creditor home ?})
+    (if (go-reachable ?home.target)
+        (then (bind @true ?found)
+              (break))))
+  ?found)
+
 (driver borrowing
   (cooldown 1 m try-once)
   (rng-stream behaviour)
@@ -13,6 +22,7 @@
     (role ?creditor {?creditor isa [k human], condition [k alive]}
                     {?creditor age-band [k youth|young-adult|middle-aged|mature|elderly]}
                     {?creditor home ?}
+                    (has-reachable-home ?creditor)
                     -{@self owe ?creditor}
                     (select (policy first-match))
       (when (latch-eval (chance (* 0.005 (- 1.5 ?industriousness)))))
