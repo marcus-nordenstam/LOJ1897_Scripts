@@ -1,7 +1,9 @@
 ; ----------------------------------------------------------------------------
-; take-applications ?stack - the office post round: the recruiting officer reads every
-; application on ?stack. The office twin of take-my-letters, and the only difference is the
-; one line of body it hands to the generic stack-browse.
+; take-applications ?stack - the office post round: the recruiting officer lifts the next
+; unread application off ?stack into his hand. He does not read it here - recruit-staff reads
+; the form in hand. A form already read is spent: one in his hand is destroyed before the next
+; is lifted, one met on the pile is destroyed as he goes round. A man has two hands, so the
+; round brings in one form; recruit-staff sends him back for the next once it is read.
 ; ----------------------------------------------------------------------------
 
 (task {@self take-applications ?stack}:?take-applications
@@ -9,19 +11,18 @@
   (tar @excl [k stack] @object)
   (and
     (try
+      (role ?spent [k application] (spatial ?spent held-by @self)
+                                   {@self READ ?spent /succ}
+        (effects (maintain-proposal {@self DESTROY-ENTITY ?spent}))))
+    (try
+      (no-role [k application] (spatial ?norole held-by @self) {@self READ ?norole /succ})
       (role @self -{@self stack-browse ?stack ? /succ /caused_by ?take-applications}
         (effects
           (maintain-proposal
             {@self stack-browse ?stack
-              ; A form he has not read, he reads. One he HAS read is spent - its facts are
-              ; beliefs now, and the man's own apply-for is the queue the paper stood in - so
-              ; he burns it. Disposing of it HERE, as the round's work on the doc in hand, is
-              ; what the round expects: a doc the body got rid of is not re-filed. A rung of
-              ; its own instead raced the round and burnt the paper marking cycle-end, which
-              ; left the round no way to end but to empty the pile.
               '(if (is-a .?item [k application])
                    (then (if -{@self READ .?item /succ}
-                             (then (maintain-proposal {@self READ .?item}))
+                             (then (bb-write .?stack-browse keep @true))
                              (else (maintain-proposal {@self DESTROY-ENTITY .?item})))))}))))
     (try
       (role @self {@self stack-browse ?stack ? /succ /caused_by ?take-applications}

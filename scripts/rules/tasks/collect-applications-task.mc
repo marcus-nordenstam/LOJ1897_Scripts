@@ -32,6 +32,7 @@
         (effects (set-outcome ?collect-applications /succ))))
 
     (try
+      (no-role [k mail-stack] (spatial ?norole building ?wp))
       (role @self -{@self locate [k mail-stack] ?wp /succ}
             -{@self locate [k mail-stack] ?wp /fail}
         (effects (maintain-proposal {@self locate [k mail-stack] ?wp}))))

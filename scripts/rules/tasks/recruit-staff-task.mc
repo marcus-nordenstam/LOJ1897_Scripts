@@ -83,6 +83,16 @@
           (when (>= (days-since-last {@self collect-applications ?wp /succ}) 1))
           (effects (maintain-proposal {@self collect-applications ?wp}))))
 
+      ; BACK FOR THE NEXT FORM: the round brings in one, and once it is read the pile may hold
+      ; more - the read form in hand is the sign, and the round disposes of it.
+      (try
+        (lock)
+        (role ?spent [k application] (spatial ?spent held-by @self)
+                                     {@self READ ?spent /succ}
+          (role ?wp {?org workplace ?wp}
+                    {?org display-ad ?}
+            (effects (maintain-proposal {@self collect-applications ?wp})))))
+
       ; READ each form in hand, ONE AT A TIME. Reading is how the man on it comes to be
       ; known. The lock matters: this proposes a TASK per form, and every activation's
       ; proposal sits in the pipeline's task table at once - a stack of forms overflowed it
