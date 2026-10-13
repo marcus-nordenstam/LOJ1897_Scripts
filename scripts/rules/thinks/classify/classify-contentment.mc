@@ -36,7 +36,7 @@
              (* (- 0.5 ?withdrawal) (contentment-affect-weight))
              (/ (- ?wealth 0.5) (contentment-wealth-div))) ?disposition)
     (bind (+ (/ (- ?belonging 0.5) (contentment-belonging-div))
-             (if (= ?sobriety [k lax]) (then (contentment-lax-drink-penalty)) (else 0.0))
+             (flip (= ?sobriety [k lax]) (contentment-lax-drink-penalty) 0.0)
              (* (prob {@self craving ?}) (contentment-craving-penalty))
              (* (- 1.0 (prob {@self job ?})) (contentment-jobless-penalty))) ?circumstance)
 

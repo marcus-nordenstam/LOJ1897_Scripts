@@ -17,7 +17,7 @@
 (driver sleep
   (role @self {@self alertness [k tired|sleepy]}
     (role ?home {@self home ?home}
-      (declare-utility (if {@self alertness [k sleepy]} (then crisis) (else need)) default)
+      (declare-utility (flip {@self alertness [k sleepy]} crisis need) default)
       (effects (maintain-proposal {@self go-to-bed ?home})))))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.

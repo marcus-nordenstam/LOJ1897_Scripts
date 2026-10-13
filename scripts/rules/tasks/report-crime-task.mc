@@ -53,9 +53,9 @@
             (if (unsubstantial (attr ?ltr writing))
                 (then (maintain-proposal
                         {@self write-doc ?ltr
-                               (if (alive ?focus)
-                                   (then (nl-written-msg "I suspect ?focus"))
-                                   (else (nl-written-msg "?loot was stolen from me")))})))))
+                               (flip (alive ?focus)
+                                     (nl-written-msg "I suspect ?focus")
+                                     (nl-written-msg "?loot was stolen from me"))})))))
         (stage
           (effects
             (if (alive ?focus) (then (begin-belief {@self suspect ?focus})))

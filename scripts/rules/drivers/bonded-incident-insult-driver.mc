@@ -52,7 +52,7 @@
       ; derive the ladder context from it, so neither the (when) nor the per-row
       ; select-row (when) re-evaluates it.
       (bind (emotion-load [k anger]) ?emo_load)
-      (bind (if (> ?emo_load 0.5) (then displaced_anger) (else dispositional)) ?emo_ctx)
+      (bind (flip (> ?emo_load 0.5) displaced_anger dispositional) ?emo_ctx)
 
       ; The actor's impulse (dispositional base + displaced anger) and the victim-
       ; stance gate are both non-belief (chance) tests, so they live in (when).
@@ -84,7 +84,7 @@
         (bind rank ?rank)
         (bind barb-eval ?barb)
         (when (= ?ctx ?emo_ctx))
-        (score (if (is-belief ?barb) (then ?rank) (else 0)))
+        (score (flip (is-belief ?barb) ?rank 0))
         (policy roulette))
 
       (declare-utility want)

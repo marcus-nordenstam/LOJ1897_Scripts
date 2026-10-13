@@ -31,11 +31,11 @@
 
 ; A conduct level as virtue: a vice's level inverted.
 (define-func virtue-of (?level ?vice)
-  (if (= ?vice 1) (then (- 1.0 ?level)) (else ?level)))
+  (flip (= ?vice 1) (- 1.0 ?level) ?level))
 
 ; ?who's age in years when his birth date is known, else -1.0.
 (define-func known-age (?who)
-  (if (any {?who birth-date ?}): ?born (then (floor (age ?born.target))) (else -1.0)))
+  (flip (any {?who birth-date ?}): ?born (floor (age ?born.target)) -1.0))
 
 ; The mean upward gap between ?other's prestige and wealth and @self's, over the ones known of both.
 (define-func fortune-gap (?other)
@@ -43,12 +43,12 @@
   (any {@self prestige ?my-prestige=-1.0})
   (any {?other wealth ?their-wealth=-1.0})
   (any {@self wealth ?my-wealth=-1.0})
-  (bind (if (and (>= ?their-prestige 0.0) (>= ?my-prestige 0.0)) (then 1.0) (else 0.0)) ?np)
-  (bind (if (and (>= ?their-wealth 0.0) (>= ?my-wealth 0.0)) (then 1.0) (else 0.0)) ?nw)
-  (if (> (+ ?np ?nw) 0.0)
-      (then (/ (+ (* ?np (- ?their-prestige ?my-prestige)) (* ?nw (- ?their-wealth ?my-wealth)))
-               (+ ?np ?nw)))
-      (else 0.0)))
+  (bind (flip (and (>= ?their-prestige 0.0) (>= ?my-prestige 0.0)) 1.0 0.0) ?np)
+  (bind (flip (and (>= ?their-wealth 0.0) (>= ?my-wealth 0.0)) 1.0 0.0) ?nw)
+  (flip (> (+ ?np ?nw) 0.0)
+        (/ (+ (* ?np (- ?their-prestige ?my-prestige)) (* ?nw (- ?their-wealth ?my-wealth)))
+           (+ ?np ?nw))
+        0.0))
 
 ; Envy of ?other's fortune, over what @self knows of it.
 (define-func feel-envy (?other ?gap)
@@ -66,7 +66,7 @@
     (if (>= ?theirs 0.0)
         (then
           (any {@self ?dim ?mine=-1.0})
-          (bind (+ (caring-base) (if (>= ?mine 0.0) (then (virtue-of ?mine ?vice)) (else 0.5))) ?caring)
+          (bind (+ (caring-base) (flip (>= ?mine 0.0) (virtue-of ?mine ?vice) 0.5)) ?caring)
           (bind (* ?caring (* (- (virtue-of ?theirs ?vice) 0.5) 2.0)) ?pull)
           (bind (+ ?de (* ?we ?pull)) ?de)
           (bind (+ ?dw (* ?ww ?pull)) ?dw)
@@ -91,10 +91,10 @@
 ; Does @self's orientation draw him to ?other's sex? An unknown orientation reads as the common one.
 (define-func drawn-to (?same-sex)
   (any {@self sexual-orient ?orient=@nothing})
-  (bind (if (substantial ?orient) (then ?orient) (else [k hetero])) ?orient)
-  (if (table-match orientation_draw orient ?orient same-sex ?same opposite-sex ?opposite)
-      (then (= (if ?same-sex (then ?same) (else ?opposite)) 1))
-      (else @false)))
+  (bind (flip (substantial ?orient) ?orient [k hetero]) ?orient)
+  (flip (table-match orientation_draw orient ?orient same-sex ?same opposite-sex ?opposite)
+        (= (flip ?same-sex ?same ?opposite) 1)
+        @false))
 
 (define-func judge-attraction-of (?other)
   (any {@self gender ?my-sex=@nothing})

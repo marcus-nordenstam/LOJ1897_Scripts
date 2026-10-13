@@ -66,11 +66,9 @@
 ; charter-head-pos ?art - the head's job for the org kind ?art charters.
 (define-func charter-head-pos (?art)
   (form-match (attr ?art writing) articles_form [/org-kind ?chp-kind])
-  (if (table-match public_orgs kind ?chp-kind head-pos ?chp-hp)
-      (then ?chp-hp)
-      (else (if (table-match cornerstone_businesses kind ?chp-kind head-pos ?chp-cb)
-                (then ?chp-cb)
-                (else @nothing)))))
+  (flip (table-match public_orgs kind ?chp-kind head-pos ?chp-hp)
+        ?chp-hp
+        (flip (table-match cornerstone_businesses kind ?chp-kind head-pos ?chp-cb) ?chp-cb @nothing)))
 
 ; take-up-charter - @self heads an org the town already chartered: the premises, articles and
 ; staff book exist and only the head seat is open, so heading it is his name entered as the

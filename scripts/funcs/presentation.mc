@@ -62,11 +62,9 @@
   (if {@self class-situation ?band}
       (then (bind ?band ?class)))
   (exit-mind)
-  (if (table-match npc_default_spawns gender ?g class ?class file ?exact)
-      (then ?exact)
-      (else (if (table-match npc_default_spawns gender ?g class any file ?catch-all)
-                (then ?catch-all)
-                (else @nothing)))))
+  (flip (table-match npc_default_spawns gender ?g class ?class file ?exact)
+        ?exact
+        (flip (table-match npc_default_spawns gender ?g class any file ?catch-all) ?catch-all @nothing)))
 
 ; ----------------------------------------------------------------------------
 ; THE PRESENTATION WALL - funcs only a presenting host implements.
@@ -149,9 +147,7 @@
 ; (openable-target ?thing) - what the player's aim at ?thing opens or closes: a door-leaf's
 ; double-door, else ?thing. The host hands it to openable-hint, openable-act and the act.
 (define-func openable-target (?thing)
-  (if (is-a ?thing [k door-leaf])
-      (then (spatial ?thing parent /env))
-      (else ?thing)))
+  (flip (is-a ?thing [k door-leaf]) (spatial ?thing parent /env) ?thing))
 
 ; (openable-in-reach ?thing) - ?thing swings or slides and @self can reach it: the
 ; precondition OPEN and CLOSE check, asserted here by their proposer, the player's aim.

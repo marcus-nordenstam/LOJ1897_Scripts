@@ -30,14 +30,12 @@
 ; takes the start of an ongoing event and the end of a concluded one, which is the answer
 ; either way: nothing is more recent than what is happening now.
 (define-macro days-since-last (?what)
-  (if (none ?what)
-    (then 36500) ; 100 years in days - never done
-    (else (elapsed /days (highest /end ?what)))))
+  (flip (none ?what)
+        36500 ; 100 years in days - never done
+        (elapsed /days (highest /end ?what))))
 
 ; The same count as a float, for a caller that weighs it.
 (define-macro days-since-last-float (?what)
-  (if (none ?what)
-    (then 36500.0)
-    (else (elapsed /days /float (highest /end ?what)))))
+  (flip (none ?what) 36500.0 (elapsed /days /float (highest /end ?what))))
 
 

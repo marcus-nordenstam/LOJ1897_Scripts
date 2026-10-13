@@ -33,9 +33,7 @@
 ; of the seat he keeps.
 (define-func stamp-shift-hours (?job ?job-kind ?ssh-shift)
   (do
-    (if (table-match occupation_shifts job ?job-kind)
-        (then ?job-kind)
-        (else [k job])): ?ssh-key
+    (flip (table-match occupation_shifts job ?job-kind) ?job-kind [k job]): ?ssh-key
     (for-each-row occupation_shifts
         [/job ?ssh-j] [/shift-id ?ssh-sid] [/day-label ?ssh-day]
         [/start-h ?ssh-start] [/end-h ?ssh-end]
@@ -141,9 +139,9 @@
     (if (table-match org_staffing org-kind ?org-kind staff-role ?ep-role)
       (then
         (bind 0 ?ep-line)
-        (repeat (if (table-match public_orgs kind ?org-kind employee-count ?ep-n)
-                    (then ?ep-n)
-                    (else (k-default-staff-posts)))
+        (repeat (flip (table-match public_orgs kind ?org-kind employee-count ?ep-n)
+                      ?ep-n
+                      (k-default-staff-posts))
           (do
             (bind (+ ?ep-line 1) ?ep-line)
             (table-add ?reg job-id ?ep-line worker @nothing job ?ep-role

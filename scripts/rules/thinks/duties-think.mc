@@ -40,8 +40,8 @@
           ; whoever @self holds under it (a colleague he reads off this same roster every quarter).
           (when (and (substantial ?senior-name)
                      (alive (o [k human] {@o name ?senior-name}))))
-          (score (+ 1 (if (is-a ?sjk [k org-head]) (then 100) (else 0))
-                      (* 10 (if (table-match level_rank level ?slvl rank ?lr) (then ?lr) (else 0)))))
+          (score (+ 1 (flip (is-a ?sjk [k org-head]) 100 0)
+                      (* 10 (flip (table-match level_rank level ?slvl rank ?lr) ?lr 0))))
           (policy argmax)
           (else fail))
 

@@ -122,14 +122,13 @@
 ; over generation.
 (define-func trait-value (?trait ?mean ?sigma ?mother ?father)
   (tolerate (and (substantial ?mother) (substantial ?father))): ?has-parents
-  (if ?has-parents
-    (then
-      (clamp (+ (* (trait_heritability) (attr ?mother ?trait))
-                (* (trait_heritability) (attr ?father ?trait))
-                (* (- 1.0 (* 2.0 (trait_heritability))) ?mean)
-                (sample-gaussian 0.0 ?sigma))
-             0.0 1.0))
-    (else (clamp (sample-gaussian ?mean ?sigma) 0.0 1.0))))
+  (flip ?has-parents
+        (clamp (+ (* (trait_heritability) (attr ?mother ?trait))
+                  (* (trait_heritability) (attr ?father ?trait))
+                  (* (- 1.0 (* 2.0 (trait_heritability))) ?mean)
+                  (sample-gaussian 0.0 ?sigma))
+               0.0 1.0)
+        (clamp (sample-gaussian ?mean ?sigma) 0.0 1.0)))
 
 ; One SINGULAR kind-typed trait (appearance, girth, height, hair, eyes). A child
 ; takes its mother's, its father's, or a fresh draw, at even odds; a parentless
@@ -150,7 +149,7 @@
 ; The sex-conditioned population centre for one continuous trait, off its row.
 ; Most traits are not dimorphic and carry the same figure in both columns.
 (define-func sex-trait-mean (?gender ?mean-male ?mean-female)
-  (if (= ?gender [k male]) (then ?mean-male) (else ?mean-female)))
+  (flip (= ?gender [k male]) ?mean-male ?mean-female))
 
 ; Write every continuous genetic trait onto ?h.
 (define-func seed-continuous-traits (?h ?gender ?mother ?father)

@@ -59,7 +59,7 @@
   (for-each ?cand (spatial ?who hold [k pile])
     (if {?cand content-kind ?kind}
         (then (bind ?cand ?pile))))
-  (if {?pile count ?count} (then ?count) (else 0)))
+  (flip {?pile count ?count} ?count 0))
 
 ; (believed-pile-count ?place ?kind): the loaf-count this MIND believes the ?kind pile
 ; at ?place holds (0 if it believes there is none) - per-mind and no-telepathy. Reads
@@ -69,12 +69,12 @@
   (for-each ?cand (spatial ?place contents [k pile])
     (if {?cand content-kind ?kind}
         (then (bind ?cand ?pile))))
-  (if {?pile count ?count} (then ?count) (else 0)))
+  (flip {?pile count ?count} ?count 0))
 
 ; (believed-home-food-count ?home): the loaf-count this mind believes is in its home
 ; LARDER (the kitchen pile). The larder lives in the kitchen room, so it resolves the
 ; believed kitchen first (0 if the mind knows no kitchen).
 (define-func believed-home-food-count (?home)
-  (if (spatial ?home room [k kitchen])
-      (then (believed-pile-count (spatial ?home room [k kitchen]) [k food]))
-      (else 0)))
+  (flip (spatial ?home room [k kitchen])
+        (believed-pile-count (spatial ?home room [k kitchen]) [k food])
+        0))

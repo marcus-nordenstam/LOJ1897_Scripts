@@ -19,9 +19,7 @@
   (and
     (sequence
       (stage (bind (tolerate (spatial ?passage beyond ?to)) ?near)
-             (bind (if (and (barred ?passage) (substantial ?near))
-                       (then (passage-stance ?passage ?near))
-                       (else @nothing))
+             (bind (flip (and (barred ?passage) (substantial ?near)) (passage-stance ?passage ?near) @nothing)
                    ?before)
              (effects (cond
                         (case (is-spot ?before)

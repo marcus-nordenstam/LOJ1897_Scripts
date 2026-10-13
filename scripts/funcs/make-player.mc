@@ -23,7 +23,7 @@
   (check ?p)
   (if ?p
     (then
-      (if (= ?female 1) (then [k female]) (else [k male])): ?gender
+      (flip (= ?female 1) [k female] [k male]): ?gender
       (bind [k middle] ?class)
       (table-sample-weighted nationality_dist value weight): ?nat
       (set-attr ?p gender ?gender)

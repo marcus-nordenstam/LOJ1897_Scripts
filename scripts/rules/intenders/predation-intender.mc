@@ -62,9 +62,9 @@
                       (overlapping-target {?victim eye-color} {@self eye-color-fixation}))
                   ; Invisibility score. Low class / stained repute = safer.
                   (select (score (+ 0.1
-                                    (if {?victim class-situation [k lower]} (then 1.0) (else 0.0))
-                                    (if {?victim repute [k disreputable]} (then 1.0) (else 0.0))
-                                    (if {?victim repute [k scandalous]} (then 1.0) (else 0.0))))
+                                    (flip {?victim class-situation [k lower]} 1.0 0.0)
+                                    (flip {?victim repute [k disreputable]} 1.0 0.0)
+                                    (flip {?victim repute [k scandalous]} 1.0 0.0)))
                           (policy argmax))
 
       ; The REASON: the fixation (read as the /caused_by anchor, never re-minted - so the
@@ -78,7 +78,7 @@
                  -{?victim condition [k dead]}
                  (latch-eval (chance (* (crime-scale) 0.005
                                 (* (* (- 1.0 ?inhibition) (* 0.5 (+ ?psychopathy ?sadism)))
-                                   (if {@self life-aim [k power-aim]} (then 2.0) (else 1.0))))))))
+                                   (flip {@self life-aim [k power-aim]} 2.0 1.0)))))))
       (declare-utility want)
       (effects
         (maintain-intent {@self intent {@self kill ?victim}} /caused_by ?fixation_bond)))))

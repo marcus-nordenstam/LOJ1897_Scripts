@@ -6,9 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (define-func draw-shift (?job-kind)
-  (if (table-match occupation_shifts job ?job-kind)
-      (then ?job-kind)
-      (else [k job])): ?key
+  (flip (table-match occupation_shifts job ?job-kind) ?job-kind [k job]): ?key
   (bind 0 ?top)
   (for-each-row occupation_shifts [/job ?j] [/shift-id ?sid]
     (if (and (= ?j ?key) (> ?sid ?top))

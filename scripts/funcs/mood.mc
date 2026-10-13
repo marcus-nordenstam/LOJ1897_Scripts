@@ -44,13 +44,13 @@
   (record [k rivalry-pressure]   0.5))
 
 (define-func emotion-valence (?kind)
-  (if (table-match emotion_affect kind ?kind valence ?v) (then ?v) (else 0.0)))
+  (flip (table-match emotion_affect kind ?kind valence ?v) ?v 0.0))
 
 (define-func emotion-arousal (?kind)
-  (if (table-match emotion_affect kind ?kind arousal ?a) (then ?a) (else 0.0)))
+  (flip (table-match emotion_affect kind ?kind arousal ?a) ?a 0.0))
 
 (define-func pressure-stress (?kind)
-  (if (table-match pressure_affect kind ?kind stress ?s) (then ?s) (else 0.0)))
+  (flip (table-match pressure_affect kind ?kind stress ?s) ?s 0.0))
 
 ; A mood value is kept to hundredths.
 (define-func mood-grain (?x)
@@ -61,9 +61,7 @@
   (end-where ?p {@self pressure ? ?} (<= (pressure-intensity ?p) 0.0))
   (end-where ?e {@self emotion ? ?} (<= (emotion-intensity ?e) 0.0))
   (bind (sum-over ?p {@self pressure ?kind ?}
-          (if (has-live-cause ?p)
-              (then (* (pressure-intensity ?p) (pressure-stress ?kind)))
-              (else 0.0))) ?stress)
+          (flip (has-live-cause ?p) (* (pressure-intensity ?p) (pressure-stress ?kind)) 0.0)) ?stress)
   (bind (sum-over ?e {@self emotion ? ?} (emotion-intensity ?e)) ?felt)
   (if (> ?stress 0.0)
       (then (set-self-state stress (mood-grain (clamp ?stress 0.0 1.0)))))

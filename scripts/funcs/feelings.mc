@@ -36,11 +36,9 @@
   (record psychopathy [k moral-violation] -0.6 1))
 
 (define-func trait-factor (?kind ?trait ?value)
-  (if (table-match trait_affect trait ?trait kind ?kind gain ?g one-sided ?one)
-      (then (+ 1.0 (* ?g (if (= ?one 1)
-                             (then (max (- ?value 0.5) 0.0))
-                             (else (- ?value 0.5))))))
-      (else 1.0)))
+  (flip (table-match trait_affect trait ?trait kind ?kind gain ?g one-sided ?one)
+        (+ 1.0 (* ?g (flip (= ?one 1) (max (- ?value 0.5) 0.0) (- ?value 0.5))))
+        1.0))
 
 ; The salience a feeling of ?kind is felt with, from its authored base in hours.
 (define-func feeling-salience (?kind ?hours)

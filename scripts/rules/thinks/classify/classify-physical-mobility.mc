@@ -24,6 +24,4 @@
         (then (end-belief {@self physical-mobility ?}))
         (else
           (begin-belief {@self physical-mobility
-            (if {@self awareness [k unconscious]}
-              (then [k bedridden])
-              (else [k mobile]))}))))))
+            (flip {@self awareness [k unconscious]} [k bedridden] [k mobile])}))))))

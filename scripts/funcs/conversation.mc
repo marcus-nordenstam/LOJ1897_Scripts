@@ -39,7 +39,7 @@
 
 ; (speech-sound ?msg) - the sound saying ?msg makes: a [k shout] called out, else [k speech].
 (define-func speech-sound (?msg)
-  (if (call-msg ?msg) (then [k shout]) (else [k speech])))
+  (flip (call-msg ?msg) [k shout] [k speech]))
 
 ; (within-call ?listener) - ?listener would hear @self call out, as @self knows where he
 ; stands - seen, or heard: a voice places the man it came from.

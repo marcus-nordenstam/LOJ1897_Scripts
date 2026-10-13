@@ -58,11 +58,11 @@
   ?found)
 
 (define-func go-unseen (?dest)
-  (if (is-spot ?dest) (then @false) (else (not (grounded ?dest)))))
+  (flip (is-spot ?dest) @false (not (grounded ?dest))))
 
 ; A thing he has placed: grounded, and no spot.
 (define-func go-placed-thing (?dest)
-  (if (is-spot ?dest) (then @false) (else (grounded ?dest))))
+  (flip (is-spot ?dest) @false (grounded ?dest)))
 
 ; A dest go-to can reach: a spot, a thing he has placed, one he believes in some space, or one
 ; whose address he knows.

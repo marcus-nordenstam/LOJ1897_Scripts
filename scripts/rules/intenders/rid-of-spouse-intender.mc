@@ -48,8 +48,8 @@
                  -{?spouse condition [k dead]}
                  (latch-eval (chance
                        (* (crime-scale) 0.02
-                          (* (+ (if (<= (stance-band ?spouse warmth) (detest-warmth-max)) (then 1.0) (else 0.0))
-                                (if {?spouse (theme-labels violent-to) @self /ever} (then 1.0) (else 0.0)))
+                          (* (+ (flip (<= (stance-band ?spouse warmth) (detest-warmth-max)) 1.0 0.0)
+                                (flip {?spouse (theme-labels violent-to) @self /ever} 1.0 0.0))
                              (* (+ 0.5 ?psychopathy)
                                 (* (- 1.0 ?inhibition)
                                    (* (- 1.0 ?compassion)

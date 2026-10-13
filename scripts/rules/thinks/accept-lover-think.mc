@@ -11,7 +11,7 @@
 (define-func lover-acceptance (?suitor)
   (any {@self infidelity-disposition ?infidelity-disposition=0.0})
   (prob {@self fancy|desire|crave ?suitor}): ?pull
-  (max (if (substantial ?pull) (then ?pull) (else 0.0)) ?infidelity-disposition))
+  (max (flip (substantial ?pull) ?pull 0.0) ?infidelity-disposition))
 
 (think accept-lover
   (rng-stream marriages)

@@ -5,7 +5,7 @@
   (any {?p spouse ?spouse=@nothing})
   (> (count (every {?p lover ?}))
      (+ (count (every {?p lover @self}))
-        (if (substantial ?spouse) (then (count (every {?p lover ?spouse}))) (else 0)))))
+        (flip (substantial ?spouse) (count (every {?p lover ?spouse})) 0))))
 
 ; Does the deliberator believe his own spouse or lover keeps an interloper?
 (define-func knows-affair ()

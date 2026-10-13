@@ -32,9 +32,9 @@
         (then (begin-belief {?org membership-roll ?aoc-book})))
     (for-each-row ?oowners [/owner ?aoc-oname] [/is-org ?aoc-oorg] [/struck ?aoc-ostruck]
       (if (not ?aoc-ostruck)
-          (then (bind (if ?aoc-oorg
-                            (then (o [k org] {@o name ?aoc-oname}))
-                            (else (o [k human] {@o name ?aoc-oname})))
+          (then (bind (flip ?aoc-oorg
+                              (o [k org] {@o name ?aoc-oname})
+                              (o [k human] {@o name ?aoc-oname}))
                         ?aoc-owner)
                 (if -{?aoc-owner name ?aoc-oname}
                     (then (begin-belief {?aoc-owner name ?aoc-oname})))

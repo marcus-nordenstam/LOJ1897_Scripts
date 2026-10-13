@@ -41,9 +41,7 @@
               (case (table-match level_rank level ?level rank ?rung) ?rung)
               (else 0)) ?rank)
       (begin-belief {@self prestige
-        (clamp (+ (if (table-match prestige_by_rank rank ?rank prestige ?curve)
-                    (then ?curve)
-                    (else 0.15))
+        (clamp (+ (flip (table-match prestige_by_rank rank ?rank prestige ?curve) ?curve 0.15)
                   (min (* (count (every {@self win ?}) /float) 0.04) 0.20)
                   (* 0.15
                      (min (+ (prob {@self skilled-in [k performance-art] [k expert]})

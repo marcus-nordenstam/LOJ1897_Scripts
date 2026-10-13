@@ -77,7 +77,7 @@
 ; ---- the meal desires (propose {@self eat [k <meal>] <place>}) -------------
 
 ; A hungry man wants his meal as a need, a famished one as a crisis.
-(define-macro meal-utility-band () (if (any {@self satiety [k famished]}) (then crisis) (else need)))
+(define-macro meal-utility-band () (flip (any {@self satiety [k famished]}) crisis need))
 
 ; BREAKFAST - at home, come-as-you-wake (3h window, the one exception to the 2h
 ; rule): you breakfast in the house you woke in or not at all.
@@ -158,11 +158,11 @@
 ; BOUGHT-OUT meal is charged; a home / workplace meal is eaten from one's own larder.
 (define-func meal-affect (?place)
   (any {@self enthusiasm ?enthusiasm=0.0})
-  (if (eat-dining-out ?place) (then (* ?enthusiasm 20.0)) (else 0.0)))
+  (flip (eat-dining-out ?place) (* ?enthusiasm 20.0) 0.0))
 
 (define-func meal-cost (?meal ?place)
   (any {@self carrying-cash-pile.count ?coins=0})
-  (money-cost-util ?coins (if (eat-dining-out ?place) (then (price ?meal ?place)) (else 0))))
+  (money-cost-util ?coins (flip (eat-dining-out ?place) (price ?meal ?place) 0)))
 
 ; At the meal's place: in its building, or in its room for a meal taken in one.
 (define-func at-meal-place (?place)

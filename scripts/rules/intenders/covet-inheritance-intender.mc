@@ -64,7 +64,7 @@
         ; Read as the /caused_by anchor, never re-minted, so the drive fades if the wealth
         ; belief lifts. The victim is the benefactor's heir-apparent: the benefactor when
         ; @self IS that heir (impatient heir), else the front-running heir (clear succession).
-        (if (= ?heir @self) (then ?benefactor) (else ?heir)): ?victim
+        (flip (= ?heir @self) ?benefactor ?heir): ?victim
 
         ; Disposition pre-gate + wealth floor. greed = mean(machiavellianism, psychopathy);
         ; propensity = (1 - inhibition) * greed; fire at k_covet_base_rate * propensity. The

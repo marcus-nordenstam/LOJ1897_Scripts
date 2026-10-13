@@ -40,7 +40,7 @@
   ; has a pair of its own.
   (for-each ?mb (env-entities [k building])
     (spatial ?mb parts [k unit] /env): ?units
-    (for-each ?household (if (empty ?units) (then ?mb) (else ?units))
+    (for-each ?household (flip (empty ?units) ?mb ?units)
       (spatial ?household room /env): ?mroom
       (if ?mroom
         (then
@@ -89,8 +89,7 @@
 ; free-premises-for ?org-kind - the first building on the for-sale register of the premises
 ; kind the businesses table gives ?org-kind (an office when it names none), or @nothing.
 (define-func free-premises-for (?org-kind)
-  (if (table-match businesses org-kind ?org-kind building ?fp-bk)
-      (then ?fp-bk) (else [k office])): ?fp-kind
+  (flip (table-match businesses org-kind ?org-kind building ?fp-bk) ?fp-bk [k office]): ?fp-kind
   (bind @nothing ?found)
   (for-each ?fp-reg (env-entities [k for-sale-listings])
     (for-each ?fp-b (env-entities ?fp-kind)

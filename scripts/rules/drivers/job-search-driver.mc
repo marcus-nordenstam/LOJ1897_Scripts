@@ -34,7 +34,7 @@
                      (select (score 1) (policy roulette))
             (when (and (hours (business_open_hour) (business_close_hour))
                        (kind ?job): ?jk
-                       (if (table-match occupations job ?jk class-floor ?cf0) (then ?cf0) (else [k lower])): ?cf
+                       (flip (table-match occupations job ?jk class-floor ?cf0) ?cf0 [k lower]): ?cf
                        (>= (cond
                              (case {@self class-situation [k upper]}  2)
                              (case {@self class-situation [k middle]} 1)

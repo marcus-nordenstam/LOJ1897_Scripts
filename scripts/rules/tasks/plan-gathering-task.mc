@@ -38,9 +38,9 @@
       (stage
         (effects
           (+ (time month) ?months): ?pg-m
-          (if (> ?pg-m 12)
-              (then (create-date (+ (time year) 1) (- ?pg-m 12) 15))
-              (else (create-date (time year) ?pg-m 15))): ?pg-date
+          (flip (> ?pg-m 12)
+                (create-date (+ (time year) 1) (- ?pg-m 12) 15)
+                (create-date (time year) ?pg-m 15)): ?pg-date
           (if (none {?occ host ?})         (then (begin-belief {?occ host @self})))
           (if (none {?occ venue ?})        (then (begin-belief {?occ venue ?my-home})))
           (if (none {?occ hours ?})        (then (begin-belief {?occ hours 19 23})))

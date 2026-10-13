@@ -32,10 +32,7 @@
               (if (bb-any ?draft-verdict letter)
                   (then (bind (bb-read ?draft-verdict letter) ?ltr)
                         (bind (kind ?ltr) ?kind))
-                  (else (bind (if -{? job ?job}
-                                  (then [k offer-letter])
-                                  (else [k rejection-letter]))
-                              ?kind)
+                  (else (bind (flip -{? job ?job} [k offer-letter] [k rejection-letter]) ?kind)
                         (maintain-proposal {@self CREATE-ENTITY ?kind}:?CREATE-ENTITY
                           [/postlude (bind (bb-read ?CREATE-ENTITY created) ?ltr)
                                      (bb-write ?draft-verdict letter ?ltr)])))))

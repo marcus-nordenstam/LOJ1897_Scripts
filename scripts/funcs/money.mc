@@ -4,10 +4,10 @@
 ; actor's marginal value of money - dear to a pauper (a thin carrying-cash-pile diverges toward the
 ; reserve floor), nothing to a lord. 0 for a free means.
 (define-func money-cost-util (?balance ?price)
-  (if (<= ?price 0)
-      (then 0.0)
-      (else (* (* /float (/ (money_reference_balance) (max /float (money_reserve_balance) ?balance)) ?price)
-               (money_utility_scale)))))
+  (flip (<= ?price 0)
+        0.0
+        (* (* /float (/ (money_reference_balance) (max /float (money_reserve_balance) ?balance)) ?price)
+           (money_utility_scale))))
 
 ; (seed-carrying-cash-pile ?h): a new human's carrying-cash-pile - an empty coin pile stowed about him,
 ; which he feels - and his yearly pay day. Called by every creation path: the founder pass,

@@ -6,7 +6,7 @@
 ; needs no alignment.
 (define-func months-since-death (?c)
   (bind (start-time {?c condition [k dead]}) ?learned)
-  (if (substantial ?learned)
-      (then (max 0 (+ (* 12 (- (year (time date)) (year ?learned)))
-                      (- (month (time date)) (month ?learned)))))
-      (else 0)))
+  (flip (substantial ?learned)
+        (max 0 (+ (* 12 (- (year (time date)) (year ?learned)))
+                  (- (month (time date)) (month ?learned))))
+        0))

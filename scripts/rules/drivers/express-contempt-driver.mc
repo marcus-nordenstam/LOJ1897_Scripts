@@ -59,7 +59,7 @@
         (bind rank ?rank)
         (bind barb-eval ?barb)
         (when (= ?ctx cold_contempt))
-        (score (if (is-belief ?barb) (then ?rank) (else 0)))
+        (score (flip (is-belief ?barb) ?rank 0))
         (policy roulette))
 
       (declare-utility want)
