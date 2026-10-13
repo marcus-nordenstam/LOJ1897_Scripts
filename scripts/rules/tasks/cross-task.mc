@@ -15,19 +15,25 @@
 
 (task {@self cross ?passage ?to}:?cross
   (tar @excl [k passage] @object)
-  (init (check (substantial (tolerate (spatial ?passage beyond ?to)))))
   (cease (if (within-space @self ?to) (then (set-outcome ?cross /succ))))
   (and
     (sequence
-      (stage (bind (if (barred ?passage)
-                       (then (passage-stance ?passage (spatial ?passage beyond ?to)))
+      (stage (bind (tolerate (spatial ?passage beyond ?to)) ?near)
+             (bind (if (and (barred ?passage) (substantial ?near))
+                       (then (passage-stance ?passage ?near))
                        (else @nothing))
                    ?before)
-             (effects (if (is-spot ?before)
-                          (then (expect (unsubstantial (spatial @self leg ?before))
-                                        "cross: the near side of the passage lies outside his domain")
-                                (if (not (overlaps ?before @self))
-                                    (then (maintain-proposal {@self go-to ?before})))))))
+             (effects (cond
+                        (case (is-spot ?before)
+                          (expect (unsubstantial (spatial @self leg ?before))
+                                  "cross: the near side of the passage lies outside his domain")
+                          (if (not (overlaps ?before @self))
+                              (then (maintain-proposal {@self go-to ?before}))))
+                        ; The room before a shut door he does not know: he walks up to the door,
+                        ; and the walk shows him the room.
+                        (case (and (barred ?passage) (unsubstantial ?near)
+                                   (not (spatial @self can-reach ?passage)))
+                          (maintain-proposal {@self go-to ?passage})))))
       (stage (when (or (not (barred ?passage)) (spatial @self can-reach ?passage)))
              (effects (if (barred ?passage)
                           (then (maintain-proposal {@self OPEN ?passage})))))
@@ -35,6 +41,7 @@
              (effects (maintain-proposal {@self WALK ?beyond})))
       (stage (effects (set-outcome ?cross /succ))))
     (try (when (and (barred ?passage)
+                    (substantial (tolerate (spatial ?passage beyond ?to)))
                     (not (passage-stance-exists ?passage (spatial ?passage beyond ?to)))))
          (effects (set-outcome ?cross /fail)))
     (try (role @self (or (barred-locked ?passage)
