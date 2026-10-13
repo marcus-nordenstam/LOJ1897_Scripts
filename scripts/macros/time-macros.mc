@@ -16,7 +16,7 @@
 ; (work-starts-soon ?start ?end): NOT on shift now, and the shift's next start is
 ; within the 120-minute lead. delta = start*60 - now-min, wrapped into [0,1440)
 ; so a just-before-midnight now still sees an early-morning start as soon.
-(define-macro work-lead-hours () 2)
+(define-macro work-lead-hours () 2.0)
 
 ; (time weekday) of a Sunday (1=Sun .. 7=Sat, the weekday_hours_label table's key).
 (define-macro sunday_weekday () 1)

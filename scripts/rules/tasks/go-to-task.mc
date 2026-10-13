@@ -90,9 +90,8 @@
 ; Where he stands at a thing: in the room he walks into of a building or unit open to him, by
 ; anything else he has a box for, else toward the box he remembers.
 (define-func go-thing-stand-spot (?dest)
-  (if (or (is-a ?dest [k building]) (is-a ?dest [k unit]))
-      (then (bind (go-walk-in-room ?dest) ?room))
-      (else (bind @nothing ?room)))
+  (bind (flip (or (is-a ?dest [k building]) (is-a ?dest [k unit])) (go-walk-in-room ?dest) @nothing)
+        ?room)
   (cond (case (substantial ?room) (stand-spot-in ?room))
         (case (substantial (tolerate (spatial ?dest bounds))) (stand-spot-by ?dest))
         (else (go-travel-spot ?dest))): ?spot
