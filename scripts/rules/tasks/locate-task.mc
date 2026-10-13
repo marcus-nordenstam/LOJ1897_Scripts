@@ -5,10 +5,12 @@
 ; moment the location is known the maintains evaporate and locate concludes.
 ; ----------------------------------------------------------------------------
 
-; ?thing is known inside ?bldg: a thing placed in it, or a room of it.
+; ?thing is known inside ?bldg: a thing placed in it, or a room of it. An object must be seen:
+; a room known only by its address is in the building and still nowhere he can walk to.
 (define-func locate-known (?thing ?bldg)
-  (or (within-place ?thing ?bldg)
-      (spatial ?bldg room ?thing)))
+  (and (flip (is-object ?thing) (grounded ?thing) @true)
+       (or (within-place ?thing ?bldg)
+           (spatial ?bldg room ?thing))))
 
 (task {@self locate ?thing ?bldg}:?locate
   (tar @excl)
