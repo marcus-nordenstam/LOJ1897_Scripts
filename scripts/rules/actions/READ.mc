@@ -18,7 +18,7 @@
 
 
 (action {@self READ ?doc}:?READ
-  (motor eyes legs)
+  (motor eyes)
   (obs)
   (tar @excl)
   (presentation

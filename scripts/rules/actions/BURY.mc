@@ -16,7 +16,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self BURY ?corpse}:?BURY
-  (motor body legs)
+  (motor body)
   (duration (seconds 60 min))
   (effects
     ; The burier READS the body before it goes in the ground: any blemish of the

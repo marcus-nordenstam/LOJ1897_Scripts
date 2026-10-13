@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self BREAK-WINDOW ?win}:?BREAK-WINDOW
-  (motor body legs)
+  (motor body)
   (track-skill-level [k illicit])
   (tar [k object] @object) (duration (seconds 1 min))
   (effects

@@ -9,7 +9,7 @@
 
 
 (action {@self WEAR ?article ?part}:?WEAR
-  (motor right-hand legs)
+  (motor right-hand)
   (obs)
   (tar @excl)
   (duration 0.6)

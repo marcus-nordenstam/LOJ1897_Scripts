@@ -10,7 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self RECORD-OFFER ?applicant-name ?job-id}:?RECORD-OFFER
-  (motor body legs)
+  (motor right-hand)
   (track-skill-level [k personnel])
   (tar ?)
   (aux ?)

@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self WORSHIP}:?WORSHIP
-  (motor body legs)
+  (motor body)
   (duration (seconds 90 min))
   (init (check (stands-in-room [k nave])))
   (effects

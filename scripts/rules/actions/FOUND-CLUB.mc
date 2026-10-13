@@ -18,7 +18,7 @@
 ;  (record [k athletic-club] 1))
 
 ;(action {@self FOUND-CLUB}
-;  (motor body legs)
+;  (motor body)
 ;  (duration (seconds 90 min))
 ;  (effects
 ;    ; Clubs are not premises-gated; a dry pool just no-ops found-club-seq's own

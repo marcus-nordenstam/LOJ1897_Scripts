@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self STACK-PUT ?doc ?stack}:?STACK-PUT
-  (motor body legs)
+  (motor body)
   (obs)
   (tar @excl)
   (presentation

@@ -18,7 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self HOLD-MEET-RUN ?art}:?HOLD-MEET-RUN
-  (motor body legs)
+  (motor mouth)
   (track-skill-level [k officiating])
   (duration (seconds 30 min))
   (effects

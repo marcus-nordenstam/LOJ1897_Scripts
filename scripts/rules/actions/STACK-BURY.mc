@@ -5,7 +5,7 @@
 
 
 (action {@self STACK-BURY ?doc ?stack}:?STACK-BURY
-  (motor body legs)
+  (motor body)
   (duration (seconds 1 min))
   (effects
     ; The twin of STACK-TAKE's: a man files a paper in the pile he is standing at.

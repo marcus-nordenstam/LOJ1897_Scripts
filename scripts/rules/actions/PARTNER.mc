@@ -15,7 +15,7 @@
 ;; ----------------------------------------------------------------------------
 
 ;(action {@self PARTNER ?art}
-;  (motor body legs)
+;  (motor body)
 ;  (duration (seconds 90 min))
 ;  (effects
 ;    (fire-self)

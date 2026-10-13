@@ -14,7 +14,7 @@
 ; hand) is the proposing think's arithmetic and rides the pattern; the body
 ; only fills the basket at the shop it stands in - the physical grabbing.
 (action {@self PROVISION ?cap}:?PROVISION
-  (motor body legs)
+  (motor body)
   (duration (seconds 15 min))
   (effects
     ; The shelf is ONE food pile; the basket is ONE food pile in hand. Buying

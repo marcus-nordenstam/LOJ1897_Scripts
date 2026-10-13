@@ -12,10 +12,9 @@
 (include "../../macros/tunables.mc")
 
 ; STAYING PUT IS NOT IDLING. A dwell is proposed for a reason - manning a post between
-; duties, waiting out an occasion - so it inherits its proposer's utility and competes on
-; it like any other act. It carried (idle-action) once, which made it yield at equal
-; utility to anything purposeful, and that is how a man wandered off his shift.
+; duties, waiting out an occasion - so it stays in its proposer's band and competes there
+; like any other act; a post-stay sits at the band's floor (fallback), below every duty.
 (action {@self DWELL ?place ?until}:?DWELL
-  (motor body legs)
+  (motor legs)
   (duration (seconds (minutes-until-hour (modulo ?until (clock_hours))) min))
   (effects (set-outcome ?DWELL /succ)))

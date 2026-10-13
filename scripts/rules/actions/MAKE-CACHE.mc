@@ -18,7 +18,7 @@
 
 
 (action {@self MAKE-CACHE ?building}:?MAKE-CACHE
-  (motor body legs)
+  (motor body)
   (duration 0)
   (effects
     (bind 0 ?made)

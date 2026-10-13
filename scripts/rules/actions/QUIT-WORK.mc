@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self QUIT-WORK}:?QUIT-WORK
-  (motor body legs)
+  (motor mouth)
   (duration (seconds 60 min))
   (effects
     (fire-self)

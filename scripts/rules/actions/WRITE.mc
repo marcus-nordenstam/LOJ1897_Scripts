@@ -24,7 +24,7 @@
 
 (action {@self WRITE ?doc ?sentence}:?WRITE
   (track-skill-level [k literacy])
-  (motor right-hand legs)
+  (motor right-hand)
   (obs)
   (tar @excl)
   (aux @msg @excl)

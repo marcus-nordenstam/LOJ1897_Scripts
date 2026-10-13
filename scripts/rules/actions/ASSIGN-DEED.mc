@@ -7,7 +7,7 @@
 ;(action {@self ASSIGN-DEED ?building ?assignee}:?ASSIGN-DEED
 ;  (tar [k building] @object)
 ;  (aux @object)
-;  (motor body legs)
+;  (motor body)
 ;  (duration (seconds 30 min))
 ;  (effects
 ;    (title-deed-of ?building): ?deed

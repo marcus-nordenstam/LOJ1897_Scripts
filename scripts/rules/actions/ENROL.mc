@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self ENROL ?reg ?post}:?ENROL
-  (motor body legs)
+  (motor right-hand)
   (duration (seconds 15 min))
   (effects
     ; The vacant line for this post is what @self fills; a job outside the establishment

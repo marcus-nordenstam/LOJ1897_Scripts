@@ -4,7 +4,7 @@
 
 (action {@self CHAT ?target}
   (duration procedural)
-  (motor legs)
+  (motor mouth)
   (obs)
   (tar @excl)
   (presentation

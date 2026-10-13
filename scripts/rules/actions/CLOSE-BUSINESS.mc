@@ -47,7 +47,7 @@
 ;; completion (close_business.mc owns the goal's teardown). No cross-mind write: workers
 ;; reconcile themselves via reconcile-closed when they find the premises shut.
 ;(action {@self CLOSE-BUSINESS ?art ?wp}
-;  (motor body legs)
+;  (motor body)
 ;  (duration (seconds 90 min))
 ;  (effects
 ;    (articles-register ?art): ?reg

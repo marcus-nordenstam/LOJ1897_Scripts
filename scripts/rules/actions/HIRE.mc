@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self HIRE ?worker ?job-id}:?HIRE
-  (motor body legs)
+  (motor right-hand)
   (track-skill-level [k personnel])
   (tar [k human] @object)
   (duration (seconds 15 min))

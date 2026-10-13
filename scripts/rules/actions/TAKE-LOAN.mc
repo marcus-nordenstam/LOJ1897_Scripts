@@ -4,7 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self TAKE-LOAN ?lender}:?TAKE-LOAN
-  (motor body legs)
+  (motor mouth)
   (duration (seconds 45 min))
   (effects
     (begin-belief {@self owe ?lender})

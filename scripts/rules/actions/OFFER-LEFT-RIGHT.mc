@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self OFFER-LEFT ?thing ?recipient}:?OFFER-LEFT
-  (motor left-hand legs)
+  (motor left-hand)
   (obs)
   (tar [k object] @object) (aux [k human] @object)
   (construed-act provision-act)
@@ -19,7 +19,7 @@
     (bb-public-write ?recipient take ?thing)))
 
 (action {@self OFFER-RIGHT ?thing ?recipient}:?OFFER-RIGHT
-  (motor right-hand legs)
+  (motor right-hand)
   (obs)
   (tar [k object] @object) (aux [k human] @object)
   (construed-act provision-act)

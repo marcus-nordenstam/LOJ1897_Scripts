@@ -4,7 +4,7 @@
 ; days-since-last reads. No aim, no end-goal.
 
 (action {@self GIVE-ALMS ?church}:?GIVE-ALMS
-  (motor body legs)
+  (motor body)
   (duration (seconds 60 min))
   (effects
     ; A punctual {@self give <sum>} act-record (born ended - a begin would leave

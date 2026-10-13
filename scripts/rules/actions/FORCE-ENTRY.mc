@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self FORCE-ENTRY ?door}:?FORCE-ENTRY
-  (motor body legs)
+  (motor body)
   (track-skill-level [k illicit])
   (tar [k object] @object) (duration (seconds 2 min))
   (effects

@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self POUR ?source ?vessel}:?POUR
-  (motor right-hand legs)
+  (motor right-hand)
   (obs)
   (tar @excl)
   (duration 0.8)

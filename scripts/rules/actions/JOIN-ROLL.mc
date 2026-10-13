@@ -7,7 +7,7 @@
 ;; ----------------------------------------------------------------------------
 
 ;(action {@self JOIN-ROLL ?roll}:?JOIN-ROLL
-;  (motor body legs)
+;  (motor body)
 ;  (duration (seconds 15 min))
 ;  (effects
 ;    (check (spatial ?roll co-located @self))

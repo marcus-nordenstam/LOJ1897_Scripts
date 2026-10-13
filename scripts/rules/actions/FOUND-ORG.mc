@@ -8,7 +8,7 @@
 ;(action {@self FOUND-ORG ?org-kind ?head-role}:?FOUND-ORG
 ;  (tar [k org])
 ;  (aux [k job])
-;  (motor body legs)
+;  (motor body)
 ;  (duration (seconds 90 min))
 ;  (effects
 ;    (found-org-seq ?org-kind ?head-role)

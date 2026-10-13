@@ -20,7 +20,7 @@
 ; ?spot is the kitchen floor spot the proposing rung holds for a new pile; the rung gives
 ; it back when it ceases, once the larder reads stocked.
 (action {@self STOCK-LARDER ?kitchen ?spot}:?STOCK-LARDER
-  (motor body legs)
+  (motor body)
   (duration (seconds 5 min))
   (effects
     (check (spatial @self space ?kitchen /env))

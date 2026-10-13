@@ -18,7 +18,7 @@
 (include "../../macros/tunables.mc")
 
 (action {@self ADMIT-IMMIGRANT ?office}:?ADMIT-IMMIGRANT
-  (motor body legs)
+  (motor body)
   (duration (seconds (admission_minutes) min))
   (effects
     (env-entities [k rowhouse]): ?homes

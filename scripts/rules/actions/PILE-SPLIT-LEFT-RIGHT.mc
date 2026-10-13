@@ -5,14 +5,14 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self PILE-SPLIT-LEFT ?from ?count}:?PILE-SPLIT-LEFT
-  (motor left-hand legs)
+  (motor left-hand)
   (duration (seconds 1 min))
   (effects
     (split-pile-into-hand ?from ?count (spatial @self left-hand /env))
     (set-outcome ?PILE-SPLIT-LEFT /succ)))
 
 (action {@self PILE-SPLIT-RIGHT ?from ?count}:?PILE-SPLIT-RIGHT
-  (motor right-hand legs)
+  (motor right-hand)
   (duration (seconds 1 min))
   (effects
     (split-pile-into-hand ?from ?count (spatial @self right-hand /env))

@@ -10,7 +10,7 @@
 
 
 (action {@self JUDGE-DECLARE ?winner ?sport}:?JUDGE-DECLARE
-  (motor body legs)
+  (motor mouth)
   (track-skill-level [k officiating])
   ; (obs): the declaration is made to the assembled - co-present racers WITNESS
   ; {@self JUDGE-DECLARE ?winner ?sport}, which is how a losing racer learns the

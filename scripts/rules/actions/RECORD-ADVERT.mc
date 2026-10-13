@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self RECORD-ADVERT ?reg ?job-id}:?RECORD-ADVERT
-  (motor body legs)
+  (motor right-hand)
   (track-skill-level [k personnel])
   (tar [k document] @object)
   (duration (seconds 5 min))

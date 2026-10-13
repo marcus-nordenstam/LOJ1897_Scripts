@@ -33,7 +33,7 @@
 (include "../../funcs/money.mc")
 
 (action {@self GIVE-BIRTH ?father}:?GIVE-BIRTH
-  (motor body legs)
+  (motor body)
   (xaction ?xgive-birth)
   (presentation
     (preroll 0.0) (in 0.5) (out 0.5))

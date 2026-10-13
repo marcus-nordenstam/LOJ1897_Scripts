@@ -13,7 +13,7 @@
 (include "../../macros/tunables.mc")
 
 (action {@self OPEN ?thing}:?OPEN
-  (motor right-hand legs)
+  (motor right-hand)
   (obs)
   (tar [k object] @object @excl)
   (duration (open_seconds))

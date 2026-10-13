@@ -4,7 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self PILE-TRANSFER ?held ?into}:?PILE-TRANSFER
-  (motor right-hand legs)
+  (motor right-hand)
   (duration (seconds 1 min))
   (effects
     (check (= (spatial ?held held-by) @self))

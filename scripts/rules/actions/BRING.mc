@@ -10,7 +10,7 @@
 (include "../../macros/collection-macros.mc")
 
 (action {@self BRING ?ware ?spot}:?BRING
-  (motor body legs)
+  (motor body)
   (duration (seconds 5 min))
   (effects
     ; Put down each carried item of the ware kind. A carried PILE (the

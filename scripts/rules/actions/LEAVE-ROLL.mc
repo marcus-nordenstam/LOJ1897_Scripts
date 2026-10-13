@@ -7,7 +7,7 @@
 ;; ----------------------------------------------------------------------------
 
 ;(action {@self LEAVE-ROLL ?roll}:?LEAVE-ROLL
-;  (motor body legs)
+;  (motor body)
 ;  (duration (seconds 15 min))
 ;  (effects
 ;    (check (spatial ?roll co-located @self))

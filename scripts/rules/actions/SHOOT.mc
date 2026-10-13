@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self SHOOT ?foe}:?SHOOT
-  (motor body legs)
+  (motor body)
   (track-skill-level [k martial])
   (obs) (theme violent-to) (construed-act harm-act) (contradicts safety) (duration (seconds 1 min))
   (effects

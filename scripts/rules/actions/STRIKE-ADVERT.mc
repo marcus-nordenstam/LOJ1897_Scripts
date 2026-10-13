@@ -4,7 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self STRIKE-ADVERT ?reg ?job-id}:?STRIKE-ADVERT
-  (motor body legs)
+  (motor right-hand)
   (track-skill-level [k personnel])
   (tar [k document] @object)
   (duration (seconds 5 min))

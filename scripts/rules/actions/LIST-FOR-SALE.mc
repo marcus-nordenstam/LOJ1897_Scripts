@@ -6,7 +6,7 @@
 
 ;(action {@self LIST-FOR-SALE ?building}:?LIST-FOR-SALE
 ;  (tar [k building] @object)
-;  (motor body legs)
+;  (motor body)
 ;  (duration (seconds 30 min))
 ;  (effects
 ;    (list-for-sale ?building)

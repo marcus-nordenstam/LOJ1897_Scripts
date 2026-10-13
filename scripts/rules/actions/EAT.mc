@@ -19,7 +19,7 @@
 (include "../../macros/collection-macros.mc")
 
 (action {@self EAT ?food ?owner}:?EAT
-  (motor body legs)
+  (motor body)
   (duration (seconds 30 min))
   (effects
     (if ?food

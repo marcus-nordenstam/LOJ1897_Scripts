@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self SACK ?worker}:?SACK
-  (motor body legs)
+  (motor mouth)
   (duration (seconds 45 min))
   (effects
     (for-each ?job (every {@self job ?})

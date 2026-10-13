@@ -9,7 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self INGEST ?thing}:?INGEST
-  (motor mind)
+  (motor mouth)
   (tar @excl)
   (duration 0)
   (presentation

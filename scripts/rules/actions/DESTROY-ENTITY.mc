@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self DESTROY-ENTITY ?thing}:?DESTROY-ENTITY
-  (motor body legs)
+  (motor body)
   (duration (seconds 1 min))
   (effects
     (do
