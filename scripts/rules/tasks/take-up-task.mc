@@ -10,7 +10,8 @@
   (tar @excl [k human] @object)
   (preparatory)
   (sequence
-    (role @self {?partner SAY (formulaic ? opening ?greeting) @self /past}
+    (role ?partner {?partner SAY ? @self /past}
+                   {?partner SAY (formulaic ? opening ?greeting) @self /past}
       (stage
         (effects (maintain-proposal {@self tell (formulaic [] response ?greeting) ?partner})))
       (stage

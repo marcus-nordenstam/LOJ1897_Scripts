@@ -7,5 +7,4 @@
 (task {@self read-at ?venue}:?read-at
   (tar [k structure|space] @object)
   (try
-    (role @self
-      (effects (set-outcome ?read-at /succ)))))
+    (effects (set-outcome ?read-at /succ))))

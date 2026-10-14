@@ -10,6 +10,5 @@
   (tar [k human] @object)
   (aux ?)
   (try
-    (role @self
-      (when (chance 0))
-      (effects (set-outcome ?summon /succ)))))
+    (when (chance 0))
+    (effects (set-outcome ?summon /succ))))

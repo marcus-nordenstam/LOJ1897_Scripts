@@ -8,5 +8,4 @@
 (task {@self rest ?venue}:?rest
   (tar [k structure|space] @object)
   (try
-    (role @self
-      (effects (set-outcome ?rest /succ)))))
+    (effects (set-outcome ?rest /succ))))
