@@ -29,7 +29,7 @@
 ; opening-slot select.
 "$pname(PNAME)"
 { $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
-:: intro
+:: intro realize-only
 .
 
 ; Sentinel responses

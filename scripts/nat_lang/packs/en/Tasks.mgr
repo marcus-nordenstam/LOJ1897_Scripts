@@ -6,5 +6,3 @@
 :TRANS_TASK
 "gets"                          /pres get                       .
 "got"                           /past get                       .
-
-:INTRANS_TASK

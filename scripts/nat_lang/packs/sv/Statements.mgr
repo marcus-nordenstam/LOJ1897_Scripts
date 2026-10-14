@@ -21,7 +21,7 @@
 ; it ahead of any structurally-identical possessive template.
 "$pname(PNAME)"
 { $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
-:: intro
+:: intro realize-only
 .
 
 ; Sentinel responses

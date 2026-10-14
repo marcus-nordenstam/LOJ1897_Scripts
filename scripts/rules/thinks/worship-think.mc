@@ -13,11 +13,13 @@
     (role ?church [k church-org] {@self member-of ?church}
       (effects (maintain-belief {@self duty-to ?church attend-church-service})))))
 
-; Sunday turns the duty into the day's obligation to attend the service.
+; Sunday turns the duty into the day's obligation to attend the service, once: an obligation
+; discharged today is the day's.
 (think sabbath
   (role ?church {@self duty-to ?church attend-church-service}:?duty
     (when (and (= (time weekday) (sunday_weekday))
-               (none {@self obligation {@self attend-church-service} ?church})))
+               (none {@self obligation {@self attend-church-service} ?church})
+               (>= (days-since-last {@self obligation {@self attend-church-service} ?church /past}) 1)))
     (effects (begin-belief {@self obligation {@self attend-church-service} ?church /caused_by ?duty}))))
 
 ; A Sunday gone by unattended: the obligation lapses and strains him, the strain caused by the

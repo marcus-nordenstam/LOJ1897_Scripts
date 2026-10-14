@@ -12,7 +12,7 @@
 ; name belief into the opening slot, so this never fires for other objects.
 "$pname(PNAME)"
 { $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
-:: intro
+:: intro realize-only
 .
 
 "I don't know"
@@ -311,8 +311,8 @@ $form(FORM)
 
 
 ; --- EMOTION : AFFECTION (object focus) ------------------------------------
-" $sub_np(NP) is fond of $value(NP) "
-{ $sub_np(NP) /pres emotion [k affection ] $value(NP) } .
+" $sub_np(NP) is fond of $value(REF_NP) "
+{ $sub_np(NP) /pres emotion [k affection ] $value(REF_NP) } .
 " $sub_np(NP) feels great tenderness toward $value(NP) "
 { $sub_np(NP) /pres emotion [k affection ] $value(NP) }
 :: warm flowery
@@ -750,9 +750,6 @@ $form(FORM)
 
 ; ACTION-SENTENCES
 
-" $sub_np(NP) $action(SPECIAL_ACTION)"
-{ $sub_np(NP) $action(SPECIAL_ACTION) }
-.
 " $sub_np(NP) $action(TRANS_ACTION) $obj_np(NP)"
 { $sub_np(NP) $action(TRANS_ACTION) $obj_np(NP) }
 .
@@ -767,9 +764,6 @@ $form(FORM)
 .
 " $sub_np(NP) $task(TRANS_TASK) $obj(CONJ|ST|QS|MSG|NP)"
 { $sub_np(NP) $task(TRANS_TASK) $obj(CONJ|ST|QS|MSG|NP) }
-.
-" $sub_np(NP) $task(INTRANS_TASK)"
-{ $sub_np(NP) $task(INTRANS_TASK) }
 .
 
 ; STATE-SENTENCES

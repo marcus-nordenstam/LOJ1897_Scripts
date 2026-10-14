@@ -106,6 +106,9 @@ _
 ; named objects and proper names all win over it.
 :NP = VARIABLE|PRONOUN|REG_NP|PNAME|KIND
 
+; A referent and never a bare kind: what an emotion is felt toward, a bare kind being an interest.
+:REF_NP = VARIABLE|PRONOUN|REG_NP|PNAME
+
 ; Oxford-comma plural NP-list. Consumes the form emitted by List::print under
 ; kPrintNatLang for plural answers:
 ;   n=1: "a"

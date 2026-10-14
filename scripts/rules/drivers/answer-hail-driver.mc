@@ -4,7 +4,7 @@
 ; choice: engage, decline or rebuff. Engaging is taking up the conversation
 ; (tasks/take-up-task.mc) and then holding the exchange (tasks/converse-task.mc) while it stays
 ; open; declining and rebuffing are turning it down (tasks/turn-down-task.mc), at
-; (unbeatable-utility ..), above everything he has going, so nothing can silence it. The choice
+; (declare-utility unbeatable), above everything he has going, so nothing can silence it. The choice
 ; stays open while he is invited and has not begun turning it down: a man who would have
 ; engaged but finds something keener before he has answered declines instead.
 ; ----------------------------------------------------------------------------
@@ -44,8 +44,7 @@
                (within-call ?speaker)
                (not (rebuffs ?speaker))
                (or (turning-down ?speaker) (not (would-engage ?speaker)))))
-    (bind (unbeatable-utility {@self turn-down ?speaker (formulaic [] refusal busy)}) ?say)
-    (declare-utility (utility-band ?say) (utility-value ?say))
+    (declare-utility unbeatable)
     (effects
       (maintain-proposal {@self turn-down ?speaker (formulaic [] refusal busy)}))))
 
@@ -56,7 +55,6 @@
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
                (rebuffs ?speaker)))
-    (bind (unbeatable-utility {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)}) ?say)
-    (declare-utility (utility-band ?say) (utility-value ?say))
+    (declare-utility unbeatable)
     (effects
       (maintain-proposal {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)}))))
