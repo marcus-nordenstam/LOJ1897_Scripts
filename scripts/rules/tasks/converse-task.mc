@@ -37,11 +37,6 @@
       (when (conversing-with @self ?partner)
             (not (is-facing @self ?partner)))
       (effects (maintain-proposal {@self TURN-TO ?partner})))
-    (try
-      (lint-waive cacheable-read-in-when)
-      (when (conversing-with @self ?partner)
-            (is-facing @self ?partner))
-      (effects (maintain-proposal {@self CHAT ?partner})))
 
     (try
       (when (and (substantial ?agenda)
