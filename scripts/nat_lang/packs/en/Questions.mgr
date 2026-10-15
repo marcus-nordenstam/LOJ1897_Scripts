@@ -346,7 +346,7 @@
 ( prob { ?_you /past job ? } )
 .
 "where did you work before"
-( o /known { ( any { ?_you /past job } ).target /ever org @o } )
+( any { ?_you /past job.org } ).target
 .
 
 ; FLAG: wage ("how much do you earn"), tenure ("how long have you worked
