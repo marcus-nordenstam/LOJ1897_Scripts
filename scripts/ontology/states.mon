@@ -765,7 +765,7 @@
 (state mother (tar [k human] @object @excl) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable) (self-known))
 (state nationality (tar [k nationality] @object @excl) (disclosure stranger) (talkable))
 (state occupant (tar [k human] @object))
-(state org (tar [k org] @object))
+(state org (tar [k org] @object) (disclosure stranger))
 (state owns-building (tar [k building] @object))
 (state parent (tar [k human] @object) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable))
 (state physical-mobility (tar [k physical-mobility] @object @excl))

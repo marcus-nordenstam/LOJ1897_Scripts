@@ -330,16 +330,16 @@
 .
 
 "who employs $who(Q_NP)"
-( o /known { ( any { $who(Q_NP) /pres job } ).target /ever org @o } )
+( any { $who(Q_NP) /pres job.org } ).target
 .
 "who $verb(VERB|be) $who(POSS) employer"
-( o /known { ( any { $who(POSS) /pres job } ).target /ever org @o } )
+( any { $who(POSS) /pres job.org } ).target
 .
 "who $verb(VERB|do) $who(Q_NP) work for"
-( o /known { ( any { $who(Q_NP) /pres job } ).target /ever org @o } )
+( any { $who(Q_NP) /pres job.org } ).target
 .
 "in whose service $verb(VERB|be) $who(Q_NP)"
-( o /known { ( any { $who(Q_NP) /pres job } ).target /ever org @o } )
+( any { $who(Q_NP) /pres job.org } ).target
 .
 
 "[have you ever had another position|have you worked elsewhere]"
@@ -615,10 +615,10 @@
 
 ; --- Profession: the employer ENTITY (org) -----------------------------------
 "#which-det #firm-noun [do you work for|employs you]"
-( o /known { ( any { ?_you /pres job } ).target /ever org @o } )
+( any { ?_you /pres job.org } ).target
 .
 "[who|what house] does $person(Q_NP) [work for|serve]"
-( o /known { ( any { $person(Q_NP) /pres job } ).target /ever org @o } )
+( any { $person(Q_NP) /pres job.org } ).target
 .
 
 ; --- Social: the specific person -------------------------------------------
@@ -709,7 +709,7 @@
 ( any { ?_you /pres job } ).target
 .
 "who employs you"
-( o /known { ( any { ?_you /pres job } ).target /ever org @o } )
+( any { ?_you /pres job.org } ).target
 .
 "who owes you money"
 ( o /known { @o /pres owe ?_you } )

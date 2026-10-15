@@ -205,16 +205,19 @@
 ; @unknown sentinel that every pack's Statements.mgr already authors for
 ; "I don't know" / "no lo sé" / "わかりません" / "ไม่ทราบ" / "Jag vet inte".
 ; "I don't know" itself stays in Statements.mgr; this block adds extra
-; surface variants over the same MC.
+; surface variants over the same MC, parse-only: what an NPC says is "I don't know".
 
 " i cannot say "
 @unknown
+:: parse-only
 .
 " i have no way of knowing "
 @unknown
+:: parse-only
 .
 " i couldn't tell you "
 @unknown
+:: parse-only
 .
 
 
