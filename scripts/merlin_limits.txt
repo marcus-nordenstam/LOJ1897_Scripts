@@ -64,10 +64,6 @@ npc.beliefIdsByLabel.pool           =   16       4       8
 # Float-data bounds
 npc.spatialBounds.pool              =   4000   128     32
 
-# Per-mind spline reference slots (Mental::t_spline_ref).
-abs.splines.pool                    =   256     16      8
-npc.splines.pool                    =   256     16      8
-
 # Private blackboard pools (per-mind, one bb per active pattern/object that uses it)
 npc.private_bb.pool                 =   1024    128     64
 npc.private_bb_entries.pool         =   1024    128     64

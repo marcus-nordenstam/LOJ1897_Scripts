@@ -20,9 +20,11 @@
 ;                                (enclosure|unit|room|compartment|fixture) instead of kind:
 ;                                the first node whose kind takes that role. A room range
 ;                                looks inside the units of the whole it reads.
-;   (payload)                    the finest rung: (spatial ?x bounds) yields the exact box
-;                                via the live perceiving-pointer (live-only; @unknown when
-;                                not perceiving). /env reads env ground truth.
+;   (payload box|curve)          the finest rung: the entity's exact extent, a handle into the
+;                                shared store of that shape. (spatial ?x bounds) yields the box
+;                                as the mind last perceived it, (spatial ?road spline) the curve
+;                                once the mind has seen it; @unknown before. /env reads env
+;                                ground truth. An archetype declares at most one payload label.
 ;   (head)                       peek the ordered head (ordered store only)
 ;   (co)                         co-presence PREDICATE: (spatial ?a co-located ?b) is true
 ;                                when a shares b's container. BARE = same immediate place;
@@ -92,9 +94,6 @@
 (spatial grip     (mobile) (excl) (recurse-on-obs))
 (spatial stack    (mobile) (excl) (ordered))
 (spatial part     (immutable) (excl))
-; Road geometry: a road's shape is a spline, not a containment. Declared here so the
-; (spatials spline) that names it references something, like every other decoration.
-(spatial spline   (immutable) (excl))
 
 ; The immutable structural topology (the old struct_skeleton), read through the
 ; same fused (spatial ?ent <view> /env?) op: `parts` = a whole's children (down).
@@ -103,7 +102,8 @@
 ; `parent` term, resolved per-archetype by the op's struct fallback.
 (spatial-label parts (store part) (down))
 
-(spatial-label bounds     (store space) (payload))
+(spatial-label bounds     (store space) (payload box))
+(spatial-label spline     (store space) (payload curve))
 (spatial-label space      (store space))
 (spatial-label building   (store space) (rung building) (theme frequent) (habit-bands day_parts))
 (spatial-label enclosure  (store space) (rung-role enclosure))
