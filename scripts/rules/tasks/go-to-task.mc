@@ -61,9 +61,9 @@
   (flip (is-spot ?dest) @false (not (grounded ?dest))))
 
 ; No box for it, seen or remembered: unseen, or a placed thing out of his sight.
-; ?room is a room of the building or unit ?dest.
-(define-func go-room-of (?room ?dest)
-  (flip (is-spot ?dest) @false (or (spatial ?room building ?dest) (spatial ?room unit ?dest))))
+; What holds the rooms of ?dest: ?dest itself, or nothing for a spot, which has no rooms.
+(define-func go-rooms-host (?dest)
+  (flip (is-spot ?dest) @nothing ?dest))
 
 (define-func go-boxless (?dest)
   (flip (is-spot ?dest) @false (unsubstantial (tolerate (spatial ?dest bounds)))))
@@ -182,9 +182,9 @@
     ; A room of the building or unit he walks into from where he stands is where he stands at it.
     ; Cast on the ROOM, so learning one is a new activation that preempts the walk to a spot by it:
     ; a spot bound in (when ..) would leave the maintained WALK on its first, stale target.
-    (try (role ?room [k room] (go-room-of ?room ?dest)
-                              (spatial ?room trivially-linked (spatial @self space))
-                              (select (policy first-match))
+    (try (role ?room (spatial (go-rooms-host ?dest) rooms)
+                     (spatial ?room trivially-linked (spatial @self space))
+                     (select (policy first-match))
            (when (stand-spot-in ?room): ?spot (is-spot ?spot))
            (effects (maintain-proposal {@self WALK ?spot}))))
     (try (when (go-stand-spot ?dest): ?spot (is-spot ?spot))
