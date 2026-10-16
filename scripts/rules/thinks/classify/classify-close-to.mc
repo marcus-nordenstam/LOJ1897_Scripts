@@ -11,9 +11,11 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
-  (role ?other (or {@self friend ?other} {@self close-to ?other})
-
-    (effects
-      (if (and {@self friend ?other} (or {@self adore ?other} {@self rely ?other}))
-          (then (if -{@self close-to ?other} (then (begin-belief {@self close-to ?other}))))
-          (else (end-belief {@self close-to ?other}))))))
+  (and
+    (try
+      (role ?other {@self friend ?other} {@self adore|rely ?other} -{@self close-to ?other}
+        (effects (begin-belief {@self close-to ?other}))))
+    (try
+      (role ?other {@self close-to ?other}
+                   (or -{@self friend ?other} (none {@self adore|rely ?other}))
+        (effects (end-belief {@self close-to ?other}))))))

@@ -18,10 +18,8 @@
       ; AT HAND is held OR in the room: a form in the hand has no space to walk to.
       (role @self (not (spatial ?doc held-by @self))
                   (not (spatial ?doc co-located @self))
-        (effects
-          (spatial ?doc space): ?room
-          (if (substantial ?room)
-              (then (maintain-proposal {@self go-to ?doc}))))))
+                  (substantial (spatial ?doc space))
+        (effects (maintain-proposal {@self go-to ?doc}))))
     (try
       ; The read-yet test is the SPINE's now, so this role states only what is unique to
       ; this rung: the page is within reach.

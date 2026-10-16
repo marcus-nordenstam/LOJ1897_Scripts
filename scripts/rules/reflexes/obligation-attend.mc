@@ -12,7 +12,5 @@
   (effects (begin-belief {@self obligation {@self attend ?occ} @nothing /caused_by ?organize})))
 
 (reflex {@self attend ?occ /succ}
-  (effects
-    (any {@self obligation {@self attend ?occ} ?}): ?obligation
-    (if (substantial ?obligation)
-        (then (end-belief ?obligation)))))
+  (when {@self obligation {@self attend ?occ} ?})
+  (effects (end-belief {@self obligation {@self attend ?occ} ?})))

@@ -24,7 +24,5 @@
                    (latch-eval (chance ?psychopathy))))
         (declare-utility want)
         (effects
-          (if -{@self accomplice ?instigator}
-              (then (begin-belief {@self accomplice ?instigator ?their-intent})))
-          (any {@self accomplice ?instigator}): ?accomplice
+          (begin-belief {@self accomplice ?instigator ?their-intent}): ?accomplice
           (maintain-intent {@self intent {@self kill ?victim}} /caused_by ?accomplice))))))

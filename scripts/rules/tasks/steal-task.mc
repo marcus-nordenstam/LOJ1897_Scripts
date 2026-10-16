@@ -25,16 +25,11 @@
         (effects (maintain-proposal {@self go-to ?shop}))))
     ; at a source, unwatched -> take a shelf item of the kind (the guarded snatch).
     (try
-      (when (and (empty (spatial @self hold ?kind))
-                 (is-a (spatial @self building): ?shop [k shop])
-                 (= (count (spatial (spatial @self space) contents [k human] /env)) 1)))
-      (effects
-        (bind 0 ?found)
-        (for-each ?room (spatial ?shop rooms /env)
-          (for-each ?item (spatial ?room contents ?kind /env) [/limit 1]
-            (if (= ?found 0) (then (bind ?item ?loot) (bind 1 ?found)))))
-        (if (= ?found 1)
-            (then (maintain-proposal {@self take ?loot})))))
+      (role ?loot (spatial (spatial @self space) contents) (is-a ?loot ?kind) (select (policy first-match))
+        (when (and (empty (spatial @self hold ?kind))
+                   (is-a (spatial @self building) [k shop])
+                   (= (count (spatial (spatial @self space) contents [k human])) 1)))
+        (effects (maintain-proposal {@self take ?loot}))))
     ; concluded: the loot is in hand /caused_by this pursuit -> crime row + succ.
     (try
       (when (and (not (empty (spatial @self hold ?kind)))

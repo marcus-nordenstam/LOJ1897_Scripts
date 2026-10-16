@@ -42,26 +42,32 @@
                      (alive (o [k human] {@o name ?senior-name}))))
           (score (+ 1 (flip (is-a ?sjk [k org-head]) 100 0)
                       (* 10 (flip (table-match level_rank level ?slvl rank ?lr) ?lr 0))))
-          (policy argmax)
-          (else fail))
+          (policy argmax))
 
-        (effects
-          (if ?senior-name
-              (then
-                (o [k human] {@o name ?senior-name}): ?senior
-                (for-each-row org_duties [/kind ?dk] [/duty ?duty]
-                  (if (is-a ?ok ?dk)
-                      (then
-                        (cond
-                          (case (= ?senior-name (name @self))
-                            (if -{@self duty-to ?org ?duty}
-                                (then (begin-belief {@self duty-to ?org ?duty}))))
-                          (case {@self duty-to ?org ?duty}
-                            (end-belief {@self duty-to ?org ?duty})))
-                        ; The mirror: retire stale holders, record the current one.
-                        (for-each ?duty-holder (every {?org duty-holder ? ?duty})
-                            (bind ?duty-holder.target ?p)
-                            (if (!= ?p ?senior)
-                                (then (end-belief {?org duty-holder ?p ?duty}))))
-                        (if -{?org duty-holder ?senior ?duty}
-                            (then (begin-belief {?org duty-holder ?senior ?duty})))))))))))))
+        ; I hold every duty of my org's kind that I am the senior for, and drop the ones I no
+        ; longer am; either way I record who holds each.
+        (and
+          (try
+            (when (= ?senior-name (name @self)))
+            (effects
+              (for-each-row org_duties [/kind ?dk] [/duty ?duty]
+                (if (is-a ?ok ?dk)
+                    (then (begin-belief {@self duty-to ?org ?duty}))))))
+          (try
+            (when (!= ?senior-name (name @self)))
+            (effects
+              (for-each-row org_duties [/kind ?dk] [/duty ?duty]
+                (if (and (is-a ?ok ?dk) {@self duty-to ?org ?duty})
+                    (then (end-belief {@self duty-to ?org ?duty}))))))
+          ; The mirror: retire stale holders, record the current one.
+          (try
+            (effects
+              (o [k human] {@o name ?senior-name}): ?senior
+              (for-each-row org_duties [/kind ?dk] [/duty ?duty]
+                (if (is-a ?ok ?dk)
+                    (then
+                      (for-each ?duty-holder (every {?org duty-holder ? ?duty})
+                        (bind ?duty-holder.target ?p)
+                        (if (!= ?p ?senior)
+                            (then (end-belief {?org duty-holder ?p ?duty}))))
+                      (begin-belief {?org duty-holder ?senior ?duty})))))))))))

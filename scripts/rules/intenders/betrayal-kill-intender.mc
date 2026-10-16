@@ -46,25 +46,22 @@
         (when (latch-eval (chance (* (crime-scale) 0.02
                                   (* (- 1.0 ?inhibition) (* 0.5 (+ ?volatility ?psychopathy)))))))
         (declare-utility want)
-        (effects
-          ; Dual (kill BOTH) when the outrage clears the bar; else the more-blamed corner.
-          (cond
-            (case (>= (+ (emotion-load [k anger])
-                         (+ ?decorum ?machiavellianism)) 2.5)
-              (if -{?partner condition [k dead]}
-                  (then (maintain-intent {@self intent {@self kill ?partner}} /caused_by ?anger_bond)))
-              (if -{?interloper condition [k dead]}
-                  (then (maintain-intent {@self intent {@self kill ?interloper}} /caused_by ?contempt_bond))))
-            (case (>= (+ ?narcissism (+ (- 1.0 ?compassion) (+ ?decorum (flip (< (stance-band ?partner warmth) 0.0)
-                                                                              1.0
-                                                                              0.0))))
+        ; Dual (kill BOTH) when the outrage clears the bar; else the more-blamed corner.
+        (preemptive-or
+          (try
+            (when (>= (+ (emotion-load [k anger]) (+ ?decorum ?machiavellianism)) 2.5))
+            (effects
+              (maintain-intent {@self intent {@self kill ?partner}} /caused_by ?anger_bond)
+              (maintain-intent {@self intent {@self kill ?interloper}} /caused_by ?contempt_bond)))
+          (try
+            (when (>= (+ ?narcissism (+ (- 1.0 ?compassion) (+ ?decorum (flip (< (stance-band ?partner warmth) 0.0)
+                                                                            1.0
+                                                                            0.0))))
                       (+ (+ (max 0.0 (stance-band ?partner warmth)) (* 0.5 (stance-band ?partner attraction)))
                          (+ ?compassion
                             (flip (< (stance-band ?interloper warmth) 0.0)
                                   (- 0.0 (stance-band ?interloper warmth))
-                                  0.0))))
-              (if -{?partner condition [k dead]}
-                  (then (maintain-intent {@self intent {@self kill ?partner}} /caused_by ?anger_bond))))
-            (else
-              (if -{?interloper condition [k dead]}
-                  (then (maintain-intent {@self intent {@self kill ?interloper}} /caused_by ?contempt_bond))))))))))
+                                  0.0)))))
+            (effects (maintain-intent {@self intent {@self kill ?partner}} /caused_by ?anger_bond)))
+          (try
+            (effects (maintain-intent {@self intent {@self kill ?interloper}} /caused_by ?contempt_bond))))))))

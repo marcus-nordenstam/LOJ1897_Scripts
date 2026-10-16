@@ -42,7 +42,6 @@
 
     (stage
       (effects
-        (if -{@self own ?will}
-            (then (begin-belief {@self own ?will})))
+        (begin-belief {@self own ?will})
         (bb-clear ?write-will will)
         (set-outcome ?write-will /succ)))))

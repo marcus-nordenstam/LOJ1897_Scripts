@@ -20,22 +20,35 @@
       (when (and (spatial @self can-reach ?giver)
                  (not (bb-public-any @self take))))
       (effects (maintain-proposal {@self AWAIT ?giver})))
+    ; Held out -> taken; coins taken -> pocketed; anything else held -> received.
     (try
       (when (and (spatial @self can-reach ?giver)
-                 (bb-public-any @self take)))
+                 (bb-public-read @self take): ?thing
+                 {@self pocket-coins ?thing /succ /caused_by ?receive}))
       (effects
-        (bind (bb-public-read @self take) ?thing)
-        (cond
-          (case {@self pocket-coins ?thing /succ /caused_by ?receive}
-            (bb-public-clear @self take)
-            (set-outcome ?receive /succ))
-          (case (!= (spatial ?thing held-by) @self)
-            (maintain-proposal {@self take ?thing}))
-          (case {?thing content-kind [k coin]}
-            (maintain-proposal {@self pocket-coins ?thing}))
-          (else
-            (bb-public-clear @self take)
-            (set-outcome ?receive /succ)))))
+        (bb-public-clear @self take)
+        (set-outcome ?receive /succ)))
+    (try
+      (when (and (spatial @self can-reach ?giver)
+                 (bb-public-read @self take): ?thing
+                 -{@self pocket-coins ?thing /succ /caused_by ?receive}
+                 (!= (spatial ?thing held-by) @self)))
+      (effects (maintain-proposal {@self take ?thing})))
+    (try
+      (when (and (spatial @self can-reach ?giver)
+                 (bb-public-read @self take): ?thing
+                 -{@self pocket-coins ?thing /succ /caused_by ?receive}
+                 (= (spatial ?thing held-by) @self)
+                 {?thing content-kind [k coin]}))
+      (effects (maintain-proposal {@self pocket-coins ?thing})))
+    (try
+      (when (and (spatial @self can-reach ?giver)
+                 (bb-public-read @self take): ?thing
+                 (= (spatial ?thing held-by) @self)
+                 -{?thing content-kind [k coin]}))
+      (effects
+        (bb-public-clear @self take)
+        (set-outcome ?receive /succ)))
     (try
       (when (not (alive ?giver)))
       (effects (set-outcome ?receive /fail)))))

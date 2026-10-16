@@ -18,6 +18,7 @@
   (role @self {@self volatility ?volatility}
               {@self sadism ?sadism}
               {@self compassion ?compassion}
+              {@self home ?myhome}
     (role ?foe {?foe (theme-labels violent-to) @self}:?violent-to
                -{?foe condition [k dead]}
   
@@ -30,7 +31,5 @@
   
       (declare-utility survival always-pick)
   
-      (effects
-        ; Run for home - a known refuge; if @self has none, no flight (they stand and take it).
-        (if {@self home ?myhome}
-            (then (maintain-proposal {@self go-to ?myhome})))))))
+      ; Run for home - a known refuge; with none there is no flight (they stand and take it).
+      (effects (maintain-proposal {@self go-to ?myhome})))))

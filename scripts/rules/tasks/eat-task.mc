@@ -12,6 +12,12 @@
 
 (include "../../macros/collection-macros.mc")
 
+(define-macro meal-utility (?meal)
+  (switch (kind ?meal)
+    (on [k breakfast] 820)
+    (on [k lunch]     850)
+    (else             780)))
+
 (task {@self eat ?meal ?place}:?eat
   (tar [k meal])
   (aux [k structure|space] @object)
@@ -20,31 +26,27 @@
       (when (and (not (at-meal-place ?place))
                  (eat-affordable ?meal ?place)))
       (effects (maintain-proposal {@self go-to ?place})))
+    ; A home supper eats one loaf off a kitchen larder PILE he knows of, handed to EAT which
+    ; decrements it; any other meal, or a larder he has not seen, stays abstract.
     (try
+      (role @self {@self home ?place}
+        (role ?food [k pile] {?food content-kind [k food]} {?food count >0}
+                    (= (spatial ?food space) (spatial ?place room [k kitchen]))
+                    (select (policy first-match))
+          (when (and (at-meal-place ?place) (is-a ?meal [k supper])))
+          (declare-utility (meal-utility ?meal))
+          (effects (maintain-proposal {@self EAT ?food 0}))
+          (when-unsupported-effects
+            (caused-by {@self EAT ? ? /past} ?eat): ?EAT
+            (if ?EAT (then (set-outcome ?eat (outcome ?EAT))))))))
+    (try
+      (no-role [k pile] {?norole content-kind [k food]} {?norole count >0}
+                        (= (spatial ?norole space) (spatial ?place room [k kitchen]))
+                        {@self home ?place}
+                        (is-a ?meal [k supper]))
       (when (at-meal-place ?place))
-      (declare-utility (switch (kind ?meal)
-                 (on [k breakfast] 820)
-                 (on [k lunch]     850)
-                 (else             780)))
-      (effects
-        (bind 0 ?food)
-        ; A home supper eats one loaf off the kitchen larder PILE (the diner
-        ; stands in the home); ?food = that pile, handed to EAT which
-        ; decrements it. Breakfast / lunch / a bought-out supper stay abstract.
-        (if (and (is-a ?meal [k supper])
-                 {@self home ?place})
-            (then
-              (bind 0 ?et_kitchen)
-              (spatial ?place room [k kitchen]): ?et_kitchen
-              (if ?et_kitchen
-                  (then
-                    (bind 0 ?et_pile)
-                    (for-each ?pile_cand (spatial ?et_kitchen contents [k pile] /env)
-                      (if (attr-is ?pile_cand content-kind [k food])
-                          (then (bind ?pile_cand ?et_pile))))
-                    (if (and ?et_pile (> (attr ?et_pile count) 0))
-                        (then (bind ?et_pile ?food)))))))
-        (maintain-proposal {@self EAT ?food 0}))
+      (declare-utility (meal-utility ?meal))
+      (effects (maintain-proposal {@self EAT 0 0}))
       (when-unsupported-effects
         (caused-by {@self EAT ? ? /past} ?eat): ?EAT
         (if ?EAT (then (set-outcome ?eat (outcome ?EAT))))))
@@ -67,6 +69,7 @@
       (rng-stream behaviour)
       (role ?diner {?diner isa [k human], condition [k alive]}
                    (spatial ?diner co-located @self)
+                   -{@self tell ? ?diner /succ /caused_by ?eat}
                    (select (score 1) (policy roulette))
         (when (at-meal-place ?place))
         (effects

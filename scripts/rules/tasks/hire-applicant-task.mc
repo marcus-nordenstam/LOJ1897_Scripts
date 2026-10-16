@@ -63,7 +63,7 @@
             (utterable-msg [] {@you job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
             (check ?msg)
             (maintain-proposal {@self tell ?msg ?applicant})
-            (if -{?applicant job ?job} (then (begin-belief {?applicant job ?job})))
+            (begin-belief {?applicant job ?job})
             (for-each ?offered-to (every {?job offered-to ?}) (end-belief ?offered-to)))))
 
       ; TOLD: the word landed. Both of them hold the seat as his now, which is the whole

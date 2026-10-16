@@ -20,12 +20,12 @@
     (begin-belief {?org isa ?ok})
     (begin-belief {?org name ?onm})
     (o [k building] {@o address ?owp}): ?aoc-wp
-    (if -{?aoc-wp address ?owp} (then (begin-belief {?aoc-wp address ?owp})))
+    (begin-belief {?aoc-wp address ?owp})
     (begin-belief {?org workplace ?aoc-wp})
     ; WHICH relation the book mints is read off the document itself, never guessed from the
     ; org: a wage register and a membership roll carry different columns.
     (o ?oreg {@o name ?onm}): ?aoc-book
-    (if -{?aoc-book name ?onm} (then (begin-belief {?aoc-book name ?onm})))
+    (begin-belief {?aoc-book name ?onm})
     (if (is-a ?oreg [k employee-register])
         (then (begin-belief {?org employee-register ?aoc-book})))
     (if (is-a ?oreg [k membership-roll])
@@ -36,6 +36,5 @@
                               (o [k org] {@o name ?aoc-oname})
                               (o [k human] {@o name ?aoc-oname}))
                         ?aoc-owner)
-                (if -{?aoc-owner name ?aoc-oname}
-                    (then (begin-belief {?aoc-owner name ?aoc-oname})))
-                (if -{?aoc-owner own ?org} (then (begin-belief {?aoc-owner own ?org}))))))))
+                (begin-belief {?aoc-owner name ?aoc-oname})
+                (begin-belief {?aoc-owner own ?org}))))))

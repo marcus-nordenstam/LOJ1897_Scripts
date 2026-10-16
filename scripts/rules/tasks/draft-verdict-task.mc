@@ -93,7 +93,7 @@
           ; it; until then the seat is offered to nobody else.
           (stage
             (effects
-              (if (and (= ?kind [k offer-letter]) -{?job offered-to ?p})
+              (if (= ?kind [k offer-letter])
                   (then (begin-belief {?job offered-to ?p})))
               (bb-clear ?draft-verdict letter)
               (set-outcome ?draft-verdict /succ))))))

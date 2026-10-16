@@ -49,15 +49,15 @@
             (then
               (o [k org] {@o name ?vorg-name}): ?vorg
               (o ?vjk {@o org ?vorg} {@o job-id ?vline}): ?vjob
-              (if -{?vjob org ?vorg} (then (begin-belief {?vjob org ?vorg})))
-              (if -{?vjob job-id ?vline} (then (begin-belief {?vjob job-id ?vline})))
+              (begin-belief {?vjob org ?vorg})
+              (begin-belief {?vjob job-id ?vline})
               ; The description lands once, on the first offer read about this seat.
               (if (and (substantial ?vlevel) (substantial ?vsalary) (substantial ?vshift)
                        -{?vjob level ?})
                   (then (begin-belief {?vjob level ?vlevel})
                         (begin-belief {?vjob salary ?vsalary})
                         (stamp-shift-hours ?vjob ?vjk ?vshift)))
-              (if (and (= ?vname (attr @self name)) -{?vjob offered-to @self})
+              (if (= ?vname (attr @self name))
                   (then (begin-belief {?vjob offered-to @self}))))))
       ; A REJECTION names the seat and nothing more. The same slots as the offer's: one
       ; branch of a switch runs, and the action's slots are counted across all of them.
@@ -68,8 +68,8 @@
             (then
               (o [k org] {@o name ?vorg-name}): ?vorg
               (o ?vjk {@o org ?vorg} {@o job-id ?vline}): ?vjob
-              (if -{?vjob org ?vorg} (then (begin-belief {?vjob org ?vorg})))
-              (if -{?vjob job-id ?vline} (then (begin-belief {?vjob job-id ?vline}))))))
+              (begin-belief {?vjob org ?vorg})
+              (begin-belief {?vjob job-id ?vline}))))
       (on [k job-posting]
         (if (and (form-match (attr ?doc writing) job_posting_form
                              [/job-kind ?jk] [/org-name ?org-name] [/job-id ?job-id]
@@ -82,8 +82,8 @@
               ; same org stay two. Without the id both collapse into `a clerk's place
               ; there`, which is neither.
               (o ?jk {@o org ?org} {@o job-id ?job-id}): ?job
-              (if -{?job org ?org}    (then (begin-belief {?job org ?org})))
-              (if -{?job job-id ?job-id} (then (begin-belief {?job job-id ?job-id})))
+              (begin-belief {?job org ?org})
+              (begin-belief {?job job-id ?job-id})
               (if -{?org workplace ?} (then (begin-belief {?org workplace ?apply-at}))))))
       ; An APPLICATION names a MAN, so reading one is hearing of him: a name and an
       ; address is a specific someone, realis and UNGROUNDED - @self has heard of him
@@ -113,8 +113,8 @@
               (for-each-row (attr ?doc writing) [/job-id ?eline] [/worker ?ewname] [/job ?ejk]
                             [/advertise-date ?ead]
                 (o ?ejk {@o org ?eorg} {@o job-id ?eline}): ?ejob
-                (if -{?ejob org ?eorg}      (then (begin-belief {?ejob org ?eorg})))
-                (if -{?ejob job-id ?eline}  (then (begin-belief {?ejob job-id ?eline})))
+                (begin-belief {?ejob org ?eorg})
+                (begin-belief {?ejob job-id ?eline})
                 (if (substantial ?ewname)
                     (then (o [k human] {@o name ?ewname}): ?eworker
                           (if -{?eworker job ?ejob}
@@ -124,8 +124,7 @@
                     (else (for-each ?holder-of-job (every {? job ?ejob})
                             (end-belief ?holder-of-job))))
                 (if (substantial ?ead)
-                    (then (if -{?eorg display-ad ?ejob}
-                              (then (begin-belief {?eorg display-ad ?ejob}))))
+                    (then (begin-belief {?eorg display-ad ?ejob}))
                     (else (for-each ?display-ad (every {?eorg display-ad ?ejob})
                             (end-belief ?display-ad))))))))
       (on [k application]
@@ -136,16 +135,16 @@
                  (substantial ?aorg-name) (substantial ?aline) (substantial ?adate))
             (then
               (o [k human] {@o name ?aname}): ?applicant
-              (if -{?applicant name ?aname}     (then (begin-belief {?applicant name ?aname})))
+              (begin-belief {?applicant name ?aname})
               (o [k building] {@o address ?ahome}): ?ahouse
-              (if -{?ahouse address ?ahome}     (then (begin-belief {?ahouse address ?ahome})))
-              (if -{?applicant home ?ahouse}    (then (begin-belief {?applicant home ?ahouse})))
+              (begin-belief {?ahouse address ?ahome})
+              (begin-belief {?applicant home ?ahouse})
               ; The SEAT he asked for, by the org's name and the line - the same object the
               ; officer's own book read landed on.
               (o [k org] {@o name ?aorg-name}): ?aorg
               (o ?ajk {@o org ?aorg} {@o job-id ?aline}): ?ajob
-              (if -{?ajob org ?aorg}      (then (begin-belief {?ajob org ?aorg})))
-              (if -{?ajob job-id ?aline}  (then (begin-belief {?ajob job-id ?aline})))
+              (begin-belief {?ajob org ?aorg})
+              (begin-belief {?ajob job-id ?aline})
               (if -{?applicant apply-for ?ajob /ever}
                   (then (begin-belief {?applicant apply-for ?ajob /succ /i ?adate ?adate}))))))
       ; An INVITATION names no occasion - it cannot, an occasion being a nameless
@@ -163,17 +162,14 @@
             (then
               (o [k human] {@o name ?ihost-name}): ?ihost
               (o ?iokind {@o host ?ihost} {@o held-on ?idate}): ?iocc
-              (if -{?iocc host ?ihost}
-                  (then (begin-belief {?iocc host ?ihost})))
-              (if -{?iocc held-on ?idate}
-                  (then (begin-belief {?iocc held-on ?idate})))
+              (begin-belief {?iocc host ?ihost})
+              (begin-belief {?iocc held-on ?idate})
               (if (and (substantial ?ivenue) -{?iocc venue ?})
                   (then (o [k building] {@o address ?ivenue}): ?ivenue-obj
                         (begin-belief {?iocc venue ?ivenue-obj})))
               (if (and (substantial ?ifrom) -{?iocc hours ? ?})
                   (then (begin-belief {?iocc hours ?ifrom ?ito})))
               ; The appointment itself - what the attend chain's guest rung reads.
-              (if -{?ihost invite @self ?iocc}
-                  (then (begin-belief {?ihost invite @self ?iocc}))))))
+              (begin-belief {?ihost invite @self ?iocc}))))
       (else (adopt-msg (attr ?doc writing))))
     (set-outcome ?READ /succ)))

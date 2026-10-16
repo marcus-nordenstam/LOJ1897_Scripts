@@ -26,13 +26,10 @@
                    (is-a (spatial @self building): ?shop [k shop])))
 
         (stage
+          (role ?goods (spatial (spatial @self space) contents) (is-a ?goods ?kind) (select (policy first-match)))
           (effects
             (if (not (bb-any ?buy goods))
-                (then
-                  (for-each ?room (spatial ?shop parts [k room] /env)
-                    (for-each ?item (spatial ?room contents ?kind /env) [/limit 1]
-                      (if (not (bb-any ?buy goods))
-                          (then (bb-write ?buy goods ?item)))))))))
+                (then (bb-write ?buy goods ?goods)))))
 
         (stage
           (when (bb-any ?buy goods))

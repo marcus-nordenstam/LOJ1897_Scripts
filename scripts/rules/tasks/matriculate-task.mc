@@ -20,25 +20,24 @@
         (effects (maintain-proposal {@self go-to ?go_dest}))))
 
     ; MATRICULATE: at a school -> record my study. Minting {@self study ...} trips the
-    ; decision's completion role, which withdraws the task.
+    ; decision's completion role, which withdraws the task. A school tier is recorded as-is.
     (try
-      (when (is-a (spatial @self building) [k school]))
+      (when (and (is-a (spatial @self building) [k school])
+                 (or (is-a ?curriculum [k primary-school-curriculum])
+                     (is-a ?curriculum [k secondary-school-curriculum]))))
       (effects
-        (if (is-a ?curriculum [k academic-field])
-          (then
-            ; university: an interest-led discipline (the tiers are not disciplines), else any.
-            (cond
-              (case (is-kind (random-held-kind-target interest [k academic-field]
-                                                     [k primary-school-curriculum] [k secondary-school-curriculum]))
-                (random-held-kind-target interest [k academic-field]
-                                         [k primary-school-curriculum] [k secondary-school-curriculum]): ?led
-                (begin-belief {@self study ?led})
-                (set-outcome ?matriculate /succ))
-              (case (is-kind (random-subkind [k academic-field]
-                                             [k primary-school-curriculum] [k secondary-school-curriculum]))
-                (random-subkind [k academic-field]
-                                [k primary-school-curriculum] [k secondary-school-curriculum]): ?sub
-                (begin-belief {@self study ?sub})
-                (set-outcome ?matriculate /succ))))
-          (else (begin-belief {@self study ?curriculum})
-                (set-outcome ?matriculate /succ)))))))
+        (begin-belief {@self study ?curriculum})
+        (set-outcome ?matriculate /succ)))
+    ; A university reading: an interest-led discipline (the tiers are not disciplines), else any.
+    (try
+      (when (and (is-a (spatial @self building) [k school])
+                 (not (is-a ?curriculum [k primary-school-curriculum]))
+                 (not (is-a ?curriculum [k secondary-school-curriculum]))))
+      (effects
+        (tolerate (random-held-kind-target interest [k academic-field]
+                                           [k primary-school-curriculum] [k secondary-school-curriculum])): ?led
+        (begin-belief {@self study (flip (is-kind ?led)
+                                         ?led
+                                         (random-subkind [k academic-field]
+                                                         [k primary-school-curriculum] [k secondary-school-curriculum]))})
+        (set-outcome ?matriculate /succ)))))

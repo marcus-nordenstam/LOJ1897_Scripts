@@ -32,17 +32,19 @@
   (role @self {@self intellect ?intellect}
               {@self home ?home}
     (declare-utility idle)
-
-    (effects
-      (bind 0 ?bookish)
-      (for-each ?interest (every {@self interest ?})
-        (if (or (is-a ?interest.target [k academic-field]) (is-a ?interest.target [k literature]))
-            (then (bind 1 ?bookish))))
-      (if (and (spatial ?home room [k study])
-               (or (= ?bookish 1)
+    ; A bookish man - one keen on scholarship or letters, or of a high intellect - reads in
+    ; the study when the house has one; anyone else rests.
+    (preemptive-or
+      (try
+        (role @self {@self interest [k academic-field|literature]}
+          (when (spatial ?home room [k study]))
+          (effects (maintain-proposal {@self read-at ?home}))))
+      (try
+        (when (and (spatial ?home room [k study])
                    (>= ?intellect (read-intellect-threshold))))
-          (then (maintain-proposal {@self read-at ?home}))
-          (else (maintain-proposal {@self rest ?home}))))))
+        (effects (maintain-proposal {@self read-at ?home})))
+      (try
+        (effects (maintain-proposal {@self rest ?home}))))))
 
 ; The rest / read-at TASKS (the immediate-conclude outcome rungs) live in
 ; tasks/rest-task.mc and tasks/read-at-task.mc.

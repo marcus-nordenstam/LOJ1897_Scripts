@@ -58,8 +58,7 @@
       ; building would put it in a social circle, where death-propagation would
       ; try to enter its mind.
       (if (and (is-a ?subj [k human])
-               (neq ?subj @self)
-               -{@self acquaintance ?subj})
+               (neq ?subj @self))
         (then (begin-belief {@self acquaintance ?subj}))))))
 
 (define-func /hear adopt-heard-msg (?msg ?speaker ?audience ?tell)

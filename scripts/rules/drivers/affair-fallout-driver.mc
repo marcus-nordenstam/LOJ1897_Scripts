@@ -56,17 +56,13 @@
       ; Recourse to an APPRAISED betrayal (the betray-act reflex rows minted the anger @ partner),
       ; and only while @self is not answering it lethally: a killer keeps the secret,
       ; since exposing the affair would advertise the motive.
+      ; Divorce: the husband's remedy alone; the proper / high-decorum are likeliest to cut
+      ; the tie. Once put away there is no spouse left to divorce.
       (role @self {@self emotion [k anger] ?partner}
+                  {@self spouse ?partner}
+                  {@self gender [k male]}
+                  {@self decorum ?decorum}
                   -{@self intent {@self kill ?partner}}
                   -{@self intent {@self kill ?interloper}}
-
-        (effects
-          (any {@self decorum ?decorum=0.5})
-          ; Divorce: the husband's remedy alone; the proper / high-decorum are likeliest
-          ; to cut the tie. PROPOSE the divorce task (divorce-task.mc performs the
-          ; repudiation); once put away, the standing divorce record bars a re-propose.
-          (if (and {@self spouse ?partner}
-                   {@self gender [k male]}
-                   -{@self divorce ?partner /ever}
-                   (chance (* 0.35 ?decorum)))
-              (then (maintain-proposal {@self divorce ?partner}))))))))
+        (when (latch-eval (chance (* 0.35 ?decorum))))
+        (effects (maintain-proposal {@self divorce ?partner}))))))

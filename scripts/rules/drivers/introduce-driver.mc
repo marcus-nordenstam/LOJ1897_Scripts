@@ -4,6 +4,7 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
   (role @self {@self enthusiasm ?enthusiasm}
+              {@self (disclosure-tier-labels stranger) ?}
     (role ?stranger 
          {?stranger isa [k human], condition [k alive]}
          (spatial ?stranger co-located @self)
@@ -23,5 +24,5 @@
   
       (effects
         (every {@self (disclosure-tier-labels stranger) ?}): ?facts
-        (if ?facts (then (maintain-proposal {@self tell (utterable-msg [] ?facts) ?stranger})))))))
+        (maintain-proposal {@self tell (utterable-msg [] ?facts) ?stranger})))))
     

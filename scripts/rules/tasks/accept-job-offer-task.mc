@@ -61,8 +61,8 @@
             (role @self {@self tell ? ?officer /succ /caused_by ?accept-job-offer}
                         {@self job ?job}
               (effects
-                (if -{?job since ?} (then (begin-belief {?job since (time year)})))
-                (if -{?wp occupant @self} (then (begin-belief {?wp occupant @self})))
+                (begin-belief {?job since (time year)})
+                (begin-belief {?wp occupant @self})
                 (expect (any {?job level ?}) "labour: taken on, but the seat carries no level")
                 (expect (any {?job salary ?}) "labour: taken on, but the seat carries no salary")
                 (set-outcome ?accept-job-offer /succ)))))

@@ -45,7 +45,7 @@
           (if (none {?occ venue ?})        (then (begin-belief {?occ venue ?my-home})))
           (if (none {?occ hours ?})        (then (begin-belief {?occ hours 19 23})))
           (if (none {?occ held-on ?})      (then (begin-belief {?occ held-on ?pg-date})))
-          (if (none {@self organize ?occ}) (then (begin-belief {@self organize ?occ})))))
+          (begin-belief {@self organize ?occ})))
 
       (stage
         (effects

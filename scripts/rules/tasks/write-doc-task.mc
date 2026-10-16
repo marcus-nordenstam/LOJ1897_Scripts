@@ -21,10 +21,8 @@
       ; AT HAND is held OR in the room: a form in the hand has no space to walk to.
       (role @self (not (spatial ?doc held-by @self))
                   (not (spatial @self can-reach ?doc))
-        (effects
-          (spatial ?doc space): ?room
-          (if (substantial ?room)
-              (then (maintain-proposal {@self go-to ?doc}))))))
+                  (substantial (spatial ?doc space))
+        (effects (maintain-proposal {@self go-to ?doc}))))
     (try
       (role @self (or (spatial ?doc held-by @self)
                       (spatial @self can-reach ?doc))
