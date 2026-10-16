@@ -7,7 +7,7 @@
 ; The rungs are a preemptive-or:
 ;
 ;   arrived                                     -> succeed
-;   unseen, believed in a space                 -> go-to that space, where he will see it;
+;   no box for it, believed in a space          -> go-to that space, where he will see it;
 ;                                                  there and still unseen -> fail
 ;   unseen, a house seen at its premises        -> locate it there; a search that shows it not -> fail
 ;   unseen, no house at its premises            -> find-building; a search that finds none -> fail
@@ -59,6 +59,10 @@
 
 (define-func go-unseen (?dest)
   (flip (is-spot ?dest) @false (not (grounded ?dest))))
+
+; No box for it, seen or remembered: unseen, or a placed thing out of his sight.
+(define-func go-boxless (?dest)
+  (flip (is-spot ?dest) @false (unsubstantial (tolerate (spatial ?dest bounds)))))
 
 ; A thing he has placed: grounded, and no spot.
 (define-func go-placed-thing (?dest)
@@ -116,12 +120,12 @@
     (try (role @self (go-arrived ?dest ?go-to)
            (effects (set-outcome ?go-to /succ))))
     (try (role ?space (spatial ?dest space)
-           (role @self (go-unseen ?dest)
+           (role @self (go-boxless ?dest)
                        -{@self go-to ?space /succ /caused_by ?go-to}
                        -{@self go-to ?space /fail /caused_by ?go-to}
              (effects (maintain-proposal {@self go-to ?space})))))
     (try (role ?space (spatial ?dest space)
-           (role @self (go-unseen ?dest)
+           (role @self (go-boxless ?dest)
                        {@self go-to ?space /succ /caused_by ?go-to}
              (effects (set-outcome ?go-to /fail)))))
     (try (role @self (go-unseen ?dest)

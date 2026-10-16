@@ -164,9 +164,9 @@
 .
 
 ; Passive-name form for proper-name targets
-" $sub_np(NP) se llama $pname(PNAME) "
+" $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) "
 { $sub_np(NP)      $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) } .
 
 ; Passive-num form for numeric targets
-" $sub_np(NP) tenía $num(NUM) años "
+" $sub_np(NP) $num_rel(PASSIVE_NUM_REL) $num(NUM) años "
 { $sub_np(NP)            $num_rel(PASSIVE_NUM_REL) $num(NUM) } .

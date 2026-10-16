@@ -11,6 +11,16 @@
   (tar [k document] @object)
   (aux [k stack] @object)
   (sequence
+    ; The doc goes into the pile from his hand: fetch it first if it lies elsewhere.
+    (stage
+      (effects
+        (if (not (or (spatial ?doc held-by @self) (spatial @self can-reach ?doc)))
+            (then (maintain-proposal {@self go-to ?doc})))))
+    (stage
+      (effects
+        (if (not (spatial ?doc held-by @self))
+            (then (maintain-proposal {@self take ?doc})))))
+
     ; go-to, NEVER the raw WALK: reaching a thing, and the doors between, is go-to's whole job.
     (stage
       (effects

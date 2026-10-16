@@ -318,19 +318,19 @@
 .
 
 ; Passive-name form for proper-name targets: "マリア の 名前 は アンナ です"
-" $sub_np(NP) の 名前 は $pname(PNAME) です "
+" $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) です "
 { $sub_np(NP)      $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) }
 :: deferential
 .
 
-" $sub_np(NP) の 名前 は $pname(PNAME) だ "
+" $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) だ "
 { $sub_np(NP)      $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) } .
 
 ; Passive-num form for numeric targets: "マリア の 年齢 は 二十四 でした"
-" $sub_np(NP) の 年齢 は $num(NUM) でした "
+" $sub_np(NP) $num_rel(PASSIVE_NUM_REL) $num(NUM) でした "
 { $sub_np(NP)            $num_rel(PASSIVE_NUM_REL) $num(NUM) }
 :: deferential
 .
 
-" $sub_np(NP) の 年齢 は $num(NUM) だった "
+" $sub_np(NP) $num_rel(PASSIVE_NUM_REL) $num(NUM) だった "
 { $sub_np(NP)            $num_rel(PASSIVE_NUM_REL) $num(NUM) } .

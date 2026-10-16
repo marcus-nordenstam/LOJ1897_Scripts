@@ -351,9 +351,6 @@
 (attr address-step (type int) (range 1 16) (imperceptible))
 (attr address-ascends-forward (type int) (range 0 1) (imperceptible))
 
-; Conversation
-(attr initiator (type entity) (entity "human-player" "human-npc") (per obs) (auto-percept))
-
 ; Fluid
 (attr fluid-amount (type float) (range 0 1) (per obs) (auto-percept) (state-flags-tar @excl))
 ; Poison taint on a drink fluid (interrogation detail plan): the concrete

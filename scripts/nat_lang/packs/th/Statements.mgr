@@ -188,6 +188,6 @@
 .
 
 ; Passive-name form for proper-name targets
-" $sub_np(NP) ชื่อ $pname(PNAME) "
+" $sub_np(NP) $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) "
 { $sub_np(NP)      $pname_rel(PASSIVE_PNAME_REL) $pname(PNAME) } .
 

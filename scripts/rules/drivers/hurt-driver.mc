@@ -33,6 +33,7 @@
               {@self intoxication ?intoxication} 
     (role ?victim {?victim isa [k human], condition [k alive]}
                   {@self (closeness-labels acquaintance) ?victim /ever}
+                  (select (score 1) (policy roulette))
 
       ; Dark-tetrad assault disposition, rolled once per NPC (not a @self role
       ; filter): volatility x psychopathy x sadism x (1 - politeness), amplified by
