@@ -97,14 +97,19 @@
 ; Where @self stands inside a space: a claimed spot on its floor, the one nearest him.
 ; Polled like rest-spot, and likewise the asking rung's claim.
 (define-func stand-spot-in (?space)
-  (maintain-claim-spot @self [/on_floor_of ?space] [/near @self] [/at_or_near @self]))
+  (maintain-claim-spot @self [/on_floor_of ?space] [/near @self] [/at_or_near @self]): ?spot
+  (check (or (not (is-spot ?spot)) (= (spatial ?spot space) ?space)))
+  ?spot)
 
 ; Where @self stands to be BY a thing: the free floor spot of its space nearest it, within reach
 ; of it; @fail while every such stance is taken. Not the spot before its face - a thing set on
 ; furniture has the furniture there.
 (define-func stand-spot-by (?ent)
-  (maintain-claim-spot @self [/on_floor_of (spatial ?ent space)] [/near ?ent] [/at_or_near @self]
-                       [/can_reach ?ent]))
+  (spatial ?ent space): ?space
+  (maintain-claim-spot @self [/on_floor_of ?space] [/near ?ent] [/at_or_near @self]
+                       [/can_reach ?ent]): ?spot
+  (check (or (not (is-spot ?spot)) (= (spatial ?spot space) ?space)))
+  ?spot)
 
 ; Where @self stands to face a man: the free floor before his front nearest him, else beside him
 ; when his front is taken - within reach of him either way.

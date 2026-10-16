@@ -61,12 +61,13 @@
   (flip (is-spot ?dest) @false (not (grounded ?dest))))
 
 ; No box for it, seen or remembered: unseen, or a placed thing out of his sight.
+; ?room is a room of the building or unit ?dest.
+(define-func go-room-of (?room ?dest)
+  (flip (is-spot ?dest) @false (or (spatial ?room building ?dest) (spatial ?room unit ?dest))))
+
 (define-func go-boxless (?dest)
   (flip (is-spot ?dest) @false (unsubstantial (tolerate (spatial ?dest bounds)))))
 
-; A thing he has placed: grounded, and no spot.
-(define-func go-placed-thing (?dest)
-  (flip (is-spot ?dest) @false (grounded ?dest)))
 
 ; A dest go-to can reach: a spot, a thing he has placed, one he believes in some space, or one
 ; whose address he knows.
@@ -178,8 +179,13 @@
     (try (role ?passage (spatial @self barrier ?dest)
                         {@self cross ?passage ? /fail /caused_by ?go-to}
            (effects (set-outcome ?go-to /fail))))
+    ; A room of the building or unit he walks into from where he stands is where he stands at it.
+    ; Cast on the ROOM, so learning one is a new activation that preempts the walk to a spot by it:
+    ; a spot bound in (when ..) would leave the maintained WALK on its first, stale target.
+    (try (role ?room [k room] (go-room-of ?room ?dest)
+                              (spatial ?room trivially-linked (spatial @self space))
+                              (select (policy first-match))
+           (when (stand-spot-in ?room): ?spot (is-spot ?spot))
+           (effects (maintain-proposal {@self WALK ?spot}))))
     (try (when (go-stand-spot ?dest): ?spot (is-spot ?spot))
-         (effects (maintain-proposal {@self WALK ?spot})))
-    (try (role @self (go-placed-thing ?dest)
-           (effects (expect (substantial (tolerate (spatial ?dest bounds)))
-                            "go-to: a placed thing with no box to stand by"))))))
+         (effects (maintain-proposal {@self WALK ?spot})))))
