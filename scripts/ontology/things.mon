@@ -93,6 +93,10 @@
         (children ink-stain blood-stain dirt-stain gunpowder-residue ash mud-stain paint-stain wine-stain))
       (child mark
         (children scratch-mark dent crack scuff tool-mark tear)))
+    ; Features of a body that an outfit assembles from catalog meshes: the hair,
+    ; eyebrow and facial-hair sockets of a modular humanoid.
+    (child body-feature
+      (children hair eyebrows facial-hair))
     ; Meals & food. The leaves double as the OCCASION vocabulary the
     ; evidence layer samples ("the wine, at supper") - a poisoning's
     ; consume record carries one of these as its /aux occasion, chosen
@@ -119,19 +123,46 @@
         (child jewelry-box (price 25)))
       ; Currency - the unit a coin pile counts: cash is a pile whose content-kind is coin.
       (child coin (price 1) (facets totable))
+      ; Worn things. A garment binds to a wearable socket of the body (tops, bottoms,
+      ; coats, cloaks, belts, neckwear, chestwear, gloves); an accessory is worn or
+      ; carried without binding to the body (hats, eyewear, footwear, jewelry). The
+      ; garment tools list a thing as wearable when its kind sits under either.
       (child accessory (+ facets totable) (facets totable)
-        (children cufflink)
+        (children cufflink umbrella backpack)
         (child ring
           (children engagement-ring wedding-band))
         (child hat
           (children bowler))
-        (children umbrella backpack))
-      (child clothing (+ facets totable) (facets totable)
+        (child eyewear
+          (children spectacles monocle))
+        (child mouth-accessory
+          (children pipe cigar cigarette-holder))
+        ; Footwear, the muddy-prints clue class.
+        (child footwear
+          (children boots shoes)))
+      (child garment (+ facets totable) (facets totable)
+        ; Grouped by the body socket a garment binds to.
         (children police-uniform)
         (child dress
-          (children summer-dress))
-        ; Footwear, the muddy-prints clue class.
-        (children boots))
+          (children summer-dress evening-gown nightgown))
+        (child upper-garment
+          (children shirt blouse tunic chemise camisole corset bodice undershirt))
+        (child outer-garment
+          (children waistcoat sweater cardigan jumper))
+        (child coat
+          (children frock-coat tailcoat morning-coat duster trench-coat jacket overcoat))
+        (child cloak
+          (children cape shawl))
+        (child lower-garment
+          (children trousers breeches skirt petticoat bloomers))
+        (child belt
+          (children sash))
+        (child neckwear
+          (children scarf necktie bowtie cravat collar))
+        (child chestwear
+          (children suspenders holster gun-strap watch-chain))
+        (child gloves
+          (children gauntlets mittens)))
       ; Inert household furniture - scene dressing the detective walks
       ; through and searches. None carry a weapon facet (a heavy chair is
       ; not modelled as an improvised bludgeon - keeping these inert stops
