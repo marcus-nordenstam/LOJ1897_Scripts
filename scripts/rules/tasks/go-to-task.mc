@@ -9,11 +9,11 @@
 ;   no box for it, believed in a space          -> go-to that space, where he will see it;
 ;                                                  there and still unseen -> fail
 ;   seen once, and where it is now lost          -> locate-person / locate-thing; that failed -> fail
-;   unseen, a house seen at its premises        -> locate it there; a search that shows it not -> fail
+;   unseen, its unit or house seen              -> locate it there; a search that shows it not -> fail
 ;   unseen, no house at its premises            -> find-building; a search that finds none -> fail
 ;   the leg is an enclosure                     -> cross its nearest door he has not failed,
 ;                                                  out of it or into it
-;   the leg is the enclosure he stands in       -> no door left: wander it
+;   the leg is the enclosure he stands in       -> no door left: wander the unit he is in
 ;   the leg is an enclosure he stands outside   -> no door of it known: go-to a spot by it,
 ;                                                  and seeing it teaches its doors
 ;   the leg is an enclosure no rung above takes -> fail: walked up to it, a door failed or
@@ -29,11 +29,13 @@
 
 (include "../../macros/tunables.mc")
 
-; The seen building standing at the premises of an unplaced ?dest's address, or @nothing.
+; The seen premises of an unplaced ?dest's address: its unit, else the building, or @nothing.
 (define-func go-house-at-premises (?dest)
   (bind @nothing ?house)
   (if (any {?dest address}): ?address
-    (then (bind (seen-premises-at (address-premises ?address.target)) ?house)))
+    (then (bind (seen-premises-at (address-household ?address.target)) ?house)
+          (if (unsubstantial ?house)
+            (then (bind (seen-premises-at (address-premises ?address.target)) ?house)))))
   ?house)
 
 ; At a spot: standing on it. In a space: inside it, or out of doors in an exterior one. At a man: on the spot before him this
@@ -132,6 +134,7 @@
            (effects (maintain-proposal {@self locate-thing ?dest}))))
     (try (role @self (go-unseen ?dest)
                      (substantial (go-house-at-premises ?dest))
+                     (one-premises (go-house-at-premises ?dest))
                      -{@self locate ?dest (go-house-at-premises ?dest) /fail /caused_by ?go-to}
            (effects (maintain-proposal {@self locate ?dest (go-house-at-premises ?dest)}))))
     (try (role @self (go-unseen ?dest)
@@ -153,8 +156,9 @@
                         (maintain-proposal {@self cross ?passage ?to}))))))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (spatial @self space ?leg)
-                       -{@self wander ?leg /succ /caused_by ?go-to}
-             (effects (maintain-proposal {@self wander ?leg})))))
+                       (substantial (place-holding (spatial @self space)))
+                       -{@self wander (place-holding (spatial @self space)) /succ /caused_by ?go-to}
+             (effects (maintain-proposal {@self wander (place-holding (spatial @self space))})))))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (not (is-a ?leg [k exterior-space]))
                        (not (go-has-way ?leg))
@@ -166,7 +170,7 @@
              (effects
                (expect (or (substantial (any {@self go-to ? /succ /caused_by ?go-to}))
                            (substantial (any {@self cross ? /fail /caused_by ?go-to}))
-                           (substantial (any {@self wander ?leg /succ /caused_by ?go-to})))
+                           (substantial (any {@self wander ? /succ /caused_by ?go-to})))
                        "go-to: an enclosure ahead and no door of it he can cross, untried")
                (set-outcome ?go-to /fail)))))
     (try (role ?leg (spatial @self leg ?dest)

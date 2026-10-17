@@ -25,7 +25,7 @@
 (task {@self wander ?place}:?wander
   (tar @excl [k building|unit] @object)
   (init
-    (check (or (is-a ?place [k building]) (is-a ?place [k unit])))
+    (check (one-premises ?place))
     (check (within-place @self ?place)))
   (and
     ; A room he knows and has not toured: he walks into it.

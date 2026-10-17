@@ -21,6 +21,13 @@
         (case (substantial (tolerate (spatial ?space unit))) (spatial ?space unit))
         (else (tolerate (spatial ?space building)))))
 
+; ?place is one premises - one home, one shop: a unit, or a building holding no unit he knows.
+; A wander or a search never spans units: each unit is a household of its own.
+(define-func one-premises (?place)
+  (or (is-a ?place [k unit])
+      (and (is-a ?place [k building])
+           (empty (spatial ?place parts [k unit])))))
+
 ; ?x is inside ?space: a room, or a building or a unit of one; for an exterior space, out of
 ; doors in it - a man in a house in the town stands in the house, not in the town's open ground.
 (define-func within-space (?x ?space)
@@ -144,8 +151,8 @@
   ?known)
 
 ; ----------------------------------------------------------------------------
-; seen-premises-at ?address - the building @self has PERCEIVED at that premises address,
-; or @nothing. The negative twin of the role that joins a house to an address: a role can
+; seen-premises-at ?address - the building or unit @self has PERCEIVED at that address, or
+; @nothing. The negative twin of the role that joins a house to an address: a role can
 ; join on a value, but a NEGATIVE role reads the per-mind cache alone and has no binding
 ; env to join with - so "no house I have seen stands there" is asked as a walk.
 ; ----------------------------------------------------------------------------
@@ -154,7 +161,7 @@
   (bind @nothing ?found)
   (for-each ?address-of-premises (every {? address ?address})
     (bind ?address-of-premises.subject ?p)
-    (if (and (is-a ?p [k building])
+    (if (and (or (is-a ?p [k building]) (is-a ?p [k unit]))
              (observed ?p))
       (then
         (bind ?p ?found)
