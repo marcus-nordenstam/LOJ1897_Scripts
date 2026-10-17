@@ -21,6 +21,7 @@
 ;   the leg is an exterior space                -> WALK into it
 ;   in his domain, a door he believes shut on
 ;   every way he knows                          -> cross it; that cross failed -> fail
+;   in his domain, a building open to the street -> WALK into its nearest open room
 ;   in his domain                               -> WALK to the spot he will stand on
 ;
 ; The world decides where a walk stops: a WALK whose way the world bars ends before the door and
@@ -60,11 +61,11 @@
 (define-func go-unseen (?dest)
   (flip (is-spot ?dest) @false (not (grounded ?dest))))
 
-; No box for it, seen or remembered: unseen, or a placed thing out of his sight.
 ; What holds the rooms of ?dest: ?dest itself, or nothing for a spot, which has no rooms.
 (define-func go-rooms-host (?dest)
   (flip (is-spot ?dest) @nothing ?dest))
 
+; No box for it, seen or remembered: unseen, or a placed thing out of his sight.
 (define-func go-boxless (?dest)
   (flip (is-spot ?dest) @false (unsubstantial (tolerate (spatial ?dest bounds)))))
 
@@ -82,23 +83,9 @@
   (tolerate (travel-spot (known-box ?dest))): ?spot
   ?spot)
 
-; The room of a building or unit he walks into from where he stands, through no passage - an
-; open wall - or @nothing.
-(define-func go-walk-in-room (?enclosure)
-  (bind @nothing ?found)
-  (for-each ?room (spatial ?enclosure rooms)
-    (if (spatial ?room trivially-linked (spatial @self space))
-        (then (bind ?room ?found)
-              (break))))
-  ?found)
-
-; Where he stands at a thing: in the room he walks into of a building or unit open to him, by
-; anything else he has a box for, else toward the box he remembers.
+; Where he stands at a thing: by anything he has a box for, else toward the box he remembers.
 (define-func go-thing-stand-spot (?dest)
-  (bind (flip (or (is-a ?dest [k building]) (is-a ?dest [k unit])) (go-walk-in-room ?dest) @nothing)
-        ?room)
-  (cond (case (substantial ?room) (stand-spot-in ?room))
-        (case (substantial (tolerate (spatial ?dest bounds))) (stand-spot-by ?dest))
+  (cond (case (substantial (tolerate (spatial ?dest bounds))) (stand-spot-by ?dest))
         (else (go-travel-spot ?dest))): ?spot
   ?spot)
 
@@ -179,12 +166,10 @@
     (try (role ?passage (spatial @self barrier ?dest)
                         {@self cross ?passage ? /fail /caused_by ?go-to}
            (effects (set-outcome ?go-to /fail))))
-    ; A room of the building or unit he walks into from where he stands is where he stands at it.
-    ; Cast on the ROOM, so learning one is a new activation that preempts the walk to a spot by it:
-    ; a spot bound in (when ..) would leave the maintained WALK on its first, stale target.
-    (try (role ?room (spatial (go-rooms-host ?dest) rooms)
-                     (spatial ?room trivially-linked (spatial @self space))
-                     (select (policy first-match))
+    ; Cast on the ROOM, so learning one is a new activation that preempts the walk to a spot by the
+    ; building: a spot bound in (when ..) would leave the maintained WALK on its first, stale target.
+    (try (role ?room (spatial (go-rooms-host ?dest) open-rooms)
+                     (select (score (near @self ?room)) (policy argmax unknown-last))
            (when (stand-spot-in ?room): ?spot (is-spot ?spot))
            (effects (maintain-proposal {@self WALK ?spot}))))
     (try (when (go-stand-spot ?dest): ?spot (is-spot ?spot))

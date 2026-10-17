@@ -40,6 +40,9 @@
 ;                                the doorways out of it - /env = every one
 ;   (rooms)                      the rooms a building or unit holds - its own and its units' -
 ;                                as a list. Default = the ones the mind has met, /env = every one
+;   (open-rooms)                 the rooms of a building or unit whose outer wall stands open to
+;                                the outdoors - walked into off the street through no passage -
+;                                as a list. Default = the ones the mind has met, /env = every one
 ;   (exits)                      the doors and windows leading out of a building, unit or
 ;                                room, as a list. Default = the ones the mind has met, /env =
 ;                                every one
@@ -116,6 +119,7 @@
 (spatial-label room       (store space) (first) (rung-role room))
 (spatial-label neighbours (store space) (neighbours))
 (spatial-label rooms      (store part) (rooms))
+(spatial-label open-rooms (store part) (open-rooms))
 (spatial-label exits      (store part) (exits))
 (spatial-label beyond     (store space) (beyond))
 (spatial-label trivially-linked (store space) (linked))
