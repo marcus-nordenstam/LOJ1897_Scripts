@@ -551,7 +551,7 @@
 ;     may crave more than one thing). The target is the craved substance
 ;     kind: {@self craving alcohol}.
 ; ---- drive ----
-(state interest (tar [k domain]) (disclosure acquaintance) (talkable) (motivation))
+(state interest (tar [k domain]) (disclosure acquaintance) (talkable) (motivation) (describe-in interest))
 (state calling (tar [k domain] @excl) (disclosure friend) (motivation))
 (state craving (tar ?) (self-known) (motivation))
 ; forage: the transient food-acquisition goal (meals_think mints
@@ -739,7 +739,7 @@
 (state degrade-act (tar [k degrade-act] @object))
 (state display-ad (tar [k job] @object))
 (state economic-situation (tar [k economic-situation] @object @excl))
-(state emotion (tar [k emotion] @object) (episodic) (motivation))
+(state emotion (tar [k emotion] @object) (episodic) (motivation) (describe-in regard))
 (state employee-register (tar [k employee-register] @object) (obs))
 (state expose-act (tar [k expose-act] @object))
 (state father (tar [k human] @object @excl) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable) (self-known))
@@ -756,9 +756,9 @@
 (state honour-act (tar [k honour-act] @object))
 (state insult (tar [k insult] @object) (construed-act slight-act))
 (state jilt (tar [k jilt] @object) (construed-act abandonment-act wrong-act))
-(state job (tar [k job] @object) (disclosure stranger) (talkable) (self-known) (motivation))
+(state job (tar [k job] @object) (disclosure stranger) (talkable) (self-known) (motivation) (describe-in occupation))
 (state level (tar [k level] @object @excl))
-(state love (tar ?) (exclusive_bond))
+(state love (tar ?) (exclusive_bond) (describe-in regard))
 (state lover (tar [k human] @object) (inclusive_bond) (appraisal_input) (disclosure intimate) (closeness intimate) (construed-act intimacy-act) (describe-in spouse) (talkable) (self-known))
 (state master (tar [k human] @object @excl))
 (state membership-roll (tar [k membership-roll] @object) (obs))

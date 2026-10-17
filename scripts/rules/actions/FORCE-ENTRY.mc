@@ -7,7 +7,7 @@
 (action {@self FORCE-ENTRY ?door}:?FORCE-ENTRY
   (motor body)
   (track-skill-level [k illicit])
-  (tar [k object] @object) (duration (seconds 2 min))
+  (tar [k door] @object) (duration (seconds 2 min))
   (effects
     (check (spatial @self can-reach ?door /env))
     (articulate ?door 1.0)

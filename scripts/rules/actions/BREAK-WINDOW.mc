@@ -7,7 +7,7 @@
 (action {@self BREAK-WINDOW ?win}:?BREAK-WINDOW
   (motor body)
   (track-skill-level [k illicit])
-  (tar [k object] @object) (duration (seconds 1 min))
+  (tar [k window] @object) (duration (seconds 1 min))
   (effects
     (check (spatial @self can-reach ?win /env))
     (set-attr ?win integrity [k broken])
