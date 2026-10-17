@@ -61,13 +61,13 @@
             (decorations
               (spatials space)
               (attrs visual-sensor sound-sensor parentless emigrating intoxication gambling-addiction))
-            (population (cap 4096) (raycast-visible) (sentient) (non-occluder) (blocks-spots)))
+            (population (cap 4096) (sentient) (non-occluder) (blocks-spots)))
           ; The player stands IN a space like anyone else: reach, co-presence and a room's
           ; contents all read the space edge, and an actor in no space is within reach of nothing.
           (child human-player
             (decorations
               (spatials space))
-            (population (cap 256) (raycast-visible) (player) (non-occluder) (blocks-spots))))
+            (population (cap 256) (player) (non-occluder) (blocks-spots))))
         (child dog
           (children whippet german-shepard))
         (child cat
@@ -562,7 +562,7 @@
         (attrs variant birth-date era-min era-max address nav-mesh blocks-nav-terrain)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
-      (population (cap 256) (always-visible) (children-block-spots))
+      (population (cap 256) (children-block-spots))
       (child path
         (child road
           (decorations
@@ -631,7 +631,7 @@
         (attrs variant birth-date struct-status)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
-      (population (cap 256) (always-visible) (children-block-spots))
+      (population (cap 256) (children-block-spots))
       (children wagon train-car ship))
     (child part
       (decorations
@@ -653,7 +653,7 @@
       ; and keeps no state of its own.
       (child door-leaf
         (decorations (attrs hinge-side swing-angle))
-        (population (cap 4096) (always-visible) (blocks-spots)))
+        (population (cap 4096) (blocks-spots)))
       (child body-part
         ; A (motor) kind is a motor an act occupies; the set is these kinds in declaration
         ; order, so this order IS the motor index. legs is the base layer, and mind - the
@@ -708,13 +708,13 @@
         (child mind (motor)))
       (child structure-part (composition fixture)
         (decorations (attrs blemishes))
-        (population (cap 4096) (always-visible) (blocks-spots) (children-block-spots))
+        (population (cap 4096) (blocks-spots) (children-block-spots))
         (child counter
           (children bar-counter))
         (children wall)
         ; A sign carries no text of its own: a building-name-sign shows its building's
         ; `name`, an address-sign its building's `address`.
-        (child sign
+        (child sign (+ facets exterior) (facets exterior)
           (children building-name-sign address-sign))
         ; A passage is a way through a wall and never a space: nothing is filed in one and nobody
         ; stands in one. Every way into a building or between its rooms is one, so a body enters by
@@ -733,7 +733,7 @@
             (population (cap 4096))
             (child door
               (children front-door double-door))
-            (child window (facets nav_last_resort))))))
+            (child window (facets nav_last_resort see_through))))))
     (child gm
       (population (cap 1) (imperceptible)))
     (child instance
@@ -774,7 +774,7 @@
         (attrs variant birth-date address)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
-      (population (cap 4096) (always-visible) (non-occluder))
+      (population (cap 4096) (non-occluder))
       ; One home: the rooms, passages and fixed parts a household holds. Always a building's
       ; part - a house has one, a duplex two, an apartment building one per apartment.
       (child unit (composition unit)
@@ -807,7 +807,7 @@
         (attrs variant birth-date address)
         (attr name (auto-percept) (ext-per obs))
         (spatials bounds))
-      (population (cap 4096) (always-visible) (non-occluder) (sector-coverage))
+      (population (cap 4096) (non-occluder) (sector-coverage))
       ; The world's own top rung, and the one that carries weather. A park's parent is
       ; its town and a town's parent is its country: structures sit inside the space
       ; that holds them, and spaces inside the wider space that holds THEM, all the
@@ -837,5 +837,5 @@
   ; hsim - GrymEngine runtime nav/spawn instantiates these.
   (child env-point (+ per obs) (per obs)
     (decorations (spatials bounds))
-    (population (cap 256) (always-visible) (non-occluder) (sector-coverage))
+    (population (cap 256) (non-occluder) (sector-coverage))
     (children waypoint spawnpoint)))
