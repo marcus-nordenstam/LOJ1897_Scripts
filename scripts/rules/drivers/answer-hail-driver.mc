@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; answer-hail (thinks). A hail - a (formulaic opening ..) said to @self by a man whose public
+; answer-hail (thinks). A hail - a (formulaic opening-phrase ..) said to @self by a man whose public
 ; (conversing ..) names him (funcs/conversation.mc) - is ALWAYS answered, and how is @self's
 ; choice: engage, decline or rebuff. Engaging is taking up the conversation
 ; (tasks/take-up-task.mc) and then holding the exchange (tasks/converse-task.mc) while it stays
@@ -19,7 +19,7 @@
 ; else he has going; then the exchange, for as long as the conversation he took up is open.
 (driver engage-hail
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening ?) @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?) @self /past}
     (bind (hail-worth ?speaker) ?worth)
     (declare-utility (utility-band ?worth) (utility-value ?worth))
     (stable-or
@@ -39,7 +39,7 @@
 ; Declining for what he would rather be doing.
 (driver decline-hail
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening ?) @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?) @self /past}
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
                (not (rebuffs ?speaker))
@@ -51,7 +51,7 @@
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (driver rebuff-hail
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening ?) @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?) @self /past}
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
                (rebuffs ?speaker)))

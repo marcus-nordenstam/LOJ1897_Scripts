@@ -13,7 +13,7 @@
 ; - clears both (end-conversation), and each party knows it is over when his own entry no
 ; longer names the other.
 ;
-; A HAIL is a (formulaic opening ..) said to @self by a man whose (conversing ..) names him.
+; A HAIL is a (formulaic opening-phrase ..) said to @self by a man whose (conversing ..) names him.
 ; It is always answered, and how is his choice: he takes up the conversation, declines it
 ; for what he is busy with, or rebuffs a man he despises (drivers/answer-hail-driver.mc).
 ;
@@ -34,7 +34,7 @@
 ; (call-msg ?msg) - ?msg is called out rather than spoken: a hail, and the answers to one.
 (define-func call-msg (?msg)
   (and (eq-func-name ?msg formulaic)
-       (or (eq (nth (k-formulaic-category-field) ?msg) opening) (eq (nth (k-formulaic-category-field) ?msg) response)
+       (or (eq (nth (k-formulaic-category-field) ?msg) opening-phrase) (eq (nth (k-formulaic-category-field) ?msg) response)
            (eq (nth (k-formulaic-category-field) ?msg) refusal) (eq (nth (k-formulaic-category-field) ?msg) rebuff))))
 
 ; (speech-sound ?msg) - the sound saying ?msg makes: a [k shout] called out, else [k speech].
@@ -144,7 +144,7 @@
 ; names him, and the answer is the line he hails him with.
 (define-func player-hail (?npc)
   (bb-public-write @self conversing ?npc)
-  (formulaic [] opening player_talk))
+  (formulaic [] opening-phrase player_talk))
 
 ; (player-leave-taking ?npc) - the player ends the conversation with ?npc, and the answer is
 ; the line he takes his leave with.

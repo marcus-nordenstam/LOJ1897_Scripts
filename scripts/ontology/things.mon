@@ -686,18 +686,23 @@
         (child sign
           (children building-name-sign address-sign))
         ; A passage is a way through a wall and never a space: nothing is filed in one and nobody
-        ; stands in one. A passage IS a movable barrier - a door or a window - gating its own way:
-        ; shut and intact it bars it. A gap with no barrier is a neighbour link, never a passage.
+        ; stands in one. Every way into a building or between its rooms is one, so a body enters by
+        ; crossing it. An opening has nothing in it and never bars the way (an open front, a
+        ; breach); a movable barrier - a door or a window - gates its own way: shut and intact it
+        ; bars it.
         (child passage (composition passage) (+ nav_passage)
-          (decorations
-            (attrs open-amount hinge-side swing-angle)
-            (attr opening-status (auto-percept) (ext-per obs))
-            (attr lock-status (auto-percept) (ext-per obs))
-            (attr integrity (auto-percept) (ext-per obs)))
-          (population (cap 4096))
-          (child door
-            (children front-door double-door))
-          (child window (facets nav_last_resort)))))
+          (child opening
+            (population (cap 1024)))
+          (child movable-barrier
+            (decorations
+              (attrs open-amount hinge-side swing-angle)
+              (attr opening-status (auto-percept) (ext-per obs))
+              (attr lock-status (auto-percept) (ext-per obs))
+              (attr integrity (auto-percept) (ext-per obs)))
+            (population (cap 4096))
+            (child door
+              (children front-door double-door))
+            (child window (facets nav_last_resort))))))
     (child gm
       (population (cap 1) (imperceptible)))
     (child instance
@@ -752,11 +757,7 @@
         ; evening). drawing-room: formal sitting room for receiving
         ; callers. back-office: commercial-building private workspace.
         (children study drawing-room back-office)
-        ; A room open to the outdoors through no passage: a body walks into it off the street.
-        ; Composition links an opening to the outdoors; every other room reaches the street only
-        ; through a door or a window. `opening` alone is a breach in a wall (a ruin's).
-        (child opening
-          (children open-foyer)))
+        (children foyer))
       ; Concealment caches - the places a household member hides letters and small valuables.
       ; One hiding-spot entity per cache, spawned at the owner's home.
       ; The CACHE SPACE carries the engine hidden bit - never the items:

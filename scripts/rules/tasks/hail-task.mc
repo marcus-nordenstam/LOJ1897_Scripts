@@ -24,8 +24,8 @@
     (try
       (when (and (standing-before ?partner)
                  (not (conversing-with ?partner @self))
-                 -{@self tell (formulaic ? opening ?) ?partner /past /caused_by ?hail}))
-      (effects (maintain-proposal {@self tell (formulaic [] opening greeting) ?partner})))
+                 -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}))
+      (effects (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner})))
     (try
       (lint-waive cacheable-read-in-when)
       (when (conversing-with ?partner @self))

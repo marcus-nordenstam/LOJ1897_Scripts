@@ -40,22 +40,13 @@
 ;                                the doorways out of it - /env = every one
 ;   (rooms)                      the rooms a building or unit holds - its own and its units' -
 ;                                as a list. Default = the ones the mind has met, /env = every one
-;   (open-rooms)                 the rooms of a building or unit of the opening kind, open to
-;                                the outdoors - walked into off the street through no passage -
-;                                as a list. Default = the ones the mind has met, /env = every one
-;   (exits)                      the doors and windows leading out of a building, unit or
+;   (exits)                      the passages leading out of a building, unit or
 ;                                room, as a list. Default = the ones the mind has met, /env =
 ;                                every one
 ;   (beyond)                     (spatial ?passage beyond ?here): the space on the far side of
 ;                                ?passage from ?here - the room there, or the exterior space its
 ;                                outer end stands in. @unknown when the mind has not met the
 ;                                passage or the far side; /env reads the world
-;   (linked)                     (spatial ?a trivially-linked ?b): PREDICATE, true when a body
-;                                walks from space ?a to space ?b through no passage - the same
-;                                room, rooms joined by neighbour links (a gap with no door), a
-;                                room of the opening kind and the outdoors, or two
-;                                exterior spaces. Default walks the links between rooms the mind
-;                                has met; /env every link
 ;   (leg)                        (spatial @self leg ?dest): the next DOMAIN - an enclosure, or one
 ;                                exterior space - on his way to ?dest: the enclosure he stands in
 ;                                when ?dest lies outside it, else the node of ?dest's containment
@@ -119,10 +110,8 @@
 (spatial-label room       (store space) (first) (rung-role room))
 (spatial-label neighbours (store space) (neighbours))
 (spatial-label rooms      (store part) (rooms))
-(spatial-label open-rooms (store part) (open-rooms))
 (spatial-label exits      (store part) (exits))
 (spatial-label beyond     (store space) (beyond))
-(spatial-label trivially-linked (store space) (linked))
 (spatial-label leg        (store space) (leg))
 (spatial-label barrier    (store space) (barrier))
 (spatial-label gripped-by (store grip))

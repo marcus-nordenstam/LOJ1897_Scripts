@@ -11,7 +11,7 @@
   (preparatory)
   (sequence
     (role ?partner {?partner SAY ? @self /past}
-                   {?partner SAY (formulaic ? opening ?greeting) @self /past}
+                   {?partner SAY (formulaic ? opening-phrase ?greeting) @self /past}
       (stage
         (effects (maintain-proposal {@self tell (formulaic [] response ?greeting) ?partner})))
       (stage

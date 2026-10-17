@@ -2,9 +2,8 @@
 ; go-to ?dest - stand beside, near or inside ?dest: a spot, a thing, a person, a space or a
 ; building. Movement is go-to and cross, over DOMAINS - an enclosure, or one exterior space - and
 ; a go-to WALK never leaves its domain: between domains the way is the containment tree, one leg
-; at a time, (spatial @self leg ?dest) naming the next. An enclosure with a room open on the
-; outdoors through no passage is no domain: he walks in and out of it as he walks the street.
-; The rungs are a preemptive-or:
+; at a time, (spatial @self leg ?dest) naming the next. Every enclosure is entered by crossing
+; a passage, a door or an opening. The rungs are a preemptive-or:
 ;
 ;   arrived                                     -> succeed
 ;   no box for it, believed in a space          -> go-to that space, where he will see it;
@@ -21,7 +20,6 @@
 ;   the leg is an exterior space                -> WALK into it
 ;   in his domain, a door he believes shut on
 ;   every way he knows                          -> cross it; that cross failed -> fail
-;   in his domain, a building open to the street -> WALK into its nearest open room
 ;   in his domain                               -> WALK to the spot he will stand on
 ;
 ; The world decides where a walk stops: a WALK whose way the world bars ends before the door and
@@ -60,10 +58,6 @@
 
 (define-func go-unseen (?dest)
   (flip (is-spot ?dest) @false (not (grounded ?dest))))
-
-; What holds the rooms of ?dest: ?dest itself, or nothing for a spot, which has no rooms.
-(define-func go-rooms-host (?dest)
-  (flip (is-spot ?dest) @nothing ?dest))
 
 ; No box for it, seen or remembered: unseen, or a placed thing out of his sight.
 (define-func go-boxless (?dest)
@@ -166,11 +160,5 @@
     (try (role ?passage (spatial @self barrier ?dest)
                         {@self cross ?passage ? /fail /caused_by ?go-to}
            (effects (set-outcome ?go-to /fail))))
-    ; Cast on the ROOM, so learning one is a new activation that preempts the walk to a spot by the
-    ; building: a spot bound in (when ..) would leave the maintained WALK on its first, stale target.
-    (try (role ?room (spatial (go-rooms-host ?dest) open-rooms)
-                     (select (score (near @self ?room)) (policy argmax unknown-last))
-           (when (stand-spot-in ?room): ?spot (is-spot ?spot))
-           (effects (maintain-proposal {@self WALK ?spot}))))
     (try (when (go-stand-spot ?dest): ?spot (is-spot ?spot))
          (effects (maintain-proposal {@self WALK ?spot})))))
