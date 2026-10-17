@@ -8,6 +8,7 @@
 ;   arrived                                     -> succeed
 ;   no box for it, believed in a space          -> go-to that space, where he will see it;
 ;                                                  there and still unseen -> fail
+;   seen once, and where it is now lost          -> locate-person / locate-thing; that failed -> fail
 ;   unseen, a house seen at its premises        -> locate it there; a search that shows it not -> fail
 ;   unseen, no house at its premises            -> find-building; a search that finds none -> fail
 ;   the leg is an enclosure                     -> cross its nearest door he has not failed,
@@ -63,6 +64,21 @@
 (define-func go-boxless (?dest)
   (flip (is-spot ?dest) @false (unsubstantial (tolerate (spatial ?dest bounds)))))
 
+; Seen once, and the mind now knows neither its box nor its space: it moved out of sight, or was
+; not where he looked for it.
+(define-func go-lost (?dest)
+  (flip (is-spot ?dest) @false (and (grounded ?dest)
+                                     (go-boxless ?dest)
+                                     (unsubstantial (tolerate (spatial ?dest space))))))
+
+; Nothing left to try that would place ?dest: never seen, or seen and lost, with the searches the
+; rungs above make spent; or believed in a space this go-to walked to without seeing it there.
+(define-func go-unplaceable (?dest ?go-to)
+  (or (go-unseen ?dest)
+      (go-lost ?dest)
+      (and (go-boxless ?dest)
+           (substantial (any {@self go-to (tolerate (spatial ?dest space)) /succ /caused_by ?go-to})))))
+
 
 ; A dest go-to can reach: a spot, a thing he has placed, one he believes in some space, or one
 ; whose address he knows.
@@ -106,10 +122,14 @@
                        -{@self go-to ?space /succ /caused_by ?go-to}
                        -{@self go-to ?space /fail /caused_by ?go-to}
              (effects (maintain-proposal {@self go-to ?space})))))
-    (try (role ?space (spatial ?dest space)
-           (role @self (go-boxless ?dest)
-                       {@self go-to ?space /succ /caused_by ?go-to}
-             (effects (set-outcome ?go-to /fail)))))
+    (try (role @self (go-lost ?dest)
+                     (is-a ?dest [k human])
+                     -{@self locate-person ?dest /fail /caused_by ?go-to}
+           (effects (maintain-proposal {@self locate-person ?dest}))))
+    (try (role @self (go-lost ?dest)
+                     (not (is-a ?dest [k human]))
+                     -{@self locate-thing ?dest /fail /caused_by ?go-to}
+           (effects (maintain-proposal {@self locate-thing ?dest}))))
     (try (role @self (go-unseen ?dest)
                      (substantial (go-house-at-premises ?dest))
                      -{@self locate ?dest (go-house-at-premises ?dest) /fail /caused_by ?go-to}
@@ -120,7 +140,7 @@
            (effects
              (check (substantial (any {?dest address})))
              (maintain-proposal {@self find-building ?dest (current-exterior @self)}))))
-    (try (role @self (go-unseen ?dest)
+    (try (role @self (go-unplaceable ?dest ?go-to)
            (effects (set-outcome ?go-to /fail))))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (not (is-a ?leg [k exterior-space]))

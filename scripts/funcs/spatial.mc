@@ -12,6 +12,13 @@
   (or (spatial ?x building ?place)
       (spatial ?x unit ?place)))
 
+; The building or unit a search for something in ?space walks: ?space itself when it is one, else
+; the building holding it; @nothing out of doors or for nothing.
+(define-func place-holding (?space)
+  (cond (case (unsubstantial ?space) @nothing)
+        (case (or (is-a ?space [k building]) (is-a ?space [k unit])) ?space)
+        (else (tolerate (spatial ?space building)))))
+
 ; ?x is inside ?space: a room, or a building or a unit of one; for an exterior space, out of
 ; doors in it - a man in a house in the town stands in the house, not in the town's open ground.
 (define-func within-space (?x ?space)
