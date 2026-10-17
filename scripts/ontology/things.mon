@@ -751,7 +751,12 @@
         ; room (where a gentleman drinks port and reads in the
         ; evening). drawing-room: formal sitting room for receiving
         ; callers. back-office: commercial-building private workspace.
-        (children study drawing-room back-office))
+        (children study drawing-room back-office)
+        ; A room open to the outdoors through no passage: a body walks into it off the street.
+        ; Composition links an opening to the outdoors; every other room reaches the street only
+        ; through a door or a window. `opening` alone is a breach in a wall (a ruin's).
+        (child opening
+          (children open-foyer)))
       ; Concealment caches - the places a household member hides letters and small valuables.
       ; One hiding-spot entity per cache, spawned at the owner's home.
       ; The CACHE SPACE carries the engine hidden bit - never the items:

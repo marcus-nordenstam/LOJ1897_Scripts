@@ -40,7 +40,7 @@
 ;                                the doorways out of it - /env = every one
 ;   (rooms)                      the rooms a building or unit holds - its own and its units' -
 ;                                as a list. Default = the ones the mind has met, /env = every one
-;   (open-rooms)                 the rooms of a building or unit whose outer wall stands open to
+;   (open-rooms)                 the rooms of a building or unit of the opening kind, open to
 ;                                the outdoors - walked into off the street through no passage -
 ;                                as a list. Default = the ones the mind has met, /env = every one
 ;   (exits)                      the doors and windows leading out of a building, unit or
@@ -53,7 +53,7 @@
 ;   (linked)                     (spatial ?a trivially-linked ?b): PREDICATE, true when a body
 ;                                walks from space ?a to space ?b through no passage - the same
 ;                                room, rooms joined by neighbour links (a gap with no door), a
-;                                room whose outer wall stands open to the outdoors, or two
+;                                room of the opening kind and the outdoors, or two
 ;                                exterior spaces. Default walks the links between rooms the mind
 ;                                has met; /env every link
 ;   (leg)                        (spatial @self leg ?dest): the next DOMAIN - an enclosure, or one
