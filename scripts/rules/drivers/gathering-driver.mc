@@ -24,7 +24,7 @@
 
 ; The host's planning decision (think). ~2% of grown NPCs each month decide to
 ; throw a dinner party at home, set about three months ahead.
-(driver plan-gathering
+(driver plan-gathering-driver
   (cooldown 1 m try-once)
   (rng-stream behaviour)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
