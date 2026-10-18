@@ -3,12 +3,15 @@
 ; response its opening calls for, then posts his (conversing ..) naming ?partner, and the
 ; conversation is open. It is PREPARATION for converse, proposed by engage-hail
 ; (drivers/answer-hail-driver.mc). Until his entry is posted the hail still stands, so a man
-; who finds something keener first declines it instead (decline-hail).
+; who finds something keener first declines it instead (decline-hail). Once posted he hands the
+; conversation over to converse, which nothing can stop before it first fires.
 ; ----------------------------------------------------------------------------
 
 (task {@self take-up ?partner}:?take-up
   (tar @excl [k human] @object)
   (preparatory)
+  ; Converse must start once take-up is done, which only a begun proposal outlives take-up for.
+  (lint-waive begin-proposal)
   (sequence
     (role ?partner {?partner SAY ? @self /past}
                    {?partner SAY (formulaic ? opening-phrase ?greeting) @self /past}
@@ -17,4 +20,5 @@
       (stage
         (effects
           (bb-public-write @self conversing ?partner)
+          (begin-proposal {@self converse ?partner} /uninterruptable-until-fire)
           (set-outcome ?take-up /succ))))))

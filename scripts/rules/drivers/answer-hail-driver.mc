@@ -3,10 +3,10 @@
 ; (conversing ..) names him (funcs/conversation.mc) - is ALWAYS answered, and how is @self's
 ; choice: engage, decline or rebuff. Engaging is taking up the conversation
 ; (tasks/take-up-task.mc) and then holding the exchange (tasks/converse-task.mc) while it stays
-; open; declining and rebuffing are turning it down (tasks/turn-down-task.mc), at
-; (declare-utility unbeatable), above everything he has going, so nothing can silence it. The choice
-; stays open while he is invited and has not begun turning it down: a man who would have
-; engaged but finds something keener before he has answered declines instead.
+; open; declining and rebuffing are turning it down (tasks/turn-down-task.mc). Whatever he answers
+; he finishes: a turn-down and a begun take-up both run at (declare-utility unbeatable), above
+; everything he has going. The choice stays open until he begins answering: a man who would have
+; engaged but finds something keener before he has begun taking it up declines instead.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -36,6 +36,15 @@
                    (took-up ?speaker)))
         (effects (maintain-proposal {@self converse ?speaker}))))))
 
+; A take-up he has begun is a yes already being said: he finishes it.
+(driver complete-take-up
+  (role ?speaker {?speaker SAY ? @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?) @self /past}
+    (when (and (invited-by ?speaker)
+               (taking-up ?speaker)))
+    (declare-utility unbeatable)
+    (effects (maintain-proposal {@self take-up ?speaker}))))
+
 ; Declining for what he would rather be doing.
 (driver decline-hail
   (role ?speaker {?speaker SAY ? @self /past}
@@ -43,6 +52,7 @@
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
                (not (rebuffs ?speaker))
+               (not (taking-up ?speaker))
                (or (turning-down ?speaker) (not (would-engage ?speaker)))))
     (declare-utility unbeatable)
     (effects

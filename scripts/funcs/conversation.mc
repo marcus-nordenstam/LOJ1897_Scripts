@@ -75,6 +75,10 @@
 (define-func would-engage (?speaker)
   (> (hail-worth ?speaker) (top-competing-utility {@self take-up ?speaker})))
 
+; (taking-up ?caller) - @self has begun taking up ?caller's conversation.
+(define-func taking-up (?caller)
+  (substantial (any {@self take-up ?caller})))
+
 ; (happened-since ?event ?since) - ?event came no earlier than ?since: than its end once it is
 ; over, than its start while it runs.
 (define-func happened-since (?event ?since)

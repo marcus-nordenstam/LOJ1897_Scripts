@@ -22,6 +22,12 @@
   (lint-waive try-rungs-not-exclusive)
   (init
     (check (is-a ?partner [k human])))
+  ; Ending with the conversation still open is being outcompeted: he takes his leave first, so
+  ; his partner knows it is over. Begun, because the converse proposing it has ended.
+  (lint-waive begin-proposal)
+  (cease
+    (if (and (conversing-with @self ?partner) (conversing-with ?partner @self))
+        (then (begin-proposal {@self take-leave ?partner} /uninterruptable))))
   (and
     (try
       (lint-waive cacheable-read-in-when)
