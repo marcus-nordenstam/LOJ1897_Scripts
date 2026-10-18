@@ -766,6 +766,17 @@ $form(FORM)
 { $sub_np(NP) $task(TRANS_TASK) $obj(CONJ|ST|QS|MSG|NP) }
 .
 
+; ACTS UNDER WAY AND ACTS DUE - what a man is doing (a task begun) or has to do (a task
+; proposed, not begun): said, never read - the reason a refusal gives.
+" $sub_np(NP) $verb(VERB|be) $act(ONGOING_TASK) "
+{ $sub_np(NP) /pres $act(ONGOING_TASK) }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|have) to $act(DUE_TASK) "
+{ $sub_np(NP) /future $act(DUE_TASK) }
+:: realize-only
+.
+
 ; STATE-SENTENCES
 
 " $sub_np(NP) $state(SPECIAL_STATE) "

@@ -6,3 +6,204 @@
 :TRANS_TASK
 "gets"                          /pres get                       .
 "got"                           /past get                       .
+
+; A task under way, as the progressive after "is": the reason a busy man gives. Its target is
+; not spoken, and a task that should not be named aloud says what it is busy with plainly.
+:ONGOING_TASK
+"letting a property"                    LET                         .
+"taking up a post"                      accept-job-offer            .
+"applying for a post"                   apply-for                   .
+"arranging a match"                     arrange-match               .
+"keeping an engagement"                 attend                      .
+"going to church"                       attend-church-service       .
+"backing a venture"                     back                        .
+"seeing to a private matter"            break-off                   .
+"seeing to some business"               bribe                       .
+"burying the dead"                      bury                        .
+"doing the shopping"                    buy                         .
+"carrying things home"                  carry-home                  .
+"seeing to some business"               coerce                      .
+"collecting the applications"           collect-applications        .
+"writing a letter"                      confess-letter              .
+"talking with someone"                  converse                    .
+"seeing to the dead"                    convey-corpse               .
+"on the way"                            cross                       .
+"seeing to some business"               defraud                     .
+"seeing to some business"               denounce                    .
+"settling affairs"                      disinherit                  .
+"dismissing a man"                      dismiss                     .
+"seeing to a private matter"            divorce                     .
+"drafting a verdict"                    draft-verdict               .
+"having a meal"                         eat                         .
+"seeing to some business"               embezzle                    .
+"leaving the country"                   emigrate                    .
+"going in"                              enter-room                  .
+"seeing to some business"               expose                      .
+"in a fight"                            fight                       .
+"looking for a place"                   find-building               .
+"gambling"                              gamble                      .
+"fetching something"                    get                         .
+"handing something over"                give                        .
+"taking alms to the church"             give-charity                .
+"going for a drink"                     go-drink                    .
+"on the way"                            go-to                       .
+"going to bed"                          go-to-bed                   .
+"calling on someone"                    hail                        .
+"taking a man on"                       hire-applicant              .
+"seeing to some business"               hire-assassin               .
+"seeing to some business"               hire-procure                .
+"seeing to some business"               humiliate                   .
+"seeing to some business"               hurt                        .
+"inviting a guest"                      invite-guest                .
+"seeing to some business"               kidnap                      .
+"looking for something"                 locate                      .
+"looking for someone"                   locate-person               .
+"looking for a room"                    locate-room                 .
+"looking for something"                 locate-thing                .
+"enrolling at school"                   matriculate                 .
+"opening the shop"                      open-till                   .
+"settling a debt"                       pay                         .
+"planning a gathering"                  plan-gathering              .
+"putting money away"                    pocket-coins                .
+"posting an advertisement"              post-ad                     .
+"preparing an application"              prepare-application         .
+"seeing to the staff"                   promote-staff               .
+"seeing to a private matter"            propose-marriage            .
+"stocking the shop"                     provision                   .
+"putting something away"                put                         .
+"busy about the house"                  putter                      .
+"reading"                               read-at                     .
+"reading a document"                    read-doc                    .
+"reading the job board"                 read-job-board              .
+"reading the mail"                      read-mail                   .
+"receiving someone"                     receive                     .
+"taking on staff"                       recruit-staff               .
+"taking down an advertisement"          remove-ad                   .
+"going to the police"                   report-crime                .
+"resting"                               rest                        .
+"retiring"                              retire                      .
+"seeing to a private matter"            seduce                      .
+"seeing about a loan"                   seek-loan                   .
+"posting a letter"                      send-mail                   .
+"seeing to the household"               set-mealtimes               .
+"seeing to some business"               shoot                       .
+"looking through some papers"           stack-browse                .
+"taking some papers"                    stack-take                  .
+"seeing to some business"               steal                       .
+"seeing to some business"               strangle                    .
+"summoning someone"                     summon                      .
+"taking something"                      take                        .
+"taking the applications"               take-applications           .
+"taking leave"                          take-leave                  .
+"seeing to a private matter"            take-lover                  .
+"collecting letters"                    take-my-letters             .
+"taking stock"                          take-stock                  .
+"talking with someone"                  take-up                     .
+"speaking with someone"                 tell                        .
+"speaking with someone"                 turn-down                   .
+"getting money out"                     unpocket-coins              .
+"out walking"                           wander                      .
+"getting married"                       wed                         .
+"at work"                               work                        .
+"writing"                               write-doc                   .
+"writing a will"                        write-will                  .
+
+; A task proposed and not yet begun, as the infinitive after "has to".
+:DUE_TASK
+"let a property"                        LET                         .
+"take up a post"                        accept-job-offer            .
+"apply for a post"                      apply-for                   .
+"arrange a match"                       arrange-match               .
+"keep an engagement"                    attend                      .
+"go to church"                          attend-church-service       .
+"back a venture"                        back                        .
+"see to a private matter"               break-off                   .
+"see to some business"                  bribe                       .
+"bury the dead"                         bury                        .
+"do the shopping"                       buy                         .
+"carry things home"                     carry-home                  .
+"see to some business"                  coerce                      .
+"collect the applications"              collect-applications        .
+"write a letter"                        confess-letter              .
+"speak with someone"                    converse                    .
+"see to the dead"                       convey-corpse               .
+"be off"                                cross                       .
+"see to some business"                  defraud                     .
+"see to some business"                  denounce                    .
+"settle some affairs"                   disinherit                  .
+"dismiss a man"                         dismiss                     .
+"see to a private matter"               divorce                     .
+"draft a verdict"                       draft-verdict               .
+"have a meal"                           eat                         .
+"see to some business"                  embezzle                    .
+"leave the country"                     emigrate                    .
+"go in"                                 enter-room                  .
+"see to some business"                  expose                      .
+"fight"                                 fight                       .
+"find a place"                          find-building               .
+"gamble"                                gamble                      .
+"fetch something"                       get                         .
+"hand something over"                   give                        .
+"take alms to the church"               give-charity                .
+"go for a drink"                        go-drink                    .
+"be off"                                go-to                       .
+"go to bed"                             go-to-bed                   .
+"speak to someone"                      hail                        .
+"take a man on"                         hire-applicant              .
+"see to some business"                  hire-assassin               .
+"see to some business"                  hire-procure                .
+"see to some business"                  humiliate                   .
+"see to some business"                  hurt                        .
+"invite a guest"                        invite-guest                .
+"see to some business"                  kidnap                      .
+"find something"                        locate                      .
+"find someone"                          locate-person               .
+"find a room"                           locate-room                 .
+"find something"                        locate-thing                .
+"enrol at school"                       matriculate                 .
+"open the shop"                         open-till                   .
+"settle a debt"                         pay                         .
+"plan a gathering"                      plan-gathering              .
+"put some money away"                   pocket-coins                .
+"post an advertisement"                 post-ad                     .
+"prepare an application"                prepare-application         .
+"see to the staff"                      promote-staff               .
+"see to a private matter"               propose-marriage            .
+"stock the shop"                        provision                   .
+"put something away"                    put                         .
+"see to the house"                      putter                      .
+"do some reading"                       read-at                     .
+"read a document"                       read-doc                    .
+"read the job board"                    read-job-board              .
+"read the mail"                         read-mail                   .
+"receive someone"                       receive                     .
+"take on staff"                         recruit-staff               .
+"take down an advertisement"            remove-ad                   .
+"go to the police"                      report-crime                .
+"rest"                                  rest                        .
+"retire"                                retire                      .
+"see to a private matter"               seduce                      .
+"see about a loan"                      seek-loan                   .
+"post a letter"                         send-mail                   .
+"see to the household"                  set-mealtimes               .
+"see to some business"                  shoot                       .
+"look through some papers"              stack-browse                .
+"take some papers"                      stack-take                  .
+"see to some business"                  steal                       .
+"see to some business"                  strangle                    .
+"summon someone"                        summon                      .
+"take something"                        take                        .
+"take the applications"                 take-applications           .
+"take leave"                            take-leave                  .
+"see to a private matter"               take-lover                  .
+"collect some letters"                  take-my-letters             .
+"take stock"                            take-stock                  .
+"speak with someone"                    take-up                     .
+"speak with someone"                    tell                        .
+"speak with someone"                    turn-down                   .
+"get some money out"                    unpocket-coins              .
+"take a walk"                           wander                      .
+"get married"                           wed                         .
+"go to work"                            work                        .
+"write something"                       write-doc                   .
+"write a will"                          write-will                  .
