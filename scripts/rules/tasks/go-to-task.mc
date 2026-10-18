@@ -149,11 +149,9 @@
            (role @self (not (is-a ?leg [k exterior-space]))
              (role ?passage (spatial ?leg exits)
                             (not (has-facet ?passage nav_last_resort))
-                            -{@self cross ?passage ? /fail /caused_by ?go-to}
-                            (substantial (tolerate (spatial ?passage beyond (spatial @self space))))
+                            -{@self cross ?passage /fail /caused_by ?go-to}
                             (select (score (near @self ?passage)) (policy argmax unknown-last))
-               (effects (bind (spatial ?passage beyond (spatial @self space)) ?to)
-                        (maintain-proposal {@self cross ?passage ?to}))))))
+               (effects (maintain-proposal {@self cross ?passage}))))))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (spatial @self space ?leg)
                        (substantial (place-holding (spatial @self space)))
@@ -178,11 +176,10 @@
              (when (stand-spot-in ?leg): ?spot (is-spot ?spot))
              (effects (maintain-proposal {@self WALK ?spot})))))
     (try (role ?passage (spatial @self barrier ?dest)
-                        -{@self cross ?passage ? /fail /caused_by ?go-to}
-           (role ?to (spatial ?passage beyond (spatial @self space))
-             (effects (maintain-proposal {@self cross ?passage ?to})))))
+                        -{@self cross ?passage /fail /caused_by ?go-to}
+           (effects (maintain-proposal {@self cross ?passage}))))
     (try (role ?passage (spatial @self barrier ?dest)
-                        {@self cross ?passage ? /fail /caused_by ?go-to}
+                        {@self cross ?passage /fail /caused_by ?go-to}
            (effects (set-outcome ?go-to /fail))))
     (try (when (go-stand-spot ?dest): ?spot (is-spot ?spot))
          (effects (maintain-proposal {@self WALK ?spot})))))

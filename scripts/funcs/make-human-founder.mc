@@ -56,6 +56,9 @@
   ; lands as @fail - you cannot hold a belief about a place you have never laid
   ; eyes on. Observing is the sanctioned way to meet one.
   (observe ?home): ?known-home
+  ; He has lived there, so every room of it is one he has seen.
+  (for-each ?room (spatial ?home rooms /env)
+    (observe ?room))
   (begin-belief {@self class-situation ?class})
   (begin-belief {@self nationality ?nat})
   (begin-belief {@self breeding (breeding-for-class ?class)})

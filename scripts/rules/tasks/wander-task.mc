@@ -35,9 +35,7 @@
                   -{@self go-to ?room /succ /caused_by ?wander}
                   -{@self go-to ?room /fail /caused_by ?wander}
                   (select (score (near @self ?room)) (policy roulette unknown-first))
-        (effects
-          (check (grounded ?room))
-          (maintain-proposal {@self go-to ?room}))))
+        (effects (maintain-proposal {@self go-to ?room}))))
     ; The walk arrived: the room is toured.
     (try
       (role ?room (spatial ?place rooms)

@@ -37,22 +37,22 @@
         (case (unsubstantial ?here) @false)
         (else (and (is-a ?here [k exterior-space]) (spatial ?x space ?space)))))
 
-; The claimed floor spot by ?passage on the side of space ?side - the free floor of ?side nearest
-; the passage, where a step through it lands. Polled like rest-spot, and likewise the asking
+; The claimed floor spot just through ?passage from where @self stands, where a step through it
+; lands, whether or not he knows the space there. Polled like rest-spot, and likewise the asking
 ; rung's claim.
-(define-func passage-spot (?passage ?side)
-  (maintain-claim-spot @self [/on_floor_of ?side] [/near ?passage] [/at_or_near @self]))
+(define-func passage-spot-beyond (?passage)
+  (maintain-claim-spot @self [/beyond ?passage] [/near ?passage] [/at_or_near @self]))
 
-; The claimed stance on the side of space ?side from which @self can reach ?passage, to work it.
-; @fail while every such stance is taken.
-(define-func passage-stance (?passage ?side)
-  (maintain-claim-spot @self [/on_floor_of ?side] [/near ?passage] [/at_or_near @self]
+; The claimed stance on @self's side of ?passage from which he can reach it, to work it. @fail
+; while every such stance is taken.
+(define-func passage-stance (?passage)
+  (maintain-claim-spot @self [/before ?passage] [/near ?passage] [/at_or_near @self]
                        [/can_reach ?passage]))
 
-; There is a stance by ?passage on the side of space ?side, though others may hold every one:
-; the door can be reached at all, crowd or no crowd.
-(define-func passage-stance-exists (?passage ?side)
-  (is-spot (find-spot @self [/on_floor_of ?side] [/near ?passage] [/at_or_near @self]
+; There is a stance on @self's side of ?passage, though others may hold every one: the door can be
+; reached at all, crowd or no crowd.
+(define-func passage-stance-exists (?passage)
+  (is-spot (find-spot @self [/before ?passage] [/near ?passage] [/at_or_near @self]
                       [/can_reach ?passage] /unclaimed)))
 
 ; @self stands in a space of kind ?kind, as he believes it.

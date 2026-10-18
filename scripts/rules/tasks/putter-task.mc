@@ -27,7 +27,7 @@
               (then
                 (if (chance (* 0.006 (+ 1.0 ?openness)))
                     (then
-                      (begin-belief {@self hiding-spot (internalize ?cache)})
+                      (begin-belief {@self hiding-spot (observe ?cache)})
                       (for-each ?item (spatial ?cache contents /env)
                         (observe ?item)))))
               (else
