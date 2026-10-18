@@ -50,14 +50,14 @@
 ; tasks/rest-task.mc and tasks/read-at-task.mc.
 
 ; ----------------------------------------------------------------------------
-; set-mealtimes (driver) - the woman of the house, holding the duty, fixes the household's meal
+; set-mealtimes-driver - the woman of the house, holding the duty, fixes the household's meal
 ; hours while her own mind lacks the home's supper hour: she proposes the set-mealtimes task
 ; (tasks/set-mealtimes-task.mc), which says the hours aloud to the household and then holds them
 ; herself. Any straggler self-heals through the ask-the-cook channel below.
 ; ----------------------------------------------------------------------------
 
 
-(driver set-mealtimes
+(driver set-mealtimes-driver
   (cooldown 1 m try-until-succ)
 
   ; The COOK is the woman of the house - self-identified from @self's OWN gender
