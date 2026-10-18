@@ -38,6 +38,7 @@ npc.rules.pool                      =   256     128     16
 # General data pools
 npc.uint16s8.pool                   =   100000  5000    100
 npc.uint32s8.pool                   =   10000   256     64
+npc.roleCache.pool                  =   5000    128     32
 npc.structIds4.pool                 =   10000   16      8
 npc.structIds16.pool                =   100000  512     64
 npc.structIds128.pool               =   10000   8       8
