@@ -6,7 +6,8 @@
 ; open; declining and rebuffing are turning it down (tasks/turn-down-task.mc). Whatever he answers
 ; he finishes: a turn-down and a begun take-up both run at (declare-utility unbeatable), above
 ; everything he has going. The choice stays open until he begins answering: a man who would have
-; engaged but finds something keener before he has begun taking it up declines instead.
+; engaged but finds something keener before he has begun taking it up declines instead, and says
+; what it is.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -15,8 +16,8 @@
 (define-func turning-down (?speaker)
   (substantial (any {@self turn-down ?speaker ?})))
 
-; Taking it up, at what talking with ?speaker is worth to him, while that beats everything
-; else he has going; then the exchange, for as long as the conversation he took up is open.
+; Taking it up, at what talking with ?speaker is worth to him, while nothing else he has going
+; outbids it; then the exchange, for as long as the conversation he took up is open.
 (driver engage-hail
   (role ?speaker {?speaker SAY ? @self /past}
                  {?speaker SAY (formulaic ? opening-phrase ?) @self /past}
@@ -28,7 +29,7 @@
                    (within-call ?speaker)
                    (not (rebuffs ?speaker))
                    (not (turning-down ?speaker))
-                   (would-engage ?speaker)))
+                   (unsubstantial (top-competing-act {@self take-up ?speaker} ?worth))))
         (effects (maintain-proposal {@self take-up ?speaker})))
       (try
         (when (and (conversing-with @self ?speaker)
@@ -45,18 +46,25 @@
     (declare-utility unbeatable)
     (effects (maintain-proposal {@self take-up ?speaker}))))
 
-; Declining for what he would rather be doing.
+; Declining for what he would rather be doing, and saying what it is: the decision is made once,
+; and the refusal it begins always completes.
 (driver decline-hail
   (role ?speaker {?speaker SAY ? @self /past}
                  {?speaker SAY (formulaic ? opening-phrase ?) @self /past}
+    (bind (hail-worth ?speaker) ?worth)
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
                (not (rebuffs ?speaker))
                (not (taking-up ?speaker))
-               (or (turning-down ?speaker) (not (would-engage ?speaker)))))
+               (not (turning-down ?speaker))
+               (not (proposed {@self turn-down ? ?}))
+               (substantial (top-competing-act {@self take-up ?speaker} ?worth))))
     (declare-utility unbeatable)
+    (lock)
+    (lint-waive begin-proposal)
     (effects
-      (maintain-proposal {@self turn-down ?speaker (formulaic [] refusal busy)}))))
+      (bind (top-competing-act {@self take-up ?speaker} ?worth) ?busy-with)
+      (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?busy-with)} /uninterruptable))))
 
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (driver rebuff-hail

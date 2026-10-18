@@ -70,11 +70,6 @@
 (define-func rebuffs (?speaker)
   (and (any {@self despise ?speaker}) (not (answers-to ?speaker))))
 
-; (would-engage ?speaker) - talking with ?speaker is worth more to @self than anything else he
-; has going: the conversation would win selection now.
-(define-func would-engage (?speaker)
-  (> (hail-worth ?speaker) (top-competing-utility {@self take-up ?speaker})))
-
 ; (taking-up ?caller) - @self has begun taking up ?caller's conversation.
 (define-func taking-up (?caller)
   (substantial (any {@self take-up ?caller})))
