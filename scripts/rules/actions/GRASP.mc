@@ -20,7 +20,7 @@
 (action {@self GRASP ?item ?hand}:?GRASP
   (sided aux left-hand right-hand)
   (obs)
-  (tar @excl)
+  (tar [k object] @excl)
   (duration (seconds 1 min))
   (presentation
     (anim-right right_hand_grip)
