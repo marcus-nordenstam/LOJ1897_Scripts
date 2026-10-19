@@ -78,7 +78,7 @@
 
   (effects
     (cond
-      (case (is-player)
+      (case (not (is-spot ?dest))
         (steer-heading @self))
       (case (jump-clock)
         (walk-relocate ?WALK ?dest))
