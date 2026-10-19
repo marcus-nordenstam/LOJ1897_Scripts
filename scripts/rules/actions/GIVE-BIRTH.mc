@@ -50,7 +50,6 @@
     (set-attr ?baby game-role [k nonplayer])
     (seed-human-genetics ?baby ?gender @self ?father)
     (seed-handwriting ?baby @nothing @self)
-    (seed-human-vitals ?baby)
     (seed-npc-habits ?baby)
     (set-attr ?baby parentless 0)
     (set-attr ?baby birth-date (create-date (time year) (time month) (time day)))
@@ -59,6 +58,8 @@
     ; The parents are read off the act's abs twin: inside the baby's mind the
     ; mother's own symbols name nothing.
     (enter-mind ?baby)
+    ; The body is the baby's own - (private) - so it is seeded from inside its mind.
+    (seed-human-vitals @self)
     (observe ?xgive-birth.subject): ?known-mother
     (observe ?xgive-birth.target): ?known-father
     (begin-belief {@self mother ?known-mother})
