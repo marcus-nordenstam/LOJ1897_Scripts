@@ -69,6 +69,11 @@ npc.spatialBounds.pool              =   4000   128     32
 npc.private_bb.pool                 =   1024    128     64
 npc.private_bb_entries.pool         =   1024    128     64
 
+# The abs mind's private blackboards: one per running act it runs for a mindless body (an
+# injected act), released when the act ends.
+abs.private_bb.pool                 =   1024    128     64
+abs.private_bb_entries.pool         =   1024    128     64
+
 # Public blackboard pool (single, on the abs Mind; one bb per abs-host symbol that
 # uses one). maxItems is bounded by MEnv::k_max_public_bbs (65536) - asserted at
 # startup. Bump initial reserve and stride if profiling shows churn.
