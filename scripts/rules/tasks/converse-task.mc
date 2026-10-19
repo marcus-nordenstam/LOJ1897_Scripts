@@ -41,7 +41,7 @@
     (try
       (lint-waive cacheable-read-in-when)
       (when (conversing-with @self ?partner)
-            (not (is-facing @self ?partner)))
+            (not (is-facing ?partner)))
       (effects (maintain-proposal {@self TURN-TO ?partner})))
 
     (try

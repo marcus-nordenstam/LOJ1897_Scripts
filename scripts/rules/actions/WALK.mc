@@ -32,10 +32,12 @@
 (define-func walk-navigates (?dest)
   (and (real-clock) (presented-lod) (nav-navigable @self ?dest)))
 
-; When the movement task this walk serves began: a barrier he has seen shut since then bars its
-; route.
+; When the movement task this walk serves began, or the walk itself when nothing proposed it (an
+; injected walk): a barrier he has seen shut since then bars its route.
 (define-func walk-since (?WALK)
-  (start-time (caused-by ?WALK {@self go-to|cross ?})))
+  (caused-by ?WALK {@self go-to|cross ?}): ?ws-mover
+  (cond (case (substantial ?ws-mover) (start-time ?ws-mover))
+        (else (start-time ?WALK))))
 
 ; Where the world stops a walk nobody watches: before the first passage it bars on every way to
 ; ?dest, which he sees there, failing the walk - else on ?dest itself.

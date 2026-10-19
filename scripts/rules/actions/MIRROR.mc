@@ -34,5 +34,5 @@
       (then
         (turn @self ?other)
         (steer-facing @self ?other)
-        (if (is-mirroring @self ?other)
+        (if (is-mirroring ?other)
             (then (set-outcome ?MIRROR /succ)))))))

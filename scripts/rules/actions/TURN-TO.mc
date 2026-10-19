@@ -36,5 +36,5 @@
         ; No outcome: the swing takes frames, and he is done when he is facing it.
         (turn @self ?target)
         (steer-facing @self ?target)
-        (if (is-facing @self ?target)
+        (if (is-facing ?target)
             (then (set-outcome ?TURN-TO /succ)))))))
