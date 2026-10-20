@@ -39,11 +39,10 @@
 
 ; Whatever ?hand grips it lets go of, set down where it can rest under the hand.
 (define-func release-hand (?hand)
-  (bind (spatial ?hand grip /env) ?item)
-  (if (substantial ?item)
-      (then (release-grip ?item (hand-rest-spot ?hand ?item)))))
+  (for-each ?item (spatial ?hand grip /env)
+    (release-grip ?item (hand-rest-spot ?hand ?item))))
 
 ; Both of ?who's hands open. The engine calls it when a scripted Editor take is cut.
 (define-func /release-hands release-hands (?who)
-  (release-hand (spatial ?who left-hand))
-  (release-hand (spatial ?who right-hand)))
+  (release-hand (spatial ?who left-hand /env))
+  (release-hand (spatial ?who right-hand /env)))
