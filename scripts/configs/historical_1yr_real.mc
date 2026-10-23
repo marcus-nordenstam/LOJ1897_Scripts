@@ -11,6 +11,6 @@
   start 1700-01-01
   end 1700-12-31
   clock real
-  fps 60
+  fps uncapped
   level "Theatres/demo_tech_level_v2.grs"
   startup town-startup)
