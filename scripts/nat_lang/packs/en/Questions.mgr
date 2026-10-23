@@ -127,13 +127,12 @@
 
 ; whereabouts on the night of a crime - the alibi question. Anchored on the
 ; victim: death-date is the start of the answerer's {victim condition dead}
-; belief; night-of wraps that day to its night window; whereabouts-on returns
-; the PLACE of the answerer's most recent placed episode overlapping it (every
-; episodic belief carries where he was), else the space of a point stamp. No
-; memory -> @unknown ("I don't know") until the routine fallback lands. The
-; answerer is ?_you (the suspect being questioned).
+; belief; band-interval takes that day's night, past midnight; whereabouts-on
+; returns the PLACE of the answerer's most recent placed episode overlapping it.
+; No memory -> @unknown ("I don't know"). The answerer is ?_you (the suspect
+; being questioned).
 "where were you the night $person(Q_NP) [was #kill-verb|died]"
-( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) )
+( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) night ) )
 .
 
 ; specific interest (do you like X)
@@ -585,10 +584,10 @@
 ; --- 10. ALIBI (extends the crime-night set already above) -------------------
 
 "can you account for your whereabouts the night $person(Q_NP) died"
-( whereabouts-on ?_you ( night-of ( death-date $person(Q_NP) ) ) )
+( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) night ) )
 .
 "where were you the morning $person(Q_NP) was #kill-verb"
-( whereabouts-on ?_you ( morning-of ( death-date $person(Q_NP) ) ) ).target
+( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) morning ) ).target
 .
 
 ; FLAG: an inspector-named clock time ("where were you at nine") needs a
