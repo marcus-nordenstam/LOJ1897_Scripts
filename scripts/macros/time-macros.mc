@@ -8,6 +8,12 @@
 ; within this lead.
 (define-macro work-lead-hours () 2.0)
 
+; (service-starts-soon ?hours): NOT at the service now, and it begins within this lead - the
+; time it takes to get to church.
+(define-macro service-lead-hours () 1.0)
+; How far ahead the day's services are booked when the Sunday obligation arises.
+(define-macro service-booking-hours () 24.0)
+
 ; (time weekday) of a Sunday (1=Sun .. 7=Sat).
 (define-macro sunday_weekday () 1)
 

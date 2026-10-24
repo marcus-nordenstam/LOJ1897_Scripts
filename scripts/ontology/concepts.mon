@@ -545,7 +545,11 @@
     (child edu
       (children apprenticeship-org private-school state-school university))
     (child gov
-      (children church-org hospital-org)
+      ; A church keeps hours of divine service (tables/church-services.mc).
+      (child church-org
+        (decorations
+          (states service-hours)))
+      (children hospital-org)
       (child agency
         (children land-registry company-registry))
       ; Public civic / cultural institutions. Founded + minimally staffed

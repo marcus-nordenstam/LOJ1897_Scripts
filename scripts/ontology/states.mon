@@ -786,6 +786,8 @@
 
 ; A job's working hours, a weekly interval: one relation per distinct interval.
 (state working-hours (tar ?))
+; A church's hours of divine service, a weekly interval: one relation per service.
+(state service-hours (tar ?))
 
 ; Nouns an env attr realizes - the attr adds the mechanism.
 (state age-band (tar [k age-band] @excl))
