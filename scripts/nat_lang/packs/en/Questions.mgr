@@ -593,7 +593,7 @@
 ( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) night ) )
 .
 "where were you the morning $person(Q_NP) was #kill-verb"
-( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) morning ) ).target
+( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) morning ) )
 .
 
 ; FLAG: an inspector-named clock time ("where were you at nine") needs a
