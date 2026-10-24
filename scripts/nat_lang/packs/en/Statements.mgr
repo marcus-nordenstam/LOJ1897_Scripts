@@ -864,7 +864,7 @@ $form(FORM)
 
 ; --- SKILL_LEVEL (domain) ----------------------------------------------------
 " $sub_np(NP) $verb(VERB|be) skilled in $kind(KIND|/isa|domain) "
-{ $sub_np(NP) /pres skill-level $kind(KIND|/isa|domain) } .
+{ $sub_np(NP) /pres skill-level $kind(KIND|/isa|domain) [k competent|proficient|virtuoso] } .
 
 ; --- SERVE (military-rank) ---------------------------------------------------
 " $sub_np(NP) served as a $kind(KIND|/isa|military-rank) "
