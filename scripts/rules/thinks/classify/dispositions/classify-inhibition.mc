@@ -1,5 +1,5 @@
 ; inhibition - the moral / conscientious brake on pressure-driven impulse. A weighted fold of
-; politeness / industriousness / compassion / piety / decorum minus the disinhibition
+; politeness / industriousness / compassion / devoutness / decorum minus the disinhibition
 ; trait-fold (low industriousness + low politeness + high volatility) / stress, with the
 ; above-population-mean dark-tetrad terms (the one-sided amplification convention) and the
 ; held-value / justification counts. decorum and stress read 0 until they are derived.
@@ -13,15 +13,15 @@
               {@self machiavellianism ?machiavellianism}
               {@self psychopathy ?psychopathy}
               {@self sadism ?sadism}
+              {@self devoutness ?devoutness}
     (effects
-      (any {@self piety ?piety=0.25})
       (any {@self decorum ?decorum=0.0})
       (any {@self stress ?stress=0.0})
       (begin-belief {@self inhibition
                      (clamp (+ (+ (* ?politeness      0.30)
                                   (* ?industriousness 0.30)
                                   (* ?compassion      0.15)
-                                  (* ?piety           0.20)
+                                  (* ?devoutness      0.20)
                                   (* ?decorum         0.10)
                                   (* (/ (+ (- 1.0 ?industriousness) (- 1.0 ?politeness) ?volatility) 3.0) -0.20)
                                   (* ?stress -0.30))

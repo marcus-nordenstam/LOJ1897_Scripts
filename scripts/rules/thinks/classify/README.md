@@ -14,7 +14,7 @@ Two shapes:
   `(role @self {@self <input>})` self-belief conjuncts, so a
   classifier is gated reactively - it only runs for minds whose inputs are
   present, and re-bands when they change. A `(cooldown 1 m)` paces the re-band
-  where the inputs drift continuously (respectability, devoutness, conduct,
+  where the inputs drift continuously (respectability, piety, conduct,
   contentment, life-aim); the rest re-band whenever an input belief changes.
 
 - **Value dims** (the magnitudes a fusion or utility reads, never minted as a
@@ -23,15 +23,14 @@ Two shapes:
 Prompt state transitions (physical-mobility on death/injury, fallen-woman on
 affair exposure) are minted by their triggering rule, not a classifier here.
 
-## devoutness/
+## piety/
 
-The observance reading banded to the piety-band kinds. Recency-weighted
-worship-episode evidence: a monthly churchgoer saturates devout, a quarterly
-attender reads observant, a 2-year lapse decays through observant to secular. The
-floor band (secular) means every derived NPC carries a reading. @self bands its OWN
-worship memory; a tracked other is banded from the worship episodes THIS mind holds
-of them (witnessed / heard) - the church-going pretender fools it by design.
-(evidence ...) is per-observer and non-telepathic.
+Observed piety, banded to the piety-band kinds from recency-weighted worship
+evidence: a monthly churchgoer saturates devout, a quarterly attender reads
+observant, a 2-year lapse decays through observant to secular. @self bands its OWN
+worship (his piety as the town sees it), a tracked other is banded from the worship
+episodes THIS mind holds of them (witnessed / heard) - the church-going pretender
+fools it by design. True faith is the devoutness attr, never classified.
 
 ## dispositions/
 
@@ -96,7 +95,7 @@ belief when it holds none.
 
 Per-observer repute. Each mind bands a person's public respectability into
 `{X repute [k repute ...]}` from (repute-fold X) - the seven-term mean over that
-person's conduct bands + devoutness + decorum + per-observer chastity
+person's conduct bands + piety + decorum + per-observer chastity
 (dimensions.mc). ONE fold, ONE belief, serving both cases; the only difference is
 which mind's inputs it reads, never the algorithm:
 

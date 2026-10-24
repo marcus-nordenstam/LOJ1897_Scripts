@@ -608,7 +608,7 @@
   (child economic-situation
     (children destitute poor struggling-finances stable-finances comfortable prosperous wealthy))
   ; repute - PUBLIC respectability, banded per (observer, subject) by thinks/classify/repute/
-  ; from the conduct bands + devoutness + decorum + chastity the observer holds
+  ; from the conduct bands + piety + decorum + chastity the observer holds
   ; of the subject. Per-observer and non-telepathic: self reads complete inputs
   ; (so self-repute IS the truth), a tracked other reads only what leaked, a
   ; stranger reads middling. One belief, one classifier - no separate truth label.
@@ -618,17 +618,14 @@
   ; conduct dimensions (honesty / diligence / generosity / sobriety), banded PER-(mind,
   ; subject): {@self <dim> <level>} from @self's own dims, {?other <dim> <level>} abduced
   ; from what the observer has witnessed (unknown -> fair, the benefit of the doubt).
-  ; repute fuses these bands (+ devoutness for piety, the decorum float, and per-observer
+  ; repute fuses these bands (+ piety, the decorum float, and per-observer
   ; chastity) identically for self and for a tracked other - reputation is genuinely
   ; per-observer, sharpening with evidence.
   (child conduct-level
     (children lax fair good))
-  ; piety-band - devoutness standing, banded from the continuous piety
-  ; SIGNAL by the derived-signals engine (Merlin docs/
-  ; derived_signals_program.md; declared in definitions/signals.mc). The
-  ; signal accrues per worship act and leaks monthly, so the band tracks
-  ; LIVED devoutness: a regular churchgoer reads devout, a lapsed one
-  ; slides through observant to secular over ~2 years.
+  ; piety-band - observed piety: how often the observer knows the subject to worship
+  ; (thinks/classify/piety/). A regular churchgoer reads devout, a lapsed one slides through
+  ; observant to secular.
   (child piety-band
     (children devout observant secular))
   ; impression - perceived-CHARACTER kinds abduced from witnessed episodes

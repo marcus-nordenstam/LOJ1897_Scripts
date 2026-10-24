@@ -1,5 +1,5 @@
 (think classify-others-repute
-  ; Per-observer fuse: re-bands ?other's repute from the conduct band / devoutness /
+  ; Per-observer fuse: re-bands ?other's repute from the conduct band / piety /
   ; decorum / lover beliefs @self holds ABOUT them. class-situation is the gate.
   (rng-stream behaviour)
 

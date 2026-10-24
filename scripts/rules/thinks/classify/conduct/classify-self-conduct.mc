@@ -6,8 +6,8 @@
 ; (conduct_bands_others.mc) abduces {?other <dim> <level>} from what it witnessed.
 ;
 ; Four dims band here (honesty / diligence / generosity / sobriety); the fuse's
-; remaining terms come from elsewhere - piety from {X devoutness} (the about-others
-; classifier, already per-observer), decorum from the {X decorum} float, and chastity
+; remaining terms come from elsewhere - piety from {X piety} (classify-self-piety and
+; classify-others-piety), decorum from the {X decorum} float, and chastity
 ; on demand from (count (every {X lover ? /ever})). Bands: good >= 0.66, fair >= 0.33,
 ; lax the floor.
 ; ----------------------------------------------------------------------------

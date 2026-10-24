@@ -206,6 +206,10 @@
 (attr volatility      (type float) (range 0 1) (per feel) (state-flags-tar @excl))
 (attr withdrawal      (type float) (range 0 1) (per feel) (state-flags-tar @excl))
 
+; How devout he truly is, 0..1, mean 0.5: seeded and inherited like the Big Five and known only
+; to himself. Others judge his piety from the worship they witness.
+(attr devoutness      (type float) (range 0 1) (per feel) (state-flags-tar @excl))
+
 ; Dark-tetrad personality - a separate four-trait malevolence overlay on the
 ; Big Five. Same 0..1 float scale and gaussian/heritable synthesis, but never
 ; mirrored across the boundary (believe_about Band 5) - an NPC's malevolence

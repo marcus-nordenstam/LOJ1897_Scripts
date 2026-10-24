@@ -14,8 +14,8 @@
 ; together, since a half-known lineage is not a lineage.
 ; ----------------------------------------------------------------------------
 
-; The continuous genetic traits (Big-Five aspects + dark tetrad + attractiveness +
-; physical). mean is sex-conditioned (strength / endurance dimorphic; the rest 0.5);
+; The continuous genetic traits (Big-Five aspects + devoutness + dark tetrad +
+; attractiveness + physical). mean is sex-conditioned (strength / endurance dimorphic; the rest 0.5);
 ; every trait samples N(mean, sigma) clamped 0..1.
 (define-table continuous_traits
   (fields trait mean-male mean-female sigma)
@@ -29,6 +29,7 @@
   (record politeness       0.5  0.5  0.15)
   (record volatility       0.5  0.5  0.15)
   (record withdrawal       0.5  0.5  0.15)
+  (record devoutness       0.5  0.5  0.15)
   (record narcissism       0.5  0.5  0.15)
   (record machiavellianism 0.5  0.5  0.15)
   (record psychopathy      0.5  0.5  0.15)

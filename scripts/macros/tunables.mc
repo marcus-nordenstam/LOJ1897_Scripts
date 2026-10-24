@@ -57,6 +57,9 @@
 (define-macro k-mood-swing  () 0.15)
 (define-macro k-justify-per () 0.1)
 
+; The devoutness that makes attending his parish's services a standing duty.
+(define-macro k-devout-min () 0.6)
+
 ; Routine-drive tilt swings (worship / work). Larger than the crime buckets': a
 ; drive aspect carries ONE or TWO trait rows, so each needs a wider spread to give
 ; the diligent-vs-shirker / devout-vs-lax spread off a single trait.

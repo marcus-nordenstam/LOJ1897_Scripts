@@ -5,7 +5,7 @@
 ; both ends core-episode so the multi-decade interval history survives semantic
 ; compression.
 ;
-; Reads value dims via the dimensions.mc macros ((piety) / (criminality) /
+; Reads devoutness, value dims via the dimensions.mc macros ((criminality) /
 ; (rootedness)), the C++ wealth/decorum floats via (any ..).target, the situation bands
 ; + (present ...) via (believes ...), the any-tense worship-at-church act-record via
 ; a kind-cast /ever believes, and the friend count via (count (every ..)). Gated on
@@ -13,7 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 (think classify-life-aim
-  ; Monthly cooldown: the argmax folds (piety) (decaying worship evidence) and (criminality) /
+  ; Monthly cooldown: the argmax folds (criminality) /
   ; (rootedness) tallies alongside the wealth/decorum floats and situation bands; the decaying
   ; reads need a periodic recompute to track. Gated on wealth+decorum being derived; self-primed
   ; by cold_start_window.
@@ -27,7 +27,7 @@
               {@self machiavellianism ?machiavellianism}
               {@self narcissism ?narcissism}
               {@self enthusiasm ?enthusiasm}
-              {@self piety ?piety}
+              {@self devoutness ?devoutness}
               {@self rootedness ?rootedness}
               {@self wealth ?wealth}
               {@self decorum ?decorum}
@@ -41,11 +41,11 @@
                                  (prob {@self class-situation [k middle]})) 0.0 1.0) 0.7)))
         [k wealth-aim]
           (* ?industriousness
-             (- 1.0 ?piety)
+             (- 1.0 ?devoutness)
              (max (- 1.0 ?wealth)
                   (prob {@self social-trajectory [k rising]})))
         [k piety-aim]
-          (* ?piety
+          (* ?devoutness
              (- 1.0 (clamp (+ 0.05
                               (* (+ (count (every {@self (theme-labels violent-to) ? /ever}) /float)
                                     (count (every {@self steal ? /ever}) /float)
@@ -55,7 +55,7 @@
              (+ 0.4 (* (prob {@self WORSHIP [k church-building] /ever}) 0.6)))
         [k respectability-aim]
           (* ?politeness
-             ?piety
+             ?devoutness
              (+ 0.2 (* (prob {@self class-situation [k middle]}) 0.8))
              ?decorum)
         [k autonomy-aim]

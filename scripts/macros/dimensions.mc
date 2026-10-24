@@ -14,7 +14,7 @@
 ; ----------------------------------------------------------------------------
 
 ; --- per-observer repute fold (uniform for @self and a tracked other) ------------
-; repute reads BANDED conduct beliefs {X <dim> <conduct-level>} + {X devoutness},
+; repute reads BANDED conduct beliefs {X <dim> <conduct-level>} + {X piety},
 ; the {X decorum} float, and per-observer chastity - all keyed on ?who, so ONE fold
 ; serves self-repute (?who = @self) and other-repute (?who = a tracked person). An
 ; absent band reads `fair` (unknown -> benefit of the doubt, 0.65), so an unknown

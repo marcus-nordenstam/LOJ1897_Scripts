@@ -4,7 +4,7 @@
 ; a 15-day itch; the sources sum on the one proposal, and one service relieves them all,
 ; since every drive ramps with days since the last {@self WORSHIP}.
 ;
-; The payoff needs no wiring: the services feed classify-piety, piety feeds the respectability
+; The payoff needs no wiring: the services feed classify-self-piety, piety feeds the respectability
 ; band, so the more a disreputable man attends the more respectable he becomes. The scandalous
 ; are not cast: already ostracised, a church visit cannot lift them in one pass.
 ; ----------------------------------------------------------------------------

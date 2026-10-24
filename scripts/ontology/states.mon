@@ -576,13 +576,9 @@
 ; table in C++ - data-driven from the .mon files).
 (state honesty (tar ? @excl) (range 0 1))
 (state sobriety (tar ? @excl) (range 0 1))
-(state piety (tar ? @excl) (range 0 1))
-; devoutness - the piety SIGNAL banded to a piety-band KIND
-; (devout/observant/secular) by the derived-signals engine
-; (definitions/signals.mc). The band is the discrete, queryable
-; belief; the continuous magnitude lives OFF the belief timeline
-; in the per-mind signal table.
-(state devoutness (tar [k piety-band] @excl))
+; piety - outward observance, a piety-band banded per (observer, subject) from the worship
+; the observer holds of the subject; the subject's true faith is his devoutness attr.
+(state piety (tar [k piety-band] @excl))
 (state diligence (tar ? @excl) (range 0 1))
 ; chastity - the self-derived TRUE chastity float (@self-only,
 ; secret-inclusive). Others judge a person's chastity PER-OBSERVER, on

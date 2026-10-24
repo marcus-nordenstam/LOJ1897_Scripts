@@ -8,7 +8,7 @@
   (cooldown 1 d try-once)
   (role @self {@self withdrawal ?withdrawal}
               {@self industriousness ?industriousness}
-              {@self piety ?piety}
+              {@self devoutness ?devoutness}
               {@self belonging ?belonging}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self craving [k alcohol]}
@@ -17,7 +17,7 @@
     (declare-utility (flip (>= ?withdrawal 0.7) crisis need)
              (* 10.0 (* (min (* (+ 0.5 (* 0.8 ?withdrawal))
                                 (+ 0.6 (* 0.6 (- 1.0 ?industriousness)))
-                                (- 1.3 (* 0.6 ?piety))
+                                (- 1.3 (* 0.6 ?devoutness))
                                 (- 1.3 (* 0.6 ?belonging))) 1.6)
                         (min (* (days-since-last-float {@self DRINK /succ /ever}) 5.0) 45.0))))
     (effects (maintain-proposal {@self go-drink}))))

@@ -19,8 +19,8 @@
           (case {?who sobriety [k lax]}  0.25)
           (else 0.65))
         (cond
-          (case {?who devoutness [k devout]}  0.85)
-          (case {?who devoutness [k secular]} 0.25)
+          (case {?who piety [k devout]}  0.85)
+          (case {?who piety [k secular]} 0.25)
           (else 0.65))
         ?decorum
         (- 0.85 (* (>= ?liaisons 1) 0.30)
