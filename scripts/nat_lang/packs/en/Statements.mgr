@@ -914,12 +914,12 @@ $form(FORM)
 { $sub_np(NP) /pres /not member-of ? }
 :: realize-only
 .
-" $sub_np(NP) never had a $rel(REL) "
-{ $sub_np(NP) /ever /not $rel(REL) ? }
-:: realize-only
-.
 " $sub_np(NP) $verb(VERB|dont) have any $rel(RELP) "
 { $sub_np(NP) /pres /not $rel(RELP) ? }
+:: realize-only
+.
+" $sub_np(NP) never had a $rel(REL) "
+{ $sub_np(NP) /ever /not $rel(REL) ? }
 :: realize-only
 .
 
