@@ -35,7 +35,9 @@
 "Yes, this is my $rel(REL) $name(PNAME)"                                        ( formulaic [] yes_this_is $rel(REL) $name(PNAME) ) .
 
 "..."                                                                           ( formulaic [] opening-phrase player_talk ) .
+"Excuse me, I am a $job(KIND|/isa|job)"                                         ( formulaic [] opening-phrase authority $job(KIND|/isa|job) ) .
 "Yes?"                                                                          ( formulaic [] response player_talk ) .
+"Yes, $job(KIND|/isa|job) ++?"                                                  ( formulaic [] response authority $job(KIND|/isa|job) ) .
 
 ; The player's leave-taking shows the same three dots as his hail; the hail is what "..."
 ; reads as, so this one is said and never read.

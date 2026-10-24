@@ -20,7 +20,7 @@
 ; outbids it; then the exchange, for as long as the conversation he took up is open.
 (driver engage-hail
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening-phrase ?) @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}
     (bind (hail-worth ?speaker) ?worth)
     (declare-utility (utility-band ?worth) (utility-value ?worth))
     (stable-or
@@ -40,7 +40,7 @@
 ; A take-up he has begun is a yes already being said: he finishes it.
 (driver complete-take-up
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening-phrase ?) @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}
     (when (and (invited-by ?speaker)
                (taking-up ?speaker)))
     (declare-utility unbeatable)
@@ -50,7 +50,7 @@
 ; and the refusal it begins always completes.
 (driver decline-hail
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening-phrase ?) @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}
     (bind (hail-worth ?speaker) ?worth)
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
@@ -69,7 +69,7 @@
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (driver rebuff-hail
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening-phrase ?) @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
                (rebuffs ?speaker)))

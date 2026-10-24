@@ -716,6 +716,9 @@
 (state abandonment-act (tar [k abandonment-act] @object))
 (state accomplice (tar [k human] @object) (aux ?))
 (state acquaintance (tar [k human] @object) (inclusive_bond) (disclosure acquaintance) (closeness acquaintance) (describe-in bonds) (talkable))
+; defers-to: {@self defers-to officer} - @self, with nothing to hide from the law, owes a law officer
+; the answers a law-abiding man gives one (thinks/defer-to-law-think.mc): the police register.
+(state defers-to (tar [k human] @object) (closeness police))
 (state aid-act (tar [k aid-act] @object))
 (state alertness (tar [k alertness] @object @excl) (self-known) (motivation))
 (state appropriation-act (tar [k appropriation-act] @object))

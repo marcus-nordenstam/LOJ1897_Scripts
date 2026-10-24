@@ -8,7 +8,7 @@
 ; NOTE: "isa" (kind attr) is auto-created on every population - no need to declare it.
 
 ; Lifecycle dates (used by historical sim; persist into interactive).
-(attr birth-date (type date) (spec-attr date) (per feel) (talkable) (describe-in age))
+(attr birth-date (type date) (spec-attr date) (per feel) (talkable) (told-to-police) (describe-in age))
 (attr death-date (type date) (state-flags-tar @excl) (imperceptible))
 (attr death-cause (type kind) (imperceptible))
 
@@ -80,7 +80,7 @@
 ; Demographics
 (attr game-role (type kind) (per obs) (auto-percept) (unaware))
 ; A man's age in whole years, felt by him: stamped on his birthday by refresh-age (funcs/age.mc).
-(attr age (type int) (range 0 120) (per feel) (state-flags-tar @excl) (talkable) (describe-in age))
+(attr age (type int) (range 0 120) (per feel) (state-flags-tar @excl) (talkable) (told-to-police) (describe-in age))
 ; Perceptible life-stage (the @excl concept + its 8 band kinds live in
 ; concepts.mon). age-band is what anyone SEES on sight - kind/gender/age-band are
 ; visible even to strangers - so it is (auto-percept): a mind that observes a

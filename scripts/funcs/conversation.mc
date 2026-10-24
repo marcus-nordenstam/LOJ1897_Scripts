@@ -22,14 +22,13 @@
 ; ----------------------------------------------------------------------------
 
 (include "../macros/tunables.mc")
+(include "../macros/formulaic-macros.mc")
 
 ; (standing-before ?partner) - @self stands with ?partner to talk: within earshot of his
 ; speaking voice, on the spot before him (stand-spot-before), where go to a man brings him.
 (define-func standing-before (?partner)
   (and (in-earshot ?partner [k speech]) (walked-before ?partner)))
 
-; A (formulaic <riders> <category> ..)'s category: field 0 is the name, 1 the rider list.
-(define-macro k-formulaic-category-field () 2)
 
 ; (call-msg ?msg) - ?msg is called out rather than spoken: a hail, and the answers to one.
 (define-func call-msg (?msg)
@@ -56,15 +55,45 @@
 (define-func answers-to (?speaker)
   (or (any {@self master ?speaker}) (any {@self mother ?speaker}) (any {@self father ?speaker})))
 
+; (law-officer ?x) - @self believes ?x holds a job of a law officer's kind.
+(define-func law-officer (?x)
+  (substantial (any {?x job [k law-officer]})))
+
+; (evading-law) - @self has the law to fear: he remembers a crime of his own.
+(define-func evading-law ()
+  (substantial (any {@self kill|shoot|strangle|hurt|steal|coerce|bribe ? /succ /past})))
+
 ; (hail-worth ?speaker) - what taking up ?speaker's hail is worth to @self, as a packed
-; utility: an obligation when he answers to ?speaker, else a want that rises with how close
-; they are.
+; utility: an obligation when it is a law officer's and he has nothing to hide, or when he
+; answers to ?speaker, else a want that rises with how close they are.
 (define-func hail-worth (?speaker)
-  (cond (case (answers-to ?speaker) (utility obligation (k-hail-bond-value)))
+  (cond (case (and (law-officer ?speaker) (not (evading-law)))
+              (utility obligation (k-hail-authority-value)))
+        (case (answers-to ?speaker) (utility obligation (k-hail-bond-value)))
         (case {@self spouse|lover|friend|close-to|mother|father|child|sibling ?speaker}
               (utility want (k-hail-bond-value)))
         (case {@self acquaintance ?speaker} (utility want (k-hail-acquaintance-value)))
         (else (utility want (k-hail-stranger-value)))))
+
+; (authority-introduction ?msg) - ?msg hails its hearer by introducing the speaker's office:
+; (formulaic [] opening-phrase authority <job kind>). Each field is read only once the one
+; before has shown the message is long enough to hold it.
+(define-func authority-introduction (?msg)
+  (if (eq-func-name ?msg formulaic)
+      (then (if (eq (nth (k-formulaic-category-field) ?msg) opening-phrase)
+                (then (eq (nth (k-formulaic-key-field) ?msg) authority))
+                (else @false)))
+      (else @false)))
+
+; (hail-response ?opening) - the response a hail's opening calls for: a man who introduced
+; himself by his office is answered by it, any other opening by its own key.
+(define-func hail-response (?opening)
+  (bind (nth (k-formulaic-key-field) ?opening) ?key)
+  (if (authority-introduction ?opening)
+      (then
+        (bind (nth (k-formulaic-office-field) ?opening) ?office)
+        (formulaic [] response authority ?office))
+      (else (formulaic [] response ?key))))
 
 ; (rebuffs ?speaker) - @self rebuffs ?speaker's hail: he despises him and does not answer to him.
 (define-func rebuffs (?speaker)
@@ -139,11 +168,14 @@
 (define-func engaged-here (?npc)
   (and (conversing-with ?npc @self) (in-earshot ?npc [k speech])))
 
-; (player-hail ?npc) - the player opens a conversation with ?npc: his own (conversing ..)
-; names him, and the answer is the line he hails him with.
-(define-func player-hail (?npc)
+; (player-hail ?npc ?authority) - the player opens a conversation with ?npc: his own
+; (conversing ..) names him, and the answer is the line he hails him with - plainly, or, when
+; ?authority names the kind of his job, introducing himself by it.
+(define-func player-hail (?npc ?authority)
   (bb-public-write @self conversing ?npc)
-  (formulaic [] opening-phrase player_talk))
+  (if (is-kind ?authority)
+      (then (formulaic [] opening-phrase authority ?authority))
+      (else (formulaic [] opening-phrase player_talk))))
 
 ; (player-leave-taking ?npc) - the player ends the conversation with ?npc, and the answer is
 ; the line he takes his leave with.

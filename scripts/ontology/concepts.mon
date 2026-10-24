@@ -499,6 +499,10 @@
       ; ("Holding a post" is just this job-state - there is no separate
       ; office-as-position concept.)
       (children official)
+      ; The law officers: a hail from one is answered as an obligation by a man with nothing
+      ; to hide from the law (funcs/conversation.mc hail-worth).
+      (child law-officer
+        (children detective constable))
       ; Performer parent-kind (Phase 9 dialogue) - witnesses whose job
       ; is_a performer hold an audience-aware self-conception that
       ; gates the theatrical register decoration.

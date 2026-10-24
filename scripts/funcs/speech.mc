@@ -19,6 +19,8 @@
 ; (speech-sound ..) (funcs/conversation.mc), the one choice tell measures by too.
 ; ----------------------------------------------------------------------------
 
+(include "../macros/formulaic-macros.mc")
+
 (define-func deliver-speech (?xsay)
   (do
     (create-entity (speech-sound ?xsay.target) (spatial @self bounds /env)): ?sound
@@ -61,7 +63,16 @@
                (neq ?subj @self))
         (then (begin-belief {@self acquaintance ?subj}))))))
 
+; (adopt-authority-introduction ?msg ?speaker ?tell) - the hearer takes ?speaker to hold a job of
+; the kind he introduced himself by: the job he already knows him to hold of that kind, else a
+; new one.
+(define-func adopt-authority-introduction (?msg ?speaker ?tell)
+  (bind (nth (k-formulaic-office-field) ?msg) ?kind)
+  (absorb-heard-fact (begin-belief {?speaker job (o ?kind {?speaker job @o})}) ?tell))
+
 (define-func /hear adopt-heard-msg (?msg ?speaker ?audience ?tell)
+  (if (authority-introduction ?msg)
+      (then (adopt-authority-introduction ?msg ?speaker ?tell)))
   ; A QUESTION is not a claim. The heard {asker SAY (qs ..)} record IS the
   ; deliverable - converse answers it straight off that record - and adopting the
   ; asked pattern would turn a man's question into this listener's belief.

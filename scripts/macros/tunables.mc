@@ -212,6 +212,8 @@
 (define-macro k-hail-stranger-value     () 300.0)
 (define-macro k-hail-acquaintance-value () 500.0)
 (define-macro k-hail-bond-value         () 800.0)
+; ... and from a law officer, in the obligation band: above a Sunday's church (the band default).
+(define-macro k-hail-authority-value    () 900.0)
 
 ; How far a voice carries, through walls or not: spoken, and called out - a hail, and the
 ; answers to one. The [k speech] and [k shout] sounds' radii (bounds/sounds.mc).

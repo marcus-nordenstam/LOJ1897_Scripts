@@ -14,9 +14,10 @@
   (lint-waive begin-proposal)
   (sequence
     (role ?partner {?partner SAY ? @self /past}
-                   {?partner SAY (formulaic ? opening-phrase ?greeting) @self /past}
+                   {?partner SAY (formulaic ? opening-phrase ?..):?opening @self /past}
       (stage
-        (effects (maintain-proposal {@self tell (formulaic [] response ?greeting) ?partner})))
+        (bind (hail-response ?opening) ?response)
+        (effects (maintain-proposal {@self tell ?response ?partner})))
       (stage
         (effects
           (bb-public-write @self conversing ?partner)
