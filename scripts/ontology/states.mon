@@ -770,7 +770,7 @@
 (state sibling (tar [k human] @object) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in siblings) (talkable))
 (state slight-act (tar [k slight-act] @object))
 (state social-trajectory (tar [k social-trajectory] @object @excl))
-(state spouse (tar [k human] @object @excl) (exclusive_bond) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in spouse) (talkable) (self-known))
+(state spouse (tar [k human] @object @excl) (exclusive_bond) (appraisal_input) (disclosure stranger) (closeness close_friend) (describe-in spouse) (talkable) (self-known))
 (state suffer-loss-act (tar [k suffer-loss-act] @object))
 (state tenant (tar [k human|org] @object @excl))
 (state threaten-act (tar [k threaten-act] @object))
