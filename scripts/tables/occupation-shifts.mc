@@ -1,63 +1,32 @@
 ; ----------------------------------------------------------------------------
-; occupation_shifts.mc - authored working hours per job, as config rows read by
-; the C++ (stamp-work-hours ...) backend via the generic table reader
-; (hse_table_for_each_row) - the old t_work_shift/t_work_day structs + the am/pm
-; parse are gone. At hire, one {<job_obj> <weekday>_hours <start> <end>} belief
-; is minted per row of the assigned shift (target = start hour, aux = end hour).
+; occupation_shifts.mc - authored working hours per job. At hire, one
+; {<job_obj> working-hours <weekly interval>} belief is minted per row of the assigned shift.
 ;
-;   job       - the job kind [k job <leaf>], or [k job] itself: the
-;               schedule for every job with NO authored rows (Mon-Sat 9-17).
-;   shift-id  - groups a shift's days. A job with rows under MORE than one
-;               shift-id (nurse / factory-worker: day AND night) has the worker
-;               assigned exactly ONE shift-id by rng at hire.
-;   day-label - the weekday_hours belief label (sun-hours .. sat-hours, matching
-;               the weekday_hours_label table). A weekday with no row = a day off.
-;   start-h / end-h - 24h clock hours; start > end wraps past midnight (a night
-;               shift, e.g. 19 -> 7).
+;   job           - the job kind [k job <leaf>], or [k job] itself: the
+;                   schedule for every job with NO authored rows (Mon-Sat 9-17).
+;   shift-id      - groups a shift's rows. A job with rows under MORE than one
+;                   shift-id (nurse / factory-worker: day AND night) has the worker
+;                   assigned exactly ONE shift-id by rng at hire.
+;   working-hours - a weekly interval; days whose hours differ are one row each. Both
+;                   clocks are included whole, so a shift ending at five ends at #16:59;
+;                   an end before the start wraps past midnight (a night shift).
 ; ----------------------------------------------------------------------------
 
 (define-table occupation_shifts
-  (fields job shift-id day-label start-h end-h)
+  (fields job shift-id working-hours)
 
   ;; the default working week (any job without authored rows): Mon-Sat 9-17
-  (record [k job] 0 mon-hours 9 17)
-  (record [k job] 0 tue-hours 9 17)
-  (record [k job] 0 wed-hours 9 17)
-  (record [k job] 0 thu-hours 9 17)
-  (record [k job] 0 fri-hours 9 17)
-  (record [k job] 0 sat-hours 9 17)
+  (record [k job] 0 (weekly [monday tuesday wednesday thursday friday saturday] #9:00 #16:59))
 
   ;; priest: irregular week - Sunday IS the working day; omitted days are off
-  (record [k priest] 0 sun-hours 8 13)
-  (record [k priest] 0 wed-hours 10 12)
-  (record [k priest] 0 sat-hours 16 18)
+  (record [k priest] 0 (weekly [sunday] #8:00 #12:59))
+  (record [k priest] 0 (weekly [wednesday] #10:00 #11:59))
+  (record [k priest] 0 (weekly [saturday] #16:00 #17:59))
 
   ;; nurse: the hospital runs round the clock - a day shift and a night shift
-  (record [k nurse] 0 mon-hours 7 19)
-  (record [k nurse] 0 tue-hours 7 19)
-  (record [k nurse] 0 wed-hours 7 19)
-  (record [k nurse] 0 thu-hours 7 19)
-  (record [k nurse] 0 fri-hours 7 19)
-  (record [k nurse] 0 sat-hours 7 19)
-  (record [k nurse] 0 sun-hours 7 19)
-  (record [k nurse] 1 mon-hours 19 7)
-  (record [k nurse] 1 tue-hours 19 7)
-  (record [k nurse] 1 wed-hours 19 7)
-  (record [k nurse] 1 thu-hours 19 7)
-  (record [k nurse] 1 fri-hours 19 7)
-  (record [k nurse] 1 sat-hours 19 7)
-  (record [k nurse] 1 sun-hours 19 7)
+  (record [k nurse] 0 (weekly [sunday monday tuesday wednesday thursday friday saturday] #7:00 #18:59))
+  (record [k nurse] 1 (weekly [sunday monday tuesday wednesday thursday friday saturday] #19:00 #6:59))
 
   ;; factory-worker: day AND night shifts; a hand is assigned one at hire
-  (record [k factory-worker] 0 mon-hours 6 18)
-  (record [k factory-worker] 0 tue-hours 6 18)
-  (record [k factory-worker] 0 wed-hours 6 18)
-  (record [k factory-worker] 0 thu-hours 6 18)
-  (record [k factory-worker] 0 fri-hours 6 18)
-  (record [k factory-worker] 0 sat-hours 6 18)
-  (record [k factory-worker] 1 mon-hours 18 6)
-  (record [k factory-worker] 1 tue-hours 18 6)
-  (record [k factory-worker] 1 wed-hours 18 6)
-  (record [k factory-worker] 1 thu-hours 18 6)
-  (record [k factory-worker] 1 fri-hours 18 6)
-  (record [k factory-worker] 1 sat-hours 18 6))
+  (record [k factory-worker] 0 (weekly [monday tuesday wednesday thursday friday saturday] #6:00 #17:59))
+  (record [k factory-worker] 1 (weekly [monday tuesday wednesday thursday friday saturday] #18:00 #5:59)))

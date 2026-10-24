@@ -22,10 +22,9 @@
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}
                {?org workplace ?wp}
-      (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
-            (latch-eval (any {?job ?tl ?}): ?shift (bind ?shift.target ?start) (bind ?shift.auxiliary ?end))
-            (on-shift ?start ?end))
-      (cease (if (not (on-shift ?start ?end))
+      (when (latch-eval (current-shift ?job): ?hours)
+            (on-shift ?hours))
+      (cease (if (not (on-shift ?hours))
                  (then (set-outcome ?work /succ))))
       (and
         (try
@@ -49,8 +48,8 @@
         (try
           (when (and (check ?org) (or (spatial @self building ?wp) (spatial @self space ?wp)) (< (time hour) 12)))
           (declare-utility fallback)
-          (effects (maintain-proposal {@self DWELL ?wp (min 12 ?end)})))
+          (effects (maintain-proposal {@self DWELL ?wp (min 12 (shift-end-hour ?hours))})))
         (try
           (when (and (check ?org) (or (spatial @self building ?wp) (spatial @self space ?wp)) (>= (time hour) 12)))
           (declare-utility fallback)
-          (effects (maintain-proposal {@self DWELL ?wp ?end})))))))
+          (effects (maintain-proposal {@self DWELL ?wp (shift-end-hour ?hours)})))))))

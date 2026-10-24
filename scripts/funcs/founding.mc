@@ -23,22 +23,16 @@
                               hiring-date (time date)
                               shift (draw-shift ?job-kind)))))))
 
-; stamp-work-hours - the shift stamp. Reads the authored occupation_shifts rows for
-; ?job-kind (falling back to the `default` Mon-Sat week when the kind has none) and
-; mints one {?job <day>-hours <start> <end>} belief per day of ONE shift. A kind
-; authored under several shift-ids (nurse / factory-worker: day AND night) puts the
-; worker on exactly one, drawn here.
-; stamp-shift-hours - the day-hours beliefs of ONE authored shift of ?job-kind on ?job:
-; what a reader of the offer letter mints from its shift line, and what the officer holds
-; of the seat he keeps.
+; stamp-shift-hours - the working-hours beliefs of ONE authored shift of ?job-kind on ?job
+; (the [k job] week when the kind has none), one per row: what a reader of the offer letter
+; mints from its shift line, and what the officer holds of the seat he keeps.
 (define-func stamp-shift-hours (?job ?job-kind ?ssh-shift)
   (do
     (flip (table-match occupation_shifts job ?job-kind) ?job-kind [k job]): ?ssh-key
     (for-each-row occupation_shifts
-        [/job ?ssh-j] [/shift-id ?ssh-sid] [/day-label ?ssh-day]
-        [/start-h ?ssh-start] [/end-h ?ssh-end]
+        [/job ?ssh-j] [/shift-id ?ssh-sid] [/working-hours ?ssh-hours]
       (if (and (= ?ssh-j ?ssh-key) (= ?ssh-sid ?ssh-shift))
-          (then (begin-belief {?job ?ssh-day ?ssh-start ?ssh-end}))))))
+          (then (begin-belief {?job working-hours ?ssh-hours}))))))
 
 ; name-premises - an org that NAMES its building (businesses names-building = yes: a pub, a
 ; hotel, a factory) gives the building its `name` and hangs the building-name-sign. The

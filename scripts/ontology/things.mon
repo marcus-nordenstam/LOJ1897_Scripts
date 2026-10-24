@@ -45,8 +45,7 @@
                     hiding-spot home honour-act
                     job level love lover master mother nationality owns-building
                     parent pressure provision-act provisions-shop repudiation-act repute rivalrous-act sibling
-                    slight-act social-trajectory spouse suffer-loss-act threaten-act wrong-act mon-hours tue-hours
-                    wed-hours thu-hours fri-hours sat-hours sun-hours age-band age-span prototype)
+                    slight-act social-trajectory spouse suffer-loss-act threaten-act wrong-act age-band age-span prototype)
             (spatials grip bounds)
             (attrs physical-motors game-role birth-date death-date death-cause age age-band age-span
                    chronotype

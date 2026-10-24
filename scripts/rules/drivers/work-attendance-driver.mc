@@ -7,11 +7,9 @@
 ; an employed NPC to their workplace during their shift and holds them there.
 ; Gated on the beliefs the labour market mints, all resolved live as composable
 ; belief reads: (any {@self job.org ?org}) (any {?org workplace ?wp}) for the
-; destination, and (any {@self job ?job}) with the day's shift label bound
-; via (table-match weekday_hours_label ...): ?tl then {?job ?tl ?start ?end} for today's
-; shift hours. A missing job / workplace / shift fails
-; the gate (no job, or a day off -> no commute). The shift clock-math ops then test
-; the bound ?start / ?end against the env clock.
+; destination, and (current-shift ?job) for the job's working hours that are on or about
+; to be. A missing job / workplace / shift fails the gate (no job, or a day off -> no
+; commute).
 ;
 ; Two intra-day rules competing by (declare-utility); the intra-day deliberation commits
 ; the max-utility eligible act:
@@ -28,31 +26,28 @@
 ; dominated for everyone.
 ; ----------------------------------------------------------------------------
 
-; Both rungs are MAINTENANCE rungs. Each (when) binds TWO free vars off ONE
-; shift belief - {?job <today's-shift-label> ?start ?end} - and (believes) binds only the target,
-; never the aux, so ?end forces a (bind). That (bind) is an ONSET step: it derives today's shift
-; hours at the fire. Wrapped in (latch-eval ...) it runs at the fire (binding ?start/?end into
-; the stash) and is SKIPPED on the held re-check (which restores the fire-time bindings), so it
-; never re-errors on an already-bound pattern. The CONTINUOUS gates (spatial @self building + in-work-hours,
-; re-read live against the stashed shift) then own the cease: the held re-check ends the
-; goal the cycle a gate drops (shift end, or leaving the workplace).
+; Both rungs are MAINTENANCE rungs. Each (when) binds ?hours, the working hours on or about
+; to be, as an ONSET step: wrapped in (latch-eval ...) it runs at the fire and is SKIPPED on the
+; held re-check (which restores the fire-time binding). The CONTINUOUS gates (spatial @self
+; building + on-shift, re-read live against the stashed hours) then own the cease: the held
+; re-check ends the goal the cycle a gate drops (shift end, or leaving the workplace).
 
 (driver day-work
   (role @self {@self industriousness ?industriousness}
     (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
                {?org workplace ?wp}       ; ?wp binds at fire
-      (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
-            (latch-eval (any {?job ?tl ?}): ?shift (bind ?shift.target ?start) (bind ?shift.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
+      (when (latch-eval (current-shift ?job): ?hours)
             (latch-eval (or (spatial @self building ?wp) (spatial @self space ?wp)))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
-            (or (hours ?start ?end) (work-starts-soon ?start ?end)))
+            (on-shift ?hours))
       (declare-utility duty (* (k-work-drive-value) (* (clamp (+ 1.0 (delib-ctr ?industriousness (k-drive-trait-swing))) 0.0 2.0)
                                                  (clamp (+ 1.0 (delib-ctrc (any {@self stress ?=0.5}).target (- 0.0 (k-drive-mood-swing)))) 0.0 2.0))))
       ; SPAWN the day's WORK TASK (tasks/work-task.mc): its performance tries fan the shift
       ; into the held duties' tasks and the between-duties post-stay; shift_over concludes it.
       ; MAINTAINED on the shift window alone: arrival is latched at onset, so leaving for an
       ; errand never withdraws the day's work.
-      (effects       (maintain-proposal {@self work ?wp}))))))
+      (effects       (maintain-proposal {@self work ?wp})
+                     (set-shift-end-alarm ?hours))))))
 
 ; The work TASK's performance tries (at_post_morning / at_post_afternoon / shift_over) live
 ; in tasks/work-task.mc. day-go-to-work below stays a DRIVER (no task gate).
@@ -66,8 +61,8 @@
                {?org workplace ?wp}       ; ?wp binds at fire
                (not (or (spatial @self building ?wp) (spatial @self space ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
                -{@self work ?wp}          ; out on the day's work's own errand is not absent
-      (when (table-match weekday_hours_label weekday (time weekday) label ?tl)
-            (latch-eval (any {?job ?tl ?}): ?shift (bind ?shift.target ?start) (bind ?shift.auxiliary ?end))  ; onset: derive the shift, bind ?start/?end
-            (or (hours ?start ?end) (work-starts-soon ?start ?end)))
+      (when (latch-eval (current-shift ?job): ?hours)
+            (on-shift ?hours))
       (declare-utility duty)
-      (effects       (maintain-proposal {@self go-to ?wp})))))
+      (effects       (maintain-proposal {@self go-to ?wp})
+                     (set-shift-end-alarm ?hours)))))

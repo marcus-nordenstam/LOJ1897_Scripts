@@ -792,14 +792,8 @@
 ; A task someone means to do; the func-contract fixture kind_value.mc reads it.
 (state todo (tar [k task]))
 
-; Nouns the tables use as relation labels (occupation_shifts day-label).
-(state mon-hours (tar ? @excl) (aux ?))
-(state tue-hours (tar ? @excl) (aux ?))
-(state wed-hours (tar ? @excl) (aux ?))
-(state thu-hours (tar ? @excl) (aux ?))
-(state fri-hours (tar ? @excl) (aux ?))
-(state sat-hours (tar ? @excl) (aux ?))
-(state sun-hours (tar ? @excl) (aux ?))
+; A job's working hours, a weekly interval: one relation per distinct interval.
+(state working-hours (tar ?))
 
 ; Nouns an env attr realizes - the attr adds the mechanism.
 (state age-band (tar [k age-band] @excl))

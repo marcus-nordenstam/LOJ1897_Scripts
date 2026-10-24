@@ -466,8 +466,7 @@
   ; next clerk in the chair has the SAME job, not a new one.
   (child org-pos (grounding-anchors org job-id)
     (decorations
-      (states org since offered-to job-id level salary mon-hours tue-hours
-              wed-hours thu-hours fri-hours sat-hours sun-hours))
+      (states org since offered-to job-id level salary working-hours))
     (children apprenticeship-pos membership)
     (child job
       ; org-head groups every "head of an org" position, so {@self job [k org-head]}
@@ -528,12 +527,6 @@
       (child casual-laborer
         (children preacher lecturer))))
 
-  ; Work hours (band_deliberate substrate): a worker's shift on one weekday,
-  ; held on their job object as {<job> <weekday>_hours <start> <end>} - target
-  ; is the start hour (0..23), aux the end hour; start > end wraps past midnight
-  ; (a night shift). A weekday with no relation is a day off. Stamped at hire
-  ; from the occupation's authored shift(s) (occupations.mc).
-  (children mon-hours tue-hours wed-hours thu-hours fri-hours sat-hours sun-hours)
   ; level grades a human, or a job / org-pos - the seniority WITHIN a position,
   ; orthogonal to the job KIND. A trainee clerk is {@self job ?j} + {?j level trainee}.
   ; (Head-ness is NOT a level; it is the job kind org-head - see the job taxonomy.)

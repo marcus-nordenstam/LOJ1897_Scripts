@@ -145,21 +145,20 @@
   (emit-body-bands ?sleepiness ?appetite)
   (if (eq ?act SLEEP) (then (book-bedtime-alarm ?fatigue ?mask))))
 
-; True when ?job's shift on weekday ?wd runs past midnight.
-(define-func shift-wraps-midnight (?job ?wd)
-  (table-match weekday_hours_label weekday ?wd label ?swm-label)
-  (flip (none {?job ?swm-label ?})
-        @false
-        (gt (any {?job ?swm-label ?}).target (any {?job ?swm-label ?}).auxiliary)))
+; True when ?instant lies in any of ?job's working hours.
+(define-func working-at (?job ?instant)
+  (bind @nothing ?wa-in)
+  (for-each ?wh (every {?job working-hours ?})
+    (if (within ?instant ?wh.target)
+        (then (bind 1 ?wa-in))))
+  (substantial ?wa-in))
 
-; True when @self lives by night: his shift last night or tonight runs past midnight.
+; True when @self lives by night: his working hours hold last night's midnight or tonight's.
 (define-func lives-by-night ()
-  (time weekday): ?lbn-today
-  (flip (= ?lbn-today 1) 7 (- ?lbn-today 1)): ?lbn-yesterday
   (flip (none {@self job ?})
         @false
-        (or (shift-wraps-midnight (any {@self job ?}).target ?lbn-today)
-            (shift-wraps-midnight (any {@self job ?}).target ?lbn-yesterday))))
+        (or (working-at (any {@self job ?}).target (time date))
+            (working-at (any {@self job ?}).target (+ (next-end (day-interval (time seconds)) (time seconds)) 1)))))
 
 ; A jump window opens at the town's waking hour after a month nobody lived: the body is the one a
 ; night's sleep leaves - rested, calm, as hungry as the night's fast made him. A man who lives by

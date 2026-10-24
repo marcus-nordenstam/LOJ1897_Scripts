@@ -1,24 +1,14 @@
 ; ----------------------------------------------------------------------------
-; time_macros.mc - shift / clock arithmetic, pure .mc over (time hour)/(time minute).
-;
-; These fold the old C++ shift ops (in-work-hours / work-starts-soon /
-; minutes-until-shift-end + the t_hse_engine helper methods) into macros. The
-; only irreducible pieces are the clock sources (time hour) / (time minute); every
-; window rule + tuning constant (the 120-minute lead, the 1440 min/day wrap) is
-; authored HERE, not baked in C++.
-;
-; ?start / ?end are shift hours (0..23); a shift with start > end wraps past
-; midnight (a night shift). (now-min) is minutes-since-midnight.
+; time_macros.mc - clock and shift tunables.
 ; ----------------------------------------------------------------------------
 
 
 
-; (work-starts-soon ?start ?end): NOT on shift now, and the shift's next start is
-; within the 120-minute lead. delta = start*60 - now-min, wrapped into [0,1440)
-; so a just-before-midnight now still sees an early-morning start as soon.
+; (work-starts-soon ?hours): NOT in the working hours now, and their next start is
+; within this lead.
 (define-macro work-lead-hours () 2.0)
 
-; (time weekday) of a Sunday (1=Sun .. 7=Sat, the weekday_hours_label table's key).
+; (time weekday) of a Sunday (1=Sun .. 7=Sat).
 (define-macro sunday_weekday () 1)
 
 
