@@ -4,8 +4,8 @@
   (rng-stream behaviour)
 
   ; Deterministic: @self, a primary pupil who has reached the leaving age, takes
-  ; the basic-schooling credential (graduate mints skilled-in primary_school_
-  ; curriculum at novice and ends the study). The credential then gates secondary
+  ; the basic-schooling credential (graduate-from-study mints its school-grades
+  ; and ends the study). The credential then gates secondary
   ; enrollment; a non-continuer becomes apprenticeship-eligible. Monthly firing is
   ; idempotent - the first fire ends the study, so later months no-op. age -> (when).
   (role @self {@self age ?age}
@@ -38,8 +38,7 @@
 
   ; Any ongoing study at 22+ is a university degree (primary / secondary pupils
   ; are <18 and have already left). graduate-from-study mints the subject credential
-  ; {@self skilled-in <subject> trained}, feeding the S8 physician / lawyer /
-  ; scholar identities + the prestige bump - the profession pipeline payoff.
+  ; {@self school-grades <subject> <grade>} and an interest in the subject.
   (role @self {@self age ?age}
               {@self study ?}
 

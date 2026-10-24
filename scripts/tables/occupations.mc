@@ -15,10 +15,9 @@
 ;   req-repute     - HARD: minimum reputation band, or `none`. Trust-sensitive
 ;                    posts (banking, clerical, the professions) gate on a PROVEN
 ;                    band - an unappraised repute fails the gate.
-;   req-skill + band - HARD: must hold {@self skilled-in <domain>} at >= the band
-;                    (novice < trained < expert), or `none`. Education credentials
-;                    AND tenure-conferred domain skill are both skilled-in entries,
-;                    so this doubles as the EXPERIENCE requirement. ONLY gate
+;   req-skill + band - HARD: must hold {@self skill-level <domain>} at >= the rung
+;                    (beginner < competent < proficient < virtuoso), or `none`, so
+;                    this doubles as the EXPERIENCE requirement. ONLY gate
 ;                    ADVANCED rungs - an ENTRY job must NOT require its own domain
 ;                    (you learn it on the job), or nobody could be hired into it.
 ;   pref-trait1/2 + weights - SOFT: preferred personality attrs scoring the match
@@ -26,10 +25,10 @@
 ;
 ; THE LADDER (why some jobs carry req-skill and entry jobs do not):
 ;   clerk (entry, learns accountancy on the job) --tenure--> banker (req
-;   accountancy trained). engineer (entry) --tenure--> industrialist (req
-;   engineering trained). journalist (entry) --tenure--> editor (req literature
-;   trained). University degree --> physician/surgeon (medicine trained),
-;   solicitor (law trained). Secondary credential --> teacher/principal.
+;   accountancy competent). engineer (entry) --tenure--> industrialist (req
+;   engineering competent). journalist (entry) --tenure--> editor (req literature
+;   competent). University degree --> physician/surgeon (medicine competent),
+;   solicitor (law competent). Secondary credential --> teacher/principal.
 ; Lower-class trades carry NO hard gates - the on-ramp must stay open.
 ;
 ; The working hours live in occupation_shifts.mc.
@@ -46,7 +45,7 @@
      (business-type [k bank-org])
      (may-own true)
      (req-repute [k respectable])
-     (req-skill [k accountancy] [k trained])
+     (req-skill [k accountancy] [k competent])
      (pref-trait1 industriousness 1.0)
      (pref-trait2 politeness 0.6))
 
@@ -55,7 +54,7 @@
      (business-type [k factory-org])
      (may-own true)
      (req-repute [k respectable])
-     (req-skill [k engineering] [k trained])
+     (req-skill [k engineering] [k competent])
      (pref-trait1 assertiveness 1.0)
      (pref-trait2 industriousness 0.8))
 
@@ -86,7 +85,7 @@
      (business-type [k solicitor-firm])
      (may-own true)
      (req-repute [k respectable])
-     (req-skill [k law] [k trained])
+     (req-skill [k law] [k competent])
      (pref-trait1 industriousness 1.0)
      (pref-trait2 openness 0.5))
 
@@ -94,7 +93,7 @@
      (class-floor [k middle])
      (business-type [k hospital-org])
      (req-repute [k respectable])
-     (req-skill [k medicine] [k trained])
+     (req-skill [k medicine] [k competent])
      (pref-trait1 compassion 0.8)
      (pref-trait2 industriousness 0.8))
 
@@ -102,7 +101,7 @@
      (class-floor [k middle])
      (business-type [k hospital-org])
      (req-repute [k respectable])
-     (req-skill [k medicine] [k trained])
+     (req-skill [k medicine] [k competent])
      (pref-trait1 industriousness 1.0)
      (pref-trait2 assertiveness 0.5))
 
@@ -127,7 +126,7 @@
      (class-floor [k middle])
      (business-type [k private-school])
      (req-repute [k respectable])
-     (req-skill [k secondary-school-curriculum] [k trained])
+     (req-skill [k secondary-school-curriculum] [k competent])
      (pref-trait1 politeness 0.8)
      (pref-trait2 industriousness 0.8))
 
@@ -148,7 +147,7 @@
      (business-type [k newspaper-org])
      (may-own true)
      (req-repute [k respectable])
-     (req-skill [k literature] [k trained])
+     (req-skill [k literature] [k competent])
      (pref-trait1 openness 0.8)
      (pref-trait2 assertiveness 0.6))
 
@@ -168,7 +167,7 @@
      (class-floor [k middle])
      (business-type [k state-school])
      (req-repute [k respectable])
-     (req-skill [k secondary-school-curriculum] [k novice])
+     (req-skill [k secondary-school-curriculum] [k beginner])
      (pref-trait1 politeness 0.8)
      (pref-trait2 compassion 0.6))
 

@@ -163,7 +163,7 @@
 ; (bond) is the separate `relationship` block, NOT part of this vector.
 ; The continuous magnitude lives in the _stance_by_object cache; the
 ; belief stores only the crossed BAND in /aux (a *_band kind,
-; concepts.mon), re-minted on a band crossing like skilled-in. The
+; concepts.mon), re-minted on a band crossing like skill-level. The
 ; neutral middle has no belief. appraisal_input so a band change
 ; recontextualizes the target's past acts. Non-@excl: one belief per
 ; (label, target).
@@ -376,29 +376,18 @@
 ; hold-meet: the club officer's standing goal to run a meet (tar = the club's articles).
 (state hold-meet (tar ?))
 
-; Competence - the domains an NPC is practically skilled in. Targets a
-; `domain` kind (concepts.mon): the academic-field disciplines (classics,
-; medicine, accountancy), the martial / illicit competences
-; (marksmanship, forgery), the performance-art / athletics skills, etc.
-; The earned-competence band of the unified domain axis (interest ->
-; skilled-in -> calling). The /aux holds a `competence-level`
-; (novice / trained / expert); absent /aux is treated as novice.
-; Non-exclusive: an NPC may be skilled in several domains; each is its
-; own belief.
 ; ---- competence ----
-(state skilled-in (tar [k domain]) (aux ?) (self-known))
-; skill-level: per-ACT competence, emitted by the action pipeline as an
-; act decorated (track-skill-level) is performed - skill accrues on
+; skill-level: the earned-competence band of the unified domain axis
+; (interest -> skill-level -> calling), emitted by the action pipeline as an
+; act decorated (track-skill-level <domain>) is performed - skill accrues on
 ; completion, decays over time, and thresholds into a rung
-; (skill_level_pipeline_plan.md). Target is the act performed; /aux is
-; the earned skill_rung. Exclusive per act (a new rung supersedes the
-; prior), handled by the pipeline's band-emit. The general successor to
-; skilled-in: competence keyed by the acts you perform, not a domain.
+; (skill_level_pipeline_plan.md). Target is the decoration's domain; /aux is
+; the earned rung. Exclusive per domain (a new rung supersedes the prior),
+; handled by the pipeline's band-emit.
 (state skill-level (tar ?) (aux [k skill-level]) (self-known))
 ; school-grades: the credential earned on graduating a school - target
-; is the school/curriculum, /aux the letter grade (A..F). Minted by the
-; graduate act; the successor to skilled-in [k <school>_curriculum],
-; which conflated a grade with competence.
+; is the school/curriculum, /aux the letter grade (A..F), rolled from the
+; school_grades table on graduating (graduate-from-study).
 (state school-grades (tar ?) (aux [k school-grade]))
 ; serve: military / naval service, a seeded biographical
 ; self-belief ({@self serve <rank>}). Tense lives in the
@@ -533,7 +522,7 @@
 ; heritable temperament - it is deposited by a life of events and then
 ; shapes which events cast the NPC.
 ;   interest - the casual-pull band of the unified `domain` axis
-;     (interest -> skilled-in -> calling): an NPC is drawn to a domain
+;     (interest -> skill-level -> calling): an NPC is drawn to a domain
 ;     without (yet) practising it. {@self interest <domain>}. Seeded
 ;     hereditary in mx_make_human + grown by the substrate-rooted S3
 ;     acquisition events (parental_seeding / peer_propagation /
@@ -671,7 +660,7 @@
 ; (low life_sat with low rootedness: newly arrived, no anchor).
 (state rootedness (tar ? @excl) (range 0 1))
 ; family-alignment (PR-skill-life S7) - how far the NPC's drives
-; (interest / skilled-in / calling domains) echo their LIVING
+; (interest / skill-level / calling domains) echo their LIVING
 ; parents'. 1 = every drive follows the family path; 0 = full
 ; divergence (the rebellion signal). classify_family_alignment caches
 ; it annually; a parent reads each child's score to feel the

@@ -296,10 +296,10 @@
 .
 
 "[what are you skilled in|what is your training|what are your skills]"
-( every { ?_you /ever skilled-in ? } ).target
+( every { ?_you /pres skill-level ? } ).target
 .
 "are you skilled in $thing(KIND)"
-( prob { ?_you /pres skilled-in $thing(KIND) } )
+( prob { ?_you /pres skill-level $thing(KIND) } )
 .
 
 "[did you serve in the army|have you a military record]"
@@ -702,7 +702,7 @@
 ( any { ?_you /ever study ? } ).target
 .
 "what you are skilled in"
-( every { ?_you /ever skilled-in ? } ).target
+( every { ?_you /pres skill-level ? } ).target
 .
 "[what you do|what your #job-noun is]"
 ( any { ?_you /pres job } ).target

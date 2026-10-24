@@ -143,7 +143,7 @@
   ; so the method is re-picked on the fly rather than latched into a belief.)
 
   ; Unified domain axis (PR-skill-life). ONE hierarchical taxonomy that
-  ; `interest`, `skilled-in`, and `calling` (states.mon) all target as three
+  ; `interest`, `skill-level`, and `calling` (states.mon) all target as three
   ; progressive bands on the same axis: casual pull -> earned competence ->
   ; life mission. They COMPOSE (an NPC may hold all three on one domain).
   ; Replaces the former separate `interest` / `skill_kind` / `field_of_study`
@@ -154,7 +154,7 @@
   ; competences (academic-field / performance-art / martial / illicit /
   ; athletics / pastime / social-craft) and the non-practicable topical
   ; interests (avocation / devotional / civic) an NPC may hold an `interest`
-  ; in without ever being `skilled-in` it.
+  ; in without ever earning a `skill-level` in it.
   ;
   ; A domain is ALSO what an act's (track-skill-level <domain>) decoration
   ; names, so the pipeline accrues competence to it as the act is performed
@@ -221,26 +221,15 @@
     (child civic
       (children suffrage-cause)))
 
-  ; Competence-level enum - the /aux of `skilled-in` beliefs. Novice
-  ; is the entry tier; trained takes years of practice; expert is the
-  ; cap reachable through profession tenure or apprenticeship-to-
-  ; master. Future tier (master) may land if a 4th band is needed for
-  ; exceptional NPCs.
-  (child competence-level
-    (children novice trained expert))
-
-  ; skill-level - the /aux of {@self skill-level {act} <rung>} beliefs the action
-  ; pipeline emits as an act decorated (track-skill-level) is performed and its
-  ; per-act competence crosses a band (skill_level_pipeline_plan.md). The 4-rung
-  ; ladder that supersedes competence-level; both coexist until the skilled-in
-  ; retirement (plan P4).
+  ; skill-level - the /aux of {@self skill-level <domain> <rung>} beliefs the action
+  ; pipeline emits as an act decorated (track-skill-level <domain>) is performed and
+  ; its competence in that domain crosses a band (skill_level_pipeline_plan.md).
   (child skill-level
     (children beginner competent proficient virtuoso))
 
   ; school-grade - the /aux of {@self school-grades <school> <grade>} beliefs,
   ; minted when an NPC graduates a school. The letter-grade credential earned at
-  ; a curriculum level; distinct from skill-level (act-earned competence). This is
-  ; what skilled-in [k <school>_curriculum] used to stand in for.
+  ; a curriculum level; distinct from skill-level (act-earned competence).
   (child school-grade
     (children A B C D F))
 
@@ -386,8 +375,8 @@
     ; inhibition AND not-respectable).
     (children machiavellian-role sadist-role coward-role)
     ; Skill-driven trade / talent identities (PR-skill-life S8). Derived by
-    ; classify_identities from a held {@self skilled-in <domain>} at >=
-    ; trained: physician <- medicine, lawyer <- law, scholar <- any other
+    ; classify_identities from a held {@self skill-level <domain>} at >=
+    ; competent: physician <- medicine, lawyer <- law, scholar <- any other
     ; academic-field, soldier (soldier-role above) <- martial, musician <-
     ; music, artist <- other performance-art (theatre / literature),
     ; sportsman <- athletics. The competence (not the job title) confers the
@@ -595,7 +584,7 @@
 
   ; Fields of study were folded into the unified `domain` axis:
   ; the former field_of_study leaves now live under `domain > academic-field`.
-  ; The `study` / `diploma` relations and `skilled-in` (states.mon) target
+  ; The `study` / `diploma` relations and `skill-level` (states.mon) target
   ; `domain` (a field-of-study is an academic-field sub-kind of domain).
 
   ; ----------------------------------------------------------------------
@@ -691,7 +680,7 @@
     (children fallen-woman)
     ; for-hire: available to be hired as a contract killer (the
     ; contract-killing redesign, classify_hirelings, annual). Derived
-    ; when the person is LETHALLY CAPABLE (skilled-in a martial leaf,
+    ; when the person is LETHALLY CAPABLE (a skill-level in a martial leaf,
     ; or illicit garrotting, or raw strength + the street-default
     ; methods) AND either a BAD SEED (low compassion x high
     ; disinhibition - the remorseless mercenary, reliable, repeat

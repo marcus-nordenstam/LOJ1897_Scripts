@@ -2,9 +2,8 @@
 ; prestige (classifier). Public standing as the 0..1 {@self prestige} float the
 ; class-situation and social-trajectory role-gates read: the job-rank curve
 ; (prestige_by_rank below, headship at the top) plus a capped
-; sporting-victory bonus and a bump for an expert skill in a publicly-esteemed
-; domain (performance art / academic field / martial). The competence band is the
-; skilled-in belief's 4th field, so domain and band match in one clause.
+; sporting-victory bonus and a bump for a proficient or virtuoso skill-level in a
+; publicly-esteemed domain (performance art / academic field / martial).
 ;
 ; A value dim, not a band: prestige is a magnitude its consumers weight, so it is
 ; a plain float self-belief (@excl - a re-assert replaces), not a mint-band.
@@ -44,8 +43,8 @@
         (clamp (+ (flip (table-match prestige_by_rank rank ?rank prestige ?curve) ?curve 0.15)
                   (min (* (count (every {@self win ?}) /float) 0.04) 0.20)
                   (* 0.15
-                     (min (+ (prob {@self skilled-in [k performance-art] [k expert]})
-                             (prob {@self skilled-in [k academic-field]  [k expert]})
-                             (prob {@self skilled-in [k martial]         [k expert]}))
+                     (min (+ (prob {@self skill-level [k performance-art] [k proficient|virtuoso]})
+                             (prob {@self skill-level [k academic-field]  [k proficient|virtuoso]})
+                             (prob {@self skill-level [k martial]         [k proficient|virtuoso]}))
                           1.0)))
                0.0 1.0)}))))

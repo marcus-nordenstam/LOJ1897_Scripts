@@ -13,13 +13,11 @@
 ;                 the subject chosen by the youth's own interest.
 ;
 ; Substrate - NO new ontology; reuses the existing education-life-cycle relation
-; `study (tar @excl academic-field) (aux org)` and the `skilled-in` credential:
+; `study (tar @excl academic-field) (aux org)` and the `school-grades` credential:
 ;   {pupil study <curriculum-or-subject>}        - the ongoing enrollment interval.
-;   {pupil skilled-in <curriculum> /aux <band>}  - the credential minted at
-;        graduation: primary -> novice, secondary / university subject -> trained.
-;   A university subject credential (medicine / law / ...) at trained feeds the
-;   PR-skill-life S8 physician / lawyer / scholar identities + the prestige bump,
-;   closing the class -> education -> profession -> prestige -> class loop.
+;   {pupil school-grades <curriculum> <grade>}   - the credential minted at
+;        graduation, its letter grade rolled from the school_grades table by
+;        industriousness and intellect (graduate-from-study).
 ;
 ; The CLASS GATE is the `breeding` lineage anchor (0..1, birth-seeded, stable
 ; across the 15+ class-situation re-derivation; in-sim children inherit it from
@@ -45,7 +43,7 @@
   (rng-stream behaviour)
 
   ; MAINTENANCE: the decision OWNS the enrol_primary goal end to end. @self is a child
-  ; who does not yet hold the basic-schooling credential; the (not skilled-in) guard
+  ; who does not yet hold the basic-schooling credential; the -{school-grades} guard
   ; keeps a once-schooled child from re-enrolling on a later month of the 5-7 window.
   ; CONTINUOUS completion gate as a CACHED role filter: while the child is not yet studying
   ; primary the goal stands; the moment enrol_primary_act matriculates him ({@self study [k
