@@ -5,16 +5,14 @@
 ; both ends core-episode so the multi-decade interval history survives semantic
 ; compression.
 ;
-; Reads devoutness, value dims via the dimensions.mc macros ((criminality) /
-; (rootedness)), the C++ wealth/decorum floats via (any ..).target, the situation bands
+; Reads devoutness, rootedness, the wealth/decorum floats via (any ..).target, the situation bands
 ; + (present ...) via (believes ...), the any-tense worship-at-church act-record via
 ; a kind-cast /ever believes, and the friend count via (count (every ..)). Gated on
 ; wealth+decorum being derived.
 ; ----------------------------------------------------------------------------
 
 (think classify-life-aim
-  ; Monthly cooldown: the argmax folds (criminality) /
-  ; (rootedness) tallies alongside the wealth/decorum floats and situation bands; the decaying
+  ; Monthly cooldown: the argmax folds the crime and worship tallies and rootedness alongside the wealth/decorum floats and situation bands; the decaying
   ; reads need a periodic recompute to track. Gated on wealth+decorum being derived; self-primed
   ; by cold_start_window.
   (cooldown 1 m try-once)

@@ -9,13 +9,11 @@
 ; longing that is its felt surface). Each pull is gentle; a difference that lasts accumulates.
 ; ----------------------------------------------------------------------------
 
-; How much each kind of conduct weighs on esteem, warmth and trust; a vice counts inverted.
-(define-table conduct_stance (fields dim esteem warmth trust vice)
-  (record honesty     0.25 0.10 0.40 0)
-  (record piety       0.30 0.15 0.05 0)
-  (record sobriety    0.20 0.10 0.10 0)
-  (record decorum     0.25 0.20 0.05 0)
-  (record criminality 0.40 0.30 0.50 1))
+; How much each banded kind of conduct weighs on esteem, warmth and trust.
+(define-table conduct_stance (fields dim esteem warmth trust)
+  (record honesty  0.25 0.10 0.40)
+  (record piety    0.30 0.15 0.05)
+  (record sobriety 0.20 0.10 0.10))
 
 ; What draws a man or a woman in another: looks and standing.
 (define-table mate_value_weights (fields gender looks status)
@@ -28,10 +26,6 @@
   (record [k homo]   1 0)
   (record [k bi]     1 1))
 
-
-; A conduct level as virtue: a vice's level inverted.
-(define-func virtue-of (?level ?vice)
-  (flip (= ?vice 1) (- 1.0 ?level) ?level))
 
 ; ?who's age in years when his birth date is known, else -1.0.
 (define-func known-age (?who)
@@ -61,13 +55,12 @@
   (bind 0.0 ?dw)
   (bind 0.0 ?de)
   (bind 0.0 ?dt)
-  (for-each-row conduct_stance [/dim ?dim] [/esteem ?we] [/warmth ?ww] [/trust ?wt] [/vice ?vice]
-    (any {?other ?dim ?theirs=-1.0})
-    (if (>= ?theirs 0.0)
+  (for-each-row conduct_stance [/dim ?dim] [/esteem ?we] [/warmth ?ww] [/trust ?wt]
+    (band-virtue ?other ?dim @nothing): ?theirs
+    (if (substantial ?theirs)
         (then
-          (any {@self ?dim ?mine=-1.0})
-          (bind (+ (caring-base) (flip (>= ?mine 0.0) (virtue-of ?mine ?vice) 0.5)) ?caring)
-          (bind (* ?caring (* (- (virtue-of ?theirs ?vice) 0.5) 2.0)) ?pull)
+          (bind (+ (caring-base) (band-virtue @self ?dim 0.5)) ?caring)
+          (bind (* ?caring (* (- ?theirs 0.5) 2.0)) ?pull)
           (bind (+ ?de (* ?we ?pull)) ?de)
           (bind (+ ?dw (* ?ww ?pull)) ?dw)
           (bind (+ ?dt (* ?wt ?pull)) ?dt))))

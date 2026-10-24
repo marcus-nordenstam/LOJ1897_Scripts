@@ -26,7 +26,7 @@
   ; displaced_anger: lashing out grabs what is visible at hand.
   (record displaced_anger  3    (cond (case (matches ?girth.target [k fat|thin]) ?girth)
                                       (case (= ?height.target [k short])       ?height)))
-  (record displaced_anger  2    (if (<= ?sobriety.target 0.35) (then ?sobriety)))
+  (record displaced_anger  2    (if (= ?sobriety.target [k lax]) (then ?sobriety)))
   (record displaced_anger  1    (cond (case (<= ?low_aspect.target 0.30) ?low_aspect)
                                       (case (>= ?volatility.target 0.70)        ?volatility)))
 

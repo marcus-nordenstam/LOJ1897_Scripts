@@ -570,23 +570,21 @@
 ; status as the derived {?thing age ?age}). @excl - one ongoing value
 ; per subject; the value is a number, so /tar stays unconstrained.
 ; ---- dimension ----
-; Conduct - all 0..100 by hsim_derive convention; the (range LO
-; HI) on each line is the canonical source for hse_engine's
-; (chance ...) static-bound analyser (no parallel hardcoded
-; table in C++ - data-driven from the .mon files).
-(state honesty (tar ? @excl) (range 0 1))
-(state sobriety (tar ? @excl) (range 0 1))
+; Conduct bands - a conduct-level per (observer, subject), from his own traits for
+; @self and from witnessed character for a tracked other (thinks/classify/conduct/).
+(state honesty (tar [k conduct-level] @excl))
+(state sobriety (tar [k conduct-level] @excl))
 ; piety - outward observance, a piety-band banded per (observer, subject) from the worship
 ; the observer holds of the subject; the subject's true faith is his devoutness attr.
 (state piety (tar [k piety-band] @excl))
-(state diligence (tar ? @excl) (range 0 1))
+(state diligence (tar [k conduct-level] @excl))
 ; chastity - the self-derived TRUE chastity float (@self-only,
 ; secret-inclusive). Others judge a person's chastity PER-OBSERVER, on
 ; demand from the liaisons they themselves know of ((count-beliefs-about
 ; ?other lover)); there is no omniscient public chastity band.
 (state chastity (tar ? @excl) (range 0 1))
 (state decorum (tar ? @excl) (range 0 1))
-(state generosity (tar ? @excl) (range 0 1))
+(state generosity (tar [k conduct-level] @excl))
 ; work-standing - a BOSS's subjective assessment of an EMPLOYEE's job
 ; performance (Section 4.11 career model; NOT self-derived). Held in
 ; the boss's mind as {<employee> work-standing <0..1>}, nudged by the
@@ -596,7 +594,6 @@
 (state work-standing (tar ? @excl) (range 0 1))
 ; Conduct-risk
 (state aggression (tar ? @excl) (range 0 1))
-(state criminality (tar ? @excl) (range 0 1))
 ; disinhibition: the externalizing temperament - low industriousness
 ; + low politeness + high volatility. The temperamental root of
 ; impulsive / antisocial conduct; the drinking events read the

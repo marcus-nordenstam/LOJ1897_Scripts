@@ -1,7 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; defraud - NO-OP declaration stub. The fraud crime record ({@self defraud
-; ?victim}) is read by the criminality classifiers (dimensions.mc) and the
-; life-aim affinities; this task exists only to SELF-DECLARE the `defraud`
+; ?victim}) is read by the life-aim affinities; this task exists only to SELF-DECLARE the `defraud`
 ; label + its crime metadata so the tasks.mon row can retire. To be fleshed out
 ; into the real fraud task later. The (try) never fires (declaration only).
 ; ----------------------------------------------------------------------------

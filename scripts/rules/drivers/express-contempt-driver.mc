@@ -23,7 +23,7 @@
   (fields context        rank  barb-eval)
 
   (record cold_contempt  4  ?misdeed)
-  (record cold_contempt  3  (if (<= ?sobriety.target 0.35) (then ?sobriety)))
+  (record cold_contempt  3  (if (= ?sobriety.target [k lax]) (then ?sobriety)))
   (record cold_contempt  2  ?lover)
   (record cold_contempt  1  (if (<= ?decorum.target 0.35) (then ?decorum))))
 

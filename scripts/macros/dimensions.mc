@@ -21,16 +21,5 @@
 ; other reads RESPECTABLE and only accumulated negative evidence drags them down;
 ; reputation sharpens only with evidence.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+; An unknown band reads fair: the benefit of the doubt.
+(define-macro unknown-band-virtue () 0.65)
