@@ -251,7 +251,7 @@
 ( prob { ?_you /pres spouse ? } )
 .
 "were you ever married"
-( prob { ?_you /past spouse ? } )
+( prob { ?_you /ever spouse ? } )
 .
 "are you a [widow|widower]"
 ( prob { ?_you /past spouse ? } )
@@ -295,8 +295,14 @@
 ( o /known { ?_you /ever master @o } )
 .
 
-"[what are you skilled in|what is your training|what are your skills]"
+"[what are you skilled in|what is your training|what are your skills|do you have any skills]"
 ( every { ?_you /pres skill-level ? [k competent|proficient|virtuoso] } ).target
+.
+"[what can you do|what are you able to do]"
+( every { ?_you /pres skill-level ? } ).target
+.
+"[what are you good at|what are you best at]"
+( every { ?_you /pres skill-level ? [k proficient|virtuoso] } ).target
 .
 "are you skilled in $thing(KIND)"
 ( prob { ?_you /pres skill-level $thing(KIND) [k competent|proficient|virtuoso] } )

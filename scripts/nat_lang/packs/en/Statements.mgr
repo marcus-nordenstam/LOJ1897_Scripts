@@ -866,6 +866,63 @@ $form(FORM)
 " $sub_np(NP) $verb(VERB|be) skilled in $kind(KIND|/isa|domain) "
 { $sub_np(NP) /pres skill-level $kind(KIND|/isa|domain) [k competent|proficient|virtuoso] } .
 
+; --- KNOWN ABSENCE -----------------------------------------------------------
+; What a man knows he lacks: a question about a (self-known) state of his own that comes up
+; short is answered with the searched clause negated, the asked field a wildcard. The asked
+; rungs pick the wording, so each phrasing of the question gets its own answer.
+" $sub_np(NP) can't do anything "
+{ $sub_np(NP) /pres /not skill-level ? }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|dont) have any skills "
+{ $sub_np(NP) /pres /not skill-level ? [k competent|proficient|virtuoso] }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|be) not good at anything "
+{ $sub_np(NP) /pres /not skill-level ? [k proficient|virtuoso] }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|dont) have a job "
+{ $sub_np(NP) /pres /not job }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|dont) work anywhere "
+{ $sub_np(NP) /pres /not job.org }
+:: realize-only
+.
+" $sub_np(NP) never worked anywhere "
+{ $sub_np(NP) /past /not job.org }
+:: realize-only
+.
+" $sub_np(NP) never studied "
+{ $sub_np(NP) /ever /not study ? }
+:: realize-only
+.
+" $sub_np(NP) never served "
+{ $sub_np(NP) /ever /not serve ? }
+:: realize-only
+.
+" $sub_np(NP) never had a master "
+{ $sub_np(NP) /ever /not master ? }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|be) not married "
+{ $sub_np(NP) /pres /not spouse ? }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|be) not a member of anything "
+{ $sub_np(NP) /pres /not member-of ? }
+:: realize-only
+.
+" $sub_np(NP) never had a $rel(REL) "
+{ $sub_np(NP) /ever /not $rel(REL) ? }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|dont) have any $rel(RELP) "
+{ $sub_np(NP) /pres /not $rel(RELP) ? }
+:: realize-only
+.
+
 ; --- SERVE (military-rank) ---------------------------------------------------
 " $sub_np(NP) served as a $kind(KIND|/isa|military-rank) "
 { $sub_np(NP) /past serve $kind(KIND|/isa|military-rank) } .

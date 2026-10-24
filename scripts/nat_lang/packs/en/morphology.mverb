@@ -13,6 +13,11 @@ verb do    /pres/1sg = do
 verb do    /pres/2sg = do
 verb do    /past = did
 
+verb dont  /pres = doesn't
+verb dont  /pres/1sg = don't
+verb dont  /pres/2sg = don't
+verb dont  /past = didn't
+
 verb have  /pres = has
 verb have  /pres/1sg = have
 verb have  /pres/2sg = have

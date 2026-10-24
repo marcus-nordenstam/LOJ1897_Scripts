@@ -384,7 +384,7 @@
 ; (skill_level_pipeline_plan.md). Target is the decoration's domain; /aux is
 ; the earned rung. Exclusive per domain (a new rung supersedes the prior),
 ; handled by the pipeline's band-emit.
-(state skill-level (tar ?) (aux [k skill-level]) (self-known))
+(state skill-level (tar ?) (aux [k skill-level]) (disclosure stranger) (self-known))
 ; school-grades: the credential earned on graduating a school - target
 ; is the school/curriculum, /aux the letter grade (A..F), rolled from the
 ; school_grades table on graduating (graduate-from-study).
@@ -400,7 +400,7 @@
 ; with the rank. Drives the contract-killing pool (a
 ; discharged or serving soldier with the bad-seed or
 ; desperation gate is for-hire) and the soldier identity.
-(state serve (tar [k military-rank]))
+(state serve (tar [k military-rank]) (self-known))
 
 ; Non-kin social bonds (relocated from the concept tree - they are
 ; relations, not nouns, and nothing queried their old is-a
@@ -461,7 +461,7 @@
 ; declared here. `study` shares its NAME with the `study` room
 ; kind (Spaces.mon); kind references disambiguate with the full
 ; path (the hiding-spot precedent, concepts.mon).
-(state study (tar @excl [k academic-field]) (aux [k org] @object))
+(state study (tar @excl [k academic-field]) (aux [k org] @object) (self-known))
 (state schooling (tar ? @excl))
 
 ; Achievements - sporting / competitive participation and victories.
@@ -749,7 +749,7 @@
 (state level (tar [k level] @object @excl))
 (state love (tar ?) (exclusive_bond) (describe-in regard))
 (state lover (tar [k human] @object) (inclusive_bond) (appraisal_input) (disclosure intimate) (closeness intimate) (construed-act intimacy-act) (describe-in spouse) (talkable) (self-known))
-(state master (tar [k human] @object @excl))
+(state master (tar [k human] @object @excl) (self-known))
 (state membership-roll (tar [k membership-roll] @object) (obs))
 (state mother (tar [k human] @object @excl) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable) (self-known))
 (state nationality (tar [k nationality] @object @excl) (disclosure stranger) (talkable))
