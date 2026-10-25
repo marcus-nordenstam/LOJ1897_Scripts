@@ -7,8 +7,4 @@
   (motor body)
   (duration (seconds 60 min))
   (effects
-    ; A punctual {@self give <sum>} act-record (born ended - a begin would leave
-    ; the give ongoing forever, and a later identical sum would trip the self-act
-    ; contradiction tripwire). The generosity classifier reads it.
-    (begin-belief {@self give (random-int 10 100) /momentary})
     (set-outcome ?GIVE-ALMS /succ)))

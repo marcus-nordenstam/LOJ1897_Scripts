@@ -19,7 +19,6 @@
       (end-belief {@self spouse ?partner})
       ; Mutual: end her reciprocal bond and land HER record of being put away.
       (end-belief ?partner {?partner spouse @self})
-      (begin-belief {@self divorce ?partner /momentary})
       ; The fallen woman: marked in her mind AND his, expelled from the marital roof.
       (expect {?partner gender [k female]} "divorce: only a husband puts a wife away")
       (begin-belief ?partner {?partner prototype [k fallen-woman]})

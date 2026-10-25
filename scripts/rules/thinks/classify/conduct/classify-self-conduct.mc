@@ -35,7 +35,8 @@
         [k good] 0.66 [k fair] 0.33 [k lax] -1)
       (mint-band {@self diligence}  ?industriousness
         [k good] 0.66 [k fair] 0.33 [k lax] -1)
-      (mint-band {@self generosity} (clamp (+ ?compassion (* (>= (count (every {@self give ? /ever})) 1) 0.20)) 0.0 1.0)
+      (tolerate (+ (count (every {@self give ? /ever})) (count (every {@self GIVE-ALMS ? /succ /ever})))): ?gifts
+      (mint-band {@self generosity} (clamp (+ ?compassion (* (>= ?gifts 1) 0.20)) 0.0 1.0)
         [k good] 0.66 [k fair] 0.33 [k lax] -1)
       (mint-band {@self sobriety}   (clamp (+ (* (- 1.0 ?craving) ?sober)
                                               (* ?craving (min ?sober 0.15))
