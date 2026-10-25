@@ -473,14 +473,12 @@
 ; past victory reads through the interval tense.
 (state win (tar ?))
 ; Club-meet mechanics (sporting_event / hold-meet POV chain). The
-; competitor's participation memory is his own ended race_run
+; competitor's participation memory is his own ended RACE-RUN
 ; act-belief; the organiser's meet record is his ended
-; hold_meet_run act-belief; the call to compete is the told
-; organiser-subject `summon` act (tasks.mon) - none needs a state
-; here. race-result: a competitor's self-simulated performance
-; (tar = a 0..1 score; aux = the sport it was scored in), minted into
-; the co-present organiser, who argmaxes the winner from the ones he
-; holds.
+; HOLD-MEET-RUN act-belief. race-result: a competitor's self-simulated
+; performance (tar = a 0..1 score; aux = the sport it was scored in),
+; his own after his run and the organiser's once he is told it; the
+; organiser argmaxes the winner from the ones he holds.
 (state race-result (tar ?) (aux ?))
 
 ; Zero-sum outcome records. NOT tasks - act-RECORDS minted by

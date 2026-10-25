@@ -3,7 +3,7 @@
 ;
 ; One rule per construed-act family: an act belief carrying the tag construes
 ; as that category with the act's own parties. Multi-tag anchors accumulate
-; (an embezzle construes appropriation AND wrong AND betray - one rule each).
+; (an act tagged appropriation, wrong and betray construes as all three - one rule each).
 ; The two EXCEPTIONS carry their doctrine visibly:
 ;   wrong-act - the value gate (permissive on a silent substrate) and, for
 ;     violence, RUNTIME blame: violent labels carry no static wrong-act tag;
@@ -25,9 +25,6 @@
 
 (reflex {?agent (construed-labels coercion-act) ?patient /ever}:?coercion-act
   (effects (construe ?coercion-act coercion-act ?agent ?patient)))
-
-(reflex {?agent (construed-labels threaten-act) ?patient /ever}:?threaten-act
-  (effects (construe ?threaten-act threaten-act ?agent ?patient)))
 
 (reflex {?agent (construed-labels slight-act) ?patient /ever}:?slight-act
   (effects (construe ?slight-act slight-act ?agent ?patient)))
@@ -51,12 +48,12 @@
   (effects (construe ?honour-act honour-act ?agent ?patient)))
 
 ; (No construe rules for help-act / aid-act / provision-act / commitment-act /
-; repudiation-act: NO hsim label carries those tags today - a (construed-labels
+; repudiation-act / threaten-act: NO label carries those tags today - a (construed-labels
 ; <tag>) gate over an empty family is a load error, deliberately. Their REACT
 ; rows in reactions.mc stay authored: the moment an act declares the tag, the
 ; construe rule here is one line and the reactions are ready.)
 
-; -- wrong-act, static wrongs (steal / defraud / embezzle / kidnap / expose /
+; -- wrong-act, static wrongs (steal / expose /
 ; disinherit / coerce / humiliate ...). Value gate: permissive when the
 ; act declares no (contradicts ..) or the patient's value substrate is silent;
 ; strict when the substrate speaks and says no.

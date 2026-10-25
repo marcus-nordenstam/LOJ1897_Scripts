@@ -132,14 +132,6 @@
 ;
 ; Past tense is the canonical form - these are recollected events.
 
-" $actor(NP) defrauded $patient(NP) "
-{ $actor(NP) /past defraud $patient(NP) } .
-
-" $actor(NP) cheated $patient(NP) "
-{ $actor(NP) /past defraud $patient(NP) }
-:: flowery
-.
-
 " $actor(NP) exposed $patient(NP) "
 { $actor(NP) /past expose $patient(NP) } .
 

@@ -28,14 +28,12 @@
 "talking with someone"                  converse                    .
 "seeing to the dead"                    convey-corpse               .
 "on the way"                            cross                       .
-"seeing to some business"               defraud                     .
 "seeing to some business"               denounce                    .
 "settling affairs"                      disinherit                  .
 "dismissing a man"                      dismiss                     .
 "seeing to a private matter"            divorce                     .
 "drafting a verdict"                    draft-verdict               .
 "having a meal"                         eat                         .
-"seeing to some business"               embezzle                    .
 "leaving the country"                   emigrate                    .
 "going in"                              enter-room                  .
 "seeing to some business"               expose                      .
@@ -55,7 +53,6 @@
 "seeing to some business"               humiliate                   .
 "seeing to some business"               hurt                        .
 "inviting a guest"                      invite-guest                .
-"seeing to some business"               kidnap                      .
 "looking for something"                 locate                      .
 "looking for someone"                   locate-person               .
 "looking for a room"                    locate-room                 .
@@ -87,11 +84,11 @@
 "posting a letter"                      send-mail                   .
 "seeing to the household"               set-mealtimes               .
 "seeing to some business"               shoot                       .
+"seeing to a protege"                   sponsor                     .
 "looking through some papers"           stack-browse                .
 "taking some papers"                    stack-take                  .
 "seeing to some business"               steal                       .
 "seeing to some business"               strangle                    .
-"summoning someone"                     summon                      .
 "taking something"                      take                        .
 "taking the applications"               take-applications           .
 "taking leave"                          take-leave                  .
@@ -128,14 +125,12 @@
 "speak with someone"                    converse                    .
 "see to the dead"                       convey-corpse               .
 "be off"                                cross                       .
-"see to some business"                  defraud                     .
 "see to some business"                  denounce                    .
 "settle some affairs"                   disinherit                  .
 "dismiss a man"                         dismiss                     .
 "see to a private matter"               divorce                     .
 "draft a verdict"                       draft-verdict               .
 "have a meal"                           eat                         .
-"see to some business"                  embezzle                    .
 "leave the country"                     emigrate                    .
 "go in"                                 enter-room                  .
 "see to some business"                  expose                      .
@@ -155,7 +150,6 @@
 "see to some business"                  humiliate                   .
 "see to some business"                  hurt                        .
 "invite a guest"                        invite-guest                .
-"see to some business"                  kidnap                      .
 "find something"                        locate                      .
 "find someone"                          locate-person               .
 "find a room"                           locate-room                 .
@@ -187,11 +181,11 @@
 "post a letter"                         send-mail                   .
 "see to the household"                  set-mealtimes               .
 "see to some business"                  shoot                       .
+"see to a protege"                      sponsor                     .
 "look through some papers"              stack-browse                .
 "take some papers"                      stack-take                  .
 "see to some business"                  steal                       .
 "see to some business"                  strangle                    .
-"summon someone"                        summon                      .
 "take something"                        take                        .
 "take the applications"                 take-applications           .
 "take leave"                            take-leave                  .

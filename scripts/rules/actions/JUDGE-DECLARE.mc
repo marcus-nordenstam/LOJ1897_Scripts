@@ -1,25 +1,15 @@
 ; ----------------------------------------------------------------------------
-; judge_declare (npc-ACT) - the organiser's closing act of the club meet
-; (act_body_purification: the DUMB act). The winner SELECTION is deliberation and
-; lives in the sporting-judge think (sporting_judge_think.mc), which argmaxes the
-; current top scorer from the race-result beliefs the racers minted into him
-; (RACE-RUN.mc) and proposes {@self JUDGE-DECLARE ?winner}; this body just performs
-; the declaration off the ?winner carried on its act-belief. No trait read - the
-; winner is the highest OBSERVED performance, chosen in the think.
+; JUDGE-DECLARE ?winner ?sport - the organiser's closing act of the club meet: he declares
+; the winner his own judging chose, aloud to the assembled. (obs): co-present racers witness
+; it, which is how a losing racer learns the victor (outdone-at-meet,
+; thinks/sporting-judge-think.mc). The organiser comes away holding the win; the winner
+; learns it the way anyone learns a told state, by being told it.
 ; ----------------------------------------------------------------------------
-
 
 (action {@self JUDGE-DECLARE ?winner ?sport}:?JUDGE-DECLARE
   (motor mouth)
   (track-skill-level [k officiating])
-  ; (obs): the declaration is made to the assembled - co-present racers WITNESS
-  ; {@self JUDGE-DECLARE ?winner ?sport}, which is how a losing racer learns the
-  ; victor and construes the outdo (outdone-at-meet, sporting_judge_think.mc).
   (obs) (duration (seconds 30 min))
   (effects
-    ; The victor takes the honours (minted into HIS mind - he is the act's target,
-    ; excluded from the bystander auto-witness, so he is told explicitly here).
-    (begin-belief ?winner {?winner win ?sport})
-    ; (the scoreboard clearing is the meet-judged twin's - sporting_judge_think.mc
-    ;  - off this declaration's /succ record.)
+    (begin-belief {?winner win ?sport})
     (set-outcome ?JUDGE-DECLARE /succ)))

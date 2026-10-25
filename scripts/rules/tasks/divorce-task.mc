@@ -1,31 +1,34 @@
 ; ----------------------------------------------------------------------------
 ; divorce - getting a divorce: the betrayed husband's remedy (the period gives a wife
 ; no such recourse). Proposed by affair-fallout when a proper / high-decorum husband
-; puts an unfaithful wife away. Performing it repudiates her: both spouse bonds end,
-; her memory of being put away is minted (the mutual record), and a put-away wife is
-; marked a fallen-woman in her mind AND his (the gossip channel carries the disgrace;
-; betrothal / love-match exclude her), cast out of the marital roof, and turned out of
-; any reputation-based post.
+; puts an unfaithful wife away. He tells her to her face that he is no longer her
+; husband - a state, so she adopts it as told - and only then repudiates her in his own
+; mind: his spouse bond ends, she is a fallen woman to him (the gossip channel carries
+; the disgrace; betrothal / love-match exclude her), and his tenancy belief for her ends.
+; Her half is hers: thinks/put-away-think.mc, on the told repudiation.
 ;
-; The ended {@self divorce ?partner} task-belief IS @self's own record of having done
-; it - the memory of being involved is the record, no fiat act-mint of his own.
+; Telling comes first because the proposer is cast on his spouse bond: ending it first
+; would withdraw the task before she was told.
+;
+; The ended {@self divorce ?partner} task-belief IS @self's own record of having done it.
 ; ----------------------------------------------------------------------------
 
 
 (task {@self divorce ?partner}:?divorce
   (tar [k human] @object)
-  (try
-    (effects
-      (end-belief {@self spouse ?partner})
-      ; Mutual: end her reciprocal bond and land HER record of being put away.
-      (end-belief ?partner {?partner spouse @self})
-      ; The fallen woman: marked in her mind AND his, expelled from the marital roof.
-      (expect {?partner gender [k female]} "divorce: only a husband puts a wife away")
-      (begin-belief ?partner {?partner prototype [k fallen-woman]})
-      (begin-belief {?partner prototype [k fallen-woman]})
-      ; He puts her out: his OWN tenancy belief for her ends. What she now believes about
-      ; where she lives is hers to reconcile.
-      (for-each ?edw-h (every {@self home ?})
-        (bind ?edw-h.target ?edw-home)
-        (end-belief {?edw-home tenant ?partner}))
-      (set-outcome ?divorce /succ))))
+  (init
+    (expect {?partner gender [k female]} "divorce: only a husband puts a wife away"))
+  (sequence
+    (stage
+      (when (spatial ?partner co-located @self))
+      (effects
+        (if -{@self tell ? ?partner /succ /caused_by ?divorce}
+            (then (maintain-proposal {@self tell (utterable-msg [] {@self /not spouse ?partner}) ?partner})))))
+    (stage
+      (effects
+        (end-belief {@self spouse ?partner})
+        (begin-belief {?partner prototype [k fallen-woman]})
+        (for-each ?edw-h (every {@self home ?})
+          (bind ?edw-h.target ?edw-home)
+          (end-belief {?edw-home tenant ?partner}))
+        (set-outcome ?divorce /succ)))))

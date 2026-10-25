@@ -46,10 +46,7 @@
           (* ?devoutness
              (- 1.0 (clamp (+ 0.05
                               (* (+ (count (every {@self (theme-labels violent-to) ? /ever}) /float)
-                                    (count (every {@self steal ? /ever}) /float)
-                                    (count (every {@self defraud ? /ever}) /float)
-                                    (count (every {@self embezzle ? /ever}) /float)
-                                    (count (every {@self kidnap ? /ever}) /float)) 0.25)) 0.0 1.0))
+                                    (count (every {@self steal ? /ever}) /float)) 0.25)) 0.0 1.0))
              (+ 0.4 (* (prob {@self WORSHIP [k church-building] /ever}) 0.6)))
         [k respectability-aim]
           (* ?politeness
