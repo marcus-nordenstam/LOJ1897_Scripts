@@ -36,16 +36,10 @@
 ;   (set-outcome {..} /succ)              - close the act-belief (the goal's teardown is its minter's).
 ;   (destroy-entity @self) - the emigrant leaves the world (no corpse, no burial).
 ;
-; SAFE self-destroy - VERIFIED against the completion path (hse_engine.cc
-; run_window_stepper): destroy-entity is the LAST effect, so every prior effect
-; touches a LIVE mind. mx_destroy_entity -> destroy_mind resets @self's _mind_id to
-; k_abs_mind_id, so mx_is_alive(@self) is false immediately after. The completion
-; loop's post-body perceive_here (guarded by mx_is_alive) and seed_venue_acquaintance
-; (guarded on a live location, which destroy clears) both no-op, and any queued
-; completion for @self is skipped by the mx_is_alive guard. Because the completion
-; heap is popped one actor at a time (NOT an in-flight mx_for_each_entity role walk),
-; destroying @self here does not corrupt any iteration - unlike a role-enumerated
-; rule, which still must never destroy.
+; THE SELF-DESTROY: destroying an entity deletes its mind, and this act runs in that mind,
+; so (destroy-entity @self) concludes his acts and takes him off the living count at once
+; but removes the body only once the act has returned (t_rule_runtime::queue_self_destroy),
+; before the instant's wake pass - he never deliberates again.
 ;
 ; NOTE - the emigrant removes only HIMSELF. A departing business OWNER leaves a
 ; headless org (its articles / register persist minus his row); winding the firm up
