@@ -15,7 +15,7 @@
 ; ----------------------------------------------------------------------------
 
 ; The continuous genetic traits (Big-Five aspects + devoutness + dark tetrad +
-; attractiveness + physical). mean is sex-conditioned (strength / endurance dimorphic; the rest 0.5);
+; attractiveness + physical + eyesight). mean is sex-conditioned (strength / endurance dimorphic; the rest 0.5);
 ; every trait samples N(mean, sigma) clamped 0..1.
 (define-table continuous_traits
   (fields trait mean-male mean-female sigma)
@@ -38,7 +38,8 @@
   (record strength         0.6  0.4  0.15)
   (record dexterity        0.5  0.5  0.15)
   (record agility          0.5  0.5  0.15)
-  (record endurance        0.55 0.45 0.15))
+  (record endurance        0.55 0.45 0.15)
+  (record eyesight         0.5  0.5  0.15))
 
 (define-table eye_color_dist
   (fields value weight)

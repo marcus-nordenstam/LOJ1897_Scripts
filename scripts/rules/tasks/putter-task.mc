@@ -1,13 +1,10 @@
 ; ----------------------------------------------------------------------------
-; putter - the monthly home round. It no longer walks the rooms or reads mail itself: the
-; room-walk is the general `wander` task (putter proposes ONE), and mail is `read-mail` on
-; its own cadence. What remains bespoke is discovering / re-checking the hiding-spot caches
-; in each room the wander carries @self through. The want-putter driver stays in
-; putter_think.mc.
+; putter - the monthly home round: one `wander` of home, which walks every known room - and
+; a hidden cache in one is noticed, now and then, by perception itself (the sensor's
+; notices_hidden_space), as anyone's eye may catch it. Mail is `read-mail` on its own cadence.
 ;
-;   wander : MAINTAIN one wander of home (walks every known room) until it succeeds - an
-;            interrupted putter withdraws it, a resumed putter mints it fresh.
-;   cache  : CHORE - in a room this round -> discover / re-check its caches.
+;   wander : MAINTAIN one wander of home until it succeeds - an interrupted putter withdraws
+;            it, a resumed putter mints it fresh.
 ;   done   : the wander concluded -> end.
 ; ----------------------------------------------------------------------------
 
@@ -17,22 +14,6 @@
     (try
       (role @self -{@self wander ?home /succ /caused_by ?putter}
         (effects (maintain-proposal {@self wander ?home}))))
-    (try
-      (when (and (spatial @self space): ?room
-                 (spatial @self unit ?home)))
-      (effects
-        (any {@self openness ?openness})
-        (for-each ?cache (spatial ?room parts [k hiding-spot-compartment] /env)
-          (if -{@self hiding-spot ?cache}
-              (then
-                (if (chance (* 0.006 (+ 1.0 ?openness)))
-                    (then
-                      (begin-belief {@self hiding-spot (observe ?cache)})
-                      (for-each ?item (spatial ?cache contents /env)
-                        (observe ?item)))))
-              (else
-                (for-each ?item (spatial ?cache contents /env)
-                  (observe ?item)))))))
     ; STOPGAP (actions/STOCK-LARDER.mc): the supply run never reaches the shop, so a
     ; resident standing in his own empty kitchen stocks it himself. Delete with that file.
     (try

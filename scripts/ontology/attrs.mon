@@ -232,6 +232,10 @@
 (attr dexterity  (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl))
 (attr agility    (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl))
 (attr endurance  (type float) (range 0 1) (per feel) (state-flags-tar @excl))
+; How sharp his eyes are, 0..1, mean 0.5: genetic and heritable like the rest, known to himself
+; and to no one else. Age dims it (the sensor reads it as age has left it, never below a
+; fraction of his own), and with openness it is what catches a hidden cache.
+(attr eyesight   (type float) (range 0 1) (per feel) (state-flags-tar @excl))
 ; Physical attractiveness / mate-value. 0..1
 ; float, mean 0.5, genetic + heritable (rolled in k_continuous_traits).
 ; (ext-per obs) - looks are publicly visible, so it mirrors at all tiers

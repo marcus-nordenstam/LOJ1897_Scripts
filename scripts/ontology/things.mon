@@ -54,7 +54,7 @@
                    condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite pain
                    openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
                    volatility withdrawal devoutness narcissism machiavellianism psychopathy sadism strength dexterity
-                   agility endurance pregnant-by awareness internment carrying-cash-pile)
+                   agility endurance eyesight pregnant-by awareness internment carrying-cash-pile)
             (structs left-hand right-hand head left-eye right-eye mouth torso))
           (child human-npc
             (decorations
@@ -790,16 +790,16 @@
         (children foyer))
       ; Concealment caches - the places a household member hides letters and small valuables.
       ; One hiding-spot entity per cache, spawned at the owner's home.
-      ; The CACHE SPACE carries the engine hidden bit - never the items:
-      ; concealment is containment. A cached item is placed INSIDE the
-      ; hiding-spot (location = the cache; filed in the cache's own
-      ; `contents`), and observation never recurses into hidden
-      ; sub-spaces, so the contents stay unseen until a deliberate search
-      ; observes the cache directly. The leaf kind encodes the
-      ; concealment quality (a secret-chamber outlasts a jewelry-box-lining).
+      ; The CACHE SPACE is concealed - created with the engine hidden bit, never the items:
+      ; concealment is containment. A cached item is placed INSIDE the hiding-spot
+      ; (location = the cache; filed in the cache's own `contents`), and observing the room
+      ; walks a hidden sub-space only when it catches the observer's eye (a rare chance per
+      ; look, grown by openness and eyesight), or when a deliberate search observes the cache
+      ; directly. The leaf kind encodes the concealment quality (a secret-chamber outlasts a
+      ; jewelry-box-lining).
       ; A closed sub-space of a room, a fixture or a prop: never stood in, never a floor.
       (child compartment (composition compartment)
-        (child hiding-spot-compartment
+        (child hiding-spot-compartment (+ facets concealed) (facets concealed)
           (children floorboard-cache book-cache jewelry-box-lining painting-cache secret-chamber))))
     (child exterior-space
       (decorations
