@@ -36,18 +36,18 @@
   (role @self {@self industriousness ?industriousness}
     (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
-               {?org workplace ?wp}       ; ?wp binds at fire
-      (when (latch-eval (current-shift ?job): ?hours)
-            (latch-eval (or (spatial @self building ?wp) (spatial @self space ?wp)))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
-            (on-shift ?hours))
-      (declare-utility duty (* (k-work-drive-value) (* (clamp (+ 1.0 (delib-ctr ?industriousness (k-drive-trait-swing))) 0.0 2.0)
-                                                 (clamp (+ 1.0 (delib-ctrc (any {@self stress ?=0.5}).target (- 0.0 (k-drive-mood-swing)))) 0.0 2.0))))
-      ; SPAWN the day's WORK TASK (tasks/work-task.mc): its performance tries fan the shift
-      ; into the held duties' tasks and the between-duties post-stay; shift_over concludes it.
-      ; MAINTAINED on the shift window alone: arrival is latched at onset, so leaving for an
-      ; errand never withdraws the day's work.
-      (effects       (maintain-proposal {@self work ?wp})
-                     (set-shift-end-alarm ?hours))))))
+      (role ?wp {?org workplace ?wp}
+        (when (latch-eval (current-shift ?job): ?hours)
+              (latch-eval (or (spatial @self building ?wp) (spatial @self space ?wp)))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
+              (on-shift ?hours))
+        (declare-utility duty (* (k-work-drive-value) (* (clamp (+ 1.0 (delib-ctr ?industriousness (k-drive-trait-swing))) 0.0 2.0)
+                                                   (clamp (+ 1.0 (delib-ctrc (any {@self stress ?=0.5}).target (- 0.0 (k-drive-mood-swing)))) 0.0 2.0))))
+        ; SPAWN the day's WORK TASK (tasks/work-task.mc): its performance tries fan the shift
+        ; into the held duties' tasks and the between-duties post-stay; shift_over concludes it.
+        ; MAINTAINED on the shift window alone: arrival is latched at onset, so leaving for an
+        ; errand never withdraws the day's work.
+        (effects       (maintain-proposal {@self work ?wp})
+                       (set-shift-end-alarm ?hours)))))))
 
 ; The work TASK's performance tries (at_post_morning / at_post_afternoon / shift_over) live
 ; in tasks/work-task.mc. day-go-to-work below stays a DRIVER (no task gate).
@@ -58,11 +58,11 @@
   ; reaches either - the building first, then the room.
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
-               {?org workplace ?wp}       ; ?wp binds at fire
-               (not (or (spatial @self building ?wp) (spatial @self space ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
-               -{@self work ?wp}          ; out on the day's work's own errand is not absent
-      (when (latch-eval (current-shift ?job): ?hours)
-            (on-shift ?hours))
-      (declare-utility duty)
-      (effects       (maintain-proposal {@self go-to ?wp})
-                     (set-shift-end-alarm ?hours)))))
+      (role ?wp {?org workplace ?wp}
+                (not (or (spatial @self building ?wp) (spatial @self space ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
+                -{@self work ?wp}          ; out on the day's work's own errand is not absent
+        (when (latch-eval (current-shift ?job): ?hours)
+              (on-shift ?hours))
+        (declare-utility duty)
+        (effects       (maintain-proposal {@self go-to ?wp})
+                       (set-shift-end-alarm ?hours))))))

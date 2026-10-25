@@ -41,9 +41,8 @@
               -{@self household-cook ?}
               -{@self class-situation [k upper]}
     (role ?home {@self home ?home}
-      (when (and (bb-public-none ?home cook)
-                 (not (and {@self mother ?mum}
-                           {?mum home ?home}))))
+      (no-role [k human] {@self mother ?norole} {?norole home ?home})
+      (when (bb-public-none ?home cook))
       (effects
         (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
         (begin-belief {@self household-cook ?home})))))
@@ -55,10 +54,8 @@
               -{@self spouse ?}
               -{@self class-situation [k upper]}
     (role ?home {@self home ?home}
-      (when (and (bb-public-none ?home cook)
-                 (not (and {@self child ?c}
-                           {?c gender [k female]}
-                           {?c home ?home}))))
+      (no-role [k human] {@self child ?norole} {?norole gender [k female]} {?norole home ?home})
+      (when (bb-public-none ?home cook))
       (effects
         (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
         (begin-belief {@self household-cook ?home})))))

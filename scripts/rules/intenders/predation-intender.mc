@@ -75,7 +75,6 @@
       ; (1 - inhibition) * lethal, DOUBLED for {@self life-aim power-aim}. The lethal tip
       ; fires ONCE then the latch holds it.
       (when (and (>= (* 0.5 (+ ?psychopathy ?sadism)) 0.65)
-                 -{?victim condition [k dead]}
                  (latch-eval (chance (* (crime-scale) 0.005
                                 (* (* (- 1.0 ?inhibition) (* 0.5 (+ ?psychopathy ?sadism)))
                                    (flip {@self life-aim [k power-aim]} 2.0 1.0)))))))

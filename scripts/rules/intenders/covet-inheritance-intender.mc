@@ -71,7 +71,6 @@
         ; tip fires ONCE then the latch holds it; drop the drive if the
         ; victim dies.
         (when (and (>= ?benefactor-wealth 0.5)
-                   -{?victim condition [k dead]}
                    (latch-eval (chance (* (crime-scale) 0.02
                                   (* (- 1.0 ?inhibition)
                                      (* 0.5 (+ ?machiavellianism

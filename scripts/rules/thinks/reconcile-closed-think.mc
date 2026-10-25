@@ -33,13 +33,12 @@
 ; beliefs when the gate holds (they do not compete for the motor).
 ; ----------------------------------------------------------------------------
 
-; The firing condition is perceiving {?wp struct-status closed} at the premises. This
-; belief is about ?wp (the workplace), not @self, and lives in the (when). Cheap: gated
-; to employed workers, and ends its own gate on first fire.
+; The firing condition is perceiving {?wp struct-status closed} at the premises, a filter on
+; the workplace role. Gated to employed workers, and ends its own gate on first fire.
 (think reconcile-closed
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
-               {?org workplace ?wp}   ; ?wp binds at fire
-      (when (and {?wp struct-status [k closed]}))
-      (effects
-        (end-belief {@self job ?job})))))
+      (role ?wp {?org workplace ?wp}
+                {?wp struct-status [k closed]}
+        (effects
+          (end-belief {@self job ?job}))))))

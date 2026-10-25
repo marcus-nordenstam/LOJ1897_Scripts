@@ -53,20 +53,17 @@
                  {?bride age-span ?peer_band}
                  (none {@self (kin-labels) ?bride})
 
-      ;; Only the non-cacheable gates stay live: the per-groom (chance) pacing and
-      ;; the same-station-lover impediment (a lover whose class equals his keeps him
-      ;; out of the arranged market; such pairs wed via love-match - no lover ->
-      ;; @fail -> the (and ...) is false -> eligible). Exclusivity and gender ARE
-      ;; the role/self-gate filters (the cache reconciles at belief-write; a live
-      ;; re-read of the same store cannot differ).
+      ;; A lover of his own station keeps him out of the arranged market: such pairs wed
+      ;; via love-match.
+      (no-role [k human] {@self lover ?norole} {?norole class-situation ?my-class})
+
+      ;; Only the non-cacheable gates stay live: the per-groom (chance) pacing and the
+      ;; per-observer chastity count.
       (when (and (latch-eval (chance 0.0208))
                  ;; Not KNOWN to be disgraced: fewer than two liaisons the groom himself
                  ;; has heard of (per-observer chastity, any tense). A bride whose past he
                  ;; has not heard passes - the market gives the benefit of the doubt.
-                 (< (count (every {?bride lover ? /ever})) 2)
-                 (not (and (any {@self lover ?lover})
-                           (any {?lover class-situation ?lover-class})
-                           (= ?lover-class ?my-class)))))
+                 (< (count (every {?bride lover ? /ever})) 2)))
 
       (declare-utility want)
       (effects (maintain-intent {@self intent {@self wed ?bride}} /caused_by ?fancy)))))

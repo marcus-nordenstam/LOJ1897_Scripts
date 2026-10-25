@@ -56,7 +56,6 @@
       ; propensity = (1 - inhibition) * ambition; fire at 0.03 * propensity. The tip fires
       ; ONCE then the latch holds it; drop the drive if the victim dies.
       (when (and {?victim job.org ?org}
-                 -{?victim condition [k dead]}
                  (latch-eval (chance (* (crime-scale) 0.03
                                 (* (- 1.0 ?inhibition)
                                    (* 0.5 (+ ?machiavellianism

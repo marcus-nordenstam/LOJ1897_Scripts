@@ -103,15 +103,15 @@
   (role @self {@self satiety [k hungry|famished]}
     (role ?job {@self job ?job}
       (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
-                 {?org workplace ?wp}       ; ?wp binds at fire
-                 (spatial @self building ?wp)                    ; residual gate, re-checked at the when-seam
-        (when (hours 12 14))
-        (declare-utility (meal-utility-band) default)
-        (effects
-          (maintain-proposal {@self eat [k lunch] ?wp}
-            [/affect (meal-affect ?wp)]
-            [/cost (meal-cost [k lunch] ?wp)]
-            [/feasible (eat-affordable [k lunch] ?wp)]))))))
+        (role ?wp {?org workplace ?wp}
+                  (spatial @self building ?wp)                    ; residual gate, re-checked at the when-seam
+          (when (hours 12 14))
+          (declare-utility (meal-utility-band) default)
+          (effects
+            (maintain-proposal {@self eat [k lunch] ?wp}
+              [/affect (meal-affect ?wp)]
+              [/cost (meal-cost [k lunch] ?wp)]
+              [/feasible (eat-affordable [k lunch] ?wp)])))))))
 
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch-hour.
 (driver want-lunch-home

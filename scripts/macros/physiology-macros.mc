@@ -11,8 +11,8 @@
 
 ; FATIGUE: a SLEEP act recovers it (6h clears a full 1.0); any other act accrues
 ; waking fatigue (~1.0 over a 16h day).
-(define-macro fatigue_recover_per_hour () (/ 1.0 6.0))
-(define-macro fatigue_accrue_per_hour () (/ 1.0 16.0))
+(define-macro fatigue_recover_per_hour () 0.16666667)
+(define-macro fatigue_accrue_per_hour () 0.0625)
 (define-macro fatigue_max () 2.0)
 
 ; THE BODY CLOCK: a pressure toward sleep in fatigue units, read on the PERSONAL clock (the
@@ -39,7 +39,7 @@
 
 ; HUNGER: every act accrues it, sleep included - you wake hungry. Meal acts
 ; reduce it content-side (set-attr @self hunger ...).
-(define-macro hunger_accrue_per_hour () (/ 1.0 16.0))
+(define-macro hunger_accrue_per_hour () 0.0625)
 (define-macro hunger_max () 2.0)
 ; The fast from supper to waking a window's morning finds him at.
 (define-macro overnight_fast_hours () 10.0)

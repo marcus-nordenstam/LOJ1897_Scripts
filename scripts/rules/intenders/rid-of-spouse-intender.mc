@@ -45,7 +45,6 @@
       ; (0.5 + psychopathy) * (1 - inhibition) * (1 - compassion) * (1 + spouse-wealth).
       (when (and (or (<= (stance-band ?spouse warmth) (detest-warmth-max))
                      {?spouse (theme-labels violent-to) @self /ever})
-                 -{?spouse condition [k dead]}
                  (latch-eval (chance
                        (* (crime-scale) 0.02
                           (* (+ (flip (<= (stance-band ?spouse warmth) (detest-warmth-max)) 1.0 0.0)
