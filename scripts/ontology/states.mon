@@ -373,8 +373,6 @@
 ; delivery and reads his appointments as {?host invite @self /aux
 ; ?occ} (review_appointments).
 (state invite (tar [k human] @object) (aux [k occasion] @object))
-; hold-meet: the club officer's standing goal to run a meet (tar = the club's articles).
-(state hold-meet (tar ?))
 
 ; ---- competence ----
 ; skill-level: the earned-competence band of the unified domain axis
@@ -468,18 +466,9 @@
 ; Targets stay unconstrained until the Phase 6 sports events pin the
 ; event / trophy kinds. Non-exclusive: a life accumulates many.
 ; ---- achievement ----
-; win: an achievement you HAVE (conferred by the judge's
-; declaration, not performed) - hence a state, not an act; the
-; past victory reads through the interval tense.
+; win: an achievement you HAVE (conferred, not performed) - hence a
+; state, not an act; the past victory reads through the interval tense.
 (state win (tar ?))
-; Club-meet mechanics (sporting_event / hold-meet POV chain). The
-; competitor's participation memory is his own ended RACE-RUN
-; act-belief; the organiser's meet record is his ended
-; HOLD-MEET-RUN act-belief. race-result: a competitor's self-simulated
-; performance (tar = a 0..1 score; aux = the sport it was scored in),
-; his own after his run and the organiser's once he is told it; the
-; organiser argmaxes the winner from the ones he holds.
-(state race-result (tar ?) (aux ?))
 
 ; Zero-sum outcome records. NOT tasks - act-RECORDS minted by
 ; classifiers from base substrate facts (`{actor hired_at ?org}`,

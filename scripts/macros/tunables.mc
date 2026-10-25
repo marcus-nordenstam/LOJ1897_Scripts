@@ -163,12 +163,6 @@
 (define-macro staff_hire_age_min () 16)
 (define-macro staff_hire_age_max () 55)
 
-; Sporting-meet model (the per-sport rows live in the club_sports table, rules/thinks/sporting-event-meet-think.mc).
-(define-macro jockey_hire_age_min      () 16)
-(define-macro jockey_hire_age_max      () 45)
-(define-macro trained_victory_weight   () 3.0)  ; practice marker's edge in the victor roll
-(define-macro training_window_days     () 365)
-
 ; Minimum minutes a `go` act occupies, even for a ~0-distance hop (a venue right next
 ; door, or a re-go to where you already stand). Floors the completion cadence so an NPC
 ; cannot re-deliberate every simulated minute - defense-in-depth against destination
