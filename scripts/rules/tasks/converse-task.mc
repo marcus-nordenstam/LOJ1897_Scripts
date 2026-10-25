@@ -58,10 +58,16 @@
       (role ?partner {?partner SAY ? @self /past}
                      {?partner SAY (qs ? ? ?..):?qs @self /past}:?asked
                      -{@self tell ? ?partner /succ /caused_by ?asked}
-        (when (happened-since ?asked ?converse))
+        (when (happened-since ?asked ?converse)
+              (withholds ?qs ?partner))
+        (effects (maintain-proposal {@self tell (formulaic [] refusal answer) ?partner} /caused_by ?asked))))
+    (try
+      (lock)
+      (role ?partner {?partner SAY ? @self /past}
+                     {?partner SAY (qs ? ? ?..):?qs @self /past}:?asked
+                     -{@self tell ? ?partner /succ /caused_by ?asked}
+        (when (happened-since ?asked ?converse)
+              (not (withholds ?qs ?partner)))
         (effects
-          (if (withholds ?qs ?partner)
-              (then (maintain-proposal {@self tell (formulaic [] refusal answer) ?partner} /caused_by ?asked))
-              (else
-                (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
-                (maintain-proposal {@self tell (utterable-msg [] ?answer) ?partner} /caused_by ?asked))))))))
+          (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
+          (maintain-proposal {@self tell (utterable-msg [] ?answer) ?partner} /caused_by ?asked))))))

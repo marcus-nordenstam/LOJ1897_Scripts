@@ -29,6 +29,8 @@
   (track-skill-level [k personnel])
   (tar [k org] @object)
   (lint-waive unused-role)
+  ; The verdict rungs BEGIN their draft: see THE OFFER below.
+  (lint-waive begin-proposal)
   ; THE JOB AT THIS ORG - an actor holds plural jobs by design, and a bare {@self job ?job}
   ; would read a stranger's shift. It is ?shift-job and NOT ?job because every rung below
   ; casts its own ?job on the SEATS of this org: a spine ?job is the same slot to all of
