@@ -438,7 +438,7 @@
   ; taking part), where and when ({<conv> venue <space> /i <began> <ended>}) and the
   ; occasion it was part of ({<conv> occasion <occasion>}), said instead of the venue when
   ; held. The live contract between the parties is its public bb (funcs/conversation.mc).
-  (child conversation
+  (child conversation (grounding-anchors participant (prefer occasion venue))
     (decorations (states participant venue occasion)))
 
   ; Intoxicants - the abstract substance an NPC can form a `craving` for
