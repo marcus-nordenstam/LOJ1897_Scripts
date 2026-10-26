@@ -137,6 +137,17 @@
 (define-func said-to-me-since (?speaker ?since)
   (any-happened-since (every {?speaker SAY ? @self /past}) ?since))
 
+; (said-to-me-after ?speaker ?event) - ?speaker has said something to @self strictly after ?event:
+; a reply, since a line is heard a moment after it is said, never in the second of what it answers.
+(define-func said-to-me-after (?speaker ?event)
+  (bind @nothing ?found)
+  (for-each ?line (every {?speaker SAY ? @self /past})
+    (if (< (elapsed /seconds ?line) (elapsed /seconds ?event))
+        (then
+          (bind @true ?found)
+          (break))))
+  ?found)
+
 ; (conversation-of ?party) - the conversation ?party's public (conversing ..) names, or @fail.
 (define-func conversation-of (?party)
   (bb-public-read ?party conversing))
@@ -238,7 +249,7 @@
 (define-func agenda-answered (?partner ?agenda ?converse)
   (bind (any {@self tell ?agenda ?partner /succ /caused_by ?converse}) ?told)
   (and (is-belief ?told)
-       (or (not (is-qs ?agenda)) (said-to-me-since ?partner ?told))))
+       (or (not (is-qs ?agenda)) (said-to-me-after ?partner ?told))))
 
 ; (took-up ?caller) - @self took up a conversation ?caller opened, and has hailed ?caller
 ; himself no time since: the open conversation is ?caller's, not one @self opened.
