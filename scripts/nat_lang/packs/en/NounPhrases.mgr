@@ -94,6 +94,31 @@ _
 ( o [k application ] { ?_you submit /past @o } { @o job $job(NP) } { @o org $org(NP) } )
 .
 
+; A post, identified by the org that keeps it and the org's own id for the seat - the codec
+; describes a nameless job by its anchors (org, job-id).
+"the $kind(KIND) position at $org(NP)"
+( o $kind(KIND) { @o org $org(NP) } { @o job-id ? } )
+.
+
+; An occasion, identified by its host and its date - "Sam's dinner party". The kind hole is the
+; occasion kinds alone, so "Sam's mother" stays a relation.
+"$host(PNAME) ++'s $kind(OCCASION_KIND)"
+( o $kind(OCCASION_KIND) { @o host $host(PNAME) } { @o held-on ? } )
+.
+
+; A talk, identified by who took part and where it was held - "the talk with Carol and Mary at
+; the Red Lion"; the venue clause carries the talk's span as /during. When the speaker knows the
+; occasion it was part of, that stands for the venue: "the talk with Carol and Mary at Sam's
+; party". Both are heard as a venue, so the occasion form is said only.
+"the talk with $who(NP) at $where(NP)"
+( o [k conversation ] { @o participant $who(NP) } { @o venue $where(NP) } )
+.
+
+"the talk with $who(NP) at $occasion(NP)"
+( o [k conversation ] { @o participant $who(NP) } { @o occasion $occasion(NP) } )
+:: realize-only
+.
+
 
 
 ; HACK!

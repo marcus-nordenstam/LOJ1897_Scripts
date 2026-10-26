@@ -48,6 +48,16 @@ $kind(KIND)
 "enemies"               [k enemy]               .
 "lovers"                [k lover]               .
 
+; The kinds of occasion, as an occasion is named by its host - "Sam's dinner party".
+:OCCASION_KIND
+"dinner party"          [k dinner-party]        .
+"wedding"               [k wedding]             .
+"engagement party"      [k engagement-party]    .
+"birthday party"        [k birthday-party]      .
+"sporting occasion"     [k sporting-occasion]   .
+"church service"        [k church-service]      .
+"market day"            [k market-day]          .
+
 ; Collective concept plurals - the isa expansion picks up child kinds.
 ; `interest` is a relation label (not a kind) after the domain collapse, so it
 ; binds the literal label (no [k ...] kind-expansion); the query then matches

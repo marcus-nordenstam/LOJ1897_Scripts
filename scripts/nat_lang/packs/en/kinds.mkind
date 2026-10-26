@@ -141,3 +141,12 @@ medium-strength               medium
 ; form is what the parse reads, the unmarked one what realize says.
 relationship                  relationship
 relationship.pl               relations
+
+; === group activities and occasions ============================================
+conversation                  talk
+dinner-party                  dinner party
+engagement-party              engagement party
+birthday-party                birthday party
+sporting-occasion             sporting occasion
+church-service                church service
+market-day                    market day
