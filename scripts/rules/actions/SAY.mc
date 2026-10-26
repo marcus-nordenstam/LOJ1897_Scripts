@@ -13,6 +13,8 @@
 (action {@self SAY ?msg ?audience}:?SAY
   (motor mouth)
   (unique)
+  ; A line once begun is said to its end: nothing outbids it on the mouth.
+  (uninterruptable)
   (presentation
     (state telling)
     (proc-anim tell)
