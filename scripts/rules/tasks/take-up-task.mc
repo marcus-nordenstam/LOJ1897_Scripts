@@ -5,7 +5,8 @@
 ; converse, proposed by engage-hail (drivers/answer-hail-driver.mc). Until his entry is posted
 ; the hail still stands, so a man who finds something keener first declines it instead
 ; (decline-hail). Once posted he hands the conversation over to converse, which nothing can
-; stop before it first fires.
+; stop before it first fires. ?partner gone from every conversation by then - his hail ended
+; before it was taken up - leaves nothing to join, and the take-up fails.
 ; ----------------------------------------------------------------------------
 
 (task {@self take-up ?partner}:?take-up
@@ -20,8 +21,8 @@
         (bind (hail-response ?opening) ?response)
         (effects (maintain-proposal {@self tell ?response ?partner})))
       (stage
-        (bind (conversation-of @self) ?mine)
         (effects
+          (bind (conversation-of @self) ?mine)
           (if (and (substantial ?mine) (neq ?mine (conversation-of ?partner)))
               (then
                 (for-each ?party (every {?mine participant ?})
@@ -30,6 +31,10 @@
                       (then (maintain-proposal {@self take-leave ?who}) (break))))))))
       (stage
         (effects
-          (join-conversation (conversation-of ?partner))
-          (begin-proposal {@self converse ?partner} /uninterruptable-until-fire)
-          (set-outcome ?take-up /succ))))))
+          (bind (conversation-of ?partner) ?theirs)
+          (if (substantial ?theirs)
+              (then
+                (join-conversation ?theirs)
+                (begin-proposal {@self converse ?partner} /uninterruptable-until-fire)
+                (set-outcome ?take-up /succ))
+              (else (set-outcome ?take-up /fail))))))))

@@ -149,18 +149,29 @@
   (bind (bb-public-read ?party conversing) ?talk)
   (and (substantial ?talk) (in-conversation ?partner ?talk)))
 
-; (invited-by ?caller) - ?caller is in a conversation @self is not: his hail is @self's to
-; answer.
+; (unanswered-hail ?caller) - an opening ?caller called to @self stands unanswered: @self has
+; neither taken him up nor turned him down since he called it.
+(define-func unanswered-hail (?caller)
+  (bind @false ?open)
+  (for-each ?opening (every {?caller SAY (formulaic ? opening-phrase ?..) @self /past})
+    (if (and (not (any-happened-since (every {@self take-up ?caller /succ}) ?opening))
+             (not (any-happened-since (every {@self turn-down ?caller ? /succ}) ?opening)))
+        (then (bind @true ?open) (break))))
+  ?open)
+
+; (invited-by ?caller) - ?caller is in a conversation, the one @self is in or another, and his
+; hail stands unanswered: it is @self's to answer. A hail answered stays answered until he calls
+; again.
 (define-func invited-by (?caller)
-  (bind (bb-public-read ?caller conversing) ?talk)
-  (and (substantial ?talk) (not (in-conversation @self ?talk))))
+  (and (substantial (bb-public-read ?caller conversing)) (unanswered-hail ?caller)))
 
 ; (join-conversation ?talk) - @self takes part in ?talk: his entry names it, and he knows himself
 ; a party of it, where it is held when he did not yet, and the occasion it is part of when he
-; holds one for here today.
+; holds one for here today. Joining the talk he is in already changes nothing.
 (define-func join-conversation (?talk)
   (bb-public-write @self conversing ?talk)
-  (begin-belief {?talk participant @self})
+  (if (unsubstantial (any {?talk participant @self}))
+      (then (begin-belief {?talk participant @self})))
   (if (unsubstantial (any {?talk venue ?}))
       (then (begin-belief {?talk venue (spatial @self space)})))
   (bind (o /known [k occasion] {@o venue (spatial @self building)} {@o held-on (time date)}) ?occasion)
