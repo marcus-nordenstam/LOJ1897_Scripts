@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; turn-down ?partner ?msg - @self declines the conversation ?partner opened: he says ?msg, a
-; refusal or a retort, once, and then ends the conversation for both (funcs/conversation.mc).
+; refusal or a retort, once; hearing it, ?partner's hail fails and he leaves what he opened.
 ; Proposed by decline-hail and rebuff-hail (drivers/answer-hail-driver.mc).
 ; ----------------------------------------------------------------------------
 
@@ -12,5 +12,4 @@
       (effects (maintain-proposal {@self tell ?msg ?partner})))
     (stage
       (effects
-        (end-conversation ?partner)
         (set-outcome ?turn-down /succ)))))

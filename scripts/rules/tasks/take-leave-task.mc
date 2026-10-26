@@ -1,6 +1,7 @@
 ; ----------------------------------------------------------------------------
-; take-leave ?partner - @self ends his conversation with ?partner: he says his leave-taking and
-; clears both (conversing ..) entries (funcs/conversation.mc), which ends it for both.
+; take-leave ?partner - @self leaves the conversation he shares with ?partner: he says his
+; leave-taking and leaves it (funcs/conversation.mc); the others know by his entry no longer
+; naming it.
 ; ----------------------------------------------------------------------------
 
 (task {@self take-leave ?partner}:?take-leave
@@ -10,5 +11,5 @@
       (effects (maintain-proposal {@self tell (formulaic [] leave_taking bye) ?partner})))
     (stage
       (effects
-        (end-conversation ?partner)
+        (leave-conversation)
         (set-outcome ?take-leave /succ)))))

@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
 ; tell ?msg ?audience - THE one-way speech task, and the only one that proposes SAY: say ?msg
 ; to ?audience where he can hear it. A directed tell first closes on its audience through
-; go until he would hear it (within-voice: within the radius of the sound ?msg makes); a
-; broadcast (an absent ?audience) is said where @self stands, so its proposer brings him
-; to the place first. It succeeds when the SAY does and fails when he cannot reach his
-; audience.
+; go until he would hear it (within-voice: within the radius of the sound ?msg makes); a tell
+; to a conversation is said where @self stands, to every party in it; a broadcast (an absent
+; ?audience) is said where @self stands, so its proposer brings him to the place first. It
+; succeeds when the SAY does and fails when he cannot reach his audience.
 ;
 ; Saying something and waiting for an answer is a conversation: converse says each of its
 ; lines through this task.
@@ -27,4 +27,5 @@
       (when (or (unsubstantial ?audience) (within-voice ?audience ?msg)))
       (effects (maintain-proposal {@self SAY ?msg ?audience})))
     (try
+      (when (is-a ?audience [k human]))
       (effects (maintain-proposal {@self go-to ?audience})))))

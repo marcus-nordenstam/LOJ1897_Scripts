@@ -5,20 +5,17 @@
 ; wedding / christening) carry milestones to a bounded guest list; this carries
 ; everything else, lossily and slowly.
 ;
-; The host TELLS each co-present friend the freshest spouse / fiancee / lover /
-; child fact that guest has not already heard (per-listener dedup - the tell's aux
-; is the guest). A guest comes to know of people through the host by hearing it -
-; and self-news cascades onward as ordinary gossip. (The old telepathic two-way
+; The host TELLS the conversation he is in, with a friend in it, the freshest piece of his own
+; news that someone in it has not heard: (pick-untold-belief /news ?talk) picks it over the
+; (facets news_worthy) labels in their (tell-rank) order, skipping what the listeners are party
+; to or were told in his hearing. A guest comes to know of people through the host by hearing
+; it - and self-news cascades onward as ordinary gossip. (The old telepathic two-way
 ; (exchange-news) is gone; the reciprocal half is each guest's OWN catch-up.)
 ;
 ; An ACT (tell), but kept here as an occasion (the host life-aim / parent gate is
 ; the party framing; the friend tie is the guest list). Fired by the per-NPC
 ; emergent pass MONTHLY, so the host (chance) is /12 (the *0.0667 wrapper) to hold
 ; the old annual party volume.
-;
-; Topology: @self (the host) is enumerated (gated by chance); ?guest is a friend of
-; the host who is ALSO co-present (the location join). The friend filter already
-; excludes infants (no friends), so no age gate is needed.
 ; ----------------------------------------------------------------------------
 
 
@@ -34,26 +31,18 @@
               (or {@self life-aim belonging-aim}
                   {@self life-aim respectability-aim}
                   {@self identity parent-role})
-    ; A CO-PRESENT friend (the party guest actually in the room): the friend tie is the
-    ; guest list; co-presence (objective room occupancy) is who is here to be told.
-    (role ?guest {?guest isa [k human], condition [k alive]}
-                 {@self friend ?guest}
-                 (spatial ?guest co-located @self)
+    ; The conversation @self is in, with a friend of his in it: the friend tie is the guest list.
+    (role ?talk {?talk participant @self} {?talk venue ?}
+      (role ?guest {?talk participant ?guest} {@self friend ?guest}
+        (bind (pick-untold-belief /news ?talk) ?news)
 
-      ;; Non-belief gate, not a @self role filter: enthusiasm-scaled chance, multiplicative
-      ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly
-      ;; cadence, rolled once per host per month.
-      (when (chance (* 0.0667 ?enthusiasm)))
+        ;; Non-belief gate, not a @self role filter: enthusiasm-scaled chance, multiplicative
+        ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly
+        ;; cadence, rolled once per host per month.
+        (when (and (substantial ?news) (chance (* 0.0667 ?enthusiasm))))
 
-      (declare-utility want)
+        (declare-utility want)
 
-      (effects
-        ; Tell ?guest ONE piece of the host's own news they have not heard. for-each-present-tense-belief
-        ; binds each matched belief as ?belief; the dedup is PER-GUEST - the tell's aux is
-        ; the listener, so {@self tell <msg> ?guest /succ} is "have I told THIS guest this".
-        (for-each ?belief (every {@self spouse|fiancee|lover|child ?})
-          (do
-            (utterable-msg [] ?belief): ?msg
-            (if -{@self tell ?msg ?guest /succ}
-                (then (maintain-proposal {@self tell ?msg ?guest}) (break)))))
-        ))))
+        (effects
+          (utterable-msg [] ?news): ?msg
+          (maintain-proposal {@self tell ?msg ?talk} /quit-trying-on-fail))))))

@@ -7,8 +7,9 @@
 ; @self faces ?partner, stands with him and answers what he asks: "I don't know" when he does
 ; not know, and a refusal when the answer is closer than he holds ?partner (withholds). With an
 ; ?agenda he says it, waits for the answer when it asks something, and takes his leave
-; (tasks/take-leave-task.mc). Every line is said through tell. It is over, a success, when his
-; own entry no longer names ?partner - whoever ended it.
+; (tasks/take-leave-task.mc). Every line is said through tell. It is over, a success, when
+; ?partner is no longer in his conversation - whoever ended it; left alone in it, he leaves it
+; too, which releases it.
 ;
 ; The rungs run together by design: turning and looking hold the head while the lines take
 ; the mouth, one tell at a time.
@@ -31,8 +32,17 @@
   (and
     (try
       (lint-waive cacheable-read-in-when)
-      (when (not (conversing-with @self ?partner)))
+      (when (and (not (conversing-with @self ?partner))
+                 (or (unsubstantial (conversation-of @self)) (other-party-in (conversation-of @self)))))
       (effects (set-outcome ?converse /succ)))
+    (try
+      (lint-waive cacheable-read-in-when)
+      (when (and (not (conversing-with @self ?partner))
+                 (substantial (conversation-of @self))
+                 (not (other-party-in (conversation-of @self)))))
+      (effects
+        (leave-conversation)
+        (set-outcome ?converse /succ)))
 
     (try
       (lint-waive cacheable-read-in-when)

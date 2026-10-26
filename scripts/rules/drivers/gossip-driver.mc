@@ -1,21 +1,14 @@
 ; ----------------------------------------------------------------------------
-; gossip (think). @self picks ONE co-present listener and the single most
-; gossip-worthy thing @self knows about a THIRD PARTY - a witnessed scandal
-; preferred over mere relationship news, and not already aired to that listener -
-; and PROPOSES the telling. the shared say_to act says it aloud.
+; gossip (driver). In a conversation, @self tells the talk the single most gossip-worthy thing
+; he knows about a THIRD PARTY that someone in it is not presumed to know: (pick-untold-belief
+; /gossip ?talk) picks it, over the (facets gossip_worthy) labels in their (tell-rank) order -
+; a witnessed scandal before relationship news - skipping what the listeners are party to or
+; were told in his hearing, and never a fact @self is the victim of. The tell is to the
+; conversation, so every party hears it, and a listener who hears it files the subject as an
+; acquaintance - which is what lets a scandal cascade outward through his network.
 ;
-; ?x (gossiped ABOUT) is drawn by roulette from the people @self knows of; ?ear (the
-; listener) from whoever shares @self's room (the location JOIN, cf. introduce.mc).
-; for-each-present-tense-belief walks @self's OWN beliefs about ?x (the DEFAULT subject-anchored
-; read - @self's own mind, never telepathy) in label-PRIORITY order (scandal labels
-; first, so a scandal outranks relationship news), skips any already in a {@self tell
-; ... ?ear /succ} memory (per-listener dedup), and applies the shame-seal - @self does not
-; air a fact in which @self is the victim ((not (= ?tgt @self))). (break) stops at
-; the first tellable fact and proposes it. A listener who hears it files ?x as an
-; acquaintance - which is what lets a scandal cascade outward through ?x's network.
-;
-; Fired MONTHLY: the (chance) is extraversion + assertiveness weighted
-; on top of the has-a-friend gate. Proposing nothing is a safe no-op.
+; Fired MONTHLY: the (chance) is extraversion + assertiveness weighted on top of the
+; has-a-friend gate. Picking nothing proposes nothing.
 ; ----------------------------------------------------------------------------
 
 
@@ -26,32 +19,18 @@
   (role @self {@self enthusiasm ?enthusiasm}
               {@self assertiveness ?assertiveness}
               {@self age ?age} {@self friend ?}
-    ; The person gossiped ABOUT: someone @self knows of, drawn by roulette.
-    (role ?x {?x isa [k human], condition [k alive]}
-             (select (score 1) (policy roulette))
-      ; The LISTENER: a co-present person (objective room occupancy), drawn by roulette.
-      (role ?ear {?ear isa [k human], condition [k alive]}
-                 (spatial ?ear co-located @self)
-                 (select (score 1) (policy roulette))
+    ; The conversation @self is in: he takes part, and it is being held.
+    (role ?talk {?talk participant @self} {?talk venue ?}
+      (bind (pick-untold-belief /gossip ?talk) ?news)
 
-        ; Non-belief gates (not role filters): don't gossip to ?x about themselves (a cross-
-        ; role equality, so it lives in (when), not a cacheable role filter), extraversion +
-        ; assertiveness weighted chance, and the minimum-age check.
-        (when (and (!= ?ear ?x)
-                   (chance (* 0.3
-                              (+ 0.5 ?enthusiasm)
-                              (+ 0.5 ?assertiveness)))
-                   (>= ?age 12)))
+      (when (and (substantial ?news)
+                 (chance (* 0.3
+                            (+ 0.5 ?enthusiasm)
+                            (+ 0.5 ?assertiveness)))
+                 (>= ?age 12)))
 
-        (declare-utility want)
+      (declare-utility want)
 
-        (effects
-          ; Label order IS priority: scandal acts, then the death-story, then relationship
-          ; news. ?news is the matched fact; ?tgt its target (the shame-seal check).
-          (for-each ?news (every {? disinherit|insult|outdo|public-humiliation|seduce|expose|confront-publicly|divorce|prototype|condition|circumstance-of-death|spouse|fiancee|lover|child ?})
-            (do
-              (bind ?news.target ?tgt)
-              (utterable-msg [] ?news): ?msg
-              (if (and (or (not (is-object ?tgt)) (!= ?tgt @self))
-                       -{@self tell ?msg ?ear /succ})
-                  (then (maintain-proposal {@self tell ?msg ?ear}) (break))))))))))
+      (effects
+        (utterable-msg [] ?news): ?msg
+        (maintain-proposal {@self tell ?msg ?talk} /quit-trying-on-fail)))))
