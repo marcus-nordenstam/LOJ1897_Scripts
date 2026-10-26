@@ -1,13 +1,13 @@
 ; ----------------------------------------------------------------------------
-; conversation-roster-leave (think). A party of my talk whose public (conversing ..) no longer
-; names it has left: his part in it ends in my mind. His leave-taking, heard, is what re-tests the
-; board. Rejoining begins a new part (conversation-roster-join).
+; conversation-roster-leave (think). A participant of a talk whose public (conversing ..) no
+; longer names it has left: his part in it ends in my mind, whether I am still in it or not, so
+; nobody I knew in a talk stays in it in my mind after he has gone. Rejoining begins a new part
+; (conversation-roster-join).
 ; ----------------------------------------------------------------------------
 
 (think conversation-roster-leave
-  (role ?talk {?talk participant @self} {?talk venue ?}
+  (role ?talk [k conversation] {?talk participant ?}
     (role ?party {?talk participant ?party}
-                 {?party SAY ? ? /past}
                  (neq ?party @self)
-                 (not (in-conversation ?party ?talk))
+      (when (not (in-conversation ?party ?talk)))
       (effects (end-belief {?talk participant ?party})))))

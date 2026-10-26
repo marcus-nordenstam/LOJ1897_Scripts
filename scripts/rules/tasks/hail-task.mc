@@ -20,9 +20,11 @@
         (then (join-conversation ?theirs))
         (else (open-conversation))))
   (cease
-    (if (conversing-with ?partner @self)
-        (then (set-outcome ?hail /succ))
-        (else (leave-conversation))))
+    (if (not (engaged-with ?partner))
+        (then
+          (if (and (conversing-with ?partner @self) (said-to-me-since ?partner ?hail))
+              (then (set-outcome ?hail /succ))
+              (else (leave-conversation))))))
   (and
     (try
       (when (not (standing-before ?partner)))

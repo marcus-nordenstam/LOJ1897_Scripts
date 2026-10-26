@@ -10,12 +10,13 @@
 ; A CONVERSATION is ONE object, shared (share-object): the opener invents it, and every party
 ; holds his own copy of it, linked to the one the world keeps. The live contract is on the public
 ; blackboard: each party's (conversing ..) names the conversation while he takes part, and the
-; conversation's own board holds its venue, which keeps it alive. Fellow participants are the
-; parties whose entry names the same conversation - object identity, nothing more. Each party
-; clears his own entry when he leaves (leave-conversation), and the last to leave clears the
-; conversation's board, which releases it. What a man knows of a talk is his own beliefs:
-; {<talk> participant <party>} for each party, one interval per spell, {<talk> venue <space>}
-; over its span, {<talk> occasion <occasion>} when it is part of one.
+; conversation's own board records whose entries name it - its parties, as the world has them
+; (parties-of), which is the one answer every mind reads to who is in it. Each party clears his
+; own entry when he leaves (leave-conversation); the entries are what keep the conversation, so
+; when the last is cleared nothing names it and the world lets it go. What a man knows of a talk
+; is his own beliefs, kept to the board: {<talk> participant <party>} for each party, one
+; interval per spell (conversation-roster-join / -leave), {<talk> venue <space>} while he is in
+; it, {<talk> occasion <occasion>} when it is part of one.
 ;
 ; A HAIL is a (formulaic opening-phrase ..) said to @self by a man whose (conversing ..) names a
 ; conversation @self is not in. It is always answered, and how is his choice: he takes up the
@@ -159,6 +160,17 @@
         (then (bind @true ?open) (break))))
   ?open)
 
+; (engaged-with ?partner) - @self and ?partner talk together: both are in one conversation, and
+; since @self joined it a hail between them has been answered - his hail taken up, or ?partner's
+; taken up by him. Being in one talk with a man is not yet talking to him.
+(define-func engaged-with (?partner)
+  (bind (conversation-of @self) ?talk)
+  (bind (any {?talk participant @self}) ?part)
+  (and (substantial ?talk)
+       (in-conversation ?partner ?talk)
+       (or (any-happened-since (every {@self hail ?partner /succ}) ?part)
+           (any-happened-since (every {@self take-up ?partner /succ}) ?part))))
+
 ; (invited-by ?caller) - ?caller is in a conversation, the one @self is in or another, and his
 ; hail stands unanswered: it is @self's to answer. A hail answered stays answered until he calls
 ; again.
@@ -178,37 +190,48 @@
   (if (and (substantial ?occasion) (unsubstantial (any {?talk occasion ?})))
       (then (begin-belief {?talk occasion ?occasion}))))
 
-; (open-conversation) - @self opens a conversation where he stands: a new shared object, its
-; venue on its board, and himself in it. The conversation it returns is what his hail names.
+; (open-conversation) - @self opens a conversation where he stands: a new shared object, and
+; himself in it. The conversation it returns is what his hail names.
 (define-func open-conversation ()
   (share-object (o /invent [k conversation])): ?talk
-  (bb-public-write ?talk venue (spatial @self space))
   (join-conversation ?talk)
   ?talk)
 
-; (other-party-in ?talk) - a party @self knows to be in ?talk, besides himself, still has his
-; entry naming it.
+; (parties-of ?talk) - every party in ?talk: those whose (conversing ..) names it.
+(define-func parties-of (?talk)
+  (bb-public-every ? conversing ?talk))
+
+; (other-party-in ?talk) - a party besides @self is in ?talk.
 (define-func other-party-in (?talk)
   (bind @false ?still)
-  (for-each ?party (every {?talk participant ?})
-    (bind ?party.target ?who)
-    (if (and (neq ?who @self) (in-conversation ?who ?talk))
+  (for-each ?party (parties-of ?talk)
+    (if (neq ?party @self)
         (then (bind @true ?still) (break))))
   ?still)
 
-; (leave-conversation) - @self leaves the conversation his entry names: the entry clears and
-; his part in it ends; the last to leave ends its venue and clears its board, which releases
-; it.
+; (roster-lacks ?talk) - a party in ?talk is not yet a participant of it in @self's mind.
+(define-func roster-lacks (?talk)
+  (bind @false ?lacks)
+  (for-each ?party (parties-of ?talk)
+    (if (unsubstantial (any {?talk participant ?party}))
+        (then (bind @true ?lacks) (break))))
+  ?lacks)
+
+; (roster-add ?talk) - every party in ?talk takes part in it from now in @self's mind.
+(define-func roster-add (?talk)
+  (for-each ?party (parties-of ?talk)
+    (if (unsubstantial (any {?talk participant ?party}))
+        (then (begin-belief {?talk participant ?party})))))
+
+; (leave-conversation) - @self leaves the conversation his entry names: the entry clears, and
+; his part in it and his knowing where it is held end.
 (define-func leave-conversation ()
   (bind (bb-public-read @self conversing) ?talk)
   (if (substantial ?talk)
       (then
         (bb-public-clear @self conversing)
         (end-belief {?talk participant @self})
-        (if (not (other-party-in ?talk))
-            (then
-              (end-belief {?talk venue ?})
-              (bb-public-clear ?talk venue))))))
+        (end-belief {?talk venue ?}))))
 
 ; (agenda-answered ?partner ?agenda ?converse) - ?agenda has been told to ?partner in
 ; ?converse, and, when it asked something, he has answered since.
@@ -244,25 +267,20 @@
 ; (player-hail ?npc ?authority) - the player opens a conversation with ?npc, or joins the one
 ; ?npc is in: his own (conversing ..) names it, and the answer is the line he hails him with -
 ; plainly, or, when ?authority names the kind of his job, introducing himself by it. The player
-; holds no beliefs, so his conversation is the shared object alone, its venue on its board.
+; holds no beliefs, so his conversation is the shared object alone, kept by his entry.
 (define-func player-hail (?npc ?authority)
   (bind (bb-public-read ?npc conversing) ?theirs)
   (if (substantial ?theirs)
       (then (bb-public-write @self conversing ?theirs))
       (else
         (share-object (o /invent [k conversation])): ?talk
-        (bb-public-write ?talk venue (spatial @self space /env))
         (bb-public-write @self conversing ?talk)))
   (if (is-kind ?authority)
       (then (formulaic [] opening-phrase authority ?authority))
       (else (formulaic [] opening-phrase player_talk))))
 
 ; (player-leave-taking ?npc) - the player leaves the conversation with ?npc, and the answer is
-; the line he takes his leave with. His entry clears; the conversation's board clears with it
-; when ?npc has left too, or never joined.
+; the line he takes his leave with. His entry clears.
 (define-func player-leave-taking (?npc)
-  (bind (bb-public-read @self conversing) ?talk)
   (bb-public-clear @self conversing)
-  (if (and (substantial ?talk) (not (in-conversation ?npc ?talk)))
-      (then (bb-public-clear ?talk venue)))
   (formulaic [] leave_taking player_bye))

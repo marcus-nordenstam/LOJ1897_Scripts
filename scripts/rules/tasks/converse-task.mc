@@ -59,9 +59,11 @@
                  -{@self tell ?agenda ?partner /past /caused_by ?converse}))
       (effects (maintain-proposal {@self tell ?agenda ?partner})))
     (try
-      (when (and (substantial ?agenda)
-                 (agenda-answered ?partner ?agenda ?converse)))
-      (effects (maintain-proposal {@self take-leave ?partner})))
+      (role ?partner {?partner SAY ? @self /past}:?said
+                     (happened-since ?said ?converse)
+        (when (and (substantial ?agenda)
+                   (agenda-answered ?partner ?agenda ?converse)))
+        (effects (maintain-proposal {@self take-leave ?partner}))))
 
     (try
       (lock)
