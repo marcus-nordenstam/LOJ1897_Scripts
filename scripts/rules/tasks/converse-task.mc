@@ -66,7 +66,8 @@
     (try
       (lock)
       (role ?partner {?partner SAY ? @self /past}
-                     {?partner SAY (qs ? ? ?..):?qs @self /past}:?asked
+                     {?partner SAY ?qs @self /past}:?asked
+                     (is-qs ?qs)
                      -{@self tell ? ?partner /succ /caused_by ?asked}
         (when (happened-since ?asked ?converse)
               (withholds ?qs ?partner))
@@ -74,7 +75,8 @@
     (try
       (lock)
       (role ?partner {?partner SAY ? @self /past}
-                     {?partner SAY (qs ? ? ?..):?qs @self /past}:?asked
+                     {?partner SAY ?qs @self /past}:?asked
+                     (is-qs ?qs)
                      -{@self tell ? ?partner /succ /caused_by ?asked}
         (when (happened-since ?asked ?converse)
               (not (withholds ?qs ?partner)))
