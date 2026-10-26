@@ -37,4 +37,5 @@
   (expect (in-mind ?cook (= (count (every {? participant ? /ever})) 3)) "c02: she does not know three in one talk")
   (expect (in-mind ?first (substantial (any {? participant ? /ever}))) "c02: the first knows no talk")
   (expect (in-mind ?second (substantial (any {? participant ? /ever}))) "c02: the second knows no talk")
-  (expect (unsubstantial (bb-public-read ?cook conversing)) "c02: her entry still names a talk"))
+  (expect (unsubstantial (bb-public-read ?cook conversing)) "c02: her entry still names a talk")
+  (expect (in-mind ?cook (= (spoken-over) 0)) "c02: two men spoke to her at once"))

@@ -32,7 +32,11 @@
   ; anyone else hears this at all, and the VOICE - the words rendered, the visemes cut,
   ; the jaw driven, the subtitle put up. Effects run every frame while the audio plays
   ; and would say it again each time.
+  ; Nobody is spoken to by two men at once: tell marked the listener his before proposing this
+  ; (claim-addressees, funcs/conversation.mc), and a claim lost to another man was decided
+  ; before anything started.
   (init
+    (check (holds-address ?audience))
     (if (presented-lod)
         (then (deliver-speech ?xsay)
               (speak-aloud @self ?msg))))

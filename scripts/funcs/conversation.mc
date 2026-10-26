@@ -161,6 +161,66 @@
   (bind (bb-public-read ?party conversing) ?talk)
   (and (substantial ?talk) (in-conversation ?partner ?talk)))
 
+; A man being spoken to carries the speaker's mark on his public board (addressed) while a line
+; to him is being said, and a line said to a conversation marks the conversation: nobody is ever
+; spoken to by two men at once, while men speak at once to different listeners freely. tell
+; claims the mark when it proposes the SAY (claim-addressees) and clears it however it ends
+; (release-addressees); a tell whose listener is spoken to waits (free-to-address), woken by the
+; clear. Two men claiming one listener in one deliberation round is decided by the claim itself:
+; the loser thinks again on the board the winner left. SAY asserts it holds the mark (holds-address).
+
+; (addressed-by-another ?x) - a man other than @self is speaking to ?x now.
+(define-func addressed-by-another (?x)
+  (if (substantial ?x)
+      (then (and (not (bb-public-none ?x addressed))
+                 (unsubstantial (bb-public-any ?x addressed @self))))
+      (else @false)))
+
+; (party-addressed ?talk) - a party of ?talk besides @self is being spoken to by another.
+(define-func party-addressed (?talk)
+  (bind @false ?addressed)
+  (for-each ?party (parties-of ?talk)
+    (if (and (neq ?party @self) (addressed-by-another ?party))
+        (then (bind @true ?addressed) (break))))
+  ?addressed)
+
+; (free-to-address ?audience) - nobody else is speaking to anyone @self would speak to: a man and
+; the talk he is in, or a talk and every party of it. A broadcast addresses nobody.
+(define-func free-to-address (?audience)
+  (cond
+    (case (unsubstantial ?audience) @true)
+    (case (is-a ?audience [k conversation])
+          (and (not (addressed-by-another ?audience)) (not (party-addressed ?audience))))
+    (else (and (not (addressed-by-another ?audience))
+               (not (addressed-by-another (conversation-of ?audience)))))))
+
+; (holds-address ?audience) - @self may say a line to ?audience: it is a broadcast, or his mark
+; is on it.
+(define-func holds-address (?audience)
+  (if (substantial ?audience)
+      (then (substantial (bb-public-any ?audience addressed @self)))
+      (else @true)))
+
+; (claim-addressees ?audience) - @self marks ?audience as spoken to, @true, or leaves it as it was,
+; @false, when another man is speaking to it or to anyone it reaches. A mark already his stands.
+(define-func claim-addressees (?audience)
+  (bind @true ?claimed)
+  (if (and (substantial ?audience) (not (holds-address ?audience)))
+      (then
+        (bind (substantial (bb-public-try-write-new ?audience addressed @self)) ?claimed)
+        (if (and ?claimed (not (free-to-address ?audience)))
+            (then
+              (release-addressees ?audience)
+              (bind @false ?claimed)))))
+  ?claimed)
+
+; (release-addressees ?audience) - @self's mark on ?audience clears; another man's stays.
+(define-func release-addressees (?audience)
+  (if (substantial ?audience)
+      (then
+        (if (substantial (bb-public-any ?audience addressed @self))
+            (then (bb-public-clear ?audience addressed))))))
+
 ; (unanswered-hail ?caller) - an opening ?caller called to @self stands unanswered: @self has
 ; neither taken him up nor turned him down since he called it.
 (define-func unanswered-hail (?caller)
