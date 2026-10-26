@@ -76,7 +76,7 @@
               (effects
                 (maintain-proposal
                   {@self write-doc ?ltr
-                         (written-msg [/addressee ?paramour_name /address ?her-address /author ?author_name]
+                         (msg /written [/addressee ?paramour_name /address ?her-address /author ?author_name]
                                       {@i lover ?paramour_name})}))))
 
           ; The monthly writer rate gates the MAKING alone - once a letter exists it is finished off

@@ -43,7 +43,7 @@
               (effects
                 (maintain-proposal
                   {@self write-doc ?ltr
-                         (written-msg [/addressee ?betrayed-name /address ?cheater-address /author ?author_name]
+                         (msg /written [/addressee ?betrayed-name /address ?cheater-address /author ?author_name]
                                       {?cheater_name lover @i})}))))
 
           (try

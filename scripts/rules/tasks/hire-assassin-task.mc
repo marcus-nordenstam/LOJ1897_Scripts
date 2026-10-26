@@ -31,7 +31,7 @@
       (try
         (when (or (spatial ?killer co-located @self) (spatial ?killer space)))
         (declare-utility always-pick)
-        (effects (maintain-proposal {@self tell (utterable-msg [] {@self intent {@self kill ?victim}} {?killer kill ?victim}) ?killer})))
+        (effects (maintain-proposal {@self tell (msg /utterable [] {@self intent {@self kill ?victim}} {?killer kill ?victim}) ?killer})))
 
       ; CONCLUDE once the solicitation has been spoken.
       (try

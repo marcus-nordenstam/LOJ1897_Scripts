@@ -38,7 +38,7 @@
               (effects
                 (any {?job job-id ?line})
                 (kind ?job): ?jk
-                (utterable-msg [] {@i name ?myname}
+                (msg /utterable [] {@i name ?myname}
                                {@i accept-job-offer (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
                 (check ?msg)
                 (maintain-proposal {@self tell ?msg ?officer})))))
@@ -47,7 +47,7 @@
         (try
           (role ?officer [k human] {?officer recruit-staff ?}
                                    (spatial ?officer co-located @self)
-                                   -{?officer SAY (utterable-msg ? {? job ?}) @self /succ}
+                                   -{?officer SAY (msg ? {? job ?}) @self /succ}
             (role @self {@self tell ? ?officer /succ /caused_by ?accept-job-offer}
               (effects (maintain-proposal {@self DWELL ?wp (+ (time hour) 1)})))))
 
@@ -57,7 +57,7 @@
         ; and that the premises are now his to be in.
         (try
           (role ?officer [k human] {?officer recruit-staff ?}
-                                   {?officer SAY (utterable-msg ? {? job ?}) @self /succ}
+                                   {?officer SAY (msg ? {? job ?}) @self /succ}
             (role @self {@self tell ? ?officer /succ /caused_by ?accept-job-offer}
                         {@self job ?job}
               (effects

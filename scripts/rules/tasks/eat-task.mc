@@ -62,7 +62,7 @@
                     (for-each ?supper-hour (every {?home supper-hour ?})
                         (bind ?supper-hour.target ?s)
                         (maintain-proposal
-                          {@self tell (utterable-msg [] {?home breakfast-hour ?b}
+                          {@self tell (msg /utterable [] {?home breakfast-hour ?b}
                                                     {?home lunch-hour ?l}
                                                     {?home supper-hour ?s}) _}))))))))
     (try
@@ -72,5 +72,5 @@
         (bind (pick-untold-belief /news ?talk) ?news)
         (when (and (at-meal-place ?place) (substantial ?news)))
         (effects
-          (utterable-msg [] ?news): ?msg
+          (msg /utterable [] ?news): ?msg
           (maintain-proposal {@self tell ?msg ?talk} /quit-trying-on-fail))))))

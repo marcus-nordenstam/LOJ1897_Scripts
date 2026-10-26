@@ -14,4 +14,4 @@
         (begin-belief {@self fiancee ?partner})
         (set-outcome ?propose-marriage /succ)))
     (try
-      (effects (maintain-proposal {@self tell (utterable-msg [] {@self fiancee ?partner}) ?partner})))))
+      (effects (maintain-proposal {@self tell (msg /utterable [] {@self fiancee ?partner}) ?partner})))))

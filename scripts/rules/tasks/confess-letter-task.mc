@@ -43,7 +43,7 @@
           (effects
             (maintain-proposal
               {@self write-doc ?ltr
-                     (written-msg [/addressee ?kin-name /address ?kin-address]
+                     (msg /written [/addressee ?kin-name /address ?kin-address]
                                   {@i lover ?partner-name})})))))
 
     (try

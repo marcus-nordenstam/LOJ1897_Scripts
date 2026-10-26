@@ -20,7 +20,7 @@
     (try
       (when (and {@self BURY ?corpse /succ /caused_by ?bury}
                  -{@self tell ? /succ /caused_by ?bury}))
-      (effects (maintain-proposal {@self tell (utterable-msg [] {?corpse internment [k buried]}) _})))
+      (effects (maintain-proposal {@self tell (msg /utterable [] {?corpse internment [k buried]}) _})))
     (try
       (when {@self tell ? /succ /caused_by ?bury})
       (effects (set-outcome ?bury /succ)))))

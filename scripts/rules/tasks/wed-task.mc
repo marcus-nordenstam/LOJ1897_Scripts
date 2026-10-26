@@ -21,7 +21,7 @@
                     (spatial @self building ?venue)
           (when (and (hours (- ?start (attend-prep-lead)) ?end)
                      -{@self tell (msg ? {@self spouse ?partner}) ?partner /succ}))
-          (effects (maintain-proposal {@self tell (utterable-msg [] {@self spouse ?partner}) ?partner}))))
+          (effects (maintain-proposal {@self tell (msg /utterable [] {@self spouse ?partner}) ?partner}))))
       (try
         (role @self {@self fiancee ?partner} (none {@self spouse @something})
                     (not (spatial @self building ?venue))

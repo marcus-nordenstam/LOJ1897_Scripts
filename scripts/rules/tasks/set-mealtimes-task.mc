@@ -13,7 +13,7 @@
       (try
         (role @self -{@self tell ? _ /succ /caused_by ?set-mealtimes}
           (effects
-            (maintain-proposal {@self tell (utterable-msg [] {?home breakfast-hour (household-breakfast-hour)}
+            (maintain-proposal {@self tell (msg /utterable [] {?home breakfast-hour (household-breakfast-hour)}
                                                           {?home lunch-hour (household-lunch-hour)}
                                                           {?home supper-hour (household-supper-hour)}) _}))))
       (try

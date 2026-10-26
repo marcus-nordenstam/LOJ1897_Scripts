@@ -9,7 +9,7 @@
   (and
     (try
       (role @self -{@self tell ? ?lover /succ /caused_by ?break-off}
-        (effects (maintain-proposal {@self tell (utterable-msg [] {@self jilt ?lover}) ?lover}))))
+        (effects (maintain-proposal {@self tell (msg /utterable [] {@self jilt ?lover}) ?lover}))))
     (try
       (role @self {@self tell ? ?lover /succ /caused_by ?break-off}
         (effects

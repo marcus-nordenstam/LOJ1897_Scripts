@@ -32,7 +32,7 @@
         (bind (bb-read ?coerce told) ?told)
         (bind (+ ?told (seconds (threat_grace_days) d)) ?deadline)
         (maintain-proposal
-          {@self tell (utterable-msg []
+          {@self tell (msg /utterable []
                         {@self threaten ?victim
                           (consequence -{?victim pay @self /during ?told ?deadline} {@self expose ?victim} ?deadline)})
                       ?victim})))

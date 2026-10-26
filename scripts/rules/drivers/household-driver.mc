@@ -111,7 +111,7 @@
           (try
             (when (conversing-with @self ?cook) (conversing-with ?cook @self))
             (effects
-              (utterable-qs [] {?home supper-hour ?}): ?qs
+              (qs /utterable [] {?home supper-hour ?}): ?qs
               (maintain-proposal {@self converse ?cook ?qs}))))))))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the

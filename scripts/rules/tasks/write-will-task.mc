@@ -5,7 +5,7 @@
 ; The COMPOSING lives here, with the proposal, never in the WRITE action: an action
 ; may not compose a message, because the composed message is what the act carries and
 ; the task is what knows the sentence. A will is a WRITTEN MESSAGE, not a record - the
-; bequest rides as (written-msg ..) and the named heir reads it back after the death.
+; bequest rides as (msg /written ..) and the named heir reads it back after the death.
 ;
 ; The bequest clause names the testator's coin pile. A pile is nameless and fungible,
 ; so it is described by WHERE it stands: the interior space of @self's home building.
@@ -37,7 +37,7 @@
       (effects
         (if (unsubstantial (attr ?will writing))
             (then (maintain-proposal {@self write-doc ?will
-                    (written-msg [/author ?my-name]
+                    (msg /written [/author ?my-name]
                                  {?heir inherit (o [k pile] {@self own @o}) @self})})))))
 
     (stage

@@ -44,5 +44,5 @@
         (declare-utility want)
 
         (effects
-          (utterable-msg [] ?news): ?msg
+          (msg /utterable [] ?news): ?msg
           (maintain-proposal {@self tell ?msg ?talk} /quit-trying-on-fail))))))

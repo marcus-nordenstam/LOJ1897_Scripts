@@ -16,7 +16,7 @@
 (define-func catch-up-news-for (?guest)
   (bind @nothing ?untold)
   (for-each ?belief (every {@self spouse|fiancee|lover|child|home|mother|father|sibling|friend|nationality ?})
-    (utterable-msg [] ?belief): ?msg
+    (msg /utterable [] ?belief): ?msg
     (if -{@self tell ?msg ?guest /succ}
         (then (bind ?msg ?untold)
               (break))))

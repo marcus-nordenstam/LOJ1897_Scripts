@@ -24,7 +24,7 @@
       (when (spatial ?partner co-located @self))
       (effects
         (if -{@self tell ? ?partner /succ /caused_by ?divorce}
-            (then (maintain-proposal {@self tell (utterable-msg [] {@self /not spouse ?partner}) ?partner})))))
+            (then (maintain-proposal {@self tell (msg /utterable [] {@self /not spouse ?partner}) ?partner})))))
     (stage
       (effects
         (end-belief {@self spouse ?partner})

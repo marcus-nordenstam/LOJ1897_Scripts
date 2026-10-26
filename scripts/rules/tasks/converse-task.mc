@@ -66,8 +66,7 @@
     (try
       (lock)
       (role ?partner {?partner SAY ? @self /past}
-                     {?partner SAY ?qs @self /past}:?asked
-                     (is-qs ?qs)
+                     {?partner SAY (qs ? ? ?..):?qs @self /past}:?asked
                      -{@self tell ? ?partner /succ /caused_by ?asked}
         (when (happened-since ?asked ?converse)
               (withholds ?qs ?partner))
@@ -75,11 +74,10 @@
     (try
       (lock)
       (role ?partner {?partner SAY ? @self /past}
-                     {?partner SAY ?qs @self /past}:?asked
-                     (is-qs ?qs)
+                     {?partner SAY (qs ? ? ?..):?qs @self /past}:?asked
                      -{@self tell ? ?partner /succ /caused_by ?asked}
         (when (happened-since ?asked ?converse)
               (not (withholds ?qs ?partner)))
         (effects
           (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
-          (maintain-proposal {@self tell (utterable-msg [] ?answer) ?partner} /caused_by ?asked))))))
+          (maintain-proposal {@self tell (msg /utterable [] ?answer) ?partner} /caused_by ?asked))))))

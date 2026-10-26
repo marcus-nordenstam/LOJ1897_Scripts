@@ -11,7 +11,7 @@
     (stage
       (effects
         (if -{@self tell ? ?protege /succ /caused_by ?sponsor}
-            (then (maintain-proposal {@self tell (utterable-msg [] {?protege backed-by @self}) ?protege})))))
+            (then (maintain-proposal {@self tell (msg /utterable [] {?protege backed-by @self}) ?protege})))))
     (stage
       (effects
         (begin-belief {?protege backed-by @self})

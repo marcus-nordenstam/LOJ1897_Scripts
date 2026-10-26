@@ -36,7 +36,7 @@
       (when (or (spatial ?victim co-located @self) (spatial ?victim space)))
       (declare-utility always-pick)
       (effects
-        (maintain-proposal {@self tell (utterable-msg [] {@self disinherit ?victim}) ?victim})))
+        (maintain-proposal {@self tell (msg /utterable [] {@self disinherit ?victim}) ?victim})))
 
     ; OUTCOME: the disinheritance was announced.
     (try

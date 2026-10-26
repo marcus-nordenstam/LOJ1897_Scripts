@@ -21,7 +21,7 @@
         (bind (bb-read ?arrange-match told) ?told)
         (bind (+ ?told (seconds (arranged_match_grace_days) d)) ?deadline)
         (maintain-proposal
-          {@self tell (utterable-msg []
+          {@self tell (msg /utterable []
                         {@self threaten ?daughter
                           (consequence -{?daughter wed ?groom /during ?told ?deadline} {@self disinherit ?daughter} ?deadline)}
                         {?groom fiancee ?daughter})
@@ -29,7 +29,7 @@
     (try
       (when (and {@self tell ? ?daughter /succ /caused_by ?arrange-match}
                  -{@self tell ? ?groom /succ /caused_by ?arrange-match}))
-      (effects (maintain-proposal {@self tell (utterable-msg [] {?daughter fiancee ?groom}) ?groom})))
+      (effects (maintain-proposal {@self tell (msg /utterable [] {?daughter fiancee ?groom}) ?groom})))
     (try
       (when (and {@self tell ? ?daughter /succ /caused_by ?arrange-match}
                  {@self tell ? ?groom /succ /caused_by ?arrange-match}))
