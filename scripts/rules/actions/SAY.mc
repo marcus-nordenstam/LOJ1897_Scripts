@@ -24,8 +24,8 @@
   ; SAY form (confide / expose / humiliate / the burial announcement all use it).
   (aux @msgAudience ?)
   ; THE LENGTH IS THE WORDS: the seconds the rendered message takes to say when he is
-  ; presented, and an instant when he is not - one second per utterance across a year of
-  ; conversation is not a second worth moving every appointment in the town for.
+  ; presented, and never under a second for anyone, so no reply shares a second with what it
+  ; answers.
   (duration (utterance-seconds @self ?msg ?audience))
 
   ; A presented say starts here, ONCE: the SOUND, which is the Merlin half and how
