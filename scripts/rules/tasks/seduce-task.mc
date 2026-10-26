@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self seduce ?paramour}:?seduce
+  (facets gossip_worthy) (tell-rank 5)
   (track-skill-level [k seduction])
   (tar [k human] @object)
   (construed-act intimacy-act)

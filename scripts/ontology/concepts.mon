@@ -428,9 +428,18 @@
   ; is {host, date} (a host throws at most one thing per date). The appointment
   ; beliefs that carry it are {@self organize <occ>} (host) and the told copy
   ; of the host's own {<host> invite @self /aux <occ>} (guest).
-  (child occasion
+  (child occasion (grounding-anchors host held-on)
     (decorations (states host venue held-on hours))
     (children dinner-party wedding engagement-party birthday-party sporting-occasion church-service market-day))
+
+  ; Conversations - a talk between people. ONE bodiless abs object, created when the talk
+  ; begins, and every party holds his own mental conversation linked to it. It has no name:
+  ; it is known by who took part ({<conv> participant <npc>}, one interval per spell of
+  ; taking part), where and when ({<conv> venue <space> /i <began> <ended>}) and the
+  ; occasion it was part of ({<conv> occasion <occasion>}), said instead of the venue when
+  ; held. The live contract between the parties is its public bb (funcs/conversation.mc).
+  (child conversation
+    (decorations (states participant venue occasion)))
 
   ; Intoxicants - the abstract substance an NPC can form a `craving` for
   ; (the (drive) block in states.mon) and that the drinking behaviour events
@@ -977,7 +986,7 @@
 
   (children marriage-desirability)
 
-  (children birthplace)
+  (child birthplace (facets news_worthy))
 
   ; Residential / venue knowledge and the apprenticeship bond (subject is a
   ; human). The verb-shaped vocational relations (retire / carrying-loot /

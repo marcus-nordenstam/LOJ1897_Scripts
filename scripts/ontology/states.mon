@@ -125,7 +125,7 @@
 ; continuous stance scalars projecting to infinitive verb-states
 ; (like/admire/distrust/...) in the (stance) block above.
 ; value: a held virtue - the identity / values appraisal input.
-(state value (appraisal_input) (tar ?) (disclosure friend))
+(state value (appraisal_input) (tar ?) (disclosure friend) (facets news_worthy) (tell-rank 26))
 ; justify: a held cognitive narrative that frames a past or
 ; planned act as acceptable.
 ; Target is a `narrative` kind ({@self justify they-deserved-it
@@ -311,11 +311,12 @@
 ; member-of: club / society membership - distinct from employment
 ; (`employer`). Non-exclusive: an NPC may join several.
 (state member-of (tar [k org] @object) (self-known))
-; participant: the roster of a game OBJECT - {<game> participant
-; <person>}. Subject is the game (overriding the block's human
-; default), target a co-player. The inverse, player-side belief is
-; {@self play <game>} (tasks.mon); the two are wired symmetrically
-; per-mind, like family membership.
+; participant: who takes part in a GROUP ACTIVITY object - {<game>
+; participant <co-player>}, {<conversation> participant <party>}. Subject
+; is the activity (overriding the block's human default), target a person;
+; one interval per spell of taking part, so leaving ends it and rejoining
+; begins a new one. The inverse, player-side belief of a game is {@self
+; play <game>} (tasks.mon); the two are wired symmetrically per-mind.
 (state participant (tar [k human] @object))
 ; dwell / work are activity TASKS, not states - they live in
 ; tasks.mon ({@self dwell <home>} / {@self work <org>}).
@@ -334,7 +335,7 @@
 ; form when perceiving a death scene. F2 gossip carries it
 ; village-wide so the staged story crystallizes. @excl -
 ; one held narrative per observer per victim.
-(state circumstance-of-death (tar [k incident] @excl @object))
+(state circumstance-of-death (tar [k incident] @excl @object) (facets gossip_worthy) (tell-rank 11))
 ; suspect: {victim suspect culprit /aux <act-clause>} - whom
 ; the holder believes wronged them, the aux quoting the act
 ; suspected of. Minted when filing a crime report whose
@@ -361,6 +362,8 @@
 ; ---- occasion_agenda ----
 (state host (tar [k human] @object))
 (state venue (tar [k building|space] @object))
+; occasion: the occasion a conversation was part of - {<conversation> occasion <occasion>}.
+(state occasion (tar [k occasion] @object))
 ; `held-on` (the occasion's date), NOT the core temporal `date` relation
 ; (year/month/day/hour/date/...): reusing `date` would impose this
 ; (sub occasion) constraint on every time object's own `date` belief.
@@ -479,16 +482,16 @@
 ; outdo: actor positionally outcompetes patient (won a post
 ; the patient applied for; outbid them at auction; married
 ; the partner they courted).
-(state outdo (appraisal_input) (tar [k human] @object) (aux ?) (construed-act rivalrous-act) (abduct))
+(state outdo (appraisal_input) (tar [k human] @object) (aux ?) (construed-act rivalrous-act) (abduct) (facets gossip_worthy) (tell-rank 3))
 ; public-humiliation: the class-tagged status-injury fact a humiliate
 ; act SAYs aloud ({@self public-humiliation ?victim}); the victim
 ; perceives + construes it (degrade-act cascade). INTERIM content - the
 ; construed-act / barb-content wiring is the deferred follow-up.
-(state public-humiliation (appraisal_input) (tar [k human] @object))
+(state public-humiliation (appraisal_input) (tar [k human] @object) (facets gossip_worthy) (tell-rank 4))
 ; confront-publicly: the status-injury fact an expose act broadcasts
 ; ({@self confront-publicly ?victim}); the expose-chain crime row + the
 ; gossip news ground-alt read it. Sibling of public-humiliation.
-(state confront-publicly (appraisal_input) (tar [k human] @object))
+(state confront-publicly (appraisal_input) (tar [k human] @object) (facets gossip_worthy) (tell-rank 7))
 
 ; Loss-outcome records. NOT tasks - act-RECORDS minted by the
 ; absence-discovery classifier (the hse arrival sweep) when an
@@ -527,8 +530,8 @@
 ;     may crave more than one thing). The target is the craved substance
 ;     kind: {@self craving alcohol}.
 ; ---- drive ----
-(state interest (tar [k domain]) (disclosure acquaintance) (talkable) (motivation) (describe-in interest))
-(state calling (tar [k domain] @excl) (disclosure friend) (motivation))
+(state interest (tar [k domain]) (disclosure acquaintance) (talkable) (motivation) (describe-in interest) (facets news_worthy) (tell-rank 17))
+(state calling (tar [k domain] @excl) (disclosure friend) (motivation) (facets news_worthy) (tell-rank 25))
 (state craving (tar ?) (self-known) (motivation))
 ; forage: the transient food-acquisition goal (meals_think mints
 ; {@self forage}, the food-source desires drive it). A goal-driver
@@ -550,7 +553,7 @@
 ; qualitative shift, so multi-decade life-aim history is
 ; queryable as repeated {@self life-aim ?} beliefs with
 ; non-overlapping intervals. See PR-aim-history.
-(state life-aim (tar [k life-aim]) (disclosure friend) (motivation))
+(state life-aim (tar [k life-aim]) (disclosure friend) (motivation) (facets news_worthy) (tell-rank 27))
 
 ; Derived dimensions (F3.2) - each a single numeric quality, computed
 ; and cached by an F3.5 classifier, never authored by hand (the same
@@ -704,7 +707,7 @@
 (state appropriation-act (tar [k appropriation-act] @object))
 (state availability (tar [k availability] @object @excl))
 (state betray-act (tar [k betray-act] @object))
-(state child (tar [k human] @object) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in children) (talkable) (self-known))
+(state child (tar [k human] @object) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in children) (talkable) (self-known) (facets gossip_worthy news_worthy) (tell-rank 15))
 (state class-situation (tar [k class-situation] @object @excl) (disclosure stranger) (talkable))
 (state coercion-act (tar [k coercion-act] @object))
 (state commitment-act (tar [k commitment-act] @object))
@@ -714,28 +717,28 @@
 (state emotion (tar [k emotion] @object) (episodic) (motivation) (describe-in regard))
 (state employee-register (tar [k employee-register] @object) (obs))
 (state expose-act (tar [k expose-act] @object))
-(state father (tar [k human] @object @excl) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable) (self-known))
-(state fiancee (tar [k human] @object @excl) (exclusive_bond) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in spouse) (talkable) (motivation))
+(state father (tar [k human] @object @excl) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable) (self-known) (facets news_worthy) (tell-rank 21))
+(state fiancee (tar [k human] @object @excl) (exclusive_bond) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in spouse) (talkable) (motivation) (facets gossip_worthy news_worthy) (tell-rank 13))
 (state hair-color-fixation (tar [k color]) (motivation))
 (state eye-color-fixation (tar [k color]))
 (state founder (tar [k human] @object @excl))
-(state friend (tar [k human] @object) (inclusive_bond) (disclosure acquaintance) (closeness friend) (describe-in bonds) (talkable))
+(state friend (tar [k human] @object) (inclusive_bond) (disclosure acquaintance) (closeness friend) (describe-in bonds) (talkable) (facets news_worthy) (tell-rank 23))
 (state half-sibling (tar [k human] @object) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in siblings))
 (state harm-act (tar [k harm-act] @object))
 (state help-act (tar [k help-act] @object))
 (state hiding-spot (tar [k interior-space] @object))
-(state home (tar [k building|unit] @object @excl) (disclosure acquaintance) (talkable))
+(state home (tar [k building|unit] @object @excl) (disclosure acquaintance) (talkable) (facets news_worthy) (tell-rank 19))
 (state honour-act (tar [k honour-act] @object))
-(state insult (tar [k insult] @object) (construed-act slight-act))
+(state insult (tar [k insult] @object) (construed-act slight-act) (facets gossip_worthy) (tell-rank 2))
 (state jilt (tar [k jilt] @object) (construed-act abandonment-act wrong-act))
-(state job (tar [k job] @object) (disclosure stranger) (talkable) (self-known) (motivation) (describe-in occupation))
+(state job (tar [k job] @object) (disclosure stranger) (talkable) (self-known) (motivation) (describe-in occupation) (facets news_worthy) (tell-rank 16))
 (state level (tar [k level] @object @excl))
 (state love (tar ?) (exclusive_bond) (describe-in regard))
-(state lover (tar [k human] @object) (inclusive_bond) (appraisal_input) (disclosure intimate) (closeness intimate) (construed-act intimacy-act) (describe-in spouse) (talkable) (self-known))
+(state lover (tar [k human] @object) (inclusive_bond) (appraisal_input) (disclosure intimate) (closeness intimate) (construed-act intimacy-act) (describe-in spouse) (talkable) (self-known) (facets gossip_worthy news_worthy) (tell-rank 14))
 (state master (tar [k human] @object @excl) (self-known))
 (state membership-roll (tar [k membership-roll] @object) (obs))
-(state mother (tar [k human] @object @excl) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable) (self-known))
-(state nationality (tar [k nationality] @object @excl) (disclosure stranger) (talkable))
+(state mother (tar [k human] @object @excl) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in parents) (talkable) (self-known) (facets news_worthy) (tell-rank 20))
+(state nationality (tar [k nationality] @object @excl) (disclosure stranger) (talkable) (facets news_worthy) (tell-rank 24))
 (state occupant (tar [k human] @object))
 (state org (tar [k org] @object) (disclosure stranger))
 (state owns-building (tar [k building] @object))
@@ -750,10 +753,10 @@
 (state rivalrous-act (tar [k rivalrous-act] @object))
 (state salary (tar ? @excl))
 (state satiety (tar [k satiety] @object @excl) (self-known) (motivation))
-(state sibling (tar [k human] @object) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in siblings) (talkable))
+(state sibling (tar [k human] @object) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance) (closeness close_friend) (describe-in siblings) (talkable) (facets news_worthy) (tell-rank 22))
 (state slight-act (tar [k slight-act] @object))
 (state social-trajectory (tar [k social-trajectory] @object @excl))
-(state spouse (tar [k human] @object @excl) (exclusive_bond) (appraisal_input) (disclosure stranger) (closeness close_friend) (describe-in spouse) (talkable) (self-known))
+(state spouse (tar [k human] @object @excl) (exclusive_bond) (appraisal_input) (disclosure stranger) (closeness close_friend) (describe-in spouse) (talkable) (self-known) (facets gossip_worthy news_worthy) (tell-rank 12))
 (state suffer-loss-act (tar [k suffer-loss-act] @object))
 (state tenant (tar [k human|org] @object @excl))
 (state threaten-act (tar [k threaten-act] @object))
@@ -776,7 +779,7 @@
 (state awareness (tar [k awareness] @excl))
 (state blemish (tar [k blemish]))
 (state color (tar [k color] @excl))
-(state condition (tar [k condition] @excl))
+(state condition (tar [k condition] @excl) (facets gossip_worthy) (tell-rank 10))
 (state death-cause (tar [k death-cause] @excl))
 (state eye-color (tar [k color] @excl))
 (state fog (tar [k strength-measurement] @excl))
@@ -791,7 +794,7 @@
 (state mood (tar [k mood]))
 (state name (tar ?) (disclosure stranger) (talkable))
 (state opening-status (tar [k opening-status] @excl))
-(state prototype (tar [k prototype]))
+(state prototype (tar [k prototype]) (facets gossip_worthy) (tell-rank 9))
 (state rain (tar [k strength-measurement] @excl))
 (state sexual-orient (tar [k sexual-orient] @excl))
 (state sky (tar [k sky-condition] @excl))
