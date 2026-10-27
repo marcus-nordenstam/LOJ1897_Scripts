@@ -466,7 +466,7 @@
         (children will)))
     (child fluid
       (decorations
-        (spatials gripped-by bounds)
+        (spatials gripped-by space bounds)
         (attrs variant fluid-amount taint))
       (population (cap 256) (blocks-spots) (non-occluder))
       (children beer)
@@ -744,14 +744,14 @@
   (child smell (+ per smell) (per smell)
     (decorations
       (attrs create-action)
-      (spatials bounds))
+      (spatials space bounds))
     (population (cap 512) (non-occluder))
     (children cheese-smell fart))
   ; Kinds of sounds
   (child sound (+ per hear) (per hear)
     (decorations
       (attrs create-action speaker preroll)
-      (spatials bounds))
+      (spatials space bounds))
     (population (cap 512) (non-occluder))
     (children squeak speech shout song scream laugh crash boom))
   ; Kinds of spaces
