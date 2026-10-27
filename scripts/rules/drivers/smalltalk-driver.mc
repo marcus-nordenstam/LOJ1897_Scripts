@@ -7,26 +7,22 @@
 ; ----------------------------------------------------------------------------
 
 (driver smalltalk-unease
-  (role ?talk {@self unease ?talk}:?unease
+  (role @self {@self converse ?talk}:?converse {@self unease ?talk}:?unease
     (role ?partner {?talk participant ?partner}
                    (neq ?partner @self)
       (role ?town {?town sky|rain|snow|fog|wind ?}
-        (bind (any {@self converse ?talk}) ?converse)
         (when (and (eq ?town (spatial @self town))
                    (in-conversation ?partner ?talk)
-                   (is-belief ?converse)
                    (substantial (smalltalk-line ?talk))))
         (declare-utility want)
         (effects (maintain-proposal {@self smalltalk ?talk ?partner} /caused_by ~[?converse ?unease]))))))
 
 (driver return-smalltalk
-  (role ?speaker {?speaker SAY (msg ~[/msg-class smalltalk] ?..) @self /past}:?line
-                 -{@self tell ? ?speaker /succ /caused_by ?line}
-    (bind (conversation-of @self) ?talk)
-    (bind (any {?talk participant @self}) ?part)
-    (bind (any {@self converse ?talk}) ?converse)
-    (when (and (conversing-with @self ?speaker)
-               (is-belief ?converse)
-               (happened-since ?line ?part)))
-    (declare-utility obligation)
-    (effects (maintain-proposal {@self smalltalk ?talk ?speaker} /caused_by ~[?converse ?line]))))
+  (role @self {@self converse ?talk}:?converse
+    (role ?speaker {?speaker SAY (msg ~[/msg-class smalltalk] ?..) @self /past}:?line
+                   -{@self tell ? ?speaker /succ /caused_by ?line}
+      (when (and (in-conversation @self ?talk)
+                 (in-conversation ?speaker ?talk)
+                 (happened-since ?line ?converse)))
+      (declare-utility obligation)
+      (effects (maintain-proposal {@self smalltalk ?talk ?speaker} /caused_by ~[?converse ?line])))))

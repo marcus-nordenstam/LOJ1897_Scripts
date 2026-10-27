@@ -7,18 +7,32 @@
 ; proposes this same clause, so it rides the keenest of them.
 ;
 ; It is over, a success, when he is no longer in ?talk; left alone in it, he leaves it, which
-; releases it.
+; releases it. Outcompeted, he is not simply gone: his closing rung says what calls him away and
+; leaves the talk, and the act that outbid him starts once he has.
 ; ----------------------------------------------------------------------------
 
 (task {@self converse ?talk}:?converse
   (tar @excl [k conversation] @object)
   (lint-waive try-rungs-not-exclusive)
-  ; Ending with the conversation still open is being outcompeted: he takes his leave first, so
-  ; the others know it is over. Begun, because the converse proposing it has ended.
+  ; Ending with the conversation still open and no closing said is being withdrawn: he takes his
+  ; leave first, so the others know it is over. Begun, because the converse proposing it has ended.
   (lint-waive begin-proposal)
   (cease
     (if (and (in-conversation @self ?talk) (other-party-in ?talk))
         (then (begin-proposal {@self take-leave ?talk} /uninterruptable))))
+  (closing
+    (sequence
+      (stage
+        (bind (top-competing-act {@self converse ?talk} (utility ?converse)) ?called-by)
+        (effects
+          (if (substantial ?called-by)
+              (then (maintain-proposal {@self tell (formulaic [] leave_taking excuse ?called-by) ?talk}
+                                       /uninterruptable))
+              (else (maintain-proposal {@self tell (formulaic [] leave_taking bye) ?talk} /uninterruptable)))))
+      (stage
+        (effects
+          (leave-conversation)
+          (done-closing ?converse)))))
   (and
     (try
       (lint-waive cacheable-read-in-when)

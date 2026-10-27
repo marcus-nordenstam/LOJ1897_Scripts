@@ -79,6 +79,12 @@
         (then (bind @true ?answered) (break))))
   ?answered)
 
+; (left-talk ?who) - ?who ended his part in a talk himself: he took his leave, or, called away,
+; gave his account of what called him.
+(define-func left-talk (?who)
+  (or (> (acts ?who take-leave succ) 0)
+      (in-mind ?who (substantial (any {@self SAY (formulaic ? leave_taking excuse ?) ? /past})))))
+
 ; (knows-talk-with ?a ?b) - in a mind: @self knows a talk he took part in that ?a and ?b took part in too.
 (define-func knows-talk-with (?a ?b)
   (bind @false ?found)

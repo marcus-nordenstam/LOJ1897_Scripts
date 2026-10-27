@@ -35,7 +35,7 @@
   (expect (> (acts ?opener converse started) 0) "c01: his exchange never began")
   (expect (in-mind ?opener (unsubstantial (any {@self converse ?}))) "c01: his exchange never ended")
   (expect (>= (acts ?hailed tell succ) 2) "c01: she never answered him")
-  (expect (> (acts ?opener take-leave succ) 0) "c01: he never took his leave")
+  (expect (left-talk ?opener) "c01: he never took his leave")
   (expect (in-mind ?opener (substantial (any {? participant @self /ever}))) "c01: he knows no talk he was in")
   (expect (in-mind ?hailed (substantial (any {? participant @self /ever}))) "c01: she knows no talk she was in")
   (expect (in-mind ?opener (substantial (any {? participant ? /past}))) "c01: his part in the talk never ended")
