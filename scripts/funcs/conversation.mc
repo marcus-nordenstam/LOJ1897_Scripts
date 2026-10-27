@@ -358,10 +358,51 @@
                         (then (bind (msg /utterable [/msg-class tidings] ?gossip) ?line)))))))))
   ?line)
 
+; (remarked-in ?talk) - @self has made his smalltalk remark in ?talk: one a talk.
+(define-func remarked-in (?talk)
+  (bind @false ?remarked)
+  (for-each ?smalltalk (every {@self smalltalk ?talk ? /ever})
+    (if (substantial (any {@self tell (msg ~[/msg-class smalltalk] ?..) ? /succ /caused_by ?smalltalk}))
+        (then (bind @true ?remarked) (break))))
+  ?remarked)
+
+; (smalltalk-reply ?talk) - what @self answers a remark with in ?talk: his own remark, building on
+; it, or having none, agreement.
+(define-func smalltalk-reply (?talk)
+  (bind (smalltalk-line ?talk) ?remark)
+  (if (substantial ?remark)
+      (then ?remark)
+      (else (formulaic [/msg-class smalltalk] response agree))))
+
+; (awaits-smalltalk-answer ?talk ?partner) - a smalltalk remark ?partner made to @self in ?talk is
+; still unanswered.
+(define-func awaits-smalltalk-answer (?talk ?partner)
+  (bind (any {?talk participant @self}) ?part)
+  (bind @false ?waiting)
+  (for-each ?line (every {?partner SAY (msg ~[/msg-class smalltalk] ?..) @self /past})
+    (if (and (happened-since ?line ?part) (none {@self tell ? ?partner /succ /caused_by ?line}))
+        (then (bind @true ?waiting) (break))))
+  ?waiting)
+
+; (smalltalk-line ?talk) - the SMALLTALK remark @self has for ?talk, or @nothing: the weather he has
+; seen, the first of it that is something, said once a talk: the weather of the town he stands in,
+; which he says as "here".
+(define-func smalltalk-line (?talk)
+  (bind @nothing ?line)
+  (bind (spatial @self town) ?here)
+  (if (and (substantial ?here) (not (remarked-in ?talk)))
+      (then
+        (for-each ?weather (every {?here sky|rain|snow|fog|wind ?})
+          (if (neq ?weather.target [k none])
+              (then (bind (msg /utterable [/msg-class smalltalk] ?weather) ?line) (break))))))
+  ?line)
+
 ; (agenda-for ?talk) - @self still has something to say in ?talk: a dialogue task of his still runs
 ; there, or a dialogue-line of some class is waiting for someone in it - the union over the classes.
 (define-func agenda-for (?talk)
-  (bind (substantial (any {@self friend-talk ?talk ?})) ?more)
+  (bind (or (substantial (any {@self friend-talk|smalltalk ?talk ?}))
+            (and (substantial (any {@self unease ?talk})) (substantial (smalltalk-line ?talk))))
+        ?more)
   (for-each ?party (parties-of ?talk)
     (if (and (not ?more) (neq ?party @self))
         (then

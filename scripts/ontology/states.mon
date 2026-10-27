@@ -757,6 +757,7 @@
 (state suffer-loss-act (tar [k suffer-loss-act] @object))
 (state tenant (tar [k human|org] @object @excl))
 (state threaten-act (tar [k threaten-act] @object))
+(state unease (tar [k conversation] @object) (motivation))
 (state workplace (tar [k building|space] @object @excl))
 (state wrong-act (tar [k wrong-act] @object))
 

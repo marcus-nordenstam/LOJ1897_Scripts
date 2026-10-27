@@ -38,6 +38,21 @@
   (begin-belief {@self friend ?cb-friend-back})
   (exit-mind))
 
+; (conversation-see-weather ?who ?town) - ?who has seen the town's weather: he perceives the town.
+(define-func conversation-see-weather (?who ?town)
+  (enter-mind ?who)
+  (observe ?town)
+  (exit-mind))
+
+; (answered-smalltalk ?other) - in a mind: ?other made a smalltalk remark to @self, and @self
+; answered it - a line of his caused by that remark.
+(define-func answered-smalltalk (?other)
+  (bind @false ?answered)
+  (for-each ?line (every {?other SAY (msg ~[/msg-class smalltalk] ?..) @self /past})
+    (if (substantial (any {@self tell ? ?other /succ /caused_by ?line}))
+        (then (bind @true ?answered) (break))))
+  ?answered)
+
 ; (asked-whats-new ?other) - in a mind: @self asked ?other what is new, and he replied to it.
 (define-func asked-whats-new (?other)
   (bind @false ?asked)

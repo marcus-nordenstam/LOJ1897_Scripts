@@ -777,6 +777,69 @@ $form(FORM)
 :: realize-only
 .
 
+; WEATHER - a smalltalk remark on the weather the speaker has seen, whatever carries it: said,
+; never read.
+"Clear skies today"
+{ ? /pres sky [k clear] }
+:: realize-only
+.
+"Overcast today"
+{ ? /pres sky [k overcast] }
+:: realize-only
+.
+"Cloudy today"
+{ ? /pres sky [k cloudy] }
+:: realize-only
+.
+"A light rain out"
+{ ? /pres rain [k light] }
+:: realize-only
+.
+"Raining out"
+{ ? /pres rain [k medium-strength] }
+:: realize-only
+.
+"Pouring out there"
+{ ? /pres rain [k heavy] }
+:: realize-only
+.
+"A little snow out"
+{ ? /pres snow [k light] }
+:: realize-only
+.
+"Snowing out"
+{ ? /pres snow [k medium-strength] }
+:: realize-only
+.
+"Heavy snow out there"
+{ ? /pres snow [k heavy] }
+:: realize-only
+.
+"A thin fog out"
+{ ? /pres fog [k light] }
+:: realize-only
+.
+"Foggy out"
+{ ? /pres fog [k medium-strength] }
+:: realize-only
+.
+"Thick fog out there"
+{ ? /pres fog [k heavy] }
+:: realize-only
+.
+"A light breeze out"
+{ ? /pres wind [k light] }
+:: realize-only
+.
+"Windy out"
+{ ? /pres wind [k medium-strength] }
+:: realize-only
+.
+"Blowing a gale out there"
+{ ? /pres wind [k heavy] }
+:: realize-only
+.
+
 ; STATE-SENTENCES
 
 " $sub_np(NP) $state(SPECIAL_STATE) "

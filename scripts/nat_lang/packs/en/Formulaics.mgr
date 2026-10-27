@@ -31,6 +31,7 @@
 "Signed, $name(PNAME)"                                                          ( /author $name(PNAME) ) .
 "To $name(PNAME)"                                                               ( /addressee $name(PNAME) ) .
 
+"It is indeed"                                                                  ( formulaic [] response agree ) .
 "Nothing much"                                                                  ( formulaic [] response no-news ) .
 
 "No, I don't know"                                                              ( formulaic [] no_dont_know ) .
