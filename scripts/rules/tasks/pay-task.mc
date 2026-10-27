@@ -19,8 +19,8 @@
       (when (alive ?payee))
       (effects (maintain-proposal {@self unpocket-coins ?count})))
     (try
-      (when {@self give ? ?payee /succ /caused_by ?pay})
-      (effects (set-outcome ?pay /succ)))
+      (role @self {@self give ? ?payee /succ /caused_by ?pay}
+        (effects (set-outcome ?pay /succ))))
     (try
       (when (or {@self unpocket-coins ?count /fail /caused_by ?pay}
                 (not (alive ?payee))))

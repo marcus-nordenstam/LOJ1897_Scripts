@@ -21,9 +21,9 @@
       (effects (maintain-proposal {@self go-to ?victim})))
     (try
       (role ?vhome {?victim home ?vhome}
+                   -{?victim condition [k dead]}
         (when (and (not (spatial ?victim co-located @self))
                    (not (empty (spatial @self hold [k firearm])))
-                   -{?victim condition [k dead]}
                    (unknown (spatial ?victim space))))
         (effects (maintain-proposal {@self go-to ?vhome}))))
 
@@ -37,5 +37,5 @@
 
     ; CONCLUDE: the victim is dead - the method is spent.
     (try
-      (when {?victim condition [k dead]})
-      (effects (set-outcome ?shoot /succ)))))
+      (role ?victim {?victim condition [k dead]}
+        (effects (set-outcome ?shoot /succ))))))

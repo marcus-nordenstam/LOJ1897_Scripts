@@ -22,25 +22,25 @@
       (effects (maintain-proposal {@self go-to ?paramour})))
     (try
       (role ?phome {?paramour home ?phome}
-        (when (and (alive ?paramour)
                    -{@self lover ?paramour}
+        (when (and (alive ?paramour)
                    (not (spatial ?paramour co-located @self))
                    (unknown (spatial ?paramour space))))
         (effects (maintain-proposal {@self go-to ?phome}))))
     (try
       (no-role [k human] {@self spouse ?norole} (spatial ?norole co-located @self))
       (role @self {@self gender ?gender}
+                  -{@self lover ?paramour}
+                  -{@self (kin-labels) ?paramour}
+                  -{@self HAVE-SEX-WITH ?paramour /succ /caused_by ?seduce}
+                  (spatial ?paramour co-located @self)
         (when (and (alive ?paramour)
-                   -{@self lover ?paramour}
-                   (spatial ?paramour co-located @self)
-                   -{?paramour gender ?gender}
-                   (none {@self (kin-labels) ?paramour})
-                   -{@self HAVE-SEX-WITH ?paramour /succ /caused_by ?seduce}))
+                   -{?paramour gender ?gender}))
         (declare-utility always-pick)
         (effects (maintain-proposal {@self HAVE-SEX-WITH ?paramour}))))
     (try
-      (when {@self lover ?paramour})
-      (effects (set-outcome ?seduce /succ)))
+      (role @self {@self lover ?paramour}
+        (effects (set-outcome ?seduce /succ))))
     (try
       (role @self {@self gender ?gender}
         (when (or (not (alive ?paramour))

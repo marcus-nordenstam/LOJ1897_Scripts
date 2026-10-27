@@ -37,18 +37,18 @@
                           (consequence -{?victim pay @self /during ?told ?deadline} {@self expose ?victim} ?deadline)})
                       ?victim})))
     (try
-      (when {@self tell ? ?victim /succ /caused_by ?coerce})
-      (effects
-        (bind (bb-read ?coerce told) ?told)
-        (bind (+ ?told (seconds (threat_grace_days) d)) ?deadline)
-        (begin-belief {@self threaten ?victim
-                        (consequence -{?victim pay @self /during ?told ?deadline} {@self expose ?victim} ?deadline)})
-        (if (or (any {?victim lover|HAVE-SEX-WITH ? /ever})
-                (any {?victim threaten|commission|hired-by|kill ? /ever}))
-            (then (record-crime @self ?victim blackmail coerce @u @u))
-            (else (record-crime @self ?victim threaten_violence coerce @u @u)))
-        (bb-clear ?coerce told)
-        (set-outcome ?coerce /succ)))
+      (role @self {@self tell ? ?victim /succ /caused_by ?coerce}
+        (effects
+          (bind (bb-read ?coerce told) ?told)
+          (bind (+ ?told (seconds (threat_grace_days) d)) ?deadline)
+          (begin-belief {@self threaten ?victim
+                          (consequence -{?victim pay @self /during ?told ?deadline} {@self expose ?victim} ?deadline)})
+          (if (or (any {?victim lover|HAVE-SEX-WITH ? /ever})
+                  (any {?victim threaten|commission|hired-by|kill ? /ever}))
+              (then (record-crime @self ?victim blackmail coerce @u @u))
+              (else (record-crime @self ?victim threaten_violence coerce @u @u)))
+          (bb-clear ?coerce told)
+          (set-outcome ?coerce /succ))))
     (try
       (when (not (alive ?victim)))
       (effects (set-outcome ?coerce /fail)))))

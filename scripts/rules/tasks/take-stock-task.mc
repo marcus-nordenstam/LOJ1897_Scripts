@@ -12,5 +12,5 @@
       (role @self (spatial @self building ?shop)
         (effects (maintain-proposal {@self STOCKTAKE}))))
     (try
-      (when {@self STOCKTAKE /succ /caused_by ?take-stock})
-      (effects (set-outcome ?take-stock /succ)))))
+      (role @self {@self STOCKTAKE /succ /caused_by ?take-stock}
+        (effects (set-outcome ?take-stock /succ))))))

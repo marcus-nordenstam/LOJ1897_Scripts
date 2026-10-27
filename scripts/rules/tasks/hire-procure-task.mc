@@ -16,5 +16,5 @@
       (declare-utility always-pick)
       (effects (maintain-proposal {@self tell (msg /utterable [] {?agent acquire ?kind}) ?agent})))
     (try
-      (when {@self tell ? ?agent /succ /caused_by ?hire-procure})
-      (effects (set-outcome ?hire-procure /succ)))))
+      (role @self {@self tell ? ?agent /succ /caused_by ?hire-procure}
+        (effects (set-outcome ?hire-procure /succ))))))

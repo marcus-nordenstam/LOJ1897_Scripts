@@ -36,6 +36,6 @@
     ; whole run, and starves every equal-band sibling through the running-incumbent tie-break.
     ; An INTERRUPTED wander is not a failed search, so this reads /succ, not any outcome.
     (try
-      (when (and {@self wander ?place /succ /caused_by ?locate}
-                 (not (locate-known ?thing ?place))))
-      (effects (set-outcome ?locate /fail)))))
+      (role @self {@self wander ?place /succ /caused_by ?locate}
+        (when (not (locate-known ?thing ?place)))
+        (effects (set-outcome ?locate /fail))))))

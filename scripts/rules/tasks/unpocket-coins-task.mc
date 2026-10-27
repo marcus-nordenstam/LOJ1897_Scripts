@@ -9,20 +9,20 @@
   (and
     (try
       (role ?carrying-cash-pile {@self carrying-cash-pile ?carrying-cash-pile}
-        (when (and -{@self /succ PILE-SPLIT-LEFT|PILE-SPLIT-RIGHT ? ? /caused_by ?unpocket-coins}
-                   (empty (spatial (spatial @self right-hand) grip))))
+                                -{@self /succ PILE-SPLIT-LEFT|PILE-SPLIT-RIGHT ? ? /caused_by ?unpocket-coins}
+        (when (empty (spatial (spatial @self right-hand) grip)))
         (effects
           (maintain-proposal {@self PILE-SPLIT-RIGHT ?carrying-cash-pile ?count}))))
     (try
       (role ?carrying-cash-pile {@self carrying-cash-pile ?carrying-cash-pile}
-        (when (and -{@self /succ PILE-SPLIT-LEFT|PILE-SPLIT-RIGHT ? ? /caused_by ?unpocket-coins}
-                   (not (empty (spatial (spatial @self right-hand) grip)))
+                                -{@self /succ PILE-SPLIT-LEFT|PILE-SPLIT-RIGHT ? ? /caused_by ?unpocket-coins}
+        (when (and (not (empty (spatial (spatial @self right-hand) grip)))
                    (empty (spatial (spatial @self left-hand) grip))))
         (effects
           (maintain-proposal {@self PILE-SPLIT-LEFT ?carrying-cash-pile ?count}))))
     (try
-      (when {@self /succ PILE-SPLIT-LEFT|PILE-SPLIT-RIGHT ? ? /caused_by ?unpocket-coins})
-      (effects (set-outcome ?unpocket-coins /succ)))
+      (role @self {@self /succ PILE-SPLIT-LEFT|PILE-SPLIT-RIGHT ? ? /caused_by ?unpocket-coins}
+        (effects (set-outcome ?unpocket-coins /succ))))
     (try
       (when (and -{@self /succ PILE-SPLIT-LEFT|PILE-SPLIT-RIGHT ? ? /caused_by ?unpocket-coins}
                  (or (< (carrying-cash-pile-count @self) ?count)

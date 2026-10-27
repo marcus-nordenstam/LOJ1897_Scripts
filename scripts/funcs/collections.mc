@@ -6,6 +6,8 @@
 ; the closing expression.
 ; ----------------------------------------------------------------------------
 
+(include "../macros/tunables.mc")
+
 ; (pile-add ?pile ?count): the one write of a pile's count - ?count units onto it, or off it
 ; when negative. A pile never goes below empty.
 (define-func pile-add (?pile ?count)
@@ -70,6 +72,12 @@
     (if {?cand content-kind ?kind}
         (then (bind ?cand ?pile))))
   (flip {?pile count ?count} ?count 0))
+
+; (provision-basket ?kitchen): how much food a cook still buys for the larder at ?kitchen - its
+; shortfall to the larder target, no more than he can carry, less what he already holds.
+(define-func provision-basket (?kitchen)
+  (- (min (carry_cap) (- (larder_target) (believed-pile-count ?kitchen [k food])))
+     (held-pile-count @self [k food])))
 
 ; (believed-home-food-count ?home): the loaf-count this mind believes is in its home
 ; LARDER (the kitchen pile). The larder lives in the kitchen room, so it resolves the

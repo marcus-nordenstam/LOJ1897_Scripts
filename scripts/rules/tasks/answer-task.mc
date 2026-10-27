@@ -11,8 +11,8 @@
   (aux ?)
   (preemptive-or
     (try
-      (when {@self tell ? ?speaker /succ /caused_by ?line})
-      (effects (set-outcome ?answer /succ)))
+      (role @self {@self tell ? ?speaker /succ /caused_by ?line}
+        (effects (set-outcome ?answer /succ))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
         (when (and (is-qs ?msg) (withholds ?msg ?speaker)))

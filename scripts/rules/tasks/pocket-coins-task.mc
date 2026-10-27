@@ -12,8 +12,8 @@
         (when (= (spatial ?pile held-by) @self))
         (effects (maintain-proposal {@self PILE-TRANSFER ?pile ?carrying-cash-pile}))))
     (try
-      (when {@self /succ PILE-TRANSFER ?pile ? /caused_by ?pocket-coins})
-      (effects (set-outcome ?pocket-coins /succ)))
+      (role @self {@self /succ PILE-TRANSFER ?pile ? /caused_by ?pocket-coins}
+        (effects (set-outcome ?pocket-coins /succ))))
     (try
       (when (and (!= (spatial ?pile held-by) @self)
                  -{@self /succ PILE-TRANSFER ?pile ? /caused_by ?pocket-coins}))

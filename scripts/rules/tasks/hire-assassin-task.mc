@@ -35,5 +35,5 @@
 
       ; CONCLUDE once the solicitation has been spoken.
       (try
-        (when {@self tell ? ?killer /succ /caused_by ?hire-assassin})
-        (effects (set-outcome ?hire-assassin /succ))))))
+        (role @self {@self tell ? ?killer /succ /caused_by ?hire-assassin}
+          (effects (set-outcome ?hire-assassin /succ)))))))

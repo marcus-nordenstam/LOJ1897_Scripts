@@ -17,5 +17,5 @@
       (when (poll (rest-spot ?dest ?item): ?spot))
       (effects (maintain-proposal {@self PUT ?item ?spot})))
     (try
-      (when {@self /succ PUT ?item ? /caused_by ?put})
-      (effects (set-outcome ?put /succ)))))
+      (role @self {@self /succ PUT ?item ? /caused_by ?put}
+        (effects (set-outcome ?put /succ))))))

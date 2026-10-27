@@ -33,5 +33,5 @@
         (when (not (empty (spatial (spatial @self right-hand) grip))))
         (effects (maintain-proposal {@self GRASP ?item (spatial @self left-hand)}))))
     (try
-      (when {@self /succ GRASP ?item ? /caused_by ?take})
-      (effects (set-outcome ?take /succ)))))
+      (role @self {@self /succ GRASP ?item ? /caused_by ?take}
+        (effects (set-outcome ?take /succ))))))

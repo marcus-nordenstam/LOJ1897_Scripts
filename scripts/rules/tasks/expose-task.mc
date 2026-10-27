@@ -17,32 +17,34 @@
   (construed-act expose-act betray-act wrong-act) (contradicts privacy)
   (and
     (try
-      (role ?vhome {?victim home ?vhome}
-        (when (and -{@self spouse ?victim}
-                   {?victim lover|HAVE-SEX-WITH ?partner /ever}
-                   -{?victim spouse ?partner /ever}
-                   -{@self spouse ?partner}
-                   (not (spatial ?victim co-located @self))
-                   (unknown (spatial ?victim space))))
-        (effects (maintain-proposal {@self go-to ?vhome}))))
+      (role @self -{@self spouse ?victim}
+        (role ?partner {?victim lover|HAVE-SEX-WITH ?partner /ever}
+                       -{?victim spouse ?partner /ever}
+                       -{@self spouse ?partner}
+                       (select (policy first-match))
+          (role ?vhome {?victim home ?vhome}
+            (when (and (not (spatial ?victim co-located @self))
+                       (unknown (spatial ?victim space))))
+            (effects (maintain-proposal {@self go-to ?vhome}))))))
     (try
-      (when (and -{@self spouse ?victim}
-                 {?victim lover|HAVE-SEX-WITH ?partner /ever}
-                 -{?victim spouse ?partner /ever}
-                 -{@self spouse ?partner}
-                 (or (spatial ?victim co-located @self) (spatial ?victim space))
-                 -{@self tell ? ?victim /succ /caused_by ?expose}))
-      (declare-utility always-pick)
-      (effects (maintain-proposal {@self tell (msg /utterable [] {?victim lover ?partner}) ?victim})))
+      (role @self -{@self spouse ?victim}
+                  -{@self tell ? ?victim /succ /caused_by ?expose}
+        (role ?partner {?victim lover|HAVE-SEX-WITH ?partner /ever}
+                       -{?victim spouse ?partner /ever}
+                       -{@self spouse ?partner}
+                       (select (policy first-match))
+          (when (or (spatial ?victim co-located @self) (spatial ?victim space)))
+          (declare-utility always-pick)
+          (effects (maintain-proposal {@self tell (msg /utterable [] {?victim lover ?partner}) ?victim})))))
     (try
-      (when {@self tell ? ?victim /succ /caused_by ?expose})
-      (effects
-        ; TELEPATHY - this pushed the secret into every other mind. The SAY above is
-        ; already the honest channel; the spread belongs to the hearers' own adoption.
-        ; Commented out pending that redesign.
-        ; (publish-secret-about @self ?victim)
-        (record-crime @self ?victim confront-publicly expose @u @u)
-        (set-outcome ?expose /succ)))
+      (role @self {@self tell ? ?victim /succ /caused_by ?expose}
+        (effects
+          ; TELEPATHY - this pushed the secret into every other mind. The SAY above is
+          ; already the honest channel; the spread belongs to the hearers' own adoption.
+          ; Commented out pending that redesign.
+          ; (publish-secret-about @self ?victim)
+          (record-crime @self ?victim confront-publicly expose @u @u)
+          (set-outcome ?expose /succ))))
     (try
       (when (or (not (and -{@self spouse ?victim}
                           {?victim lover|HAVE-SEX-WITH ?partner /ever}

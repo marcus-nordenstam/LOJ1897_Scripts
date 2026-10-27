@@ -61,5 +61,5 @@
       (when (unsubstantial (conversation-of @self)))
       (effects (set-outcome ?hail /fail)))
     (try
-      (when {@self go-to ?partner /fail /caused_by ?hail})
-      (effects (set-outcome ?hail /fail)))))
+      (role @self {@self go-to ?partner /fail /caused_by ?hail}
+        (effects (set-outcome ?hail /fail))))))

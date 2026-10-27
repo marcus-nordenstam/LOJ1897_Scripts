@@ -5,8 +5,8 @@
 (task {@self emigrate}:?emigrate
   (preemptive-or
     (try
-      (when {@self DEPART /succ /caused_by ?emigrate})
-      (effects (set-outcome ?emigrate /succ)))
+      (role @self {@self DEPART /succ /caused_by ?emigrate}
+        (effects (set-outcome ?emigrate /succ))))
     (try
       (role @self {@self job ?}
         (effects (maintain-proposal {@self retire}))))

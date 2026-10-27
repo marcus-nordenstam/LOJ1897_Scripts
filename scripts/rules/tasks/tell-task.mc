@@ -21,11 +21,11 @@
   (cease (release-addressees ?audience))
   (preemptive-or
     (try
-      (when {@self SAY ? /succ /caused_by ?tell})
-      (effects (set-outcome ?tell /succ)))
+      (role @self {@self SAY ? /succ /caused_by ?tell}
+        (effects (set-outcome ?tell /succ))))
     (try
-      (when {@self go-to ?audience /fail /caused_by ?tell})
-      (effects (set-outcome ?tell /fail)))
+      (role @self {@self go-to ?audience /fail /caused_by ?tell}
+        (effects (set-outcome ?tell /fail))))
     (try
       (when (and (or (unsubstantial ?audience) (within-voice ?audience ?msg))
                  (free-to-address ?audience)))

@@ -12,5 +12,5 @@
       (role @self (spatial @self building ?venue)
         (effects (maintain-proposal {@self PLAY-GAME}))))
     (try
-      (when {@self PLAY-GAME /succ /caused_by ?gamble})
-      (effects (set-outcome ?gamble /succ)))))
+      (role @self {@self PLAY-GAME /succ /caused_by ?gamble}
+        (effects (set-outcome ?gamble /succ))))))

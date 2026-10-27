@@ -23,10 +23,10 @@
             (effects (maintain-proposal {@self denounce ?innocent ?victim}))))
         (try
           (role ?innocent {?innocent isa [k human], condition [k alive]}
+                          -{@self denounce ? ?victim /past}
                           (select (score 1) (policy roulette))
             (when (and (!= ?innocent ?victim)
                        (!= ?innocent @self)
-                       -{@self denounce ? ?victim /ever}
                        (>= ?narcissism 0.7)
                        (chance 0.04)))
             (effects (maintain-proposal {@self denounce ?innocent ?victim}))))))))

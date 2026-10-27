@@ -31,47 +31,52 @@
       (role @self -{@self send-mail ? ? /succ /caused_by ?confess-letter}
         (role ?ltr [k confession-letter] (spatial @self can-reach ?ltr)
                                          (unsubstantial (attr ?ltr writing))
-          (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
-                     -{@self spouse ?partner /ever}
-                     {@self father|mother|fiancee|spouse|sibling ?kin}
-                     (alive ?kin)
-                     (!= ?kin ?partner)
-                     {?kin home ?kinhome}
-                     {?kinhome address ?kin-address}
-                     {?kin name ?kin-name}
-                     {?partner name ?partner-name}))
-          (effects
-            (maintain-proposal
-              {@self write-doc ?ltr
-                     (msg /written [/addressee ?kin-name /address ?kin-address]
-                                  {@i lover ?partner-name})})))))
+          (role ?partner {@self lover|HAVE-SEX-WITH ?partner /ever}
+                         -{@self spouse ?partner /ever}
+                         {?partner name ?partner-name}
+                         (select (policy first-match))
+            (role ?kin {@self father|mother|fiancee|spouse|sibling ?kin}
+                       {?kin name ?kin-name}
+                       (select (policy first-match))
+              (role ?kinhome {?kin home ?kinhome}
+                             {?kinhome address ?kin-address}
+                             (select (policy first-match))
+                (when (and (alive ?kin) (!= ?kin ?partner)))
+                (effects
+                  (maintain-proposal
+                    {@self write-doc ?ltr
+                           (msg /written [/addressee ?kin-name /address ?kin-address]
+                                        {@i lover ?partner-name})}))))))))
 
     (try
       (role @self -{@self send-mail ? ? /succ /caused_by ?confess-letter}
-        (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
-                   -{@self spouse ?partner /ever}
-                   {@self father|mother|fiancee|spouse|sibling ?kin}
-                   (alive ?kin)
-                   (!= ?kin ?partner)
-                   {?kin home ?}))
-        (effects (maintain-proposal {@self CREATE-ENTITY [k confession-letter]}))))
+        (role ?partner {@self lover|HAVE-SEX-WITH ?partner /ever}
+                       -{@self spouse ?partner /ever}
+                       (select (policy first-match))
+          (role ?kin {@self father|mother|fiancee|spouse|sibling ?kin}
+                     {?kin home ?}
+                     (select (policy first-match))
+            (when (and (alive ?kin) (!= ?kin ?partner)))
+            (effects (maintain-proposal {@self CREATE-ENTITY [k confession-letter]}))))))
 
     ; A kin who is dead, who IS the partner, or whose home he cannot name, receives nothing -
     ; the impulse is spent either way, exactly as the single compose try used to spend it.
     (try
-      (when (and {@self lover|HAVE-SEX-WITH ?partner /ever}
-                 -{@self spouse ?partner /ever}
-                 {@self father|mother|fiancee|spouse|sibling ?kin}
-                 (or (not (alive ?kin))
-                     (= ?kin ?partner)
-                     -{?kin home ?})))
-      (effects (set-outcome ?confess-letter /fail)))
+      (role ?partner {@self lover|HAVE-SEX-WITH ?partner /ever}
+                     -{@self spouse ?partner /ever}
+                     (select (policy first-match))
+        (role ?kin {@self father|mother|fiancee|spouse|sibling ?kin}
+                   (select (policy first-match))
+          (when (or (not (alive ?kin))
+                    (= ?kin ?partner)
+                    -{?kin home ?}))
+          (effects (set-outcome ?confess-letter /fail)))))
     ; The letter is in the post: the confession is made.
     (try
-      (when {@self send-mail ? ? /succ /caused_by ?confess-letter})
-      (effects
-        (spend-grievance ?confess-letter)
-        (set-outcome ?confess-letter /succ)))
+      (role @self {@self send-mail ? ? /succ /caused_by ?confess-letter}
+        (effects
+          (spend-grievance ?confess-letter)
+          (set-outcome ?confess-letter /succ))))
     (try
       (when (or (not (and {@self lover|HAVE-SEX-WITH ?partner /ever}
                           -{@self spouse ?partner /ever}))

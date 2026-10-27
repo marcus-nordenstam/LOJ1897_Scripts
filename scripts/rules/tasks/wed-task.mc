@@ -19,8 +19,8 @@
       (try
         (role @self {@self fiancee ?partner} (none {@self spouse @something})
                     (spatial @self building ?venue)
-          (when (and (hours (- ?start (attend-prep-lead)) ?end)
-                     -{@self tell (msg ? {@self spouse ?partner}) ?partner /succ}))
+                    -{@self tell (msg ? {@self spouse ?partner}) ?partner /succ}
+          (when (hours (- ?start (attend-prep-lead)) ?end))
           (effects (maintain-proposal {@self tell (msg /utterable [] {@self spouse ?partner}) ?partner}))))
       (try
         (role @self {@self fiancee ?partner} (none {@self spouse @something})
@@ -28,5 +28,5 @@
           (when (hours (- ?start (attend-prep-lead)) ?end))
           (effects (maintain-proposal {@self go-to ?venue}))))
       (try
-        (when {@self spouse ?partner})
-        (effects (set-outcome ?wed /succ))))))
+        (role @self {@self spouse ?partner}
+          (effects (set-outcome ?wed /succ)))))))

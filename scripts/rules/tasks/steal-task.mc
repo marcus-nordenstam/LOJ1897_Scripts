@@ -32,10 +32,10 @@
         (effects (maintain-proposal {@self take ?loot}))))
     ; concluded: the loot is in hand /caused_by this pursuit -> crime row + succ.
     (try
-      (when (and (not (empty (spatial @self hold ?kind)))
-                 {@self take ? /succ /caused_by ?steal}
-                 (is-a (spatial @self building): ?shop [k shop])))
-      (effects
-        (any {?shopkeeper own ?shop})
-        (record-crime @self ?shopkeeper opportunist_theft steal ?kind @u)
-        (set-outcome ?steal /succ)))))
+      (role @self {@self take ? /succ /caused_by ?steal}
+        (when (and (not (empty (spatial @self hold ?kind)))
+                   (is-a (spatial @self building): ?shop [k shop])))
+        (effects
+          (any {?shopkeeper own ?shop})
+          (record-crime @self ?shopkeeper opportunist_theft steal ?kind @u)
+          (set-outcome ?steal /succ))))))

@@ -17,5 +17,5 @@
       (declare-utility (above go-to))
       (effects (maintain-proposal {@self take ?item})))
     (try
-      (when {@self take ?item /succ /caused_by ?get})
-      (effects (set-outcome ?get /succ)))))
+      (role @self {@self take ?item /succ /caused_by ?get}
+        (effects (set-outcome ?get /succ))))))

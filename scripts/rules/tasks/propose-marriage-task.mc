@@ -9,9 +9,9 @@
   (preparatory)
   (preemptive-or
     (try
-      (when {@self tell ? ?partner /succ /caused_by ?propose-marriage})
-      (effects
-        (begin-belief {@self fiancee ?partner})
-        (set-outcome ?propose-marriage /succ)))
+      (role @self {@self tell ? ?partner /succ /caused_by ?propose-marriage}
+        (effects
+          (begin-belief {@self fiancee ?partner})
+          (set-outcome ?propose-marriage /succ))))
     (try
       (effects (maintain-proposal {@self tell (msg /utterable [] {@self fiancee ?partner}) ?partner})))))

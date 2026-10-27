@@ -16,8 +16,8 @@
                        (spatial @self building ?cred_home)
         (effects (maintain-proposal {@self TAKE-LOAN ?creditor}))))
     (try
-      (when {@self TAKE-LOAN ?creditor /succ /caused_by ?seek-loan})
-      (effects (set-outcome ?seek-loan /succ)))
+      (role @self {@self TAKE-LOAN ?creditor /succ /caused_by ?seek-loan}
+        (effects (set-outcome ?seek-loan /succ))))
     (try
-      (when {?creditor condition [k dead]})
-      (effects (set-outcome ?seek-loan /fail)))))
+      (role ?creditor {?creditor condition [k dead]}
+        (effects (set-outcome ?seek-loan /fail))))))

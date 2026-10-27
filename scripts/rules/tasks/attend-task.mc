@@ -16,37 +16,37 @@
   (and
     ; ALARM: think again when the window opens.
     (try
-      (when {?occ hours ?start ?end})
-      (effects (set-occasion-alarm ?start)))
+      (role ?occ {?occ hours ?start ?end}
+        (effects (set-occasion-alarm ?start))))
 
     ; GO: I know the venue and I am not there yet -> head to it (in the window).
     (try
-      (role ?venue {?occ venue ?venue}
-        (role @self (not (spatial @self building ?venue))
-          (when (and {?occ hours ?start ?end}
-                     (hours (- ?start (attend-prep-lead)) ?end)))
-          (effects (maintain-proposal {@self go-to ?venue})))))
+      (role ?occ {?occ hours ?start ?end}
+        (role ?venue {?occ venue ?venue}
+          (role @self (not (spatial @self building ?venue))
+            (when (hours (- ?start (attend-prep-lead)) ?end))
+            (effects (maintain-proposal {@self go-to ?venue}))))))
 
     ; STAY: I am at the venue in the window -> dwell to its end. The stay IS the attendance.
     (try
-      (role ?venue {?occ venue ?venue}
-        (role @self (spatial @self building ?venue)
-          (when (and {?occ hours ?start ?end}
-                     (hours (- ?start (attend-prep-lead)) ?end)))
-          (effects (maintain-proposal {@self DWELL ?venue ?end})))))
+      (role ?occ {?occ hours ?start ?end}
+        (role ?venue {?occ venue ?venue}
+          (role @self (spatial @self building ?venue)
+            (when (hours (- ?start (attend-prep-lead)) ?end))
+            (effects (maintain-proposal {@self DWELL ?venue ?end}))))))
 
     ; OVER, having stayed: attended.
     (try
-      (role ?venue {?occ venue ?venue}
-        (when (and {?occ hours ?start ?end}
-                   (>= (time hour) ?end)
-                   {@self DWELL ?venue ? /succ /caused_by ?attend /ever}))
-        (effects (set-outcome ?attend /succ))))
+      (role ?occ {?occ hours ?start ?end}
+        (role ?venue {?occ venue ?venue}
+                     {@self DWELL ?venue ? /succ /caused_by ?attend /ever}
+          (when (>= (time hour) ?end))
+          (effects (set-outcome ?attend /succ)))))
 
     ; OVER, never having stayed: missed it.
     (try
-      (role ?venue {?occ venue ?venue}
-        (when (and {?occ hours ?start ?end}
-                   (>= (time hour) ?end)
-                   -{@self DWELL ?venue ? /succ /caused_by ?attend /ever}))
-        (effects (set-outcome ?attend /fail))))))
+      (role ?occ {?occ hours ?start ?end}
+        (role ?venue {?occ venue ?venue}
+                     -{@self DWELL ?venue ? /succ /caused_by ?attend /ever}
+          (when (>= (time hour) ?end))
+          (effects (set-outcome ?attend /fail)))))))

@@ -28,10 +28,10 @@
       (effects (maintain-proposal
                  {@self tell (msg /utterable [] {@self public-humiliation ?victim}) ?victim})))
     (try
-      (when {@self tell ? ?victim /succ /caused_by ?humiliate})
-      (effects
-        (record-crime @self ?victim public-humiliation humiliate @u @u)
-        (set-outcome ?humiliate /succ)))
+      (role @self {@self tell ? ?victim /succ /caused_by ?humiliate}
+        (effects
+          (record-crime @self ?victim public-humiliation humiliate @u @u)
+          (set-outcome ?humiliate /succ))))
     (try
       (when (not (alive ?victim)))
       (effects (set-outcome ?humiliate /fail)))))

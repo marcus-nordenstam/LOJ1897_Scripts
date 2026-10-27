@@ -33,4 +33,4 @@
               (spatial ?home room [k kitchen]): ?kitchen
     (when (substantial (held-ware @self [k food])))
     (declare-utility duty (flip (spatial @self space ?kitchen) 1000 900))
-    (effects (maintain-proposal {@self carry-home [k food] ?kitchen}))))
+    (effects (maintain-proposal {@self carry-home [k food] ?kitchen} /quit-trying-on-fail))))

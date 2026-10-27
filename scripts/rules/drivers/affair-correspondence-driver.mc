@@ -71,13 +71,13 @@
           (try
             (role ?ltr [k love-letter] (spatial @self can-reach ?ltr)
                                        (unsubstantial (attr ?ltr writing))
-              (when {?paramour home ?her-home}
-                    {?her-home address ?her-address})
-              (effects
-                (maintain-proposal
-                  {@self write-doc ?ltr
-                         (msg /written [/addressee ?paramour_name /address ?her-address /author ?author_name]
-                                      {@i lover ?paramour_name})}))))
+              (role ?her-home {?paramour home ?her-home} {?her-home address ?her-address}
+                              (select (policy first-match))
+                (effects
+                  (maintain-proposal
+                    {@self write-doc ?ltr
+                           (msg /written [/addressee ?paramour_name /address ?her-address /author ?author_name]
+                                        {@i lover ?paramour_name})})))))
 
           ; The monthly writer rate gates the MAKING alone - once a letter exists it is finished off
           ; whatever the roll says, or a half-written affair sits on the desk for ever.

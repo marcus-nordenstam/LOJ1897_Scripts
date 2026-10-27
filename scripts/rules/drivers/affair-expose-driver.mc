@@ -35,16 +35,16 @@
           (try
             (role ?ltr [k denunciation-letter] (spatial @self can-reach ?ltr)
                                                (unsubstantial (attr ?ltr writing))
-              (when (any {?cheater spouse ?betrayed})
-                    (alive ?betrayed)
-                    {?betrayed name ?betrayed-name}
-                    {?cheater home ?cheater-home}
-                    {?cheater-home address ?cheater-address})
-              (effects
-                (maintain-proposal
-                  {@self write-doc ?ltr
-                         (msg /written [/addressee ?betrayed-name /address ?cheater-address /author ?author_name]
-                                      {?cheater_name lover @i})}))))
+              (role ?betrayed {?cheater spouse ?betrayed} {?betrayed name ?betrayed-name}
+                              (select (policy first-match))
+                (role ?cheater-home {?cheater home ?cheater-home} {?cheater-home address ?cheater-address}
+                                    (select (policy first-match))
+                  (when (alive ?betrayed))
+                  (effects
+                    (maintain-proposal
+                      {@self write-doc ?ltr
+                             (msg /written [/addressee ?betrayed-name /address ?cheater-address /author ?author_name]
+                                          {?cheater_name lover @i})}))))))
 
           (try
             (when (chance (* 0.3 ?infidelity-disposition)))

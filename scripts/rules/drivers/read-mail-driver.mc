@@ -9,15 +9,14 @@
 (driver want-read-mail
   (cooldown 1 d try-until-succ)
   (declare-utility errand)
-  (and
-    (try
-      (role ?home {@self home ?home}
+  (role ?home {@self home ?home}
+    (and
+      (try
         (role ?stk [k mail-stack] (within-place ?stk ?home) (select (policy first-match))
           (role @self (spatial @self unit ?home)
             (when (>= (days-since-last {@self read-mail ?home /succ}) 1))
-            (effects (maintain-proposal {@self read-mail ?home}))))))
-    (try
-      (role ?home {@self home ?home}
+            (effects (maintain-proposal {@self read-mail ?home})))))
+      (try
         (no-role [k mail-stack] (within-place ?norole ?home))
         (role @self (spatial @self unit ?home)
                     -{@self locate [k mail-stack] ?home /fail}

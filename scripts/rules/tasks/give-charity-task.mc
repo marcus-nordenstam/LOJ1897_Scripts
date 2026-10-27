@@ -12,5 +12,5 @@
       (role @self (spatial @self building ?venue)
         (effects (maintain-proposal {@self GIVE-ALMS ?venue}))))
     (try
-      (when {@self GIVE-ALMS ?venue /succ /caused_by ?give-charity})
-      (effects (set-outcome ?give-charity /succ)))))
+      (role @self {@self GIVE-ALMS ?venue /succ /caused_by ?give-charity}
+        (effects (set-outcome ?give-charity /succ))))))

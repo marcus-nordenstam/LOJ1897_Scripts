@@ -31,8 +31,8 @@
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k humiliation|status-loss|rivalry-pressure] ?target}:?pressure
+      {?target lover|HAVE-SEX-WITH ? /ever}
       (when (and (not (= ?target @self))
-                     {?target lover|HAVE-SEX-WITH ? /ever}
                      (latch-eval
                          (chance (* (crime-scale)
                                     (* 0.4 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))
@@ -46,8 +46,8 @@
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k injustice] ?target}:?pressure
+      {?target lover|HAVE-SEX-WITH ? /ever}
       (when (and (not (= ?target @self))
-                     {?target lover|HAVE-SEX-WITH ? /ever}
                      (latch-eval
                          (chance (* (crime-scale)
                                     (* 0.5 (grievance-drive ?pressure ?target ?aggressive-tilt)))))))

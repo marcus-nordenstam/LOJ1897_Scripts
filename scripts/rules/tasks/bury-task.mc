@@ -9,18 +9,18 @@
   (tar [k human] @object)
   (and
     (try
-      (role ?church [k church-building] (select (score (near @self ?church)) (policy roulette unknown-last))
-        (when (and -{@self BURY ?corpse /succ /caused_by ?bury}
-                   (not (spatial @self can-reach ?corpse))))
-        (effects (maintain-proposal {@self go-to ?church}))))
+      (role @self (not (spatial @self can-reach ?corpse))
+                  -{@self BURY ?corpse /succ /caused_by ?bury}
+        (role ?church [k church-building] (select (score (near @self ?church)) (policy roulette unknown-last))
+          (effects (maintain-proposal {@self go-to ?church})))))
     (try
-      (when (and -{@self BURY ?corpse /succ /caused_by ?bury}
-                 (spatial @self can-reach ?corpse)))
-      (effects (maintain-proposal {@self BURY ?corpse})))
+      (role @self (spatial @self can-reach ?corpse)
+                  -{@self BURY ?corpse /succ /caused_by ?bury}
+        (effects (maintain-proposal {@self BURY ?corpse}))))
     (try
-      (when (and {@self BURY ?corpse /succ /caused_by ?bury}
-                 -{@self tell ? /succ /caused_by ?bury}))
-      (effects (maintain-proposal {@self tell (msg /utterable [] {?corpse internment [k buried]}) _})))
+      (role @self {@self BURY ?corpse /succ /caused_by ?bury}
+                  -{@self tell ? /succ /caused_by ?bury}
+        (effects (maintain-proposal {@self tell (msg /utterable [] {?corpse internment [k buried]}) _}))))
     (try
-      (when {@self tell ? /succ /caused_by ?bury})
-      (effects (set-outcome ?bury /succ)))))
+      (role @self {@self tell ? /succ /caused_by ?bury}
+        (effects (set-outcome ?bury /succ))))))

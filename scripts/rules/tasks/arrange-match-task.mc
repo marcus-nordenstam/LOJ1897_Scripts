@@ -27,16 +27,16 @@
                         {?groom fiancee ?daughter})
                       ?daughter})))
     (try
-      (when (and {@self tell ? ?daughter /succ /caused_by ?arrange-match}
-                 -{@self tell ? ?groom /succ /caused_by ?arrange-match}))
-      (effects (maintain-proposal {@self tell (msg /utterable [] {?daughter fiancee ?groom}) ?groom})))
+      (role @self {@self tell ? ?daughter /succ /caused_by ?arrange-match}
+                  -{@self tell ? ?groom /succ /caused_by ?arrange-match}
+        (effects (maintain-proposal {@self tell (msg /utterable [] {?daughter fiancee ?groom}) ?groom}))))
     (try
-      (when (and {@self tell ? ?daughter /succ /caused_by ?arrange-match}
-                 {@self tell ? ?groom /succ /caused_by ?arrange-match}))
-      (effects
-        (bind (bb-read ?arrange-match told) ?told)
-        (bind (+ ?told (seconds (arranged_match_grace_days) d)) ?deadline)
-        (begin-belief {@self threaten ?daughter
-                        (consequence -{?daughter wed ?groom /during ?told ?deadline} {@self disinherit ?daughter} ?deadline)})
-        (bb-clear ?arrange-match told)
-        (set-outcome ?arrange-match /succ)))))
+      (role @self {@self tell ? ?daughter /succ /caused_by ?arrange-match}
+                  {@self tell ? ?groom /succ /caused_by ?arrange-match}
+        (effects
+          (bind (bb-read ?arrange-match told) ?told)
+          (bind (+ ?told (seconds (arranged_match_grace_days) d)) ?deadline)
+          (begin-belief {@self threaten ?daughter
+                          (consequence -{?daughter wed ?groom /during ?told ?deadline} {@self disinherit ?daughter} ?deadline)})
+          (bb-clear ?arrange-match told)
+          (set-outcome ?arrange-match /succ))))))

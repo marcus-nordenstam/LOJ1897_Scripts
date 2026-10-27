@@ -17,5 +17,5 @@
                     (spatial @self building ?wp)
             (effects (maintain-proposal {@self QUIT-WORK}))))))
     (try
-      (when {@self QUIT-WORK /succ /caused_by ?retire})
-      (effects (set-outcome ?retire /succ)))))
+      (role @self {@self QUIT-WORK /succ /caused_by ?retire}
+        (effects (set-outcome ?retire /succ))))))

@@ -17,10 +17,10 @@
                  -{@self bribe ?victim /succ /ever}))
       (effects (maintain-proposal {@self pay ?victim (bribe_coins)})))
     (try
-      (when {@self pay ?victim ? /succ /caused_by ?bribe})
-      (effects
-        (record-crime @self ?victim offer_bribe bribe @u @u)
-        (set-outcome ?bribe /succ)))
+      (role @self {@self pay ?victim ? /succ /caused_by ?bribe}
+        (effects
+          (record-crime @self ?victim offer_bribe bribe @u @u)
+          (set-outcome ?bribe /succ))))
     (try
       (when (or {@self pay ?victim ? /fail /caused_by ?bribe}
                 (not (alive ?victim))))
