@@ -133,21 +133,6 @@
           (break))))
   ?found)
 
-; (said-to-me-since ?speaker ?since) - ?speaker has said something to @self since ?since.
-(define-func said-to-me-since (?speaker ?since)
-  (any-happened-since (every {?speaker SAY ? @self /past}) ?since))
-
-; (said-to-me-after ?speaker ?event) - ?speaker has said something to @self strictly after ?event:
-; a reply, since a line is heard a moment after it is said, never in the second of what it answers.
-(define-func said-to-me-after (?speaker ?event)
-  (bind @nothing ?found)
-  (for-each ?line (every {?speaker SAY ? @self /past})
-    (if (< (elapsed /seconds ?line) (elapsed /seconds ?event))
-        (then
-          (bind @true ?found)
-          (break))))
-  ?found)
-
 ; (conversation-of ?party) - the conversation ?party's public (conversing ..) names, or @fail.
 (define-func conversation-of (?party)
   (bb-public-read ?party conversing))
@@ -221,16 +206,6 @@
         (if (substantial (bb-public-any ?audience addressed @self))
             (then (bb-public-clear ?audience addressed))))))
 
-; (unanswered-hail ?caller) - an opening ?caller called to @self stands unanswered: @self has
-; neither taken him up nor turned him down since he called it.
-(define-func unanswered-hail (?caller)
-  (bind @false ?open)
-  (for-each ?opening (every {?caller SAY (formulaic ? opening-phrase ?..) @self /past})
-    (if (and (not (any-happened-since (every {@self take-up ?caller /succ}) ?opening))
-             (not (any-happened-since (every {@self turn-down ?caller ? /succ}) ?opening)))
-        (then (bind @true ?open) (break))))
-  ?open)
-
 ; (engaged-with ?partner) - @self and ?partner talk together: both are in one conversation, and
 ; since @self joined it a hail between them has been answered - his hail taken up, or ?partner's
 ; taken up by him. Being in one talk with a man is not yet talking to him.
@@ -242,11 +217,11 @@
        (or (any-happened-since (every {@self hail ?partner /succ}) ?part)
            (any-happened-since (every {@self take-up ?partner /succ}) ?part))))
 
-; (invited-by ?caller) - ?caller is in a conversation, the one @self is in or another, and his
-; hail stands unanswered: it is @self's to answer. A hail answered stays answered until he calls
-; again.
+; (invited-by ?caller) - ?caller is in a conversation, the one @self is in or another: the hail he
+; called stands. Whether it is answered is the reader's role: no take-up or turn-down of @self's
+; caused by it has succeeded.
 (define-func invited-by (?caller)
-  (and (substantial (bb-public-read ?caller conversing)) (unanswered-hail ?caller)))
+  (substantial (bb-public-read ?caller conversing)))
 
 ; (join-conversation ?talk) - @self takes part in ?talk: his entry names it, and he knows himself
 ; a party of it, where it is held when he did not yet, and the occasion it is part of when he
@@ -301,15 +276,115 @@
   (if (substantial ?talk)
       (then
         (bb-public-clear @self conversing)
+        (bb-public-clear @self has-more)
         (end-belief {?talk participant @self})
         (end-belief {?talk venue ?}))))
 
-; (agenda-answered ?partner ?agenda ?converse) - ?agenda has been told to ?partner in
-; ?converse, and, when it asked something, he has answered since.
+; A conversation lasts until its parties have run out of things to say. What a man still has to
+; say in one is his AGENDA, never stored: what his mind yields for it now (agenda-for). While it is
+; not empty he shows it - his board's has-more names the conversation (thinks/
+; conversation-has-more-think.mc), which the conversation's own board records - and withdraws it
+; when it is (conversation-said-all-think.mc). He is done with a conversation when his agenda is
+; empty and nobody's mark is left on it (said-all): the last to run out takes his leave, and his
+; goodbye wakes the rest.
+
+; (asked-news ?friend) - @self has asked ?friend what is new in the exchange he holds with him.
+(define-func asked-news (?friend)
+  (bind (any {@self converse ?friend ?}) ?converse)
+  (and (is-belief ?converse)
+       (substantial (any {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ /caused_by ?converse}))))
+
+; (replied ?speaker ?said) - ?speaker has said something to @self in reply to @self's line ?said: a
+; line of his caused by it.
+(define-func replied (?speaker ?said)
+  (substantial (any {?speaker SAY ? @self /succ /caused_by ?said})))
+
+; (hail-reply ?partner ?hail) - what ?partner said in reply to the opening @self called in ?hail,
+; or @fail.
+(define-func hail-reply (?partner ?hail)
+  (bind (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /succ /caused_by ?hail}) ?said)
+  (if (is-belief ?said)
+      (then (any {?partner SAY ? @self /succ /caused_by ?said}))
+      (else @fail)))
+
+; (errand-open) - @self holds a converse whose own agenda is not yet answered.
+(define-func errand-open ()
+  (bind @false ?open)
+  (for-each ?converse (every {@self converse ? ?})
+    (bind ?converse.target ?errand-partner)
+    (bind ?converse.auxiliary ?errand)
+    (if (and (substantial ?errand) (not (agenda-answered ?errand-partner ?errand ?converse)))
+        (then (bind @true ?open) (break))))
+  ?open)
+
+; (next-move ?talk ?partner) - what @self would say to ?partner next in ?talk of his own accord,
+; or @nothing: news of his that ?partner has not heard, then asking what is new with him, then gossip
+; he has not heard. Only to a friend, or someone closer.
+(define-func next-move (?talk ?partner)
+  (bind @nothing ?move)
+  (if (substantial (any {@self (closeness-labels friend) ?partner}))
+      (then
+        (bind (pick-untold-belief /news ?partner) ?news)
+        (if (substantial ?news)
+            (then (bind (msg /utterable [] ?news) ?move))
+            (else
+              (if (not (asked-news ?partner))
+                  (then (bind (qs /utterable [] (pick-untold-belief /news @i)) ?move))
+                  (else
+                    (bind (pick-untold-belief /gossip ?partner) ?gossip)
+                    (if (substantial ?gossip)
+                        (then (bind (msg /utterable [] ?gossip) ?move)))))))))
+  ?move)
+
+; (awaits-reply ?talk) - @self has asked someone in ?talk something in the exchange he holds with
+; him, and has had no reply to it yet.
+(define-func awaits-reply (?talk)
+  (bind @false ?waiting)
+  (for-each ?party (parties-of ?talk)
+    (if (neq ?party @self)
+        (then
+          (bind (any {@self converse ?party ?}) ?converse)
+          (if (is-belief ?converse)
+              (then
+                (for-each ?said (every {@self SAY (qs ? ? ?..) ?party /succ /caused_by ?converse})
+                  (if (not (replied ?party ?said))
+                      (then (bind @true ?waiting) (break)))))))))
+  ?waiting)
+
+; (agenda-for ?talk) - @self still has something to say in ?talk: a reply he waits for, the errand
+; he came with, or a next move toward someone in it he holds an exchange with.
+(define-func agenda-for (?talk)
+  (bind (or (awaits-reply ?talk) (errand-open)) ?more)
+  (if (not ?more)
+      (then
+        (for-each ?party (parties-of ?talk)
+          (if (and (neq ?party @self)
+                   (substantial (any {@self converse ?party ?}))
+                   (substantial (next-move ?talk ?party)))
+              (then (bind @true ?more) (break))))))
+  ?more)
+
+; (said-all ?talk) - nobody in ?talk has anything left to say, @self included.
+(define-func said-all (?talk)
+  (if (substantial ?talk)
+      (then (and (not (agenda-for ?talk)) (bb-public-none ? has-more ?talk)))
+      (else @false)))
+
+; (answer-to ?qs ?partner) - what @self says to ?partner's question ?qs: its content evaluated in
+; his mind, or "nothing much" when it asked his news and he has none.
+(define-func answer-to (?qs ?partner)
+  (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
+  (bind (nth (k-msg-first-content-field) ?qs) ?asked-content)
+  (if (and (eq-func-name ?asked-content pick-untold-belief) (unsubstantial ?answer))
+      (then (formulaic [] response no-news))
+      (else (msg /utterable [] ?answer))))
+
+; (agenda-answered ?partner ?agenda ?converse) - ?agenda has been said to ?partner in
+; ?converse, and, when it asked something, he has replied to it.
 (define-func agenda-answered (?partner ?agenda ?converse)
-  (bind (any {@self tell ?agenda ?partner /succ /caused_by ?converse}) ?told)
-  (and (is-belief ?told)
-       (or (not (is-qs ?agenda)) (said-to-me-after ?partner ?told))))
+  (bind (any {@self SAY ?agenda ?partner /succ /caused_by ?converse}) ?said)
+  (and (is-belief ?said)
+       (or (not (is-qs ?agenda)) (replied ?partner ?said))))
 
 ; (took-up ?caller) - @self took up a conversation ?caller opened, and has hailed ?caller
 ; himself no time since: the open conversation is ?caller's, not one @self opened.

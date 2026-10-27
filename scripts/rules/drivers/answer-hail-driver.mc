@@ -17,40 +17,51 @@
   (substantial (any {@self turn-down ?speaker ?})))
 
 ; Taking it up, at what talking with ?speaker is worth to him, while nothing else he has going
-; outbids it; then the exchange, for as long as the conversation he took up is open.
+; outbids it. Every answer to a hail is caused by the opening it answers.
 (driver engage-hail
+  (role ?speaker {?speaker SAY ? @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+                 -{@self take-up ?speaker /succ /caused_by ?opening}
+                 -{@self turn-down ?speaker ? /succ /caused_by ?opening}
+    (bind (hail-worth ?speaker) ?worth)
+    (declare-utility (utility-band ?worth) (utility-value ?worth))
+    (when (and (invited-by ?speaker)
+               (within-call ?speaker)
+               (not (rebuffs ?speaker))
+               (not (turning-down ?speaker))
+               (unsubstantial (top-competing-act {@self take-up ?speaker} ?worth))))
+    (effects (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))
+
+; The exchange with a man whose hail he took up, at what talking with him is worth, for as long as
+; the conversation he took up is open.
+(driver hold-taken-up
   (role ?speaker {?speaker SAY ? @self /past}
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}
     (bind (hail-worth ?speaker) ?worth)
     (declare-utility (utility-band ?worth) (utility-value ?worth))
-    (stable-or
-      (try
-        (when (and (invited-by ?speaker)
-                   (within-call ?speaker)
-                   (not (rebuffs ?speaker))
-                   (not (turning-down ?speaker))
-                   (unsubstantial (top-competing-act {@self take-up ?speaker} ?worth))))
-        (effects (maintain-proposal {@self take-up ?speaker})))
-      (try
-        (when (and (conversing-with @self ?speaker)
-                   (conversing-with ?speaker @self)
-                   (took-up ?speaker)))
-        (effects (maintain-proposal {@self converse ?speaker}))))))
+    (when (and (conversing-with @self ?speaker)
+               (conversing-with ?speaker @self)
+               (took-up ?speaker)))
+    (effects (maintain-proposal {@self converse ?speaker}))))
 
 ; A take-up he has begun is a yes already being said: he finishes it.
 (driver complete-take-up
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+                 -{@self take-up ?speaker /succ /caused_by ?opening}
+                 -{@self turn-down ?speaker ? /succ /caused_by ?opening}
     (when (and (invited-by ?speaker)
                (taking-up ?speaker)))
     (declare-utility unbeatable)
-    (effects (maintain-proposal {@self take-up ?speaker}))))
+    (effects (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))
 
 ; Declining for what he would rather be doing, and saying what it is: the decision is made once,
 ; and the refusal it begins always completes.
 (driver decline-hail
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+                 -{@self take-up ?speaker /succ /caused_by ?opening}
+                 -{@self turn-down ?speaker ? /succ /caused_by ?opening}
     (bind (hail-worth ?speaker) ?worth)
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
@@ -64,15 +75,18 @@
     (lint-waive begin-proposal)
     (effects
       (bind (top-competing-act {@self take-up ?speaker} ?worth) ?busy-with)
-      (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?busy-with)} /uninterruptable))))
+      (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?busy-with)} /uninterruptable
+                      /caused_by ?opening))))
 
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (driver rebuff-hail
   (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+                 -{@self take-up ?speaker /succ /caused_by ?opening}
+                 -{@self turn-down ?speaker ? /succ /caused_by ?opening}
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
                (rebuffs ?speaker)))
     (declare-utility unbeatable)
     (effects
-      (maintain-proposal {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)}))))
+      (maintain-proposal {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)} /caused_by ?opening))))

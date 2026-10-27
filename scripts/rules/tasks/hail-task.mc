@@ -22,7 +22,7 @@
   (cease
     (if (not (engaged-with ?partner))
         (then
-          (if (and (conversing-with ?partner @self) (said-to-me-since ?partner ?hail))
+          (if (and (conversing-with ?partner @self) (is-belief (hail-reply ?partner ?hail)))
               (then (set-outcome ?hail /succ))
               (else (leave-conversation))))))
   (and
@@ -43,17 +43,18 @@
         (join-conversation (conversation-of ?partner))))
     (try
       (lint-waive cacheable-read-in-when)
-      (when (and (conversing-with ?partner @self) (said-to-me-since ?partner ?hail)))
-      (effects (set-outcome ?hail /succ)))
+      (role ?partner {?partner SAY ? @self /past}
+        (when (and (conversing-with ?partner @self) (is-belief (hail-reply ?partner ?hail))))
+        (effects (set-outcome ?hail /succ))))
     (try
       (role ?partner {?partner SAY ? @self /past}
                      {?partner SAY (formulaic ? refusal ?..) @self /past}:?refusal
-        (when (happened-since ?refusal ?hail))
+        (when (eq ?refusal (hail-reply ?partner ?hail)))
         (effects (set-outcome ?hail /fail))))
     (try
       (role ?partner {?partner SAY ? @self /past}
                      {?partner SAY (formulaic ? rebuff) @self /past}:?rebuff
-        (when (happened-since ?rebuff ?hail))
+        (when (eq ?rebuff (hail-reply ?partner ?hail)))
         (effects (set-outcome ?hail /fail))))
     (try
       (lint-waive cacheable-read-in-when)

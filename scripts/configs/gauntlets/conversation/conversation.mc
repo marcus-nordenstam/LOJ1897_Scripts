@@ -26,3 +26,31 @@
       (if (and (neq ?first-speaker ?second-speaker) (= ?first-end ?second-end))
           (then (bind (+ ?pairs 1) ?pairs)))))
   ?pairs)
+
+; (conversation-befriend ?a ?b) - ?a and ?b are friends, each in his own mind.
+(define-func conversation-befriend (?a ?b)
+  (enter-mind ?a)
+  (observe ?b): ?cb-friend
+  (begin-belief {@self friend ?cb-friend})
+  (exit-mind)
+  (enter-mind ?b)
+  (observe ?a): ?cb-friend-back
+  (begin-belief {@self friend ?cb-friend-back})
+  (exit-mind))
+
+; (asked-whats-new ?other) - in a mind: @self asked ?other what is new, and he replied to it.
+(define-func asked-whats-new (?other)
+  (bind @false ?asked)
+  (for-each ?ask (every {@self SAY (qs ? (pick-untold-belief ?..)) ?other /succ})
+    (if (replied ?other ?ask)
+        (then (bind @true ?asked) (break))))
+  ?asked)
+
+; (knows-talk-with ?a ?b) - in a mind: @self knows a talk he took part in that ?a and ?b took part in too.
+(define-func knows-talk-with (?a ?b)
+  (bind @false ?found)
+  (for-each ?part (every {? participant @self /ever})
+    (bind ?part.subject ?talk)
+    (if (and (substantial (any {?talk participant ?a /ever})) (substantial (any {?talk participant ?b /ever})))
+        (then (bind @true ?found) (break))))
+  ?found)

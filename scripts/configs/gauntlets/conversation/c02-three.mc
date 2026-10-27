@@ -34,7 +34,7 @@
   (cast cook): ?cook
   (expect (> (+ (acts ?first hail succ) (acts ?second hail succ)) 1) "c02: fewer than two hails taken up")
   (expect (> (acts ?cook take-up succ) 0) "c02: she never took anyone up")
-  (expect (in-mind ?cook (= (count (every {? participant ? /ever})) 3)) "c02: she does not know three in one talk")
+  (expect (in-mind ?cook (knows-talk-with ?first ?second)) "c02: she does not know three in one talk")
   (expect (in-mind ?first (substantial (any {? participant ? /ever}))) "c02: the first knows no talk")
   (expect (in-mind ?second (substantial (any {? participant ? /ever}))) "c02: the second knows no talk")
   (expect (unsubstantial (bb-public-read ?cook conversing)) "c02: her entry still names a talk")
