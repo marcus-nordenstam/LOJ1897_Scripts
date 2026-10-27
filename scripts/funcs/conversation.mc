@@ -397,10 +397,37 @@
               (then (bind (msg /utterable [/msg-class smalltalk] ?weather) ?line) (break))))))
   ?line)
 
+; (flirted-in ?talk) - @self has made his flirt in ?talk: one a talk.
+(define-func flirted-in (?talk)
+  (bind @false ?flirted)
+  (for-each ?flirt (every {@self flirt ?talk ? /ever})
+    (if (substantial (any {@self tell (formulaic ~[/msg-class flirtation] flirt compliment) ? /succ /caused_by ?flirt}))
+        (then (bind @true ?flirted) (break))))
+  ?flirted)
+
+; (awaits-flirt-answer ?talk ?partner) - a flirt ?partner made to @self in ?talk is still unanswered.
+(define-func awaits-flirt-answer (?talk ?partner)
+  (bind (any {?talk participant @self}) ?part)
+  (bind @false ?waiting)
+  (for-each ?line (every {?partner SAY (formulaic ~[/msg-class flirtation] flirt compliment) @self /past})
+    (if (and (happened-since ?line ?part) (none {@self tell ? ?partner /succ /caused_by ?line}))
+        (then (bind @true ?waiting) (break))))
+  ?waiting)
+
+; (flirt-reply ?partner) - what @self answers a flirt of ?partner's with, his motives choosing: a flirt
+; back to one he fancies, a rebuff - heard as the slight it is - to one he dislikes, else flattered.
+(define-func flirt-reply (?partner)
+  (if (substantial (any {@self fancy|desire|crave ?partner}))
+      (then (formulaic [/msg-class flirtation] flirt return))
+      (else
+        (if (substantial (any {@self dislike|detest ?partner}))
+            (then (formulaic [/msg-class insult] refusal flirt))
+            (else (formulaic [/msg-class flirtation] response flattered))))))
+
 ; (agenda-for ?talk) - @self still has something to say in ?talk: a dialogue task of his still runs
 ; there, or a dialogue-line of some class is waiting for someone in it - the union over the classes.
 (define-func agenda-for (?talk)
-  (bind (or (substantial (any {@self friend-talk|smalltalk ?talk ?}))
+  (bind (or (substantial (any {@self friend-talk|smalltalk|flirt ?talk ?}))
             (and (substantial (any {@self unease ?talk})) (substantial (smalltalk-line ?talk))))
         ?more)
   (for-each ?party (parties-of ?talk)

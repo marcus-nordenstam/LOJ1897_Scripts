@@ -31,6 +31,10 @@
 "Signed, $name(PNAME)"                                                          ( /author $name(PNAME) ) .
 "To $name(PNAME)"                                                               ( /addressee $name(PNAME) ) .
 
+"You look lovely today"                                                        ( formulaic [] flirt compliment ) .
+"You are rather charming yourself"                                             ( formulaic [] flirt return ) .
+"You flatter me"                                                               ( formulaic [] response flattered ) .
+"Mind your manners"                                                            ( formulaic [] refusal flirt ) .
 "It is indeed"                                                                  ( formulaic [] response agree ) .
 "Nothing much"                                                                  ( formulaic [] response no-news ) .
 

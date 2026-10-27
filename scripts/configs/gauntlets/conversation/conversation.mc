@@ -53,6 +53,15 @@
         (then (bind @true ?answered) (break))))
   ?answered)
 
+; (answered-flirt ?other) - in a mind: ?other flirted with @self, and @self answered it - a line of
+; his caused by that flirt.
+(define-func answered-flirt (?other)
+  (bind @false ?answered)
+  (for-each ?line (every {?other SAY (formulaic ~[/msg-class flirtation] flirt compliment) @self /past})
+    (if (substantial (any {@self tell ? ?other /succ /caused_by ?line}))
+        (then (bind @true ?answered) (break))))
+  ?answered)
+
 ; (asked-whats-new ?other) - in a mind: @self asked ?other what is new, and he replied to it.
 (define-func asked-whats-new (?other)
   (bind @false ?asked)
