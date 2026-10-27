@@ -46,6 +46,15 @@
         (then (bind @true ?asked) (break))))
   ?asked)
 
+; (answered-tidings ?other) - in a mind: ?other told @self tidings, and @self answered them in kind -
+; a friend-talk of his caused by that line.
+(define-func answered-tidings (?other)
+  (bind @false ?answered)
+  (for-each ?line (every {?other SAY (msg ~[/msg-class tidings] ?..) @self /past})
+    (if (substantial (any {@self friend-talk ? ?other /ever /caused_by ?line}))
+        (then (bind @true ?answered) (break))))
+  ?answered)
+
 ; (knows-talk-with ?a ?b) - in a mind: @self knows a talk he took part in that ?a and ?b took part in too.
 (define-func knows-talk-with (?a ?b)
   (bind @false ?found)
