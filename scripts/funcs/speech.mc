@@ -70,21 +70,20 @@
   (bind (nth (k-formulaic-office-field) ?msg) ?kind)
   (absorb-heard-fact (begin-belief {?speaker job (o ?kind {?speaker job @o})}) ?tell))
 
-; (adopt-not-knowing ?speaker ?tell) - ?speaker answered a question @self put to him in the
-; exchange he holds with him "I don't know" (?tell, caused by it): the hearer takes him not to know
-; what it asked, the clause the question searched.
+; (adopt-not-knowing ?speaker ?tell) - ?speaker answered "I don't know" (?tell, caused by it) to a
+; question @self inquired of him: the hearer takes him not to know what it asked, the clause the
+; question searched.
 (define-func adopt-not-knowing (?speaker ?tell)
-  (bind (the-converse (conversation-of @self)) ?converse)
-  (if (is-belief ?converse)
-      (then
-        (for-each ?asked (every {@self SAY (qs ? ? ?..) ?speaker /succ /caused_by ?converse})
-          (if (eq ?tell (any {?speaker SAY ? @self /succ /caused_by ?asked}))
-              (then
-                (bind (nth (k-msg-first-content-field) ?asked.target) ?asked-content)
-                (bind (nth 1 ?asked-content) ?asked-clause)
-                (if (is-clause ?asked-clause)
-                    (then (absorb-heard-fact (begin-belief {?speaker /not know ?asked-clause}) ?tell)))
-                (break)))))))
+  (for-each ?inquire (every {@self inquire ?speaker ? /ever})
+    (bind ?inquire.auxiliary ?asked-msg)
+    (bind (any {@self SAY ?asked-msg ?speaker /succ /caused_by ?inquire}) ?asked)
+    (if (and (is-belief ?asked) (eq ?tell (any {?speaker SAY ? @self /succ /caused_by ?asked})))
+        (then
+          (bind (nth (k-msg-first-content-field) ?asked-msg) ?asked-content)
+          (bind (nth 1 ?asked-content) ?asked-clause)
+          (if (is-clause ?asked-clause)
+              (then (absorb-heard-fact (begin-belief {?speaker /not know ?asked-clause}) ?tell)))
+          (break)))))
 
 (define-func /hear adopt-heard-msg (?msg ?speaker ?audience ?tell)
   (if (authority-introduction ?msg)

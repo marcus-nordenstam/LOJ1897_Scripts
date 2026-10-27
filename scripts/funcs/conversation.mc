@@ -288,92 +288,88 @@
 ; empty and nobody's mark is left on it (said-all): the last to run out takes his leave, and his
 ; goodbye wakes the rest.
 
-; (the-converse ?talk) - the exchange @self holds in ?talk, or @fail.
-(define-func the-converse (?talk)
-  (any {@self converse ?talk}))
+; (friend-talks ?talk ?friend) - every friend-talk @self has held with ?friend in ?talk.
+(define-func friend-talks (?talk ?friend)
+  (every {@self friend-talk ?talk ?friend /ever}))
 
-; (asked-news ?friend ?talk) - @self has asked ?friend what is new in the exchange he holds in ?talk.
+; (asked-news ?friend ?talk) - @self has asked ?friend what is new in his friend-talk in ?talk.
 (define-func asked-news (?friend ?talk)
-  (bind (the-converse ?talk) ?converse)
-  (and (is-belief ?converse)
-       (substantial (any {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ /caused_by ?converse}))))
+  (bind @false ?asked)
+  (for-each ?friend-talk (friend-talks ?talk ?friend)
+    (if (substantial (any {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ /caused_by ?friend-talk}))
+        (then (bind @true ?asked) (break))))
+  ?asked)
 
-; (replied ?speaker ?said) - ?speaker has said something to @self in reply to @self's line ?said: a
-; line of his caused by it.
-(define-func replied (?speaker ?said)
-  (substantial (any {?speaker SAY ? @self /succ /caused_by ?said})))
-
-; (hail-reply ?partner ?hail) - what ?partner said in reply to the opening @self called in ?hail,
-; or @fail.
-(define-func hail-reply (?partner ?hail)
-  (bind (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /succ /caused_by ?hail}) ?said)
-  (if (is-belief ?said)
-      (then (any {?partner SAY ? @self /succ /caused_by ?said}))
-      (else @fail)))
-
-; (supper-hour-question ?cook) - the question @self has for the woman of his house while he does
-; not know its supper hour and does not take her not to know it, or @nothing.
-(define-func supper-hour-question (?cook)
-  (bind @nothing ?line)
-  (bind (any {@self home ?}) ?home-belief)
-  (if (is-belief ?home-belief)
-      (then
-        (bind ?home-belief.target ?home)
-        (if (and (substantial (any {@self mother|parent|spouse ?cook}))
-                 (substantial (any {?cook gender [k female]}))
-                 (none {?home supper-hour ?})
-                 (none {?cook /not know {?home supper-hour ?}}))
-            (then (bind (qs /utterable [] (any {?home supper-hour ?})) ?line)))))
-  ?line)
-
-; (next-move ?talk ?partner) - what @self would say to ?partner next in ?talk of his own accord, or
-; @nothing: the errand question he has for him, else - to a friend, or someone closer - news of his
-; that ?partner has not heard, then asking what is new with him, then gossip he has not heard.
-(define-func next-move (?talk ?partner)
-  (bind (supper-hour-question ?partner) ?move)
-  (if (and (unsubstantial ?move)
-           (substantial (any {@self (closeness-labels friend) ?partner}))
-           (>= (any {@self age ?}).target 12))
-      (then
-        (bind (pick-untold-belief /news ?partner) ?news)
-        (if (substantial ?news)
-            (then (bind (msg /utterable [] ?news) ?move))
-            (else
-              (if (not (asked-news ?partner ?talk))
-                  (then (bind (qs /utterable [] (pick-untold-belief /news @i)) ?move))
-                  (else
-                    (bind (pick-untold-belief /gossip ?partner) ?gossip)
-                    (if (substantial ?gossip)
-                        (then (bind (msg /utterable [] ?gossip) ?move)))))))))
-  ?move)
-
-; (awaits-reply ?talk) - @self has asked someone in ?talk something in the exchange he holds in it,
+; (friend-awaits-reply ?talk ?friend) - @self asked ?friend something in his friend-talk in ?talk
 ; and has had no reply to it yet.
-(define-func awaits-reply (?talk)
+(define-func friend-awaits-reply (?talk ?friend)
   (bind @false ?waiting)
-  (bind (the-converse ?talk) ?converse)
-  (if (is-belief ?converse)
-      (then
-        (for-each ?party (parties-of ?talk)
-          (if (neq ?party @self)
-              (then
-                (for-each ?said (every {@self SAY (qs ? ? ?..) ?party /succ /caused_by ?converse})
-                  (if (not (replied ?party ?said))
-                      (then (bind @true ?waiting) (break)))))))))
+  (for-each ?friend-talk (friend-talks ?talk ?friend)
+    (for-each ?said (every {@self SAY (qs ? ? ?..) ?friend /succ /caused_by ?friend-talk})
+      (if (not (replied ?friend ?said))
+          (then (bind @true ?waiting) (break)))))
   ?waiting)
 
-; (agenda-for ?talk) - @self still has something to say in the exchange he holds in ?talk: a reply
-; he waits for, or a next move toward someone in it.
-(define-func agenda-for (?talk)
-  (bind @false ?more)
-  (if (is-belief (the-converse ?talk))
+; (replied ?speaker ?said) - ?speaker has said something to @self in reply to @self's line ?said: a
+; line of his caused by it.
+(define-func replied (?speaker ?said)
+  (substantial (any {?speaker SAY ? @self /succ /caused_by ?said})))
+
+; (hail-reply ?partner ?hail) - what ?partner said in reply to the opening @self called in ?hail,
+; or @fail.
+(define-func hail-reply (?partner ?hail)
+  (bind (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /succ /caused_by ?hail}) ?said)
+  (if (is-belief ?said)
+      (then (any {?partner SAY ? @self /succ /caused_by ?said}))
+      (else @fail)))
+
+; (supper-hour-question ?cook) - the question @self has for the woman of his house while he does
+; not know its supper hour and does not take her not to know it, or @nothing.
+(define-func supper-hour-question (?cook)
+  (bind @nothing ?line)
+  (bind (any {@self home ?}) ?home-belief)
+  (if (is-belief ?home-belief)
+      (then
+        (bind ?home-belief.target ?home)
+        (if (and (substantial (any {@self mother|parent|spouse ?cook}))
+                 (substantial (any {?cook gender [k female]}))
+                 (none {?home supper-hour ?})
+                 (none {?cook /not know {?home supper-hour ?}}))
+            (then (bind (qs /utterable [] (any {?home supper-hour ?})) ?line)))))
+  ?line)
+
+; (friend-talk-line ?talk ?friend) - the next FRIEND-TALK dialogue-line @self has for ?friend in
+; ?talk, or @nothing: news of his ?friend has not heard, then asking what is new with him, then
+; gossip he has not heard. Only to a friend, or someone closer, and only from twelve.
+(define-func friend-talk-line (?talk ?friend)
+  (bind @nothing ?line)
+  (if (and (substantial (any {@self (closeness-labels friend) ?friend}))
+           (>= (any {@self age ?}).target 12))
       (then
-        (bind (awaits-reply ?talk) ?more)
-        (if (not ?more)
-            (then
-              (for-each ?party (parties-of ?talk)
-                (if (and (neq ?party @self) (substantial (next-move ?talk ?party)))
-                    (then (bind @true ?more) (break))))))))
+        (bind (pick-untold-belief /news ?friend) ?news)
+        (if (substantial ?news)
+            (then (bind (msg /utterable [] ?news) ?line))
+            (else
+              (if (not (asked-news ?friend ?talk))
+                  (then (bind (qs /utterable [] (pick-untold-belief /news @i)) ?line))
+                  (else
+                    (bind (pick-untold-belief /gossip ?friend) ?gossip)
+                    (if (substantial ?gossip)
+                        (then (bind (msg /utterable [] ?gossip) ?line)))))))))
+  ?line)
+
+; (agenda-for ?talk) - @self still has something to say in ?talk: a dialogue task of his still runs
+; there, or a dialogue-line of some class is waiting for someone in it - the union over the classes.
+(define-func agenda-for (?talk)
+  (bind (substantial (any {@self friend-talk ?talk ?})) ?more)
+  (for-each ?party (parties-of ?talk)
+    (if (and (not ?more) (neq ?party @self))
+        (then
+          (bind (or (substantial (any {@self inquire ?party ?}))
+                    (substantial (any {@self answer ?party ?}))
+                    (substantial (supper-hour-question ?party))
+                    (substantial (friend-talk-line ?talk ?party)))
+                ?more))))
   ?more)
 
 ; (said-all ?talk) - nobody in ?talk has anything left to say, @self included.

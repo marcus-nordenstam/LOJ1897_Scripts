@@ -33,19 +33,6 @@
                (unsubstantial (top-competing-act {@self take-up ?speaker} ?worth))))
     (effects (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))
 
-; The exchange with a man whose hail he took up, at what talking with him is worth, for as long as
-; the conversation he took up is open.
-(driver hold-taken-up
-  (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}
-    (bind (hail-worth ?speaker) ?worth)
-    (declare-utility (utility-band ?worth) (utility-value ?worth))
-    (bind (conversation-of @self) ?talk)
-    (when (and (conversing-with @self ?speaker)
-               (conversing-with ?speaker @self)
-               (took-up ?speaker)))
-    (effects (maintain-proposal {@self converse ?talk}))))
-
 ; A take-up he has begun is a yes already being said: he finishes it.
 (driver complete-take-up
   (role ?speaker {?speaker SAY ? @self /past}

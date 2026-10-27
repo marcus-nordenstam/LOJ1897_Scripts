@@ -9,15 +9,19 @@
   (role @self {@self age ?age}
     (role ?friend {@self (closeness-labels friend) ?friend} {?friend isa [k human], condition [k alive]}
                   (spatial ?friend co-located @self)
-      (bind (pick-untold-belief /news ?friend) ?untold)
-      (when (and (substantial ?untold) (>= ?age 12)))
+      (when (>= ?age 12))
       (declare-utility want)
       (stable-or
         (try
-          (when (not (engaged-with ?friend)))
+          (bind (pick-untold-belief /news ?friend) ?untold)
+          (when (and (substantial ?untold) (not (engaged-with ?friend))))
           (effects (maintain-proposal {@self hail ?friend})))
         (try
           (role @self {@self hail|take-up ?friend /succ /past}
             (bind (conversation-of @self) ?talk)
-            (when (engaged-with ?friend))
-            (effects (maintain-proposal {@self converse ?talk}))))))))
+            (bind (any {@self converse ?talk}) ?converse)
+            (when (and (engaged-with ?friend)
+                       (is-belief ?converse)
+                       (or (substantial (friend-talk-line ?talk ?friend))
+                           (friend-awaits-reply ?talk ?friend))))
+            (effects (maintain-proposal {@self friend-talk ?talk ?friend} /caused_by ?converse))))))))

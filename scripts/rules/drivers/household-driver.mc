@@ -112,8 +112,10 @@
           (try
             (role @self {@self hail|take-up ?cook /succ /past}
               (bind (conversation-of @self) ?talk)
-              (when (engaged-with ?cook))
-              (effects (maintain-proposal {@self converse ?talk})))))))))
+              (bind (any {@self converse ?talk}) ?converse)
+              (bind (supper-hour-question ?cook) ?qs)
+              (when (and (engaged-with ?cook) (is-belief ?converse) (substantial ?qs)))
+              (effects (maintain-proposal {@self inquire ?cook ?qs} /caused_by ?converse)))))))))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the
 ; pressure-driven cook errand in thinks/provisioning_think.mc - the kitchen
