@@ -23,6 +23,7 @@
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
+                 (not (conversing-with @self ?speaker))
     (bind (hail-worth ?speaker) ?worth)
     (declare-utility (utility-band ?worth) (utility-value ?worth))
     (when (and (invited-by ?speaker)
@@ -39,10 +40,11 @@
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}
     (bind (hail-worth ?speaker) ?worth)
     (declare-utility (utility-band ?worth) (utility-value ?worth))
+    (bind (conversation-of @self) ?talk)
     (when (and (conversing-with @self ?speaker)
                (conversing-with ?speaker @self)
                (took-up ?speaker)))
-    (effects (maintain-proposal {@self converse ?speaker}))))
+    (effects (maintain-proposal {@self converse ?talk}))))
 
 ; A take-up he has begun is a yes already being said: he finishes it.
 (driver complete-take-up
@@ -50,6 +52,7 @@
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
+                 (not (conversing-with @self ?speaker))
     (when (and (invited-by ?speaker)
                (taking-up ?speaker)))
     (declare-utility unbeatable)
@@ -62,6 +65,7 @@
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
+                 (not (conversing-with @self ?speaker))
     (bind (hail-worth ?speaker) ?worth)
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
@@ -84,6 +88,7 @@
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
+                 (not (conversing-with @self ?speaker))
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
                (rebuffs ?speaker)))

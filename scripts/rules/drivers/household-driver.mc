@@ -111,10 +111,9 @@
             (effects (maintain-proposal {@self hail ?cook})))
           (try
             (role @self {@self hail|take-up ?cook /succ /past}
+              (bind (conversation-of @self) ?talk)
               (when (engaged-with ?cook))
-              (effects
-                (qs /utterable [] (any {?home supper-hour ?})): ?qs
-                (maintain-proposal {@self converse ?cook ?qs})))))))))
+              (effects (maintain-proposal {@self converse ?talk})))))))))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the
 ; pressure-driven cook errand in thinks/provisioning_think.mc - the kitchen

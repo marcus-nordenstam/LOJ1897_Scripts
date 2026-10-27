@@ -18,5 +18,6 @@
           (effects (maintain-proposal {@self hail ?friend})))
         (try
           (role @self {@self hail|take-up ?friend /succ /past}
+            (bind (conversation-of @self) ?talk)
             (when (engaged-with ?friend))
-            (effects (maintain-proposal {@self converse ?friend _}))))))))
+            (effects (maintain-proposal {@self converse ?talk}))))))))

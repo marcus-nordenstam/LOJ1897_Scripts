@@ -23,18 +23,14 @@
       (stage
         (effects
           (bind (conversation-of @self) ?mine)
-          (if (and (substantial ?mine) (neq ?mine (conversation-of ?partner)))
-              (then
-                (for-each ?party (every {?mine participant ?})
-                  (bind ?party.target ?who)
-                  (if (and (neq ?who @self) (in-conversation ?who ?mine))
-                      (then (maintain-proposal {@self take-leave ?who}) (break))))))))
+          (if (and (substantial ?mine) (neq ?mine (conversation-of ?partner)) (other-party-in ?mine))
+              (then (maintain-proposal {@self take-leave ?mine})))))
       (stage
         (effects
           (bind (conversation-of ?partner) ?theirs)
           (if (substantial ?theirs)
               (then
                 (join-conversation ?theirs)
-                (begin-proposal {@self converse ?partner} /uninterruptable-until-fire)
+                (begin-proposal {@self converse ?theirs} /uninterruptable-until-fire)
                 (set-outcome ?take-up /succ))
               (else (set-outcome ?take-up /fail))))))))

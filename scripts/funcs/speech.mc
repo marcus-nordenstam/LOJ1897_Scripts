@@ -74,7 +74,7 @@
 ; exchange he holds with him "I don't know" (?tell, caused by it): the hearer takes him not to know
 ; what it asked, the clause the question searched.
 (define-func adopt-not-knowing (?speaker ?tell)
-  (bind (any {@self converse ?speaker ?}) ?converse)
+  (bind (the-converse (conversation-of @self)) ?converse)
   (if (is-belief ?converse)
       (then
         (for-each ?asked (every {@self SAY (qs ? ? ?..) ?speaker /succ /caused_by ?converse})
