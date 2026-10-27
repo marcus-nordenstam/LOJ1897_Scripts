@@ -335,7 +335,7 @@
                  (substantial (any {?cook gender [k female]}))
                  (none {?home supper-hour ?})
                  (none {?cook /not know {?home supper-hour ?}}))
-            (then (bind (qs /utterable [] (any {?home supper-hour ?})) ?line)))))
+            (then (bind (qs /utterable [/msg-class inquiry] (any {?home supper-hour ?})) ?line)))))
   ?line)
 
 ; (friend-talk-line ?talk ?friend) - the next FRIEND-TALK dialogue-line @self has for ?friend in
@@ -348,14 +348,14 @@
       (then
         (bind (pick-untold-belief /news ?friend) ?news)
         (if (substantial ?news)
-            (then (bind (msg /utterable [] ?news) ?line))
+            (then (bind (msg /utterable [/msg-class tidings] ?news) ?line))
             (else
               (if (not (asked-news ?friend ?talk))
-                  (then (bind (qs /utterable [] (pick-untold-belief /news @i)) ?line))
+                  (then (bind (qs /utterable [/msg-class tidings] (pick-untold-belief /news @i)) ?line))
                   (else
                     (bind (pick-untold-belief /gossip ?friend) ?gossip)
                     (if (substantial ?gossip)
-                        (then (bind (msg /utterable [] ?gossip) ?line)))))))))
+                        (then (bind (msg /utterable [/msg-class tidings] ?gossip) ?line)))))))))
   ?line)
 
 ; (agenda-for ?talk) - @self still has something to say in ?talk: a dialogue task of his still runs
@@ -384,8 +384,8 @@
   (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
   (bind (nth (k-msg-first-content-field) ?qs) ?asked-content)
   (if (and (eq-func-name ?asked-content pick-untold-belief) (unsubstantial ?answer))
-      (then (formulaic [] response no-news))
-      (else (msg /utterable [] ?answer))))
+      (then (formulaic [/msg-class reply] response no-news))
+      (else (msg /utterable [/msg-class reply] ?answer))))
 
 ; (focus-of ?talk) - whom @self faces in ?talk: the party he is telling a line to, else the first
 ; other party in it.

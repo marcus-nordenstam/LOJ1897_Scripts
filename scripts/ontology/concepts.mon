@@ -778,7 +778,10 @@
   (child msg-class
     (child insult (construed-act slight-act))
     (child jilt (construed-act abandonment-act wrong-act))
-    (child urge (construed-act coercion-act)))
+    (child urge (construed-act coercion-act))
+    ; The dialogue-line classes: each is said by its own dialogue task, and a reactive driver
+    ; finds the class inline on the heard line, (msg ~[/msg-class smalltalk] ?..).
+    (children inquiry reply smalltalk tidings flirtation))
 
   (child sky-condition
     (children clear overcast cloudy))
