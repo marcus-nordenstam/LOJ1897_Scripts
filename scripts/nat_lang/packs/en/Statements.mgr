@@ -838,8 +838,6 @@ $form(FORM)
 { $sub_np(NP) /pres breakfast-hour $hour(NP) } .
 " $sub_np(NP) killed $value(NP) "
 { $sub_np(NP) /past kill $value(NP) } .
-" I urge $obj_np(NP) to kill $value(NP) "
-{ ?_I /pres urge $obj_np(NP) { $obj_np(NP) /pres kill $value(NP) } } .
 
 
 ; --- MEMBER_OF (clubs / societies) -------------------------------------------

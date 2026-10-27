@@ -32,8 +32,7 @@
 ; the subject avoids the thing) ride the /causes slot, not a
 ; sub-kind. Read by deliberation (an actor's standing avoid-
 ; beliefs suppress branches that would put them in the avoided
-; state) and by `urge` (the task that argues a target into an
-; avoid-state).
+; state).
 (state avoid (tar ?))
 
 (state expect-answer (tar ?))
@@ -729,8 +728,6 @@
 (state hiding-spot (tar [k interior-space] @object))
 (state home (tar [k building|unit] @object @excl) (disclosure acquaintance) (talkable) (facets news_worthy) (tell-rank 19))
 (state honour-act (tar [k honour-act] @object))
-(state insult (tar [k insult] @object) (construed-act slight-act) (facets gossip_worthy) (tell-rank 2))
-(state jilt (tar [k jilt] @object) (construed-act abandonment-act wrong-act))
 (state job (tar [k job] @object) (disclosure stranger) (talkable) (self-known) (motivation) (describe-in occupation) (facets news_worthy) (tell-rank 16))
 (state level (tar [k level] @object @excl))
 (state love (tar ?) (exclusive_bond) (describe-in regard))
@@ -760,7 +757,6 @@
 (state suffer-loss-act (tar [k suffer-loss-act] @object))
 (state tenant (tar [k human|org] @object @excl))
 (state threaten-act (tar [k threaten-act] @object))
-(state urge (tar [k urge] @object) (construed-act coercion-act))
 (state workplace (tar [k building|space] @object @excl))
 (state wrong-act (tar [k wrong-act] @object))
 

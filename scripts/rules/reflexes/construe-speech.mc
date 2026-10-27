@@ -1,18 +1,16 @@
 ; ----------------------------------------------------------------------------
-; construe-speech (reflex) - the speech-act classification reflex.
+; construe-speech (reflex) - a classified line is construed as its class says.
 ;
-; A SAY act record carries its utterance in the target and its addressee in the
-; aux; the classification rides the msg's (msg-class <label>) arg. Reframing
-; the record under the classified label with patient = the addressee is what
-; lets the appraise phase construe an insult as an insult rather than a SAY.
-; Runs in EVERY holder's mind (speaker's own record included - classify gates
-; do not self-exclude); an unclassified SAY fails (substantial) and no-ops.
-; Mirrors (and will retire) the C++ reprojection block in categorize().
+; A SAY carries its line in the target and its addressee in the aux, and the line's class
+; rides the msg as [/msg-class <leaf>]. Each (construed-act ..) tag of the class
+; (ontology/concepts.mon) construes the SAY as that act of the speaker's against the
+; addressee, so an insult is taken as a slight. Runs in every holder's mind, the speaker's
+; own included; an unclassified line construes nothing.
 ; ----------------------------------------------------------------------------
 
 (reflex {?speaker SAY ?msg ?audience /ever}:?SAY
   (msg-class-of ?msg):?class
   (when (substantial ?class))
   (effects
-    (reframe ?SAY ?class ?speaker ?audience)
-    ))
+    (for-each ?construal (construals-of ?class)
+      (construe ?SAY ?construal ?speaker ?audience))))

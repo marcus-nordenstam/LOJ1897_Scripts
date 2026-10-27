@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
-; break-off ?lover - end an affair: tell the lover it is over ({@self jilt ?lover}, whose
-; construed-act the jilted appraises into grief and attachment-loss in their own mind), then
-; end one's own lover bond. Proposed by jilt and jilt-for-station (drivers/jilt-driver.mc).
+; break-off ?lover - end an affair: tell the lover it is over, a jilt-class line the jilted
+; construes as abandonment and a wrong (reflexes/construe-speech.mc), then end one's own lover
+; bond. Proposed by jilt and jilt-for-station (drivers/jilt-driver.mc).
 ; ----------------------------------------------------------------------------
 
 (task {@self break-off ?lover}:?break-off
@@ -9,7 +9,7 @@
   (and
     (try
       (role @self -{@self tell ? ?lover /succ /caused_by ?break-off}
-        (effects (maintain-proposal {@self tell (msg /utterable [] {@self jilt ?lover}) ?lover}))))
+        (effects (maintain-proposal {@self tell (formulaic [/msg-class jilt] breakup) ?lover}))))
     (try
       (role @self {@self tell ? ?lover /succ /caused_by ?break-off}
         (effects

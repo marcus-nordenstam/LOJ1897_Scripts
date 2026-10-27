@@ -773,13 +773,12 @@
     ; kind ids stable.
     (children degrade-act))
 
-  ; Message classes - the verbal-method vocabulary, a property of the MESSAGE not
-  ; a task. A verbal act's memory is a SAY belief whose msg carries a (msg-class
-  ; <leaf>) arg; is_msg_class_label routes it to that SAY-memory form and categorize()
-  ; reads the leaf's (construed-act ...) off the msg-class's STATE (states.mon,
-  ; where the construal tags live). These are NOT tasks.
+  ; Message classes - what kind of line a SAY is, riding its msg as [/msg-class <leaf>]. A
+  ; leaf's (construed-act ..) is how a hearer construes the line (reflexes/construe-speech.mc).
   (child msg-class
-    (children insult jilt urge))
+    (child insult (construed-act slight-act))
+    (child jilt (construed-act abandonment-act wrong-act))
+    (child urge (construed-act coercion-act)))
 
   (child sky-condition
     (children clear overcast cloudy))

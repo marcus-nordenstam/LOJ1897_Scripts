@@ -148,7 +148,7 @@
 { $actor(NP) /past harm-act $patient(NP) } .
 
 " $actor(NP) insulted $patient(NP) "
-{ $actor(NP) /past insult $patient(NP) } .
+{ $actor(NP) /past slight-act $patient(NP) } .
 
 " $actor(NP) abandoned $patient(NP) "
 { $actor(NP) /past abandonment-act $patient(NP) } .

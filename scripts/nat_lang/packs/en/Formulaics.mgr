@@ -21,6 +21,7 @@
 "I can't talk right now because $st(ST)"                                        ( formulaic [] refusal $st(ST) ) .
 "I can't stop now"                                                              ( formulaic [] refusal busy ) .
 "Leave me be"                                                                   ( formulaic [] rebuff ) .
+"It is over between us"                                                        ( formulaic [] breakup ) .
 
 ; Letter envelope lines. "Signed, <name>" is the AUTHOR rider, "To <name>" the
 ; ADDRESSEE rider: the composer (compose_nl_msg) lifts a (/rider ..) form into the

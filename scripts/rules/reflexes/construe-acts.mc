@@ -26,9 +26,6 @@
 (reflex {?agent (construed-labels coercion-act) ?patient /ever}:?coercion-act
   (effects (construe ?coercion-act coercion-act ?agent ?patient)))
 
-(reflex {?agent (construed-labels slight-act) ?patient /ever}:?slight-act
-  (effects (construe ?slight-act slight-act ?agent ?patient)))
-
 (reflex {?agent (construed-labels rivalrous-act) ?patient /ever}:?rivalrous-act
   (effects (construe ?rivalrous-act rivalrous-act ?agent ?patient)))
 
@@ -48,7 +45,8 @@
   (effects (construe ?honour-act honour-act ?agent ?patient)))
 
 ; (No construe rules for help-act / aid-act / provision-act / commitment-act /
-; repudiation-act / threaten-act: NO label carries those tags today - a (construed-labels
+; repudiation-act / threaten-act / slight-act: NO label carries those tags today (an insult is a
+; line's class, construed by reflexes/construe-speech.mc) - a (construed-labels
 ; <tag>) gate over an empty family is a load error, deliberately. Their REACT
 ; rows in reactions.mc stay authored: the moment an act declares the tag, the
 ; construe rule here is one line and the reactions are ready.)

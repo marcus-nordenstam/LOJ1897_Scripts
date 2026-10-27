@@ -49,7 +49,7 @@
 
       ; The moral material @self can voice, read per victim - each tolerant.
       (do
-        (tolerate (any {?victim jilt|disinherit ? /ever}):?misdeed)
+        (tolerate (any {?victim break-off|disinherit ? /ever}):?misdeed)
         (tolerate (any {?victim sobriety ?}):?sobriety)
         (tolerate (any {?victim lover ?}):?lover)
         (tolerate (any {?victim decorum ?}):?decorum))

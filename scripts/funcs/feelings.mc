@@ -54,7 +54,7 @@
                  (trait-factor ?kind enthusiasm ?enthusiasm))
               (trait-factor ?kind narcissism ?narcissism))
            (trait-factor ?kind psychopathy ?psychopathy)) ?traits)
-  (floor (+ (clamp (* ?hours (* ?mood ?traits))
+  (floor (+ (clamp (* /float ?hours (* ?mood ?traits))
                    1.0
                    (max (max-emotion-salience) (max-pressure-salience)))
             0.5)))

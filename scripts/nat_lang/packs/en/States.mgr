@@ -2,7 +2,6 @@
 :SPECIAL_STATE
 "proposes that $obj(ST|QS|MSG|NP)"  /pres proposal $obj(ST|QS|MSG|NP)  .
 "proposed that $obj(ST|QS|MSG|NP)"  /past proposal $obj(ST|QS|MSG|NP)  .
-"urged that $obj(ST|QS|MSG|NP)"     /past urge $obj(ST|QS|MSG|NP)                          .
 
 :STATE
 "proposes that"                     /pres proposal              .
