@@ -70,9 +70,27 @@
   (bind (nth (k-formulaic-office-field) ?msg) ?kind)
   (absorb-heard-fact (begin-belief {?speaker job (o ?kind {?speaker job @o})}) ?tell))
 
+; (adopt-not-knowing ?speaker ?tell) - ?speaker answered a question @self put to him in the
+; exchange he holds with him "I don't know" (?tell, caused by it): the hearer takes him not to know
+; what it asked, the clause the question searched.
+(define-func adopt-not-knowing (?speaker ?tell)
+  (bind (any {@self converse ?speaker ?}) ?converse)
+  (if (is-belief ?converse)
+      (then
+        (for-each ?asked (every {@self SAY (qs ? ? ?..) ?speaker /succ /caused_by ?converse})
+          (if (eq ?tell (any {?speaker SAY ? @self /succ /caused_by ?asked}))
+              (then
+                (bind (nth (k-msg-first-content-field) ?asked.target) ?asked-content)
+                (bind (nth 1 ?asked-content) ?asked-clause)
+                (if (is-clause ?asked-clause)
+                    (then (absorb-heard-fact (begin-belief {?speaker /not know ?asked-clause}) ?tell)))
+                (break)))))))
+
 (define-func /hear adopt-heard-msg (?msg ?speaker ?audience ?tell)
   (if (authority-introduction ?msg)
       (then (adopt-authority-introduction ?msg ?speaker ?tell)))
+  (if (eq (nth (k-msg-first-content-field) ?msg) @unknown)
+      (then (adopt-not-knowing ?speaker ?tell)))
   ; A QUESTION is not a claim. The heard {asker SAY (qs ..)} record IS the
   ; deliverable - converse answers it straight off that record - and adopting the
   ; asked pattern would turn a man's question into this listener's belief.

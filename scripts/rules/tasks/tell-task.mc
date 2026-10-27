@@ -30,7 +30,8 @@
       (when (and (or (unsubstantial ?audience) (within-voice ?audience ?msg))
                  (free-to-address ?audience)))
       (effects
-        (if (claim-addressees ?audience)
+        (bind (claim-addressees ?audience) ?claimed)
+        (if ?claimed
             (then (maintain-proposal {@self SAY ?msg ?audience})))))
     (try
       (when (and (is-a ?audience [k human]) (not (within-voice ?audience ?msg))))

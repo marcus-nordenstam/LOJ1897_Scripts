@@ -98,6 +98,7 @@
       ; the instant the supper hour is learned, closing the window for good.
       (role ?home {@self home ?home}
                   -{?home supper-hour ?}
+                  -{?cook /not know {?home supper-hour ?}}
 
         (when (>= ?age 3))
 
