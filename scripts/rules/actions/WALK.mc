@@ -113,5 +113,10 @@
                             (steer-to @self ?steer))))))))))
 
   ; Runs on every end, and cancels only while this act still owns the plan: a cease
-  ; that fires after the OUT fade must not clobber a successor's route.
-  (cease (nav-cancel @self ?WALK)))
+  ; that fires after the OUT fade must not clobber a successor's route. The scratch the body
+  ; kept on the act goes with it, so the emptied blackboard is reclaimed instead of living on
+  ; with the memory of the walk.
+  (cease (nav-cancel @self ?WALK)
+         (bb-clear ?WALK closest)
+         (bb-clear ?WALK stalled)
+         (bb-clear ?WALK barred-by)))

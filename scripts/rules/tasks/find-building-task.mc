@@ -30,8 +30,12 @@
   (aux ?)
   (preparatory)
   ; Seeing the sought venue is what makes its proposer let go, so the withdrawal is where
-  ; the search learns it succeeded.
-  (cease (if (substantial (find-building-found ?sought)) (then (set-outcome ?find-building /succ))))
+  ; the search learns it succeeded - never a search that ran out of ground, whose /fail stands:
+  ; the one pub he knows may be the one his proposer gave up on, and a second conclusive
+  ; outcome overwrites the first.
+  (cease (if (and (bb-none ?find-building exhausted)
+                  (substantial (find-building-found ?sought)))
+             (then (set-outcome ?find-building /succ))))
   (preemptive-or
     (try
       (when (and (latch-eval (closest-unobserved [k building] ?region): ?dest)
@@ -50,4 +54,6 @@
         (maintain-proposal {@self go-to ?spot})))
     (try
       (when (unsubstantial (closest-unobserved [k building] ?region)))
-      (effects (set-outcome ?find-building /fail)))))
+      (effects
+        (bb-write ?find-building exhausted @true)
+        (set-outcome ?find-building /fail)))))

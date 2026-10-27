@@ -1,9 +1,7 @@
 ; ----------------------------------------------------------------------------
-; historical_1yr.mc - 1-year debug smoke config. A fast (<2min in debug) assert
-; check: loads the catalog + runs a full year so parse-time and early-firing
-; asserts surface. Release validation uses the 5yr / 10yr configs for byte
-; comparison; this exists only so the slower debug build stays under the 2-minute
-; watchdog.
+; historical_1yr_real.mc - the town on the REAL clock, frame by frame, no history: the
+; Player's clock run headless (msim) or in the studio. A real-clock run is presented round
+; one NPC, the `player` role town-real-startup casts; mstudio may re-centre it.
 ; ----------------------------------------------------------------------------
 
 (define-list config
@@ -12,5 +10,6 @@
   end 1700-12-31
   clock real
   fps uncapped
+  presented player
   level "Theatres/demo_tech_level_v2.grs"
-  startup town-startup)
+  startup town-real-startup)

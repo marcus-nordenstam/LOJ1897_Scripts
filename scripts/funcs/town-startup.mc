@@ -9,3 +9,9 @@
   (seat-founding-heads)
   (found-households)
   (join-parishes))
+
+; The town on the real clock: the same town, and the first founder cast as the `player` the
+; world is presented round (historical_1yr_real.mc's `presented player`).
+(define-func town-real-startup ()
+  (town-startup)
+  (cast player (head (env-entities [k human]))))
