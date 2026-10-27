@@ -111,10 +111,9 @@
             (effects (maintain-proposal {@self hail ?cook})))
           (try
             (role @self {@self hail|take-up ?cook /succ /past}
-              (bind (conversation-of @self) ?talk)
-              (bind (any {@self converse ?talk}) ?converse)
+                        {@self converse ?talk}:?converse
               (bind (supper-hour-question ?cook) ?qs)
-              (when (and (engaged-with ?cook) (is-belief ?converse) (substantial ?qs)))
+              (when (and (in-conversation @self ?talk) (engaged-with ?cook) (substantial ?qs)))
               (effects (maintain-proposal {@self inquire ?cook ?qs} /caused_by ?converse)))))))))
 
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the

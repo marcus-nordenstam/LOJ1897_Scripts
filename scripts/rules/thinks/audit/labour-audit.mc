@@ -80,10 +80,9 @@
       (effects (expect @false "labour: two verdicts drafted for one applicant about one seat")))))
 
 ; TWO APPLICATIONS IN FLIGHT. pursue-get-job admits one at a time; a second means the lock
-; or the /pres gate has failed. Gated on the running task, as a running act must be; the
-; task's own push drives the re-evaluation.
+; or the /pres gate has failed.
 (audit apply-for-audit-two-in-flight
   (aspect labour)
-  (task {@self apply-for ?job})
-  (when (>= (count (every {@self apply-for ? /pres})) 2))
-  (effects (expect @false "labour: two applications in flight at once")))
+  (role @self {@self apply-for ?}
+    (when (>= (count (every {@self apply-for ? /pres})) 2))
+    (effects (expect @false "labour: two applications in flight at once"))))

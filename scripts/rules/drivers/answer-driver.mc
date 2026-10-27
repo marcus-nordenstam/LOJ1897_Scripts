@@ -7,21 +7,21 @@
 ; ----------------------------------------------------------------------------
 
 (driver answer-question
-  (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (qs ? ? ?..) @self /past}:?line
-                 -{@self tell ? ?speaker /succ /caused_by ?line}
-    (bind (any {@self converse (conversation-of @self)}) ?converse)
-    (when (and (conversing-with @self ?speaker) (is-belief ?converse)))
-    (declare-utility obligation)
-    (effects (maintain-proposal {@self answer ?speaker ?line} /caused_by ?converse))))
+  (role @self {@self converse ?talk}:?converse
+    (role ?speaker {?speaker SAY ? @self /past}
+                   {?speaker SAY (qs ? ? ?..) @self /past}:?line
+                   -{@self tell ? ?speaker /succ /caused_by ?line}
+      (when (and (in-conversation @self ?talk) (in-conversation ?speaker ?talk)))
+      (declare-utility obligation)
+      (effects (maintain-proposal {@self answer ?speaker ?line} /caused_by ?converse)))))
 
 (driver greet-joiner
-  (role ?speaker {?speaker SAY ? @self /past}
-                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?line
-                 -{@self tell ? ?speaker /succ /caused_by ?line}
-                 -{@self take-up ?speaker /succ /caused_by ?line}
-                 -{@self turn-down ?speaker ? /succ /caused_by ?line}
-    (bind (any {@self converse (conversation-of @self)}) ?converse)
-    (when (and (conversing-with @self ?speaker) (is-belief ?converse)))
-    (declare-utility obligation)
-    (effects (maintain-proposal {@self answer ?speaker ?line} /caused_by ?converse))))
+  (role @self {@self converse ?talk}:?converse
+    (role ?speaker {?speaker SAY ? @self /past}
+                   {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?line
+                   -{@self tell ? ?speaker /succ /caused_by ?line}
+                   -{@self take-up ?speaker /succ /caused_by ?line}
+                   -{@self turn-down ?speaker ? /succ /caused_by ?line}
+      (when (and (in-conversation @self ?talk) (in-conversation ?speaker ?talk)))
+      (declare-utility obligation)
+      (effects (maintain-proposal {@self answer ?speaker ?line} /caused_by ?converse)))))

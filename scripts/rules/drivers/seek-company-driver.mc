@@ -18,10 +18,9 @@
           (effects (maintain-proposal {@self hail ?friend})))
         (try
           (role @self {@self hail|take-up ?friend /succ /past}
-            (bind (conversation-of @self) ?talk)
-            (bind (any {@self converse ?talk}) ?converse)
-            (when (and (engaged-with ?friend)
-                       (is-belief ?converse)
+                      {@self converse ?talk}:?converse
+            (when (and (in-conversation @self ?talk)
+                       (engaged-with ?friend)
                        (or (substantial (friend-talk-line ?talk ?friend))
                            (friend-awaits-reply ?talk ?friend))))
             (effects (maintain-proposal {@self friend-talk ?talk ?friend} /caused_by ?converse))))))))
