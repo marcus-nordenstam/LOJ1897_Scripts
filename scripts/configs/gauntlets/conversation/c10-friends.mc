@@ -37,7 +37,7 @@
   (expect (in-mind ?second (asked-whats-new ?first)) "c10: the second never asked the first's news, or had no answer")
   (expect (or (in-mind ?first (answered-tidings ?second)) (in-mind ?second (answered-tidings ?first)))
           "c10: neither answered the other's tidings in kind")
-  (expect (left-talk ?first) "c10: the first never took her leave")
+  (expect (or (left-talk ?first) (left-talk ?second)) "c10: neither took her leave")
   (expect (in-mind ?first (= (spoken-over) 0)) "c10: two spoke to the first at once")
   (expect (in-mind ?second (= (spoken-over) 0)) "c10: two spoke to the second at once")
   (expect (unsubstantial (conversation-of ?first)) "c10: the first is still in a conversation")

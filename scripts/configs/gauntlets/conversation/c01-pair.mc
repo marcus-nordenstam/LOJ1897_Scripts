@@ -1,9 +1,8 @@
-; c01 pair - a husband and wife under one roof, the house's supper hour unknown: ask-mealtimes
-; has him hail her, she takes him up, he asks and she answers, and he takes his leave. His
-; converse ends the instant her answer lands, its driver no longer wanting it, and the leave
-; it begins on ceasing is what closes the talk. ONE conversation: each holds his own talk, both
-; in it, with a venue that opens and closes; when it is over nobody's entry names it. Seeds
-; state only; the validate func reads.
+; c01 pair - a husband and wife under one roof, the house's supper hour unknown: he hails her to
+; ask it, she takes him up, he asks and she answers, and once neither has anything left to say one
+; of them takes his leave and the other, left alone, leaves too. ONE conversation: each holds his
+; own talk, both in it, with a venue that opens and closes; when it is over its participant set is
+; empty. Seeds state only; the validate func reads.
 
 (define-list config
   seeds 4242 4243
@@ -35,7 +34,7 @@
   (expect (> (acts ?opener converse started) 0) "c01: his exchange never began")
   (expect (in-mind ?opener (unsubstantial (any {@self converse ?}))) "c01: his exchange never ended")
   (expect (>= (acts ?hailed tell succ) 2) "c01: she never answered him")
-  (expect (left-talk ?opener) "c01: he never took his leave")
+  (expect (or (left-talk ?opener) (left-talk ?hailed)) "c01: neither took their leave")
   (expect (in-mind ?opener (substantial (any {? participant @self /ever}))) "c01: he knows no talk he was in")
   (expect (in-mind ?hailed (substantial (any {? participant @self /ever}))) "c01: she knows no talk she was in")
   (expect (in-mind ?opener (substantial (any {? participant ? /past}))) "c01: his part in the talk never ended")

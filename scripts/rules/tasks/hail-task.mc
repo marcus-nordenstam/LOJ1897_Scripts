@@ -6,8 +6,9 @@
 ; conversation is what converse assumes - so only a driver proposes it. Taken up when ?partner
 ; has answered him and both are in the same conversation - also when that is
 ; what ends it, its proposer having stopped wanting it the instant it was taken up; turned down
-; when ?partner refuses or rebuffs him. Ended any other way before it is taken up, he leaves the
-; conversation he opened.
+; when ?partner refuses or rebuffs him. A hail is complete only when answered, so when ?partner
+; has hailed him too, each answers the other's opening as part of his own hail. Ended any other
+; way before it is taken up, he leaves the conversation he opened.
 ; ----------------------------------------------------------------------------
 
 (task {@self hail ?partner}:?hail
@@ -41,6 +42,14 @@
       (effects
         (leave-conversation)
         (join-conversation (conversation-of ?partner))))
+    (try
+      (lint-waive cacheable-read-in-when)
+      (role @self {@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
+        (role ?partner {?partner SAY ? @self /past}
+                       {?partner SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+                       -{@self tell ? ?partner /succ /caused_by ?opening}
+          (when (and (standing-before ?partner) (conversing-with ?partner @self) (happened-since ?opening ?hail)))
+          (effects (maintain-proposal {@self answer ?partner ?opening})))))
     (try
       (lint-waive cacheable-read-in-when)
       (role ?partner {?partner SAY ? @self /past}

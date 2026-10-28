@@ -1,26 +1,20 @@
 ; ----------------------------------------------------------------------------
-; stay-in-conversation (driver) - @self stays present in the conversation he is talking in while
-; anyone in it still has something to say (said-all, funcs/conversation.mc): he runs out of lines
-; before the others do and listens; the last to run out takes his leave
-; (drivers/take-leave-driver.mc).
+; stay-in-conversation (driver) - @self is present in the conversation he takes part in
+; (tasks/converse-task.mc) while he talks with someone in it, or while he is left alone in one he
+; is not opening, which he holds only to leave it. When it is over is converse's own to judge:
+; once nobody has anything left to say it takes his leave, and leaving ends it.
 ; ----------------------------------------------------------------------------
 
 (driver stay-in-conversation
   (role ?talk {?talk participant @self}
-    (role ?party {?talk participant ?party}
-                 (neq ?party @self)
-      (when (and (in-conversation @self ?talk)
-                 (in-conversation ?party ?talk)
-                 (engaged-with ?party)
-                 (not (said-all ?talk))))
-      (declare-utility want)
-      (effects (maintain-proposal {@self converse ?talk})))))
-
-; Left alone in a conversation he is not opening: he holds it only to leave it, which releases it.
-(driver left-alone-in-conversation
-  (role ?talk {?talk participant @self}
-    (when (and (in-conversation @self ?talk)
-               (not (other-party-in ?talk))
-               (unsubstantial (any {@self hail ?}))))
+    (when (in-conversation @self ?talk))
     (declare-utility want)
-    (effects (maintain-proposal {@self converse ?talk}))))
+    (stable-or
+      (try
+        (role ?party {?talk participant ?party}
+                     (neq ?party @self)
+          (when (and (in-conversation ?party ?talk) (engaged-with ?party)))
+          (effects (maintain-proposal {@self converse ?talk}))))
+      (try
+        (when (and (not (other-party-in ?talk)) (unsubstantial (any {@self hail ?}))))
+        (effects (maintain-proposal {@self converse ?talk}))))))

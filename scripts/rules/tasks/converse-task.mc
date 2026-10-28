@@ -2,11 +2,13 @@
 ; converse ?talk - @self's PRESENCE in the conversation ?talk, one per conversation whoever is in
 ; it: he faces whom he is talking to and stays. It says nothing: every dialogue-line is said by a
 ; dialogue task of its class (answer, inquire, friend-talk ..), proposed by that class's own driver,
-; and leaving is take-leave, proposed on said-all (drivers/take-leave-driver.mc). Opening a
+; and leaving is take-leave, which it proposes itself once said-all holds. Opening a
 ; conversation is hail, taking one up is take-up; every driver that brings @self to talk in ?talk
 ; proposes this same clause, so it rides the keenest of them.
 ;
-; It is over, a success, when he is no longer in ?talk; left alone in it, he leaves it, which
+; It is over, a success, when he is no longer in ?talk. Once nobody in it has anything left to say
+; (said-all, funcs/conversation.mc) and something has been said to him in it, he takes his leave:
+; the last to run out goes, and his goodbye wakes the rest. Left alone in it, he leaves it, which
 ; releases it. Outcompeted, he is not simply gone: his closing rung says what calls him away and
 ; leaves the talk, and the act that outbid him starts once he has.
 ; ----------------------------------------------------------------------------
@@ -47,6 +49,15 @@
       (effects
         (leave-conversation)
         (set-outcome ?converse /succ)))
+    (try
+      (lint-waive cacheable-read-in-when)
+      (role ?speaker {?talk participant ?speaker}
+                     {?speaker SAY ? @self /past}:?said
+        (when (and (in-conversation @self ?talk)
+                   (other-party-in ?talk)
+                   (happened-since ?said ?converse)
+                   (said-all ?talk)))
+        (effects (maintain-proposal {@self take-leave ?talk} /uninterruptable))))
     (try
       (lint-waive cacheable-read-in-when)
       (bind (focus-of ?talk) ?focus)
