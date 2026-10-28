@@ -8,18 +8,18 @@
 ; ends it.
 ;
 ; A CONVERSATION is ONE object, shared (share-object): the opener invents it, and every party
-; holds his own copy of it, linked to the one the world keeps. The live contract is on the public
-; blackboard: each party's (conversing ..) names the conversation while he takes part, and the
-; conversation's own board records whose entries name it - its parties, as the world has them
-; (parties-of), which is the one answer every mind reads to who is in it. Each party clears his
-; own entry when he leaves (leave-conversation); the entries are what keep the conversation, so
-; when the last is cleared nothing names it and the world lets it go. What a man knows of a talk
+; holds his own copy of it, linked to the one the world keeps. Its public board is what keeps the
+; group in step: its participant set is who takes part (parties-of) and its has-more set who still
+; has something to say. Joining adds him to the set and leaving takes him off it; a change to
+; either set wakes every party reading it, busy or not, and each mirrors it in his own mind
+; (conversation-roster-join / -leave). When the last party leaves, the board is empty and the
+; world lets the conversation go. What a man knows of a talk
 ; is his own beliefs, kept to the board: {<talk> participant <party>} for each party, one
 ; interval per spell (conversation-roster-join / -leave), {<talk> venue <space>} while he is in
 ; it, {<talk> occasion <occasion>} when it is part of one.
 ;
-; A HAIL is a (formulaic opening-phrase ..) said to @self by a man whose (conversing ..) names a
-; conversation @self is not in. It is always answered, and how is his choice: he takes up the
+; A HAIL is a (formulaic opening-phrase ..) said to @self by a man in a conversation @self is not
+; in. It is always answered, and how is his choice: he takes up the
 ; conversation, declines it for what he is busy with, or rebuffs a man he despises
 ; (drivers/answer-hail-driver.mc).
 ;
@@ -133,18 +133,22 @@
           (break))))
   ?found)
 
-; (conversation-of ?party) - the conversation ?party's public (conversing ..) names, or @fail.
+; (conversation-of ?party) - the conversation whose participant set holds ?party, or @nothing. A
+; man takes part in one conversation at a time.
 (define-func conversation-of (?party)
-  (bb-public-read ?party conversing))
+  (bind @nothing ?talk)
+  (for-each ?one (bb-public-every ? participant ?party)
+    (bind ?one ?talk)
+    (break))
+  ?talk)
 
-; (in-conversation ?party ?talk) - ?party's entry names ?talk.
+; (in-conversation ?party ?talk) - ?talk's participant set holds ?party.
 (define-func in-conversation (?party ?talk)
-  (eq (bb-public-read ?party conversing) ?talk))
+  (and (substantial ?talk) (substantial (bb-public-any ?talk participant ?party))))
 
 ; (conversing-with ?party ?partner) - both take part in one conversation.
 (define-func conversing-with (?party ?partner)
-  (bind (bb-public-read ?party conversing) ?talk)
-  (and (substantial ?talk) (in-conversation ?partner ?talk)))
+  (in-conversation ?partner (conversation-of ?party)))
 
 ; A man being spoken to carries the speaker's mark on his public board (addressed) while a line
 ; to him is being said, and a line said to a conversation marks the conversation: nobody is ever
@@ -221,13 +225,13 @@
 ; called stands. Whether it is answered is the reader's role: no take-up or turn-down of @self's
 ; caused by it has succeeded.
 (define-func invited-by (?caller)
-  (substantial (bb-public-read ?caller conversing)))
+  (substantial (conversation-of ?caller)))
 
-; (join-conversation ?talk) - @self takes part in ?talk: his entry names it, and he knows himself
-; a party of it, where it is held when he did not yet, and the occasion it is part of when he
-; holds one for here today. Joining the talk he is in already changes nothing.
+; (join-conversation ?talk) - @self takes part in ?talk: he joins its participant set, and he knows
+; himself a party of it, where it is held when he did not yet, and the occasion it is part of when
+; he holds one for here today. Joining the talk he is in already changes nothing.
 (define-func join-conversation (?talk)
-  (bb-public-write @self conversing ?talk)
+  (bb-public-add-member ?talk participant @self)
   (if (unsubstantial (any {?talk participant @self}))
       (then (begin-belief {?talk participant @self})))
   (if (unsubstantial (any {?talk venue ?}))
@@ -243,9 +247,9 @@
   (join-conversation ?talk)
   ?talk)
 
-; (parties-of ?talk) - every party in ?talk: those whose (conversing ..) names it.
+; (parties-of ?talk) - every party in ?talk: its participant set.
 (define-func parties-of (?talk)
-  (bb-public-every ? conversing ?talk))
+  (bb-public-members ?talk participant))
 
 ; (other-party-in ?talk) - a party besides @self is in ?talk.
 (define-func other-party-in (?talk)
@@ -269,24 +273,31 @@
     (if (unsubstantial (any {?talk participant ?party}))
         (then (begin-belief {?talk participant ?party})))))
 
-; (leave-conversation) - @self leaves the conversation his entry names: the entry clears, and
-; his part in it and his knowing where it is held end.
+; (leave-conversation) - @self leaves the conversation he takes part in: he comes off its
+; participant and has-more sets, and his part in it and his knowing where it is held end.
 (define-func leave-conversation ()
-  (bind (bb-public-read @self conversing) ?talk)
+  (bind (conversation-of @self) ?talk)
   (if (substantial ?talk)
       (then
-        (bb-public-clear @self conversing)
-        (bb-public-clear @self has-more)
+        (bb-public-remove-member ?talk participant @self)
+        (bb-public-remove-member ?talk has-more @self)
         (end-belief {?talk participant @self})
         (end-belief {?talk venue ?}))))
 
+; (has-more-anywhere ?party) - a conversation's has-more set still holds ?party.
+(define-func has-more-anywhere (?party)
+  (bind @false ?more)
+  (for-each ?one (bb-public-every ? has-more ?party)
+    (bind @true ?more)
+    (break))
+  ?more)
+
 ; A conversation lasts until its parties have run out of things to say. What a man still has to
 ; say in one is his AGENDA, never stored: what his mind yields for it now (agenda-for). While it is
-; not empty he shows it - his board's has-more names the conversation (thinks/
-; conversation-has-more-think.mc), which the conversation's own board records - and withdraws it
-; when it is (conversation-said-all-think.mc). He is done with a conversation when his agenda is
-; empty and nobody's mark is left on it (said-all): the last to run out takes his leave, and his
-; goodbye wakes the rest.
+; not empty he shows it - he is in the conversation's has-more set (thinks/
+; conversation-has-more-think.mc) - and comes off it when it is (conversation-said-all-think.mc).
+; He is done with a conversation when his agenda is empty and its has-more set is (said-all): the
+; last to run out takes his leave, and his goodbye wakes the rest.
 
 ; (friend-talks ?talk ?friend) - every friend-talk @self has held with ?friend in ?talk.
 (define-func friend-talks (?talk ?friend)
@@ -443,7 +454,7 @@
 ; (said-all ?talk) - nobody in ?talk has anything left to say, @self included.
 (define-func said-all (?talk)
   (if (substantial ?talk)
-      (then (and (not (agenda-for ?talk)) (bb-public-none ? has-more ?talk)))
+      (then (and (not (agenda-for ?talk)) (bb-public-none ?talk has-more)))
       (else @false)))
 
 ; (answer-to ?qs ?partner) - what @self says to ?partner's question ?qs: its content evaluated in
@@ -497,22 +508,24 @@
   (and (conversing-with ?npc @self) (in-earshot ?npc [k speech])))
 
 ; (player-hail ?npc ?authority) - the player opens a conversation with ?npc, or joins the one
-; ?npc is in: his own (conversing ..) names it, and the answer is the line he hails him with -
+; ?npc is in: he joins its participant set, and the answer is the line he hails him with -
 ; plainly, or, when ?authority names the kind of his job, introducing himself by it. The player
-; holds no beliefs, so his conversation is the shared object alone, kept by his entry.
+; holds no beliefs, so his conversation is the shared object alone, kept by its board.
 (define-func player-hail (?npc ?authority)
-  (bind (bb-public-read ?npc conversing) ?theirs)
+  (bind (conversation-of ?npc) ?theirs)
   (if (substantial ?theirs)
-      (then (bb-public-write @self conversing ?theirs))
+      (then (bb-public-add-member ?theirs participant @self))
       (else
         (share-object (o /invent [k conversation])): ?talk
-        (bb-public-write @self conversing ?talk)))
+        (bb-public-add-member ?talk participant @self)))
   (if (is-kind ?authority)
       (then (formulaic [] opening-phrase authority ?authority))
       (else (formulaic [] opening-phrase player_talk))))
 
 ; (player-leave-taking ?npc) - the player leaves the conversation with ?npc, and the answer is
-; the line he takes his leave with. His entry clears.
+; the line he takes his leave with. He comes off its participant set.
 (define-func player-leave-taking (?npc)
-  (bb-public-clear @self conversing)
+  (bind (conversation-of @self) ?talk)
+  (if (substantial ?talk)
+      (then (bb-public-remove-member ?talk participant @self)))
   (formulaic [] leave_taking player_bye))

@@ -37,5 +37,5 @@
   (expect (in-mind ?cook (knows-talk-with ?first ?second)) "c02: she does not know three in one talk")
   (expect (in-mind ?first (substantial (any {? participant ? /ever}))) "c02: the first knows no talk")
   (expect (in-mind ?second (substantial (any {? participant ? /ever}))) "c02: the second knows no talk")
-  (expect (unsubstantial (bb-public-read ?cook conversing)) "c02: her entry still names a talk")
+  (expect (unsubstantial (conversation-of ?cook)) "c02: she is still in a conversation")
   (expect (in-mind ?cook (= (spoken-over) 0)) "c02: two men spoke to her at once"))

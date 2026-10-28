@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
-; conversation-roster-leave (think). A participant of a talk whose public (conversing ..) no
-; longer names it has left: his part in it ends in my mind, whether I am still in it or not, so
-; nobody I knew in a talk stays in it in my mind after he has gone. Rejoining begins a new part
+; conversation-roster-leave (think). A participant of a talk its participant set no longer holds
+; has left: his part in it ends in my mind, whether I am still in it or not, so nobody I knew in a
+; talk stays in it in my mind after he has gone. Rejoining begins a new part
 ; (conversation-roster-join).
 ; ----------------------------------------------------------------------------
 

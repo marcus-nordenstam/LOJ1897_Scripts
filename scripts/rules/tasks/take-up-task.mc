@@ -2,9 +2,9 @@
 ; take-up ?partner - @self takes up the conversation ?partner hailed him into: he gives the
 ; response its opening calls for, takes his leave of any other conversation he is in, then
 ; joins ?partner's (funcs/conversation.mc), and the conversation is open. It is PREPARATION for
-; converse, proposed by engage-hail (drivers/answer-hail-driver.mc). Until his entry is posted
+; converse, proposed by engage-hail (drivers/answer-hail-driver.mc). Until he has joined it
 ; the hail still stands, so a man who finds something keener first declines it instead
-; (decline-hail). Once posted he is in it, and his presence there is converse
+; (decline-hail). Once joined he is in it, and his presence there is converse
 ; (drivers/stay-in-conversation-driver.mc). ?partner gone from every conversation by then - his hail ended
 ; before it was taken up - leaves nothing to join, and the take-up fails.
 ; ----------------------------------------------------------------------------

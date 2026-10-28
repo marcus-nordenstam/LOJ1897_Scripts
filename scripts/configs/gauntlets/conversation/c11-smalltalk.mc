@@ -39,5 +39,5 @@
   (expect (or (in-mind ?lodger (answered-smalltalk ?cook)) (in-mind ?cook (answered-smalltalk ?lodger)))
           "c11: no remark on the weather was answered")
   (expect (in-mind ?cook (unsubstantial (any {@self unease ?}))) "c11: she is still ill at ease")
-  (expect (unsubstantial (bb-public-read ?lodger conversing)) "c11: he is still in a conversation")
-  (expect (unsubstantial (bb-public-read ?cook conversing)) "c11: she is still in a conversation"))
+  (expect (unsubstantial (conversation-of ?lodger)) "c11: he is still in a conversation")
+  (expect (unsubstantial (conversation-of ?cook)) "c11: she is still in a conversation"))

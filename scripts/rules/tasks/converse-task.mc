@@ -14,12 +14,15 @@
 (task {@self converse ?talk}:?converse
   (tar @excl [k conversation] @object)
   (lint-waive try-rungs-not-exclusive)
-  ; Ending with the conversation still open and no closing said is being withdrawn: he takes his
-  ; leave first, so the others know it is over. Begun, because the converse proposing it has ended.
+  ; Ending still in the conversation with others in it, he takes his leave first, so they know it
+  ; is over; alone in it, he leaves it. Begun, because the converse proposing it has ended.
   (lint-waive begin-proposal)
   (cease
-    (if (and (in-conversation @self ?talk) (other-party-in ?talk))
-        (then (begin-proposal {@self take-leave ?talk} /uninterruptable))))
+    (if (in-conversation @self ?talk)
+        (then
+          (if (other-party-in ?talk)
+              (then (begin-proposal {@self take-leave ?talk} /uninterruptable))
+              (else (leave-conversation))))))
   (closing
     (sequence
       (stage

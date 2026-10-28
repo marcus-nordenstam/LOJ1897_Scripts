@@ -41,5 +41,5 @@
   (expect (in-mind ?opener (substantial (any {? participant ? /past}))) "c01: his part in the talk never ended")
   (expect (in-mind ?hailed (substantial (any {? participant ? /past}))) "c01: her part in the talk never ended")
   (expect (in-mind ?opener (substantial (any {? venue ? /past}))) "c01: the talk's venue never closed")
-  (expect (unsubstantial (bb-public-read ?opener conversing)) "c01: his entry still names a talk")
-  (expect (unsubstantial (bb-public-read ?hailed conversing)) "c01: her entry still names a talk"))
+  (expect (unsubstantial (conversation-of ?opener)) "c01: he is still in a conversation")
+  (expect (unsubstantial (conversation-of ?hailed)) "c01: she is still in a conversation"))

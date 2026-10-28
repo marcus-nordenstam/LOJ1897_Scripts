@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; answer-hail (thinks). A hail - a (formulaic opening-phrase ..) said to @self by a man whose public
-; (conversing ..) names him (funcs/conversation.mc) - is ALWAYS answered, and how is @self's
+; answer-hail (thinks). A hail - a (formulaic opening-phrase ..) said to @self by a man in a
+; conversation (funcs/conversation.mc) - is ALWAYS answered, and how is @self's
 ; choice: engage, decline or rebuff. Engaging is taking up the conversation
 ; (tasks/take-up-task.mc) and then holding the exchange (tasks/converse-task.mc) while it stays
 ; open; declining and rebuffing are turning it down (tasks/turn-down-task.mc). Whatever he answers

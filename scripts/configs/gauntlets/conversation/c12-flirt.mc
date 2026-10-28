@@ -35,5 +35,5 @@
   (expect (in-mind ?suitor (substantial (any {@self fancy|desire|crave ?}))) "c12: he does not fancy her")
   (expect (> (acts ?suitor flirt started) 0) "c12: he never flirted")
   (expect (in-mind ?beloved (answered-flirt ?suitor)) "c12: she never answered his flirt")
-  (expect (unsubstantial (bb-public-read ?suitor conversing)) "c12: he is still in a conversation")
-  (expect (unsubstantial (bb-public-read ?beloved conversing)) "c12: she is still in a conversation"))
+  (expect (unsubstantial (conversation-of ?suitor)) "c12: he is still in a conversation")
+  (expect (unsubstantial (conversation-of ?beloved)) "c12: she is still in a conversation"))

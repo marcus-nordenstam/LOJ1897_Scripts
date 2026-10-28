@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; take-leave ?talk - @self leaves the conversation ?talk: he says his leave-taking to it and
-; leaves it (funcs/conversation.mc); the others know by his entry no longer naming it.
+; leaves it (funcs/conversation.mc); the others know by its participant set no longer holding him.
 ; ----------------------------------------------------------------------------
 
 (task {@self take-leave ?talk}:?take-leave

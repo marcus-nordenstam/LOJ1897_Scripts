@@ -4,7 +4,7 @@
 ; opening. ?partner found in another conversation after that - one he opened at the same
 ; instant as another caller's, or moved to - is followed into it. It is PREPARATION - an open
 ; conversation is what converse assumes - so only a driver proposes it. Taken up when ?partner
-; has answered him and his own (conversing ..) names the same conversation - also when that is
+; has answered him and both are in the same conversation - also when that is
 ; what ends it, its proposer having stopped wanting it the instant it was taken up; turned down
 ; when ?partner refuses or rebuffs him. Ended any other way before it is taken up, he leaves the
 ; conversation he opened.
