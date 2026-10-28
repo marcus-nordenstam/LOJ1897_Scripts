@@ -28,10 +28,10 @@
               (else (leave-conversation))))))
   (and
     (try
-      (when (not (standing-before ?partner)))
-      (effects (maintain-proposal {@self go-to ?partner})))
+      (when (not (standing-to-talk ?partner)))
+      (effects (maintain-proposal {@self go-to ?partner earshot})))
     (try
-      (when (and (standing-before ?partner)
+      (when (and (standing-to-talk ?partner)
                  -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}))
       (effects (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner})))
     (try
@@ -48,7 +48,7 @@
         (role ?partner {?partner SAY ? @self /past}
                        {?partner SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                        -{@self tell ? ?partner /succ /caused_by ?opening}
-          (when (and (standing-before ?partner) (conversing-with ?partner @self) (happened-since ?opening ?hail)))
+          (when (and (standing-to-talk ?partner) (conversing-with ?partner @self) (happened-since ?opening ?hail)))
           (effects (maintain-proposal {@self answer ?partner ?opening})))))
     (try
       (lint-waive cacheable-read-in-when)

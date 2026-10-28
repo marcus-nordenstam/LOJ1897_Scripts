@@ -6,4 +6,7 @@
 
 (driver {@self intent {@self sponsor ?protege}}:?intent
   (role @self (spatial ?protege co-located @self)
-    (effects (maintain-proposal {@self sponsor ?protege}))))
+    ; Begun, not maintained: the meeting decides whether he speaks to the protege, and once begun
+    ; it is done wherever the protege walks.
+    (lint-waive begin-proposal)
+    (effects (begin-proposal {@self sponsor ?protege}))))

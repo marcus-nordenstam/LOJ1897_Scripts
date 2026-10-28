@@ -30,10 +30,11 @@
 (include "../macros/tunables.mc")
 (include "../macros/formulaic-macros.mc")
 
-; (standing-before ?partner) - @self stands with ?partner to talk: within earshot of his
-; speaking voice, on the spot before him (stand-spot-before), where go to a man brings him.
-(define-func standing-before (?partner)
-  (and (in-earshot ?partner [k speech]) (walked-before ?partner)))
+; (standing-to-talk ?partner) - @self stands with ?partner to talk: within earshot of his speaking
+; voice, on the spot go to a man for earshot walked him onto (earshot-spot-of) - before him, or
+; beside him when his front is taken.
+(define-func standing-to-talk (?partner)
+  (and (in-earshot ?partner [k speech]) (walked-to-earshot-spot-of ?partner)))
 
 
 ; (call-msg ?msg) - ?msg is called out rather than spoken: a hail, and the answers to one.

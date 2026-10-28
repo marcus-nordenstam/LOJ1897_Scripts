@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; birthday-party (think). The recurring news-exchange that drives long-tail
-; gossip: once a year a share of NPCs hold a catch-up, and each pair of (host,
+; gossip: once a year a share of NPCs hold a party, and each pair of (host,
 ; friend-of-host) exchanges the news of the past year. Ceremonies (betrothal /
 ; wedding / christening) carry milestones to a bounded guest list; this carries
 ; everything else, lossily and slowly.
@@ -9,8 +9,8 @@
 ; news that someone in it has not heard: (pick-untold-belief /news ?talk) picks it over the
 ; (facets news_worthy) labels in their (tell-rank) order, skipping what the listeners are party
 ; to or were told in his hearing. A guest comes to know of people through the host by hearing
-; it - and self-news cascades onward as ordinary gossip. (The old telepathic two-way
-; (exchange-news) is gone; the reciprocal half is each guest's OWN catch-up.)
+; it - and self-news cascades onward as ordinary gossip. The guests' own news travels the same
+; way, told in the conversations they hold with their friends (friend-talk).
 ;
 ; An ACT (tell), but kept here as an occasion (the host life-aim / parent gate is
 ; the party framing; the friend tie is the guest list). Fired by the per-NPC

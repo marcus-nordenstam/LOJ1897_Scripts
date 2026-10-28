@@ -1,6 +1,7 @@
 ; ----------------------------------------------------------------------------
-; go-to ?dest - stand beside, near or inside ?dest: a spot, a thing, a person, a space or a
-; building. Movement is go-to and cross, over DOMAINS - an enclosure, or one exterior space - and
+; go-to ?dest [earshot] - stand beside, near or inside ?dest: a spot, a thing, a person, a space or
+; a building. To a person, its proposer says how near: earshot to talk with him, else near enough to
+; reach him. Movement is go-to and cross, over DOMAINS - an enclosure, or one exterior space - and
 ; a go-to WALK never leaves its domain: between domains the way is the containment tree, one leg
 ; at a time, (spatial @self leg ?dest) naming the next. Every enclosure is entered by crossing
 ; a passage, a door or an opening. The rungs are a preemptive-or:
@@ -11,6 +12,7 @@
 ;   seen once, and where it is now lost          -> locate-person / locate-thing; that failed -> fail
 ;   unseen, its unit or house seen              -> locate it there; a search that shows it not -> fail
 ;   unseen, no house at its premises            -> find-building; a search that finds none -> fail
+;   with the man he goes to, no spot free by him -> fail
 ;   the leg is an enclosure                     -> cross its nearest door he has not failed,
 ;                                                  out of it or into it
 ;   the leg is the enclosure he stands in       -> no door left: wander the unit he is in
@@ -38,8 +40,14 @@
             (then (bind (seen-premises-at (address-premises ?address.target)) ?house)))))
   ?house)
 
-; At a spot: standing on it. In a space: inside it, or out of doors in an exterior one. At a man: on the spot before him this
-; go-to walked him onto. At a thing: within reach of it.
+; The STANCE a go-to to a man takes, its auxiliary: earshot - near enough to talk with him - else
+; reach, close enough to lay a hand on him.
+(define-func go-earshot (?go-to)
+  (cond (case (unsubstantial ?go-to.auxiliary) @false)
+        (else (eq ?go-to.auxiliary earshot))))
+
+; At a spot: standing on it. In a space: inside it, or out of doors in an exterior one. At a man:
+; on the spot by him this go-to walked him onto. At a thing: within reach of it.
 (define-func go-arrived (?dest ?go-to)
   (cond (case (is-spot ?dest) (overlaps ?dest @self))
         (case (is-a ?dest [k building]) (spatial @self building ?dest))
@@ -81,7 +89,6 @@
       (and (go-boxless ?dest)
            (substantial (any {@self go-to (tolerate (spatial ?dest space)) /succ /caused_by ?go-to})))))
 
-
 ; A dest go-to can reach: a spot, a thing he has placed, one he believes in some space, or one
 ; whose address he knows.
 (define-func go-reachable (?dest)
@@ -101,14 +108,22 @@
         (else (go-travel-spot ?dest))): ?spot
   ?spot)
 
-; The spot he will stand on: the spot itself, a claimed spot on a space's floor, before a man,
-; or at a thing.
-(define-func go-stand-spot (?dest)
+; The spot he will stand on: the spot itself, a claimed spot on a space's floor, by a man as the
+; stance asks, or at a thing.
+(define-func go-stand-spot (?dest ?go-to)
   (cond (case (is-spot ?dest) ?dest)
         (case (is-a ?dest [k space]) (stand-spot-in ?dest))
+        (case (and (is-a ?dest [k human]) (go-earshot ?go-to)) (earshot-spot-of ?dest))
         (case (is-a ?dest [k human]) (stand-spot-before ?dest))
         (else (go-thing-stand-spot ?dest))): ?spot
   ?spot)
+
+; ?dest is a man @self is with, and no spot is free to stand by him as the stance asks.
+(define-func go-no-room (?dest ?go-to)
+  (cond (case (is-spot ?dest) @false)
+        (case (is-a ?dest [k human]) (and (spatial ?dest co-located @self)
+                                          (not (is-spot (go-stand-spot ?dest ?go-to)))))
+        (else @false)))
 
 (task {@self go-to ?dest}:?go-to
   (lint-waive task-no-preparation)
@@ -143,8 +158,9 @@
            (effects
              (check (substantial (any {?dest address})))
              (maintain-proposal {@self find-building ?dest (current-exterior @self)}))))
-    (try (role @self (go-unplaceable ?dest ?go-to)
-           (effects (set-outcome ?go-to /fail))))
+    (try (lint-waive cacheable-read-in-when)
+         (when (or (go-unplaceable ?dest ?go-to) (go-no-room ?dest ?go-to)))
+         (effects (set-outcome ?go-to /fail)))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (not (is-a ?leg [k exterior-space]))
              (role ?passage (spatial ?leg exits)
@@ -181,5 +197,5 @@
     (try (role ?passage (spatial @self barrier ?dest)
                         {@self cross ?passage /fail /caused_by ?go-to}
            (effects (set-outcome ?go-to /fail))))
-    (try (when (go-stand-spot ?dest): ?spot (is-spot ?spot))
+    (try (when (go-stand-spot ?dest ?go-to): ?spot (is-spot ?spot))
          (effects (maintain-proposal {@self WALK ?spot})))))

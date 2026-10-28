@@ -134,10 +134,21 @@
                        [/can_reach ?person]): ?front
   (if (is-spot ?front) (then ?front) (else (stand-spot-by ?person))))
 
-; @self has walked onto the spot before ?person. The WALK that reaches it says so: a presented
-; man's body stops short of the spot's own small box, so overlapping it is no test of arrival.
-(define-func walked-before (?person)
-  (bind (stand-spot-before ?person) ?spot)
+; Where @self stands to talk with a man: before him, face to face, as stand-spot-before stands
+; him; that taken, the free floor of his space nearest him - within his hearing, not his reach.
+(define-func earshot-spot-of (?person)
+  (maintain-claim-spot @self [/in_front_of ?person] [/near ?person] [/at_or_near @self]
+                       [/can_reach ?person]): ?front
+  (if (is-spot ?front)
+      (then ?front)
+      (else (bind (spatial ?person space) ?space)
+            (maintain-claim-spot @self [/on_floor_of ?space] [/near ?person] [/at_or_near @self]))))
+
+; @self has walked onto the spot he stands on to talk with ?person. The WALK that reaches it says
+; so: a presented man's body stops short of the spot's own small box, so overlapping it is no test
+; of arrival.
+(define-func walked-to-earshot-spot-of (?person)
+  (bind (earshot-spot-of ?person) ?spot)
   (substantial (any {@self WALK ?spot /succ})))
 
 ; The box @self heads for: the one he sees, else the one he remembers. A structure he never had

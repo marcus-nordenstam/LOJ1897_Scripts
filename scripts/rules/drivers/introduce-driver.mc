@@ -20,9 +20,12 @@
       ; Sociability gate: an extraverted NPC strikes up an introduction more readily.
       (when (chance (* 0.5 (+ 0.4 ?enthusiasm))))
   
+      ; Begun, not maintained: co-presence decides whether he says it, and once begun the line is
+      ; said wherever the listener walks - the tell follows him, or fails if it cannot.
+      (lint-waive begin-proposal)
       (declare-utility want)
   
       (effects
         (every {@self (disclosure-tier-labels stranger) ?}): ?facts
-        (maintain-proposal {@self tell (msg /utterable [] ?facts) ?stranger})))))
+        (begin-proposal {@self tell (msg /utterable [] ?facts) ?stranger})))))
     

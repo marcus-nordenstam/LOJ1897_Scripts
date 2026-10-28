@@ -35,4 +35,4 @@
             (then (maintain-proposal {@self SAY ?msg ?audience})))))
     (try
       (when (and (is-a ?audience [k human]) (not (within-voice ?audience ?msg))))
-      (effects (maintain-proposal {@self go-to ?audience})))))
+      (effects (maintain-proposal {@self go-to ?audience earshot})))))

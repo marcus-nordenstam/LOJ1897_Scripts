@@ -87,7 +87,10 @@
         (score (flip (is-belief ?barb) ?rank 0))
         (policy roulette))
 
+      ; Begun, not maintained: co-presence decides whether he says it, and once begun the line is
+      ; said wherever the listener walks - the tell follows him, or fails if it cannot.
+      (lint-waive begin-proposal)
       (declare-utility want)
 
       (effects
-        (maintain-proposal {@self tell (msg /utterable [/msg-class insult] ?barb) ?victim})))))
+        (begin-proposal {@self tell (msg /utterable [/msg-class insult] ?barb) ?victim})))))
