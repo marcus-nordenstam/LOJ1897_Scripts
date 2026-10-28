@@ -23,6 +23,8 @@
 ;   the leg is an exterior space                -> WALK into it
 ;   in his domain, a door he believes shut on
 ;   every way he knows                          -> cross it; that cross failed -> fail
+;   in his domain, out of his sight             -> WALK toward the space it is in, claiming
+;                                                  nothing; walked there, still unseen -> fail
 ;   in his domain                               -> WALK to the spot he will stand on
 ;
 ; The world decides where a walk stops: a WALK whose way the world bars ends before the door and
@@ -87,7 +89,8 @@
   (or (go-unseen ?dest)
       (go-lost ?dest)
       (and (go-boxless ?dest)
-           (substantial (any {@self go-to (tolerate (spatial ?dest space)) /succ /caused_by ?go-to})))))
+           (substantial (any {@self go-to (tolerate (spatial ?dest space)) /succ /caused_by ?go-to})))
+      (go-walked-blind ?dest ?go-to)))
 
 ; A dest go-to can reach: a spot, a thing he has placed, one he believes in some space, or one
 ; whose address he knows.
@@ -118,12 +121,38 @@
         (else (go-thing-stand-spot ?dest))): ?spot
   ?spot)
 
-; ?dest is a man @self is with, and no spot is free to stand by him as the stance asks.
+; ?dest is a man @self is with and sees, and no spot is free to stand by him as the stance asks.
 (define-func go-no-room (?dest ?go-to)
   (cond (case (is-spot ?dest) @false)
         (case (is-a ?dest [k human]) (and (spatial ?dest co-located @self)
+                                          (is-visible ?dest)
                                           (not (is-spot (go-stand-spot ?dest ?go-to)))))
         (else @false)))
+
+; A spot is placed by its own coordinates; anything else only once @self sees it, since finding
+; where to stand by it is looking it over.
+(define-func go-in-sight (?dest)
+  (flip (is-spot ?dest) @true (is-visible ?dest)))
+
+; Where he heads for ?dest out of his sight: the space it is in, a point there he claims nothing at.
+(define-func go-sight-spot (?dest)
+  (cond (case (is-a ?dest [k space]) (travel-spot ?dest))
+        (case (substantial (tolerate (spatial ?dest space))) (travel-spot (spatial ?dest space)))
+        (else @fail)))
+
+; The spot the next WALK in his domain heads for: where he will stand by ?dest once he sees it,
+; else toward the space it is in.
+(define-func go-walk-spot (?dest ?go-to)
+  (flip (go-in-sight ?dest) (go-stand-spot ?dest ?go-to) (go-sight-spot ?dest)))
+
+; He walked to where ?dest is for this go-to and still does not see it.
+(define-func go-walked-blind (?dest ?go-to)
+  (bind @false ?walked)
+  (if (not (go-in-sight ?dest))
+      (then (bind (go-sight-spot ?dest) ?spot)
+            (if (is-spot ?spot)
+                (then (bind (substantial (any {@self WALK ?spot /succ /caused_by ?go-to})) ?walked)))))
+  ?walked)
 
 (task {@self go-to ?dest}:?go-to
   (lint-waive task-no-preparation)
@@ -197,5 +226,5 @@
     (try (role ?passage (spatial @self barrier ?dest)
                         {@self cross ?passage /fail /caused_by ?go-to}
            (effects (set-outcome ?go-to /fail))))
-    (try (when (go-stand-spot ?dest ?go-to): ?spot (is-spot ?spot))
+    (try (when (go-walk-spot ?dest ?go-to): ?spot (is-spot ?spot))
          (effects (maintain-proposal {@self WALK ?spot})))))

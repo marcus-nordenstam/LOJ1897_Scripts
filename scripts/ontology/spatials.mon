@@ -112,6 +112,7 @@
 (spatial-label rooms      (store part) (rooms))
 (spatial-label exits      (store part) (exits))
 (spatial-label beyond     (store space) (beyond))
+(spatial-label before     (store space) (before))
 (spatial-label leg        (store space) (leg))
 (spatial-label barrier    (store space) (barrier))
 (spatial-label gripped-by (store grip))

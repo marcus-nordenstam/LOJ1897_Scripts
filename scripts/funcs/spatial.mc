@@ -43,6 +43,10 @@
 (define-func passage-spot-beyond (?passage)
   (maintain-claim-spot @self [/beyond ?passage] [/near ?passage] [/at_or_near @self]))
 
+; The space on @self's side of ?passage, where he stands to work it.
+(define-func passage-near-side (?passage)
+  (spatial ?passage before (spatial @self space)))
+
 ; The claimed stance on @self's side of ?passage from which he can reach it, to work it. @fail
 ; while every such stance is taken.
 (define-func passage-stance (?passage)
@@ -143,13 +147,6 @@
       (then ?front)
       (else (bind (spatial ?person space) ?space)
             (maintain-claim-spot @self [/on_floor_of ?space] [/near ?person] [/at_or_near @self]))))
-
-; @self has walked onto the spot he stands on to talk with ?person. The WALK that reaches it says
-; so: a presented man's body stops short of the spot's own small box, so overlapping it is no test
-; of arrival.
-(define-func walked-to-earshot-spot-of (?person)
-  (bind (earshot-spot-of ?person) ?spot)
-  (substantial (any {@self WALK ?spot /succ})))
 
 ; The box @self heads for: the one he sees, else the one he remembers. A structure he never had
 ; a box for is find-building's.
