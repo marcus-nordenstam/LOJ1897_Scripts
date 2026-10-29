@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self expose ?victim}:?expose
-  (facets gossip_worthy) (tell-rank 6)
+  (facets gossip-worthy news-worthy) (tell-rank 6)
   (tar @pattern)
   (construed-act expose-act betray-act wrong-act) (contradicts privacy)
   (and

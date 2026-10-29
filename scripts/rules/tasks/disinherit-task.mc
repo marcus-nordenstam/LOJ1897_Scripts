@@ -19,7 +19,7 @@
 
 
 (task {@self disinherit ?victim}:?disinherit
-  (facets gossip_worthy) (tell-rank 1)
+  (facets gossip-worthy news-worthy) (tell-rank 1)
   (tar [k human] @object)
   (construed-act abandonment-act wrong-act) (contradicts kin-loyalty)
   (and

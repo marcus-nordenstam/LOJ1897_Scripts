@@ -75,7 +75,9 @@
   ; prop twin of dead - an eaten / drunk / used-up consumable - minted ongoing
   ; and never ended, superseding the prop's default alive.
   (child condition
-    (children alive dead consumed))
+    (children alive)
+    (child dead (facets gossip-worthy))
+    (children consumed))
 
   ; Consciousness axis (@excl), HUMAN-NPC only - the awareness attr is listed
   ; on human-npc alone, so props never carry it. Default awake; sleep writes asleep,
@@ -325,12 +327,12 @@
   ; How close a listener must be to hear of a pressure: a grievance or lament is for friends; a
   ; confession (moral-violation) or the fear of one coming out (exposure-risk) only for the
   ; intimate; a rivalry grudge is aired freely.
-  (child pressure (disclosure friend)
+  (child pressure (disclosure friend+)
     (children status-loss attachment-loss autonomy-loss resource-scarcity humiliation injustice
               existential-threat obligation-strain)
-    (child exposure-risk (disclosure intimate))
-    (child moral-violation (disclosure intimate))
-    (child rivalry-pressure (disclosure acquaintance)))
+    (child exposure-risk (disclosure confidant+))
+    (child moral-violation (disclosure confidant+))
+    (child rivalry-pressure (disclosure acquaintance+)))
 
   ; Justifying narratives - the cognitive frames an NPC holds to make a
   ; past or planned harmful act acceptable to themselves (plan section
@@ -988,7 +990,7 @@
 
   (children marriage-desirability)
 
-  (child birthplace (facets news_worthy))
+  (child birthplace (facets self-disclosable))
 
   ; Residential / venue knowledge and the apprenticeship bond (subject is a
   ; human). The verb-shaped vocational relations (retire / carrying-loot /

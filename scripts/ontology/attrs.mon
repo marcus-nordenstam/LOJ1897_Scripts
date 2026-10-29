@@ -29,7 +29,7 @@
 ; (buildings, roads) override (ext-per obs) per-archetype because their names
 ; WILL eventually be observable via address signs - for now those archetypes
 ; also add (auto-percept).
-(attr name (type name) (default @nothing) (spec-attr name) (int-per reason) (ext-per imperceptible) (disclosure stranger) (describe-in opening))
+(attr name (type name) (default @nothing) (spec-attr name) (int-per reason) (ext-per imperceptible) (disclosure stranger+) (describe-in opening))
 
 ; Spatial
 ; Bounds are DECLARED per-archetype via (spatial bounds) and live in the env's

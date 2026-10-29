@@ -15,7 +15,7 @@
 
 
 (task {@self divorce ?partner}:?divorce
-  (facets gossip_worthy) (tell-rank 8)
+  (facets gossip-worthy news-worthy) (tell-rank 8)
   (tar [k human] @object)
   (init
     (expect {?partner gender [k female]} "divorce: only a husband puts a wife away"))
