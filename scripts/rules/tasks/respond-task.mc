@@ -9,6 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self respond ?speaker ?line}:?respond
+  (noncompete-set discourse)
   (tar @excl [k human] @object)
   (aux ?)
   (success-cond {@self tell ? ?speaker /succ /caused_by ?line})

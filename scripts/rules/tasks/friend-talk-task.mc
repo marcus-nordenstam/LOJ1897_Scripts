@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self friend-talk ?talk ?friend}:?friend-talk
+  (noncompete-set discourse)
   (tar @excl [k conversation] @object)
   (aux [k human] @object)
   (and

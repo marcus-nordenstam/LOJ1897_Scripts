@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self smalltalk ?talk ?partner}:?smalltalk
+  (noncompete-set discourse)
   (tar @excl [k conversation] @object)
   (aux [k human] @object)
   (and

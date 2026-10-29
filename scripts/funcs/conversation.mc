@@ -316,11 +316,25 @@
        (or (any-happened-since (every {@self hail ?partner /succ}) ?part)
            (any-happened-since (every {@self take-up ?partner /succ}) ?part))))
 
-; (invited-by ?caller) - ?caller is in a conversation, the one @self is in or another: the hail he
-; called stands. Whether it is answered is the reader's role: no take-up or turn-down of @self's
-; caused by it has succeeded.
+; (invited-by ?caller) - the hail ?caller called to @self stands: his hailing set holds @self.
+; Whether it is answered is the reader's role: no take-up or turn-down of @self's caused by it has
+; succeeded.
 (define-func invited-by (?caller)
-  (substantial (conversation-of ?caller)))
+  (substantial (bb-public-any ?caller hailing @self)))
+
+; (turned-away ?msg) - ?msg turns a hail down: a refusal or a rebuff.
+(define-func turned-away (?msg)
+  (and (eq-func-name ?msg formulaic)
+       (or (eq (nth (k-formulaic-category-field) ?msg) refusal)
+           (eq (nth (k-formulaic-category-field) ?msg) rebuff))))
+
+; (hail-accepted ?partner ?hail) - ?partner answered the opening @self called in ?hail without
+; turning it down, and the two are in one conversation.
+(define-func hail-accepted (?partner ?hail)
+  (bind (hail-reply ?partner ?hail) ?reply)
+  (and (is-belief ?reply)
+       (not (turned-away ?reply.target))
+       (conversing-with ?partner @self)))
 
 ; (join-conversation ?talk) - @self takes part in ?talk: he joins its participant set, and he knows
 ; himself a party of it, where it is held when he did not yet, and the occasion it is part of when
@@ -336,7 +350,7 @@
       (then (begin-belief {?talk occasion ?occasion}))))
 
 ; (open-conversation) - @self opens a conversation where he stands: a new shared object, and
-; himself in it. The conversation it returns is what his hail names.
+; himself in it. Taking up a hail makes one when neither man is in a conversation.
 (define-func open-conversation ()
   (share-object (o /invent [k conversation])): ?talk
   (join-conversation ?talk)
@@ -504,11 +518,19 @@
 (define-func reply-to (?msg ?speaker)
   (switch (line-kind ?msg)
     (on inquiry (answer-to ?msg ?speaker))
-    (on opening-phrase (hail-response ?msg))
+    (on opening-phrase (opening-reply ?msg ?speaker))
     (on flirtation (flirt-reply ?speaker))
     (on smalltalk (smalltalk-reply (conversation-of @self)))
     (on tidings (tidings-reply ?speaker))
     (else @nothing)))
+
+; (opening-reply ?opening ?speaker) - what @self answers an opening ?speaker said to him in a
+; conversation he is in: a rebuff when he despises him, else the response the opening calls for.
+; A man already talking is never too busy for one joining his talk, so only a rebuff turns him away.
+(define-func opening-reply (?opening ?speaker)
+  (if (rebuffs ?speaker)
+      (then (formulaic [/msg-class insult] rebuff))
+      (else (hail-response ?opening))))
 
 ; (tidings-reply ?speaker) - what @self answers ?speaker's tidings with: tidings of his own the
 ; friend has not heard, else the receipt of them.

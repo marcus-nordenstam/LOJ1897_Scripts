@@ -14,6 +14,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self converse ?talk}:?converse
+  (noncompete-set discourse)
   (tar @excl [k conversation] @object)
   (lint-waive try-rungs-not-exclusive)
   ; Ending still in the conversation with others in it, he takes his leave first, so they know it

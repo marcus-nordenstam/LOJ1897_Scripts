@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self inquire ?partner ?qs}:?inquire
+  (noncompete-set discourse)
   (tar @excl [k human] @object)
   (aux ?)
   (and

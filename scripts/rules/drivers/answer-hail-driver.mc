@@ -7,7 +7,9 @@
 ; he finishes: a turn-down and a begun take-up both run at (declare-utility unbeatable), above
 ; everything he has going. The choice stays open until he begins answering: a man who would have
 ; engaged but finds something keener before he has begun taking it up declines instead, and says
-; what it is.
+; what it is. A man in a conversation answers as a line of it, caused by his converse: taking the
+; caller up brings him into that conversation, and turning him down is said over his shoulder and
+; gives the conversation as what he is busy with - neither ends it.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -31,7 +33,11 @@
                (not (rebuffs ?speaker))
                (not (turning-down ?speaker))
                (unsubstantial (top-competing-act {@self take-up ?speaker} ?worth))))
-    (effects (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))
+    (effects
+      (bind (any {@self converse ?}) ?converse)
+      (if (substantial ?converse)
+          (then (maintain-proposal {@self take-up ?speaker} /caused_by ~[?opening ?converse]))
+          (else (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))))
 
 ; A take-up he has begun is a yes already being said: he finishes it.
 (driver complete-take-up
@@ -43,7 +49,11 @@
     (when (and (invited-by ?speaker)
                (taking-up ?speaker)))
     (declare-utility unbeatable)
-    (effects (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))
+    (effects
+      (bind (any {@self converse ?}) ?converse)
+      (if (substantial ?converse)
+          (then (maintain-proposal {@self take-up ?speaker} /caused_by ~[?opening ?converse]))
+          (else (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))))
 
 ; Declining for what he would rather be doing, and saying what it is: the decision is made once,
 ; and the refusal it begins always completes.
@@ -65,9 +75,14 @@
     (lock)
     (lint-waive begin-proposal)
     (effects
-      (bind (top-competing-act {@self take-up ?speaker} ?worth) ?busy-with)
-      (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?busy-with)} /uninterruptable
-                      /caused_by ?opening))))
+      (bind (any {@self converse ?}) ?converse)
+      (if (substantial ?converse)
+          (then (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?converse)} /uninterruptable
+                                /caused_by ~[?opening ?converse]))
+          (else
+            (bind (top-competing-act {@self take-up ?speaker} ?worth) ?busy-with)
+            (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?busy-with)} /uninterruptable
+                            /caused_by ?opening))))))
 
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (driver rebuff-hail
@@ -81,4 +96,9 @@
                (rebuffs ?speaker)))
     (declare-utility unbeatable)
     (effects
-      (maintain-proposal {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)} /caused_by ?opening))))
+      (bind (any {@self converse ?}) ?converse)
+      (if (substantial ?converse)
+          (then (maintain-proposal {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)}
+                                   /caused_by ~[?opening ?converse]))
+          (else (maintain-proposal {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)}
+                                   /caused_by ?opening))))))

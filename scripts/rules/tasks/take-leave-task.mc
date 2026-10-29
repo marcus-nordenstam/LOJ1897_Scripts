@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self take-leave ?talk}:?take-leave
+  (noncompete-set discourse)
   (tar @excl [k conversation] @object)
   (sequence
     (stage

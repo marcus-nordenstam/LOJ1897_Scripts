@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self turn-down ?partner ?msg}:?turn-down
+  (noncompete-set discourse)
   (tar @excl [k human] @object)
   (aux ?)
   (sequence
