@@ -16,14 +16,14 @@
 ; A DIRECTED say stamps the addressee in the act's /aux (the per-listener "told"
 ; dedup); a BROADCAST leaves it absent. Delivery is by earshot either way - the
 ; addressee is who it is ADDRESSED to, never who receives it. Which sound it makes is
-; (speech-sound ..) (funcs/conversation.mc), the one choice tell measures by too.
+; (voice-sound ..) (funcs/conversation.mc), the voice the line rides, which tell measures by too.
 ; ----------------------------------------------------------------------------
 
 (include "../macros/formulaic-macros.mc")
 
 (define-func deliver-speech (?xsay)
   (do
-    (create-entity (speech-sound ?xsay.target) (spatial @self bounds /env)): ?sound
+    (create-entity (voice-sound ?xsay.target) (spatial @self bounds /env)): ?sound
     (set-attr ?sound create-action ?xsay)
     (set-attr ?sound speaker @self)
     (set-attr ?sound preroll 0)))

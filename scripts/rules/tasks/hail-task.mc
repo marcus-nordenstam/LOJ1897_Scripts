@@ -1,7 +1,8 @@
 ; ----------------------------------------------------------------------------
-; hail ?partner - @self opens a conversation with ?partner: he goes to stand before him, joins the
-; conversation ?partner is in or opens a new one (funcs/conversation.mc), and calls out the
-; opening. ?partner found in another conversation after that - one he opened at the same
+; hail ?partner - @self opens a conversation with ?partner, within call of him: he joins the
+; conversation ?partner is in or opens a new one (funcs/conversation.mc), and says the opening -
+; its tell does the closing in, as every speaker does, while ?partner stays put. Called
+; to by ?partner before he has called out his own, he lets his hail go and takes ?partner up. ?partner found in another conversation after that - one he opened at the same
 ; instant as another caller's, or moved to - is followed into it. It is PREPARATION - an open
 ; conversation is what converse assumes - so only a driver proposes it. Taken up when ?partner
 ; has answered him and both are in the same conversation - also when that is
@@ -28,12 +29,16 @@
               (else (leave-conversation))))))
   (and
     (try
-      (when (not (standing-to-talk ?partner ?hail)))
-      (effects (maintain-proposal {@self go-to ?partner earshot})))
+      (role @self {@self isa [k human]}
+                  -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
+        (effects (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner}))))
     (try
-      (when (and (standing-to-talk ?partner ?hail)
-                 -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}))
-      (effects (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner})))
+      (role @self {@self isa [k human]}
+                  -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
+        (role ?partner {?partner SAY ? @self /past}
+                       {?partner SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+          (when (happened-since ?opening ?hail))
+          (effects (set-outcome ?hail /fail)))))
     (try
       (lint-waive cacheable-read-in-when)
       (when (and (substantial (conversation-of ?partner))
@@ -48,8 +53,8 @@
         (role ?partner {?partner SAY ? @self /past}
                        {?partner SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                        -{@self tell ? ?partner /succ /caused_by ?opening}
-          (when (and (standing-to-talk ?partner ?hail) (conversing-with ?partner @self) (happened-since ?opening ?hail)))
-          (effects (maintain-proposal {@self answer ?partner ?opening})))))
+          (when (and (conversing-with ?partner @self) (happened-since ?opening ?hail)))
+          (effects (maintain-proposal {@self respond ?partner ?opening})))))
     (try
       (lint-waive cacheable-read-in-when)
       (role ?partner {?partner SAY ? @self /past}
@@ -70,5 +75,5 @@
       (when (unsubstantial (conversation-of @self)))
       (effects (set-outcome ?hail /fail)))
     (try
-      (role @self {@self go-to ?partner /fail /caused_by ?hail}
+      (role @self {@self tell (formulaic ? opening-phrase ?) ?partner /fail /caused_by ?hail}
         (effects (set-outcome ?hail /fail))))))

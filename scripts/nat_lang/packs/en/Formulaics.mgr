@@ -38,6 +38,7 @@
 "Mind your manners"                                                            ( formulaic [] refusal flirt ) .
 "It is indeed"                                                                  ( formulaic [] response agree ) .
 "Nothing much"                                                                  ( formulaic [] response no-news ) .
+"How interesting"                                                               ( formulaic [] response receipt ) .
 
 "No, I don't know"                                                              ( formulaic [] no_dont_know ) .
 "Yes, it's $answer(NP)"                                                         ( formulaic [] yes_its $answer(NP) ) .

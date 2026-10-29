@@ -70,14 +70,14 @@
         (then (bind @true ?asked) (break))))
   ?asked)
 
-; (answered-tidings ?other) - in a mind: ?other told @self tidings, and @self answered them in kind -
-; a friend-talk of his caused by that line.
-(define-func answered-tidings (?other)
-  (bind @false ?answered)
+; (responded-to-tidings ?other) - in a mind: every line of tidings ?other told @self has a line of
+; @self's in response, caused by it - his own tidings when he had some, else its receipt.
+(define-func responded-to-tidings (?other)
+  (bind @true ?responded)
   (for-each ?line (every {?other SAY (msg ~[/msg-class tidings] ?..) @self /past})
-    (if (substantial (any {@self friend-talk ? ?other /ever /caused_by ?line}))
-        (then (bind @true ?answered) (break))))
-  ?answered)
+    (if (unsubstantial (any {@self tell ? ?other /succ /caused_by ?line}))
+        (then (bind @false ?responded) (break))))
+  ?responded)
 
 ; (left-talk ?who) - ?who ended his part in a talk himself: he took his leave, or, called away,
 ; gave his account of what called him.

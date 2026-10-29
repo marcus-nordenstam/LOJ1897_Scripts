@@ -1,9 +1,7 @@
 ; ----------------------------------------------------------------------------
-; smalltalk drivers - the drivers of the smalltalk dialogue task (tasks/smalltalk-task.mc).
-; smalltalk-unease is PROACTIVE: ill at ease in a talk with someone he is not close to
-; (thinks/classify/classify-unease.mc), @self makes his remark on the weather to him.
-; return-smalltalk is REACTIVE: a remark said to @self in his talk is owed its answer, as a question
-; is (drivers/answer-driver.mc), his smalltalk caused by the presence and by the line it answers.
+; smalltalk-unease (driver) - ill at ease in a talk with someone he is not close to
+; (thinks/classify/classify-unease.mc), @self makes his remark on the weather to him
+; (tasks/smalltalk-task.mc). A remark said to him is answered by the respond driver.
 ; ----------------------------------------------------------------------------
 
 (driver smalltalk-unease
@@ -16,13 +14,3 @@
                    (substantial (smalltalk-line ?talk))))
         (declare-utility want)
         (effects (maintain-proposal {@self smalltalk ?talk ?partner} /caused_by ~[?converse ?unease]))))))
-
-(driver return-smalltalk
-  (role @self {@self converse ?talk}:?converse
-    (role ?speaker {?speaker SAY (msg ~[/msg-class smalltalk] ?..) @self /past}:?line
-                   -{@self tell ? ?speaker /succ /caused_by ?line}
-      (when (and (in-conversation @self ?talk)
-                 (in-conversation ?speaker ?talk)
-                 (happened-since ?line ?converse)))
-      (declare-utility obligation)
-      (effects (maintain-proposal {@self smalltalk ?talk ?speaker} /caused_by ~[?converse ?line])))))

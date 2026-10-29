@@ -14,7 +14,7 @@
       (stable-or
         (try
           (bind (pick-untold-belief /news ?friend) ?untold)
-          (when (and (substantial ?untold) (not (engaged-with ?friend))))
+          (when (and (substantial ?untold) (not (engaged-with ?friend)) (within-call ?friend)))
           (effects (maintain-proposal {@self hail ?friend})))
         (try
           (role @self {@self hail|take-up ?friend /succ /past}

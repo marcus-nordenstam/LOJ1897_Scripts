@@ -30,22 +30,12 @@
 (include "../macros/tunables.mc")
 (include "../macros/formulaic-macros.mc")
 
-; (standing-to-talk ?partner ?cause) - @self stands with ?partner to talk: within earshot of his
-; speaking voice, the go-to for earshot that ?cause proposed having brought him there.
-(define-func standing-to-talk (?partner ?cause)
-  (and (in-earshot ?partner [k speech])
-       (substantial (any {@self go-to ?partner earshot /succ /caused_by ?cause}))))
 
-
-; (call-msg ?msg) - ?msg is called out rather than spoken: a hail, and the answers to one.
-(define-func call-msg (?msg)
-  (and (eq-func-name ?msg formulaic)
-       (or (eq (nth (k-formulaic-category-field) ?msg) opening-phrase) (eq (nth (k-formulaic-category-field) ?msg) response)
-           (eq (nth (k-formulaic-category-field) ?msg) refusal) (eq (nth (k-formulaic-category-field) ?msg) rebuff))))
-
-; (speech-sound ?msg) - the sound saying ?msg makes: a [k shout] called out, else [k speech].
-(define-func speech-sound (?msg)
-  (flip (call-msg ?msg) [k shout] [k speech]))
+; (voice-sound ?msg) - the sound saying ?msg makes: a [k shout] when it rides a raised voice
+; ([/voice-mod shout]), else [k speech]. Only a behaviour that shouts writes the rider; any other
+; speaker closes on his listener and speaks.
+(define-func voice-sound (?msg)
+  (flip (eq (msg-rider ?msg voice-mod) shout) [k shout] [k speech]))
 
 ; (within-call ?listener) - ?listener would hear @self call out, as @self knows where he
 ; stands - seen, or heard: a voice places the man it came from.
@@ -61,10 +51,10 @@
         (bind @true ?all-hear)
         (for-each ?party (every {?listener participant ?})
           (bind ?party.target ?who)
-          (if (and (neq ?who @self) (not (in-earshot ?who (speech-sound ?msg))))
+          (if (and (neq ?who @self) (not (in-earshot ?who (voice-sound ?msg))))
               (then (bind @false ?all-hear))))
         ?all-hear)
-      (else (in-earshot ?listener (speech-sound ?msg)))))
+      (else (in-earshot ?listener (voice-sound ?msg)))))
 
 ; (answers-to ?speaker) - @self is bound to heed ?speaker's hail: his master, his mother or
 ; his father.
@@ -151,13 +141,20 @@
 (define-func conversing-with (?party ?partner)
   (in-conversation ?partner (conversation-of ?party)))
 
-; A man being spoken to carries the speaker's mark on his public board (addressed) while a line
-; to him is being said, and a line said to a conversation marks the conversation: nobody is ever
-; spoken to by two men at once, while men speak at once to different listeners freely. tell
-; claims the mark when it proposes the SAY (claim-addressees) and clears it however it ends
-; (release-addressees); a tell whose listener is spoken to waits (free-to-address), woken by the
-; clear. Two men claiming one listener in one deliberation round is decided by the claim itself:
-; the loser thinks again on the board the winner left. SAY asserts it holds the mark (holds-address).
+; A man being spoken to carries the speaker's mark on his public board (addressed) from the moment
+; the speaker takes him on until the line is said, and a line said to a conversation marks the
+; conversation. A line said outside a conversation (a hail, its answer) marks the speaker's own
+; board too, so two men never call to each other at once: the claim decides, and the loser is the
+; one called to. tell claims
+; the marks (claim-addressees) before it closes on its listener and clears them however it ends
+; (release-addressees); a man under another's mark stays where he is (heed-speaker). SAY asserts it
+; holds the mark (holds-address).
+;
+; Inside a conversation one man has the floor at a time (floor, on the conversation's board). Only
+; a man with a line waiting bids for it (bidding); of the bidders the one who has waited longest
+; since he last spoke takes it (spoke-at, on each man's own board: when his last line ended, unset
+; when he has never spoken), and a line answering one said to him (answering) goes before the
+; rest. The floor clears when the line is said or given up (release-floor).
 
 ; (addressed-by-another ?x) - a man other than @self is speaking to ?x now.
 (define-func addressed-by-another (?x)
@@ -191,21 +188,111 @@
       (then (substantial (bb-public-any ?audience addressed @self)))
       (else @true)))
 
-; (claim-addressees ?audience) - @self marks ?audience as spoken to, @true, or leaves it as it was,
-; @false, when another man is speaking to it or to anyone it reaches. A mark already his stands.
+; (claim-addressees ?audience) - @self marks ?audience as spoken to, and outside a conversation
+; himself as speaking, @true, or leaves both as they were, @false, when another man is speaking to
+; it, to anyone it reaches, or calling to @self. Marks already his stand.
 (define-func claim-addressees (?audience)
   (bind @true ?claimed)
   (if (and (substantial ?audience) (not (holds-address ?audience)))
       (then
-        (bind (substantial (bb-public-try-write-new ?audience addressed @self)) ?claimed)
-        (if (and ?claimed (not (free-to-address ?audience)))
-            (then
-              (release-addressees ?audience)
-              (bind @false ?claimed)))))
+        (bind (and (or (substantial (floor-talk ?audience))
+                       (and (bb-public-none @self addressed)
+                            (substantial (bb-public-try-write-new @self addressed @self))))
+                   (substantial (bb-public-try-write-new ?audience addressed @self))
+                   (free-to-address ?audience))
+              ?claimed)
+        (if (not ?claimed)
+            (then (release-addressees ?audience)))))
   ?claimed)
 
-; (release-addressees ?audience) - @self's mark on ?audience clears; another man's stays.
+; (floor-talk ?audience) - the conversation a line to ?audience is said in: ?audience itself, or the
+; one @self is in with him; @nothing for a line said outside one.
+(define-func floor-talk (?audience)
+  (cond (case (unsubstantial ?audience) @nothing)
+        (case (is-a ?audience [k conversation]) ?audience)
+        (case (conversing-with @self ?audience) (conversation-of @self))
+        (else @nothing)))
+
+; (holds-floor ?talk) - @self has ?talk's floor.
+(define-func holds-floor (?talk)
+  (substantial (bb-public-any ?talk floor @self)))
+
+; (waited-longer ?other) - ?other has waited longer to speak than @self: he has never spoken while
+; @self has, or his last line ended before @self's did.
+(define-func waited-longer (?other)
+  (bind (bb-public-read @self spoke-at) ?mine)
+  (bind (bb-public-read ?other spoke-at) ?theirs)
+  (cond (case (unsubstantial ?mine) @false)
+        (case (unsubstantial ?theirs) @true)
+        (else (< ?theirs ?mine))))
+
+; (outbid ?talk ?answering) - another bidder for ?talk's floor goes before @self: he answers a line
+; when @self does not, or bids as @self does and has waited longer.
+(define-func outbid (?talk ?answering)
+  (bind @false ?outbid)
+  (for-each ?bidder (bb-public-members ?talk bidding)
+    (bind (substantial (bb-public-any ?talk answering ?bidder)) ?theirs-answers)
+    (if (and (neq ?bidder @self)
+             (or (and ?theirs-answers (not ?answering))
+                 (and (eq ?theirs-answers ?answering) (waited-longer ?bidder))))
+        (then (bind @true ?outbid) (break))))
+  ?outbid)
+
+; (answering-line ?msg ?audience) - the line @self would say to ?audience answers one ?audience said
+; to him: his tell of it was caused by that line.
+(define-func answering-line (?msg ?audience)
+  (bind @false ?answers)
+  (for-each ?heard (every {?audience SAY ? @self /past})
+    (if (substantial (any {@self tell ?msg ?audience /caused_by ?heard}))
+        (then (bind @true ?answers) (break))))
+  ?answers)
+
+; (bid-floor ?msg ?audience) - @self bids for the floor of the conversation he says ?msg in, and
+; as one answering a line said to him when ?msg does.
+(define-func bid-floor (?msg ?audience)
+  (bind (floor-talk ?audience) ?talk)
+  (if (substantial ?talk)
+      (then
+        (bb-public-add-member ?talk bidding @self)
+        (if (answering-line ?msg ?audience)
+            (then (bb-public-add-member ?talk answering @self))))))
+
+; (my-turn ?msg ?audience) - @self may say ?msg to ?audience now: it is said outside a
+; conversation, or he has the floor, or the floor is free and no bidder goes before him.
+(define-func my-turn (?msg ?audience)
+  (bind (floor-talk ?audience) ?talk)
+  (cond (case (unsubstantial ?talk) @true)
+        (case (holds-floor ?talk) @true)
+        (else (and (bb-public-none ?talk floor)
+                   (not (outbid ?talk (answering-line ?msg ?audience)))))))
+
+; (take-floor ?audience) - @self takes the floor of the conversation he speaks to ?audience in,
+; @true, or loses it to another's claim, @false; outside a conversation there is none to take.
+(define-func take-floor (?audience)
+  (bind (floor-talk ?audience) ?talk)
+  (or (unsubstantial ?talk)
+      (holds-floor ?talk)
+      (substantial (bb-public-try-write-new ?talk floor @self))))
+
+; (release-floor ?talk) - @self stops bidding for ?talk's floor and gives it up if he has it.
+(define-func release-floor (?talk)
+  (if (substantial ?talk)
+      (then
+        (bb-public-remove-member ?talk bidding @self)
+        (bb-public-remove-member ?talk answering @self)
+        (if (holds-floor ?talk)
+            (then (bb-public-clear ?talk floor))))))
+
+; (claim-turn ?audience) - @self takes his turn to speak to ?audience: the floor of the
+; conversation he speaks in, and the marks on whom he speaks to.
+(define-func claim-turn (?audience)
+  (and (take-floor ?audience) (claim-addressees ?audience)))
+
+; (release-addressees ?audience) - @self's marks on ?audience and on himself clear; another man's
+; stay.
 (define-func release-addressees (?audience)
+  (if (substantial (bb-public-any @self addressed @self))
+      (then (bb-public-clear @self addressed)))
   (if (substantial ?audience)
       (then
         (if (substantial (bb-public-any ?audience addressed @self))
@@ -280,6 +367,7 @@
   (bind (conversation-of @self) ?talk)
   (if (substantial ?talk)
       (then
+        (release-floor ?talk)
         (bb-public-remove-member ?talk participant @self)
         (bb-public-remove-member ?talk has-more @self)
         (end-belief {?talk participant @self})
@@ -378,6 +466,51 @@
         (then (bind @true ?remarked) (break))))
   ?remarked)
 
+; Every line said to a man makes a response from him relevant, and its kind decides which: a
+; question an answer, an opening an opening's answer, a flirt a flirt's answer, a remark a remark
+; or agreement, tidings tidings of his own or a receipt. A response itself calls for none. The
+; respond driver (drivers/respond-driver.mc) owes it, the respond task says it, caused by the line.
+
+; (line-kind ?msg) - the kind of move ?msg is: inquiry (a question), opening-phrase (a hail),
+; flirtation (a flirt), smalltalk (a remark), tidings (news), or reply - anything that answers a
+; line rather than calling for an answer.
+(define-func line-kind (?msg)
+  (cond (case (is-qs ?msg) inquiry)
+        (case (eq-func-name ?msg formulaic)
+              (switch (nth (k-formulaic-category-field) ?msg)
+                (on opening-phrase opening-phrase)
+                (on flirt (flip (eq (nth (k-formulaic-key-field) ?msg) compliment) flirtation reply))
+                (else reply)))
+        (else
+          (switch (msg-class-of ?msg)
+            (on smalltalk smalltalk)
+            (on tidings tidings)
+            (else reply)))))
+
+; (owes-response ?msg) - a line ?msg said to @self calls for a response from him.
+(define-func owes-response (?msg)
+  (neq (line-kind ?msg) reply))
+
+; (reply-to ?msg ?speaker) - the response @self gives ?speaker's line ?msg, or @nothing.
+(define-func reply-to (?msg ?speaker)
+  (switch (line-kind ?msg)
+    (on inquiry (answer-to ?msg ?speaker))
+    (on opening-phrase (hail-response ?msg))
+    (on flirtation (flirt-reply ?speaker))
+    (on smalltalk (smalltalk-reply (conversation-of @self)))
+    (on tidings (tidings-reply ?speaker))
+    (else @nothing)))
+
+; (tidings-reply ?speaker) - what @self answers ?speaker's tidings with: tidings of his own the
+; friend has not heard, else the receipt of them.
+(define-func tidings-reply (?speaker)
+  (bind @nothing ?news)
+  (if (substantial (any {@self (closeness-labels friend) ?speaker}))
+      (then (bind (pick-untold-belief /news ?speaker) ?news)))
+  (if (substantial ?news)
+      (then (msg /utterable [/msg-class tidings] ?news))
+      (else (formulaic [/msg-class reply] response receipt))))
+
 ; (smalltalk-reply ?talk) - what @self answers a remark with in ?talk: his own remark, building on
 ; it, or having none, agreement.
 (define-func smalltalk-reply (?talk)
@@ -446,7 +579,7 @@
     (if (and (not ?more) (neq ?party @self))
         (then
           (bind (or (substantial (any {@self inquire ?party ?}))
-                    (substantial (any {@self answer ?party ?}))
+                    (substantial (any {@self respond ?party ?}))
                     (substantial (supper-hour-question ?party))
                     (substantial (friend-talk-line ?talk ?party)))
                 ?more))))
