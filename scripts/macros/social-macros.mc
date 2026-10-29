@@ -16,6 +16,9 @@
 ; Days after catching up with a friend before @self wants to again, news or not.
 (define-macro catch-up-interval-days () 7)
 
+; The warmth @self gains toward a man on learning they share an interest.
+(define-macro shared-interest-warmth () 0.08)
+
 
 
 
