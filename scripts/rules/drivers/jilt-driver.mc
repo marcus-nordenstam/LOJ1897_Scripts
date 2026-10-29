@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; jilt - the Smith genesis (see Docs/hsim/hsim_social.md "Ending an affair by
+; jilt-driver - the Smith genesis (see Docs/hsim/hsim_social.md "Ending an affair by
 ; choice: jilt").
 ;
 ; A lover bond endable by CHOICE - before this rule, lover bonds ended only
@@ -29,7 +29,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver jilt
+(driver jilt-driver
   (cooldown 1 m try-once)
   (rng-stream marriages)
 
@@ -54,7 +54,7 @@
       (effects (maintain-proposal {@self break-off ?jilted})))))
 
 ; ----------------------------------------------------------------------------
-; jilt-for-station - the class-ambition jilt (the literal Smith opening).
+; jilt-for-station-driver - the class-ambition jilt (the literal Smith opening).
 ;
 ; betrothal and love-match gate lover-holders by VIABILITY: a same-station
 ; lover keeps one out of the arranged market (those pairs wed via
@@ -67,7 +67,7 @@
 ; clerk's pressure stack is identical either way.
 ; ----------------------------------------------------------------------------
 
-(driver jilt-for-station
+(driver jilt-for-station-driver
   (cooldown 1 m try-once)
   (rng-stream marriages)
 

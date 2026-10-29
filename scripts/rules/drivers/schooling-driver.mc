@@ -38,7 +38,7 @@
 
 
 ; --- enroll-primary: a young child starts primary school ---------------------
-(driver enroll-primary
+(driver enroll-primary-driver
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
@@ -64,7 +64,7 @@
     (effects (maintain-proposal {@self matriculate [k primary-school-curriculum]}))))
 
 ; --- enroll-secondary: a middle+ youth goes on to secondary ------------------
-(driver enroll-secondary
+(driver enroll-secondary-driver
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
@@ -90,7 +90,7 @@
     (effects (maintain-proposal {@self matriculate [k secondary-school-curriculum]}))))
 
 ; --- enroll-university: an upper / wealthy youth goes up to university --------
-(driver enroll-university
+(driver enroll-university-driver
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 

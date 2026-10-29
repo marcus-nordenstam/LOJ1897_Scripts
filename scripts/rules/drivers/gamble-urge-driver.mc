@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; gamble-urge - gambling is a vice, so its pull is addiction-driven, not overdue-driven: a
+; gamble-urge-driver - gambling is a vice, so its pull is addiction-driven, not overdue-driven: a
 ; man who never gambled feels none. Susceptibility (low industriousness) x an amplifier that
 ; starts tiny (a rare onset) and spirals with gambling-addiction, x a days-since-last craving
 ; modulator clamped to [0,1]. The disciplined never gamble; the addicted are pulled in deep.
@@ -8,7 +8,7 @@
 
 ; The onset roll is load-bearing: without it every adult would take a first flutter and the
 ; whole town would spiral into addiction.
-(driver gamble-urge
+(driver gamble-urge-driver
   (cooldown 10 d try-once)
   (role @self {@self gambling-addiction ?gambling-addiction}
               {@self industriousness ?industriousness}

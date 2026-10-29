@@ -20,7 +20,7 @@
 
 ; Taking it up, at what talking with ?speaker is worth to him, while nothing else he has going
 ; outbids it. Every answer to a hail is caused by the opening it answers.
-(driver engage-hail
+(driver engage-hail-driver
   (role ?speaker {?speaker SAY ? @self /past}
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
@@ -40,7 +40,7 @@
           (else (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))))
 
 ; A take-up he has begun is a yes already being said: he finishes it.
-(driver complete-take-up
+(driver complete-take-up-driver
   (role ?speaker {?speaker SAY ? @self /past}
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
@@ -57,7 +57,7 @@
 
 ; Declining for what he would rather be doing, and saying what it is: the decision is made once,
 ; and the refusal it begins always completes.
-(driver decline-hail
+(driver decline-hail-driver
   (role ?speaker {?speaker SAY ? @self /past}
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
@@ -85,7 +85,7 @@
                             /caused_by ?opening))))))
 
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
-(driver rebuff-hail
+(driver rebuff-hail-driver
   (role ?speaker {?speaker SAY ? @self /past}
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}

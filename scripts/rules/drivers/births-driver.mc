@@ -4,12 +4,12 @@
 ; is stamped by the HAVE-SEX-WITH action that causes it, and the child is borne
 ; by the GIVE-BIRTH action. A think only ever proposes.
 ;
-;   marital-coupling - a married, fertile-age woman not already carrying a
+;   marital-coupling-driver - a married, fertile-age woman not already carrying a
 ;       pregnancy takes her husband to bed. Whether that conception TAKES is not
 ;       her decision and not this rule's business: HAVE-SEX-WITH rolls it, for a
 ;       wife and a paramour alike, which is why an affair can produce a child
 ;       without a second rule anywhere.
-;   deliver - she has carried the pregnancy its full term, so the child is due.
+;   deliver-driver - she has carried the pregnancy its full term, so the child is due.
 ;       The father comes off her own {@self pregnant ?} belief and rides the act
 ;       pattern, so GIVE-BIRTH does no reading of its own.
 ;
@@ -23,7 +23,7 @@
 ; odds that a coupling takes. Their product is the monthly conception rate.
 (define-macro marital_coupling_chance () 0.5)
 
-(driver marital-coupling
+(driver marital-coupling-driver
   (cooldown 1 m try-once)
   (rng-stream births)
 
@@ -50,7 +50,7 @@
 
 ; The child is due. A woman at term bears it ahead of any errand - labour is not
 ; something she chooses to postpone - but below the survival aspects.
-(driver deliver
+(driver deliver-driver
   (cooldown 1 d try-until-succ)
 
   (role @self {@self pregnant ?}

@@ -22,7 +22,7 @@
 ; Whoever holds the org's dismiss_staff / review_staff duty reads his own {?w work-standing}
 ; of each worker: below 0.4 risks the sack (the dismiss task), above 0.7 earns a promotion.
 ; The roll is latched, so the task holds until it concludes.
-(driver sack-review
+(driver sack-review-driver
   (cooldown 1 m try-once)
   (rng-stream employment)
   (role @self {@self duty-to ?org dismiss_staff}
@@ -33,7 +33,7 @@
       (declare-utility errand)
       (effects (maintain-proposal {@self dismiss ?w})))))
 
-(driver promote-review
+(driver promote-review-driver
   (cooldown 1 m try-once)
   (rng-stream employment)
   (role @self {@self duty-to ?org review_staff}
@@ -46,7 +46,7 @@
 
 ; --- retirement: an employed worker of 65+ leaves working life, at his workplace (the retire
 ; task), so it happens where his colleagues see it. The roll is latched.
-(driver retirement
+(driver retirement-driver
   (cooldown 1 m try-once)
   (rng-stream employment)
   (role @self {@self age ?age}

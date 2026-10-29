@@ -14,14 +14,14 @@
 
 (include "../../macros/intensity-macros.mc")
 
-(driver sleep
+(driver sleep-driver
   (role @self {@self alertness [k tired|sleepy]}
     (role ?home {@self home ?home}
       (declare-utility (flip {@self alertness [k sleepy]} crisis need) default)
       (effects (maintain-proposal {@self go-to-bed ?home})))))
 
 ; the mild fallback: anywhere but home with nothing else eligible -> drift home.
-(driver idle-go-home
+(driver idle-go-home-driver
   (role ?home {@self home ?home}
               (not (spatial @self unit ?home))
     (declare-utility idle fallback)

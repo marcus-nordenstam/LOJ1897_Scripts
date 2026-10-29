@@ -11,7 +11,7 @@
 
 ; mortality_by_age is auto-loaded from tables/.
 
-(driver mortality-old-age
+(driver mortality-old-age-driver
   ; PER-NPC: fires once a month for each living NPC (self_actor = @self).
   ; The per-age (when (chance ?per_month)) IS the rate; the monthly cooldown is the cadence. The
   ; roll is latched, so the DIE it proposes holds until it is done.

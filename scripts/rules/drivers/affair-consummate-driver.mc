@@ -5,13 +5,13 @@
 ; shared workplace, or a live-in staff paramour under the same roof.
 ;
 ; Two rungs, the seek -> act shape of a fight:
-;   tryst-slip     - a lover is in my BUILDING but we are not yet privately together
+;   tryst-slip-driver     - a lover is in my BUILDING but we are not yet privately together
 ;                    (apart, or together with the spouse in the room). Slip off to a
 ;                    vacant room. Both lovers resolve the SAME vacant room and
 ;                    converge there without signalling. This is the missing step: the
 ;                    household all clusters in the entrance room, so privacy must be
 ;                    SOUGHT.
-;   affair-consummate - alone in a room with the lover (no spouse present) -> the
+;   affair-consummate-driver - alone in a room with the lover (no spouse present) -> the
 ;                    durative HAVE-SEX-WITH act (consummate_action.mc, ~45 min), whose
 ;                    running holds them there long enough to land and to be caught.
 ;
@@ -24,7 +24,7 @@
 ; SEEK: a lover shares my building but we are not yet alone together. Slip to a
 ; vacant room (the same one they resolve). Fire while apart, OR while together with
 ; the spouse in the room (the cue to peel away). Needs somewhere private to go.
-(driver tryst-slip
+(driver tryst-slip-driver
   (cooldown 1 d try-once)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}
@@ -48,7 +48,7 @@
 
 ; ACT: alone in a room with the lover -> consummate. ?paramour is a live third-party
 ; lover @self BELIEVES shares his room (the location co-location role filter).
-(driver affair-consummate
+(driver affair-consummate-driver
   (cooldown 1 d try-once)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}

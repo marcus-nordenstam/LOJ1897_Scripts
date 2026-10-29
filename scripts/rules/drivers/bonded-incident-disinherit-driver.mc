@@ -42,7 +42,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver bonded-incident-disinherit
+(driver bonded-incident-disinherit-driver
   (cooldown 1 m try-once)
   (rng-stream incidents)
 

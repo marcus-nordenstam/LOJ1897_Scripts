@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; make-secret-cache - the DELIBERATION half: an NPC with something to
+; make-secret-cache-driver - the DELIBERATION half: an NPC with something to
 ; hide (a covert lover) and no cache yet resolves to
 ; fashion a private hiding spot at home. It only PROPOSES the make_cache act -
 ; the host-quality tier walk and the env writes (create the cache, stamp owner,
@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver make-secret-cache
+(driver make-secret-cache-driver
   (cooldown 1 m try-once)
 
   ; No cache yet - a CACHED self-gate; an owner of one skips the think forever.

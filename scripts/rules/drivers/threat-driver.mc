@@ -6,7 +6,7 @@
 
 (include "../../macros/acquisition-macros.mc")
 
-(driver answer-threat-pay
+(driver answer-threat-pay-driver
   (role ?coercer {?coercer isa [k human], condition [k alive]}
                  {?coercer threaten @self (consequence (none {@self pay ?coercer /ever}) ?outcome ?deadline)}:?threat
                  -{@self pay ?coercer ? /succ /caused_by ?threat}

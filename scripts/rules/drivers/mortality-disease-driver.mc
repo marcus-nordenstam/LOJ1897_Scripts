@@ -14,7 +14,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver mortality-disease
+(driver mortality-disease-driver
   (cooldown 1 m try-once)
   (rng-stream deaths)
 

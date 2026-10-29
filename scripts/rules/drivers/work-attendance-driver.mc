@@ -32,7 +32,7 @@
 ; building + on-shift, re-read live against the stashed hours) then own the cease: the held
 ; re-check ends the goal the cycle a gate drops (shift end, or leaving the workplace).
 
-(driver day-work
+(driver day-work-driver
   (role @self {@self industriousness ?industriousness}
     (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
@@ -52,7 +52,7 @@
 ; The work TASK's performance tries (at_post_morning / at_post_afternoon / shift_over) live
 ; in tasks/work-task.mc. day-go-to-work below stays a DRIVER (no task gate).
 
-(driver day-go-to-work
+(driver day-go-to-work-driver
   ; Shift on or imminent and not yet at the workplace: go there. The workplace ?wp may be a
   ; premises BUILDING (shop / office) or a ROOM (a gentleman's home study / back-office); go-to
   ; reaches either - the building first, then the room.

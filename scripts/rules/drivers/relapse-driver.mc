@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; relapse - a DEPENDENT drinker's drink pressure (the standing {@self craving alcohol}).
+; relapse-driver - a DEPENDENT drinker's drink pressure (the standing {@self craving alcohol}).
 ; A craving never decays, so he relapses often: a shorter fuse and a higher band than
 ; want-drink, which excludes him. It raises the same go-drink task.
 ; ----------------------------------------------------------------------------
 
-(driver relapse
+(driver relapse-driver
   (cooldown 1 d try-once)
   (role @self {@self withdrawal ?withdrawal}
               {@self industriousness ?industriousness}

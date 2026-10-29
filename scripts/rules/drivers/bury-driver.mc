@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver bury-obligation
+(driver bury-obligation-driver
   (role ?corpse {@self obligation {@self bury ?corpse} ?corpse}
                 (select (score (months-since-death ?corpse)) (policy argmax))
     (when (>= (months-since-death ?corpse) 1))

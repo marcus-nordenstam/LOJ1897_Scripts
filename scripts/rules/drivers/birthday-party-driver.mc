@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; birthday-party (think). The recurring news-exchange that drives long-tail
+; birthday-party-driver (think). The recurring news-exchange that drives long-tail
 ; gossip: once a year a share of NPCs hold a party, and each pair of (host,
 ; friend-of-host) exchanges the news of the past year. Ceremonies (betrothal /
 ; wedding / christening) carry milestones to a bounded guest list; this carries
@@ -19,7 +19,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver birthday-party
+(driver birthday-party-driver
   (cooldown 1 m try-once)
   (rng-stream friendships)
 

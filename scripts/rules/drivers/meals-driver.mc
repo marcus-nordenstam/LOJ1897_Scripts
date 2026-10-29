@@ -32,14 +32,14 @@
 
 ; ------------------------------------------------------- the mealtime yield
 
-; idle-at-home - the at-home nothing-to-do slot, a DWELL in blocks, one per canonical meal
+; idle-at-home-driver - the at-home nothing-to-do slot, a DWELL in blocks, one per canonical meal
 ; window, each aimed at its ABSOLUTE boundary hour. Intra-day eligibility is only sampled at
 ; act completions, so an uncapped multi-hour idle would leap clean over a meal window; ending
 ; each block at the next meal boundary gives the meal drivers their deliberation instant (a
 ; household's own +-1h mealtime shift just moves who wins the boundary). Each (hours ..) rung
 ; ends its bout at its boundary, so a resumed dwell never carries a stale ?until across
 ; windows; post-supper the block runs to midnight and the sleep aspect takes over long before.
-(driver idle-at-home
+(driver idle-at-home-driver
   (role ?home {@self home ?home}
               (spatial @self unit ?home)
     (declare-utility idle fallback)
@@ -85,7 +85,7 @@
 (define-macro meal-window-hours ()      2)
 (define-macro supper-lead-hours ()      1)
 
-(driver want-breakfast
+(driver want-breakfast-driver
   (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home breakfast-hour ?}
@@ -99,7 +99,7 @@
           [/feasible (eat-affordable [k breakfast] ?home)])))))
 
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
-(driver want-lunch-work
+(driver want-lunch-work-driver
   (role @self {@self satiety [k hungry|famished]}
     (role ?job {@self job ?job}
       (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
@@ -114,7 +114,7 @@
               [/feasible (eat-affordable [k lunch] ?wp)])))))))
 
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch-hour.
-(driver want-lunch-home
+(driver want-lunch-home-driver
   (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home lunch-hour ?}
@@ -129,7 +129,7 @@
 
 ; SUPPER at home - the FAMILY table. The window opens an hour early so eat-go's
 ; travel (30 min) lands the household home by the cook's hour.
-(driver want-supper
+(driver want-supper-driver
   (role @self {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
@@ -172,7 +172,7 @@
 ; the cash he carries pays for it: a pub supper (lower/middle), a restaurant one (upper). The
 ; venue is the eat place; eat-go walks there. It never competes with the home
 ; supper, whose stock gate is this one's negation.
-(driver want-eat-out-pub
+(driver want-eat-out-pub-driver
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
   (role @self {@self satiety [k hungry|famished]}
               -{@self class-situation [k upper]}
@@ -188,7 +188,7 @@
             [/cost (meal-cost [k supper] ?venue)]
             [/feasible (eat-affordable [k supper] ?venue)]))))))
 
-(driver want-eat-out-restaurant
+(driver want-eat-out-restaurant-driver
   ; upper-class only - the CACHED self-gate skips the majority (and the
   ; larder belief-fold below) with zero eval.
   (role @self {@self satiety [k hungry|famished]}

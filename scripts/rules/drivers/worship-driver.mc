@@ -16,7 +16,7 @@
 
 (include "../../macros/intensity-macros.mc")
 
-(driver want-worship
+(driver want-worship-driver
   (cooldown 3 d try-until-succ)
   (role @self {@self politeness ?politeness}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
@@ -30,7 +30,7 @@
       (effects (maintain-proposal {@self attend-church-service})))))
 
 
-(driver sunday-observance
+(driver sunday-observance-driver
   (role ?church {@self obligation {@self attend-church-service} ?church}
     (when (service-due ?church))
     (declare-utility obligation)

@@ -23,7 +23,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver affair-correspondence
+(driver affair-correspondence-driver
   (cooldown 1 m try-once)
   (rng-stream incidents)
   (declare-utility want)

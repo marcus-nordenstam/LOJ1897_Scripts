@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; confess-fancy (think) - the deliberation that grounds reciprocal courtship
+; confess-fancy-driver (think) - the deliberation that grounds reciprocal courtship
 ; WITHOUT telepathy.
 ;
 ; THE PROBLEM: a love match needs MUTUAL fancy, but a suitor cannot read his
@@ -19,7 +19,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver confess-fancy
+(driver confess-fancy-driver
   (cooldown 1 m try-until-succ)
   (rng-stream marriages)
 

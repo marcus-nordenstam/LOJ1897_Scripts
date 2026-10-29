@@ -31,7 +31,7 @@
 
 
 ; --- investment: a worthy clerk secures his firm's backing -----------------
-(driver investment
+(driver investment-driver
   (cooldown 1 m try-once)
   (rng-stream business)
 

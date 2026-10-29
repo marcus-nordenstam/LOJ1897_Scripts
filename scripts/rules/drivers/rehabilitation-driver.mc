@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; rehabilitation - a DISREPUTABLE man's second pull toward church: not piety but the wish to
+; rehabilitation-driver - a DISREPUTABLE man's second pull toward church: not piety but the wish to
 ; restore standing. It raises the same attend-church-service task the worship drives do, on
 ; a 15-day itch; the sources sum on the one proposal, and one service relieves them all,
 ; since every drive ramps with days since the last {@self WORSHIP}.
@@ -9,7 +9,7 @@
 ; are not cast: already ostracised, a church visit cannot lift them in one pass.
 ; ----------------------------------------------------------------------------
 
-(driver rehabilitation
+(driver rehabilitation-driver
   (cooldown 15 d try-until-succ)
   (role @self {@self isa [k human], condition [k alive]}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}

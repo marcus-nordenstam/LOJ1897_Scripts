@@ -15,7 +15,7 @@
 ; The kitchen resolves from the cook's own spatial index of the home. He buys at the shop he
 ; knows sells provisions (tasks/provision-task.mc); knowing none, he does not provision.
 
-(driver want-provisions
+(driver want-provisions-driver
   (role ?shop {@self provisions-shop ?shop}
     (role ?home {@self household-cook ?home}
                 (spatial ?home room [k kitchen]): ?kitchen
@@ -28,7 +28,7 @@
 ; outbids the provision pull the moment the basket is in hand; 1000 once standing in the
 ; kitchen - the put-down takes a minute and nobody beds down still holding the shopping.
 
-(driver provision-rearm
+(driver provision-rearm-driver
   (role ?home {@self home ?home}
               (spatial ?home room [k kitchen]): ?kitchen
     (when (substantial (held-ware @self [k food])))

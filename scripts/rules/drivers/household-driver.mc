@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; household-day (think) - the home-leisure DRIVER. Proposes @self's
+; household-day-driver (think) - the home-leisure DRIVER. Proposes @self's
 ; day-at-home as a real task through the action pipeline: an amenity-gated
 ; {@self rest <home>} by default, {@self read-at <home>} if the home is known
 ; to have a study (scholarly temperaments favour it - the read weight scales
@@ -26,7 +26,7 @@
 
 (define-macro read-intellect-threshold () 0.5)
 
-(driver household-day
+(driver household-day-driver
   (cooldown 1 m try-until-succ)
 
   (role @self {@self intellect ?intellect}

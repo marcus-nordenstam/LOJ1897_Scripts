@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; flee-foe (think) - the victim's FLIGHT response (runtime-blame model). The
+; flee-foe-driver (think) - the victim's FLIGHT response (runtime-blame model). The
 ; sibling of fight_defence: a victim who witnesses a violent act against themselves
 ; may RUN instead of fighting back. Keyed on the same witnessed violent act (matched by
 ; (theme-labels violent-to)), gated on the inverse disposition - a timid, volatile,
@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver flee-foe
+(driver flee-foe-driver
   (cooldown 1 m try-once)
 
   (role @self {@self volatility ?volatility}

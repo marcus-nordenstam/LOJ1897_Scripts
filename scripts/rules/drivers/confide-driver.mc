@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; confide (think). An NPC decides to share a private self-fact - their calling,
+; confide-driver (think). An NPC decides to share a private self-fact - their calling,
 ; the life passion they would not broadcast to strangers - with a trusted friend,
 ; and PROPOSES saying it aloud; the shared say_to act emits the speech sound so
 ; perception delivers the fact to every co-present NPC and the friend hears it like
@@ -20,7 +20,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver confide
+(driver confide-driver
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 

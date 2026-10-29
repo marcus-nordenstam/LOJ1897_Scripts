@@ -19,7 +19,7 @@
 ; ----------------------------------------------------------------------------
 
 ; A guest: I hold an invitation to an occasion whose day has come -> attend it.
-(driver want-attend-guest
+(driver want-attend-guest-driver
   (role ?occ {?occ held-on ?held-on}
              {@self obligation {@self attend ?occ} ?}
              {? invite @self ?occ}
@@ -33,7 +33,7 @@
                       (else (attend-guest-scaled ?occ))))
     (effects (maintain-proposal {@self attend ?occ}))))
 
-(driver want-attend-host
+(driver want-attend-host-driver
   (role ?occ {@self organize ?occ}
              {@self obligation {@self attend ?occ} ?}
              {?occ held-on ?held-on}

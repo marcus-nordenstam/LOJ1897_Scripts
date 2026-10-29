@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; want-drink - the non-dependent's drink pressure; it raises go-drink
+; want-drink-driver - the non-dependent's drink pressure; it raises go-drink
 ; (tasks/go-drink-task.mc). A dependent's pressure is relapse (relapse-driver.mc),
 ; which raises the same task.
 ; ----------------------------------------------------------------------------
 
-(driver want-drink
+(driver want-drink-driver
   (cooldown 3 d try-once)
   (role @self {@self industriousness ?industriousness}
               {@self withdrawal ?withdrawal}

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; affair (think) - CHARACTER-driven infidelity (the serial-cheater pathway).
+; affair-driver (think) - CHARACTER-driven infidelity (the serial-cheater pathway).
 ;
 ; A married NPC takes up with a known third party. The straying is a DISPOSITION,
 ; not a response to an unhappy marriage: narcissistic supply-hunger + psychopathic
@@ -24,7 +24,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver affair
+(driver affair-driver
   (cooldown 1 m try-once)
   (rng-stream incidents)
 

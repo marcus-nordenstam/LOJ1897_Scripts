@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; bonded-incident-assault (think). An organic source of harm-act + wrong-act
+; bonded-incident-assault-driver (think). An organic source of harm-act + wrong-act
 ; anchors: @self turns violent on a known acquaintance. The assault disposition is
 ; rolled ONCE per NPC - the dark-tetrad product (volatility x
 ; psychopathy x sadism x low-politeness) with intoxication amplifying. The product
@@ -19,7 +19,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver bonded-incident-assault
+(driver bonded-incident-assault-driver
   (cooldown 1 m try-once)
   (rng-stream incidents)
 

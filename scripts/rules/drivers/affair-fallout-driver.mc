@@ -35,7 +35,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver affair-fallout
+(driver affair-fallout-driver
   (cooldown 1 m try-once)
   (rng-stream incidents)
   (declare-utility want)

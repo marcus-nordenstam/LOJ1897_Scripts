@@ -16,7 +16,7 @@
 ; ---- report-crime ----------------------------------------------------------
 ; Take it to the police. Indignation and want are different motives for the same
 ; walk to the station, so they are two rules with their own weights.
-(driver report-injustice
+(driver report-injustice-driver
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
@@ -30,7 +30,7 @@
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
       (effects (maintain-proposal {@self report-crime ?target /caused_by ?pressure})))))
 
-(driver report-for-relief
+(driver report-for-relief-driver
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
@@ -47,7 +47,7 @@
 ; ---- confess-letter --------------------------------------------------------
 ; Put it in writing. Confessing because the secret is about to break and confessing
 ; because you cannot carry it are different acts - one is calculated, one is remorse.
-(driver confess-at-risk
+(driver confess-at-risk-driver
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}
@@ -61,7 +61,7 @@
       (declare-utility want (* (- 1.0 ?inhibition) 1000.0))
       (effects (maintain-proposal {@self confess-letter ?target /caused_by ?pressure})))))
 
-(driver confess-remorse
+(driver confess-remorse-driver
   (cooldown 1 m try-once)
   (rng-stream deliberation)
   (role @self {@self inhibition ?inhibition}

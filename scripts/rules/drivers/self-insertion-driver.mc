@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; self-insertion - the narcissistic killer inserts himself into the mystery his own
+; self-insertion-driver - the narcissistic killer inserts himself into the mystery his own
 ; crime made: he denounces an innocent to the police by letter, under an alias. He
 ; wants the attention, not the rope, so the letter is not in his name - but it is in
 ; his hand.
@@ -8,7 +8,7 @@
 ; branch keeps proposing it with the same innocent.
 ; ----------------------------------------------------------------------------
 
-(driver self-insertion
+(driver self-insertion-driver
   (cooldown 1 m try-once)
   (rng-stream perpetration)
   (role @self {@self narcissism ?narcissism}

@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; borrowing - once in a while an adult borrows from another adult whose home he knows: he
+; borrowing-driver - once in a while an adult borrows from another adult whose home he knows: he
 ; calls on him there (tasks/seek-loan-task.mc). One creditor at a time; the roll is latched,
 ; and TAKE-LOAN's {@self owe ?creditor} drops that creditor from the cast.
 ; ----------------------------------------------------------------------------
@@ -13,7 +13,7 @@
               (break))))
   ?found)
 
-(driver borrowing
+(driver borrowing-driver
   (cooldown 1 m try-once)
   (rng-stream behaviour)
   (role @self {@self industriousness ?industriousness}

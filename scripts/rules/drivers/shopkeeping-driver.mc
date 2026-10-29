@@ -5,7 +5,7 @@
 ; source of goods, so it cannot wait on the labour market hiring clerks.
 ; ----------------------------------------------------------------------------
 
-(driver plan-stocktake
+(driver plan-stocktake-driver
   (cooldown 1 m try-until-succ)
   (rng-stream behaviour)
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
@@ -18,7 +18,7 @@
           (effects (maintain-proposal {@self take-stock ?wp})))))))
 
 ; A shop its keeper stands in with no till he knows of gets one: buyers pay into it.
-(driver plan-open-till
+(driver plan-open-till-driver
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?job {@self job ?job}
       (role ?org {?job org ?org}

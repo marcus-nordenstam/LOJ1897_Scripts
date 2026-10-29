@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; lovers (think). The romance that bridges the one-sided crush and the formal
+; lovers-driver (think). The romance that bridges the one-sided crush and the formal
 ; betrothal. Two unmarried, un-betrothed adults pair off when one is attracted
 ; (`fancy`) and the other reciprocates (warmth or attraction of its own) - a
 ; reciprocal `lover` bond, the courting-couple state. Distinct from:
@@ -25,7 +25,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver lovers
+(driver lovers-driver
   (cooldown 1 m try-once)
   (rng-stream marriages)
 

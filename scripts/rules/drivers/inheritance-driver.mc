@@ -16,7 +16,7 @@
 
 
 ; The year's end is when he sees to it.
-(driver deliberate-will
+(driver deliberate-will-driver
   (cooldown 1 m try-until-succ)
   (role ?heir {@self duty-to ?heir write-will}
     (when (in-month 12))

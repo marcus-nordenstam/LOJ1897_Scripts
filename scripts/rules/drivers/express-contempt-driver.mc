@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; express-contempt (think). The DELIBERATE, attitude-driven insult - the
+; express-contempt-driver (think). The DELIBERATE, attitude-driven insult - the
 ; considered counterpart to the impulsive bonded-incident-insult. Where that is a
 ; trait roll (low politeness x narcissism), this is GATED on the attitude itself:
 ; @self holds ?victim in deep contempt (the esteem stance has reached the
@@ -27,7 +27,7 @@
   (record cold_contempt  2  ?lover)
   (record cold_contempt  1  (if (<= ?decorum.target 0.35) (then ?decorum))))
 
-(driver express-contempt
+(driver express-contempt-driver
   (cooldown 1 m try-once)
   (rng-stream incidents)
 

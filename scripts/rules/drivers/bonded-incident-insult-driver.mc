@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; bonded-incident-insult (think). The impulsive SPOKEN insult: @self lashes
+; bonded-incident-insult-driver (think). The impulsive SPOKEN insult: @self lashes
 ; out at a co-present acquaintance, uttering a barb the victim (and any bystander)
 ; hears - blame and hurt-feelings ride the witnessed SAY, not a minted anchor.
 ; The actor's impulse is gated in (when): a dispositional base
@@ -38,7 +38,7 @@
   (record dispositional    1    (cond (case (matches ?girth.target [k fat|thin]) ?girth)
                                       (case (= ?height.target [k short])       ?height))))
 
-(driver bonded-incident-insult
+(driver bonded-incident-insult-driver
   (cooldown 1 m try-once)
   (rng-stream incidents)
 

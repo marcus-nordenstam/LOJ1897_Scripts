@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; list-to-let - the SUPPLY side of the property market (per-NPC replacement for
+; list-to-let-driver - the SUPPLY side of the property market (per-NPC replacement for
 ; the omniscient world-act/landlord_duties.mc). An owner advertises his OWN
 ; vacant residential building to let, from his OWN knowledge - no world scan.
 ;
@@ -17,7 +17,7 @@
 ; ----------------------------------------------------------------------------
 
 
-(driver list-to-let
+(driver list-to-let-driver
   (cooldown 1 y try-until-succ)
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
     ; His OWN vacant residential holdings (object-cache role over his beliefs).

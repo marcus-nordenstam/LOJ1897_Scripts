@@ -8,7 +8,7 @@
 
 ; The corpse is cast off the ongoing {?corpse condition dead} belief alone: learning a death
 ; end-dates the observer's {?corpse isa [k human]} belief.
-(driver want-convey
+(driver want-convey-driver
   (role @self {@self politeness ?politeness}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?corpse {?corpse condition [k dead]}

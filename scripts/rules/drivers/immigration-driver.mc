@@ -32,7 +32,7 @@
 ; approaches (homeostat_immigration_pressure).
 (define-macro immigrant_admit_scale () 0.5)
 
-(driver admit-immigrant
+(driver admit-immigrant-driver
   (cooldown 1 m try-once)
   (rng-stream migrations)
   ; (population-pressure) is an AMBIENT SCALAR - how full the parish is, which
