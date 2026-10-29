@@ -295,11 +295,20 @@
 (define-func claim-turn (?audience)
   (and (take-floor ?audience) (claim-addressees ?audience)))
 
+; (speaking) - a line of @self's is being said: his SAY runs, and it holds his floor and marks
+; until it ends however it ends (actions/SAY.mc), whatever stopped the tell that proposed it.
+(define-func speaking ()
+  (substantial (any {@self SAY ?})))
+
 ; (release-addressees ?audience) - @self's marks on ?audience and on himself clear; another man's
 ; stay.
 (define-func release-addressees (?audience)
   (if (substantial (bb-public-any @self addressed @self))
       (then (bb-public-clear @self addressed)))
+  (release-mark ?audience))
+
+; (release-mark ?audience) - @self's mark on ?audience clears; another man's stays.
+(define-func release-mark (?audience)
   (if (substantial ?audience)
       (then
         (if (substantial (bb-public-any ?audience addressed @self))
@@ -388,13 +397,13 @@
     (if (unsubstantial (any {?talk participant ?party}))
         (then (begin-belief {?talk participant ?party})))))
 
-; (leave-conversation) - @self leaves the conversation he takes part in: he comes off its
-; participant and has-more sets, and his part in it and his knowing where it is held end.
-(define-func leave-conversation ()
-  (bind (conversation-of @self) ?talk)
+; (leave-conversation ?talk) - @self leaves the conversation ?talk: he comes off its participant
+; and has-more sets, and his part in it and his knowing where it is held end.
+(define-func leave-conversation (?talk)
   (if (substantial ?talk)
       (then
-        (release-floor)
+        (if (not (speaking))
+            (then (release-floor)))
         (bb-public-remove-member ?talk participant @self)
         (bb-public-remove-member ?talk has-more @self)
         (end-belief {?talk participant @self})
@@ -472,6 +481,15 @@
   (for-each ?news (every {@self news ?})
     (if (speech-worthy ?news.target ?friend)
         (then (bind ?news.target ?pick) (break))))
+  ?pick)
+
+; (disclosure-for ?other) - the first aspect of @self (a self-disclosable belief of his own: his
+; interests, his kin, his work, where he is from) ?other does not know, or @nothing.
+(define-func disclosure-for (?other)
+  (bind @nothing ?pick)
+  (for-each ?aspect (every {@self (facet-labels self-disclosable) ?})
+    (if (speech-worthy ?aspect ?other)
+        (then (bind ?aspect ?pick) (break))))
   ?pick)
 
 ; (gossip-for ?friend) - the first piece of gossip @self holds that ?friend does not know, about
@@ -634,7 +652,7 @@
         (then
           (bind (or (substantial (any {@self inquire ?party ?}))
                     (substantial (any {@self respond ?party ?}))
-                    (substantial (any {@self catch-up|tell-gossip ?party}))
+                    (substantial (any {@self catch-up|tell-gossip|get-acquainted ?party}))
                     (wants-to-ask ?party)
                     (substantial (news-for ?party))
                     (substantial (gossip-for ?party)))

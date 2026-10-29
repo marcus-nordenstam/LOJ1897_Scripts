@@ -27,7 +27,7 @@
               (then
                 (if (other-party-in ?mine)
                     (then (maintain-proposal {@self take-leave ?mine}))
-                    (else (leave-conversation)))))))
+                    (else (leave-conversation ?mine)))))))
       (stage
         (effects
           (if (invited-by ?partner)

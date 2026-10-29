@@ -11,5 +11,5 @@
       (effects (maintain-proposal {@self tell (formulaic [] leave_taking bye) ?talk})))
     (stage
       (effects
-        (leave-conversation)
+        (leave-conversation ?talk)
         (set-outcome ?take-leave /succ)))))

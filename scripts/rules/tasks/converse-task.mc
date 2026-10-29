@@ -25,7 +25,7 @@
         (then
           (if (other-party-in ?talk)
               (then (begin-proposal {@self take-leave ?talk} /uninterruptable))
-              (else (leave-conversation))))))
+              (else (leave-conversation ?talk))))))
   (closing
     (sequence
       (stage
@@ -37,7 +37,7 @@
               (else (maintain-proposal {@self tell (formulaic [] leave_taking bye) ?talk} /uninterruptable)))))
       (stage
         (effects
-          (leave-conversation)
+          (leave-conversation ?talk)
           (done-closing ?converse)))))
   (and
     (try
@@ -48,7 +48,7 @@
       (lint-waive cacheable-read-in-when)
       (when (and (in-conversation @self ?talk) (not (other-party-in ?talk))))
       (effects
-        (leave-conversation)
+        (leave-conversation ?talk)
         (set-outcome ?converse /succ)))
     (try
       (lint-waive cacheable-read-in-when)

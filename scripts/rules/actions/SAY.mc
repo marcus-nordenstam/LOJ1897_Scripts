@@ -50,9 +50,17 @@
         (then (deliver-speech ?xsay)
               (set-outcome ?SAY /succ))))
 
-  ; The handler's cleanup_func released the speech-state slot it claimed at install. That
-  ; is a (cease ..): it must happen on EVERY end, and a slot leaked per interrupted
-  ; utterance is a mouth that stops working after a few dozen conversations.
+  ; The floor and the marks tell claimed are the line's until it is said, and its tell's while
+  ; that runs; the line releases them when it outlived its tell, and its mark on its audience
+  ; unless the tell now running addresses the same audience. The speech-state
+  ; slot the handler claimed at install is released with them. That is a (cease ..): it must
+  ; happen on EVERY end, and a slot leaked per interrupted utterance is a mouth that stops
+  ; working after a few dozen conversations.
   (cease
+    (cond (case (none {@self tell ? ?})
+            (release-floor)
+            (release-addressees ?audience))
+          (case (none {@self tell ? ?audience})
+            (release-mark ?audience)))
     (if (presented-lod)
         (then (end-speech @self)))))

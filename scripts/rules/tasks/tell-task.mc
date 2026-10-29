@@ -8,7 +8,7 @@
 ; sound ?msg makes), and says it; out of call he goes toward it unmarked. A tell to a conversation
 ; is said where @self stands, to every party in it; a broadcast (an absent ?audience) is said
 ; where @self stands, so its proposer brings him to the place first. The marks clear when the
-; tell ends. A man says one thing at a time (lock speech-act). It succeeds when the SAY does and
+; tell ends, or once the SAY it began is said. A man says one thing at a time (lock speech-act). It succeeds when the SAY does and
 ; fails when he cannot reach his audience.
 ;
 ; Saying something and waiting for an answer is a conversation: converse says each of its
@@ -24,8 +24,10 @@
   (lock (speech-act))
   (init (bid-floor ?msg ?audience))
   (cease
-    (release-floor)
-    (release-addressees ?audience))
+    (if (not (speaking))
+        (then
+          (release-floor)
+          (release-addressees ?audience))))
   (preemptive-or
     (try
       (role @self {@self SAY ? /succ /caused_by ?tell}
