@@ -24,7 +24,7 @@
   (lock (speech-act))
   (init (bid-floor ?msg ?audience))
   (cease
-    (release-floor (floor-talk ?audience))
+    (release-floor)
     (release-addressees ?audience))
   (preemptive-or
     (try

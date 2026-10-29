@@ -85,6 +85,16 @@
   (or (> (acts ?who take-leave succ) 0)
       (in-mind ?who (substantial (any {@self SAY (formulaic ? leave_taking excuse ?) ? /past})))))
 
+; (took-in ?caller) - in a mind: @self answered an opening ?caller said to her by taking him in -
+; taking his talk up, or answering it inside her own talk, which a caller joins before he opens.
+(define-func took-in (?caller)
+  (bind @false ?took)
+  (for-each ?opening (every {?caller SAY (formulaic ? opening-phrase ?..) @self /past})
+    (if (or (substantial (any {@self take-up ?caller /succ /caused_by ?opening}))
+            (substantial (any {@self respond ?caller ?opening /succ})))
+        (then (bind @true ?took) (break))))
+  ?took)
+
 ; (knows-talk-with ?a ?b) - in a mind: @self knows a talk he took part in that ?a and ?b took part in too.
 (define-func knows-talk-with (?a ?b)
   (bind @false ?found)

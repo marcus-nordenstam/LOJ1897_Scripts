@@ -156,16 +156,14 @@
 
 (task {@self go-to ?dest}:?go-to
   (lint-waive task-no-preparation)
+  (success-cond (go-arrived ?dest ?go-to))
+  (failure-cond (or (go-unplaceable ?dest ?go-to) (go-no-room ?dest ?go-to)))
   (init
     (check (or (is-spot ?dest) (is-a ?dest [k thing])))
     (check (go-reachable ?dest)))
-  (cease (if (go-arrived ?dest ?go-to) (then (set-outcome ?go-to /succ))))
   (preemptive-or
-    (try (role @self (go-arrived ?dest ?go-to)
-           (effects (set-outcome ?go-to /succ))))
     (try (role ?space (spatial ?dest space)
            (role @self (go-boxless ?dest)
-                       -{@self go-to ?space /succ /caused_by ?go-to}
                        -{@self go-to ?space /fail /caused_by ?go-to}
              (effects (maintain-proposal {@self go-to ?space})))))
     (try (role @self (go-lost ?dest)
@@ -187,9 +185,6 @@
            (effects
              (check (substantial (any {?dest address})))
              (maintain-proposal {@self find-building ?dest (current-exterior @self)}))))
-    (try (lint-waive cacheable-read-in-when)
-         (when (or (go-unplaceable ?dest ?go-to) (go-no-room ?dest ?go-to)))
-         (effects (set-outcome ?go-to /fail)))
     (try (role ?leg (spatial @self leg ?dest)
            (role @self (not (is-a ?leg [k exterior-space]))
              (role ?passage (spatial ?leg exits)

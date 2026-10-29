@@ -195,7 +195,8 @@
   (bind @true ?claimed)
   (if (and (substantial ?audience) (not (holds-address ?audience)))
       (then
-        (bind (and (or (substantial (floor-talk ?audience))
+        (bind (and (or (in-talk-line ?audience)
+                       (substantial (bb-public-any @self addressed @self))
                        (and (bb-public-none @self addressed)
                             (substantial (bb-public-try-write-new @self addressed @self))))
                    (substantial (bb-public-try-write-new ?audience addressed @self))
@@ -205,13 +206,18 @@
             (then (release-addressees ?audience)))))
   ?claimed)
 
-; (floor-talk ?audience) - the conversation a line to ?audience is said in: ?audience itself, or the
-; one @self is in with him; @nothing for a line said outside one.
+; (floor-talk ?audience) - the conversation whose floor a line to ?audience takes: ?audience itself,
+; the one @self is in with him, or, said from outside, the one ?audience is in - a hail to a man in
+; a talk waits its turn among the talk's own lines; @nothing when ?audience is in none.
 (define-func floor-talk (?audience)
   (cond (case (unsubstantial ?audience) @nothing)
         (case (is-a ?audience [k conversation]) ?audience)
         (case (conversing-with @self ?audience) (conversation-of @self))
-        (else @nothing)))
+        (else (conversation-of ?audience))))
+
+; (in-talk-line ?audience) - a line to ?audience is said inside a conversation @self is in.
+(define-func in-talk-line (?audience)
+  (or (is-a ?audience [k conversation]) (conversing-with @self ?audience)))
 
 ; (holds-floor ?talk) - @self has ?talk's floor.
 (define-func holds-floor (?talk)
@@ -238,12 +244,12 @@
         (then (bind @true ?outbid) (break))))
   ?outbid)
 
-; (answering-line ?msg ?audience) - the line @self would say to ?audience answers one ?audience said
+; (answering-line ?msg ?audience) - the line @self is telling ?audience answers one ?audience said
 ; to him: his tell of it was caused by that line.
 (define-func answering-line (?msg ?audience)
   (bind @false ?answers)
-  (for-each ?heard (every {?audience SAY ? @self /past})
-    (if (substantial (any {@self tell ?msg ?audience /caused_by ?heard}))
+  (for-each ?tell (every {@self tell ?msg ?audience /pres})
+    (if (substantial (tolerate (caused-by ?tell {?audience SAY ? @self})))
         (then (bind @true ?answers) (break))))
   ?answers)
 
@@ -257,8 +263,8 @@
         (if (answering-line ?msg ?audience)
             (then (bb-public-add-member ?talk answering @self))))))
 
-; (my-turn ?msg ?audience) - @self may say ?msg to ?audience now: it is said outside a
-; conversation, or he has the floor, or the floor is free and no bidder goes before him.
+; (my-turn ?msg ?audience) - @self may say ?msg to ?audience now: it takes no conversation's floor
+; (floor-talk), or he has the floor, or the floor is free and no bidder goes before him.
 (define-func my-turn (?msg ?audience)
   (bind (floor-talk ?audience) ?talk)
   (cond (case (unsubstantial ?talk) @true)
@@ -266,22 +272,23 @@
         (else (and (bb-public-none ?talk floor)
                    (not (outbid ?talk (answering-line ?msg ?audience)))))))
 
-; (take-floor ?audience) - @self takes the floor of the conversation he speaks to ?audience in,
-; @true, or loses it to another's claim, @false; outside a conversation there is none to take.
+; (take-floor ?audience) - @self takes the floor a line to ?audience takes (floor-talk), @true, or
+; loses it to another's claim, @false; a line to a man in no talk takes none.
 (define-func take-floor (?audience)
   (bind (floor-talk ?audience) ?talk)
   (or (unsubstantial ?talk)
       (holds-floor ?talk)
       (substantial (bb-public-try-write-new ?talk floor @self))))
 
-; (release-floor ?talk) - @self stops bidding for ?talk's floor and gives it up if he has it.
-(define-func release-floor (?talk)
-  (if (substantial ?talk)
-      (then
-        (bb-public-remove-member ?talk bidding @self)
-        (bb-public-remove-member ?talk answering @self)
-        (if (holds-floor ?talk)
-            (then (bb-public-clear ?talk floor))))))
+; (release-floor) - @self stops bidding for every floor he bids for and gives up any he has, in
+; whatever talk that is: the talk a line takes the floor of can change before the line ends.
+(define-func release-floor ()
+  (for-each ?talk (bb-public-every ? bidding @self)
+    (bb-public-remove-member ?talk bidding @self))
+  (for-each ?talk (bb-public-every ? answering @self)
+    (bb-public-remove-member ?talk answering @self))
+  (for-each ?talk (bb-public-every ? floor @self)
+    (bb-public-clear ?talk floor)))
 
 ; (claim-turn ?audience) - @self takes his turn to speak to ?audience: the floor of the
 ; conversation he speaks in, and the marks on whom he speaks to.
@@ -367,7 +374,7 @@
   (bind (conversation-of @self) ?talk)
   (if (substantial ?talk)
       (then
-        (release-floor ?talk)
+        (release-floor)
         (bb-public-remove-member ?talk participant @self)
         (bb-public-remove-member ?talk has-more @self)
         (end-belief {?talk participant @self})
@@ -410,34 +417,36 @@
           (then (bind @true ?waiting) (break)))))
   ?waiting)
 
-; (replied ?speaker ?said) - ?speaker has said something to @self in reply to @self's line ?said: a
-; line of his caused by it.
-(define-func replied (?speaker ?said)
-  (substantial (any {?speaker SAY ? @self /succ /caused_by ?said})))
-
-; (hail-reply ?partner ?hail) - what ?partner said in reply to the opening @self called in ?hail,
-; or @fail.
-(define-func hail-reply (?partner ?hail)
-  (bind (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /succ /caused_by ?hail}) ?said)
-  (if (is-belief ?said)
-      (then (any {?partner SAY ? @self /succ /caused_by ?said}))
-      (else @fail)))
-
-; (supper-hour-question ?cook) - the question @self has for the woman of his house while he does
-; not know its supper hour and does not take her not to know it, or @nothing.
-(define-func supper-hour-question (?cook)
-  (bind @nothing ?line)
-  (bind (any {@self home ?}) ?home-belief)
-  (if (is-belief ?home-belief)
-      (then
-        (bind ?home-belief.target ?home)
-        (if (and (substantial (any {@self mother|parent|spouse ?cook}))
-                 (substantial (any {?cook gender [k female]}))
-                 (none {?home supper-hour ?})
-                 (none {?cook /not know {?home supper-hour ?}}))
-            (then (bind (qs /utterable [/msg-class inquiry] (any {?home supper-hour ?})) ?line)))))
-  ?line)
-
+; (replied ?speaker ?said) - ?speaker has said something to @self in reply to @self's line ?said: a
+; line of his caused by it.
+(define-func replied (?speaker ?said)
+  (substantial (any {?speaker SAY ? @self /succ /caused_by ?said})))
+
+; (hail-reply ?partner ?hail) - what ?partner said in reply to the opening @self called in ?hail,
+; or @fail.
+(define-func hail-reply (?partner ?hail)
+  (bind (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /succ /caused_by ?hail}) ?said)
+  (if (is-belief ?said)
+      (then (any {?partner SAY ? @self /succ /caused_by ?said}))
+      (else @fail)))
+
+; (inquiry-of ?fact) - the question that searches the fact clause ?fact.
+(define-func inquiry-of (?fact)
+  (qs /utterable [/msg-class inquiry] (any ?fact)))
+
+; (askable ?who ?fact) - @self may ask ?who for the fact clause ?fact: he could know it, and @self
+; does not take him not to know it.
+(define-func askable (?who ?fact)
+  (and (could-know ?who ?fact) (none {?who /not know ?fact})))
+
+; (wants-to-ask ?party) - @self wonders about something ?party could tell him.
+(define-func wants-to-ask (?party)
+  (bind @false ?asks)
+  (for-each ?wonder (every {@self wonder ?})
+    (if (askable ?party ?wonder.target)
+        (then (bind @true ?asks) (break))))
+  ?asks)
+
 ; (friend-talk-line ?talk ?friend) - the next FRIEND-TALK dialogue-line @self has for ?friend in
 ; ?talk, or @nothing: news of his ?friend has not heard, then asking what is new with him, then
 ; gossip he has not heard. Only to a friend, or someone closer, and only from twelve.
@@ -580,26 +589,26 @@
         (then
           (bind (or (substantial (any {@self inquire ?party ?}))
                     (substantial (any {@self respond ?party ?}))
-                    (substantial (supper-hour-question ?party))
+                    (wants-to-ask ?party)
                     (substantial (friend-talk-line ?talk ?party)))
                 ?more))))
   ?more)
 
-; (said-all ?talk) - nobody in ?talk has anything left to say, @self included.
-(define-func said-all (?talk)
-  (if (substantial ?talk)
-      (then (and (not (agenda-for ?talk)) (bb-public-none ?talk has-more)))
-      (else @false)))
-
-; (answer-to ?qs ?partner) - what @self says to ?partner's question ?qs: its content evaluated in
-; his mind, or "nothing much" when it asked his news and he has none.
-(define-func answer-to (?qs ?partner)
-  (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
-  (bind (nth (k-msg-first-content-field) ?qs) ?asked-content)
-  (if (and (eq-func-name ?asked-content pick-untold-belief) (unsubstantial ?answer))
-      (then (formulaic [/msg-class reply] response no-news))
-      (else (msg /utterable [/msg-class reply] ?answer))))
-
+; (said-all ?talk) - nobody in ?talk has anything left to say, @self included.
+(define-func said-all (?talk)
+  (if (substantial ?talk)
+      (then (and (not (agenda-for ?talk)) (bb-public-none ?talk has-more)))
+      (else @false)))
+
+; (answer-to ?qs ?partner) - what @self says to ?partner's question ?qs: its content evaluated in
+; his mind, or "nothing much" when it asked his news and he has none.
+(define-func answer-to (?qs ?partner)
+  (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
+  (bind (nth (k-msg-first-content-field) ?qs) ?asked-content)
+  (if (and (eq-func-name ?asked-content pick-untold-belief) (unsubstantial ?answer))
+      (then (formulaic [/msg-class reply] response no-news))
+      (else (msg /utterable [/msg-class reply] ?answer))))
+
 ; (focus-of ?talk) - whom @self faces in ?talk: the party he is telling a line to, else the first
 ; other party in it.
 (define-func focus-of (?talk)

@@ -11,10 +11,8 @@
 (task {@self respond ?speaker ?line}:?respond
   (tar @excl [k human] @object)
   (aux ?)
+  (success-cond {@self tell ? ?speaker /succ /caused_by ?line})
   (preemptive-or
-    (try
-      (role @self {@self tell ? ?speaker /succ /caused_by ?line}
-        (effects (set-outcome ?respond /succ))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
         (when (and (is-qs ?msg) (withholds ?msg ?speaker)))

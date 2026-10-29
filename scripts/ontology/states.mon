@@ -758,6 +758,9 @@
 (state tenant (tar [k human|org] @object @excl))
 (state threaten-act (tar [k threaten-act] @object))
 (state unease (tar [k conversation] @object) (motivation))
+; wonder <fact> - @self wants to know the fact clause <fact> ({?home supper-hour ?}): the motive of
+; finding it out (drivers/want-to-know-driver.mc).
+(state wonder (tar @pattern) (self-known) (motivation))
 (state workplace (tar [k building|space] @object @excl))
 (state wrong-act (tar [k wrong-act] @object))
 

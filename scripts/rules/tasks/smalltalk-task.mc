@@ -13,7 +13,7 @@
       (role ?partner {?talk participant ?partner}
         (bind (smalltalk-line ?talk) ?remark)
         (when (and (substantial ?remark)
-                   (none {@self tell ?remark ?partner /succ})
+                   (none {@self tell ?remark ?partner /succ /caused_by ?smalltalk})
                    (not (awaits-smalltalk-answer ?talk ?partner))))
         (effects (maintain-proposal {@self tell ?remark ?partner} /quit-trying-on-fail))))
     (try

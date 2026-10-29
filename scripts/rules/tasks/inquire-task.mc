@@ -3,7 +3,7 @@
 ; needs the fact it searches, and waits for the reply. It succeeds when ?partner has replied to it
 ; - the fact, or "I don't know", which the hearing adopts as ?partner not knowing it
 ; (funcs/speech.mc). Proposed by the driver that needs the fact, once @self is talking with
-; ?partner (ask-mealtimes, drivers/household-driver.mc).
+; ?partner (ask-wonder, drivers/ask-wonder-driver.mc).
 ; ----------------------------------------------------------------------------
 
 (task {@self inquire ?partner ?qs}:?inquire

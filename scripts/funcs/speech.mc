@@ -71,8 +71,8 @@
   (absorb-heard-fact (begin-belief {?speaker job (o ?kind {?speaker job @o})}) ?tell))
 
 ; (adopt-not-knowing ?speaker ?tell) - ?speaker answered "I don't know" (?tell, caused by it) to a
-; question @self inquired of him: the hearer takes him not to know what it asked, the clause the
-; question searched.
+; question @self inquired of him: the hearer takes him not to know what it asked - the fact @self
+; wondered about when that caused the asking, else the clause the question searched.
 (define-func adopt-not-knowing (?speaker ?tell)
   (for-each ?inquire (every {@self inquire ?speaker ? /ever})
     (bind ?inquire.auxiliary ?asked-msg)
@@ -81,6 +81,9 @@
         (then
           (bind (nth (k-msg-first-content-field) ?asked-msg) ?asked-content)
           (bind (nth 1 ?asked-content) ?asked-clause)
+          (bind (caused-by ?inquire {@self wonder ?}) ?wonder)
+          (if (is-belief ?wonder)
+              (then (bind ?wonder.target ?asked-clause)))
           (if (is-clause ?asked-clause)
               (then (absorb-heard-fact (begin-belief {?speaker /not know ?asked-clause}) ?tell)))
           (break)))))

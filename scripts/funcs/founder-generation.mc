@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 ; wed-founders - each founder marries the other founder of the other sex under his roof,
-; the one he was minted beside. Each spouse holds his own half.
+; the one he was minted beside. Each spouse holds his own half, and knows the other's home is his.
 (define-func wed-founders ()
   (for-each ?h (env-entities [k human])
     (wed-founder ?h)))
@@ -23,6 +23,10 @@
         (observe ?m): ?wf-spouse
         (begin-belief {?wf-spouse name (attr ?m name)})
         (begin-belief {@self spouse ?wf-spouse})
+        ; They were minted under one roof, so each knows the other lives where he does.
+        (bind (any {@self home ?}) ?wf-own-home)
+        (if (is-belief ?wf-own-home)
+            (then (begin-belief {?wf-spouse home ?wf-own-home.target})))
         (exit-mind)
         (break)))))
 

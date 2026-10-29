@@ -73,49 +73,6 @@
         (declare-utility want)
         (effects (maintain-proposal {@self set-mealtimes ?household}))))))
 
-; ----------------------------------------------------------------------------
-; ask-mealtimes - the ask-the-cook channel (ruling 12). A resident who does not know
-; the house's supper hour ASKS the cook: he hails her (tasks/hail-task.mc) and, once she has
-; taken him up, holds a conversation whose agenda is the question. The cook answers it as
-; anyone answers a question put to him in conversation (tasks/converse-task.mc). Semantic self-healing: mealtime knowledge can never be
-; permanently lost while the cook lives. Think placement keeps it beside
-; set-mealtimes, whose decision it completes.
-; ----------------------------------------------------------------------------
-
-(driver ask-mealtimes
-  (cooldown 1 m try-until-succ)
-  (rng-stream behaviour)
-
-  (role @self {@self age ?age}
-    ; The woman of the house, role-cast from the asker's OWN kinship beliefs: a
-    ; female mother / parent / spouse (a child asks their mother; a husband his
-    ; wife). Same {@self <kin> ?cand} cacheable shape covet uses. The woman
-    ; herself (no female parent/spouse at home) casts nothing here - she already
-    ; knows the hours, so she never needs to ask.
-    (role ?cook {@self mother|parent|spouse ?cook}
-                {?cook gender [k female]}
-      ; The unknown-hours gate as a CACHED role (binds ?home for the ask): empties
-      ; the instant the supper hour is learned, closing the window for good.
-      (role ?home {@self home ?home}
-                  -{?home supper-hour ?}
-                  -{?cook /not know {?home supper-hour ?}}
-
-        (when (>= ?age 3))
-
-        ; Learning the house's hours beats settling into a leisure day.
-        (declare-utility idle (above rest))
-
-        (stable-or
-          (try
-            (when (not (engaged-with ?cook)))
-            (effects (maintain-proposal {@self hail ?cook})))
-          (try
-            (role @self {@self hail|take-up ?cook /succ /past}
-                        {@self converse ?talk}:?converse
-              (bind (supper-hour-question ?cook) ?qs)
-              (when (and (in-conversation @self ?talk) (engaged-with ?cook) (substantial ?qs)))
-              (effects (maintain-proposal {@self inquire ?cook ?qs} /caused_by ?converse)))))))))
-
 ; (plan_provisioning / set_shop_schedule are GONE: provisioning is the
 ; pressure-driven cook errand in thinks/provisioning_think.mc - the kitchen
 ; larder count IS the schedule.)
