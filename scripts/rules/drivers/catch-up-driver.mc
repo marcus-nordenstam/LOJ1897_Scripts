@@ -11,4 +11,4 @@
                  (or (substantial (news-for ?friend))
                      (>= (days-since-last {@self catch-up ?friend /succ /ever}) (catch-up-interval-days)))))
       (declare-utility want)
-      (effects (maintain-proposal {@self catch-up ?friend})))))
+      (effects (maintain-proposal {@self catch-up ?friend} /quit-trying-on-fail)))))

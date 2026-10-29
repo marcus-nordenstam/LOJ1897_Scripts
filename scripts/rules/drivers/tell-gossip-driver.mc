@@ -9,4 +9,4 @@
                   (spatial ?friend co-located @self)
       (when (and (>= ?age 12) (substantial (gossip-for ?friend))))
       (declare-utility want)
-      (effects (maintain-proposal {@self tell-gossip ?friend})))))
+      (effects (maintain-proposal {@self tell-gossip ?friend} /quit-trying-on-fail)))))

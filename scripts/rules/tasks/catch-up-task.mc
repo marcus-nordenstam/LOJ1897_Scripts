@@ -1,9 +1,9 @@
 ; ----------------------------------------------------------------------------
 ; catch-up ?friend - @self catches up with a friend: hails him unless they are talking already,
 ; tells him each piece of his news he does not know (news-for, funcs/conversation.mc), then asks
-; what is new with him. Done when he has told it all and has the friend's reply; the friend's
-; answers and his own news are the general response's (drivers/respond-driver.mc). Proposed by
-; catch-up-driver (drivers/catch-up-driver.mc).
+; what is new with him. Done when he has told it all and has the friend's reply; a friend who
+; turns the hail down ends it /fail. The friend's answers and his own news are the general
+; response's (drivers/respond-driver.mc). Proposed by catch-up-driver (drivers/catch-up-driver.mc).
 ; ----------------------------------------------------------------------------
 
 (task {@self catch-up ?friend}:?catch-up
@@ -15,6 +15,10 @@
     (try
       (when (not (engaged-with ?friend)))
       (effects (maintain-proposal {@self hail ?friend})))
+    (try
+      (role @self {@self hail ?friend /fail /caused_by ?catch-up}:?hail
+        (when (hail-turned-down ?friend ?hail))
+        (effects (set-outcome ?catch-up /fail))))
     (try
       (bind (news-for ?friend) ?news)
       (when (and (engaged-with ?friend) (substantial ?news)))

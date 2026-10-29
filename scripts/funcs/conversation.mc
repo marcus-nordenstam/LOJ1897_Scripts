@@ -336,6 +336,12 @@
        (not (turned-away ?reply.target))
        (conversing-with ?partner @self)))
 
+; (hail-turned-down ?partner ?hail) - ?partner answered the opening @self called in ?hail with a
+; refusal or a rebuff.
+(define-func hail-turned-down (?partner ?hail)
+  (bind (hail-reply ?partner ?hail) ?reply)
+  (and (is-belief ?reply) (turned-away ?reply.target)))
+
 ; (join-conversation ?talk) - @self takes part in ?talk: he joins its participant set, and he knows
 ; himself a party of it, where it is held when he did not yet, and the occasion it is part of when
 ; he holds one for here today. Joining the talk he is in already changes nothing.
