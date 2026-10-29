@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; catch-up-driver - a friend of @self's is here, and @self has news he does not know or has never
-; caught up with him: @self catches up with him (tasks/catch-up-task.mc).
+; catch-up-driver - a friend of @self's is here, and @self has news he does not know or has not
+; caught up with him for (catch-up-interval-days): @self catches up with him (tasks/catch-up-task.mc).
 ; ----------------------------------------------------------------------------
 
 (driver catch-up-driver
@@ -9,6 +9,6 @@
                   (spatial ?friend co-located @self)
       (when (and (>= ?age 12)
                  (or (substantial (news-for ?friend))
-                     (none {@self catch-up ?friend /succ}))))
+                     (>= (days-since-last {@self catch-up ?friend /succ /ever}) (catch-up-interval-days)))))
       (declare-utility want)
       (effects (maintain-proposal {@self catch-up ?friend})))))

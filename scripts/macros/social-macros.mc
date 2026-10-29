@@ -13,6 +13,9 @@
 ; The education a man must hold to read and write.
 (define-macro literacy-education-min () 0.30)
 
+; Days after catching up with a friend before @self wants to again, news or not.
+(define-macro catch-up-interval-days () 7)
+
 
 
 
