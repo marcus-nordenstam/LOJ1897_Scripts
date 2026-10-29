@@ -409,27 +409,16 @@
 ; He is done with a conversation when his agenda is empty and its has-more set is (said-all): the
 ; last to run out takes his leave, and his goodbye wakes the rest.
 
-; (friend-talks ?talk ?friend) - every friend-talk @self has held with ?friend in ?talk.
-(define-func friend-talks (?talk ?friend)
-  (every {@self friend-talk ?talk ?friend /ever}))
-
-; (asked-news ?friend ?talk) - @self has asked ?friend what is new in his friend-talk in ?talk.
+; (asked-news ?friend ?talk) - @self has asked ?friend what is new since he joined ?talk.
 (define-func asked-news (?friend ?talk)
+  (bind (any {?talk participant @self}) ?part)
   (bind @false ?asked)
-  (for-each ?friend-talk (friend-talks ?talk ?friend)
-    (if (substantial (any {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ /caused_by ?friend-talk}))
-        (then (bind @true ?asked) (break))))
+  (if (substantial ?part)
+      (then
+        (for-each ?ask (every {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ})
+          (if (happened-since ?ask ?part)
+              (then (bind @true ?asked) (break))))))
   ?asked)
-
-; (friend-awaits-reply ?talk ?friend) - @self asked ?friend something in his friend-talk in ?talk
-; and has had no reply to it yet.
-(define-func friend-awaits-reply (?talk ?friend)
-  (bind @false ?waiting)
-  (for-each ?friend-talk (friend-talks ?talk ?friend)
-    (for-each ?said (every {@self SAY (qs ? ? ?..) ?friend /succ /caused_by ?friend-talk})
-      (if (not (replied ?friend ?said))
-          (then (bind @true ?waiting) (break)))))
-  ?waiting)
 
 ; (replied ?speaker ?said) - ?speaker has said something to @self in reply to @self's line ?said: a
 ; line of his caused by it.
@@ -461,25 +450,53 @@
         (then (bind @true ?asks) (break))))
   ?asks)
 
-; (friend-talk-line ?talk ?friend) - the next FRIEND-TALK dialogue-line @self has for ?friend in
-; ?talk, or @nothing: news of his ?friend has not heard, then asking what is new with him, then
-; gossip he has not heard. Only to a friend, or someone closer, and only from twelve.
-(define-func friend-talk-line (?talk ?friend)
-  (bind @nothing ?line)
-  (if (and (substantial (any {@self (closeness-labels friend) ?friend}))
-           (>= (any {@self age ?}).target 12))
+; (speech-worthy ?belief ?friend) - @self may tell ?friend the belief ?belief and believes he does
+; not know it: its tier admits him, @self does not take him to know it, and either takes him not
+; to or does not presume him to.
+(define-func speech-worthy (?belief ?friend)
+  (and (is-belief ?belief)
+       (disclosable-to ?belief ?friend)
+       (none {?friend know (clausify ?belief)})
+       (or (substantial (any {?friend /not know (clausify ?belief)}))
+           (not (presumed-known ?belief ?friend)))))
+
+; (news-for ?friend) - the first piece of @self's news ?friend does not know, or @nothing.
+(define-func news-for (?friend)
+  (bind @nothing ?pick)
+  (for-each ?news (every {@self news ?})
+    (if (speech-worthy ?news.target ?friend)
+        (then (bind ?news.target ?pick) (break))))
+  ?pick)
+
+; (gossip-for ?friend) - the first piece of gossip @self holds that ?friend does not know, about
+; someone @self can name, or @nothing.
+(define-func gossip-for (?friend)
+  (bind @nothing ?pick)
+  (for-each ?gossip (every {@self gossip ?})
+    (bind ?gossip.target ?heard)
+    (if (and (is-belief ?heard)
+             (substantial (any {?heard.subject name ?}))
+             (speech-worthy ?heard ?friend))
+        (then (bind ?heard ?pick) (break))))
+  ?pick)
+
+; (asked-and-answered ?friend ?talk) - @self asked ?friend what is new in ?talk and has his reply.
+(define-func asked-and-answered (?friend ?talk)
+  (bind (any {?talk participant @self}) ?part)
+  (bind @false ?answered)
+  (if (substantial ?part)
       (then
-        (bind (pick-untold-belief /news ?friend) ?news)
-        (if (substantial ?news)
-            (then (bind (msg /utterable [/msg-class tidings] ?news) ?line))
-            (else
-              (if (not (asked-news ?friend ?talk))
-                  (then (bind (qs /utterable [/msg-class tidings] (pick-untold-belief /news @i)) ?line))
-                  (else
-                    (bind (pick-untold-belief /gossip ?friend) ?gossip)
-                    (if (substantial ?gossip)
-                        (then (bind (msg /utterable [/msg-class tidings] ?gossip) ?line)))))))))
-  ?line)
+        (for-each ?ask (every {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ})
+          (if (and (happened-since ?ask ?part) (replied ?friend ?ask))
+              (then (bind @true ?answered) (break))))))
+  ?answered)
+
+; (caught-up ?friend) - in a talk with ?friend, @self has told him all his news and has asked his.
+(define-func caught-up (?friend)
+  (bind (conversation-of @self) ?talk)
+  (and (substantial ?talk)
+       (unsubstantial (news-for ?friend))
+       (asked-and-answered ?friend ?talk)))
 
 ; (remarked-in ?talk) - @self has made his smalltalk remark in ?talk: one a talk.
 (define-func remarked-in (?talk)
@@ -603,7 +620,7 @@
 ; (agenda-for ?talk) - @self still has something to say in ?talk: a dialogue task of his still runs
 ; there, or a dialogue-line of some class is waiting for someone in it - the union over the classes.
 (define-func agenda-for (?talk)
-  (bind (or (substantial (any {@self friend-talk|smalltalk|flirt ?talk ?}))
+  (bind (or (substantial (any {@self smalltalk|flirt ?talk ?}))
             (and (substantial (any {@self unease ?talk})) (substantial (smalltalk-line ?talk))))
         ?more)
   (for-each ?party (parties-of ?talk)
@@ -611,8 +628,10 @@
         (then
           (bind (or (substantial (any {@self inquire ?party ?}))
                     (substantial (any {@self respond ?party ?}))
+                    (substantial (any {@self catch-up|tell-gossip ?party}))
                     (wants-to-ask ?party)
-                    (substantial (friend-talk-line ?talk ?party)))
+                    (substantial (news-for ?party))
+                    (substantial (gossip-for ?party)))
                 ?more))))
   ?more)
 

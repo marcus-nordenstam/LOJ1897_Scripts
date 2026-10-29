@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; find-out ?fact - @self learns the fact clause ?fact ({?home supper-hour ?}) by whatever means he
 ; has. Asking: a man he takes to be able to tell him (could-know: the fact is about him, or he
-; fits its author as the rulebook describes him) and does not take not to know it is gone to
-; until he is within call and hailed; once they talk, the question is the conversation's to put
+; fits its author as the rulebook describes him) and does not take not to know it is hailed - the
+; hail's opening takes @self to him; once they talk, the question is the conversation's to put
 ; (drivers/ask-wonder-driver.mc). "I don't know" rules that man out and the next is sought. It is
 ; done when he knows the fact. Proposed by want-to-know (drivers/want-to-know-driver.mc).
 ; ----------------------------------------------------------------------------
@@ -14,10 +14,5 @@
   (role ?who {?who isa [k human]}
              (neq ?who @self)
     (when (and (askable ?who ?fact) (not (engaged-with ?who))))
-    (stable-or
-      (try
-        (when (not (within-call ?who)))
-        (effects (maintain-proposal {@self go-to ?who})))
-      (try
-        (when (within-call ?who))
-        (effects (maintain-proposal {@self hail ?who}))))))
+    (try
+      (effects (maintain-proposal {@self hail ?who})))))

@@ -10,7 +10,7 @@
 ; (facets news-worthy) labels in their (tell-rank) order, skipping what the listeners are party
 ; to or were told in his hearing. A guest comes to know of people through the host by hearing
 ; it - and self-news cascades onward as ordinary gossip. The guests' own news travels the same
-; way, told in the conversations they hold with their friends (friend-talk).
+; way, told in the conversations they hold with their friends (catch-up).
 ;
 ; An ACT (tell), but kept here as an occasion (the host life-aim / parent gate is
 ; the party framing; the friend tie is the guest list). Fired by the per-NPC

@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; converse ?talk - @self's PRESENCE in the conversation ?talk, one per conversation whoever is in
 ; it: he faces whom he is talking to and stays. It says nothing: every dialogue-line is said by a
-; dialogue task of its class (answer, inquire, friend-talk ..), proposed by that class's own driver,
+; dialogue task of its class (respond, inquire, catch-up ..), proposed by that class's own driver,
 ; and leaving is take-leave, which it proposes itself once said-all holds. Opening a
 ; conversation is hail, taking one up is take-up; every driver that brings @self to talk in ?talk
 ; proposes this same clause, so it rides the keenest of them.
