@@ -9,12 +9,10 @@
     (try
       (role ?other {@self close-to ?other}
                    -{@self confidant ?other}
-                   -{@self (kin-labels) ?other}
-                   -{@self spouse ?other}
+                   -{@self (kin-labels spouse) ?other}
         (effects (begin-belief {@self confidant ?other}))))
     (try
       (role ?other {@self confidant ?other}:?confidant
         (when (or (none {@self close-to ?other})
-                  (substantial (any {@self (kin-labels) ?other}))
-                  (substantial (any {@self spouse ?other}))))
+                  (substantial (any {@self (kin-labels spouse) ?other}))))
         (effects (end-belief ?confidant))))))
