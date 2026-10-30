@@ -57,6 +57,12 @@
 ;                                on every way from his space to ?dest's he knows, on the fewest
 ;                                crossings through the rooms he has met. @nothing when one is open,
 ;                                or he knows none; /env reads the world's shut passages
+;   (next-door)                  (spatial @self next-door ?dest): the doors he must cross next on
+;                                his way to ?dest, a list. A domain is an enclosure - a unit, or a
+;                                building with rooms of its own; the outdoors is none: to a ?dest
+;                                beyond his enclosure, its doors out; from outdoors, the doors into
+;                                the enclosure he enters next; else the door he believes shut on
+;                                every way there. Empty when nothing stands between
 ;   (first)                      single first-known child match: (spatial ?whole room [k K])
 ;                                yields one perceived child of ?whole is-a the label's (rung
 ;                                <kind>) range, further narrowed by K when given
@@ -115,6 +121,7 @@
 (spatial-label before     (store space) (before))
 (spatial-label leg        (store space) (leg))
 (spatial-label barrier    (store space) (barrier))
+(spatial-label next-door  (store space) (next-door))
 (spatial-label gripped-by (store grip))
 (spatial-label grip       (store grip) (down))
 (spatial-label hold       (store grip) (down) (descend))

@@ -1,10 +1,11 @@
 ; ----------------------------------------------------------------------------
 ; go-to ?dest [earshot] - stand beside, near or inside ?dest: a spot, a thing, a person, a space or
 ; a building. To a person, its proposer says how near: earshot to talk with him, else near enough to
-; reach him. Movement is go-to and cross, over DOMAINS - an enclosure, or one exterior space - and
-; a go-to WALK never leaves its domain: between domains the way is the containment tree, one leg
-; at a time, (spatial @self leg ?dest) naming the next. Every enclosure is entered by crossing
-; a passage, a door or an opening. The rungs are a preemptive-or:
+; reach him. Movement is go-to and cross, over DOMAINS - an enclosure, a unit or a building with
+; rooms of its own; the outdoors is no domain, its way being the roads - and a WALK is planned within
+; one domain. Between domains the way is a door: (spatial @self next-door ?dest) names the doors he
+; must cross next, and go-to recurses on them - a door is crossed from the room on his side of it, and
+; from anywhere else he first goes to that room. The rungs are a preemptive-or:
 ;
 ;   arrived                                     -> succeed
 ;   no box for it, believed in a space          -> go-to that space, where he will see it;
@@ -13,22 +14,19 @@
 ;   unseen, its unit or house seen              -> locate it there; a search that shows it not -> fail
 ;   unseen, no house at its premises            -> find-building; a search that finds none -> fail
 ;   with the man he goes to, no spot free by him -> fail
-;   the leg is an enclosure                     -> cross its nearest door he has not failed,
-;                                                  out of it or into it
-;   the leg is the enclosure he stands in       -> no door left: wander the unit he is in
-;   the leg is an enclosure he stands outside   -> no door of it known: go-to a spot by it,
-;                                                  and seeing it teaches its doors
-;   the leg is an enclosure no rung above takes -> fail: walked up to it, a door failed or
-;                                                  the wander is done; untried is an expect
-;   the leg is an exterior space                -> WALK into it
-;   in his domain, a door he believes shut on
-;   every way he knows                          -> cross it; that cross failed -> fail
-;   in his domain, out of his sight             -> WALK toward the space it is in, claiming
+;   a next door, in the room on his side of it  -> cross it
+;   a next door, elsewhere                      -> go-to the room on his side of it
+;   in a premises not holding it, no door known -> wander the premises
+;   out of doors, its premises' doors unknown   -> go-to a spot by the premises, and seeing it
+;                                                  teaches its doors
+;   a door on the way and none to cross          -> fail: a door failed, or the wander or the walk
+;                                                  up to it is done; untried is an expect
+;   out of his sight                            -> WALK toward the space it is in, claiming
 ;                                                  nothing; walked there, still unseen -> fail
-;   in his domain                               -> WALK to the spot he will stand on
+;   otherwise                                   -> WALK to the spot he will stand on
 ;
 ; The world decides where a walk stops: a WALK whose way the world bars ends before the door and
-; he sees it, and the barrier rung crosses it on the next look.
+; he sees it, and the next look names it the next door.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -59,15 +57,6 @@
                                            (substantial (any {@self WALK ? /succ /caused_by ?go-to}))))
         (else (spatial @self can-reach ?dest))): ?there
   ?there)
-
-; A door of ?enclosure he knows, which a body goes in or out by - a window never is.
-(define-func go-has-way (?enclosure)
-  (bind @false ?found)
-  (for-each ?passage (spatial ?enclosure exits)
-    (if (not (has-facet ?passage nav_last_resort))
-        (then (bind @true ?found)
-              (break))))
-  ?found)
 
 (define-func go-unseen (?dest)
   (flip (is-spot ?dest) @false (not (grounded ?dest))))
@@ -154,6 +143,29 @@
                 (then (bind (substantial (any {@self WALK ?spot /succ /caused_by ?go-to})) ?walked)))))
   ?walked)
 
+; The premises ?dest stands in - a unit, or a building holding no unit he knows - or @nothing out
+; of doors.
+(define-func go-dest-place (?dest)
+  (cond (case (is-spot ?dest) (spatial ?dest space))
+        (case (is-a ?dest [k space]) ?dest)
+        (else (tolerate (spatial ?dest space)))): ?space
+  (place-holding ?space))
+
+; This go-to has already failed to reach the room on his side of ?door.
+(define-func go-near-room-failed (?door ?go-to)
+  (passage-near-side ?door): ?room
+  (substantial (any {@self go-to ?room /fail /caused_by ?go-to})))
+
+; He stands in a premises that does not hold ?dest.
+(define-func go-beyond-my-place (?dest)
+  (place-holding (spatial @self space)): ?mine
+  (and (substantial ?mine) (not (eq ?mine (go-dest-place ?dest)))))
+
+; He stands out of doors and ?dest stands in a premises.
+(define-func go-outside-its-place (?dest)
+  (and (unsubstantial (place-holding (spatial @self space)))
+       (substantial (go-dest-place ?dest))))
+
 (task {@self go-to ?dest}:?go-to
   (lint-waive task-no-preparation)
   (success-cond (go-arrived ?dest ?go-to))
@@ -185,41 +197,38 @@
            (effects
              (check (substantial (any {?dest address})))
              (maintain-proposal {@self find-building ?dest (current-exterior @self)}))))
-    (try (role ?leg (spatial @self leg ?dest)
-           (role @self (not (is-a ?leg [k exterior-space]))
-             (role ?passage (spatial ?leg exits)
-                            (not (has-facet ?passage nav_last_resort))
-                            -{@self cross ?passage /fail /caused_by ?go-to}
-                            (select (score (near @self ?passage)) (policy argmax unknown-last))
-               (effects (maintain-proposal {@self cross ?passage}))))))
-    (try (role ?leg (spatial @self leg ?dest)
-           (role @self (spatial @self space ?leg)
-                       (substantial (place-holding (spatial @self space)))
-                       -{@self wander (place-holding (spatial @self space)) /succ /caused_by ?go-to}
-             (effects (maintain-proposal {@self wander (place-holding (spatial @self space))})))))
-    (try (role ?leg (spatial @self leg ?dest)
-           (role @self (not (is-a ?leg [k exterior-space]))
-                       (not (go-has-way ?leg))
-                       -{@self go-to ? /succ /caused_by ?go-to}
-             (when (stand-spot-by ?leg): ?spot (is-spot ?spot))
-             (effects (maintain-proposal {@self go-to ?spot})))))
-    (try (role ?leg (spatial @self leg ?dest)
-           (role @self (not (is-a ?leg [k exterior-space]))
-             (effects
-               (expect (or (substantial (any {@self go-to ? /succ /caused_by ?go-to}))
-                           (substantial (any {@self cross ? /fail /caused_by ?go-to}))
-                           (substantial (any {@self wander ? /succ /caused_by ?go-to})))
-                       "go-to: an enclosure ahead and no door of it he can cross, untried")
-               (set-outcome ?go-to /fail)))))
-    (try (role ?leg (spatial @self leg ?dest)
-           (role @self (is-a ?leg [k exterior-space])
-             (when (stand-spot-in ?leg): ?spot (is-spot ?spot))
-             (effects (maintain-proposal {@self WALK ?spot})))))
-    (try (role ?passage (spatial @self barrier ?dest)
-                        -{@self cross ?passage /fail /caused_by ?go-to}
-           (effects (maintain-proposal {@self cross ?passage}))))
-    (try (role ?passage (spatial @self barrier ?dest)
-                        {@self cross ?passage /fail /caused_by ?go-to}
-           (effects (set-outcome ?go-to /fail))))
+    ; THE WAY THROUGH DOORS (next-door): the next door he must cross is crossed from the room on
+    ; his side of it, and from anywhere else he first goes to that room.
+    (try (role ?door (spatial @self next-door ?dest)
+                     (not (has-facet ?door nav_last_resort))
+                     (in-near-room ?door)
+                     -{@self cross ?door /fail /caused_by ?go-to}
+                     (select (score (near @self ?door)) (policy argmax unknown-last))
+           (effects (maintain-proposal {@self cross ?door}))))
+    (try (role ?door (spatial @self next-door ?dest)
+                     (not (has-facet ?door nav_last_resort))
+                     (substantial (passage-near-side ?door))
+                     (not (go-near-room-failed ?door ?go-to))
+                     -{@self cross ?door /fail /caused_by ?go-to}
+                     (select (score (near @self ?door)) (policy argmax unknown-last))
+           (effects (maintain-proposal {@self go-to (passage-near-side ?door)}))))
+    ; No door known to cross: inside a premises that does not hold ?dest he wanders it to find one;
+    ; out of doors, he goes to a spot by the premises that holds it, and seeing it teaches its doors.
+    (try (role @self (go-beyond-my-place ?dest)
+                     -{@self wander (place-holding (spatial @self space)) /succ /caused_by ?go-to}
+           (effects (maintain-proposal {@self wander (place-holding (spatial @self space))}))))
+    (try (role @self (go-outside-its-place ?dest)
+                     -{@self go-to ? /succ /caused_by ?go-to}
+           (when (stand-spot-by (go-dest-place ?dest)): ?spot (is-spot ?spot))
+           (effects (maintain-proposal {@self go-to ?spot}))))
+    (try (role @self (or (go-beyond-my-place ?dest)
+                         (go-outside-its-place ?dest)
+                         (substantial (any {@self cross ? /fail /caused_by ?go-to})))
+           (effects
+             (expect (or (substantial (any {@self go-to ? /succ /caused_by ?go-to}))
+                         (substantial (any {@self cross ? /fail /caused_by ?go-to}))
+                         (substantial (any {@self wander ? /succ /caused_by ?go-to})))
+                     "go-to: a door on the way and none he can cross, untried")
+             (set-outcome ?go-to /fail))))
     (try (when (go-walk-spot ?dest ?go-to): ?spot (is-spot ?spot))
          (effects (maintain-proposal {@self WALK ?spot})))))

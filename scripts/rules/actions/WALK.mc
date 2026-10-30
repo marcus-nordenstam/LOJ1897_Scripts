@@ -97,14 +97,19 @@
           (on ready
             (nav-steer-target @self ?dest):?steer
             (stand-offset @self ?dest): ?offset
+            (stand-offset @self ?steer): ?to-steer
             (if (<= ?offset (walk_arrive_m))
                 (then (relocate @self ?dest)
                       (set-outcome ?WALK /succ))
                 (else
-                  ; The closest he has come, and how long since he last came closer.
-                  (if (or (bb-none ?WALK closest)
-                          (< ?offset (- (bb-read ?WALK closest) (walk_lock_progress_m))))
-                      (then (bb-write ?WALK closest ?offset)
+                  ; The closest he has come to the point he steers at, and how long since he last
+                  ; came closer: a road winds away from the spot it leads to, and a new steer point
+                  ; starts the count again.
+                  (if (or (bb-none ?WALK steer)
+                          (not (eq (bb-read ?WALK steer) ?steer))
+                          (< ?to-steer (- (bb-read ?WALK closest) (walk_lock_progress_m))))
+                      (then (bb-write ?WALK steer ?steer)
+                            (bb-write ?WALK closest ?to-steer)
                             (bb-write ?WALK stalled 0.0))
                       (else (bb-write ?WALK stalled (+ (bb-read ?WALK stalled) (act-dt)))))
                   (if (> (bb-read ?WALK stalled) (walk_lock_seconds))
@@ -118,6 +123,7 @@
   ; kept on the act goes with it, so the emptied blackboard is reclaimed instead of living on
   ; with the memory of the walk.
   (cease (nav-cancel @self ?WALK)
+         (bb-clear ?WALK steer)
          (bb-clear ?WALK closest)
          (bb-clear ?WALK stalled)
          (bb-clear ?WALK barred-by)))

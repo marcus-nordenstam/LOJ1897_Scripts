@@ -47,6 +47,11 @@
 (define-func passage-near-side (?passage)
   (spatial ?passage before (spatial @self space)))
 
+; @self stands in the room on his side of ?passage, as he believes it: where a cross of it begins.
+(define-func in-near-room (?passage)
+  (passage-near-side ?passage): ?near
+  (and (substantial ?near) (eq ?near (spatial @self space))))
+
 ; The claimed stance on @self's side of ?passage from which he can reach it, to work it. @fail
 ; while every such stance is taken.
 (define-func passage-stance (?passage)
