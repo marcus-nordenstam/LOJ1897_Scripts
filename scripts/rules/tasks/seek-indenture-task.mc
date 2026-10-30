@@ -30,7 +30,7 @@
 ;        (role ?reg {?org employee-register ?reg}
 ;                   (not (spatial ?reg building ?venue))
 ;          (when -{@self job.salary ?})
-;          (effects (maintain-proposal {@self locate ?reg ?venue})))))
+;          (effects (maintain-proposal {@self find-thing ?reg ?venue})))))
 
 ;    ; ENROL: at the premises, not yet hired, the wage book found there -> file my clerk row
 ;    ; (ENROL enters at trainee).

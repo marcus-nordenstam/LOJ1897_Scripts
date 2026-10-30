@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; want-read-mail-driver - the daily home post: at home, sweep the home mail once a day
 ; (tasks/read-mail-task.mc). A shortcut driver: it prepares the round - a home whose
-; mail-stack @self does not know is searched first (locate) - and the task assumes the stack.
+; mail-stack @self does not know is searched first (find-thing) - and the task assumes the stack.
 ; The bout ends when the read-mail it maintains concludes, and the cooldown's expiry re-arms
 ; it a day later. The recruit officer's workplace post is the staffing duty's.
 ; ----------------------------------------------------------------------------
@@ -19,5 +19,5 @@
       (try
         (no-role [k mail-stack] (within-place ?norole ?home))
         (role @self (spatial @self unit ?home)
-                    -{@self locate [k mail-stack] ?home /fail}
-          (effects (maintain-proposal {@self locate [k mail-stack] ?home})))))))
+                    -{@self find-thing [k mail-stack] ?home /fail}
+          (effects (maintain-proposal {@self find-thing [k mail-stack] ?home})))))))

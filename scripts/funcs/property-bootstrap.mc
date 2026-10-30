@@ -32,7 +32,7 @@
   ; pile a sender deposits into (the mail service drains it each morning and teleports each
   ; letter to the incoming pile of the address written on it). The ontology already declares
   ; outgoing-mail-stack as 'seeded at world setup' - nothing seeded either, so every
-  ; (locate [k mail-stack] ..) searched a building, found nothing and concluded /fail, and
+  ; (find-thing [k mail-stack] ..) searched a building, found nothing and concluded /fail, and
   ; read-mail could only ever end /fail: 0 successes town-wide over a 2yr run. That dead
   ; channel is what held the recruiting officer's office round to ONE round in two years -
   ; its gate re-arms on (days-since-last {@self read-mail ?wp /succ}), which never reset.

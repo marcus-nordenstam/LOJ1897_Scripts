@@ -13,6 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self apply-for ?job}:?apply-for
+  (lint-waive task-no-preparation)
   (aspect labour)
   (preparatory)
   (tar [k job] @object)
@@ -50,4 +51,4 @@
       (role ?home {@self home ?home}
         (no-role [k outgoing-mail-stack])
         (when (not (empty (spatial @self hold [k application]))))
-        (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?home}))))))
+        (effects (maintain-proposal {@self find-thing [k outgoing-mail-stack] ?home}))))))

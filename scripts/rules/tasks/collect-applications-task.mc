@@ -9,6 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self collect-applications ?wp}:?collect-applications
+  (lint-waive task-no-preparation)
   (aspect labour)
   ; OBSERVABLE: the office round is done in the open, so anyone in the room reads it off
   ; him - which is how an applicant tells WHO the recruiting officer is, the way you tell
@@ -33,10 +34,10 @@
 
     (try
       (no-role [k mail-stack] (spatial ?norole building ?wp))
-      (role @self -{@self locate [k mail-stack] ?wp /succ}
-            -{@self locate [k mail-stack] ?wp /fail}
-        (effects (maintain-proposal {@self locate [k mail-stack] ?wp}))))
+      (role @self -{@self find-thing [k mail-stack] ?wp /succ}
+            -{@self find-thing [k mail-stack] ?wp /fail}
+        (effects (maintain-proposal {@self find-thing [k mail-stack] ?wp}))))
 
     (try
-      (role @self {@self locate [k mail-stack] ?wp /fail}
+      (role @self {@self find-thing [k mail-stack] ?wp /fail}
         (effects (set-outcome ?collect-applications /fail))))))

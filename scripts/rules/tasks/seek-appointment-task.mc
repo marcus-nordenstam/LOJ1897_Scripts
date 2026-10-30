@@ -25,7 +25,7 @@
 ;                   (spatial @self building ?venue)
 ;          (role ?reg {?org employee-register ?reg}
 ;                     (not (spatial ?reg building ?venue))
-;            (effects (maintain-proposal {@self locate ?reg ?venue}))))))
+;            (effects (maintain-proposal {@self find-thing ?reg ?venue}))))))
 ;    (try
 ;      (role @self -{@self job ?}
 ;        (role ?org {?art declares-org ?org}

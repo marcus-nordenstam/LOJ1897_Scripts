@@ -4,12 +4,11 @@
 ; To a person, its proposer says how near: earshot to talk with him, else near enough to reach him.
 ; The rungs are a preemptive-or:
 ;
+; It requires that he knows where ?dest is (placed): a find fills that before go-to is proposed.
+;
 ;   arrived                                     -> succeed
 ;   no box for it, believed in a space          -> enter that space, where he will see it;
 ;                                                  there and still unseen -> fail
-;   seen once, and where it is now lost          -> locate-person / locate-thing; that failed -> fail
-;   unseen, its unit or house seen              -> locate it there; a search that shows it not -> fail
-;   unseen, no house at its premises            -> find-building; a search that finds none -> fail
 ;   with the man he goes to, no spot free by him -> fail
 ;   it stands in a space he is not in           -> enter that space; that failed -> fail
 ;   out of his sight                            -> WALK toward the space it is in, claiming
@@ -18,15 +17,6 @@
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
-
-; The seen premises of an unplaced ?dest's address: its unit, else the building, or @nothing.
-(define-func go-house-at-premises (?dest)
-  (bind @nothing ?house)
-  (if (any {?dest address}): ?address
-    (then (bind (seen-premises-at (address-household ?address.target)) ?house)
-          (if (unsubstantial ?house)
-            (then (bind (seen-premises-at (address-premises ?address.target)) ?house)))))
-  ?house)
 
 ; The STANCE a go-to to a man takes, its auxiliary: earshot - near enough to talk with him - else
 ; reach, close enough to lay a hand on him.
@@ -47,26 +37,14 @@
         (else (spatial @self can-reach ?dest))): ?there
   ?there)
 
-(define-func go-unseen (?dest)
-  (flip (is-spot ?dest) @false (not (grounded ?dest))))
-
 ; No box for it, seen or remembered: unseen, or a placed thing out of his sight.
 (define-func go-boxless (?dest)
   (flip (is-spot ?dest) @false (unsubstantial (tolerate (spatial ?dest bounds)))))
 
-; Seen once, and the mind now knows neither its box nor its space: it moved out of sight, or was
-; not where he looked for it.
-(define-func go-lost (?dest)
-  (flip (is-spot ?dest) @false (and (grounded ?dest)
-                                     (go-boxless ?dest)
-                                     (unsubstantial (tolerate (spatial ?dest space))))))
-
-; Nothing left to try that would place ?dest: never seen, or seen and lost, with the searches the
-; rungs above make spent; or believed in a space this go-to entered without seeing it there.
+; Where ?dest was believed to be, it is not: he entered the space it was believed in without seeing
+; it there, or walked to it and still does not see it.
 (define-func go-unplaceable (?dest ?go-to)
-  (or (go-unseen ?dest)
-      (go-lost ?dest)
-      (and (go-boxless ?dest)
+  (or (and (go-boxless ?dest)
            (substantial (any {@self enter-room (tolerate (spatial ?dest space)) /succ /caused_by ?go-to})))
       (go-walked-blind ?dest ?go-to)))
 
@@ -121,47 +99,26 @@
 (define-func go-walk-spot (?dest ?go-to)
   (flip (go-in-sight ?dest) (go-stand-spot ?dest ?go-to) (go-sight-spot ?dest)))
 
-; He walked to where ?dest is for this go-to and still does not see it.
+; He walked to where ?dest is for this go-to and still does not see it - the walk go-walk-spot
+; heads on when he does not.
 (define-func go-walked-blind (?dest ?go-to)
-  (bind @false ?walked)
-  (if (not (go-in-sight ?dest))
-      (then (bind (go-sight-spot ?dest) ?spot)
-            (if (is-spot ?spot)
-                (then (bind (substantial (any {@self WALK ?spot /succ /caused_by ?go-to})) ?walked)))))
-  ?walked)
+  (flip (go-in-sight ?dest)
+        @false
+        (and (is-spot (go-sight-spot ?dest))
+             (substantial (any {@self WALK (go-sight-spot ?dest) /succ /caused_by ?go-to})))))
 
 (task {@self go-to ?dest}:?go-to
-  (lint-waive task-no-preparation)
+  (requires (placed ?dest))
   (success-cond (go-arrived ?dest ?go-to))
   (failure-cond (or (go-unplaceable ?dest ?go-to) (go-no-room ?dest ?go-to)))
   (init
     (check (or (is-spot ?dest) (is-a ?dest [k thing])))
-    (check (not (go-into-space ?dest)))
-    (check (go-reachable ?dest)))
+    (check (not (go-into-space ?dest))))
   (preemptive-or
     (try (role ?space (spatial ?dest space)
            (role @self (go-boxless ?dest)
                        -{@self enter-room ?space /fail /caused_by ?go-to}
              (effects (maintain-proposal {@self enter-room ?space})))))
-    (try (role @self (go-lost ?dest)
-                     (is-a ?dest [k human])
-                     -{@self locate-person ?dest /fail /caused_by ?go-to}
-           (effects (maintain-proposal {@self locate-person ?dest}))))
-    (try (role @self (go-lost ?dest)
-                     (not (is-a ?dest [k human]))
-                     -{@self locate-thing ?dest /fail /caused_by ?go-to}
-           (effects (maintain-proposal {@self locate-thing ?dest}))))
-    (try (role @self (go-unseen ?dest)
-                     (substantial (go-house-at-premises ?dest))
-                     (one-premises (go-house-at-premises ?dest))
-                     -{@self locate ?dest (go-house-at-premises ?dest) /fail /caused_by ?go-to}
-           (effects (maintain-proposal {@self locate ?dest (go-house-at-premises ?dest)}))))
-    (try (role @self (go-unseen ?dest)
-                     (unsubstantial (go-house-at-premises ?dest))
-                     -{@self find-building ?dest ? /fail /caused_by ?go-to}
-           (effects
-             (check (substantial (any {?dest address})))
-             (maintain-proposal {@self find-building ?dest (current-exterior @self)}))))
     ; It stands in a space he is not in: he goes into that space first, through whatever doors lie
     ; between - a building's or a unit's space is the exterior it stands in.
     (try (role ?space (spatial ?dest space)

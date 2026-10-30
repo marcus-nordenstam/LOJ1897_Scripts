@@ -70,6 +70,31 @@
   (tolerate (spatial @self space)): ?here
   (and (substantial ?here) (is-a ?here ?kind)))
 
+; ?place is struck off the search ?find: wandered through without what it sought, or never got into.
+(define-func premises-searched (?place ?find)
+  (or (substantial (any {@self wander ?place /succ /caused_by ?find}))
+      (substantial (any {@self enter-building ?place /fail /caused_by ?find}))))
+
+; He knows a room of kind ?kind in ?place, a building or a unit.
+(define-func known-room-of (?kind ?place)
+  (bind @false ?known)
+  (for-each ?room (spatial ?place rooms)
+    (if (is-a ?room ?kind)
+      (then
+        (bind @true ?known)
+        (break))))
+  ?known)
+
+; The house he has seen at ?x's address: its household's unit, else the premises' building, or
+; @nothing.
+(define-func seen-house-of (?x)
+  (bind @nothing ?house)
+  (if (any {?x address}): ?address
+    (then (bind (seen-premises-at (address-household ?address.target)) ?house)
+          (if (unsubstantial ?house)
+            (then (bind (seen-premises-at (address-premises ?address.target)) ?house)))))
+  ?house)
+
 ; @self stands in a building of kind ?kind, as he believes it.
 (define-func stands-in-building (?kind)
   (tolerate (spatial @self building)): ?here

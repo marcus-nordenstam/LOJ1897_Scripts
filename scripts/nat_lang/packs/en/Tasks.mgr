@@ -35,10 +35,15 @@
 "drafting a verdict"                    draft-verdict               .
 "having a meal"                         eat                         .
 "leaving the country"                   emigrate                    .
+"going indoors"                         enter-building              .
 "going in"                              enter-room                  .
+"going in"                              enter-room-kind             .
 "seeing to some business"               expose                      .
 "in a fight"                            fight                       .
 "looking for a place"                   find-building               .
+"looking for someone"                   find-person                 .
+"looking for a room"                    find-room                   .
+"looking for something"                 find-thing                  .
 "gambling"                              gamble                      .
 "fetching something"                    get                         .
 "handing something over"                give                        .
@@ -53,10 +58,6 @@
 "seeing to some business"               humiliate                   .
 "seeing to some business"               hurt                        .
 "inviting a guest"                      invite-guest                .
-"looking for something"                 locate                      .
-"looking for someone"                   locate-person               .
-"looking for a room"                    locate-room                 .
-"looking for something"                 locate-thing                .
 "enrolling at school"                   matriculate                 .
 "opening the shop"                      open-till                   .
 "settling a debt"                       pay                         .
@@ -132,10 +133,15 @@
 "draft a verdict"                       draft-verdict               .
 "have a meal"                           eat                         .
 "leave the country"                     emigrate                    .
+"go indoors"                            enter-building              .
 "go in"                                 enter-room                  .
+"go in"                                 enter-room-kind             .
 "see to some business"                  expose                      .
 "fight"                                 fight                       .
 "find a place"                          find-building               .
+"find someone"                          find-person                 .
+"find a room"                           find-room                   .
+"find something"                        find-thing                  .
 "gamble"                                gamble                      .
 "fetch something"                       get                         .
 "hand something over"                   give                        .
@@ -150,10 +156,6 @@
 "see to some business"                  humiliate                   .
 "see to some business"                  hurt                        .
 "invite a guest"                        invite-guest                .
-"find something"                        locate                      .
-"find someone"                          locate-person               .
-"find a room"                           locate-room                 .
-"find something"                        locate-thing                .
 "enrol at school"                       matriculate                 .
 "open the shop"                         open-till                   .
 "settle a debt"                         pay                         .

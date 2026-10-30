@@ -16,6 +16,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self draft-verdict ?p ?job}:?draft-verdict
+  (lint-waive task-no-preparation)
   (aspect labour)
   (track-skill-level [k law])
   (tar [k human] @object)
@@ -104,4 +105,4 @@
           (role ?held [k letter] (spatial ?held held-by @self)
                                  (substantial (attr ?held destination))
             (no-role [k outgoing-mail-stack])
-            (effects (maintain-proposal {@self locate [k outgoing-mail-stack] ?wp}))))))))
+            (effects (maintain-proposal {@self find-thing [k outgoing-mail-stack] ?wp}))))))))

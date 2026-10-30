@@ -5,13 +5,13 @@
 ; windows, several seeds) and movement-real.mc (the real clock, one day, presented round the
 ; regular). Seeds state only - nothing here proposes (mlint gauntlet-purity).
 ;
-;   regular    - thirsty, taught his own town's pub by sight: locate-room -> enter-building, out
+;   regular    - thirsty, taught his own town's pub by sight: enter-room-kind -> enter-building, out
 ;                of his home by its door, beside the pub, into it by its door -> DRINK. The plain
 ;                journey.
 ;   explorer   - thirsty, knows only his home: find-building surveys his town until its pub is
 ;                seen, then the regular's journey. Discovery.
 ;   locked-out - thirsty, in another town, taught its pub, whose every door is locked: the WALK
-;                stops before the door, the cross fails, entering the pub fails, and he never drinks.
+;                stops before the door, the cross fails, entering its bar-room fails, and he never drinks.
 ;                The world barring a believed way.
 ;   homebody   - worn out, stood in the street outside his home: go-to-bed takes him home,
 ;                through its door, into a bedroom, and he sleeps. Into an enclosure from outside.
@@ -101,7 +101,7 @@
 (define-func movement-done ()
   (and (> (acts (cast regular) DRINK succ) 0)
        (> (acts (cast explorer) DRINK succ) 0)
-       (> (acts (cast locked-out) enter-building fail) 0)
+       (> (acts (cast locked-out) enter-room-kind fail) 0)
        (> (acts (cast homebody) SLEEP started) 0)))
 
 (define-func movement-validate ()
@@ -116,7 +116,7 @@
 
   (cast locked-out): ?locked-out
   (expect (> (acts ?locked-out cross fail) 0) "locked-out: no cross failed at the locked door")
-  (expect (> (acts ?locked-out enter-building fail) 0) "locked-out: entering the locked pub never failed")
+  (expect (> (acts ?locked-out enter-room-kind fail) 0) "locked-out: entering the locked pub never failed")
   (expect (= (acts ?locked-out DRINK succ) 0) "locked-out: drank in a town whose only pub is locked")
 
   (cast homebody): ?homebody

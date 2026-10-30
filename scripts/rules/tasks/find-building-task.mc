@@ -2,10 +2,8 @@
 ; find-building - the venue-discovery search. A seek rule PROPOSES (maintain-proposal)
 ; the {@self find-building [k building <kind>] ?region} task; its rungs cover the region one
 ; structure at a time: go to the closest structure he has not observed, and look at it there.
-; It fails ONLY once every structure in the region is observed without the sought one among
-; them; a search withdrawn before that ends /interrupted. Searching
-; STRUCTURES, not the sought kind, keeps it non-telepathic; seeing the sought venue is what
-; makes the proposer let go, so success is read at the cease.
+; It succeeds once he knows the sought building, and fails ONLY once every structure in the region
+; is observed without it. Searching STRUCTURES, not the sought kind, keeps it non-telepathic.
 ; ----------------------------------------------------------------------------
 
 ; What the search was for, once @self knows where it stands: a building of the sought KIND
@@ -29,13 +27,7 @@
   (tar ?)
   (aux ?)
   (preparatory)
-  ; Seeing the sought venue is what makes its proposer let go, so the withdrawal is where
-  ; the search learns it succeeded - never a search that ran out of ground, whose /fail stands:
-  ; the one pub he knows may be the one his proposer gave up on, and a second conclusive
-  ; outcome overwrites the first.
-  (cease (if (and (bb-none ?find-building exhausted)
-                  (substantial (find-building-found ?sought)))
-             (then (set-outcome ?find-building /succ))))
+  (success-cond (substantial (find-building-found ?sought)))
   (preemptive-or
     (try
       (when (and (latch-eval (closest-unobserved [k building] ?region): ?dest)
@@ -54,6 +46,4 @@
         (maintain-proposal {@self go-to ?spot})))
     (try
       (when (unsubstantial (closest-unobserved [k building] ?region)))
-      (effects
-        (bb-write ?find-building exhausted @true)
-        (set-outcome ?find-building /fail)))))
+      (effects (set-outcome ?find-building /fail)))))

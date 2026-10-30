@@ -33,6 +33,5 @@
          (effects (set-outcome ?cross /fail)))
     (try (role @self (or (barred-locked ?passage)
                          {@self OPEN ?passage /fail /caused_by ?cross}
-                         {@self go-to ? /fail /caused_by ?cross}
-                         {@self WALK ? /fail /caused_by ?cross})
+                         {@self go-to|WALK ? /fail /caused_by ?cross})
            (effects (set-outcome ?cross /fail))))))
