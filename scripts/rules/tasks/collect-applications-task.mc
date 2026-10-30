@@ -1,15 +1,14 @@
 ; ----------------------------------------------------------------------------
 ; collect-applications ?wp - the recruiting officer's OFFICE post: fetch the job
-; applications that have arrived in ?wp's incoming mail-stack. If @self does not know
-; where that stack is, the sibling try LOCATEs it (wandering ?wp; its /fail is the
-; "no stack here" record the give-up try reads); once known, the sequence walks to its
-; room and lifts the applications via take-applications. Concluded once the stack is
+; applications that have arrived in ?wp's incoming mail-stack. Its precondition is that @self knows
+; where that stack is (knows-thing-in), which find-thing achieves; the sequence walks to it and
+; lifts the applications via take-applications. Concluded once the stack is
 ; swept this round. This is the work-side twin of read-mail (the HOME post): the home
 ; task keeps letters addressed to ME, this one keeps every application, whoever it names.
 ; ----------------------------------------------------------------------------
 
 (task {@self collect-applications ?wp}:?collect-applications
-  (lint-waive task-no-preparation)
+  (preconditions (knows-thing-in [k mail-stack] ?wp))
   (aspect labour)
   ; OBSERVABLE: the office round is done in the open, so anyone in the room reads it off
   ; him - which is how an applicant tells WHO the recruiting officer is, the way you tell
@@ -17,27 +16,16 @@
   ; can only be published to onlookers if its fields externalize, and an ORG cannot.
   (obs)
   (tar @excl [k structure] @object)
-  (and
-    (sequence
+  (sequence
 
-      (stage
-        (role ?stk [k mail-stack] (spatial ?stk building ?wp))
-        (effects
-          (if (not (spatial @self can-reach ?stk))
-              (then (maintain-proposal {@self go-to ?stk})))))
+    (stage
+      (role ?stk [k mail-stack] (spatial ?stk building ?wp))
+      (effects
+        (if (not (spatial @self can-reach ?stk))
+            (then (maintain-proposal {@self go-to ?stk})))))
 
-      (stage
-        (effects (maintain-proposal {@self take-applications ?stk})))
+    (stage
+      (effects (maintain-proposal {@self take-applications ?stk})))
 
-      (stage
-        (effects (set-outcome ?collect-applications /succ))))
-
-    (try
-      (no-role [k mail-stack] (spatial ?norole building ?wp))
-      (role @self -{@self find-thing [k mail-stack] ?wp /succ}
-            -{@self find-thing [k mail-stack] ?wp /fail}
-        (effects (maintain-proposal {@self find-thing [k mail-stack] ?wp}))))
-
-    (try
-      (role @self {@self find-thing [k mail-stack] ?wp /fail}
-        (effects (set-outcome ?collect-applications /fail))))))
+    (stage
+      (effects (set-outcome ?collect-applications /succ)))))

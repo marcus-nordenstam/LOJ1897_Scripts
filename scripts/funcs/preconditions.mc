@@ -38,6 +38,12 @@
               (flip (is-kind ?bldg) (stands-in-building ?bldg) (within-place @self ?bldg))))
   (achieve (maintain-proposal {@self enter-room-kind ?kind ?bldg})))
 
+; He knows ?thing, an object or any thing of a kind, in ?place, a building or a unit. Nowhere known
+; to look is no such question.
+(precondition knows-thing-in (?thing ?place)
+  (condition (flip (substantial ?place) (find-thing-known ?thing ?place) @true))
+  (achieve (maintain-proposal {@self find-thing ?thing ?place})))
+
 ; He knows a building of kind ?kind. Anything but a kind is no such question.
 (precondition knows-building-of (?kind)
   (condition (flip (is-kind ?kind) (substantial (find-building-found ?kind)) @true))

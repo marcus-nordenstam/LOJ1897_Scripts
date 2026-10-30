@@ -8,47 +8,40 @@
 ; (job-search-think), a rejection-letter drives nothing.
 ;
 ; One sequence: home, form, post, done; each stage reads the world for what is already
-; done. The out-box is located by the sibling try once the form is in hand and no pile is
-; known; the send stage holds until one is.
+; done. Its precondition is that he knows the home out-box (knows-thing-in), which find-thing
+; achieves.
 ; ----------------------------------------------------------------------------
 
 (task {@self apply-for ?job}:?apply-for
-  (lint-waive task-no-preparation)
+  (preconditions (knows-thing-in [k outgoing-mail-stack] (home-of @self)))
   (aspect labour)
   (preparatory)
   (tar [k job] @object)
-  (and
-    (sequence
-      (role ?home {@self home ?home}
+  (sequence
+    (role ?home {@self home ?home}
 
-        (stage
-          (effects
-            (if (not (spatial @self unit ?home))
-                (then (maintain-proposal {@self enter-building ?home})))))
+      (stage
+        (effects
+          (if (not (spatial @self unit ?home))
+              (then (maintain-proposal {@self enter-building ?home})))))
 
-        (stage
-          (effects
-            (if (empty (spatial @self hold [k application]))
-                (then (maintain-proposal {@self prepare-application ?job})))))
+      (stage
+        (effects
+          (if (empty (spatial @self hold [k application]))
+              (then (maintain-proposal {@self prepare-application ?job})))))
 
-        ; THE FORM I WROTE and have not posted - the memory of the WRITE, never a form merely
-        ; near: a housemate's form seen at home months ago still stands co-located in a
-        ; stale belief with its env attrs reading true (measured: it was pushed out of the
-        ; officer's hand into this man's out-box). The form is never in hand (measured).
-        (stage
-          (role ?app [k application] (spatial @self can-reach ?app)
-                                     {@self WRITE ?app ? /succ}
-                                     -{@self send-mail ?app ? /succ}
-                                     (substantial (attr ?app writing))
-                                     (substantial (attr ?app destination)))
-          (role ?out [k outgoing-mail-stack] (within-place ?out ?home))
-          (effects (maintain-proposal {@self send-mail ?app ?out})))
+      ; THE FORM I WROTE and have not posted - the memory of the WRITE, never a form merely
+      ; near: a housemate's form seen at home months ago still stands co-located in a
+      ; stale belief with its env attrs reading true (measured: it was pushed out of the
+      ; officer's hand into this man's out-box). The form is never in hand (measured).
+      (stage
+        (role ?app [k application] (spatial @self can-reach ?app)
+                                   {@self WRITE ?app ? /succ}
+                                   -{@self send-mail ?app ? /succ}
+                                   (substantial (attr ?app writing))
+                                   (substantial (attr ?app destination)))
+        (role ?out [k outgoing-mail-stack] (within-place ?out ?home))
+        (effects (maintain-proposal {@self send-mail ?app ?out})))
 
-        (stage
-          (effects (set-outcome ?apply-for /succ)))))
-
-    (try
-      (role ?home {@self home ?home}
-        (no-role [k outgoing-mail-stack])
-        (when (not (empty (spatial @self hold [k application]))))
-        (effects (maintain-proposal {@self find-thing [k outgoing-mail-stack] ?home}))))))
+      (stage
+        (effects (set-outcome ?apply-for /succ))))))

@@ -44,7 +44,7 @@
                                           (on [k middle] 1)
                                           (else 0)))
                        -{@self apply-for ?job /succ}))
-            (effects (maintain-proposal {@self apply-for ?job}))))))
+            (effects (maintain-proposal {@self apply-for ?job} /quit-trying-on-fail))))))
 
     (try
       (role @self -{@self apply-for ? /pres}

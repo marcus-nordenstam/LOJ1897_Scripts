@@ -69,4 +69,4 @@
                  -{@self invite ?guest ?occ}
       (when (not (date-in-current-month ?held-on)))
       (declare-utility errand)
-      (effects (maintain-proposal {@self invite-guest ?guest ?occ})))))
+      (effects (maintain-proposal {@self invite-guest ?guest ?occ} /quit-trying-on-fail)))))

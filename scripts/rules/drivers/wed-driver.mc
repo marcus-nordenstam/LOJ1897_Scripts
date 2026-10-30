@@ -25,7 +25,7 @@
     (try
       (role ?occ {@self organize [k wedding]:?occ}
                  -{@self invite ?partner ?occ}
-        (effects (maintain-proposal {@self invite-guest ?partner ?occ}))))
+        (effects (maintain-proposal {@self invite-guest ?partner ?occ} /quit-trying-on-fail))))
     (try
       (role @self {@self gender [k male]}
                   (none {@self organize [k wedding]})

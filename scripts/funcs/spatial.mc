@@ -75,6 +75,22 @@
   (or (substantial (any {@self wander ?place /succ /caused_by ?find}))
       (substantial (any {@self enter-building ?place /fail /caused_by ?find}))))
 
+; The home he believes ?who has, or @nothing.
+(define-func home-of (?who)
+  (bind @nothing ?home)
+  (if (any {?who home ?}): ?homing
+    (then (bind ?homing.target ?home)))
+  ?home)
+
+; The workplace of the org he believes ?job belongs to, or @nothing.
+(define-func job-workplace (?job)
+  (bind @nothing ?workplace)
+  (if (any {?job org ?}): ?of-org
+    (then (bind ?of-org.target ?org)
+          (if (any {?org workplace ?}): ?working
+            (then (bind ?working.target ?workplace)))))
+  ?workplace)
+
 ; He knows a room of kind ?kind in ?place, a building or a unit.
 (define-func known-room-of (?kind ?place)
   (bind @false ?known)
