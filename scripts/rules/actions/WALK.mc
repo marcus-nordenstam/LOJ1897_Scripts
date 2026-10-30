@@ -57,9 +57,7 @@
   (tar @excl)
   (belief-timeout 600)
   (presentation
-    (anim-male Motion_Male_Walk_Normal_01)
-    (anim-female Motion_Fem_Walk_Normal_01)
-    (anim-flags loop reset)
+    (proc-anim procedural_locomotion)
     (state walking)
     (movement-speed (walk_speed_mps))
     (delib-turn-speed (walk_delib_turn_rate))

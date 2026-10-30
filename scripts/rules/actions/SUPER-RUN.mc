@@ -13,8 +13,7 @@
 (action {@self SUPER-RUN ?dest}:?SUPER-RUN
   (inherit WALK)
   (presentation
-    (anim-male Motion_Male_Run_01)
-    (anim-female Motion_Fem_Run_01)
+    (proc-anim procedural_locomotion)
     (state running)
     (movement-speed (super_run_speed_mps))
     (delib-turn-speed (run_delib_turn_rate))

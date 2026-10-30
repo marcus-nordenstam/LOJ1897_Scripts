@@ -14,9 +14,7 @@
   (tar @excl)
   (duration procedural)
   (presentation
-    (anim-male Motion_Male_Idle_02)
-    (anim-female Motion_Female_Idle_01)
-    (anim-flags pingpong reset randomize_start)
+    (proc-anim procedural_locomotion)
     (delib-turn-speed 6.0)
     (preroll 0.0) (in 0) (out 0))
 
