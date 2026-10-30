@@ -30,6 +30,7 @@
     (declare-utility (utility-band ?worth) (utility-value ?worth))
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
+               (not (in-full-talk))
                (not (rebuffs ?speaker))
                (not (turning-down ?speaker))
                (unsubstantial (top-competing-act {@self take-up ?speaker} ?worth))))
@@ -66,6 +67,7 @@
     (bind (hail-worth ?speaker) ?worth)
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
+               (not (in-full-talk))
                (not (rebuffs ?speaker))
                (not (taking-up ?speaker))
                (not (turning-down ?speaker))
@@ -84,6 +86,27 @@
             (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?busy-with)} /uninterruptable
                             /caused_by ?opening))))))
 
+; A man in a conversation that seats no one more turns every hail down, saying he is talking. The
+; player is never turned down: his hail joins the talk itself (player-hail).
+(driver full-talk-hail-driver
+  (role ?speaker {?speaker SAY ? @self /past}
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+                 -{@self take-up ?speaker /succ /caused_by ?opening}
+                 -{@self turn-down ?speaker ? /succ /caused_by ?opening}
+                 (not (conversing-with @self ?speaker))
+    (when (and (invited-by ?speaker)
+               (within-call ?speaker)
+               (in-full-talk)
+               (not (turning-down ?speaker))
+               (not (proposed {@self turn-down ? ?}))))
+    (declare-utility unbeatable)
+    (lock)
+    (lint-waive begin-proposal)
+    (effects
+      (bind (any {@self converse ?}) ?converse)
+      (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?converse)} /uninterruptable
+                      /caused_by ~[?opening ?converse]))))
+
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (driver rebuff-hail-driver
   (role ?speaker {?speaker SAY ? @self /past}
@@ -93,6 +116,7 @@
                  (not (conversing-with @self ?speaker))
     (when (and (invited-by ?speaker)
                (within-call ?speaker)
+               (not (in-full-talk))
                (rebuffs ?speaker)))
     (declare-utility unbeatable)
     (effects

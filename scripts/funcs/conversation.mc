@@ -397,12 +397,21 @@
     (if (unsubstantial (any {?talk participant ?party}))
         (then (begin-belief {?talk participant ?party})))))
 
+; (conversation-full ?talk) - ?talk seats no one more (conversation-size-max).
+(define-func conversation-full (?talk)
+  (>= (count (parties-of ?talk)) (conversation-size-max)))
+
+; (in-full-talk) - @self is in a conversation that seats no one more.
+(define-func in-full-talk ()
+  (bind (conversation-of @self) ?talk)
+  (and (substantial ?talk) (conversation-full ?talk)))
+
 ; (talk-to-leave ?partner) - the conversation @self must leave before he hails ?partner into his:
-; his own, when ?partner is in another; else @nothing.
+; his own, when ?partner is in another that has room; else @nothing.
 (define-func talk-to-leave (?partner)
   (bind (conversation-of @self) ?mine)
   (bind (conversation-of ?partner) ?theirs)
-  (if (and (substantial ?mine) (substantial ?theirs) (neq ?mine ?theirs))
+  (if (and (substantial ?mine) (substantial ?theirs) (neq ?mine ?theirs) (not (conversation-full ?theirs)))
       (then ?mine)
       (else @nothing)))
 

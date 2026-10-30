@@ -3,7 +3,8 @@
 ; does the closing in, as every speaker does, while ?partner stays put. ?partner in a
 ; conversation: @self first takes his leave of any other he is in (take-leave, or simply goes when
 ; he is alone in it), then joins it with his hail, and his opening bids for its floor, and
-; ?partner answers it as he answers any line said to him there. ?partner in none: there is no
+; ?partner answers it as he answers any line said to him there. A talk that seats no one more
+; (conversation-full) he does not join: he calls from where he is, and ?partner turns him down. ?partner in none: there is no
 ; conversation until ?partner takes the hail up (tasks/take-up-task.mc), which makes one - @self's
 ; own when he is in one - and takes him into it; until then his hail stands (hailing,
 ; funcs/conversation.mc). Called to by ?partner before he has called out his own, he lets his
@@ -44,7 +45,7 @@
         (when (unsubstantial (talk-to-leave ?partner)))
         (effects
           (bind (conversation-of ?partner) ?theirs)
-          (if (substantial ?theirs)
+          (if (and (substantial ?theirs) (not (conversation-full ?theirs)))
               (then (join-conversation ?theirs)))
           (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner}))))
     (try
