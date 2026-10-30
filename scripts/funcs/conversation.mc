@@ -53,7 +53,7 @@
         (for-each ?party (every {?listener participant ?})
           (bind ?party.target ?who)
           (if (and (neq ?who @self) (not (in-earshot ?who (voice-sound ?msg))))
-              (then (bind @false ?all-hear))))
+              (then (bind @false ?all-hear) (break))))
         ?all-hear)
       (else (in-earshot ?listener (voice-sound ?msg)))))
 
@@ -120,7 +120,7 @@
 
 ; (any-happened-since ?events ?since) - one of the events in the list ?events came since ?since.
 (define-func any-happened-since (?events ?since)
-  (bind @nothing ?found)
+  (bind @false ?found)
   (for-each ?one ?events
     (if (happened-since ?one ?since)
         (then
@@ -324,7 +324,7 @@
 (define-func engaged-with (?partner)
   (bind (conversation-of @self) ?talk)
   (bind (any {?talk participant @self}) ?part)
-  (and (substantial ?talk)
+  (and (is-belief ?part)
        (in-conversation ?partner ?talk)
        (or (any-happened-since (every {@self hail ?partner /succ}) ?part)
            (any-happened-since (every {@self take-up ?partner /succ}) ?part))))
@@ -337,9 +337,11 @@
 
 ; (turned-away ?msg) - ?msg turns a hail down: a refusal or a rebuff.
 (define-func turned-away (?msg)
-  (and (eq-func-name ?msg formulaic)
-       (or (eq (nth (k-formulaic-category-field) ?msg) refusal)
-           (eq (nth (k-formulaic-category-field) ?msg) rebuff))))
+  (if (eq-func-name ?msg formulaic)
+      (then
+        (bind (nth (k-formulaic-category-field) ?msg) ?category)
+        (or (eq ?category refusal) (eq ?category rebuff)))
+      (else @false)))
 
 ; (hail-accepted ?partner ?hail) - ?partner answered the opening @self called in ?hail without
 ; turning it down, and the two are in one conversation.
@@ -379,6 +381,15 @@
 (define-func parties-of (?talk)
   (bb-public-members ?talk participant))
 
+; (out-of-call-of ?talk) - nobody else @self knows to be in ?talk would hear him call out: he has
+; walked away from it.
+(define-func out-of-call-of (?talk)
+  (bind @true ?away)
+  (for-each ?part (every {?talk participant ?})
+    (if (and (neq ?part.target @self) (within-call ?part.target))
+        (then (bind @false ?away) (break))))
+  ?away)
+
 ; (other-party-in ?talk) - a party besides @self is in ?talk.
 (define-func other-party-in (?talk)
   (bind @false ?still)
@@ -410,14 +421,26 @@
   (bind (conversation-of @self) ?talk)
   (and (substantial ?talk) (conversation-full ?talk)))
 
-; (talk-to-leave ?partner) - the conversation @self must leave before he hails ?partner into his:
-; his own, when ?partner is in another that has room; else @nothing.
+; (talk-to-leave ?partner) - the conversation @self must leave before he talks with ?partner: his
+; own, when ?partner is in another that has room, or when his is full and ?partner is in none - a
+; man in a full talk clears himself of it before he talks with anyone outside it; else @nothing.
 (define-func talk-to-leave (?partner)
   (bind (conversation-of @self) ?mine)
   (bind (conversation-of ?partner) ?theirs)
-  (if (and (substantial ?mine) (substantial ?theirs) (neq ?mine ?theirs) (not (conversation-full ?theirs)))
-      (then ?mine)
-      (else @nothing)))
+  (cond (case (unsubstantial ?mine) @nothing)
+        (case (unsubstantial ?theirs) (flip (conversation-full ?mine) ?mine @nothing))
+        (case (eq ?mine ?theirs) @nothing)
+        (case (conversation-full ?theirs) @nothing)
+        (else ?mine)))
+
+; (take-up-talk ?partner) - the conversation @self takes ?partner's hail up into: ?partner's, else
+; his own, else a new one; @fail when ?partner's seats no one more.
+(define-func take-up-talk (?partner)
+  (bind (conversation-of ?partner) ?theirs)
+  (bind (conversation-of @self) ?mine)
+  (cond (case (substantial ?theirs) (flip (conversation-full ?theirs) @fail ?theirs))
+        (case (substantial ?mine) ?mine)
+        (else (open-conversation))))
 
 ; (leave-conversation ?talk) - @self leaves the conversation ?talk: he comes off its participant
 ; and has-more sets, and his part in it and his knowing where it is held end.
@@ -441,8 +464,8 @@
 
 ; A conversation lasts until its parties have run out of things to say. What a man still has to
 ; say in one is his AGENDA, never stored: what his mind yields for it now (agenda-for). While it is
-; not empty he shows it - he is in the conversation's has-more set (thinks/
-; conversation-has-more-think.mc) - and comes off it when it is (conversation-said-all-think.mc).
+; not empty he shows it - he is in the conversation's has-more set - and comes off it when it is
+; (thinks/conversation-has-more-think.mc).
 ; He is done with a conversation when his agenda is empty and its has-more set is (said-all): the
 ; last to run out takes his leave, and his goodbye wakes the rest.
 
@@ -669,15 +692,16 @@
   (bind (or (substantial (any {@self smalltalk|flirt ?talk ?}))
             (and (substantial (any {@self unease ?talk})) (substantial (smalltalk-line ?talk))))
         ?more)
-  (for-each ?party (parties-of ?talk)
-    (if (and (not ?more) (neq ?party @self))
-        (then
-          (bind (or (substantial (any {@self inquire|respond ?party ?}))
-                    (substantial (any {@self catch-up|tell-gossip|get-acquainted ?party}))
-                    (wants-to-ask ?party)
-                    (substantial (news-for ?party))
-                    (substantial (gossip-for ?party)))
-                ?more))))
+  (if (not ?more)
+      (then
+        (for-each ?party (parties-of ?talk)
+          (if (and (neq ?party @self)
+                   (or (substantial (any {@self inquire|respond ?party ?}))
+                       (substantial (any {@self catch-up|tell-gossip|get-acquainted ?party}))
+                       (wants-to-ask ?party)
+                       (substantial (news-for ?party))
+                       (substantial (gossip-for ?party))))
+              (then (bind @true ?more) (break))))))
   ?more)
 
 ; (said-all ?talk) - nobody in ?talk has anything left to say, @self included.
@@ -711,17 +735,6 @@
           (if (neq ?party @self)
               (then (bind ?party ?focus) (break))))))
   ?focus)
-
-; (took-up ?caller) - @self took up a conversation ?caller opened, and has hailed ?caller
-; himself no time since: the open conversation is ?caller's, not one @self opened.
-(define-func took-up (?caller)
-  (bind @nothing ?found)
-  (for-each ?take-up (every {@self take-up ?caller /succ})
-    (if (not (any-happened-since (every {@self hail ?caller /past}) ?take-up))
-        (then
-          (bind @true ?found)
-          (break))))
-  ?found)
 
 ; (can-hail ?thing) - the player can hail ?thing: a living man within (k-hail-reach) of him, as
 ; the world has it - the player holds no beliefs. The man hailed stays where he stands, so the

@@ -8,9 +8,11 @@
 ;
 ; It is over, a success, when he is no longer in ?talk. Once nobody in it has anything left to say
 ; (said-all, funcs/conversation.mc) and something has been said to him in it, he takes his leave:
-; the last to run out goes, and his goodbye wakes the rest. Left alone in it, he leaves it, which
-; releases it. Outcompeted, he is not simply gone: his closing rung says what calls him away and
-; leaves the talk, and the act that outbid him starts once he has.
+; the last to run out goes, and his goodbye wakes the rest. Walked out of call of everyone in it,
+; he has left it, and goes without a word; left alone in it he leaves it
+; (thinks/conversation-alone-think.mc).
+; Outcompeted, he is not simply gone: his closing takes his leave saying what calls him away, and
+; the act that outbid him starts once he has.
 ; ----------------------------------------------------------------------------
 
 (task {@self converse ?talk}:?converse
@@ -18,48 +20,35 @@
   (noncompete-set discourse)
   (tar @excl [k conversation] @object)
   (lint-waive try-rungs-not-exclusive)
-  ; Ending still in the conversation with others in it, he takes his leave first, so they know it
-  ; is over; alone in it, he leaves it. Begun, because the converse proposing it has ended.
+  ; Ending still in the conversation, he takes his leave first, so the others know it is over.
+  ; Begun, because the converse proposing it has ended.
   (lint-waive begin-proposal)
+  (success-cond (not (in-conversation @self ?talk)))
   (cease
     (if (in-conversation @self ?talk)
-        (then
-          (if (other-party-in ?talk)
-              (then (begin-proposal {@self take-leave ?talk} /uninterruptable))
-              (else (leave-conversation ?talk))))))
+        (then (begin-proposal {@self take-leave ?talk} /uninterruptable))))
   (closing
     (sequence
       (stage
         (bind (top-competing-act {@self converse ?talk} (utility ?converse)) ?called-by)
         (effects
           (if (substantial ?called-by)
-              (then (maintain-proposal {@self tell (formulaic [] leave_taking excuse ?called-by) ?talk}
+              (then (maintain-proposal {@self take-leave ?talk (formulaic [] leave_taking excuse ?called-by)}
                                        /uninterruptable))
-              (else (maintain-proposal {@self tell (formulaic [] leave_taking bye) ?talk} /uninterruptable)))))
+              (else (maintain-proposal {@self take-leave ?talk} /uninterruptable)))))
       (stage
-        (effects
-          (leave-conversation ?talk)
-          (done-closing ?converse)))))
+        (effects (done-closing ?converse)))))
   (and
     (try
       (lint-waive cacheable-read-in-when)
-      (when (not (in-conversation @self ?talk)))
-      (effects (set-outcome ?converse /succ)))
+      (when (and (in-conversation @self ?talk) (out-of-call-of ?talk)))
+      (effects (leave-conversation ?talk)))
     (try
-      (lint-waive cacheable-read-in-when)
-      (when (and (in-conversation @self ?talk) (not (other-party-in ?talk))))
-      (effects
-        (leave-conversation ?talk)
-        (set-outcome ?converse /succ)))
-    (try
-      (lint-waive cacheable-read-in-when)
-      (role ?speaker {?talk participant ?speaker}
-                     {?speaker SAY ? @self /past}:?said
-        (when (and (in-conversation @self ?talk)
-                   (other-party-in ?talk)
-                   (happened-since ?said ?converse)
-                   (said-all ?talk)))
-        (effects (maintain-proposal {@self take-leave ?talk} /uninterruptable))))
+      (role @self (in-conversation @self ?talk) (other-party-in ?talk) (said-all ?talk)
+        (role ?speaker {?talk participant ?speaker}
+                       {?speaker SAY ? @self /past}:?said
+          (when (happened-since ?said ?converse))
+          (effects (maintain-proposal {@self take-leave ?talk} /uninterruptable)))))
     (try
       (lint-waive cacheable-read-in-when)
       (bind (focus-of ?talk) ?focus)

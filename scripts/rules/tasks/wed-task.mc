@@ -11,6 +11,7 @@
 
 (task {@self wed ?partner}:?wed
   (noncompete-set occasion)
+  (under-noncompete-set discourse)
   (tar [k human] @object)
   (role ?occ [k wedding] {?occ hours ?start ?end} {?occ venue ?venue}
              (or {@self organize ?occ} {?partner invite @self ?occ})

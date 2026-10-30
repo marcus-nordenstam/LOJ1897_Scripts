@@ -1,11 +1,12 @@
 ; ----------------------------------------------------------------------------
 ; tell ?msg ?audience - THE one-way speech task, and the only one that proposes SAY: say ?msg
-; to ?audience where he can hear it. The speaker does the moving, never the man spoken to. Within
-; call of his audience he waits while another man is speaking to it or to him (free-to-address),
-; then takes his turn (claim-turn: the floor of the conversation he says it in, and the marks on
-; whom he says it to) - which holds the listener where he stands -
+; to ?audience where he can hear it. The speaker does the moving, never the man spoken to. It
+; requires that he is within call of a man he tells (in-call-of, funcs/preconditions.mc): out of
+; call he goes toward him first, unmarked. Within call he waits while another man is speaking to
+; it or to him (free-to-address), then takes his turn (claim-turn: the floor of the conversation
+; he says it in, and the marks on whom he says it to) - which holds the listener where he stands -
 ; and closes on it through go until he would hear it (within-voice: within the radius of the
-; sound ?msg makes), and says it; out of call he goes toward it unmarked. A tell to a conversation
+; sound ?msg makes), and says it. A tell to a conversation
 ; is said where @self stands, to every party in it; a broadcast (an absent ?audience) is said
 ; where @self stands, so its proposer brings him to the place first. The marks clear when the
 ; tell ends, or once the SAY it began is said. A man says one thing at a time (lock speech-act). It succeeds when the SAY does and
@@ -22,6 +23,7 @@
   (tar @msg @excl @pattern)
   (aux @msgAudience ?)
   (lock (speech-act))
+  (preconditions (in-call-of ?audience))
   (init (bid-floor ?msg ?audience))
   (cease
     (if (not (speaking))
@@ -51,7 +53,4 @@
       (effects
         (bind (claim-turn ?audience) ?claimed)
         (if ?claimed
-            (then (maintain-proposal {@self go-to ?audience earshot})))))
-    (try
-      (when (and (is-a ?audience [k human]) (not (within-call ?audience))))
-      (effects (maintain-proposal {@self go-to ?audience earshot})))))
+            (then (maintain-proposal {@self go-to ?audience earshot})))))))

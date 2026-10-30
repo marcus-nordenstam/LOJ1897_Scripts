@@ -104,8 +104,14 @@
     (lint-waive begin-proposal)
     (effects
       (bind (any {@self converse ?}) ?converse)
-      (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?converse)} /uninterruptable
-                      /caused_by ~[?opening ?converse]))))
+      (if (substantial ?converse)
+          (then (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?converse)} /uninterruptable
+                                /caused_by ~[?opening ?converse]))
+          (else
+            (bind (conversation-of @self) ?talk)
+            (bind (any {?talk participant @self}) ?part)
+            (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?part)} /uninterruptable
+                            /caused_by ?opening))))))
 
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (driver rebuff-hail-driver

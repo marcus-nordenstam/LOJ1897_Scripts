@@ -9,13 +9,13 @@
 (driver respond-driver
   (role @self {@self converse ?talk}:?converse
     (role ?speaker {?speaker SAY ?msg @self /past}:?line
+                   (owes-response ?msg)
                    -{@self tell ? ?speaker /succ /caused_by ?line}
                    -{@self take-up ?speaker /succ /caused_by ?line}
                    -{@self turn-down ?speaker ? /succ /caused_by ?line}
       (bind (any {?talk participant @self}) ?part)
       (when (and (in-conversation @self ?talk)
                  (in-conversation ?speaker ?talk)
-                 (happened-since ?line ?part)
-                 (owes-response ?msg)))
+                 (happened-since ?line ?part)))
       (declare-utility obligation)
       (effects (maintain-proposal {@self respond ?speaker ?line} /caused_by ?converse)))))

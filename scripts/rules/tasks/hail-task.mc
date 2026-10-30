@@ -1,26 +1,30 @@
 ; ----------------------------------------------------------------------------
 ; hail ?partner - @self calls to ?partner, within call of him, and says the opening - its tell
-; does the closing in, as every speaker does, while ?partner stays put. ?partner in a
-; conversation: @self first takes his leave of any other he is in (take-leave, or simply goes when
-; he is alone in it), then joins it with his hail, and his opening bids for its floor, and
+; does the closing in, as every speaker does, while ?partner stays put. It requires that no talk
+; of his holds him back (clear-to-talk, funcs/preconditions.mc): in another talk than ?partner's
+; that has room, or in a full one when ?partner is in none, he takes his leave of it first. ?partner
+; in a conversation with room: @self joins it with his hail, his opening bids for its floor, and
 ; ?partner answers it as he answers any line said to him there. A talk that seats no one more
-; (conversation-full) he does not join: he calls from where he is, and ?partner turns him down. ?partner in none: there is no
-; conversation until ?partner takes the hail up (tasks/take-up-task.mc), which makes one - @self's
-; own when he is in one - and takes him into it; until then his hail stands (hailing,
-; funcs/conversation.mc). Called to by ?partner before he has called out his own, he lets his
-; hail go and takes ?partner up. It is PREPARATION - an open conversation is what converse
-; assumes - so only a driver proposes it. Taken up when ?partner's answer accepts it and both are
-; in one conversation - also when that is what ends it, its proposer having stopped wanting it the
-; instant it was taken up; turned down when ?partner refuses or rebuffs him. A hail is complete
-; only when answered, so when ?partner has hailed him too, each answers the other's opening as
-; part of his own hail. Ended any other way, he leaves ?partner's conversation if his hail took
-; him into it.
+; (conversation-full) he does not join: he calls from where he is, and ?partner turns him down.
+; ?partner in none: there is no conversation until ?partner takes the hail up
+; (tasks/take-up-task.mc), which makes one - @self's own when he is in one - and takes him into
+; it; until then his hail stands (hailing, funcs/conversation.mc). Called to by ?partner before he
+; has called out his own, he lets his hail go and takes ?partner up. It is PREPARATION - an open
+; conversation is what converse assumes - so only a driver proposes it. Taken up when ?partner's
+; answer accepts it and both are in one conversation - also when that is what ends it, its
+; proposer having stopped wanting it the instant it was taken up; turned down when ?partner
+; refuses or rebuffs him, and failed when his opening could not be said. A hail is complete only
+; when answered, so when ?partner has hailed him too, each answers the other's opening as part of
+; his own hail. Ended any other way, he leaves ?partner's conversation if his hail took him into it.
 ; ----------------------------------------------------------------------------
 
 (task {@self hail ?partner}:?hail
   (noncompete-set discourse)
   (tar @excl [k human] @object)
   (preparatory)
+  (preconditions (clear-to-talk ?partner))
+  (failure-cond (or (hail-turned-down ?partner ?hail)
+                    (substantial (any {@self tell (formulaic ? opening-phrase ?) ?partner /fail /caused_by ?hail}))))
   (init
     (check (is-a ?partner [k human]))
     (bb-public-add-member @self hailing ?partner))
@@ -34,15 +38,6 @@
     (try
       (role @self {@self isa [k human]}
                   -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
-        (when (and (substantial (talk-to-leave ?partner)) (other-party-in (talk-to-leave ?partner))))
-        (effects (maintain-proposal {@self take-leave (talk-to-leave ?partner)}))))
-    (try
-      (when (and (substantial (talk-to-leave ?partner)) (not (other-party-in (talk-to-leave ?partner)))))
-      (effects (leave-conversation (talk-to-leave ?partner))))
-    (try
-      (role @self {@self isa [k human]}
-                  -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
-        (when (unsubstantial (talk-to-leave ?partner)))
         (effects
           (bind (conversation-of ?partner) ?theirs)
           (if (and (substantial ?theirs) (not (conversation-full ?theirs)))
@@ -69,17 +64,4 @@
         (when (hail-accepted ?partner ?hail))
         (effects
           (join-conversation (conversation-of ?partner))
-          (set-outcome ?hail /succ))))
-    (try
-      (role ?partner {?partner SAY ? @self /past}
-                     {?partner SAY (formulaic ? refusal ?..) @self /past}:?refusal
-        (when (eq ?refusal (hail-reply ?partner ?hail)))
-        (effects (set-outcome ?hail /fail))))
-    (try
-      (role ?partner {?partner SAY ? @self /past}
-                     {?partner SAY (formulaic ? rebuff) @self /past}:?rebuff
-        (when (eq ?rebuff (hail-reply ?partner ?hail)))
-        (effects (set-outcome ?hail /fail))))
-    (try
-      (role @self {@self tell (formulaic ? opening-phrase ?) ?partner /fail /caused_by ?hail}
-        (effects (set-outcome ?hail /fail))))))
+          (set-outcome ?hail /succ))))))
