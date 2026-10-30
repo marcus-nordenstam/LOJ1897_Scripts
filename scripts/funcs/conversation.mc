@@ -397,6 +397,15 @@
     (if (unsubstantial (any {?talk participant ?party}))
         (then (begin-belief {?talk participant ?party})))))
 
+; (talk-to-leave ?partner) - the conversation @self must leave before he hails ?partner into his:
+; his own, when ?partner is in another; else @nothing.
+(define-func talk-to-leave (?partner)
+  (bind (conversation-of @self) ?mine)
+  (bind (conversation-of ?partner) ?theirs)
+  (if (and (substantial ?mine) (substantial ?theirs) (neq ?mine ?theirs))
+      (then ?mine)
+      (else @nothing)))
+
 ; (leave-conversation ?talk) - @self leaves the conversation ?talk: he comes off its participant
 ; and has-more sets, and his part in it and his knowing where it is held end.
 (define-func leave-conversation (?talk)

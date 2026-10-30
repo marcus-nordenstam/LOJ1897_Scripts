@@ -1,8 +1,9 @@
 ; ----------------------------------------------------------------------------
 ; hail ?partner - @self calls to ?partner, within call of him, and says the opening - its tell
 ; does the closing in, as every speaker does, while ?partner stays put. ?partner in a
-; conversation: @self leaves any other he is in, joins it with his hail, and his opening bids for
-; its floor, and ?partner answers it as he answers any line said to him there. ?partner in none: there is no
+; conversation: @self first takes his leave of any other he is in (take-leave, or simply goes when
+; he is alone in it), then joins it with his hail, and his opening bids for its floor, and
+; ?partner answers it as he answers any line said to him there. ?partner in none: there is no
 ; conversation until ?partner takes the hail up (tasks/take-up-task.mc), which makes one - @self's
 ; own when he is in one - and takes him into it; until then his hail stands (hailing,
 ; funcs/conversation.mc). Called to by ?partner before he has called out his own, he lets his
@@ -21,14 +22,7 @@
   (preparatory)
   (init
     (check (is-a ?partner [k human]))
-    (bb-public-add-member @self hailing ?partner)
-    (bind (conversation-of ?partner) ?theirs)
-    (bind (conversation-of @self) ?mine)
-    (if (substantial ?theirs)
-        (then
-          (if (and (substantial ?mine) (neq ?mine ?theirs))
-              (then (leave-conversation ?mine)))
-          (join-conversation ?theirs))))
+    (bb-public-add-member @self hailing ?partner))
   (cease
     (bb-public-remove-member @self hailing ?partner)
     (if (not (engaged-with ?partner))
@@ -39,7 +33,20 @@
     (try
       (role @self {@self isa [k human]}
                   -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
-        (effects (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner}))))
+        (when (and (substantial (talk-to-leave ?partner)) (other-party-in (talk-to-leave ?partner))))
+        (effects (maintain-proposal {@self take-leave (talk-to-leave ?partner)}))))
+    (try
+      (when (and (substantial (talk-to-leave ?partner)) (not (other-party-in (talk-to-leave ?partner)))))
+      (effects (leave-conversation (talk-to-leave ?partner))))
+    (try
+      (role @self {@self isa [k human]}
+                  -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
+        (when (unsubstantial (talk-to-leave ?partner)))
+        (effects
+          (bind (conversation-of ?partner) ?theirs)
+          (if (substantial ?theirs)
+              (then (join-conversation ?theirs)))
+          (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner}))))
     (try
       (role @self {@self isa [k human]}
                   -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
