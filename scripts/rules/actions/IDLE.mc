@@ -14,9 +14,7 @@
 (action {@self IDLE ?motor}
   (duration procedural)
   (presentation
-    (anim-male Motion_Male_Idle_02)
-    (anim-female Motion_Female_Idle_01)
-    (anim-flags pingpong reset randomize_start)
+    (proc-anim procedural_locomotion)
     (state standing)
     (preroll 0.0) (in inherit) (out inherit))
   (idle-action))
