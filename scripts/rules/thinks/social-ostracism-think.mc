@@ -24,8 +24,7 @@
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
     (role ?b {?b isa [k human], condition [k alive]}
              {?b repute [k scandalous]}
-             (or {@self friend ?b}
-                 {@self close-to ?b})
+             {@self friend|close-to ?b}
 
       ; ~annual cadence per soured tie; a non-belief gate, so it lives in (when).
       (when (chance 0.0833))

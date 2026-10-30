@@ -49,7 +49,7 @@
       ; The victim: the beloved's spouse, else lover (read in @self's own mind), else the
       ; beloved themselves - a living one.
       (role ?victim {?victim isa [k human], condition [k alive]}
-                    (or {?beloved spouse ?victim} {?beloved lover ?victim} {@self crave ?victim})
+                    (or {?beloved spouse|lover ?victim} {@self crave ?victim})
                     (select (score (cond (case (any {?beloved spouse ?victim}) 3)
                                          (case (any {?beloved lover ?victim}) 2)
                                          (case (= ?victim ?beloved) 1)

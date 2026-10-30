@@ -43,8 +43,7 @@
           (bind (+ ?told (seconds (threat_grace_days) d)) ?deadline)
           (begin-belief {@self threaten ?victim
                           (consequence -{?victim pay @self /during ?told ?deadline} {@self expose ?victim} ?deadline)})
-          (if (or (any {?victim lover|HAVE-SEX-WITH ? /ever})
-                  (any {?victim threaten|commission|hired-by|kill ? /ever}))
+          (if (any {?victim lover|HAVE-SEX-WITH|threaten|commission|hired-by|kill ? /ever})
               (then (record-crime @self ?victim blackmail coerce @u @u))
               (else (record-crime @self ?victim threaten_violence coerce @u @u)))
           (bb-clear ?coerce told)

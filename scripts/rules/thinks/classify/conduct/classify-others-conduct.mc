@@ -21,9 +21,7 @@
   (rng-stream behaviour)
 
   (role ?other (or {?other seem ?}
-                   {?other honesty    [k lax]}
-                   {?other generosity [k lax]}
-                   {?other sobriety   [k lax]})
+                   {?other honesty|generosity|sobriety [k lax]})
 
     (effects
       (mint-band-about {?other honesty}

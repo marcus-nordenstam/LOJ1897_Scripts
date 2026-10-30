@@ -59,7 +59,7 @@
 ; (answers-to ?speaker) - @self is bound to heed ?speaker's hail: his master, his mother or
 ; his father.
 (define-func answers-to (?speaker)
-  (or (any {@self master ?speaker}) (any {@self mother ?speaker}) (any {@self father ?speaker})))
+  (any {@self master|mother|father ?speaker}))
 
 ; (law-officer ?x) - @self believes ?x holds a job of a law officer's kind.
 (define-func law-officer (?x)
@@ -650,8 +650,7 @@
   (for-each ?party (parties-of ?talk)
     (if (and (not ?more) (neq ?party @self))
         (then
-          (bind (or (substantial (any {@self inquire ?party ?}))
-                    (substantial (any {@self respond ?party ?}))
+          (bind (or (substantial (any {@self inquire|respond ?party ?}))
                     (substantial (any {@self catch-up|tell-gossip|get-acquainted ?party}))
                     (wants-to-ask ?party)
                     (substantial (news-for ?party))
