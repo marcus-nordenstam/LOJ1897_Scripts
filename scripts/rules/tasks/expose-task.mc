@@ -25,7 +25,7 @@
           (role ?vhome {?victim home ?vhome}
             (when (and (not (spatial ?victim co-located @self))
                        (unknown (spatial ?victim space))))
-            (effects (maintain-proposal {@self go-to ?vhome}))))))
+            (effects (maintain-proposal {@self enter-building ?vhome}))))))
     (try
       (role @self -{@self spouse ?victim}
                   -{@self tell ? ?victim /succ /caused_by ?expose}

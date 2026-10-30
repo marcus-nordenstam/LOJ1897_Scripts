@@ -22,7 +22,7 @@
                     (select (score (near @self ?shop)) (policy roulette unknown-last))
         (when (empty (spatial @self hold ?kind)))
         (declare-utility fallback)
-        (effects (maintain-proposal {@self go-to ?shop}))))
+        (effects (maintain-proposal {@self enter-building ?shop}))))
     ; at a source, unwatched -> take a shelf item of the kind (the guarded snatch).
     (try
       (role ?loot (spatial (spatial @self space) contents) (is-a ?loot ?kind) (select (policy first-match))

@@ -23,7 +23,7 @@
         (stage
           (effects
             (if (not (spatial @self unit ?home))
-                (then (maintain-proposal {@self go-to ?home})))))
+                (then (maintain-proposal {@self enter-building ?home})))))
 
         (stage
           (effects

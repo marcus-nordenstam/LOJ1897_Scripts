@@ -32,20 +32,20 @@
     (try
       (role ?room (spatial ?place rooms)
                   (bb-none ?room toured ?wander)
-                  -{@self go-to ?room /succ /caused_by ?wander}
-                  -{@self go-to ?room /fail /caused_by ?wander}
+                  -{@self enter-room ?room /succ /caused_by ?wander}
+                  -{@self enter-room ?room /fail /caused_by ?wander}
                   (select (score (near @self ?room)) (policy roulette unknown-first))
-        (effects (maintain-proposal {@self go-to ?room}))))
+        (effects (maintain-proposal {@self enter-room ?room}))))
     ; The walk arrived: the room is toured.
     (try
       (role ?room (spatial ?place rooms)
-                  {@self go-to ?room /succ /caused_by ?wander}
+                  {@self enter-room ?room /succ /caused_by ?wander}
                   (bb-none ?room toured ?wander)
         (effects (bb-write ?room toured ?wander))))
     ; The walk failed: the room is toured as far as it ever will be.
     (try
       (role ?room (spatial ?place rooms)
-                  {@self go-to ?room /fail /caused_by ?wander}
+                  {@self enter-room ?room /fail /caused_by ?wander}
                   (bb-none ?room toured ?wander)
         (effects (bb-write ?room toured ?wander))))
     (try

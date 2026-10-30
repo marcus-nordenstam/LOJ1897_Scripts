@@ -64,5 +64,5 @@
         (when (latch-eval (current-shift ?job): ?hours)
               (on-shift ?hours))
         (declare-utility duty)
-        (effects       (maintain-proposal {@self go-to ?wp})
+        (effects       (maintain-proposal {@self enter-room ?wp})
                        (set-shift-end-alarm ?hours))))))

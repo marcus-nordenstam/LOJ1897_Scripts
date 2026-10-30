@@ -26,7 +26,7 @@
         (role @self {@self fiancee ?partner} (none {@self spouse @something})
                     (not (spatial @self building ?venue))
           (when (hours (- ?start (attend-prep-lead)) ?end))
-          (effects (maintain-proposal {@self go-to ?venue}))))
+          (effects (maintain-proposal {@self enter-room ?venue}))))
       (try
         (role @self {@self spouse ?partner}
           (effects (set-outcome ?wed /succ)))))))

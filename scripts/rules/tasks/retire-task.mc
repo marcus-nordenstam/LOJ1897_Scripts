@@ -9,7 +9,7 @@
         (role ?org {?job org ?org}
           (role ?wp {?org workplace ?wp}
                     (not (spatial @self building ?wp))
-            (effects (maintain-proposal {@self go-to ?wp}))))))
+            (effects (maintain-proposal {@self enter-room ?wp}))))))
     (try
       (role ?job {@self job ?job}
         (role ?org {?job org ?org}

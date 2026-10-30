@@ -7,7 +7,7 @@
   (and
     (try
       (role @self (not (spatial @self building ?shop))
-        (effects (maintain-proposal {@self go-to ?shop}))))
+        (effects (maintain-proposal {@self enter-building ?shop}))))
     (try
       (role @self (spatial @self building ?shop)
         (effects (maintain-proposal {@self STOCKTAKE}))))

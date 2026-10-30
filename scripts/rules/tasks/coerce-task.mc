@@ -21,7 +21,7 @@
       (role ?vhome {?victim home ?vhome}
         (when (and (not (spatial ?victim co-located @self))
                    (unknown (spatial ?victim space))))
-        (effects (maintain-proposal {@self go-to ?vhome}))))
+        (effects (maintain-proposal {@self enter-building ?vhome}))))
     (try
       (when (and (or (spatial ?victim co-located @self) (spatial ?victim space))
                  -{@self threaten ?victim ?}))

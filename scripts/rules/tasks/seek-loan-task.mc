@@ -10,7 +10,7 @@
       (role ?cred_home {?creditor home ?cred_home}
                        (not (spatial @self building ?cred_home))
                        (go-reachable ?cred_home)
-        (effects (maintain-proposal {@self go-to ?cred_home}))))
+        (effects (maintain-proposal {@self enter-building ?cred_home}))))
     (try
       (role ?cred_home {?creditor home ?cred_home}
                        (spatial @self building ?cred_home)

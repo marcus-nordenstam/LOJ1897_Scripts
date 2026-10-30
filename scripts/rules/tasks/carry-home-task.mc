@@ -9,7 +9,7 @@
   (and
     (try
       (role @self (not (spatial @self space ?dest))
-        (effects (maintain-proposal {@self go-to ?dest}))))
+        (effects (maintain-proposal {@self enter-room ?dest}))))
     (try
       (role @self (spatial @self space ?dest)
         (when (poll (rest-spot ?dest (held-ware @self ?ware)): ?spot))

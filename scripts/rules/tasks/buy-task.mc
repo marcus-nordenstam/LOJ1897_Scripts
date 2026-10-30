@@ -15,7 +15,7 @@
                     (select (score (near @self ?shop)) (policy roulette unknown-last))
         (when (empty (spatial @self hold ?kind)))
         (declare-utility fallback)
-        (effects (maintain-proposal {@self go-to ?shop}))))
+        (effects (maintain-proposal {@self enter-building ?shop}))))
     ; at a shop with a till -> the goods, the price counted into the hand, paid into the
     ; till, the goods taken. The goods are taken only once the price is in the till.
     (sequence

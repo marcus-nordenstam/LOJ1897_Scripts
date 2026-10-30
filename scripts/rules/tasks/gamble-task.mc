@@ -7,7 +7,7 @@
   (and
     (try
       (role @self (not (spatial @self building ?venue))
-        (effects (maintain-proposal {@self go-to ?venue}))))
+        (effects (maintain-proposal {@self enter-building ?venue}))))
     (try
       (role @self (spatial @self building ?venue)
         (effects (maintain-proposal {@self PLAY-GAME}))))

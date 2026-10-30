@@ -21,7 +21,7 @@
           (when (and {? stolen-from @self}
                      (>= ?education (literacy-education-min))
                      (not (is-a (spatial @self building) [k police-station]))))
-          (effects (maintain-proposal {@self go-to ?station})))))
+          (effects (maintain-proposal {@self enter-building ?station})))))
     ; knows no station -> search the region for one; the search's own /fail is what the
     ; abandon try below reads as "this town has no police station".
     (try

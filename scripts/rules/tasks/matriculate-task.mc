@@ -19,7 +19,7 @@
             (select (score (near @self ?go_dest)) (policy roulette unknown-last))
         (role ?academy {?academy workplace ?go_dest}
           (when (not (is-a (spatial @self building) [k school])))
-          (effects (maintain-proposal {@self go-to ?go_dest})))))
+          (effects (maintain-proposal {@self enter-room ?go_dest})))))
 
     ; MATRICULATE: at a school -> record my study there, at its school. Minting {@self study ...}
     ; trips the decision's completion role, which withdraws the task. A school tier is recorded

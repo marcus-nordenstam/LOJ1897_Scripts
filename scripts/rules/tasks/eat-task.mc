@@ -25,7 +25,7 @@
     (try
       (when (and (not (at-meal-place ?place))
                  (eat-affordable ?meal ?place)))
-      (effects (maintain-proposal {@self go-to ?place})))
+      (effects (maintain-proposal {@self enter-room ?place})))
     ; A home supper eats one loaf off a kitchen larder PILE he knows of, handed to EAT which
     ; decrements it; any other meal, or a larder he has not seen, stays abstract.
     (try

@@ -17,9 +17,9 @@
              (then (set-outcome ?go-to-bed /succ))))
   (preemptive-or
     (try (role @self (or (go-to-bed-in-bedroom ?home)
-                         (and {@self enter-room ?home [k bedroom] /fail /caused_by ?go-to-bed}
+                         (and {@self enter-room [k bedroom] ?home /fail /caused_by ?go-to-bed}
                               (spatial @self unit ?home)))
            (effects (maintain-proposal {@self SLEEP}))))
-    (try (role @self {@self enter-room ?home [k bedroom] /fail /caused_by ?go-to-bed}
-           (effects (maintain-proposal {@self go-to ?home}))))
-    (try (effects (maintain-proposal {@self enter-room ?home [k bedroom]})))))
+    (try (role @self {@self enter-room [k bedroom] ?home /fail /caused_by ?go-to-bed}
+           (effects (maintain-proposal {@self enter-building ?home}))))
+    (try (effects (maintain-proposal {@self enter-room [k bedroom] ?home})))))

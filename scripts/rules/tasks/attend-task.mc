@@ -25,7 +25,7 @@
         (role ?venue {?occ venue ?venue}
           (role @self (not (spatial @self building ?venue))
             (when (hours (- ?start (attend-prep-lead)) ?end))
-            (effects (maintain-proposal {@self go-to ?venue}))))))
+            (effects (maintain-proposal {@self enter-room ?venue}))))))
 
     ; STAY: I am at the venue in the window -> dwell to its end. The stay IS the attendance.
     (try

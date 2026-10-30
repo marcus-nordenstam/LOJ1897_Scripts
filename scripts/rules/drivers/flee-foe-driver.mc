@@ -32,4 +32,4 @@
       (declare-utility survival always-pick)
   
       ; Run for home - a known refuge; with none there is no flight (they stand and take it).
-      (effects (maintain-proposal {@self go-to ?myhome})))))
+      (effects (maintain-proposal {@self enter-building ?myhome})))))

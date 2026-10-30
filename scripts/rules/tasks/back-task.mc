@@ -9,7 +9,7 @@
     (and
       (try
         (when (not (spatial @self building ?wp)))
-        (effects (maintain-proposal {@self go-to ?wp})))
+        (effects (maintain-proposal {@self enter-room ?wp})))
       (try
         (when (spatial @self building ?wp))
         (effects

@@ -22,7 +22,7 @@
     (try
       (when (and (not (locate-known ?thing ?place))
                  (not (within-place @self ?place))))
-      (effects (maintain-proposal {@self go-to ?place})))
+      (effects (maintain-proposal {@self enter-building ?place})))
     (try
       (when (and (not (locate-known ?thing ?place))
                  (within-place @self ?place)))

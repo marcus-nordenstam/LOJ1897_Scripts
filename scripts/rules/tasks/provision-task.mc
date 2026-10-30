@@ -12,7 +12,7 @@
       (try
         (role @self (not (spatial @self building ?shop))
           (when (> (provision-basket ?kitchen) 0))
-          (effects (maintain-proposal {@self go-to ?shop}))))
+          (effects (maintain-proposal {@self enter-building ?shop}))))
       (try
         (role @self (spatial @self building ?shop)
           (when (and (provision-basket ?kitchen): ?cap

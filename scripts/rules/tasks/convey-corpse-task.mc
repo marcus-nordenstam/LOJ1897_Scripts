@@ -9,7 +9,7 @@
     (try
       (role ?church [k church-building] (select (score (near @self ?church)) (policy roulette unknown-last))
         (when (not (is-a (spatial @self building) [k church-building])))
-        (effects (maintain-proposal {@self go-to ?church}))))
+        (effects (maintain-proposal {@self enter-building ?church}))))
     (try
       (when (is-a (spatial @self building) [k church-building]))
       (effects (maintain-proposal {@self CONVEY ?corpse})))

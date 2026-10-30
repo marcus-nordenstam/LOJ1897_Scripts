@@ -37,9 +37,10 @@
         (case (unsubstantial ?here) @false)
         (else (and (is-a ?here [k exterior-space]) (spatial ?x space ?space)))))
 
-; The claimed floor spot just through ?passage from where @self stands, where a step through it
-; lands, whether or not he knows the space there. Polled like rest-spot, and likewise the asking
-; rung's claim.
+; The claimed floor spot through ?passage from where @self stands, whether or not he knows the
+; space there: in a room the free spot nearest its middle, clear of the way for whoever comes
+; through after him; out of doors at least k_passage_clear_out_m out from the doorway, further out or
+; to either side when that is taken. Polled like rest-spot, and likewise the asking rung's claim.
 (define-func passage-spot-beyond (?passage)
   (maintain-claim-spot @self [/beyond ?passage] [/near ?passage] [/at_or_near @self]))
 
@@ -119,10 +120,12 @@
         (case (= (count ?units) 1) (head ?units))
         (else @fail)))
 
-; Where @self stands inside a space: a claimed spot on its floor, the one nearest him.
-; Polled like rest-spot, and likewise the asking rung's claim.
+; Where @self stands inside a space: a claimed spot on its floor - in a room the free one nearest
+; its middle, out of doors the one nearest him. Polled like rest-spot, and likewise the asking
+; rung's claim.
 (define-func stand-spot-in (?space)
-  (maintain-claim-spot @self [/on_floor_of ?space] [/near @self] [/at_or_near @self]): ?spot
+  (maintain-claim-spot @self [/on_floor_of ?space]
+                       [/near (flip (is-a ?space [k exterior-space]) @self ?space)] [/at_or_near @self]): ?spot
   (check (or (not (is-spot ?spot)) (= (spatial ?spot space) ?space)))
   ?spot)
 

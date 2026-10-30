@@ -25,7 +25,7 @@
         (when (and (not (spatial ?victim co-located @self))
                    (not (empty (spatial @self hold [k firearm])))
                    (unknown (spatial ?victim space))))
-        (effects (maintain-proposal {@self go-to ?vhome}))))
+        (effects (maintain-proposal {@self enter-building ?vhome}))))
 
     ; THE SHOT: armed, co-present with a living victim - fire.
     (try

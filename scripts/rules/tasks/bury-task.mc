@@ -12,7 +12,7 @@
       (role @self (not (spatial @self can-reach ?corpse))
                   -{@self BURY ?corpse /succ /caused_by ?bury}
         (role ?church [k church-building] (select (score (near @self ?church)) (policy roulette unknown-last))
-          (effects (maintain-proposal {@self go-to ?church})))))
+          (effects (maintain-proposal {@self enter-building ?church})))))
     (try
       (role @self (spatial @self can-reach ?corpse)
                   -{@self BURY ?corpse /succ /caused_by ?bury}

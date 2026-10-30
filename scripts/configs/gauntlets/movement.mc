@@ -5,13 +5,13 @@
 ; windows, several seeds) and movement-real.mc (the real clock, one day, presented round the
 ; regular). Seeds state only - nothing here proposes (mlint gauntlet-purity).
 ;
-;   regular    - thirsty, taught his own town's pub by sight: locate-room -> go-to across town,
-;                out of his home by its door and into the pub by its door -> DRINK. The plain
+;   regular    - thirsty, taught his own town's pub by sight: locate-room -> enter-building, out
+;                of his home by its door, beside the pub, into it by its door -> DRINK. The plain
 ;                journey.
 ;   explorer   - thirsty, knows only his home: find-building surveys his town until its pub is
 ;                seen, then the regular's journey. Discovery.
 ;   locked-out - thirsty, in another town, taught its pub, whose every door is locked: the WALK
-;                stops before the door, the cross fails, the go-to fails, and he never drinks.
+;                stops before the door, the cross fails, entering the pub fails, and he never drinks.
 ;                The world barring a believed way.
 ;   homebody   - worn out, stood in the street outside his home: go-to-bed takes him home,
 ;                through its door, into a bedroom, and he sleeps. Into an enclosure from outside.
@@ -101,7 +101,7 @@
 (define-func movement-done ()
   (and (> (acts (cast regular) DRINK succ) 0)
        (> (acts (cast explorer) DRINK succ) 0)
-       (> (acts (cast locked-out) go-to fail) 0)
+       (> (acts (cast locked-out) enter-building fail) 0)
        (> (acts (cast homebody) SLEEP started) 0)))
 
 (define-func movement-validate ()
@@ -116,11 +116,11 @@
 
   (cast locked-out): ?locked-out
   (expect (> (acts ?locked-out cross fail) 0) "locked-out: no cross failed at the locked door")
-  (expect (> (acts ?locked-out go-to fail) 0) "locked-out: the go-to to the locked pub never failed")
+  (expect (> (acts ?locked-out enter-building fail) 0) "locked-out: entering the locked pub never failed")
   (expect (= (acts ?locked-out DRINK succ) 0) "locked-out: drank in a town whose only pub is locked")
 
   (cast homebody): ?homebody
-  (expect (> (acts ?homebody go-to succ) 0) "homebody: no go-to succeeded")
+  (expect (> (acts ?homebody enter-room succ) 0) "homebody: never entered a room of his home")
   (expect (> (acts ?homebody cross succ) 0) "homebody: never came in through a door")
   (expect (> (acts ?homebody SLEEP started) 0) "homebody: never slept")
 
