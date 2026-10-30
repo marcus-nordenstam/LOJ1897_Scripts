@@ -11,6 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self humiliate ?victim}:?humiliate
+  (obs)
   (tar [k human] @object)
   (construed-act degrade-act wrong-act)
   (and

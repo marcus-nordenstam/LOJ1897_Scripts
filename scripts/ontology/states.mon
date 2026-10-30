@@ -360,13 +360,13 @@
 ;      attendance.
 ; ---- occasion_agenda ----
 (state host (tar [k human] @object))
-(state venue (tar [k building|space] @object))
+(state venue (tar [k building|unit|space] @object))
 ; occasion: the occasion a conversation was part of - {<conversation> occasion <occasion>}.
 (state occasion (tar [k occasion] @object))
 ; `held-on` (the occasion's date), NOT the core temporal `date` relation
 ; (year/month/day/hour/date/...): reusing `date` would impose this
 ; (sub occasion) constraint on every time object's own `date` belief.
-(state held-on (tar ?))
+(state held-on (tar ? @excl))
 (state hours (tar ?) (aux ?))
 (state organize (tar [k occasion] @object))
 ; invite: {<host> invite <guest> /aux <occ>}. The host records it as
@@ -753,6 +753,8 @@
 (state ease (tar [k ease] @object @excl) (self-known) (motivation))
 (state stimulation (tar [k stimulation] @object @excl) (self-known) (motivation))
 (state company (tar [k company] @object @excl) (self-known) (motivation))
+; wedding-day: {@self wedding-day <date>} - the day his family set for his wedding (a founding match).
+(state wedding-day (tar ? @excl) (self-known))
 (state sibling (tar [k human] @object) (inclusive_bond) (kin) (appraisal_input) (disclosure acquaintance+) (closeness close_friend) (describe-in siblings) (talkable) (facets self-disclosable) (tell-rank 22))
 (state slight-act (tar [k slight-act] @object))
 (state social-trajectory (tar [k social-trajectory] @object @excl))

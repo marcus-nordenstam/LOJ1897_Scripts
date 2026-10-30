@@ -1,11 +1,13 @@
 ; The historical town's startup func: the founders, the property seed, the minds' creation
-; pass, then the founder generation's marriages and heads. Named by every configs/historical*.mc.
+; pass, then the founder generation's pledged marriages and heads. Named by every configs/historical*.mc.
+
+(include "../macros/occasion-macros.mc")
 
 (define-func town-startup ()
   (make-human-founder)
   (seed_property)
   (initialize-minds)
-  (wed-founders)
+  (seed-founding-matches (founding-wedding-first-day) (founding-wedding-days))
   (seat-founding-heads)
   (found-households)
   (join-parishes))

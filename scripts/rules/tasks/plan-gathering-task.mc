@@ -1,5 +1,5 @@
 ; ----------------------------------------------------------------------------
-; plan-gathering ?kind ?months - the host STAGES an occasion ?months ahead and has an
+; plan-gathering ?kind ?date - the host STAGES an occasion held on ?date and has an
 ; invitation carried to every friend whose home he can place.
 ;
 ; Staging is MENTAL: an occasion is a Mental Object (concepts.mon `occasion`), never an
@@ -18,7 +18,9 @@
 ; ----------------------------------------------------------------------------
 
 
-(task {@self plan-gathering ?kind ?months}:?plan-gathering
+(include "../../macros/occasion-macros.mc")
+
+(task {@self plan-gathering ?kind ?date}:?plan-gathering
   (preparatory)
   (sequence
     (role ?my-home {@self home ?my-home}
@@ -32,19 +34,14 @@
                 (o /invent ?kind): ?occ
                 (bb-write ?plan-gathering occasion ?occ)))))
 
-      ; Its constitutive facts. A lead that runs past December rolls into next year: month 12
-      ; is december, so the months past it are 13 and on.
-      ; Each is gated on what is already there, so a restarted stage adds nothing twice.
+      ; Its constitutive facts, each gated on what is already there, so a restarted stage adds
+      ; nothing twice.
       (stage
         (effects
-          (+ (time month) ?months): ?pg-m
-          (flip (> ?pg-m 12)
-                (create-date (+ (time year) 1) (- ?pg-m 12) 15)
-                (create-date (time year) ?pg-m 15)): ?pg-date
           (if (none {?occ host ?})         (then (begin-belief {?occ host @self})))
           (if (none {?occ venue ?})        (then (begin-belief {?occ venue ?my-home})))
-          (if (none {?occ hours ?})        (then (begin-belief {?occ hours 19 23})))
-          (if (none {?occ held-on ?})      (then (begin-belief {?occ held-on ?pg-date})))
+          (if (none {?occ hours ?})        (then (begin-belief {?occ hours (occasion-start-hour) (occasion-end-hour)})))
+          (if (none {?occ held-on ?})      (then (begin-belief {?occ held-on ?date})))
           (begin-belief {@self organize ?occ})))
 
       (stage

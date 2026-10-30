@@ -4,7 +4,7 @@
 ; @self /aux <occ>} + {<occ> held-on <date>}) are adopted when @self reads his post. The
 ; invitation, or organizing the occasion himself, obliges him to attend
 ; (reflexes/obligation-attend.mc); these drivers read that obligation and fire the DOING when the
-; day has come, only the held-on date test riding (when). A month gone by unattended lapses
+; day has come, only the held-on date test riding (when). A day gone by unattended lapses
 ; the obligation and strains him (attendance-lapsed).
 ;
 ;   want_attend (guest / host) : raise the shared attend task (attend-task.mc).
@@ -13,8 +13,8 @@
 ; these drivers' to set (the host is bound to his own occasion, over the working day; a
 ; guest's willingness scales with warmth toward the host). The wedding itself is pursue-wed's
 ; (wed-think.mc).
-; maintain-proposal throughout: the desire self-withdraws once held-on leaves the
-; current month; the task concludes itself once the occasion's hours are over.
+; maintain-proposal throughout: the desire self-withdraws once its day has passed; the task
+; concludes itself once the occasion's hours are over.
 ;
 ; ----------------------------------------------------------------------------
 
@@ -23,7 +23,7 @@
   (role ?occ {?occ held-on ?held-on}
              {@self obligation {@self attend ?occ} ?}
              {? invite @self ?occ}
-    (when (date-in-current-month ?held-on))
+    (when (date-is-today ?held-on))
     ; Desirability within the tier: 0 bedridden, a floor for a kill-driven crasher, else
     ; the warmth-scaled guest base.
     (declare-utility errand (cond
@@ -37,6 +37,6 @@
   (role ?occ {@self organize ?occ}
              {@self obligation {@self attend ?occ} ?}
              {?occ held-on ?held-on}
-    (when (date-in-current-month ?held-on))
+    (when (date-is-today ?held-on))
     (declare-utility obligation always-pick)
     (effects (maintain-proposal {@self attend ?occ}))))

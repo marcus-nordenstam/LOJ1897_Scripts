@@ -10,6 +10,7 @@
 
 
 (task {@self hurt ?victim}:?hurt
+  (obs)
   (tar [k human] @object)
   (and
     ; REACH: route to the victim's known location, else their home.

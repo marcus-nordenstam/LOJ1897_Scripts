@@ -1,34 +1,12 @@
 ; ----------------------------------------------------------------------------
-; founder-generation.mc - the part of world-gen that needs live minds: the founder
-; generation arrives married, and the town's charters arrive headed. Both are beliefs a
-; founder already holds on the first morning, minted into each mind by entering it -
-; never decided by a rule, so nothing here competes, proposes or deliberates.
+; founder-generation.mc - the part of world-gen that needs live minds: the town's charters
+; arrive headed, its households founded and its parish joined. Each is a belief a founder
+; already holds on the first morning, minted into each mind by entering it - never decided by
+; a rule, so nothing here competes, proposes or deliberates. The founding couples are not wed
+; here: they are pledged (seed-founding-matches, life-seeds.mc) and wed in the first window.
 ; Called by the startup func after (initialize-minds): a human cannot be the target of
 ; another mind's belief before the minds have perceived themselves.
 ; ----------------------------------------------------------------------------
-
-; wed-founders - each founder marries the other founder of the other sex under his roof,
-; the one he was minted beside. Each spouse holds his own half, and knows the other's home is his.
-(define-func wed-founders ()
-  (for-each ?h (env-entities [k human])
-    (wed-founder ?h)))
-
-(define-func wed-founder (?h)
-  (spatial ?h building /env): ?wf-home
-  (for-each ?m (env-entities [k human])
-    (if (and (spatial ?m building ?wf-home /env)
-             (not (= (attr ?m gender) (attr ?h gender))))
-      (then
-        (enter-mind ?h)
-        (observe ?m): ?wf-spouse
-        (begin-belief {?wf-spouse name (attr ?m name)})
-        (begin-belief {@self spouse ?wf-spouse})
-        ; They were minted under one roof, so each knows the other lives where he does.
-        (bind (any {@self home ?}) ?wf-own-home)
-        (if (is-belief ?wf-own-home)
-            (then (begin-belief {?wf-spouse home ?wf-own-home.target})))
-        (exit-mind)
-        (break)))))
 
 ; seat-founding-heads - every founder old enough to head an institution takes up the first
 ; headless charter his class qualifies for, public orgs before businesses, one each.

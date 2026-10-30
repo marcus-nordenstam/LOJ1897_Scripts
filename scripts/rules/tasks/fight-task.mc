@@ -14,6 +14,7 @@
 
 
 (task {@self fight ?foe}:?fight
+  (obs)
   (track-skill-level [k martial])
   (tar [k human] @object)
   (and

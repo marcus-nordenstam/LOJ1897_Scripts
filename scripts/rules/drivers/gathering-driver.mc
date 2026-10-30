@@ -5,9 +5,8 @@
 ; penning and posting the invitations - is the plan-gathering TASK's work, because a
 ; think deliberates and a letter is a physical thing only an action may mint.
 ;
-; The lead time rides on the act clause, so the two drivers propose two DIFFERENT acts
-; that the one task serves: months out for the formal dinner party, this month for the
-; impromptu supper. That lead is also what decides whether anyone is written to - see
+; The day rides on the act clause, so the two drivers propose two DIFFERENT acts that the
+; one task serves: months out for the formal dinner party, today for the impromptu supper. That lead is also what decides whether anyone is written to - see
 ; the invitation rung in plan-gathering-task.
 ;
 ; Attendance lives in attend_think. Its HOST rung (want-attend-host) gates on {@self
@@ -30,7 +29,7 @@
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when (chance 0.02))
     (declare-utility want)
-    (effects (maintain-proposal {@self plan-gathering [k dinner-party] 3}))))
+    (effects (maintain-proposal {@self plan-gathering [k dinner-party] (occasion-date-ahead (dinner-lead-months))}))))
 
 ; An IMPROMPTU supper: the same staging, set for THIS month. Nobody is written to - the
 ; post could not arrive in time - so it reaches only whoever is already there. Reaching
@@ -43,7 +42,7 @@
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when (chance 0.015))
     (declare-utility want)
-    (effects (maintain-proposal {@self plan-gathering [k dinner-party] 0}))))
+    (effects (maintain-proposal {@self plan-gathering [k dinner-party] (time date)}))))
 
 ; ONE invitation per friend, while the day is far enough out for the post to arrive: a
 ; supper THIS month is not something you write to a man about, so a same-month occasion
@@ -67,6 +66,6 @@
     (role ?guest {@self friend ?guest}
                  {?guest home ?}
                  -{@self invite ?guest ?occ}
-      (when (not (date-in-current-month ?held-on)))
+      (when (date-after-today ?held-on))
       (declare-utility errand)
       (effects (maintain-proposal {@self invite-guest ?guest ?occ} /quit-trying-on-fail)))))

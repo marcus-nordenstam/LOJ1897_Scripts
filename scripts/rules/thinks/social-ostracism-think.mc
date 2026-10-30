@@ -4,9 +4,7 @@
 ; HE has come to repute `scandalous`. There is no self-repute-driven mass
 ; severing and no cross-mind read - a scandalous man loses a given friend only
 ; if and when that friend's OWN repute of him falls to scandalous (through
-; witnessed acts, gossip, or reading). The bond is structural and mutual, so
-; dropping it ends both sides, exactly as befriend mints both (cf.
-; friendship-fraying, which severs on sustained detest the same way).
+; witnessed acts, gossip, or reading), and he drops only his own side of it.
 ;
 ; Warmth bonds only (friend / close-to). relied-on-by / respected-by (declare-utility),
 ; job and family bonds are untouched - ostracism is social, not vocational or
@@ -31,7 +29,4 @@
 
       (effects
         (end-belief {@self friend ?b})
-        (end-belief ?b {?b friend @self})
-        (end-belief {@self close-to ?b})
-        (end-belief ?b {?b close-to @self})
-        ))))
+        (end-belief {@self close-to ?b})))))

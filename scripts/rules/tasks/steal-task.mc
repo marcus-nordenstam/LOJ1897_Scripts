@@ -11,6 +11,7 @@
 (include "../../macros/acquisition-macros.mc")
 
 (task {@self steal ?kind}:?steal
+  (obs)
   (track-skill-level [k illicit])
   (tar ?)
   (construed-act appropriation-act wrong-act) (theme thief-to) (contradicts property)

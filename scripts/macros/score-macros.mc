@@ -36,11 +36,11 @@
 
 ; --- Layer 2: the propensity product -----------------------------------------
 
-; The global crime-rate throttle every aggressive-category (chance ...) multiplies
-; by. Set to 0 to switch crime off cleanly: the deliberation outlet then fails its
-; (> (crime-scale) 0) gate and shuts off (see deliberate_think).
+; The global crime-rate throttle every aggressive-category (chance ...) multiplies by: the run
+; config's crime-scale key where it names one (a gauntlet sets 1), else this corpus default.
+(define-macro crime-scale-default () 0.1)
 (define-macro crime-scale ()
-  0.1)
+  (run-crime-scale (crime-scale-default)))
 
 
 

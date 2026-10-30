@@ -16,6 +16,13 @@
 
 ; A betrothal obliges: whoever holds one resolves to wed, whatever brought it about (an arranged
 ; groom may not fancy his bride).
+(intender founding-match
+  (role ?partner {?partner isa [k human], condition [k alive]}
+                 {@self obligation {@self wed ?partner} ?}:?obligation
+                 -{@self spouse ?partner}
+    (declare-utility obligation)
+    (effects (maintain-intent {@self intent {@self wed ?partner}} /caused_by ?obligation))))
+
 (intender honour-betrothal
   (role ?partner {@self fiancee ?partner}:?betrothal
                  -{@self spouse ?}

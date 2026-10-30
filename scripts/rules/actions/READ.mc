@@ -165,7 +165,8 @@
               (begin-belief {?iocc host ?ihost})
               (begin-belief {?iocc held-on ?idate})
               (if (and (substantial ?ivenue) -{?iocc venue ?})
-                  (then (o [k building] {@o address ?ivenue}): ?ivenue-obj
+                  (then (cond (case (eq (address-premises ?ivenue) ?ivenue) (o [k building] {@o address ?ivenue}))
+                              (else (o [k unit] {@o address ?ivenue}))): ?ivenue-obj
                         (begin-belief {?iocc venue ?ivenue-obj})))
               (if (and (substantial ?ifrom) -{?iocc hours ? ?})
                   (then (begin-belief {?iocc hours ?ifrom ?ito})))

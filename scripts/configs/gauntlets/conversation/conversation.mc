@@ -3,6 +3,8 @@
 
 ; The first residential building that holds a unit, as its unit: a chapel is a residential
 ; building too, and has none.
+(include "../../../macros/occasion-macros.mc")
+
 (define-func conversation-first-home ()
   (bind @nothing ?home)
   (for-each ?house (env-entities [k residential-building])

@@ -12,6 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self attend ?occ}:?attend
+  (noncompete-set occasion)
   (construed-act social-act)
   (tar [k occasion] @object)
   (and
@@ -24,15 +25,15 @@
     (try
       (role ?occ {?occ hours ?start ?end}
         (role ?venue {?occ venue ?venue}
-          (role @self (not (spatial @self building ?venue))
+          (role @self (not (within-place @self ?venue))
             (when (hours (- ?start (attend-prep-lead)) ?end))
-            (effects (maintain-proposal {@self enter-room ?venue}))))))
+            (effects (maintain-proposal {@self enter-building ?venue}))))))
 
     ; STAY: I am at the venue in the window -> dwell to its end. The stay IS the attendance.
     (try
       (role ?occ {?occ hours ?start ?end}
         (role ?venue {?occ venue ?venue}
-          (role @self (spatial @self building ?venue)
+          (role @self (within-place @self ?venue)
             (when (hours (- ?start (attend-prep-lead)) ?end))
             (effects (maintain-proposal {@self DWELL ?venue ?end}))))))
 

@@ -95,12 +95,9 @@
 ; Both are minted into the same unit (make-human seats them in its first
 ; room), so they begin life under one roof and in one another's sight.
 ;
-; They are not WED here. A marriage is a belief each spouse holds about the other,
-; and at populate no mind has been self-perceived yet - a human simply cannot be
-; the target of another mind's belief at that point (it lands @fail, and the
-; conversion ops either fail or take the sim down). The wedding is therefore
-; wed-founders (founder-generation.mc), which the startup func runs once minds
-; are live, each spouse holding their own half.
+; They are not WED here: each is pledged to the other by seed-founding-matches
+; (life-seeds.mc), which the startup func runs once minds are live, and they wed in
+; the first window through the corpus's own acts.
 ; ----------------------------------------------------------------------------
 
 (define-func make-founder-household (?home ?class)

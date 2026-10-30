@@ -24,7 +24,7 @@
   (make-human ?home [k lower] [k female]): ?hailed
   (cast hailed ?hailed)
   (initialize-minds)
-  (wed-founders))
+  (seed-founding-matches (founding-wedding-first-day) (founding-wedding-days)))
 
 (define-func c01-validate ()
   (cast opener): ?opener

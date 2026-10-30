@@ -11,9 +11,8 @@
 ; the stance vector exists to model.
 ;
 ; Gated on `detest`, not mere `dislike`: a friendship survives coolness; only a
-; hardened, sustained dislike severs it. The tie is structural and mutual, so
-; both sides drop it (cf. social-ostracism, which ends warmth bonds on both
-; sides).
+; hardened, sustained dislike severs it. Each side drops only his own friend
+; belief, when his own warmth has soured.
 ;
 ; Reliability: ?b is gated on the actor's `detest` warmth band - read as an
 ; EXPLICIT verb-state belief (core appraisal projects the warmth scalar onto the
@@ -28,9 +27,8 @@
   (cooldown 1 m try-once)
   (rng-stream friendships)
 
-  ;; SELF-POV: @self reads only his OWN mind - his soured warmth toward ?b and his
-  ;; own friend bond. (The bond is structural/mutual, so the effect drops it on both
-  ;; sides, as befriend mints it on both.)
+  ;; SELF-POV: @self reads and ends only his OWN mind - his soured warmth toward ?b and his
+  ;; own friend bond.
   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
     (role ?b {?b isa [k human], condition [k alive]}
              ; @self now detests ?b (sustained strong-negative warmth, the floor
@@ -47,7 +45,4 @@
       (when (chance 0.04))
 
       (effects
-        ; Sever the mutual friend tie - the bond is structural, so both drop it.
-        (end-belief {@self friend ?b})
-        (end-belief ?b {?b friend @self})
-        ))))
+        (end-belief {@self friend ?b})))))

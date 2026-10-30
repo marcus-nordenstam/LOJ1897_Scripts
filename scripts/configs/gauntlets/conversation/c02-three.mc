@@ -26,7 +26,7 @@
   (make-human ?home [k lower] [k female]): ?cook
   (cast cook ?cook)
   (initialize-minds)
-  (wed-founders))
+  (seed-founding-matches (founding-wedding-first-day) (founding-wedding-days)))
 
 (define-func c02-validate ()
   (cast first): ?first
