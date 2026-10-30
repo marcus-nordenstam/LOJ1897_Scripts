@@ -17,4 +17,4 @@
 (action {@self DWELL ?place ?until}:?DWELL
   (motor legs)
   (duration (seconds (minutes-until-hour (modulo ?until (clock_hours))) min))
-  (effects (set-outcome ?DWELL /succ)))
+  (cap-outcome succ))

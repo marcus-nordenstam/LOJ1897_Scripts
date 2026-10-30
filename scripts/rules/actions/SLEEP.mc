@@ -16,4 +16,4 @@
     (preroll 0.0) (in 0.0) (out 0.0))
   (succeed-on-window-exit)
   (duration (seconds (floor (sleep-duration-min)) min))
-  (effects (set-outcome ?SLEEP /succ)))
+  (cap-outcome succ))

@@ -172,17 +172,17 @@
 ; A destination with no place to walk to - a kind, a thing known nowhere - is a day's errand.
 (define-macro default_errand_min       () 480.0)
 
-; THE STEERED WALK. Per-step speeds the character integrator applies (m per step, the
-; values WALK_TO.act / RUN.act carried) and the NAV-STEERED turn rates (rad/s) - the
-; player's input responsiveness is his own and never read from here.
-(define-macro walk_speed_mps           () 0.1)
+; THE STEERED WALK. The pace a man holds on foot (m/s), the same at both hosts: Merlin's
+; (move ..) steps at it, and Grym's character integrator settles at it. And the NAV-STEERED
+; turn rates (rad/s) - the player's input responsiveness is his own and never read from here.
+(define-macro walk_speed_mps           () 1.4)
 (define-macro walk_delib_turn_rate     () 4.0)
-(define-macro run_speed_mps            () 0.5)
+(define-macro run_speed_mps            () 5.75)
 (define-macro run_delib_turn_rate      () 12.0)
 ; SUPER-RUN is the player debug sprint - five times a run, and nothing an NPC
 ; proposes. The turn rate stays the run's: a man who cannot steer at speed is
 ; no use for crossing the town to look at something.
-(define-macro super_run_speed_mps     () 2.5)
+(define-macro super_run_speed_mps     () 28.75)
 ; A presented walker has ARRIVED when his centre stands within this of his spot across the
 ; floor, and sets his own /succ.
 (define-macro walk_arrive_m            () 0.1)

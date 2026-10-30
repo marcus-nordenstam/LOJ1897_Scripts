@@ -17,9 +17,10 @@
 ; walk is planned as he sees the world now, the body steers the character at the next unpassed
 ; waypoint every frame, re-plans when he sees a door it crosses shut, and on arrival relocates him
 ; onto the spot and sets its own /succ; when the only way lies through a barrier he sees shut,
-; the walk ends /fail with the barrier in its barred-by. An unpresented man under the real clock,
-; and a presented one where no navmesh covers the route, relocates at the cap tick as under the
-; jump clock. So the duration is clock- and LOD-aware: the scheduled path needs a cap, since that
+; the walk ends /fail with the barrier in its barred-by. A presented man is never relocated: a
+; walk the planner cannot plan fails. An unpresented man under the
+; real clock relocates at the cap tick as under the jump clock. So the duration is clock- and
+; LOD-aware: the scheduled path needs a cap, since that
 ; tick IS the act, and the steered path must not have one, or it would commit /succ at the
 ; estimate with the man still in the street.
 ;
@@ -29,8 +30,8 @@
 
 (include "../../macros/tunables.mc")
 
-(define-func walk-navigates (?dest)
-  (and (real-clock) (presented-lod) (nav-navigable @self ?dest)))
+(define-func walk-navigates ()
+  (and (real-clock) (presented-lod)))
 
 ; When the movement task this walk serves began, or the walk itself when nothing proposed it (an
 ; injected walk): a barrier he has seen shut since then bars its route.
@@ -68,12 +69,12 @@
                               (travel-minutes @self ?dest (default_errand_min)))
                          min))))
 
-  ; A walk a navmesh covers starts its search now, so the first effects tick already has a
-  ; plan to poll. The player walks where his keys point, to no spot at all.
+  ; A presented walk starts its search now, so the first effects tick already has a plan to
+  ; poll. The player walks where his keys point, to no spot at all.
   (init
     (if (is-npc)
         (then (check (is-spot ?dest))
-              (if (walk-navigates ?dest)
+              (if (walk-navigates)
                   (then (nav-ensure-path @self ?dest (walk-since ?WALK)))))))
 
   (effects
@@ -82,7 +83,7 @@
         (steer-heading @self))
       (case (jump-clock)
         (walk-relocate ?WALK ?dest))
-      (case (not (walk-navigates ?dest))
+      (case (not (presented-lod))
         (walk-relocate ?WALK ?dest))
       (else
         ; Re-planned when the goal drifts or he sees a door it crosses shut; otherwise a

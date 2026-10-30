@@ -816,7 +816,11 @@
           (attrs -variant -birth-date -address rain snow fog wind
                  sky mood-kinds mood-intensities mood-set-dates))
         (population (cap 16) (-sector-coverage) (no-sector-coverage)))
+      ; THE LAND the whole terrain is, every town within it: the space a body stands in between
+      ; towns and out in the country. The engine makes one when a world is first built, named as
+      ; the level names it; it spans the world, so like a town it keeps no sector coverage.
       (child land
+        (population (cap 16) (-sector-coverage) (no-sector-coverage))
         (child territory
           (children crown-dependency)
           (child nation

@@ -5,31 +5,54 @@
 ; windows, several seeds) and movement-real.mc (the real clock, one day, presented round the
 ; regular). Seeds state only - nothing here proposes (mlint gauntlet-purity).
 ;
-;   regular    - thirsty, taught the first pub by sight: locate-room -> go-to across town, out of
-;                his home by its door and into the pub by its door -> DRINK. The plain journey.
-;   explorer   - thirsty, knows only his home: find-building surveys the town until a pub is
+;   regular    - thirsty, taught his own town's pub by sight: locate-room -> go-to across town,
+;                out of his home by its door and into the pub by its door -> DRINK. The plain
+;                journey.
+;   explorer   - thirsty, knows only his home: find-building surveys his town until its pub is
 ;                seen, then the regular's journey. Discovery.
-;   locked-out - thirsty, taught the second pub, whose every door is locked: the WALK stops
-;                before the door, the cross fails, the go-to fails, locate-room gives that pub up
-;                and find-building finds him another. The world barring a believed way.
+;   locked-out - thirsty, in another town, taught its pub, whose every door is locked: the WALK
+;                stops before the door, the cross fails, the go-to fails, and he never drinks.
+;                The world barring a believed way.
 ;   homebody   - worn out, stood in the street outside his home: go-to-bed takes him home,
 ;                through its door, into a bedroom, and he sleeps. Into an enclosure from outside.
+;
+; Every man's pub stands in his own town: a town has one pub, and a journey to another town is
+; not what this gauntlet judges.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/physiology-macros.mc")
 
-; The n-th residential building that holds a unit, 0-based, as its unit: a chapel is a
+; The n-th residential building in ?town that holds a unit, 0-based, as its unit: a chapel is a
 ; residential building too, and has none.
-(define-func movement-nth-home (?n)
+(define-func movement-nth-home (?town ?n)
   (bind @nothing ?home)
   (bind 0 ?seen)
   (for-each ?house (env-entities [k residential-building])
     (head (spatial ?house parts [k unit] /env)): ?unit
-    (if (substantial ?unit)
+    (if (and (substantial ?unit) (eq (spatial ?house space /env) ?town))
         (then (if (= ?seen ?n) (then (bind ?unit ?home) (break)))
               (bind (+ ?seen 1) ?seen))))
   (check (substantial ?home))
   ?home)
+
+; The pub standing in ?town.
+(define-func movement-town-pub (?town)
+  (bind @nothing ?pub)
+  (for-each ?candidate (env-entities [k pub-building])
+    (if (eq (spatial ?candidate space /env) ?town)
+        (then (bind ?candidate ?pub) (break))))
+  (check (substantial ?pub))
+  ?pub)
+
+; A town with a pub other than ?town.
+(define-func movement-other-pub-town (?town)
+  (bind @nothing ?other)
+  (for-each ?pub (env-entities [k pub-building])
+    (spatial ?pub space /env): ?pub-town
+    (if (not (eq ?pub-town ?town))
+        (then (bind ?pub-town ?other) (break))))
+  (check (substantial ?other))
+  ?other)
 
 ; He has seen ?thing: it is in his mind as a thing of its kind, with its box.
 (define-func movement-teach (?man ?thing)
@@ -43,27 +66,26 @@
 
 (define-func movement-startup ()
   (seed_property)
-  (env-entities [k pub-building]): ?pubs
-  (check (> (count ?pubs) 1))
-  (nth 0 ?pubs): ?first-pub
-  (nth 1 ?pubs): ?second-pub
+  (spatial (head (env-entities [k pub-building])) space /env): ?town
+  (movement-other-pub-town ?town): ?locked-town
 
-  (movement-nth-home 0): ?regular-home
+  (movement-nth-home ?town 0): ?regular-home
   (make-human ?regular-home [k lower] [k male]): ?regular
   (cast regular ?regular)
-  (movement-teach ?regular ?first-pub)
+  (movement-teach ?regular (movement-town-pub ?town))
 
-  (movement-nth-home 1): ?explorer-home
+  (movement-nth-home ?town 1): ?explorer-home
   (make-human ?explorer-home [k lower] [k male]): ?explorer
   (cast explorer ?explorer)
 
-  (movement-nth-home 2): ?locked-out-home
+  (movement-nth-home ?locked-town 0): ?locked-out-home
   (make-human ?locked-out-home [k lower] [k male]): ?locked-out
   (cast locked-out ?locked-out)
-  (movement-teach ?locked-out ?second-pub)
-  (movement-lock-doors ?second-pub)
+  (movement-town-pub ?locked-town): ?locked-pub
+  (movement-teach ?locked-out ?locked-pub)
+  (movement-lock-doors ?locked-pub)
 
-  (movement-nth-home 3): ?homebody-home
+  (movement-nth-home ?town 2): ?homebody-home
   (make-human ?homebody-home [k lower] [k male]): ?homebody
   (cast homebody ?homebody)
   (set-attr ?homebody fatigue (fatigue_max))
@@ -73,6 +95,14 @@
   (relocate ?homebody (travel-spot ?street))
 
   (initialize-minds))
+
+; Every journey is over: each man has done what his journey ends in - the locked-out man's ends
+; at the locked door. The run stops there, and movement-validate judges how he got there.
+(define-func movement-done ()
+  (and (> (acts (cast regular) DRINK succ) 0)
+       (> (acts (cast explorer) DRINK succ) 0)
+       (> (acts (cast locked-out) go-to fail) 0)
+       (> (acts (cast homebody) SLEEP started) 0)))
 
 (define-func movement-validate ()
   (cast regular): ?regular
@@ -87,12 +117,11 @@
   (cast locked-out): ?locked-out
   (expect (> (acts ?locked-out cross fail) 0) "locked-out: no cross failed at the locked door")
   (expect (> (acts ?locked-out go-to fail) 0) "locked-out: the go-to to the locked pub never failed")
-  (expect (> (acts ?locked-out find-building succ) 0) "locked-out: never found another pub")
-  (expect (> (acts ?locked-out DRINK succ) 0) "locked-out: never drank")
+  (expect (= (acts ?locked-out DRINK succ) 0) "locked-out: drank in a town whose only pub is locked")
 
   (cast homebody): ?homebody
   (expect (> (acts ?homebody go-to succ) 0) "homebody: no go-to succeeded")
-  (expect (> (acts ?homebody enter-room succ) 0) "homebody: never reached a bedroom")
+  (expect (> (acts ?homebody cross succ) 0) "homebody: never came in through a door")
   (expect (> (acts ?homebody SLEEP started) 0) "homebody: never slept")
 
   (if (real-clock)
