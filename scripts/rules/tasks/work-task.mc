@@ -18,6 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self work ?wp}:?work
+  (construed-act toil-act)
   (tar [k structure|org|space] @object)
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}

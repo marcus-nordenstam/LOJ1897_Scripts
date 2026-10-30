@@ -171,6 +171,12 @@
 ; {@self satiety <band>}, which run_physiology mints.
 (attr appetite (type float) (range 0 2) (imperceptible) (private) (state-flags-tar @excl))
 
+; The leisure drives (funcs/leisure-drives.mc), known to the mind only as its ease, stimulation
+; and company bands; social-hunger below zero is the fatigue of too much company.
+(attr strain (type float) (range 0 1) (imperceptible) (private) (state-flags-tar @excl))
+(attr tedium (type float) (range 0 1) (imperceptible) (private) (state-flags-tar @excl))
+(attr social-hunger (type float) (range -1 1) (imperceptible) (private) (state-flags-tar @excl))
+
 ; Emigration marker (0 / 1). Set by (mark-emigrating @self) in the per-NPC
 ; emigration think event; the zero-role (sweep-emigrants) world-act collects
 ; every entity carrying it and destroys them (mark-then-sweep, like burial).

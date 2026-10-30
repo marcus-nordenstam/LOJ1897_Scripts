@@ -2,7 +2,7 @@
 ; contentment (classifier) - the CIRCUMSTANTIAL BASELINE of mood valence, minted
 ; as the {@self contentment <0..1 float>} dim from personality (enthusiasm up,
 ; withdrawal down), material standing (wealth), social embedding (belonging),
-; drinking (a lax sobriety band + craving) and employment. In interactive sim the
+; drinking (a lax sobriety band + craving), employment and a frayed or isolated band. In interactive sim the
 ; emotion model's derive_mood overlays this tick-by-tick when live emotions exist;
 ; here it is the baseline a mind returns to. Gated on wealth being derived (the
 ; adult-derive admission).
@@ -15,6 +15,8 @@
 (define-macro contentment-lax-drink-penalty () -0.125) ; a lax sobriety band's depressor
 (define-macro contentment-craving-penalty () -0.12)   ; standing addiction depressor
 (define-macro contentment-jobless-penalty () -0.08)   ; no job
+(define-macro contentment-frayed-penalty () -0.06)
+(define-macro contentment-isolated-penalty () -0.08)
 
 (think classify-contentment
   ; Monthly cooldown: contentment folds the sobriety band and belonging alongside wealth and
@@ -39,6 +41,8 @@
              (flip (= ?sobriety [k lax]) (contentment-lax-drink-penalty) 0.0)
              (* (prob {@self craving ?}) (contentment-craving-penalty))
              (* (- 1.0 (prob {@self job ?})) (contentment-jobless-penalty))) ?circumstance)
+    (bind (+ (* (prob {@self ease [k frayed]}) (contentment-frayed-penalty))
+             (* (prob {@self company [k isolated]}) (contentment-isolated-penalty))) ?leisure)
 
     (effects
-      (begin-belief {@self contentment (clamp (+ ?disposition ?circumstance) 0.0 1.0)}))))
+      (begin-belief {@self contentment (clamp (+ ?disposition ?circumstance ?leisure) 0.0 1.0)}))))

@@ -1,53 +1,44 @@
 ; ----------------------------------------------------------------------------
-; household-day-driver (think) - the home-leisure DRIVER. Proposes @self's
-; day-at-home as a real task through the action pipeline: an amenity-gated
-; {@self rest <home>} by default, {@self read-at <home>} if the home is known
-; to have a study (scholarly temperaments favour it - the read weight scales
-; with intellect) - so a manor yields a richer home-leisure record than a
-; rowhouse. The room gate reads @self's OWN spatial index of the home, (spatial ?home
-; room [k study]) (seeded at home acquisition by the rooms pre-teach) - no world search.
-; home_leisure_done concludes the promoted task on the spot, so the ended task
-; belief IS the episodic memory; the decay pass consolidates repeated
-; identical episodes into a cumulative belief whose count is the frequency.
-;
-; Monthly per homed NPC (the homeless do not dwell), at a LOW utility: leisure
-; fills an idle day and never displaces real work - a busy month simply
-; records no home-leisure episode. Home CO-PRESENCE is not registered here -
-; the physical rest aspect (rest.mc) puts the NPC at home and the routine
-; itinerary provides co-presence.
-;
-; NOTE: the dine episode is owned by the SUPPER aspect (npc-act/meals.mc,
-; a real daily at-home act with table talk), so the pick here is rest /
-; read-at only.
+; The home-leisure drivers: a bored bookish man reads in his study (read-at), a crowded man
+; withdraws there or rests, and a strained man rests at home (rest). The study gate reads his
+; OWN spatial index of the home, (spatial ?home room [k study]).
 ; ----------------------------------------------------------------------------
 
-
 (include "../../macros/home-macros.mc")
+(include "../../macros/leisure-macros.mc")
 
 (define-macro read-intellect-threshold () 0.5)
 
-(driver household-day-driver
-  (cooldown 1 m try-until-succ)
-
-  (role @self {@self intellect ?intellect}
+(driver household-read-driver
+  (role @self {@self stimulation [k bored|restless]}
+              {@self intellect ?intellect}
               {@self home ?home}
-    (declare-utility idle)
-    ; A bookish man - one keen on scholarship or letters, or of a high intellect - reads in
-    ; the study when the house has one; anyone else rests.
+              (spatial ?home room [k study])
+    (declare-utility want)
     (preemptive-or
       (try
         (role @self {@self interest [k academic-field|literature]}
-          (when (spatial ?home room [k study]))
-          (effects (maintain-proposal {@self read-at ?home}))))
+          (effects (maintain-proposal {@self read-at ?home} /quit-trying-on-fail))))
       (try
-        (when (and (spatial ?home room [k study])
-                   (>= ?intellect (read-intellect-threshold))))
-        (effects (maintain-proposal {@self read-at ?home})))
-      (try
-        (effects (maintain-proposal {@self rest ?home}))))))
+        (when (>= ?intellect (read-intellect-threshold)))
+        (effects (maintain-proposal {@self read-at ?home} /quit-trying-on-fail))))))
 
-; The rest / read-at TASKS (the immediate-conclude outcome rungs) live in
-; tasks/rest-task.mc and tasks/read-at-task.mc.
+(driver household-retreat-driver
+  (role @self {@self company [k crowded]}
+              {@self home ?home}
+    (declare-utility want)
+    (preemptive-or
+      (try
+        (role @self (spatial ?home room [k study])
+          (effects (maintain-proposal {@self read-at ?home} /quit-trying-on-fail))))
+      (try
+        (effects (maintain-proposal {@self rest ?home} /quit-trying-on-fail))))))
+
+(driver household-rest-driver
+  (role @self {@self ease [k strained|frayed]}
+              {@self home ?home}
+    (declare-utility want (flip {@self ease [k frayed]} (frayed-rest-value) (strained-rest-value)))
+    (effects (maintain-proposal {@self rest ?home} /quit-trying-on-fail))))
 
 ; ----------------------------------------------------------------------------
 ; set-mealtimes-driver - the woman of the house, holding the duty, fixes the household's meal

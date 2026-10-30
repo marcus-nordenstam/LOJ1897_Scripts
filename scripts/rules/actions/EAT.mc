@@ -19,6 +19,7 @@
 (include "../../macros/collection-macros.mc")
 
 (action {@self EAT ?food ?owner}:?EAT
+  (construed-act sensual-act)
   (motor body)
   (duration (seconds 30 min))
   (effects

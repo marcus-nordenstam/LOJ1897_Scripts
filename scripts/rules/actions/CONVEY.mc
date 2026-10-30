@@ -18,6 +18,7 @@
 ; whatever building the bearer stood in. The act-label lives in the cached
 ; self-role gate, so the promotion scan rejects O(1) before any mind-entry.
 (action {@self CONVEY ?corpse}:?CONVEY
+  (construed-act toil-act)
   (motor body)
   (duration (seconds 15 min))
   (effects

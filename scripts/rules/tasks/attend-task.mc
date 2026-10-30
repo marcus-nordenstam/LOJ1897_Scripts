@@ -12,6 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self attend ?occ}:?attend
+  (construed-act social-act)
   (tar [k occasion] @object)
   (and
     ; ALARM: think again when the window opens.

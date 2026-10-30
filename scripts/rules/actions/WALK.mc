@@ -51,6 +51,7 @@
       (else (relocate @self ?dest))))
 
 (action {@self WALK ?dest}:?WALK
+  (construed-act exertion-act)
   (motor legs)
   (obs)
   (tar @excl)

@@ -29,6 +29,7 @@
 
 (include "../macros/tunables.mc")
 (include "../macros/formulaic-macros.mc")
+(include "../macros/leisure-macros.mc")
 
 
 ; (voice-sound ?msg) - the sound saying ?msg makes: a [k shout] when it rides a raised voice
@@ -69,6 +70,9 @@
 (define-func evading-law ()
   (substantial (any {@self kill|shoot|strangle|hurt|steal|coerce|bribe ? /succ /past})))
 
+(define-func hail-want-worth (?value)
+  (utility want (flip {@self company [k crowded]} (* ?value (crowded-hail-share)) ?value)))
+
 ; (hail-worth ?speaker) - what taking up ?speaker's hail is worth to @self, as a packed
 ; utility: an obligation when it is a law officer's and he has nothing to hide, or when he
 ; answers to ?speaker, else a want that rises with how close they are.
@@ -77,9 +81,9 @@
               (utility obligation (k-hail-authority-value)))
         (case (answers-to ?speaker) (utility obligation (k-hail-bond-value)))
         (case {@self spouse|lover|friend|close-to|mother|father|child|sibling ?speaker}
-              (utility want (k-hail-bond-value)))
-        (case {@self acquaintance ?speaker} (utility want (k-hail-acquaintance-value)))
-        (else (utility want (k-hail-stranger-value)))))
+              (hail-want-worth (k-hail-bond-value)))
+        (case {@self acquaintance ?speaker} (hail-want-worth (k-hail-acquaintance-value)))
+        (else (hail-want-worth (k-hail-stranger-value)))))
 
 ; (authority-introduction ?msg) - ?msg hails its hearer by introducing the speaker's office:
 ; (formulaic [] opening-phrase authority <job kind>). Each field is read only once the one

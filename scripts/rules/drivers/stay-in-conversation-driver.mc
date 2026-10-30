@@ -18,3 +18,13 @@
       (try
         (when (not (other-party-in ?talk)))
         (effects (maintain-proposal {@self converse ?talk}))))))
+
+; A crowded man takes his leave of a talk he is held in only by his own want of it.
+(driver crowded-leave-driver
+  (role @self {@self company [k crowded]}
+    (role ?talk {?talk participant @self} {@self converse ?talk}:?converse
+      (when (and (in-conversation @self ?talk)
+                 (other-party-in ?talk)
+                 (< (utility ?converse) (utility errand 0.0))))
+      (declare-utility want)
+      (effects (maintain-proposal {@self take-leave ?talk})))))

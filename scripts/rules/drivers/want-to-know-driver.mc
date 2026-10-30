@@ -11,6 +11,6 @@
     (role ?who {?who isa [k human]}
                (neq ?who @self)
       (when (askable ?who ?fact))
-      ; Learning a thing one wonders about beats settling into a leisure day.
-      (declare-utility idle (above rest))
+      ; Learning a thing one wonders about beats settling into a leisure hour.
+      (declare-utility want (above rest))
       (effects (maintain-proposal {@self find-out ?fact} /caused_by ?wonder)))))

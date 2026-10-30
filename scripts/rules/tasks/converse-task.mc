@@ -14,6 +14,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self converse ?talk}:?converse
+  (construed-act social-act)
   (noncompete-set discourse)
   (tar @excl [k conversation] @object)
   (lint-waive try-rungs-not-exclusive)

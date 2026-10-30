@@ -104,6 +104,15 @@
   (child satiety
     (children sated hungry famished))
 
+  ; The bands the mind knows its leisure drives by, minted by run-leisure-drives
+  ; (funcs/leisure-drives.mc) from the strain, tedium and social-hunger attrs.
+  (child ease
+    (children at-ease strained frayed))
+  (child stimulation
+    (children engaged bored restless))
+  (child company
+    (children crowded companionable lonely isolated))
+
   ; Observable locomotion level - the physical-mobility state, mirrored
   ; directly as a belief (like `condition` / `alertness`; no separate
   ; relation). Derived in hsim_derive::classify-physical-mobility from
@@ -773,7 +782,10 @@
     ; without any secret being disclosed. Carried by the
     ; public-humiliation perpetration leaf. Appended at end to keep
     ; kind ids stable.
-    (children degrade-act))
+    (children degrade-act)
+    ; What an act is like to DO, whoever else is in it: the leisure drives read them off a
+    ; running act's label (funcs/leisure-drives.mc).
+    (children sensual-act play-act social-act rest-act exertion-act toil-act devotion-act pain-act))
 
   ; Message classes - what kind of line a SAY is, riding its msg as [/msg-class <leaf>]. A
   ; leaf's (construed-act ..) is how a hearer construes the line (reflexes/construe-speech.mc).

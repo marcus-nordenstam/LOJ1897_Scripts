@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (action {@self SIT ?target}
+  (construed-act rest-act)
   (duration procedural)
   (motor legs)
   (obs)

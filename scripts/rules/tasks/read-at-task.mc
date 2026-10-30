@@ -1,10 +1,14 @@
 ; ----------------------------------------------------------------------------
-; read-at ?venue - a home-leisure reading session at a study/library (proposed by
-; household-day for scholarly temperaments). Like rest, it has no sub-steps: the promoted
-; task concludes immediately, leaving the ended task belief as the episodic memory.
+; read-at ?home - an hour with a book in the study of his home, for a bored or a crowded man
+; (drivers/household-driver.mc).
 ; ----------------------------------------------------------------------------
 
-(task {@self read-at ?venue}:?read-at
+(task {@self read-at ?home}:?read-at
+  (construed-act play-act)
   (tar [k structure|space] @object)
-  (try
-    (effects (set-outcome ?read-at /succ))))
+  (running-requirements (stands-in-room-of [k study] ?home))
+  (sequence
+    (stage
+      (effects (maintain-proposal {@self DWELL (spatial @self space) (+ (time hour) 1)})))
+    (stage
+      (effects (set-outcome ?read-at /succ)))))

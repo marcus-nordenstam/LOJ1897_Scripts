@@ -1,11 +1,13 @@
 ; ----------------------------------------------------------------------------
-; rest ?venue - a home-leisure day (the amenity-gated default, proposed by household-day
-; in household_think.mc). A leisure day has no sub-steps: the promoted task concludes
-; immediately, leaving the ended task belief as the episodic memory (the decay pass folds
-; repeats into a cumulative-frequency belief).
+; rest ?home - an hour off his feet at home, for a strained man (drivers/household-driver.mc).
 ; ----------------------------------------------------------------------------
 
-(task {@self rest ?venue}:?rest
+(task {@self rest ?home}:?rest
+  (construed-act rest-act)
   (tar [k structure|space] @object)
-  (try
-    (effects (set-outcome ?rest /succ))))
+  (running-requirements (inside ?home))
+  (sequence
+    (stage
+      (effects (maintain-proposal {@self DWELL (spatial @self space) (+ (time hour) 1)})))
+    (stage
+      (effects (set-outcome ?rest /succ)))))

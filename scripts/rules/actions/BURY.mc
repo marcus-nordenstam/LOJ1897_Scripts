@@ -16,6 +16,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self BURY ?corpse}:?BURY
+  (construed-act toil-act)
   (motor body)
   (duration (seconds 60 min))
   (effects

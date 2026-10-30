@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self WORSHIP}:?WORSHIP
+  (construed-act devotion-act)
   (motor body)
   (obs)
   (duration (seconds 90 min))

@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self attend-church-service}:?attend-church-service
+  (construed-act social-act)
   (running-requirements (stands-in-room-of [k nave] [k church-building]))
   (cease (if {@self WORSHIP /succ /caused_by ?attend-church-service}
              (then (set-outcome ?attend-church-service /succ))))

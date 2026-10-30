@@ -20,6 +20,7 @@
 ; ?spot is the kitchen floor spot the proposing rung holds for a new pile; the rung gives
 ; it back when it ceases, once the larder reads stocked.
 (action {@self STOCK-LARDER ?kitchen ?spot}:?STOCK-LARDER
+  (construed-act toil-act)
   (motor body)
   (duration (seconds 5 min))
   (effects

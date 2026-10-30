@@ -1,14 +1,28 @@
 ; ----------------------------------------------------------------------------
-; catch-up-driver - a friend of @self's is here, and @self has news he does not know or has not
-; caught up with him for (catch-up-interval-days): @self catches up with him (tasks/catch-up-task.mc).
+; catch-up-driver - a friend of @self's is here, and @self has news he does not know, or @self is
+; lonely and has not caught up with him for (catch-up-interval-days): @self catches up with him
+; (tasks/catch-up-task.mc).
 ; ----------------------------------------------------------------------------
+
+(include "../../macros/social-macros.mc")
 
 (driver catch-up-driver
   (role @self {@self age ?age}
     (role ?friend {@self (closeness-labels friend) ?friend} {?friend isa [k human], condition [k alive]}
                   (spatial ?friend co-located @self)
       (when (and (>= ?age 12)
-                 (or (substantial (news-for ?friend))
-                     (>= (days-since-last {@self catch-up ?friend /succ /ever}) (catch-up-interval-days)))))
+                 (substantial (news-for ?friend))))
       (declare-utility want)
+      (effects (maintain-proposal {@self catch-up ?friend} /quit-trying-on-fail)))))
+
+(driver lonely-catch-up-driver
+  (role @self {@self company [k lonely|isolated]}
+              {@self age ?age}
+              {@self enthusiasm ?enthusiasm}
+              {@self withdrawal ?withdrawal}
+    (role ?friend {@self (closeness-labels friend) ?friend} {?friend isa [k human], condition [k alive]}
+                  (spatial ?friend co-located @self)
+      (when (and (>= ?age 12)
+                 (>= (days-since-last {@self catch-up ?friend /succ /ever}) (catch-up-interval-days))))
+      (declare-utility want (company-value ?enthusiasm ?withdrawal))
       (effects (maintain-proposal {@self catch-up ?friend} /quit-trying-on-fail)))))

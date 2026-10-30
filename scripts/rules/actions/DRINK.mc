@@ -2,6 +2,7 @@
 ; act-belief IS the episodic drinking memory days-since-last and the sobriety classifier read.
 
 (action {@self DRINK}:?DRINK
+  (construed-act sensual-act)
   (motor body)
   (duration (seconds 90 min))
   (init (check (stands-in-room [k bar-room])))

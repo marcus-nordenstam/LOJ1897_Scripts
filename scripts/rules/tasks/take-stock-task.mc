@@ -3,6 +3,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self take-stock ?shop}:?take-stock
+  (construed-act toil-act)
   (tar [k shop] @object)
   (and
     (try

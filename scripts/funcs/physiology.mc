@@ -143,6 +143,7 @@
   (set-attr @self hunger ?hunger)
   (set-attr @self appetite ?appetite)
   (emit-body-bands ?sleepiness ?appetite)
+  (run-leisure-drives ?hours ?act)
   (if (eq ?act SLEEP) (then (book-bedtime-alarm ?fatigue ?mask))))
 
 ; True when ?instant lies in any of ?job's working hours.
@@ -179,4 +180,5 @@
   (set-attr @self sleepiness ?sleepiness)
   (set-attr @self hunger ?hunger)
   (set-attr @self appetite ?appetite)
-  (emit-body-bands ?sleepiness ?appetite))
+  (emit-body-bands ?sleepiness ?appetite)
+  (morning-leisure-drives))
