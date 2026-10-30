@@ -4,7 +4,8 @@
 ; To a person, its proposer says how near: earshot to talk with him, else near enough to reach him.
 ; The rungs are a preemptive-or:
 ;
-; It requires that he knows where ?dest is (placed): a find fills that before go-to is proposed.
+; It requires that he knows where ?dest is for as long as it runs (placed): a find achieves that before
+; go-to is proposed, and again when he loses it on the way.
 ;
 ;   arrived                                     -> succeed
 ;   no box for it, believed in a space          -> enter that space, where he will see it;
@@ -108,7 +109,7 @@
              (substantial (any {@self WALK (go-sight-spot ?dest) /succ /caused_by ?go-to})))))
 
 (task {@self go-to ?dest}:?go-to
-  (requires (placed ?dest))
+  (running-requirements (placed ?dest))
   (success-cond (go-arrived ?dest ?go-to))
   (failure-cond (or (go-unplaceable ?dest ?go-to) (go-no-room ?dest ?go-to)))
   (init

@@ -1,15 +1,16 @@
 ; ----------------------------------------------------------------------------
-; go-drink - get into the bar-room of a pub and DRINK there. Raised by want-drink and
-; relapse. In a bar-room he drinks; getting there is enter-room-kind's, and an outing enter-room-kind
-; fails is failed.
+; go-drink - DRINK in the bar-room of a pub. Raised by want-drink and relapse. It requires that he
+; stands in one for as long as it runs (stands-in-room-of), which enter-room-kind achieves before
+; go-drink is proposed and again whenever something takes him out; a pub he cannot get into holds
+; it out with the outing.
 ; ----------------------------------------------------------------------------
 
 (task {@self go-drink}:?go-drink
+  (running-requirements (stands-in-room-of [k bar-room] [k pub-building]))
   (cease (if {@self DRINK /succ /caused_by ?go-drink}
              (then (set-outcome ?go-drink /succ))))
-  (preemptive-or
-    (try (role @self (stands-in-room [k bar-room])
-           (effects (maintain-proposal {@self DRINK}))))
-    (try (role @self {@self enter-room-kind [k bar-room] [k pub-building] /fail /caused_by ?go-drink}
-           (effects (set-outcome ?go-drink /fail))))
-    (try (effects (maintain-proposal {@self enter-room-kind [k bar-room] [k pub-building]})))))
+  (and
+    (try (effects (maintain-proposal {@self DRINK})))
+    ; STAY: he keeps to the bar-room while he is at it; nothing below his outing's band walks him out.
+    (try (declare-utility fallback)
+         (effects (maintain-proposal {@self DWELL (spatial @self space) (+ (time hour) 1)})))))

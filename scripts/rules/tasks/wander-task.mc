@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; wander ?place - tour every room ?place holds, a unit or a unit-less building, one room at a
-; time, from inside it: it requires that he stands inside ?place, which enter-building fills.
+; time, from inside it: its precondition is that he stands inside ?place, which enter-building achieves.
 ; Standing in a room shows him the doorways out of it, so the rooms he knows grow as he goes: he walks into one he has not toured, and the tour is done when every room of ?place he
 ; knows has been toured. Every room is reachable from every other, so a tour that has run out of
 ; known rooms has seen them all.
@@ -24,7 +24,7 @@
 
 (task {@self wander ?place}:?wander
   (tar @excl [k building|unit] @object)
-  (requires (inside ?place))
+  (preconditions (inside ?place))
   (init
     (check (one-premises ?place))
     (check (within-place @self ?place)))

@@ -1,15 +1,16 @@
 ; ----------------------------------------------------------------------------
-; attend-church-service - get into the nave of a church and WORSHIP there. Raised by
-; want-worship, sunday-observance and rehabilitation. In a nave he worships; getting there is
-; enter-room-kind's, and an outing enter-room-kind fails is failed.
+; attend-church-service - WORSHIP in the nave of a church. Raised by want-worship,
+; sunday-observance and rehabilitation. It requires that he stands in one for as long as it runs
+; (stands-in-room-of), which enter-room-kind achieves before the service is proposed and again
+; whenever something takes him out.
 ; ----------------------------------------------------------------------------
 
 (task {@self attend-church-service}:?attend-church-service
+  (running-requirements (stands-in-room-of [k nave] [k church-building]))
   (cease (if {@self WORSHIP /succ /caused_by ?attend-church-service}
              (then (set-outcome ?attend-church-service /succ))))
-  (preemptive-or
-    (try (role @self (stands-in-room [k nave])
-           (effects (maintain-proposal {@self WORSHIP}))))
-    (try (role @self {@self enter-room-kind [k nave] [k church-building] /fail /caused_by ?attend-church-service}
-           (effects (set-outcome ?attend-church-service /fail))))
-    (try (effects (maintain-proposal {@self enter-room-kind [k nave] [k church-building]})))))
+  (and
+    (try (effects (maintain-proposal {@self WORSHIP})))
+    ; STAY: he keeps to the nave while he is at it; nothing below his outing's band walks him out.
+    (try (declare-utility fallback)
+         (effects (maintain-proposal {@self DWELL (spatial @self space) (+ (time hour) 1)})))))

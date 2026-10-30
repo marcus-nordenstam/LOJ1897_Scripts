@@ -3,7 +3,7 @@
 ; of doors. A proposer whose place may be a building or a room (a workplace, a venue) names it as
 ; ?room, and a building or a unit is entered by enter-building. A room of a kind is enter-room-kind's.
 ;
-; It requires that he knows where the room is (placed): a find fills that. The room is reached
+; Its precondition is that he knows where the room is (placed): a find achieves that. The room is reached
 ; through its doors: the next door toward it (next-door), crossed from the room on his side of it
 ; and from anywhere else after entering that room first; inside a premises that does not hold it
 ; with no door known, he wanders it; out of doors, he goes to stand by its premises, and seeing it
@@ -53,7 +53,7 @@
 
 (task {@self enter-room ?room}:?enter-room
   (tar ?)
-  (requires (placed ?room))
+  (preconditions (placed ?room))
   (success-cond (enter-room-done ?room ?enter-room))
   (preemptive-or
     ; A BUILDING OR A UNIT.

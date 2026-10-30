@@ -3,12 +3,12 @@
 ; to stand by it, then crosses one of its doors - the step through takes him to the middle of the
 ; room beyond. Done when he stands in it and no cross of this one still runs - at once when he
 ; already does; every door he can cross failing, or none of it known once he stands by it, fails it.
-; It requires that he knows where ?place is (placed): a find fills that.
+; Its precondition is that he knows where ?place is (placed): a find achieves that.
 ; ----------------------------------------------------------------------------
 
 (task {@self enter-building ?place}:?enter-building
   (tar @excl [k building|unit] @object)
-  (requires (placed ?place))
+  (preconditions (placed ?place))
   (success-cond (and (within-place @self ?place)
                      (unsubstantial (any {@self cross ? /caused_by ?enter-building}))))
   (preemptive-or
