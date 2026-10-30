@@ -30,7 +30,6 @@
               {@self psychopathy ?psychopathy}
               {@self sadism ?sadism}
               {@self politeness ?politeness}
-              {@self intoxication ?intoxication} 
     (role ?victim {?victim isa [k human], condition [k alive]}
                   {@self (closeness-labels acquaintance) ?victim /ever}
                   (select (score 1) (policy roulette))
@@ -40,12 +39,13 @@
       ; intoxication (the 0.3 sober floor + 0.7*intox keeps the amplifier in
       ; [0.3, 1.0] so the whole product stays <= 1 - sober high-tetrad actors still
       ; occasionally fire, drunk ones much more).
-      (when (latch-eval (chance (* (crime-scale)
-                       ?volatility
-                       ?psychopathy
-                       ?sadism
-                       (- 1.0 ?politeness)
-                       (+ 0.3 (* 0.7 ?intoxication))))))
+      (when (poll {@self intoxication ?intoxication}
+                  (latch-eval (chance (* (crime-scale)
+                                         ?volatility
+                                         ?psychopathy
+                                         ?sadism
+                                         (- 1.0 ?politeness)
+                                         (+ 0.3 (* 0.7 ?intoxication)))))))
 
       (declare-utility want)
       (effects

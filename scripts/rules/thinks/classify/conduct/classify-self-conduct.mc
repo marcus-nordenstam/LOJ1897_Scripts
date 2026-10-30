@@ -22,10 +22,10 @@
               {@self machiavellianism ?machiavellianism}
               {@self industriousness ?industriousness}
               {@self compassion ?compassion}
-              {@self intoxication ?intoxication}
               {@self gambling-addiction ?gambling-addiction}
               {@self class-situation ?}
 
+    (when (poll {@self intoxication ?intoxication}))
     (effects
       ; Sobriety: the inverse of accumulated intoxication, hard-capped at 0.15 once a standing
       ; craving for drink has formed, and docked 0.25 x the gambling-addiction severity.

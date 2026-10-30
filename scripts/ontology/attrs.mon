@@ -179,7 +179,7 @@
 
 ; Accumulated intoxication, 0..1 - the get-drunk seed event bumps it; the F3.7
 ; sobriety classifier reads it (see hsim_derive.cc).
-(attr intoxication (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl))
+(attr intoxication (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl) (continuous))
 
 ; Gambling addiction, 0..1 (1 = morbidly addicted) - a behavioural addiction,
 ; the standing DISPOSITION to gamble (not an act, not a specific game). The
@@ -307,7 +307,7 @@
 (attr opening-status (type kind) (default shut) (per obs) (auto-percept) (nav-gate))
 (attr lock-status (type kind) (default unlocked) (per obs) (auto-percept) (nav-lock))
 ; How far open, 0 shut .. 1 fully open: the pose (articulate ..) swings or slides a part to.
-(attr open-amount (type float) (range 0 1) (default 0) (per obs) (auto-percept))
+(attr open-amount (type float) (range 0 1) (default 0) (per obs) (auto-percept) (continuous))
 ; A door's hinge: the side of its own box it swings about, and the signed degrees of a
 ; full swing (negative swings the other way).
 (attr hinge-side (type kind side) (default right) (imperceptible))
