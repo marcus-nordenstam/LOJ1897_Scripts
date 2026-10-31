@@ -4,7 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver flirt-fancy-driver
-  (role @self {@self converse ?talk}:?converse
+  (role @self {@self converse ?talk}:?converse -{@self company [k crowded]}
     (role ?partner {@self fancy|desire|crave ?partner}:?fancy
       (when (and (in-conversation @self ?talk)
                  (in-conversation ?partner ?talk)

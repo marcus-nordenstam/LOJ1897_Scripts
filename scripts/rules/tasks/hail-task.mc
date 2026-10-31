@@ -32,7 +32,9 @@
     (bb-public-remove-member @self hailing ?partner)
     (if (not (engaged-with ?partner))
         (then
-          (cond (case (hail-accepted ?partner ?hail) (set-outcome ?hail /succ))
+          (cond (case (hail-accepted ?partner ?hail)
+                  (join-conversation (conversation-of ?partner))
+                  (set-outcome ?hail /succ))
                 (case (conversing-with ?partner @self) (leave-conversation (conversation-of ?partner)))))))
   (and
     (try

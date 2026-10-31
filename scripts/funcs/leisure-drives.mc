@@ -45,14 +45,34 @@
   (mint-band {@self ease} ?strain [k frayed] (frayed-min) [k strained] (strained-min) [k at-ease] -1)
   (mint-band {@self stimulation} ?tedium [k restless] (restless-min) [k bored] (bored-min) [k engaged] -1)
   (mint-band {@self company} ?social-hunger [k isolated] (isolated-min) [k lonely] (lonely-min)
-             [k companionable] (companionable-min) [k crowded] -2))
+             [k companionable] (flip {@self company [k crowded]} (companionable-recovered-min) (companionable-min))
+             [k crowded] -2))
+
+; (social-span) - the span the body is charged for was spent in company: a social act ran through
+; it, begun before this instant. An act born now did not, and one that ends now did.
+(define-func social-span ()
+  (bind @false ?social)
+  (for-each ?act (every {@self (construed-labels social-act)})
+    (if (> (elapsed /seconds ?act) 0)
+        (then (bind @true ?social) (break))))
+  ?social)
+
+; (social-appetite) - how keen @self is on company now: his sociability, raised when he is lonely
+; or isolated. A crowded man pursues nobody (the pursuit drivers' own gate).
+(define-func social-appetite ()
+  (any {@self enthusiasm ?enthusiasm=0.5})
+  (any {@self withdrawal ?withdrawal=0.5})
+  (* (sociability ?enthusiasm ?withdrawal)
+     (cond (case {@self company [k isolated]} (isolated-appetite))
+           (case {@self company [k lonely]} (lonely-appetite))
+           (else 1.0))))
 
 (define-func run-leisure-drives (?hours ?act)
   (eq ?act SLEEP): ?asleep
   (substantial (any {@self (construed-labels toil-act)})): ?toil
   (substantial (any {@self (construed-labels rest-act)})): ?rest
   (substantial (any {@self (construed-labels play-act)})): ?play
-  (substantial (any {@self (construed-labels social-act)})): ?social
+  (social-span): ?social
   (substantial (any {@self (construed-labels sensual-act)})): ?sensual
   (substantial (any {@self (construed-labels devotion-act)})): ?devotion
   (substantial (any {@self (construed-labels exertion-act)})): ?exertion
@@ -78,7 +98,9 @@
   (cond (case ?asleep ?was)
         (case ?social (company-relief ?was ?hours (company-warmth)
                                       (sociability (attr @self enthusiasm) (attr @self withdrawal))))
-        (case (< ?was 0.0) (min 0.0 (+ ?was (* ?hours (solitude-recovery-per-hour)))))
+        (case (< ?was 0.0) (min 0.0 (+ ?was (* ?hours (solitude-recovery-per-hour)
+                                                (leisure-mult (* (leisure-trait-swing)
+                                                                 (- (attr @self withdrawal) (attr @self enthusiasm))))))))
         (else (min 1.0 (+ ?was (* ?hours (social-hunger-per-waking-hour)
                                   (leisure-mult (* (leisure-trait-swing) (- (attr @self enthusiasm) 0.5)))))))): ?social-hunger
 
@@ -86,6 +108,16 @@
   (set-attr @self tedium ?tedium)
   (set-attr @self social-hunger ?social-hunger)
   (emit-leisure-bands ?strain ?tedium ?social-hunger))
+
+; A night's sleep takes most of his crowding away: an introvert wakes still carrying more of it.
+(define-func /sleep restore-company ()
+  (attr @self social-hunger): ?was
+  (clamp (* (sleep-crowding-kept)
+            (- (sociability-max) (sociability (attr @self enthusiasm) (attr @self withdrawal))))
+         0.0 1.0): ?kept
+  (flip (< ?was 0.0) (* ?was ?kept) ?was): ?rested
+  (set-attr @self social-hunger ?rested)
+  (emit-leisure-bands (attr @self strain) (attr @self tedium) ?rested))
 
 (define-func morning-leisure-drives ()
   (set-attr @self strain 0.0)

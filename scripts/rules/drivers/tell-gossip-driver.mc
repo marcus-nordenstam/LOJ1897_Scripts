@@ -4,7 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver tell-gossip-driver
-  (role @self {@self age ?age}
+  (role @self {@self age ?age} -{@self company [k crowded]}
     (role ?friend {@self (closeness-labels friend) ?friend} {?friend isa [k human], condition [k alive]}
                   (spatial ?friend co-located @self)
       (when (and (>= ?age 12) (substantial (gossip-for ?friend))))

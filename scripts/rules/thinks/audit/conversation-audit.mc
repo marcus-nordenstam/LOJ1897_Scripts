@@ -36,6 +36,13 @@
     (when (>= (count (every {@self inquire ? ? /pres})) 2))
     (effects (expect @false "conversation: inquiring of two at once"))))
 
+(audit audit-talks-with-one-man-an-hour
+  (role ?other [k human] {? participant ?other}
+    (when (> (talks-with-lately ?other) (k-talks-with-one-man-an-hour)))
+    (effects
+      (debug-print "talk-limit: @self began (talks-with-lately ?other) talks with ?other within the hour")
+      (expect @false "conversation: more talks begun with one man within an hour than k-talks-with-one-man-an-hour"))))
+
 (audit audit-two-smalltalks
   (role @self {@self smalltalk ? ?}
     (when (>= (count (every {@self smalltalk ? ? /pres})) 2))

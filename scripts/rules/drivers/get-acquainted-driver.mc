@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver get-acquainted-driver
-  (role @self {@self age ?age}
+  (role @self {@self age ?age} -{@self company [k crowded]}
     (role ?other {@self acquaintance ?other} -{@self (closeness-labels friend) ?other}
                  {?other isa [k human], condition [k alive]}
                  (spatial ?other co-located @self)

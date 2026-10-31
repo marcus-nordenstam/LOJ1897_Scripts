@@ -33,6 +33,7 @@
                (not (in-full-talk))
                (not (rebuffs ?speaker))
                (not (turning-down ?speaker))
+               (not (too-crowded-for ?speaker))
                (unsubstantial (top-competing-act {@self take-up ?speaker} ?worth))))
     (effects
       (bind (any {@self converse ?}) ?converse)
@@ -64,13 +65,15 @@
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
     (bind (hail-worth ?speaker) ?worth)
+    (bind (top-competing-act {@self take-up ?speaker} ?worth) ?busy-with)
     (when (and (within-call ?speaker)
                (not (in-full-talk))
                (not (rebuffs ?speaker))
                (not (taking-up ?speaker))
                (not (turning-down ?speaker))
                (not (proposed {@self turn-down ? ?}))
-               (substantial (top-competing-act {@self take-up ?speaker} ?worth))))
+               (not (too-crowded-for ?speaker))
+               (substantial ?busy-with)))
     (declare-utility unbeatable)
     (lock)
     (lint-waive begin-proposal)
@@ -80,12 +83,36 @@
           (then (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?converse)} /uninterruptable
                                 /caused_by ~[?opening ?converse]))
           (else
-            (bind (top-competing-act {@self take-up ?speaker} ?worth) ?busy-with)
             (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?busy-with)} /uninterruptable
                             /caused_by ?opening))))))
 
 ; A man in a conversation that seats no one more turns every hail down, saying he is talking. The
 ; player is never turned down: his hail joins the talk itself (player-hail).
+; A man who has had his fill of company turns a hail down, saying so, unless it obliges him.
+(driver weary-hail-driver
+  (role ?speaker (bb-public-every ?speaker hailing @self)
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
+                 -{@self take-up ?speaker /succ /caused_by ?opening}
+                 -{@self turn-down ?speaker ? /succ /caused_by ?opening}
+                 (not (conversing-with @self ?speaker))
+    (when (and (within-call ?speaker)
+               (not (in-full-talk))
+               (not (rebuffs ?speaker))
+               (not (taking-up ?speaker))
+               (not (turning-down ?speaker))
+               (not (proposed {@self turn-down ? ?}))
+               (too-crowded-for ?speaker)))
+    (declare-utility unbeatable)
+    (lock)
+    (lint-waive begin-proposal)
+    (effects
+      (bind (any {@self converse ?}) ?converse)
+      (if (substantial ?converse)
+          (then (begin-proposal {@self turn-down ?speaker (formulaic [] refusal weary)} /uninterruptable
+                                /caused_by ~[?opening ?converse]))
+          (else (begin-proposal {@self turn-down ?speaker (formulaic [] refusal weary)} /uninterruptable
+                                /caused_by ?opening))))))
+
 (driver full-talk-hail-driver
   (role ?speaker (bb-public-every ?speaker hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
@@ -107,8 +134,11 @@
           (else
             (bind (conversation-of @self) ?talk)
             (bind (any {?talk participant @self}) ?part)
-            (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?part)} /uninterruptable
-                            /caused_by ?opening))))))
+            (if (substantial ?part)
+                (then (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?part)} /uninterruptable
+                                      /caused_by ?opening))
+                (else (begin-proposal {@self turn-down ?speaker (formulaic [] refusal busy)} /uninterruptable
+                                      /caused_by ?opening))))))))
 
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (driver rebuff-hail-driver

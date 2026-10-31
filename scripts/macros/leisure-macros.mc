@@ -30,6 +30,11 @@
 (define-macro lonely-min () 0.45)
 (define-macro isolated-min () 0.8)
 (define-macro companionable-min () -0.5)
+; Crowded stays until he has recovered this far: a few minutes alone do not undo it.
+(define-macro companionable-recovered-min () -0.2)
+; The share of his crowding an average man still carries after a night's sleep; an introvert keeps
+; more of it, an extravert less (times (sociability-max - sociability)).
+(define-macro sleep-crowding-kept () 0.3)
 
 ; A trait's swing on a drive's rate, and the bounds every rate multiplier is clamped to.
 (define-macro leisure-trait-swing () 0.5)
@@ -42,8 +47,9 @@
 (define-macro isolated-company-level () 1.0)
 (define-macro sociability-max () 2.0)
 
-; The share of a hail's worth a crowded man still feels.
-(define-macro crowded-hail-share () 0.3)
+; How much keener company is to a lonely or an isolated man than to one who has had enough.
+(define-macro lonely-appetite () 1.5)
+(define-macro isolated-appetite () 2.0)
 
 ; What resting bids within the want band, strained and frayed.
 (define-macro strained-rest-value () 250.0)

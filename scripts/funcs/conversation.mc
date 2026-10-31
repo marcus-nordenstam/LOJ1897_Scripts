@@ -71,7 +71,17 @@
   (substantial (any {@self kill|shoot|strangle|hurt|steal|coerce|bribe ? /succ /past})))
 
 (define-func hail-want-worth (?value)
-  (utility want (flip {@self company [k crowded]} (* ?value (crowded-hail-share)) ?value)))
+  (utility want ?value))
+
+; (obligation-hail ?speaker) - a hail @self must take up however he feels: a law officer's when he
+; has nothing to hide, or one from a man he answers to.
+(define-func obligation-hail (?speaker)
+  (or (and (law-officer ?speaker) (not (evading-law))) (answers-to ?speaker)))
+
+; (too-crowded-for ?speaker) - @self has had his fill of company and ?speaker's hail does not oblige
+; him: he turns it down.
+(define-func too-crowded-for (?speaker)
+  (and (substantial (any {@self company [k crowded]})) (not (obligation-hail ?speaker))))
 
 ; (hail-worth ?speaker) - what taking up ?speaker's hail is worth to @self, as a packed
 ; utility: an obligation when it is a law officer's and he has nothing to hide, or when he
@@ -226,15 +236,26 @@
 ; band, from ?base: his warmth toward him, falling the longer they have talked, and held down for a
 ; while after they part, so the keenest partner wins and partners change without thrashing.
 (define-func pursuit-worth (?partner ?base)
-  (bind (* ?base 0.5 (+ 1.0 (stance ?partner warmth))) ?appeal)
+  (bind (* ?base 0.5 (+ 1.0 (stance ?partner warmth)) (social-appetite)) ?appeal)
   (bind (conversation-of @self) ?talk)
   (bind (any {?talk participant @self}) ?part)
-  (bind (any {@self tell ? ?partner /succ /most_recent}) ?told)
+  (bind (any {? participant ?partner /past /most_recent}) ?parted)
   (cond (case (engaged-with ?partner)
               (/ ?appeal (+ 1.0 (/ (+ /float (elapsed /minutes ?part) 0) (k-partner-weary-minutes)))))
-        (case (is-belief ?told)
-              (* ?appeal (clamp (/ (+ /float (elapsed /minutes ?told) 0) (k-partner-refresh-minutes)) (k-partner-fresh-floor) 1.0)))
+        (case (is-belief ?parted)
+              (* ?appeal (clamp (/ (+ /float (elapsed /minutes ?parted) 0) (k-partner-refresh-minutes)) (k-partner-fresh-floor) 1.0)))
         (else ?appeal)))
+
+; (talks-with-lately ?other) - how many talks @self has begun with ?other within the last
+; k-talk-again-window-seconds.
+(define-func talks-with-lately (?other)
+  (bind 0 ?count)
+  (for-each ?mine (every {? participant @self /ever})
+    (bind ?mine.subject ?talk)
+    (if (and (<= (seconds-between (time seconds) (start-time ?mine)) (k-talk-again-window-seconds))
+             (substantial (any {?talk participant ?other /ever})))
+        (then (bind (+ ?count 1) ?count))))
+  ?count)
 
 ; (invited-by ?caller) - the hail ?caller called to @self stands: his hailing set holds @self.
 ; Whether it is answered is the reader's role: no take-up or turn-down of @self's caused by it has

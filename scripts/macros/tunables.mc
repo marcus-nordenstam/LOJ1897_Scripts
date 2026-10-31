@@ -223,6 +223,9 @@
 ; ... and once parted he is worth pursuing again in full only after this long, from this floor.
 (define-macro k-partner-refresh-minutes () 120.0)
 (define-macro k-partner-fresh-floor     () 0.2)
+; The most talks a man begins with one other within an hour before it is a thrash.
+(define-macro k-talks-with-one-man-an-hour () 2)
+(define-macro k-talk-again-window-seconds () 3600.0)
 
 ; How far a voice carries, through walls or not: spoken, and called out - a hail, and the
 ; answers to one. The [k speech] and [k shout] sounds' radii (bounds/sounds.mc).
