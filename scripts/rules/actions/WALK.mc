@@ -61,7 +61,7 @@
     (state walking)
     (movement-speed (walk_speed_mps))
     (delib-turn-speed (walk_delib_turn_rate))
-    (preroll 0.0) (in 0.4) (out 0.4))
+    (preroll 0.0) (in 0.2) (player-in 0.0) (out 0.4))
   (duration
     (cond (case (and (real-clock) (presented-lod)) procedural)
           (else (seconds (max (go_travel_floor_min)
