@@ -582,7 +582,7 @@
 
 ; (line-kind ?msg) - the kind of move ?msg is: inquiry (a question), opening-phrase (a hail),
 ; flirtation (a flirt), smalltalk (a remark), tidings (news), or reply - anything that answers a
-; line rather than calling for an answer.
+; line rather than calling for an answer, an unclassified line among them.
 (define-func line-kind (?msg)
   (cond (case (is-qs ?msg) inquiry)
         (case (eq-func-name ?msg formulaic)
@@ -591,10 +591,14 @@
                 (on flirt (flip (eq (nth (k-formulaic-key-field) ?msg) compliment) flirtation reply))
                 (else reply)))
         (else
-          (switch (msg-class-of ?msg)
-            (on smalltalk smalltalk)
-            (on tidings tidings)
-            (else reply)))))
+          (bind (msg-class-of ?msg) ?class)
+          (if (unsubstantial ?class)
+              (then reply)
+              (else
+                (switch ?class
+                  (on smalltalk smalltalk)
+                  (on tidings tidings)
+                  (else reply)))))))
 
 ; (owes-response ?msg) - a line ?msg said to @self calls for a response from him.
 (define-func owes-response (?msg)
