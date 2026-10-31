@@ -8,5 +8,5 @@
     (role ?friend {@self (closeness-labels friend) ?friend} {?friend isa [k human], condition [k alive]}
                   (spatial ?friend co-located @self)
       (when (and (>= ?age 12) (substantial (gossip-for ?friend))))
-      (declare-utility want)
+      (declare-utility want (pursuit-worth ?friend (k-tell-gossip-value)))
       (effects (maintain-proposal {@self tell-gossip ?friend} /quit-trying-on-fail)))))

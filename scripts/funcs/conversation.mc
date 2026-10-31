@@ -222,6 +222,20 @@
        (or (any-happened-since (every {@self hail ?partner /succ}) ?part)
            (any-happened-since (every {@self take-up ?partner /succ}) ?part))))
 
+; (pursuit-worth ?partner ?base) - what pursuing ?partner in talk is worth to @self, in the want
+; band, from ?base: his warmth toward him, falling the longer they have talked, and held down for a
+; while after they part, so the keenest partner wins and partners change without thrashing.
+(define-func pursuit-worth (?partner ?base)
+  (bind (* ?base 0.5 (+ 1.0 (stance ?partner warmth))) ?appeal)
+  (bind (conversation-of @self) ?talk)
+  (bind (any {?talk participant @self}) ?part)
+  (bind (any {@self tell ? ?partner /succ /most_recent}) ?told)
+  (cond (case (engaged-with ?partner)
+              (/ ?appeal (+ 1.0 (/ (+ /float (elapsed /minutes ?part) 0) (k-partner-weary-minutes)))))
+        (case (is-belief ?told)
+              (* ?appeal (clamp (/ (+ /float (elapsed /minutes ?told) 0) (k-partner-refresh-minutes)) (k-partner-fresh-floor) 1.0)))
+        (else ?appeal)))
+
 ; (invited-by ?caller) - the hail ?caller called to @self stands: his hailing set holds @self.
 ; Whether it is answered is the reader's role: no take-up or turn-down of @self's caused by it has
 ; succeeded.

@@ -12,7 +12,7 @@
                   (spatial ?friend co-located @self)
       (when (and (>= ?age 12)
                  (substantial (news-for ?friend))))
-      (declare-utility want)
+      (declare-utility want (pursuit-worth ?friend (k-catch-up-value)))
       (effects (maintain-proposal {@self catch-up ?friend} /quit-trying-on-fail)))))
 
 (driver lonely-catch-up-driver
@@ -24,5 +24,5 @@
                   (spatial ?friend co-located @self)
       (when (and (>= ?age 12)
                  (>= (days-since-last {@self catch-up ?friend /succ /ever}) (catch-up-interval-days))))
-      (declare-utility want (company-value ?enthusiasm ?withdrawal))
+      (declare-utility want (pursuit-worth ?friend (company-value ?enthusiasm ?withdrawal)))
       (effects (maintain-proposal {@self catch-up ?friend} /quit-trying-on-fail)))))

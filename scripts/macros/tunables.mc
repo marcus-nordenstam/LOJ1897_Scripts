@@ -212,6 +212,18 @@
 ; ... and from a law officer, in the obligation band: above a Sunday's church (the band default).
 (define-macro k-hail-authority-value    () 900.0)
 
+; What pursuing a partner in talk is worth, in the want band, before pursuit-worth weighs the
+; partner: getting acquainted, catching up, telling gossip, flirting.
+(define-macro k-get-acquainted-value () 400.0)
+(define-macro k-catch-up-value       () 500.0)
+(define-macro k-tell-gossip-value    () 450.0)
+(define-macro k-flirt-value          () 600.0)
+; A partner wears: talk with him is worth half its start after this long ...
+(define-macro k-partner-weary-minutes () 30.0)
+; ... and once parted he is worth pursuing again in full only after this long, from this floor.
+(define-macro k-partner-refresh-minutes () 120.0)
+(define-macro k-partner-fresh-floor     () 0.2)
+
 ; How far a voice carries, through walls or not: spoken, and called out - a hail, and the
 ; answers to one. The [k speech] and [k shout] sounds' radii (bounds/sounds.mc).
 (define-macro k-speech-earshot () 8.0)

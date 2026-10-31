@@ -9,5 +9,5 @@
       (when (and (in-conversation @self ?talk)
                  (in-conversation ?partner ?talk)
                  (not (flirted-in ?talk))))
-      (declare-utility want)
+      (declare-utility want (pursuit-worth ?partner (k-flirt-value)))
       (effects (maintain-proposal {@self flirt ?talk ?partner} /caused_by ~[?converse ?fancy])))))

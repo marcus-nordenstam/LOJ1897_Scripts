@@ -10,5 +10,5 @@
                  {?other isa [k human], condition [k alive]}
                  (spatial ?other co-located @self)
       (when (and (>= ?age 12) (substantial (disclosure-for ?other))))
-      (declare-utility want)
+      (declare-utility want (pursuit-worth ?other (k-get-acquainted-value)))
       (effects (maintain-proposal {@self get-acquainted ?other} /quit-trying-on-fail)))))
