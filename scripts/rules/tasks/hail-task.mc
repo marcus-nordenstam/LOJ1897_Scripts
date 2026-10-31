@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; hail ?partner - @self calls to ?partner, within call of him, and says the opening - its tell
-; does the closing in, as every speaker does, while ?partner stays put. It requires that no talk
-; of his holds him back (clear-to-talk, funcs/preconditions.mc): in another talk than ?partner's
+; does the closing in, as every speaker does, while ?partner stays put. It requires, for as long as
+; it runs, that no talk of his holds him back (clear-to-talk, funcs/preconditions.mc): in another talk than ?partner's
 ; that has room, or in a full one when ?partner is in none, he takes his leave of it first. ?partner
 ; in a conversation with room: @self joins it with his hail, his opening bids for its floor, and
 ; ?partner answers it as he answers any line said to him there. A talk that seats no one more
@@ -22,7 +22,7 @@
   (noncompete-set discourse)
   (tar @excl [k human] @object)
   (preparatory)
-  (preconditions (clear-to-talk ?partner))
+  (running-requirements (clear-to-talk ?partner))
   (failure-cond (or (hail-turned-down ?partner ?hail)
                     (substantial (any {@self tell (formulaic ? opening-phrase ?) ?partner /fail /caused_by ?hail}))))
   (init

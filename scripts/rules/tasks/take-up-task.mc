@@ -2,7 +2,7 @@
 ; take-up ?partner - @self takes up the hail ?partner called to him from outside any conversation
 ; @self is in: he gives the response its opening calls for, and the two of them are in one
 ; conversation (take-up-talk, funcs/conversation.mc) - ?partner's when he is in one, else @self's
-; own, else a new one. It requires that no talk of his holds him back (clear-to-talk,
+; own, else a new one. It requires, for as long as it runs, that no talk of his holds him back (clear-to-talk,
 ; funcs/preconditions.mc), so in another talk than ?partner's he takes his leave of it first. It is
 ; PREPARATION for converse, proposed by engage-hail (drivers/answer-hail-driver.mc). Until he has
 ; taken ?partner in the hail still stands, so a man who finds something keener first declines it
@@ -15,7 +15,7 @@
   (noncompete-set discourse)
   (tar @excl [k human] @object)
   (preparatory)
-  (preconditions (clear-to-talk ?partner))
+  (running-requirements (clear-to-talk ?partner))
   (sequence
     (role ?partner {?partner SAY ? @self /past}
                    {?partner SAY (formulaic ? opening-phrase ?..):?opening @self /past}
