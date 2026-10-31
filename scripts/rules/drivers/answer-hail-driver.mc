@@ -21,15 +21,14 @@
 ; Taking it up, at what talking with ?speaker is worth to him, while nothing else he has going
 ; outbids it. Every answer to a hail is caused by the opening it answers.
 (driver engage-hail-driver
-  (role ?speaker {?speaker SAY ? @self /past}
+  (role ?speaker (bb-public-every ? hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
     (bind (hail-worth ?speaker) ?worth)
     (declare-utility (utility-band ?worth) (utility-value ?worth))
-    (when (and (invited-by ?speaker)
-               (within-call ?speaker)
+    (when (and (within-call ?speaker)
                (not (in-full-talk))
                (not (rebuffs ?speaker))
                (not (turning-down ?speaker))
@@ -42,13 +41,12 @@
 
 ; A take-up he has begun is a yes already being said: he finishes it.
 (driver complete-take-up-driver
-  (role ?speaker {?speaker SAY ? @self /past}
+  (role ?speaker (bb-public-every ? hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
-    (when (and (invited-by ?speaker)
-               (taking-up ?speaker)))
+                 {@self take-up ?speaker}
     (declare-utility unbeatable)
     (effects
       (bind (any {@self converse ?}) ?converse)
@@ -59,14 +57,13 @@
 ; Declining for what he would rather be doing, and saying what it is: the decision is made once,
 ; and the refusal it begins always completes.
 (driver decline-hail-driver
-  (role ?speaker {?speaker SAY ? @self /past}
+  (role ?speaker (bb-public-every ? hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
     (bind (hail-worth ?speaker) ?worth)
-    (when (and (invited-by ?speaker)
-               (within-call ?speaker)
+    (when (and (within-call ?speaker)
                (not (in-full-talk))
                (not (rebuffs ?speaker))
                (not (taking-up ?speaker))
@@ -89,13 +86,12 @@
 ; A man in a conversation that seats no one more turns every hail down, saying he is talking. The
 ; player is never turned down: his hail joins the talk itself (player-hail).
 (driver full-talk-hail-driver
-  (role ?speaker {?speaker SAY ? @self /past}
+  (role ?speaker (bb-public-every ? hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
-    (when (and (invited-by ?speaker)
-               (within-call ?speaker)
+    (when (and (within-call ?speaker)
                (in-full-talk)
                (not (turning-down ?speaker))
                (not (proposed {@self turn-down ? ?}))))
@@ -115,13 +111,12 @@
 
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (driver rebuff-hail-driver
-  (role ?speaker {?speaker SAY ? @self /past}
+  (role ?speaker (bb-public-every ? hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
-    (when (and (invited-by ?speaker)
-               (within-call ?speaker)
+    (when (and (within-call ?speaker)
                (not (in-full-talk))
                (rebuffs ?speaker)))
     (declare-utility unbeatable)
