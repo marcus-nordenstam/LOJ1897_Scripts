@@ -34,11 +34,11 @@
   ; anyone else hears this at all, and the VOICE - the words rendered, the visemes cut,
   ; the jaw driven, the subtitle put up. Effects run every frame while the audio plays
   ; and would say it again each time.
-  ; Nobody is spoken to by two men at once: tell marked the listener his before proposing this
-  ; (claim-addressees, funcs/conversation.mc), and a claim lost to another man was decided
-  ; before anything started.
+  ; Nobody is spoken to by two men at once: tell held the turn this line takes before proposing it
+  ; (turn-board, funcs/conversation.mc). The board can change between the two - its audience joins
+  ; or leaves a talk - so it is expected, not checked.
   (init
-    (check (holds-address ?audience))
+    (expect (my-turn ?audience) "SAY: the line began without the turn it takes - its board changed since tell held it")
     (if (presented-lod)
         (then (deliver-speech ?xsay)
               (speak-aloud @self ?msg))))
@@ -50,17 +50,13 @@
         (then (deliver-speech ?xsay)
               (set-outcome ?SAY /succ))))
 
-  ; The floor and the marks tell claimed are the line's until it is said, and its tell's while
-  ; that runs; the line releases them when it outlived its tell, and its mark on its audience
-  ; unless the tell now running addresses the same audience. The speech-state
-  ; slot the handler claimed at install is released with them. That is a (cease ..): it must
-  ; happen on EVERY end, and a slot leaked per interrupted utterance is a mouth that stops
-  ; working after a few dozen conversations.
+  ; The turn tell held is the line's until it is said, and its tell's while that runs; the line
+  ; gives every turn up when it outlived every tell. The speech-state slot the handler claimed at
+  ; install is released with it. That is a (cease ..): it must happen on EVERY end, and a slot
+  ; leaked per interrupted utterance is a mouth that stops working after a few dozen
+  ; conversations.
   (cease
-    (cond (case (none {@self tell ? ?})
-            (release-floor)
-            (release-addressees ?audience))
-          (case (none {@self tell ? ?audience})
-            (release-mark ?audience)))
+    (if (none {@self tell ? ?})
+        (then (turn-release ?)))
     (if (presented-lod)
         (then (end-speech @self)))))

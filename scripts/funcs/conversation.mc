@@ -145,108 +145,21 @@
 (define-func conversing-with (?party ?partner)
   (in-conversation ?partner (conversation-of ?party)))
 
-; A man being spoken to carries the speaker's mark on his public board (addressed) from the moment
-; the speaker takes him on until the line is said, and a line said to a conversation marks the
-; conversation. A line said outside a conversation (a hail, its answer) marks the speaker's own
-; board too, so two men never call to each other at once: the claim decides, and the loser is the
-; one called to. tell claims
-; the marks (claim-addressees) before it closes on its listener and clears them however it ends
-; (release-addressees); a man under another's mark stays where he is (heed-speaker). SAY asserts it
-; holds the mark (holds-address).
-;
-; Inside a conversation one man has the floor at a time (floor, on the conversation's board). Only
-; a man with a line waiting bids for it (bidding); of the bidders the one who has waited longest
-; since he last spoke takes it (spoke-at, on each man's own board: when his last line ended, unset
-; when he has never spoken), and a line answering one said to him (answering) goes before the
-; rest. The floor clears when the line is said or given up (release-floor).
+; A LINE TAKES A TURN: one man at a time speaks on a board, the rest wait for it, and the man who
+; is done hands it on (turn-request, holds-turn, turn-release - the engine's). A line to a
+; conversation, or to a man in one, takes that conversation's turn; a line to a man in no
+; conversation takes his own; a broadcast takes none. A line answering one said to the speaker
+; goes before the rest, and of the others the man longest since he last spoke. A man being called
+; (another holds his own turn) answers before he calls anyone, so two men never call each other
+; at once; and a man spoken to stays where he is (heed-speaker).
 
-; (addressed-by-another ?x) - a man other than @self is speaking to ?x now.
-(define-func addressed-by-another (?x)
-  (if (substantial ?x)
-      (then (and (not (bb-public-none ?x addressed))
-                 (unsubstantial (bb-public-any ?x addressed @self))))
-      (else @false)))
-
-; (party-addressed ?talk) - a party of ?talk besides @self is being spoken to by another.
-(define-func party-addressed (?talk)
-  (bind @false ?addressed)
-  (for-each ?party (parties-of ?talk)
-    (if (and (neq ?party @self) (addressed-by-another ?party))
-        (then (bind @true ?addressed) (break))))
-  ?addressed)
-
-; (free-to-address ?audience) - nobody else is speaking to anyone @self would speak to: a man and
-; the talk he is in, or a talk and every party of it. A broadcast addresses nobody.
-(define-func free-to-address (?audience)
-  (cond
-    (case (unsubstantial ?audience) @true)
-    (case (is-a ?audience [k conversation])
-          (and (not (addressed-by-another ?audience)) (not (party-addressed ?audience))))
-    (else (and (not (addressed-by-another ?audience))
-               (not (addressed-by-another (conversation-of ?audience)))))))
-
-; (holds-address ?audience) - @self may say a line to ?audience: it is a broadcast, or his mark
-; is on it.
-(define-func holds-address (?audience)
-  (if (substantial ?audience)
-      (then (substantial (bb-public-any ?audience addressed @self)))
-      (else @true)))
-
-; (claim-addressees ?audience) - @self marks ?audience as spoken to, and outside a conversation
-; himself as speaking, @true, or leaves both as they were, @false, when another man is speaking to
-; it, to anyone it reaches, or calling to @self. Marks already his stand.
-(define-func claim-addressees (?audience)
-  (bind @true ?claimed)
-  (if (and (substantial ?audience) (not (holds-address ?audience)))
-      (then
-        (bind (and (or (in-talk-line ?audience)
-                       (substantial (bb-public-any @self addressed @self))
-                       (and (bb-public-none @self addressed)
-                            (substantial (bb-public-try-write-new @self addressed @self))))
-                   (substantial (bb-public-try-write-new ?audience addressed @self))
-                   (free-to-address ?audience))
-              ?claimed)
-        (if (not ?claimed)
-            (then (release-addressees ?audience)))))
-  ?claimed)
-
-; (floor-talk ?audience) - the conversation whose floor a line to ?audience takes: ?audience itself,
-; the one @self is in with him, or, said from outside, the one ?audience is in - a hail to a man in
-; a talk waits its turn among the talk's own lines; @nothing when ?audience is in none.
-(define-func floor-talk (?audience)
+; (turn-board ?audience) - the board whose turn a line to ?audience takes, or @nothing.
+(define-func turn-board (?audience)
   (cond (case (unsubstantial ?audience) @nothing)
         (case (is-a ?audience [k conversation]) ?audience)
         (case (conversing-with @self ?audience) (conversation-of @self))
-        (else (conversation-of ?audience))))
-
-; (in-talk-line ?audience) - a line to ?audience is said inside a conversation @self is in.
-(define-func in-talk-line (?audience)
-  (or (is-a ?audience [k conversation]) (conversing-with @self ?audience)))
-
-; (holds-floor ?talk) - @self has ?talk's floor.
-(define-func holds-floor (?talk)
-  (substantial (bb-public-any ?talk floor @self)))
-
-; (waited-longer ?other) - ?other has waited longer to speak than @self: he has never spoken while
-; @self has, or his last line ended before @self's did.
-(define-func waited-longer (?other)
-  (bind (bb-public-read @self spoke-at) ?mine)
-  (bind (bb-public-read ?other spoke-at) ?theirs)
-  (cond (case (unsubstantial ?mine) @false)
-        (case (unsubstantial ?theirs) @true)
-        (else (< ?theirs ?mine))))
-
-; (outbid ?talk ?answering) - another bidder for ?talk's floor goes before @self: he answers a line
-; when @self does not, or bids as @self does and has waited longer.
-(define-func outbid (?talk ?answering)
-  (bind @false ?outbid)
-  (for-each ?bidder (bb-public-members ?talk bidding)
-    (bind (substantial (bb-public-any ?talk answering ?bidder)) ?theirs-answers)
-    (if (and (neq ?bidder @self)
-             (or (and ?theirs-answers (not ?answering))
-                 (and (eq ?theirs-answers ?answering) (waited-longer ?bidder))))
-        (then (bind @true ?outbid) (break))))
-  ?outbid)
+        (case (substantial (conversation-of ?audience)) (conversation-of ?audience))
+        (else ?audience)))
 
 ; (answering-line ?msg ?audience) - the line @self is telling ?audience answers one ?audience said
 ; to him: his tell of it was caused by that line.
@@ -257,66 +170,46 @@
         (then (bind @true ?answers) (break))))
   ?answers)
 
-; (bid-floor ?msg ?audience) - @self bids for the floor of the conversation he says ?msg in, and
-; as one answering a line said to him when ?msg does.
-(define-func bid-floor (?msg ?audience)
-  (bind (floor-talk ?audience) ?talk)
-  (if (substantial ?talk)
-      (then
-        (bb-public-add-member ?talk bidding @self)
-        (if (answering-line ?msg ?audience)
-            (then (bb-public-add-member ?talk answering @self))))))
+; (line-rank ?msg ?audience) - how soon a line waits its turn: an answer goes first.
+(define-func line-rank (?msg ?audience)
+  (flip (answering-line ?msg ?audience) 1 0))
 
-; (my-turn ?msg ?audience) - @self may say ?msg to ?audience now: it takes no conversation's floor
-; (floor-talk), or he has the floor, or the floor is free and no bidder goes before him.
-(define-func my-turn (?msg ?audience)
-  (bind (floor-talk ?audience) ?talk)
-  (cond (case (unsubstantial ?talk) @true)
-        (case (holds-floor ?talk) @true)
-        (else (and (bb-public-none ?talk floor)
-                   (not (outbid ?talk (answering-line ?msg ?audience)))))))
+; (my-turn ?audience) - @self may speak to ?audience now: the line takes no turn, or he holds it.
+(define-func my-turn (?audience)
+  (bind (turn-board ?audience) ?board)
+  (or (unsubstantial ?board) (holds-turn ?board)))
 
-; (take-floor ?audience) - @self takes the floor a line to ?audience takes (floor-talk), @true, or
-; loses it to another's claim, @false; a line to a man in no talk takes none.
-(define-func take-floor (?audience)
-  (bind (floor-talk ?audience) ?talk)
-  (or (unsubstantial ?talk)
-      (holds-floor ?talk)
-      (substantial (bb-public-try-write-new ?talk floor @self))))
+; (being-called) - another man holds @self's own turn: he is calling @self.
+(define-func being-called ()
+  (turn-held-by-another @self))
 
-; (release-floor) - @self stops bidding for every floor he bids for and gives up any he has, in
-; whatever talk that is: the talk a line takes the floor of can change before the line ends.
-(define-func release-floor ()
-  (for-each ?talk (bb-public-every ? bidding @self)
-    (bb-public-remove-member ?talk bidding @self))
-  (for-each ?talk (bb-public-every ? answering @self)
-    (bb-public-remove-member ?talk answering @self))
-  (for-each ?talk (bb-public-every ? floor @self)
-    (bb-public-clear ?talk floor)))
+; (spoken-to) - another man holds the turn of @self, or of the conversation he is in.
+(define-func spoken-to ()
+  (bind (conversation-of @self) ?talk)
+  (or (turn-held-by-another @self)
+      (and (substantial ?talk) (turn-held-by-another ?talk))))
 
-; (claim-turn ?audience) - @self takes his turn to speak to ?audience: the floor of the
-; conversation he speaks in, and the marks on whom he speaks to.
-(define-func claim-turn (?audience)
-  (and (take-floor ?audience) (claim-addressees ?audience)))
-
-; (speaking) - a line of @self's is being said: his SAY runs, and it holds his floor and marks
-; until it ends however it ends (actions/SAY.mc), whatever stopped the tell that proposed it.
+; (speaking) - a line of @self's is being said: his SAY runs, and it holds his turn until it ends
+; however it ends (actions/SAY.mc), whatever stopped the tell that proposed it.
 (define-func speaking ()
   (substantial (any {@self SAY ?})))
 
-; (release-addressees ?audience) - @self's marks on ?audience and on himself clear; another man's
-; stay.
-(define-func release-addressees (?audience)
-  (if (substantial (bb-public-any @self addressed @self))
-      (then (bb-public-clear @self addressed)))
-  (release-mark ?audience))
-
-; (release-mark ?audience) - @self's mark on ?audience clears; another man's stays.
-(define-func release-mark (?audience)
-  (if (substantial ?audience)
-      (then
-        (if (substantial (bb-public-any ?audience addressed @self))
-            (then (bb-public-clear ?audience addressed))))))
+; (release-line-turns ?tell) - the tell ?tell is over: the turn its line took gives way unless
+; another tell of @self's takes it too, and when no other tell of his runs, every turn he holds or
+; waits for does.
+(define-func release-line-turns (?tell)
+  (bind (turn-board ?tell.auxiliary) ?board)
+  (bind @false ?other)
+  (bind @false ?shared)
+  (for-each ?running (every {@self tell ? ?})
+    (if (neq ?running ?tell)
+        (then
+          (bind @true ?other)
+          (bind (turn-board ?running.auxiliary) ?theirs)
+          (if (and (substantial ?theirs) (substantial ?board))
+              (then (if (eq ?theirs ?board) (then (bind @true ?shared))))))))
+  (cond (case (not ?other) (turn-release ?))
+        (case (and (substantial ?board) (not ?shared)) (turn-release ?board))))
 
 ; (engaged-with ?partner) - @self and ?partner talk together: both are in one conversation, and
 ; since @self joined it a hail between them has been answered - his hail taken up, or ?partner's
@@ -448,7 +341,7 @@
   (if (substantial ?talk)
       (then
         (if (not (speaking))
-            (then (release-floor)))
+            (then (turn-release ?talk)))
         (bb-public-remove-member ?talk participant @self)
         (bb-public-remove-member ?talk has-more @self)
         (end-belief {?talk participant @self})
