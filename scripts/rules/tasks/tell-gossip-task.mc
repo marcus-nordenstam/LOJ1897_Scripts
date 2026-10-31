@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self tell-gossip ?friend}:?tell-gossip
-  (tar [k human] @object)
+  (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
   (noncompete-set discourse)
   (success-cond (unsubstantial (gossip-for ?friend)))

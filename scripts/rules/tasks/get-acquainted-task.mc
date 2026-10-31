@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self get-acquainted ?other}:?get-acquainted
-  (tar [k human] @object)
+  (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
   (noncompete-set discourse)
   (success-cond (unsubstantial (disclosure-for ?other)))

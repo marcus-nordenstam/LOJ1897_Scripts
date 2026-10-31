@@ -7,7 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self catch-up ?friend}:?catch-up
-  (tar [k human] @object)
+  (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
   (noncompete-set discourse)
   (success-cond (caught-up ?friend))
