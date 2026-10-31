@@ -1,5 +1,6 @@
-; A wedding he owed is discharged once he has wed, and the day set for it with it.
-(reflex {@self wed ?partner /succ}
+; A wedding he owed is discharged once he is married to his partner, however the vow reached him,
+; and the day set for it with it.
+(reflex {@self spouse ?partner}
   (when {@self obligation {@self wed ?partner} ?})
   (effects
     (end-belief {@self obligation {@self wed ?partner} ?})

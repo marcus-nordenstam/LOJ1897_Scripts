@@ -11,6 +11,7 @@
 
 (task {@self wed ?partner}:?wed
   (noncompete-set occasion)
+  (success-cond (substantial (any {@self spouse ?partner})))
   (under-noncompete-set discourse)
   (tar [k human] @object)
   (role ?occ [k wedding] {?occ hours ?start ?end} {?occ venue ?venue}
@@ -33,7 +34,4 @@
       (try
         (role @self {@self tell ? ?partner /succ /caused_by ?wed}
                     -{@self spouse ?}
-          (effects (begin-belief {@self spouse ?partner}))))
-      (try
-        (role @self {@self spouse ?partner}
-          (effects (set-outcome ?wed /succ)))))))
+          (effects (begin-belief {@self spouse ?partner})))))))
