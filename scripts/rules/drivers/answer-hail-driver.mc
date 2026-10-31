@@ -19,10 +19,11 @@
   (substantial (any {@self turn-down ?speaker ?})))
 
 ; Taking it up, at what talking with ?speaker is worth to him, while nothing else he has going
-; outbids it. Every answer to a hail is caused by the opening it answers.
+; outbids it. Every answer to a hail is caused by the opening it answers, and only a speaker's
+; latest opening is answered: his hail stands on that one.
 (driver engage-hail-driver
-  (role ?speaker (bb-public-every ? hailing @self)
-                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+  (role ?speaker (bb-public-every ?speaker hailing @self)
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
@@ -41,8 +42,8 @@
 
 ; A take-up he has begun is a yes already being said: he finishes it.
 (driver complete-take-up-driver
-  (role ?speaker (bb-public-every ? hailing @self)
-                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+  (role ?speaker (bb-public-every ?speaker hailing @self)
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
@@ -57,8 +58,8 @@
 ; Declining for what he would rather be doing, and saying what it is: the decision is made once,
 ; and the refusal it begins always completes.
 (driver decline-hail-driver
-  (role ?speaker (bb-public-every ? hailing @self)
-                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+  (role ?speaker (bb-public-every ?speaker hailing @self)
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
@@ -86,8 +87,8 @@
 ; A man in a conversation that seats no one more turns every hail down, saying he is talking. The
 ; player is never turned down: his hail joins the talk itself (player-hail).
 (driver full-talk-hail-driver
-  (role ?speaker (bb-public-every ? hailing @self)
-                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+  (role ?speaker (bb-public-every ?speaker hailing @self)
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
@@ -111,8 +112,8 @@
 
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (driver rebuff-hail-driver
-  (role ?speaker (bb-public-every ? hailing @self)
-                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+  (role ?speaker (bb-public-every ?speaker hailing @self)
+                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))

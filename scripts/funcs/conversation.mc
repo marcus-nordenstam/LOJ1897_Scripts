@@ -533,15 +533,14 @@
       (then ?remark)
       (else (formulaic [/msg-class smalltalk] response agree))))
 
-; (awaits-smalltalk-answer ?talk ?partner) - a smalltalk remark ?partner made to @self in ?talk is
-; still unanswered.
+; (awaits-smalltalk-answer ?talk ?partner) - the last smalltalk remark ?partner made to @self, in
+; ?talk, is still unanswered.
 (define-func awaits-smalltalk-answer (?talk ?partner)
   (bind (any {?talk participant @self}) ?part)
-  (bind @false ?waiting)
-  (for-each ?line (every {?partner SAY (msg ~[/msg-class smalltalk] ?..) @self /past})
-    (if (and (happened-since ?line ?part) (none {@self tell ? ?partner /succ /caused_by ?line}))
-        (then (bind @true ?waiting) (break))))
-  ?waiting)
+  (bind (any {?partner SAY (msg ~[/msg-class smalltalk] ?..) @self /past /most_recent}) ?line)
+  (if (substantial ?line)
+      (then (and (happened-since ?line ?part) (none {@self tell ? ?partner /succ /caused_by ?line})))
+      (else @false)))
 
 ; (smalltalk-line ?talk) - the SMALLTALK remark @self has for ?talk, or @nothing: the weather he has
 ; seen, the first of it that is something, said once a talk: the weather of the town he stands in,
@@ -564,14 +563,14 @@
         (then (bind @true ?flirted) (break))))
   ?flirted)
 
-; (awaits-flirt-answer ?talk ?partner) - a flirt ?partner made to @self in ?talk is still unanswered.
+; (awaits-flirt-answer ?talk ?partner) - the last flirt ?partner made to @self, in ?talk, is still
+; unanswered.
 (define-func awaits-flirt-answer (?talk ?partner)
   (bind (any {?talk participant @self}) ?part)
-  (bind @false ?waiting)
-  (for-each ?line (every {?partner SAY (formulaic ~[/msg-class flirtation] flirt compliment) @self /past})
-    (if (and (happened-since ?line ?part) (none {@self tell ? ?partner /succ /caused_by ?line}))
-        (then (bind @true ?waiting) (break))))
-  ?waiting)
+  (bind (any {?partner SAY (formulaic ~[/msg-class flirtation] flirt compliment) @self /past /most_recent}) ?line)
+  (if (substantial ?line)
+      (then (and (happened-since ?line ?part) (none {@self tell ? ?partner /succ /caused_by ?line})))
+      (else @false)))
 
 ; (flirt-reply ?partner) - what @self answers a flirt of ?partner's with, his motives choosing: a flirt
 ; back to one he fancies, a rebuff - heard as the slight it is - to one he dislikes, else flattered.
