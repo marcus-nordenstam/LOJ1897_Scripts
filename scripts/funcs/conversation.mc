@@ -239,7 +239,12 @@
   (bind (* ?base 0.5 (+ 1.0 (stance ?partner warmth)) (social-appetite)) ?appeal)
   (bind (conversation-of @self) ?talk)
   (bind (any {?talk participant @self}) ?part)
-  (bind (any {? participant ?partner /past /most_recent}) ?parted)
+  (bind (any {? participant @self /past /most_recent}) ?left)
+  (bind @nothing ?parted)
+  (if (is-belief ?left)
+      (then (bind ?left.subject ?left-talk)
+            (if (substantial (any {?left-talk participant ?partner /ever}))
+                (then (bind ?left ?parted)))))
   (cond (case (engaged-with ?partner)
               (/ ?appeal (+ 1.0 (/ (+ /float (elapsed /minutes ?part) 0) (k-partner-weary-minutes)))))
         (case (is-belief ?parted)
@@ -285,24 +290,24 @@
   (bind (hail-reply ?partner ?hail) ?reply)
   (and (is-belief ?reply) (turned-away ?reply.target)))
 
-; (join-conversation ?talk) - @self takes part in ?talk: he joins its participant set, and he knows
-; himself a party of it, where it is held when he did not yet, and the occasion it is part of when
-; he holds one for here today. Joining the talk he is in already changes nothing.
-(define-func join-conversation (?talk)
+; (join-conversation ?talk ?act) - @self takes part in ?talk: he joins its participant set, and he knows
+; himself a party of it, caused by ?act that joins him, where it is held when he did not yet, and the
+; occasion it is part of when he holds one for here today. Joining the talk he is in already changes
+; nothing.
+(define-func join-conversation (?talk ?act)
   (bb-public-add-member ?talk participant @self)
   (if (unsubstantial (any {?talk participant @self}))
-      (then (begin-belief {?talk participant @self})))
+      (then (begin-belief {?talk participant @self /caused_by ?act})))
   (if (unsubstantial (any {?talk venue ?}))
       (then (begin-belief {?talk venue (spatial @self space)})))
   (bind (o /known [k occasion] {@o venue (spatial @self building)} {@o held-on (time date)}) ?occasion)
   (if (and (substantial ?occasion) (unsubstantial (any {?talk occasion ?})))
       (then (begin-belief {?talk occasion ?occasion}))))
 
-; (open-conversation) - @self opens a conversation where he stands: a new shared object, and
-; himself in it. Taking up a hail makes one when neither man is in a conversation.
+; (open-conversation) - a new conversation, a shared object, for @self to join. Taking up a hail
+; makes one when neither man is in a conversation.
 (define-func open-conversation ()
   (share-object (o /invent [k conversation])): ?talk
-  (join-conversation ?talk)
   ?talk)
 
 ; (parties-of ?talk) - every party in ?talk: its participant set.
@@ -343,6 +348,12 @@
 ; (conversation-full ?talk) - ?talk seats no one more (conversation-size-max).
 (define-func conversation-full (?talk)
   (>= (count (parties-of ?talk)) (conversation-size-max)))
+
+; (hailable ?partner) - @self may hail ?partner: he is in no conversation, or in one that seats
+; another.
+(define-func hailable (?partner)
+  (bind (conversation-of ?partner) ?theirs)
+  (or (unsubstantial ?theirs) (not (conversation-full ?theirs))))
 
 ; (in-full-talk) - @self is in a conversation that seats no one more.
 (define-func in-full-talk ()

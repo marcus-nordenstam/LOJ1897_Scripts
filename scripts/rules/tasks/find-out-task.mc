@@ -17,6 +17,6 @@
   (success-cond (substantial (any ?fact)))
   (role ?who {?who isa [k human]}
              (neq ?who @self)
-    (when (and (askable ?who ?fact) (not (engaged-with ?who))))
+    (when (and (askable ?who ?fact) (not (engaged-with ?who)) (hailable ?who)))
     (try
       (effects (maintain-proposal {@self hail ?who} /quit-trying-on-fail)))))

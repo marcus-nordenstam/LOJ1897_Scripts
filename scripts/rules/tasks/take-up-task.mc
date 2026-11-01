@@ -29,7 +29,7 @@
               (then (bind (take-up-talk ?partner) ?talk)))
           (if (substantial ?talk)
               (then
-                (join-conversation ?talk)
+                (join-conversation ?talk ?take-up)
                 (bb-public-add-member ?talk participant ?partner)
                 (set-outcome ?take-up /succ))
               (else (set-outcome ?take-up /fail))))))))

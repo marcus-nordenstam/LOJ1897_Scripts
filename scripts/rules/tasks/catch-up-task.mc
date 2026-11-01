@@ -14,7 +14,7 @@
   (success-cond (caught-up ?friend))
   (stable-or
     (try
-      (when (not (engaged-with ?friend)))
+      (when (and (not (engaged-with ?friend)) (hailable ?friend)))
       (effects (maintain-proposal {@self hail ?friend})))
     (try
       (role @self {@self hail ?friend /fail /caused_by ?catch-up}:?hail

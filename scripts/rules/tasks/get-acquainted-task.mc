@@ -14,7 +14,7 @@
   (success-cond (unsubstantial (disclosure-for ?other)))
   (stable-or
     (try
-      (when (not (engaged-with ?other)))
+      (when (and (not (engaged-with ?other)) (hailable ?other)))
       (effects (maintain-proposal {@self hail ?other})))
     (try
       (role @self {@self hail ?other /fail /caused_by ?get-acquainted}:?hail
