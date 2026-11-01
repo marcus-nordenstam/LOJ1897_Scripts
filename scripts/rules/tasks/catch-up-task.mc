@@ -20,10 +20,13 @@
       (role @self {@self hail ?friend /fail /caused_by ?catch-up}:?hail
         (when (hail-turned-down ?friend ?hail))
         (effects (set-outcome ?catch-up /fail))))
+    ; Tested live in (when): a hold re-tests the gate, never a (bind ..), so a bound ?news would
+    ; hold the rung on news already told and the ask below would never get its turn.
     (try
-      (bind (news-for ?friend) ?news)
-      (when (and (engaged-with ?friend) (substantial ?news)))
-      (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?news) ?friend} /quit-trying-on-fail)))
+      (when (and (engaged-with ?friend) (substantial (news-for ?friend))))
+      (effects
+        (bind (news-for ?friend) ?news)
+        (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?news) ?friend} /quit-trying-on-fail)))
     (try
       (when (and (engaged-with ?friend)
                  (unsubstantial (news-for ?friend))
