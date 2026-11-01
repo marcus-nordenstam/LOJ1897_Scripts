@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
-; particulars (reflex) - a particular met is felt on its kind (funcs/particulars.mc): the drink
-; @self took, the dish he ate, the book he read, the act the cause; and drink seen in another, a pet peeve, felt on
-; its kind and then toward the drinker (rudeness, the other, is construe-speech's).
+; particulars (reflex) - a particular met (funcs/particulars.mc): the drink @self took, the dish he
+; ate, the book he read, the act the cause; and another man seen drinking what @self holds an
+; aversion to (a slight witnessed is reactions.mc's).
 ; ----------------------------------------------------------------------------
 
 (reflex {@self DRINK ?drink /succ}:?DRINK
@@ -26,5 +26,5 @@
   (when (and (dirty-born) (neq ?drinker @self)))
   (effects
     (any {?drink content-kind ?drink-kind})
-    (if (and (substantial ?drink-kind) (is-a ?drink-kind [k alcoholic-drink]))
-        (then (witness-peeve ?drinker [k alcoholic-drink] ?DRINK)))))
+    (if (substantial ?drink-kind)
+        (then (witness-aversion ?drinker ?drink-kind ?DRINK)))))

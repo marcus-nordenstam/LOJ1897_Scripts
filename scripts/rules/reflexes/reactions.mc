@@ -126,7 +126,8 @@
 
 (reflex {?actor slight-act ?patient ?slight-act}
   (effects
-    (mint-emotion [k contempt] ?actor 24)))
+    (mint-emotion [k contempt] ?actor 24)
+    (witness-aversion ?actor [k slight-act] ?slight-act)))
 
 ; -- rivalrous-act (actor positionally outcompetes patient): the loser feels
 ; the loss; the winner takes the prize, not the emotional payoff. 6-month

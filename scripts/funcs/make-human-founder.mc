@@ -32,7 +32,6 @@
           (seed-handwriting ?h ?class @nothing)
           (seed-human-vitals ?h)
           (seed-npc-habits ?h)
-          (seed-sensitivities ?h)
           (set-attr ?h parentless 1)
           (+ (founder_age_min) (random-int 0 (- (founder_age_max) (founder_age_min)))): ?age
           (set-attr ?h birth-date

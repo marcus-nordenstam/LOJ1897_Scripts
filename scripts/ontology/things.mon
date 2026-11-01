@@ -24,7 +24,7 @@
             (states physical-mobility alertness satiety ease stimulation company wedding-day obligation todo frequent facing
                     know avoid expect-answer expect-question meet threaten commission hired-by
                     vouched-for sought-introduction shop-weekday shop-hour under-suspicion value justify identity
-                    adore like dislike detest revere admire disdain despise favourite
+                    adore like dislike detest revere admire disdain despise favourite fondness aversion
                     rely trust distrust mistrust cherish begrudge hate fancy desire crave wary dread
                     terror seem rude-to violent-to thief-to coercive-to mention own
                     hold lease rent borrow sell owe inherit
@@ -50,7 +50,7 @@
             (attrs physical-motors game-role birth-date death-date death-cause age age-band age-span
                    chronotype
                    gender appearance height girth hair-color eye-color handwriting hand-slant hand-weight
-                   hand-letter-spacing hand-line-spacing hand-regularity attractiveness name fondness aversion
+                   hand-letter-spacing hand-line-spacing hand-regularity attractiveness name
                    condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite strain tedium social-hunger pain
                    openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
                    volatility withdrawal devoutness narcissism machiavellianism psychopathy sadism strength dexterity

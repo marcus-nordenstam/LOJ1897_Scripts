@@ -1,9 +1,14 @@
 ; ----------------------------------------------------------------------------
-; particulars - the kinds a man meets and comes to like or dislike: a drink he takes, a dish he
-; eats, a book he reads, and his pet peeves, rudeness and drink seen in others. Meeting one
-; is felt as warmth toward its KIND by the rule (feel-stance): the particular's population base,
-; bent by the trait_affect rows of category taste, by his class, and by an arbitrary fondness or
-; aversion drawn at his birth. The favourite of a category is classified off those feelings.
+; particulars - the kinds a man meets: a drink he takes, a dish he eats, a book he reads.
+;
+; An ACQUIRED TASTE: each meeting moves his warmth toward the kind by the rule (feel-stance) - the
+; particular's population base, bent by the trait_affect rows of category taste and by his class -
+; and the favourite of a category is classified off those feelings.
+; A SENSITIVITY: a love or hate of a kind he holds from the start, {@self fondness|aversion <kind>}
+; - drawn at birth (thinks/born-fondness-think.mc, born-aversion-think.mc) or his temperament's (a pet peeve,
+; thinks/classify/classify-pet-peeves.mc). It never moves; meeting its kind is felt at once as an
+; emotion caused by the meeting and by the sensitivity itself: delight or disgust at his own, anger
+; at another man doing it.
 ; ----------------------------------------------------------------------------
 
 ; Each category's particulars, how a man of average traits takes to each, and its weight when one
@@ -29,12 +34,6 @@
   (record [k pudding] 0.4 1)
   (record [k bread] 0.3 1)
   (record [k cheese-food] 0.3 1))
-
-; A pet peeve: an act of OTHERS @self comes to mind, his feeling toward its kind the aversion that
-; lowers his warmth toward whoever he sees doing it.
-(define-table peeve_particulars (fields particular base)
-  (record [k insult]          -0.2)
-  (record [k alcoholic-drink]  0.0))
 
 (define-table reading_particulars (fields particular base draw)
   (record [k sermon-book] 0.2 1)
@@ -62,10 +61,7 @@
   (record [k oyster] [k upper] 0.4)
   (record [k oyster] [k lower] -0.2))
 
-; What a born fondness or aversion adds to every meeting of its particular.
-(define-macro sensitivity-felt () 2.0)
-
-; The chance a newborn is drawn a fondness, and apart from it an aversion.
+; The chance a man is born with a fondness, and apart from it an aversion.
 (define-macro sensitivity-chance () 0.3)
 
 ; The least warmth a particular is held at to be a favourite.
@@ -78,30 +74,44 @@
       (then (bind ?drink-base ?base)))
   (if (table-match reading_particulars particular ?kind base ?reading-base)
       (then (bind ?reading-base ?base)))
-  (if (table-match peeve_particulars particular ?kind base ?peeve-base)
-      (then (bind ?peeve-base ?base)))
   (if (table-match food_particulars particular ?kind base ?food-base)
       (then (bind ?food-base ?base)))
   (bind (trait-bent ?kind taste ?base) ?felt)
   (any {@self class-situation ?class=@nothing})
   (if (and (substantial ?class) (table-match particular_class particular ?kind class ?class felt ?class-felt))
       (then (bind (+ ?felt ?class-felt) ?felt)))
-  (if {@self fondness ?kind}
-      (then (bind (+ ?felt (sensitivity-felt)) ?felt)))
-  (if {@self aversion ?kind}
-      (then (bind (- ?felt (sensitivity-felt)) ?felt)))
   ?felt)
 
-; @self meets ?kind, the meeting ?cause.
-(define-func meet-particular (?kind ?cause)
-  (feel-stance ?kind warmth (particular-felt ?kind) ?cause))
+; How long the feeling a sensitivity sets off is felt, in hours.
+(define-macro sensitivity-delight-hours () 6)
+(define-macro sensitivity-disgust-hours () 12)
+(define-macro sensitivity-anger-hours () 24)
 
-; A man's arbitrary loves and hates, drawn once at his making or birth.
-(define-func seed-sensitivities (?h)
-  (if (chance (sensitivity-chance))
-      (then (add-attr-item-unique ?h fondness (draw-particular))))
-  (if (chance (sensitivity-chance))
-      (then (add-attr-item-unique ?h aversion (draw-particular)))))
+; The ?label (fondness or aversion) @self holds toward ?kind or a kind it is a kind of, or @nothing.
+(define-func sensitivity-to (?label ?kind)
+  (bind @nothing ?held)
+  (for-each ?sensitivity (every {@self ?label ?})
+    (if (is-a ?kind ?sensitivity.target)
+        (then (bind ?sensitivity ?held) (break))))
+  ?held)
+
+; @self meets ?kind in his own ?act: his taste for it moves, and a sensitivity he holds toward it is
+; felt at once - delight or disgust, caused by the act and by the sensitivity.
+(define-func meet-particular (?kind ?act)
+  (feel-stance ?kind warmth (particular-felt ?kind) ?act)
+  (bind (sensitivity-to fondness ?kind) ?fond)
+  (if (substantial ?fond)
+      (then (mint-emotion-through [k joy] @nothing (sensitivity-delight-hours) ?act ?fond)))
+  (bind (sensitivity-to aversion ?kind) ?averse)
+  (if (substantial ?averse)
+      (then (mint-emotion-through [k disgust] @nothing (sensitivity-disgust-hours) ?act ?averse))))
+
+; @self sees ?doer at ?act on a thing of ?kind: an aversion he holds toward it angers him at ?doer,
+; caused by the act and by the aversion - his pet peeve.
+(define-func witness-aversion (?doer ?kind ?act)
+  (bind (sensitivity-to aversion ?kind) ?averse)
+  (if (substantial ?averse)
+      (then (mint-emotion-through [k anger] ?doer (sensitivity-anger-hours) ?act ?averse))))
 
 ; One particular of any category, a category as likely as another.
 (define-func draw-particular ()
@@ -148,14 +158,3 @@
 ; How strongly @self is drawn to a book of ?genre on his shelf.
 (define-func book-appeal (?genre)
   (+ (drink-appeal-floor) (+ 1.0 (stance ?genre warmth))))
-
-; How far a pet peeve, held at its full aversion, lowers @self's warmth toward the one he sees at it.
-(define-macro peeve-felt-scale () 1.0)
-
-; @self sees ?doer at an act of the peeve ?kind, the sight ?cause: he meets the kind, then feels his
-; aversion to it toward ?doer.
-(define-func witness-peeve (?doer ?kind ?cause)
-  (meet-particular ?kind ?cause)
-  (bind (min 0.0 (stance ?kind warmth)) ?aversion)
-  (if (< ?aversion 0.0)
-      (then (feel-stance ?doer warmth (* (peeve-felt-scale) ?aversion) ?cause))))

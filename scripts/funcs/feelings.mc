@@ -66,9 +66,6 @@
   (record intellect   [k poetry-book]        taste       0.0 0.6    0)
   (record openness    [k poetry-book]        taste       0.0 1.0    0)
   (record orderliness [k almanac]            taste       0.0 0.8    0)
-  (record politeness  [k insult]             taste       0.0 -1.0   0)
-  (record compassion  [k insult]             taste       0.0 -0.4   0)
-  (record devoutness  [k alcoholic-drink]    taste       0.0 -1.2   0)
   (record openness    [k roast-beef]         taste       0.0 -0.6   0)
   (record openness    [k mutton]             taste       0.0 -0.6   0)
   (record openness    [k bread]              taste       0.0 -0.4   0)
@@ -115,6 +112,15 @@
 
 (define-func mint-emotion (?kind ?focus ?hours)
   (mint-emotion-caused ?kind ?focus ?hours @nothing))
+
+; An emotion over ?cause felt through the standing disposition ?through (a sensitivity), both its
+; causes: "why?" names the disposition as well as the occasion.
+(define-func mint-emotion-through (?kind ?focus ?hours ?cause ?through)
+  (mint-emotion-felt-through ?kind ?focus (feeling-salience ?kind ?hours @nothing) ?cause ?through))
+
+(define-func mint-emotion-felt-through (?kind ?focus ?salience ?cause ?through)
+  (if (>= ?salience 1.0)
+      (then (mint-feeling emotion ?kind ?focus ?salience (max-emotion-salience) @true ?cause ?through))))
 
 ; An emotion over the act a reflex construes as ?category, which the trait_affect rows of that
 ; category bend.
