@@ -71,7 +71,7 @@
     ; belief field converts into the believer's realm, so an object the mind has
     ; never met lands as @fail.
     (observe ?baby): ?known-baby
-    (begin-belief {@self child ?known-baby})
+    (begin-belief {@self child ?known-baby /caused_by ?GIVE-BIRTH})
     ; The pregnancy is over.
     (set-attr @self pregnant-when @nothing)
     (set-attr @self pregnant-by @nothing)

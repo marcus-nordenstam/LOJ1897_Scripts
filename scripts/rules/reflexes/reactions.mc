@@ -16,6 +16,10 @@
 ; drain before any of these dispatch.
 ; ----------------------------------------------------------------------------
 
+; A betrayal, a repudiation or a desertion by one @self cares for: strong enough to move even a
+; spouse's care (stiffness 0.2) by a third of the way to hate.
+(define-macro forsaken-care-felt () -5.0)
+
 ; -- wrong-act (umbrella: any wronging - accumulates with the specific rows) --
 (reflex {?actor wrong-act @self ?wrong-act}
   (effects
@@ -137,14 +141,14 @@
   (effects
     (mint-emotion [k envy] ?actor 24)))
 
-; -- betray-act (broken trust). Betrayal ends the love + friend bonds (real
-; structural changes); the trust collapse rides the emotion->stance coupling.
+; -- betray-act (broken trust). Betrayal sours care and ends the friend bond; the trust
+; collapse rides the emotion->stance coupling.
 (reflex {?actor betray-act @self ?betray-act}
   (effects
     (mint-emotion [k anger] ?actor 24)
     (mint-emotion [k grief] @nothing 168)
     (mint-pressure [k attachment-loss] ?actor 2160)
-    (end-bond {@self love ?actor})
+    (feel-stance ?actor care (forsaken-care-felt) ?betray-act)
     (end-bond {@self friend ?actor})))
 
 ; The affair supplement: a betrayal whose construed act is a LOVER belief also
@@ -213,7 +217,7 @@
     (mint-emotion [k grief] ?actor 720)
     (mint-pressure [k status-loss] @nothing 4320)
     (mint-pressure [k attachment-loss] ?actor 1440)
-    (end-bond {@self love ?actor})
+    (feel-stance ?actor care (forsaken-care-felt) ?repudiation-act)
     (end-bond {@self friend ?actor})))
 
 (reflex {?actor repudiation-act ?patient ?repudiation-act}
@@ -228,7 +232,7 @@
     (mint-pressure [k attachment-loss] ?actor 2160)
     (mint-pressure [k status-loss] @nothing 1440)
     (end-bond {@self friend ?actor})
-    (end-bond {@self love ?actor})))
+    (feel-stance ?actor care (forsaken-care-felt) ?abandonment-act)))
 
 (reflex {@self abandonment-act ?patient ?abandonment-act}
   (effects

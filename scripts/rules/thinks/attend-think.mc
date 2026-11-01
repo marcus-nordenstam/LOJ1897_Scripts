@@ -38,7 +38,7 @@
 (think spouse-reciprocate
   (role @self -{@self spouse ?}
     (role ?p {@self fiancee ?p}
-             {?p spouse @self}
+             {?p spouse @self}:?vow
       (effects
         (end-belief {@self fiancee ?p})
-        (begin-belief {@self spouse ?p})))))
+        (begin-belief {@self spouse ?p /caused_by ?vow})))))

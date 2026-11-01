@@ -22,4 +22,4 @@
       (when (latch-eval (chance (lover-acceptance ?suitor))))
       (effects
         (begin-belief {@self lover ?suitor})
-        (nudge-stance ?suitor attraction (lover_attraction_floor))))))
+        (feel-stance ?suitor attraction (lover-attraction-felt))))))

@@ -17,6 +17,6 @@
                    -{?visitor gender ?host_gender}
                    (not (spatial ?host_spouse co-located-building @self))))
         (effects
-          (nudge-stance ?host trust (- 0.0 (* 0.08 (+ 1.0 (flip (< (stance-band ?host warmth) 0.0)
+          (feel-stance ?host trust (- 0.0 (* 0.4 (+ 1.0 (flip (< (stance-band ?host warmth) 0.0)
                                                                 (- 0.0 (stance-band ?host warmth))
                                                                 0.0))))))))))

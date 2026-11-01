@@ -68,10 +68,10 @@
 ;     ; relocate above already puts them in the room, which is what a witness sees.
 ;     ; Commented out pending the register. 
 ;     ; (record-hotel-guest ?venue ?paramour)
-;     (nudge-stance ?paramour attraction 0.10)
+;     (feel-stance ?paramour attraction 0.5)
 ;     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
 ;     ; party's own reflex on the act. Commented out pending that redesign.
-;     ; (nudge-stance ?paramour @self attraction 0.10)
+;     ; (feel-stance ?paramour @self attraction 0.5)
 ;     ; the hotel is an org premises - the note names it by the org's name.
 ;     (if (and (chance 0.30) {?paramour home ?paramour_home}
 ;              {? workplace ?venue}: ?workplace
@@ -116,10 +116,10 @@
 ;   (effects
 ;     (relocate @self ?venue)
 ;     (relocate ?paramour ?venue)
-;     (nudge-stance ?paramour attraction 0.10)
+;     (feel-stance ?paramour attraction 0.5)
 ;     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
 ;     ; party's own reflex on the act. Commented out pending that redesign.
-;     ; (nudge-stance ?paramour @self attraction 0.10)
+;     ; (feel-stance ?paramour @self attraction 0.5)
 ;     ; @self's own home: a named residence carries a name; a plain house has only
 ;     ; an address (not expressible in a note yet), so unnamed homes write no note.
 ;     (if (and (chance 0.30) {?paramour home ?paramour_home} {?venue name ?})
@@ -186,10 +186,10 @@
 ;           ; re-authoring as what the spouse can actually notice. Commented out pending that.
 ;           ; (bump-suspicion (spouse-of ?paramour) ?paramour 0.20)
 ;           ))
-;     (nudge-stance ?paramour attraction 0.10)
+;     (feel-stance ?paramour attraction 0.5)
 ;     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
 ;     ; party's own reflex on the act. Commented out pending that redesign.
-;     ; (nudge-stance ?paramour @self attraction 0.10)
+;     ; (feel-stance ?paramour @self attraction 0.5)
 ;     ; the theatre / pub is an org premises - the note names it by the org's name.
 ;     (if (and (chance 0.30) {?paramour home ?paramour_home}
 ;              {? workplace ?venue}: ?workplace

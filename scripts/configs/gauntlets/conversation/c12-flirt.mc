@@ -25,7 +25,7 @@
   (enter-mind ?suitor)
   (observe ?beloved): ?c12-beloved
   (begin-belief {@self friend ?c12-beloved})
-  (nudge-stance ?c12-beloved attraction 0.5)
+  (feel-stance ?c12-beloved attraction 2.5)
   (exit-mind))
 
 (define-func c12-validate ()

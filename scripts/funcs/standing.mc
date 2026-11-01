@@ -1,12 +1,12 @@
 ; ----------------------------------------------------------------------------
-; standing - how @self comes to regard the people he knows by who they ARE, judged once a night.
+; standing - how @self comes to regard a man he knows by who he IS, felt when he meets him and
+; whenever what he knows of him changes (rules/reflexes/standing.mc).
 ;
-; Everyone he has ever held a bond to at acquaintance or closer is judged on what he knows of
-; them: their conduct against his own standard, their class against his, a fortune above his
-; own (envy), and the company they keep (the friends of those he dislikes).
-; Between adults his orientation admits and who are not his kin, their mate value - looks and
-; standing, weighed by his sex, less the years between them - draws him (attraction, and the
-; longing that is its felt surface). Each pull is gentle; a difference that lasts accumulates.
+; His conduct against @self's own standard, his class against @self's, a fortune above @self's
+; own (envy), and the company he keeps (the friends of those @self dislikes). Between adults
+; @self's orientation admits and who are not kin, his mate value - looks and standing, weighed
+; by @self's sex, less the years between them - draws @self (attraction, and the longing that
+; is its felt surface).
 ; ----------------------------------------------------------------------------
 
 ; How much each banded kind of conduct weighs on esteem, warmth and trust.
@@ -51,35 +51,43 @@
       (else (if (any {?other wealth ?}): ?riches
                 (then (mint-emotion-caused [k envy] ?other (* (standing-envy-hours) ?gap) ?riches))))))
 
-(define-func judge-standing-of (?other)
-  (bind 0.0 ?dw)
-  (bind 0.0 ?de)
-  (bind 0.0 ?dt)
-  (for-each-row conduct_stance [/dim ?dim] [/esteem ?we] [/warmth ?ww] [/trust ?wt]
-    (band-virtue ?other ?dim @nothing): ?theirs
-    (if (substantial ?theirs)
-        (then
-          (bind (+ (caring-base) (band-virtue @self ?dim 0.5)) ?caring)
-          (bind (* ?caring (* (- ?theirs 0.5) 2.0)) ?pull)
-          (bind (+ ?de (* ?we ?pull)) ?de)
-          (bind (+ ?dw (* ?ww ?pull)) ?dw)
-          (bind (+ ?dt (* ?wt ?pull)) ?dt))))
+; His conduct on ?dim against @self's own standard, felt on esteem, warmth and trust.
+(define-func feel-conduct (?other ?dim ?cause)
+  (band-virtue ?other ?dim @nothing): ?theirs
+  (if (and (substantial ?theirs)
+           (table-match conduct_stance dim ?dim esteem ?we warmth ?ww trust ?wt))
+      (then
+        (bind (+ (caring-base) (band-virtue @self ?dim 0.5)) ?caring)
+        (bind (* (standing-felt-scale) (* ?caring (* (- ?theirs 0.5) 2.0))) ?pull)
+        (feel-stance ?other esteem (* ?we ?pull) ?cause)
+        (feel-stance ?other warmth (* ?ww ?pull) ?cause)
+        (feel-stance ?other trust (* ?wt ?pull) ?cause))))
+
+; His class against @self's, felt on warmth.
+(define-func feel-class (?other ?cause)
   (any {@self class-situation ?my-class=@nothing})
   (any {?other class-situation ?their-class=@nothing})
   (if (and (substantial ?my-class) (substantial ?their-class))
-      (then (if (= ?my-class ?their-class)
-                (then (bind (+ ?dw (class-match-warmth)) ?dw))
-                (else (bind (- ?dw (class-mismatch-warmth)) ?dw)))))
+      (then (feel-stance ?other warmth
+                         (* (standing-felt-scale)
+                            (flip (= ?my-class ?their-class)
+                                  (class-match-warmth)
+                                  (- 0.0 (class-mismatch-warmth))))
+                         ?cause))))
+
+; A fortune above @self's own, felt as envy and on esteem.
+(define-func feel-fortune (?other ?cause)
   (bind (fortune-gap ?other) ?gap)
   (if (> ?gap (envy-gap-min))
       (then
-        (bind (- ?de (* (envy-esteem) ?gap)) ?de)
-        (feel-envy ?other ?gap)))
-  (bind (+ ?dw (* (transitive-warmth)
-                  (sum-over ?tie {?other friend ?f} (min (stance ?f warmth) 0.0)))) ?dw)
-  (nudge-stance ?other warmth (* ?dw (standing-lr)))
-  (nudge-stance ?other esteem (* ?de (standing-lr)))
-  (nudge-stance ?other trust (* ?dt (standing-lr))))
+        (feel-stance ?other esteem (* (standing-felt-scale) (- 0.0 (* (envy-esteem) ?gap))) ?cause)
+        (feel-envy ?other ?gap))))
+
+; The company he keeps: his friendship with a man @self dislikes, felt on warmth.
+(define-func feel-company (?other ?companion ?cause)
+  (bind (min (stance ?companion warmth) 0.0) ?ill)
+  (if (< ?ill 0.0)
+      (then (feel-stance ?other warmth (* (standing-felt-scale) (* (transitive-warmth) ?ill)) ?cause))))
 
 ; Does @self's orientation draw him to ?other's sex? An unknown orientation reads as the common one.
 (define-func drawn-to (?same-sex)
@@ -89,7 +97,7 @@
         (= (flip ?same-sex ?same ?opposite) 1)
         @false))
 
-(define-func judge-attraction-of (?other)
+(define-func feel-attraction (?other ?cause)
   (any {@self gender ?my-sex=@nothing})
   (any {?other gender ?their-sex=@nothing})
   (any {@self age ?age=-1})
@@ -110,14 +118,19 @@
             (then (bind (- ?value (* (age-gap-penalty) (/ (difference ?my-age ?their-age) 10.0))) ?value)))
         (if (> ?value 0.0)
             (then
-              (nudge-stance ?other attraction (* ?value (attraction-lr)))
+              (feel-stance ?other attraction (* ?value (attraction-felt-scale)) ?cause)
               (if (any {?other attractiveness ?}): ?looks
                   (then (mint-emotion-caused [k longing] ?other (* (longing-hours) ?value) ?looks))
                   (else (if (any {?other prestige ?}): ?standing
                             (then (mint-emotion-caused [k longing] ?other (* (longing-hours) ?value)
                                                        ?standing))))))))))
 
-(define-func /sleep judge-standing ()
-  (for-each-distinct ?other {@self (closeness-labels acquaintance) ?other /ever}
-    (judge-standing-of ?other)
-    (judge-attraction-of ?other)))
+; Everything @self knows of him, felt at once: what meeting him is.
+(define-func judge-standing-of (?other ?cause)
+  (for-each-row conduct_stance [/dim ?dim]
+    (feel-conduct ?other ?dim ?cause))
+  (feel-class ?other ?cause)
+  (feel-fortune ?other ?cause)
+  (for-each-distinct ?companion {?other friend ?companion}
+    (feel-company ?other ?companion ?cause))
+  (feel-attraction ?other ?cause))

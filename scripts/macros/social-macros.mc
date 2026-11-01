@@ -19,8 +19,8 @@
 ; The most a conversation seats: an NPC's hail to a man in a full one is turned down.
 (define-macro conversation-size-max () 5)
 
-; The warmth @self gains toward a man on learning they share an interest.
-(define-macro shared-interest-warmth () 0.08)
+; The warmth @self feels toward a man on learning they share an interest.
+(define-macro shared-interest-warmth () 0.4)
 
 
 

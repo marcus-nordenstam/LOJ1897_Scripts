@@ -23,5 +23,5 @@
       (stage
         (effects
           (begin-belief {@self lover ?lover})
-          (nudge-stance ?lover attraction (lover_attraction_floor))
+          (feel-stance ?lover attraction (lover-attraction-felt))
           (set-outcome ?take-lover /succ))))))

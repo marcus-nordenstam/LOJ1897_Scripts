@@ -68,13 +68,10 @@
       (effects
         ; Attention from her suitor grows her attraction toward him (reciprocal fancy
         ; builds over repeated courting), so a one-sided crush becomes the MUTUAL fancy
-        ; love-match marries. 0.25 per courting clears the fancy band (0.20) in
-        ; one-to-two passes, comfortably ahead of the sleep decay.
+        ; love-match marries.
         ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
         ; party's own reflex on the act. Commented out pending that redesign.
-        ; (nudge-stance ?beloved @self attraction 0.25)
-        ; ... and courting keeps @self's OWN ardour alive: an actively-courting suitor
-        ; stays keen, so his fancy does not decay below the band before the pair reach
-        ; love-match.
-        (nudge-stance ?beloved attraction 0.10)
+        ; (feel-stance ?beloved @self attraction 1.25)
+        ; ... and courting feeds @self's OWN ardour.
+        (feel-stance ?beloved attraction 0.5)
         ))))

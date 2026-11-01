@@ -19,8 +19,8 @@
 ; cascade (tasks.mon: abandonment-act + wrong-act) mints grief +
 ; attachment-loss + status-loss + anger + humiliation + injustice in the
 ; jilted - the exact pressure stack the new (affinity attachment-loss coerce)
-; deliberation row reads on later ticks. Warmth curdles via nudge-stance;
-; attraction is deliberately NOT nudged down - longing persists.
+; deliberation row reads on later ticks. Warmth curdles via feel-stance;
+; attraction is deliberately NOT felt down - longing persists.
 ;
 ; Tuning knobs: the (chance 0.6) jilt-on-betrothal probability. A stance-decay
 ; jilt form (the bond simply cools, no betrothal) is a deferred knob - add a

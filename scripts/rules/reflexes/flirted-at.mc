@@ -6,4 +6,4 @@
 
 (reflex {?speaker SAY (formulaic ~[/msg-class flirtation] flirt ?) @self /ever}:?SAY
   (when (and (neq ?speaker @self) (none {@self dislike|detest ?speaker})))
-  (effects (nudge-stance ?speaker attraction 0.05 ?SAY)))
+  (effects (feel-stance ?speaker attraction 0.25 ?SAY)))

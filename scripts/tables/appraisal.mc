@@ -8,23 +8,33 @@
   default-salience-realtime  1440
   default-salience-jump     43200)
 
-; The five stance dims MUST be the first five rows, in
-; warmth/esteem/trust/attraction/dread order (the t_stance_dim enum contract).
-; th0..th2: band thresholds, 0 = absent.
-(define-table signal_dim (fields dim range retention th0 th1 th2)
-  (record warmth     signed   0.938 0.20 0.60 0)
-  (record esteem     signed   0.938 0.20 0.60 0)
-  (record trust      signed   0.938 0.20 0.60 0)
-  (record attraction unsigned 0.938 0.20 0.60 0.85)
-  (record dread      unsigned 0.99  0.20 0.60 0.85))
+; The stance dims MUST be the first rows, in warmth/esteem/trust/attraction/dread/care order
+; (the t_stance_dim enum contract). A feeling holds until felt again: one experience of
+; strength |felt| pulls it toward its pole by rate x stiffness x |felt|, times negativity when
+; the experience is negative. th0..th2: band thresholds, 0 = absent.
+(define-table signal_dim (fields dim range rate negativity th0 th1 th2)
+  (record warmth     signed   0.2 1.5 0.20 0.60 0)
+  (record esteem     signed   0.2 1.5 0.20 0.60 0)
+  (record trust      signed   0.2 1.5 0.20 0.60 0)
+  (record attraction unsigned 0.2 1.5 0.20 0.60 0.85)
+  (record dread      unsigned 0.2 1.5 0.20 0.60 0.85)
+  (record care       signed   0.2 1.5 0.20 0.60 0))
 
 ; Per-dim band verbs: neg level -1,-2; pos level +1..+3; `_` = absent.
 (define-table signal_verbs (fields dim neg0 neg1 pos0 pos1 pos2)
-  (record warmth     dislike  detest  like   adore  _)
-  (record esteem     disdain  despise admire revere _)
-  (record trust      distrust suspect trust  rely   _)
-  (record attraction _        _       fancy  desire crave)
-  (record dread      _        _       wary   dread  terror))
+  (record warmth     dislike  detest  like    adore  _)
+  (record esteem     disdain  despise admire  revere _)
+  (record trust      distrust mistrust trust  rely   _)
+  (record attraction _        _       fancy   desire crave)
+  (record dread      _        _       wary    dread  terror)
+  (record care       begrudge hate    cherish love   _))
+
+; A feeling that barely moves while @self holds {@self <relation> target}: an experience on
+; dim moves it by stiffness of its step (the least of the relations held).
+(define-table stance_stiffness (fields relation dim stiffness)
+  (record child  care 0.2)
+  (record mother care 0.2)
+  (record spouse care 0.2))
 
 ; A committed {@self <label> [<target>]} belief matching a row adds `weight`
 ; to the identity-anchor accumulator; tar filters the target kind, `_` = any.

@@ -46,8 +46,8 @@
     ; begun-then-ended running act-belief, auto-ended at completion).
     (begin-belief {?paramour HAVE-SEX-WITH @self /momentary})
     ; The tryst advances the affair on both sides.
-    (nudge-stance ?paramour attraction 0.10)
+    (feel-stance ?paramour attraction 0.5)
     ; TELEPATHY - a rule cannot move ANOTHER mind's stance. Restore this as the other
     ; party's own reflex on the act. Commented out pending that redesign.
-    ; (nudge-stance ?paramour @self attraction 0.10)
+    ; (feel-stance ?paramour @self attraction 0.5)
     (set-outcome ?HAVE-SEX-WITH /succ)))

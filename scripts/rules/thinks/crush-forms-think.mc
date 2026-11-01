@@ -61,9 +61,6 @@
                        ?compassion)))
 
       (effects
-        ; Feed the one-sided attraction scalar: a crush is a strong directed pull.
-        ; 0.5 crosses the `fancy` band (0.20) in one fire and sustains ~a year against
-        ; the sleep decay (0.938); repeated fires deepen toward `desire` (0.60). The
-        ; `fancy` verb-state belief is what courtship (love-match / court) now reads.
-        (nudge-stance ?victim attraction 0.5)
+        ; A crush is a strong directed pull: one fire crosses the `fancy` band courtship reads.
+        (feel-stance ?victim attraction 2.5)
         ))))
