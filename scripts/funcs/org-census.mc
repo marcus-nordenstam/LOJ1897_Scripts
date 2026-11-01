@@ -23,13 +23,15 @@
     (if (= (kind ?display-ad.target) ?kind) (then (+= ?n 1))))
   ?n)
 
-; articles-premises / articles-register - the building and the book an org's articles name,
-; found in the world: the premises by the workplace address, the book as the one of the
-; register kind carrying the org's name at those premises. @nothing when none stands.
+; articles-premises / articles-register - the premises and the book an org's articles name,
+; found in the world: the premises by the workplace address - the building at it, or its one unit
+; when it has one - the book as the one of the register kind carrying the org's name there.
+; @nothing when none stands.
 (define-func articles-premises (?art)
   (bind @nothing ?found)
   (form-match (attr ?art writing) articles_form [/workplace ?ap-addr])
-  (building-at ?ap-addr))
+  (building-at (address-premises ?ap-addr)): ?ap-bldg
+  (flip (substantial ?ap-bldg) (premises-place ?ap-bldg) @nothing))
 
 (define-func articles-register (?art)
   (bind @nothing ?found)
@@ -37,7 +39,7 @@
   (form-match (attr ?art writing) articles_form [/org-name ?ar-name] [/register ?ar-kind])
   (for-each ?book (env-entities ?ar-kind)
     (if (and (= (attr ?book name) ?ar-name)
-             (spatial ?book building ?ar-wp /env))
+             (or (spatial ?book building ?ar-wp /env) (spatial ?book unit ?ar-wp /env)))
       (then
         (bind ?book ?found)
         (break))))

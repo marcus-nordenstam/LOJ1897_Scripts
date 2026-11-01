@@ -23,7 +23,7 @@
       (stable-or
         ; if you're not at the job's workplace, then go there
         (try
-          (role @self (not (or (spatial @self building ?wp) (spatial @self space ?wp)))
+          (role @self (not (within-space @self ?wp))
             (effects (maintain-proposal {@self enter-room ?wp}))))
 
         ; if you're at the workplace and in the same room as the recruiter, then announce

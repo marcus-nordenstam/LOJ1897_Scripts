@@ -19,9 +19,7 @@
     (begin-belief {?art declares-org ?org})
     (begin-belief {?org isa ?ok})
     (begin-belief {?org name ?onm})
-    (o [k building] {@o address ?owp}): ?aoc-wp
-    (begin-belief {?aoc-wp address ?owp})
-    (begin-belief {?org workplace ?aoc-wp})
+    (begin-belief {?org workplace ?owp})
     ; WHICH relation the book mints is read off the document itself, never guessed from the
     ; org: a wage register and a membership roll carry different columns.
     (o ?oreg {@o name ?onm}): ?aoc-book

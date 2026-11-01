@@ -68,7 +68,7 @@
                                                             [org-name ?org-name] [job-id ?line]])})))))))
 
         (stage
-          (role ?out [k outgoing-mail-stack] (spatial ?out building ?wp))
+          (role ?out [k outgoing-mail-stack] (within-space ?out ?wp))
           (effects (maintain-proposal {@self send-mail ?ltr ?out})))
 
         ; An OFFER goes in the book as well as the post: the officer walks to the wage book

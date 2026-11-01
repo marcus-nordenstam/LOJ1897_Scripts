@@ -8,10 +8,10 @@
   (role ?wp {?org workplace ?wp}
     (and
       (try
-        (when (not (spatial @self building ?wp)))
+        (when (not (within-space @self ?wp)))
         (effects (maintain-proposal {@self enter-room ?wp})))
       (try
-        (when (spatial @self building ?wp))
+        (when (within-space @self ?wp))
         (effects
           (begin-belief {@self backed-by ?org})
           (set-outcome ?back /succ))))))

@@ -10,13 +10,13 @@
       (role ?job {@self job ?job}
         (role ?org {?job org ?org}
           (role ?wp {?org workplace ?wp}
-                    (not (spatial @self building ?wp))
+                    (not (within-space @self ?wp))
             (effects (maintain-proposal {@self enter-room ?wp}))))))
     (try
       (role ?job {@self job ?job}
         (role ?org {?job org ?org}
           (role ?wp {?org workplace ?wp}
-                    (spatial @self building ?wp)
+                    (within-space @self ?wp)
             (role ?reg {?org employee-register ?reg}
               (effects (maintain-proposal {@self SACK ?w ?reg})))))))
     (try

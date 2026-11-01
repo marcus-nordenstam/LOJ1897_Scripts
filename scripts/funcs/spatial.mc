@@ -225,6 +225,10 @@
         (break))))
   ?found)
 
+; The building ?place is, or stands in: itself for a building, else the building that holds it.
+(define-func building-of (?place)
+  (flip (is-a ?place [k building]) ?place (spatial ?place building)))
+
 ; building-at ?address - the building that stands at that premises address, or @nothing.
 ; The world's answer, not a mind's: for the town's own services and the acts that file and
 ; re-point its records.

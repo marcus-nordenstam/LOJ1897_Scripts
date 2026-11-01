@@ -104,7 +104,7 @@
     (role ?job {@self job ?job}
       (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
         (role ?wp {?org workplace ?wp}
-                  (spatial @self building ?wp)                    ; residual gate, re-checked at the when-seam
+                  (within-space @self ?wp)                        ; residual gate, re-checked at the when-seam
           (when (hours 12 14))
           (declare-utility (meal-utility-band) default)
           (effects

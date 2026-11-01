@@ -85,7 +85,7 @@
           (establish-posts ?creg ?kind)
           (delist ?bldg)
           (table-match businesses org-kind ?kind name ?cname)
-          (file-articles ?art ?kind ?cname ?bldg ?creg)
+          (file-articles ?art ?kind ?cname ?cplace ?creg)
           (name-premises ?bldg ?kind ?cname))))))
 
 ; free-premises-for ?org-kind - the first building on the for-sale register of the premises

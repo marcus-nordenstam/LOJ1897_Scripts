@@ -38,7 +38,7 @@
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
       (role ?wp {?org workplace ?wp}
         (when (latch-eval (current-shift ?job): ?hours)
-              (latch-eval (or (spatial @self building ?wp) (spatial @self space ?wp)))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
+              (latch-eval (within-space @self ?wp))                  ; onset: the day's work starts on ARRIVAL, then survives every excursion
               (on-shift ?hours))
         (declare-utility duty (* (k-work-drive-value) (* (clamp (+ 1.0 (delib-ctr ?industriousness (k-drive-trait-swing))) 0.0 2.0)
                                                    (clamp (+ 1.0 (delib-ctrc (any {@self stress ?=0.5}).target (- 0.0 (k-drive-mood-swing)))) 0.0 2.0))))
@@ -59,7 +59,7 @@
   (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
       (role ?wp {?org workplace ?wp}
-                (not (or (spatial @self building ?wp) (spatial @self space ?wp)))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
+                (not (within-space @self ?wp))             ; RESIDUAL: threaded gate, re-checked at the when-seam (incl. hold)
                 -{@self work ?wp}          ; out on the day's work's own errand is not absent
         (when (latch-eval (current-shift ?job): ?hours)
               (on-shift ?hours))

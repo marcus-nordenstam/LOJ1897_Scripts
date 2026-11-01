@@ -8,13 +8,13 @@
       (role ?job {@self job ?job}
         (role ?org {?job org ?org}
           (role ?wp {?org workplace ?wp}
-                    (not (spatial @self building ?wp))
+                    (not (within-space @self ?wp))
             (effects (maintain-proposal {@self enter-room ?wp}))))))
     (try
       (role ?job {@self job ?job}
         (role ?org {?job org ?org}
           (role ?wp {?org workplace ?wp}
-                    (spatial @self building ?wp)
+                    (within-space @self ?wp)
             (effects (maintain-proposal {@self QUIT-WORK}))))))
     (try
       (role @self {@self QUIT-WORK /succ /caused_by ?retire}

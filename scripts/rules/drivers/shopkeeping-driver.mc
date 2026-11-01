@@ -12,20 +12,20 @@
     (role ?job {@self job ?job}
       (role ?org {?job org ?org}
         (role ?wp {?org workplace ?wp}
-          (when (and (is-a ?wp [k shop])
+          (when (and (is-a (building-of ?wp) [k shop])
                      (>= (days-since-last {@self STOCKTAKE /succ /ever}) 1)))
           (declare-utility duty)
-          (effects (maintain-proposal {@self take-stock ?wp})))))))
+          (effects (maintain-proposal {@self take-stock (building-of ?wp)})))))))
 
 ; A shop its keeper stands in with no till he knows of gets one: buyers pay into it.
 (driver plan-open-till-driver
   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?job {@self job ?job}
       (role ?org {?job org ?org}
-        (role ?wp {?org workplace ?wp} (spatial @self building ?wp)
+        (role ?wp {?org workplace ?wp} (within-space @self ?wp)
           (no-role [k pile] {?norole content-kind [k coin]}
-                            (spatial ?norole building ?wp)
+                            (within-space ?norole ?wp)
                             (unknown (spatial ?norole gripped-by)))
-          (when (is-a ?wp [k shop]))
+          (when (is-a (building-of ?wp) [k shop]))
           (declare-utility duty)
-          (effects (maintain-proposal {@self open-till ?wp})))))))
+          (effects (maintain-proposal {@self open-till (building-of ?wp)})))))))
