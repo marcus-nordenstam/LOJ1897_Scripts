@@ -19,7 +19,8 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self hail ?partner}:?hail
-  (noncompete-set discourse)
+  (category social)
+  (hosts reply)
   (tar @excl [k human] @object)
   (preparatory)
   (running-requirements (clear-to-talk ?partner))

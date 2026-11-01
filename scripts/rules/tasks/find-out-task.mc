@@ -6,12 +6,13 @@
 ; (drivers/ask-wonder-driver.mc). A man who turns the hail down is not hailed again, and "I
 ; don't know" rules him out; the next is sought. It is done when he knows the fact.
 ; Proposed by want-to-know (drivers/want-to-know-driver.mc). Like every pursuit carried on in
-; talk it never competes with the conversation it asks in (noncompete-set discourse).
+; talk it runs beside the conversation it asks in, which hosts it (category social).
 ; ----------------------------------------------------------------------------
 
 (task {@self find-out ?fact}:?find-out
   (tar @pattern)
-  (noncompete-set discourse)
+  (category social)
+  (hosts reply)
   (lint-waive task-no-preparation)
   (success-cond (substantial (any ?fact)))
   (role ?who {?who isa [k human]}

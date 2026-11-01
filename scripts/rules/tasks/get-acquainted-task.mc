@@ -9,7 +9,8 @@
 (task {@self get-acquainted ?other}:?get-acquainted
   (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
-  (noncompete-set discourse)
+  (category social)
+  (hosts reply)
   (success-cond (unsubstantial (disclosure-for ?other)))
   (stable-or
     (try

@@ -12,8 +12,8 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self attend ?occ}:?attend
-  (noncompete-set occasion)
-  (under-noncompete-set discourse)
+  (category occasion)
+  (hosts social reply occasion)
   (construed-act social-act)
   (tar [k occasion] @object)
   (and

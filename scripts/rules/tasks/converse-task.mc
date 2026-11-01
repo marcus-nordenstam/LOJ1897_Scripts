@@ -17,7 +17,8 @@
 
 (task {@self converse ?talk}:?converse
   (construed-act social-act)
-  (noncompete-set discourse)
+  (category social)
+  (hosts social reply)
   (tar @excl [k conversation] @object)
   (lint-waive try-rungs-not-exclusive)
   ; Ending still in the conversation, he takes his leave first, so the others know it is over.
@@ -43,6 +44,11 @@
       (lint-waive cacheable-read-in-when)
       (when (and (in-conversation @self ?talk) (out-of-call-of ?talk)))
       (effects (leave-conversation ?talk)))
+    (try
+      (lint-waive cacheable-read-in-when)
+      (declare-utility fallback)
+      (when (in-conversation @self ?talk))
+      (effects (maintain-proposal {@self DWELL (spatial @self space) (+ (time hour) 1)})))
     (try
       (role @self (in-conversation @self ?talk) (other-party-in ?talk) (said-all ?talk)
         (role ?speaker {?talk participant ?speaker}

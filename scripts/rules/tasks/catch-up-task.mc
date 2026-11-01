@@ -9,7 +9,8 @@
 (task {@self catch-up ?friend}:?catch-up
   (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
-  (noncompete-set discourse)
+  (category social)
+  (hosts reply)
   (success-cond (caught-up ?friend))
   (stable-or
     (try

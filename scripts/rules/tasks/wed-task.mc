@@ -10,9 +10,9 @@
 (include "../../macros/occasion-macros.mc")
 
 (task {@self wed ?partner}:?wed
-  (noncompete-set occasion)
+  (category occasion)
   (success-cond (substantial (any {@self spouse ?partner})))
-  (under-noncompete-set discourse)
+  (hosts social reply occasion)
   (tar [k human] @object)
   (role ?occ [k wedding] {?occ hours ?start ?end} {?occ venue ?venue}
              (or {@self organize ?occ} {?partner invite @self ?occ})

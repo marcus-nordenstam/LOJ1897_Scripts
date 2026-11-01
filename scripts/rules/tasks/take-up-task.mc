@@ -12,7 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self take-up ?partner}:?take-up
-  (noncompete-set discourse)
+  (category reply)
   (tar @excl [k human] @object)
   (preparatory)
   (running-requirements (clear-to-talk ?partner))
