@@ -345,7 +345,7 @@
           (decorations
             (spatials -grip -in-stack)
             (attrs -color -condition -name -writing -grip-force -addressee -addressee-duty
-                   -destination -blemishes content-kind count))
+                   -destination -blemishes content-kind count dish))
           (population (cap 16384))))
       (child sporting-gear (+ facets totable) (facets totable)
         (child ball
@@ -545,6 +545,8 @@
         (attrs variant))
       (population (cap 8192) (blocks-spots) (non-occluder))
       (children bread cheese-food soup)
+      ; The dishes a larder is stocked with, each a particular an eater comes to like (funcs/particulars.mc).
+      (children roast-beef mutton pie fish oyster curry pickles pudding)
       (child meal (price 5)
         (children breakfast lunch luncheon dinner tea-meal supper)))
     ; Groupings of things. A prefab that only ARRANGES other Merlin things - a home office

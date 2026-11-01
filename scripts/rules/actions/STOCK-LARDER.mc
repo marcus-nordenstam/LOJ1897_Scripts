@@ -33,6 +33,8 @@
         (then (create-entity [k pile] ?spot): ?pile
               (set-attr ?pile content-kind [k food])))
     (set-attr ?pile count (larder_stopgap_stock))
+    ; What the household eats this month: one dish, drawn afresh each time the larder is filled.
+    (set-attr ?pile dish (table-sample-weighted food_particulars particular draw))
     ; He filled it himself, so he knows it is there - without this the pile exists and
     ; the larder still reads empty to the only mind that matters.
     (observe ?pile)

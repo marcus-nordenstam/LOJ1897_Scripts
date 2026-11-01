@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; particulars - the kinds a man meets and comes to like or dislike: a drink he takes, a book he
-; reads, and his pet peeves, rudeness and drink seen in others. Meeting one
+; particulars - the kinds a man meets and comes to like or dislike: a drink he takes, a dish he
+; eats, a book he reads, and his pet peeves, rudeness and drink seen in others. Meeting one
 ; is felt as warmth toward its KIND by the rule (feel-stance): the particular's population base,
 ; bent by the trait_affect rows of category taste, by his class, and by an arbitrary fondness or
 ; aversion drawn at his birth. The favourite of a category is classified off those feelings.
@@ -17,6 +17,18 @@
   (record [k tea-drink] 0.4 1)
   (record [k coffee]    0.2 1)
   (record [k lemonade]  0.2 1))
+
+(define-table food_particulars (fields particular base draw)
+  (record [k roast-beef] 0.5 1)
+  (record [k mutton] 0.3 1)
+  (record [k pie] 0.4 1)
+  (record [k fish] 0.2 1)
+  (record [k oyster] 0.1 1)
+  (record [k curry] 0.0 1)
+  (record [k pickles] 0.1 1)
+  (record [k pudding] 0.4 1)
+  (record [k bread] 0.3 1)
+  (record [k cheese-food] 0.3 1))
 
 ; A pet peeve: an act of OTHERS @self comes to mind, his feeling toward its kind the aversion that
 ; lowers his warmth toward whoever he sees doing it.
@@ -46,7 +58,9 @@
   (record [k tea-drink] [k middle]  0.2)
   (record [k penny-dreadful] [k lower] 0.3)
   (record [k penny-dreadful] [k upper] -0.4)
-  (record [k poetry-book] [k upper] 0.2))
+  (record [k poetry-book] [k upper] 0.2)
+  (record [k oyster] [k upper] 0.4)
+  (record [k oyster] [k lower] -0.2))
 
 ; What a born fondness or aversion adds to every meeting of its particular.
 (define-macro sensitivity-felt () 2.0)
@@ -66,6 +80,8 @@
       (then (bind ?reading-base ?base)))
   (if (table-match peeve_particulars particular ?kind base ?peeve-base)
       (then (bind ?peeve-base ?base)))
+  (if (table-match food_particulars particular ?kind base ?food-base)
+      (then (bind ?food-base ?base)))
   (bind (trait-bent ?kind taste ?base) ?felt)
   (any {@self class-situation ?class=@nothing})
   (if (and (substantial ?class) (table-match particular_class particular ?kind class ?class felt ?class-felt))
@@ -89,9 +105,10 @@
 
 ; One particular of any category, a category as likely as another.
 (define-func draw-particular ()
-  (flip (chance 0.5)
-        (table-sample-weighted drink_particulars particular draw)
-        (table-sample-weighted reading_particulars particular draw)))
+  (random-int 0 2): ?category
+  (cond (case (= ?category 0) (table-sample-weighted drink_particulars particular draw))
+        (case (= ?category 1) (table-sample-weighted reading_particulars particular draw))
+        (else (table-sample-weighted food_particulars particular draw))))
 
 ; Every pub's bar-room stocks a pile of each drink, endless: the publican's cellar is not kept.
 (define-macro bar-stock-count () 1000)

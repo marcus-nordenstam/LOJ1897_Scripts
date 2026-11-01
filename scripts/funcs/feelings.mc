@@ -68,7 +68,16 @@
   (record orderliness [k almanac]            taste       0.0 0.8    0)
   (record politeness  [k insult]             taste       0.0 -1.0   0)
   (record compassion  [k insult]             taste       0.0 -0.4   0)
-  (record devoutness  [k alcoholic-drink]    taste       0.0 -1.2   0))
+  (record devoutness  [k alcoholic-drink]    taste       0.0 -1.2   0)
+  (record openness    [k roast-beef]         taste       0.0 -0.6   0)
+  (record openness    [k mutton]             taste       0.0 -0.6   0)
+  (record openness    [k bread]              taste       0.0 -0.4   0)
+  (record openness    [k curry]              taste       0.0 0.8    0)
+  (record openness    [k pickles]            taste       0.0 0.8    0)
+  (record politeness  [k pudding]            taste       0.0 0.5    0)
+  (record compassion  [k pudding]            taste       0.0 0.5    0)
+  (record volatility  [k pie]                taste       0.0 0.5    0)
+  (record volatility  [k pudding]            taste       0.0 0.5    0))
 
 ; One trait_affect row applied to ?hours by a trait at ?value.
 (define-func trait-felt (?hours ?gain ?offset ?one-sided ?value)
