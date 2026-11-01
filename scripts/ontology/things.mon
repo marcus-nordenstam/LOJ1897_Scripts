@@ -419,7 +419,11 @@
           ; rejection-letter -> apply-for fail. Delivered to his home mail pile, read
           ; (held) in the morning post.
           (children offer-letter rejection-letter))
-        (children pamphlet book newspaper-document)
+        (children pamphlet newspaper-document)
+        ; The books a study holds, each kind a particular a reader comes to like (funcs/particulars.mc).
+        (child book
+          (children sermon-book romance-novel adventure-novel detective-novel scientific-romance
+                    penny-dreadful poetry-book almanac))
         (child application
           (children job-application))
         (children articles-of-incorporation)
