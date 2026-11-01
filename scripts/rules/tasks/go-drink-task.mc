@@ -10,7 +10,13 @@
   (cease (if {@self DRINK /succ /caused_by ?go-drink}
              (then (set-outcome ?go-drink /succ))))
   (and
-    (try (effects (maintain-proposal {@self DRINK})))
+    ; A drink off the bar, the one he is drawn to most likely.
+    (try
+      (role ?drink [k pile] {?drink content-kind ?drink-kind}
+                   (is-a ?drink-kind [k fluid])
+                   (= (spatial ?drink space) (spatial @self space))
+                   (select (score (drink-appeal ?drink-kind)) (policy roulette))
+        (effects (maintain-proposal {@self DRINK ?drink}))))
     ; STAY: he keeps to the bar-room while he is at it; nothing below his outing's band walks him out.
     (try (declare-utility fallback)
          (effects (maintain-proposal {@self DWELL (spatial @self space) (+ (time hour) 1)})))))

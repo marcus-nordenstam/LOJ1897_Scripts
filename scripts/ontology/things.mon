@@ -24,7 +24,7 @@
             (states physical-mobility alertness satiety ease stimulation company wedding-day obligation todo frequent facing
                     know avoid expect-answer expect-question meet threaten commission hired-by
                     vouched-for sought-introduction shop-weekday shop-hour under-suspicion value justify identity
-                    adore like dislike detest revere admire disdain despise
+                    adore like dislike detest revere admire disdain despise favourite
                     rely trust distrust mistrust cherish begrudge hate fancy desire crave wary dread
                     terror seem rude-to violent-to thief-to coercive-to mention own
                     hold lease rent borrow sell owe inherit
@@ -50,7 +50,7 @@
             (attrs physical-motors game-role birth-date death-date death-cause age age-band age-span
                    chronotype
                    gender appearance height girth hair-color eye-color handwriting hand-slant hand-weight
-                   hand-letter-spacing hand-line-spacing hand-regularity attractiveness name
+                   hand-letter-spacing hand-line-spacing hand-regularity attractiveness name fondness aversion
                    condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite strain tedium social-hunger pain
                    openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
                    volatility withdrawal devoutness narcissism machiavellianism psychopathy sadism strength dexterity
@@ -469,7 +469,10 @@
         (spatials gripped-by space bounds)
         (attrs variant fluid-amount taint))
       (population (cap 256) (blocks-spots) (non-occluder))
-      (children beer)
+      ; The drinks a man can take and come to like, each a particular (funcs/particulars.mc).
+      (child alcoholic-drink
+        (children beer porter gin whisky claret))
+      (children coffee lemonade)
       ; Drink fluids - what sits in a table-service vessel. A poisoning
       ; TAINTS the victim's drink: the chosen drink fluid's `taint` attr
       ; (attrs.mon) names the concentrated poison kind it was laced with

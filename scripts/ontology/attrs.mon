@@ -279,6 +279,10 @@
 ; beliefs regardless of count: {pile content-kind [k <kind>]} + {pile count N}. A man
 ; FEELS both on a pile he has stowed about him (his carrying-cash-pile).
 (attr content-kind (type kind thing) (int-per feel) (ext-per obs) (auto-percept))
+; The arbitrary loves and hates a man is born with (funcs/particulars.mc seed-sensitivities): a
+; particular in fondness is felt warmer at every meeting, one in aversion colder. Only he knows.
+(attr fondness (type kind thing array 3) (int-per feel))
+(attr aversion (type kind thing array 3) (int-per feel))
 (attr count (type int) (range 0 1000000) (int-per feel) (ext-per obs) (auto-percept))
 
 ; Weather (region)

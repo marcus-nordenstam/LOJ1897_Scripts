@@ -51,6 +51,7 @@
     (seed-human-genetics ?baby ?gender @self ?father)
     (seed-handwriting ?baby @nothing @self)
     (seed-npc-habits ?baby)
+    (seed-sensitivities ?baby)
     (set-attr ?baby parentless 0)
     (set-attr ?baby birth-date (create-date (time year) (time month) (time day)))
     (start-aging ?baby)

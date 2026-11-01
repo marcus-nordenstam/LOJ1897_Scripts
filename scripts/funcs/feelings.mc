@@ -38,7 +38,22 @@
   (record psychopathy [k moral-violation]    _          -0.6 0.0    1)
   (record sadism      [k contempt]           betray-act  0.0 -192.0 1)
   (record sadism      [k joy]                betray-act  0.0 30.0   1)
-  (record sadism      [k pride]              betray-act  0.0 60.0   1))
+  (record sadism      [k pride]              betray-act  0.0 60.0   1)
+  ; Tastes: how a trait bends meeting a particular (category taste, funcs/particulars.mc).
+  (record psychopathy [k porter]             taste       0.0 0.8    1)
+  (record sadism      [k porter]             taste       0.0 0.6    1)
+  (record psychopathy [k coffee]             taste       0.0 0.6    1)
+  (record industriousness [k gin]            taste       0.0 -1.0   0)
+  (record enthusiasm  [k gin]                taste       0.0 0.6    0)
+  (record devoutness  [k gin]                taste       0.0 -1.2   0)
+  (record industriousness [k whisky]         taste       0.0 -0.8   0)
+  (record enthusiasm  [k whisky]             taste       0.0 0.6    0)
+  (record devoutness  [k whisky]             taste       0.0 -1.2   0)
+  (record devoutness  [k beer]               taste       0.0 -0.8   0)
+  (record devoutness  [k porter]             taste       0.0 -0.8   0)
+  (record devoutness  [k claret]             taste       0.0 -0.6   0)
+  (record devoutness  [k tea-drink]          taste       0.0 0.6    0)
+  (record devoutness  [k lemonade]           taste       0.0 1.0    0))
 
 ; One trait_affect row applied to ?hours by a trait at ?value.
 (define-func trait-felt (?hours ?gain ?offset ?one-sided ?value)
@@ -50,15 +65,19 @@
 ; trait @self holds, then the mood. Under one hour it is not felt at all.
 (define-func feeling-salience (?kind ?hours ?category)
   (any {@self agitation ?agitation=0.0})
-  (bind (+ /float ?hours 0.0) ?felt)
+  (bind (trait-bent ?kind ?category (+ /float ?hours 0.0)) ?felt)
+  (bind (+ 1.0 (* (clamp ?agitation 0.0 1.0) (mood-salience-gain))) ?mood)
+  (floor (+ (clamp (* ?felt ?mood) 0.0 (max (max-emotion-salience) (max-pressure-salience))) 0.5)))
+
+; ?felt bent by every trait_affect row for ?kind and ?category, by the trait @self holds.
+(define-func trait-bent (?kind ?category ?felt)
   (for-each-row trait_affect [/trait ?trait] [/kind ?row-kind] [/category ?row-category]
                              [/gain ?gain] [/offset ?offset] [/one-sided ?one-sided]
     (if (and (= ?row-kind ?kind) (trait-row-covers ?row-category ?category))
         (then
           (any {@self ?trait ?value=0.5})
           (bind (trait-felt ?felt ?gain ?offset ?one-sided ?value) ?felt))))
-  (bind (+ 1.0 (* (clamp ?agitation 0.0 1.0) (mood-salience-gain))) ?mood)
-  (floor (+ (clamp (* ?felt ?mood) 0.0 (max (max-emotion-salience) (max-pressure-salience))) 0.5)))
+  ?felt)
 
 ; Does a trait_affect row of ?row-category cover a feeling over ?category.
 (define-func trait-row-covers (?row-category ?category)

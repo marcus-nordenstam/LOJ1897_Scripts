@@ -204,6 +204,8 @@
 (state wary (appraisal_input) (tar [k human] @object))
 (state dread (appraisal_input) (tar [k human] @object))
 (state terror (appraisal_input) (tar [k human] @object))
+; favourite: the particular @self holds the warmest within its category (classify-favourite-*).
+(state favourite (tar ?) (self-known))
 
 ; seem - the abduced-IMPRESSION relation (abduction v2): an
 ; observer's perceived-character conclusion about another person,
