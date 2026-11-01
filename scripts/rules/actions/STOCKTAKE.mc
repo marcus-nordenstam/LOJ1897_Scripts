@@ -1,11 +1,9 @@
 ; ----------------------------------------------------------------------------
 ; shopkeeping (action) - the stocktake round + the morning re-stock.
 ;
-; The clerk, at his counter with the standing stocktake goal, walks the
-; premises for half an hour validating what he believes is on the shelves
-; against what actually is (take-stock-of, stocktake_macros.mc): a
-; sold / stolen / eaten item's whereabouts belief ends at the gap where it
-; used to sit. Utility 82: a shade over the work shift (80), so the round
+; The clerk, at his counter with the standing stocktake goal, looks over every
+; room of the premises for half an hour: a sold / stolen / eaten item is not
+; there to see, so he no longer knows it there. Utility 82: a shade over the work shift (80), so the round
 ; happens on arrival and the counter work resumes after. The per-cycle desire
 ; (stocktake-round) lives in thinks/shopkeeping.mc.
 ;
@@ -47,12 +45,9 @@
     (if ?shop
         (then
           (spatial ?shop rooms /env): ?rooms
-          ; Validate the shelves against belief - every room of the shop.
+          ; He looks over every room of the shop: what is gone from it, he sees is gone.
           (for-each ?room ?rooms
-            (for-each ?item (spatial ?room contents)
-              (if (and (is-a ?item [k food])
-                       (!= (spatial ?item space /env) ?room))
-                  (then (spatial-write ?item space @nothing)))))
+            (observe ?room))
           ; Re-seed the shopfront to the daily cap (the morning delivery): top
           ; the ONE food pile ([/limit 1] room) back up to the cap. Idempotent -
           ; a full shelf writes the same count it already holds.
