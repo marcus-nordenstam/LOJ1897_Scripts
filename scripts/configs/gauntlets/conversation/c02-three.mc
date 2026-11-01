@@ -14,7 +14,7 @@
   level "Theatres/demo_tech_level_v2.grs"
   startup c02-startup)
 
-(define-list gauntlet validate c02-validate)
+(define-list gauntlet validate c02-validate deadline 15)
 
 (define-func c02-startup ()
   (seed_property)

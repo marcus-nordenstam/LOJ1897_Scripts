@@ -96,14 +96,6 @@
 
   (initialize-minds))
 
-; Every journey is over: each man has done what his journey ends in - the locked-out man's ends
-; at the locked door. The run stops there, and movement-validate judges how he got there.
-(define-func movement-done ()
-  (and (> (acts (cast regular) DRINK succ) 0)
-       (> (acts (cast explorer) DRINK succ) 0)
-       (> (acts (cast locked-out) enter-room-kind fail) 0)
-       (> (acts (cast homebody) SLEEP started) 0)))
-
 (define-func movement-validate ()
   (cast regular): ?regular
   (expect (> (acts ?regular go-to succ) 0) "regular: no go-to succeeded")

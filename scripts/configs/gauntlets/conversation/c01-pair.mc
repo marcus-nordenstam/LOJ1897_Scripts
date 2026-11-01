@@ -12,7 +12,7 @@
   level "Theatres/demo_tech_level_v2.grs"
   startup c01-startup)
 
-(define-list gauntlet validate c01-validate)
+(define-list gauntlet validate c01-validate deadline 15)
 
 (include "conversation.mc")
 

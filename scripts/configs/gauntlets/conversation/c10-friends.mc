@@ -13,7 +13,7 @@
   level "Theatres/demo_tech_level_v2.grs"
   startup c10-startup)
 
-(define-list gauntlet validate c10-validate)
+(define-list gauntlet validate c10-validate deadline 15)
 
 (define-func c10-startup ()
   (seed_property)

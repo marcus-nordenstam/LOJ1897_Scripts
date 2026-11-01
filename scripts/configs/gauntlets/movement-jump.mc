@@ -11,4 +11,4 @@
   level "Theatres/demo_tech_level_v2.grs"
   startup movement-startup)
 
-(define-list gauntlet validate movement-validate done movement-done)
+(define-list gauntlet validate movement-validate deadline 15)
