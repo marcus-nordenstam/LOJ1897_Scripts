@@ -175,11 +175,11 @@
 ; ANY object instance; esteem/trust -> agents (human|org); attraction ->
 ; human. Per axis at most one verb is held toward a given target.
 ; ---- stance ----
-; warmth axis (affiliative): strong / mild, each side
-(state adore (appraisal_input) (tar [k object] @object))
-(state like (appraisal_input) (tar [k object] @object))
-(state dislike (appraisal_input) (tar [k object] @object) (self-known) (motivation))
-(state detest (appraisal_input) (tar [k object] @object) (self-known) (motivation))
+; warmth axis (affiliative): strong / mild, each side; felt about an object or a kind
+(state adore (appraisal_input) (tar ?))
+(state like (appraisal_input) (tar ?))
+(state dislike (appraisal_input) (tar ?) (self-known) (motivation))
+(state detest (appraisal_input) (tar ?) (self-known) (motivation))
 ; esteem axis (look up / look down)
 (state revere (appraisal_input) (tar [k human|org] @object))
 (state admire (appraisal_input) (tar [k human|org] @object))

@@ -166,19 +166,13 @@
     (mint-pressure [k moral-violation] @self 1440)
     (mint-pressure [k exposure-risk] ?patient 1440)))
 
-; Sadist substitution (was the /pov third_party_sadist row): above the sadism
-; threshold the modal third-party row yields to schadenfreude. A consciously
-; kept same-pattern pair (reflex-duplicate-pattern is the sanctioned warning).
+; A witness feels contempt for the betrayer; the sadist's trait_affect rows turn it into
+; schadenfreude, joy and pride from nothing where the contempt goes.
 (reflex {?actor betray-act ?patient ?betray-act}
-  (when (<= (attr @self sadism) 0.65))
   (effects
-    (mint-emotion [k contempt] ?actor 48)))
-
-(reflex {?actor betray-act ?patient ?betray-act}
-  (when (> (attr @self sadism) 0.65))
-  (effects
-    (mint-emotion [k joy] @nothing 12)
-    (mint-emotion [k pride] @self 24)))
+    (mint-construed-emotion betray-act [k contempt] ?actor 48)
+    (mint-construed-emotion betray-act [k joy] @nothing 0)
+    (mint-construed-emotion betray-act [k pride] @self 0)))
 
 ; -- degrade-act (a deliberated PUBLIC put-down): the audience makes the
 ; injury a STATUS event - shame + status-loss plus anger at the mocker.
