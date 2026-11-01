@@ -204,18 +204,18 @@
 (define-func speaking ()
   (substantial (any {@self SAY ?})))
 
-; (release-line-turns ?tell) - the tell ?tell is over: the turn its line took gives way unless
-; another tell of @self's takes it too, and when no other tell of his runs, every turn he holds or
-; waits for does.
-(define-func release-line-turns (?tell)
-  (bind (turn-board ?tell.auxiliary) ?board)
+; (release-line-turns ?ended-tell) - the tell ?ended-tell is over: the turn its line took gives way
+; unless another tell of @self's takes it too, and when no other tell of his runs, every turn he
+; holds or waits for does.
+(define-func release-line-turns (?ended-tell)
+  (bind (turn-board ?ended-tell.auxiliary) ?board)
   (bind @false ?other)
   (bind @false ?shared)
-  (for-each ?running (every {@self tell ? ?})
-    (if (neq ?running ?tell)
+  (for-each ?tell (every {@self tell ? ?})
+    (if (neq ?tell ?ended-tell)
         (then
           (bind @true ?other)
-          (bind (turn-board ?running.auxiliary) ?theirs)
+          (bind (turn-board ?tell.auxiliary) ?theirs)
           (if (and (substantial ?theirs) (substantial ?board))
               (then (if (eq ?theirs ?board) (then (bind @true ?shared))))))))
   (cond (case (not ?other) (turn-release ?))
@@ -403,8 +403,8 @@
   (bind @false ?asked)
   (if (substantial ?part)
       (then
-        (for-each ?ask (every {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ})
-          (if (happened-since ?ask ?part)
+        (for-each ?SAY (every {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ})
+          (if (happened-since ?SAY ?part)
               (then (bind @true ?asked) (break))))))
   ?asked)
 
@@ -483,8 +483,8 @@
   (bind @false ?answered)
   (if (substantial ?part)
       (then
-        (for-each ?ask (every {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ})
-          (if (and (happened-since ?ask ?part) (replied ?friend ?ask))
+        (for-each ?SAY (every {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ})
+          (if (and (happened-since ?SAY ?part) (replied ?friend ?SAY))
               (then (bind @true ?answered) (break))))))
   ?answered)
 
