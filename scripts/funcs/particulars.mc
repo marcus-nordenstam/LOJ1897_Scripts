@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; particulars - the kinds a man meets and comes to like or dislike: a drink he takes, a book he
-; reads. Meeting one
+; reads, and his pet peeves, rudeness and drink seen in others. Meeting one
 ; is felt as warmth toward its KIND by the rule (feel-stance): the particular's population base,
 ; bent by the trait_affect rows of category taste, by his class, and by an arbitrary fondness or
 ; aversion drawn at his birth. The favourite of a category is classified off those feelings.
@@ -17,6 +17,12 @@
   (record [k tea-drink] 0.4 1)
   (record [k coffee]    0.2 1)
   (record [k lemonade]  0.2 1))
+
+; A pet peeve: an act of OTHERS @self comes to mind, his feeling toward its kind the aversion that
+; lowers his warmth toward whoever he sees doing it.
+(define-table peeve_particulars (fields particular base)
+  (record [k insult]          -0.2)
+  (record [k alcoholic-drink]  0.0))
 
 (define-table reading_particulars (fields particular base draw)
   (record [k sermon-book] 0.2 1)
@@ -58,6 +64,8 @@
       (then (bind ?drink-base ?base)))
   (if (table-match reading_particulars particular ?kind base ?reading-base)
       (then (bind ?reading-base ?base)))
+  (if (table-match peeve_particulars particular ?kind base ?peeve-base)
+      (then (bind ?peeve-base ?base)))
   (bind (trait-bent ?kind taste ?base) ?felt)
   (any {@self class-situation ?class=@nothing})
   (if (and (substantial ?class) (table-match particular_class particular ?kind class ?class felt ?class-felt))
@@ -123,3 +131,14 @@
 ; How strongly @self is drawn to a book of ?genre on his shelf.
 (define-func book-appeal (?genre)
   (+ (drink-appeal-floor) (+ 1.0 (stance ?genre warmth))))
+
+; How far a pet peeve, held at its full aversion, lowers @self's warmth toward the one he sees at it.
+(define-macro peeve-felt-scale () 1.0)
+
+; @self sees ?doer at an act of the peeve ?kind, the sight ?cause: he meets the kind, then feels his
+; aversion to it toward ?doer.
+(define-func witness-peeve (?doer ?kind ?cause)
+  (meet-particular ?kind ?cause)
+  (bind (min 0.0 (stance ?kind warmth)) ?aversion)
+  (if (< ?aversion 0.0)
+      (then (feel-stance ?doer warmth (* (peeve-felt-scale) ?aversion) ?cause))))
