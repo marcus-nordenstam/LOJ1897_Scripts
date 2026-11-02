@@ -91,10 +91,11 @@
 (define-func go-in-sight (?dest)
   (flip (is-spot ?dest) @true (is-visible ?dest)))
 
-; Where he heads for ?dest out of his sight, claiming nothing: the box he holds for it, else a point
-; in the space it is in.
+; Where he heads for ?dest out of his sight, claiming nothing: the box he holds for a thing, else a
+; point in the space it is in - a unit has no floor of its own to head for.
 (define-func go-sight-spot (?dest)
-  (cond (case (substantial (tolerate (spatial ?dest bounds))) (go-travel-spot ?dest))
+  (cond (case (and (not (is-a ?dest [k space])) (substantial (tolerate (spatial ?dest bounds))))
+              (go-travel-spot ?dest))
         (case (substantial (tolerate (spatial ?dest space))) (travel-spot (spatial ?dest space)))
         (else @fail)))
 
