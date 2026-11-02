@@ -12,8 +12,9 @@
 ;                                                  there and still unseen -> fail
 ;   with the man he goes to, no spot free by him -> fail
 ;   it stands in a space he is not in           -> enter that space; that failed -> fail
-;   out of his sight                            -> WALK toward the space it is in, claiming
-;                                                  nothing; walked there, still unseen -> fail
+;   out of his sight                            -> WALK toward the box he holds for it, else the
+;                                                  space it is in, claiming nothing; walked
+;                                                  there, still unseen -> fail
 ;   otherwise                                   -> WALK to the spot he will stand on
 ; ----------------------------------------------------------------------------
 
@@ -90,9 +91,11 @@
 (define-func go-in-sight (?dest)
   (flip (is-spot ?dest) @true (is-visible ?dest)))
 
-; Where he heads for ?dest out of his sight: a point in the space it is in, claiming nothing.
+; Where he heads for ?dest out of his sight, claiming nothing: the box he holds for it, else a point
+; in the space it is in.
 (define-func go-sight-spot (?dest)
-  (cond (case (substantial (tolerate (spatial ?dest space))) (travel-spot (spatial ?dest space)))
+  (cond (case (substantial (tolerate (spatial ?dest bounds))) (go-travel-spot ?dest))
+        (case (substantial (tolerate (spatial ?dest space))) (travel-spot (spatial ?dest space)))
         (else @fail)))
 
 ; The spot the next WALK heads for: where he will stand by ?dest once he sees it, else toward the
