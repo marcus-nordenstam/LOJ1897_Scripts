@@ -6,8 +6,8 @@
 ; the conversation he says it in, or the man he calls) and waits until it is handed to him -
 ; which holds the listener where he stands - then closes on it through go until he would hear
 ; it (within-voice: within the radius of the sound ?msg makes), and says it. A man being called
-; answers before he calls anyone. A tell to a conversation is said where @self stands, to every
-; party in it; a broadcast (an absent ?audience) takes no turn and is said where @self stands, so
+; answers before he calls anyone. A tell to a conversation is said to every party in it, once he
+; has closed on any party out of voice; a broadcast (an absent ?audience) takes no turn and is said where @self stands, so
 ; its proposer brings him to the place first. The turn gives way when the tell ends, or once the
 ; SAY it began is said. A man says one thing at a time (lock speech-act). It succeeds when the
 ; SAY does and fails when he cannot reach his audience.
@@ -46,6 +46,10 @@
                  (my-turn ?audience)
                  (not (being-called))))
       (effects (maintain-proposal {@self go-to ?audience earshot})))
+    (try
+      (bind (party-out-of-voice ?audience ?msg) ?far)
+      (when (and (substantial ?far) (my-turn ?audience) (not (being-called))))
+      (effects (maintain-proposal {@self go-to ?far earshot})))
     (try
       (bind (turn-board ?audience) ?board)
       (when (and (substantial ?board) (not (holds-turn ?board)) (not (being-called))))

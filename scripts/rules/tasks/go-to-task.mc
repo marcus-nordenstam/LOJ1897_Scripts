@@ -30,10 +30,10 @@
 (define-func go-into-space (?dest)
   (flip (is-spot ?dest) @false (and (is-a ?dest [k space]) (not (is-a ?dest [k unit])))))
 
-; At a spot: standing on it. At a man: on the spot by him this go-to walked him onto. At a thing, a
-; building or a unit: within reach of it.
+; At a spot: standing on it, which only the WALK onto it decides. At a man: on the spot by him this
+; go-to walked him onto. At a thing, a building or a unit: within reach of it.
 (define-func go-arrived (?dest ?go-to)
-  (cond (case (is-spot ?dest) (overlaps ?dest @self))
+  (cond (case (is-spot ?dest) (substantial (any {@self WALK ?dest /succ /caused_by ?go-to})))
         (case (is-a ?dest [k human]) (and (spatial ?dest co-located @self)
                                            (substantial (any {@self WALK ? /succ /caused_by ?go-to}))))
         (else (spatial @self can-reach ?dest))): ?there

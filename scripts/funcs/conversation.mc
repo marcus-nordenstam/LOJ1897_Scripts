@@ -48,14 +48,18 @@
 ; this holds.
 (define-func within-voice (?listener ?msg)
   (if (and (is-object ?listener) (is-a ?listener [k conversation]))
-      (then
-        (bind @true ?all-hear)
-        (for-each ?party (every {?listener participant ?})
-          (bind ?party.target ?who)
-          (if (and (neq ?who @self) (not (in-earshot ?who (voice-sound ?msg))))
-              (then (bind @false ?all-hear) (break))))
-        ?all-hear)
+      (then (unsubstantial (party-out-of-voice ?listener ?msg)))
       (else (in-earshot ?listener (voice-sound ?msg)))))
+
+; (party-out-of-voice ?talk ?msg) - a party @self knows to be in ?talk who would not hear him say
+; ?msg where he stands, or @nothing.
+(define-func party-out-of-voice (?talk ?msg)
+  (bind @nothing ?far)
+  (for-each ?party (every {?talk participant ?})
+    (bind ?party.target ?who)
+    (if (and (neq ?who @self) (not (in-earshot ?who (voice-sound ?msg))))
+        (then (bind ?who ?far) (break))))
+  ?far)
 
 ; (answers-to ?speaker) - @self is bound to heed ?speaker's hail: his master, his mother or
 ; his father.

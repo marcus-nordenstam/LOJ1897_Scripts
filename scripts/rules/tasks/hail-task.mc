@@ -29,6 +29,15 @@
   (init
     (check (is-a ?partner [k human]))
     (bb-public-add-member @self hailing ?partner))
+  ; Called out, he hears the answer out however the hail ends: ?partner may be taking him up.
+  (closing
+    (sequence
+      (stage
+        (when (or (unsubstantial (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /ever /caused_by ?hail}))
+                  (is-belief (hail-reply ?partner ?hail))
+                  (not (hailable ?partner)))))
+      (stage
+        (effects (done-closing ?hail)))))
   (cease
     (bb-public-remove-member @self hailing ?partner)
     (if (and (not (engaged-with ?partner)) (hail-accepted ?partner ?hail))
