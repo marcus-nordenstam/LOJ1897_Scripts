@@ -22,6 +22,7 @@
   (hosts reply)
   (tar @excl [k human] @object)
   (preparatory)
+  (preconditions (in-call-of ?partner))
   (running-requirements (clear-to-talk ?partner))
   (failure-cond (or (hail-turned-down ?partner ?hail)
                     (not (hailable ?partner))
