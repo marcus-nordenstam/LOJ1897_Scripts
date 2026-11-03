@@ -55,7 +55,7 @@
     (try
       (role @self (in-conversation @self ?talk) (other-party-in ?talk) (said-all ?talk)
         (role ?speaker {?talk participant ?speaker}
-                       {?speaker SAY ? @self /past}:?said
+                       {?speaker SAY ? @self /past /most_recent}:?said
           (when (happened-since ?said ?converse))
           (effects (maintain-proposal {@self take-leave ?talk} /uninterruptable)))))
     (try
