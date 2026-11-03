@@ -62,7 +62,7 @@
   (for-each-row cornerstone_businesses [/kind ?ck]
     (charter-org ?ck))
   (seed-land-registry)
-  (seed-bar-stock)
+  (restock-bars)
   (seed-study-books))
 
 ; charter-org - file one org's charter on a free building of its kind. A no-op if the town

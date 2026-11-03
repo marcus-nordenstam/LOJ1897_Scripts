@@ -21,6 +21,18 @@
 (task {@self invite-guest ?guest ?occ}:?invite-guest
   (preconditions (knows-thing-in [k outgoing-mail-stack] (home-of @self)))
   (preparatory)
+  ; Ending at home with the letter it penned still in hand, unposted, he sets it down there; on
+  ; his way to the post he keeps it.
+  (closing
+    (sequence
+      (stage
+        (effects
+          (if (and (bb-any ?invite-guest letter) (within-place @self (home-of @self)))
+              (then (bind (bb-read ?invite-guest letter) ?ltr)
+                    (if (= (spatial ?ltr held-by) @self)
+                        (then (maintain-proposal {@self put ?ltr (spatial @self space)})))))))
+      (stage
+        (effects (done-closing ?invite-guest)))))
   (sequence
     (role ?my-home {@self home ?my-home}
       (role ?guest-home {?guest home ?guest-home}

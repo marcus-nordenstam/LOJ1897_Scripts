@@ -4,12 +4,9 @@
 ; aversion to (a slight witnessed is reactions.mc's).
 ; ----------------------------------------------------------------------------
 
-(reflex {@self DRINK ?drink /succ}:?DRINK
+(reflex {@self DRINK ?fluid /succ}:?DRINK
   (when (dirty-ended))
-  (effects
-    (any {?drink content-kind ?drink-kind})
-    (if (substantial ?drink-kind)
-        (then (meet-particular ?drink-kind ?DRINK)))))
+  (effects (meet-particular (kind ?fluid) ?DRINK)))
 
 (reflex {@self EAT ?food ?owner /succ}:?EAT
   (when (and (dirty-ended) (is-object ?food)))
@@ -22,9 +19,6 @@
   (when (and (dirty-ended) (is-a ?doc [k book])))
   (effects (meet-particular (kind ?doc) ?READ)))
 
-(reflex {?drinker DRINK ?drink /ever}:?DRINK
+(reflex {?drinker DRINK ?fluid /ever}:?DRINK
   (when (and (dirty-born) (neq ?drinker @self)))
-  (effects
-    (any {?drink content-kind ?drink-kind})
-    (if (substantial ?drink-kind)
-        (then (witness-aversion ?drinker ?drink-kind ?DRINK)))))
+  (effects (witness-aversion ?drinker (kind ?fluid) ?DRINK)))

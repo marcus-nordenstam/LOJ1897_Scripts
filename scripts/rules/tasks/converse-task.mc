@@ -12,7 +12,8 @@
 ; he has left it, and goes without a word; left alone in it he leaves it
 ; (thinks/conversation-alone-think.mc).
 ; Outcompeted, he is not simply gone: his closing takes his leave saying what calls him away, and
-; the act that outbid him starts once he has.
+; the act that outbid him starts once he has. Ending any other way still in it, he takes his leave
+; the same way; already out of it, his closing has nothing to do.
 ; ----------------------------------------------------------------------------
 
 (task {@self converse ?talk}:?converse
@@ -33,10 +34,12 @@
       (stage
         (bind (top-competing-act {@self converse ?talk} (utility ?converse)) ?called-by)
         (effects
-          (if (substantial ?called-by)
-              (then (maintain-proposal {@self take-leave ?talk (formulaic [] leave_taking excuse ?called-by)}
-                                       /uninterruptable))
-              (else (maintain-proposal {@self take-leave ?talk} /uninterruptable)))))
+          (cond
+            (case (not (in-conversation @self ?talk)))
+            (case (substantial ?called-by)
+              (maintain-proposal {@self take-leave ?talk (formulaic [] leave_taking excuse ?called-by)}
+                                 /uninterruptable))
+            (else (maintain-proposal {@self take-leave ?talk} /uninterruptable)))))
       (stage
         (effects (done-closing ?converse)))))
   (and

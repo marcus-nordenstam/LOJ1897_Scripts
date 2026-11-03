@@ -120,21 +120,67 @@
         (case (= ?category 1) (table-sample-weighted reading_particulars particular draw))
         (else (table-sample-weighted food_particulars particular draw))))
 
-; Every pub's bar-room stocks a pile of each drink, endless: the publican's cellar is not kept.
-(define-macro bar-stock-count () 1000)
+; ?glass is filled with ?drink: a fluid of that kind, the glass's size, that the glass grips
+; (drink.ms2's control).
+(define-func fill-glass (?glass ?drink)
+  (create-entity ?drink (spatial ?glass bounds /env) /fit): ?fluid
+  (spatial-write ?fluid gripped-by ?glass /env))
 
-(define-func seed-bar-stock ()
+; The bar-room of ?pub, or @nothing.
+(define-func bar-room-of (?pub)
+  (bind @nothing ?bar)
+  (for-each ?room (spatial (premises-place ?pub) rooms /env)
+    (if (is-a ?room [k bar-room])
+        (then (bind ?room ?bar) (break))))
+  ?bar)
+
+; THE BAR'S STOCK: the glasses each bar-room is authored with, standing full, in place of a
+; bartender's service - a man takes one and drinks it. Filled with the town, and every night again
+; where a glass stands empty.
+(define-func /nightly restock-bars ()
   (for-each ?pub (env-entities [k pub-building])
-    (premises-place ?pub): ?place
-    (for-each ?bar (spatial ?place rooms /env)
-      (if (is-a ?bar [k bar-room])
-          (then
-            (for-each-row drink_particulars [/particular ?drink]
-              (if (find-spot [k pile] [/on_floor_of ?bar]): ?spot
-                  (then
-                    (create-entity [k pile] ?spot): ?pile
-                    (set-attr ?pile content-kind ?drink)
-                    (set-attr ?pile count (bar-stock-count))))))))))
+    (bar-room-of ?pub): ?bar
+    (if (substantial ?bar)
+        (then
+          (for-each ?glass (spatial ?bar contents [k drinking-glass] /env)
+            (if (and (empty (spatial ?glass grip /env)) (unsubstantial (spatial ?glass gripped-by /env)))
+                (then (fill-glass ?glass (table-sample-weighted drink_particulars particular draw)))))))))
+
+; The drink a glass holds, as @self knows it: the fluid it grips, or @nothing.
+(define-func glass-drink (?glass)
+  (bind @nothing ?drink)
+  (for-each ?held (tolerate (spatial ?glass grip))
+    (if (is-a ?held [k fluid])
+        (then (bind ?held ?drink) (break))))
+  ?drink)
+
+; The man whose hand holds the glass that grips ?fluid, or @nothing.
+(define-func drinker-of (?fluid)
+  (bind (tolerate (spatial ?fluid gripped-by)) ?glass)
+  (flip (substantial ?glass) (tolerate (spatial ?glass held-by)) @nothing))
+
+; The glass ?hand grips, or @nothing.
+(define-func glass-in-hand (?hand)
+  (bind @nothing ?held)
+  (for-each ?thing (tolerate (spatial ?hand grip))
+    (if (is-a ?thing [k drinking-glass])
+        (then (bind ?thing ?held) (break))))
+  ?held)
+
+; The glass ?who holds, or @nothing.
+(define-func held-glass (?who)
+  (bind (glass-in-hand (spatial ?who right-hand)) ?held)
+  (flip (substantial ?held) ?held (glass-in-hand (spatial ?who left-hand))))
+
+; The drinks of a session, and the minutes since the last of them (a day when none yet).
+(define-func session-drink-count (?session)
+  (count (every {@self DRINK ? /succ /caused_by ?session})))
+
+(define-func minutes-since-session-drink (?session)
+  (bind 1440 ?since)
+  (for-each ?DRINK (every {@self DRINK ? /succ /caused_by ?session})
+    (bind (min ?since (elapsed /minutes ?DRINK)) ?since))
+  ?since)
 
 ; How strongly @self is drawn to ?drink-kind at the bar: his warmth toward it, and an alcoholic
 ; drink the more for a craving.
