@@ -237,10 +237,12 @@
            (any-happened-since (every {@self take-up ?partner /succ}) ?part))))
 
 ; (pursuit-worth ?partner ?base) - what pursuing ?partner in talk is worth to @self, in the want
-; band, from ?base: his warmth toward him, falling the longer they have talked, and held down for a
-; while after they part, so the keenest partner wins and partners change without thrashing.
+; band, from ?base: his warmth toward him, less for every other man already holding him
+; (partner-claims), falling the longer they have talked, and held down for a while after they part,
+; so the keenest partner wins and partners change without thrashing.
 (define-func pursuit-worth (?partner ?base)
-  (bind (* ?base 0.5 (+ 1.0 (stance ?partner warmth)) (social-appetite)) ?appeal)
+  (bind (/ (* ?base 0.5 (+ 1.0 (stance ?partner warmth)) (social-appetite))
+           (+ 1.0 (* (k-partner-busy-weight) (partner-claims ?partner)))) ?appeal)
   (bind (conversation-of @self) ?talk)
   (bind (any {?talk participant @self}) ?part)
   (bind (any {? participant @self /past /most_recent}) ?left)
@@ -254,6 +256,23 @@
         (case (is-belief ?parted)
               (* ?appeal (clamp (/ (+ /float (elapsed /minutes ?parted) 0) (k-partner-refresh-minutes)) (k-partner-fresh-floor) 1.0)))
         (else ?appeal)))
+
+; (partner-claims ?partner) - how many other men already hold ?partner: the other parties of a talk he
+; is in that is not @self's, and the men besides @self hailing him.
+(define-func partner-claims (?partner)
+  (bind 0.0 ?claims)
+  (bind (conversation-of ?partner) ?theirs)
+  (if (and (substantial ?theirs) (not (in-conversation @self ?theirs)))
+      (then (bind (+ /float (count (parties-of ?theirs)) -1) ?claims)))
+  (for-each ?caller (bb-public-every ? hailing ?partner)
+    (if (neq ?caller @self)
+        (then (bind (+ ?claims 1.0) ?claims))))
+  ?claims)
+
+; (partner-pick-score ?partner ?base) - how a driver picks among partners: what pursuing him is worth
+; (pursuit-worth), the nearer winning among equals.
+(define-func partner-pick-score (?partner ?base)
+  (* (pursuit-worth ?partner ?base) (+ 1.0 (* (k-partner-nearness-weight) (near @self ?partner)))))
 
 ; (talks-with-lately ?other) - how many talks @self has begun with ?other within the last
 ; k-talk-again-window-seconds.
@@ -695,24 +714,22 @@
 (define-func engaged-here (?npc)
   (and (conversing-with ?npc @self) (in-earshot ?npc [k speech])))
 
-; (player-hail ?npc ?authority) - the player opens a conversation with ?npc, or joins the one
-; ?npc is in: he joins its participant set, and the answer is the line he hails him with -
-; plainly, or, when ?authority names the kind of his job, introducing himself by it. The player
-; holds no beliefs, so his conversation is the shared object alone, kept by its board.
+; (player-hail ?npc ?authority) - the player hails ?npc as a man's hail does (tasks/hail-task.mc):
+; his one standing hail is to ?npc (hailing), and only ?npc taking it up brings them into a
+; conversation. The answer is the line he hails him with - plainly, or, when ?authority names the
+; kind of his job, introducing himself by it.
 (define-func player-hail (?npc ?authority)
-  (bind (conversation-of ?npc) ?theirs)
-  (if (substantial ?theirs)
-      (then (bb-public-add-member ?theirs participant @self))
-      (else
-        (share-object (o /invent [k conversation])): ?talk
-        (bb-public-add-member ?talk participant @self)))
+  (for-each ?hailed (bb-public-members @self hailing)
+    (bb-public-remove-member @self hailing ?hailed))
+  (bb-public-add-member @self hailing ?npc)
   (if (is-kind ?authority)
       (then (formulaic [] opening-phrase authority ?authority))
       (else (formulaic [] opening-phrase player_talk))))
 
 ; (player-leave-taking ?npc) - the player leaves the conversation with ?npc, and the answer is
-; the line he takes his leave with. He comes off its participant set.
+; the line he takes his leave with. He comes off its participant set, and his hail of ?npc ends.
 (define-func player-leave-taking (?npc)
+  (bb-public-remove-member @self hailing ?npc)
   (bind (conversation-of @self) ?talk)
   (if (substantial ?talk)
       (then (bb-public-remove-member ?talk participant @self)))

@@ -183,6 +183,11 @@
 ; proposes. The turn rate stays the run's: a man who cannot steer at speed is
 ; no use for crossing the town to look at something.
 (define-macro super_run_speed_mps     () 28.75)
+; How fast a steered man gets up to pace (m/s^2): a run's is a sprinter's start, at its pace in
+; about 0.7 s, and the walk and the debug sprint take as long to reach theirs.
+(define-macro walk_accel_mps2          () 2.0)
+(define-macro run_accel_mps2           () 8.0)
+(define-macro super_run_accel_mps2     () 40.0)
 ; A presented walker has ARRIVED when his centre stands within this of his spot across the
 ; floor, and sets his own /succ.
 (define-macro walk_arrive_m            () 0.1)
@@ -223,6 +228,12 @@
 ; ... and once parted he is worth pursuing again in full only after this long, from this floor.
 (define-macro k-partner-refresh-minutes () 120.0)
 (define-macro k-partner-fresh-floor     () 0.2)
+; How much less a man is worth pursuing for each other man already holding him - each other party
+; of a talk he is in, each other man hailing him - so a crowd spreads over the free rather than
+; piling into one circle.
+(define-macro k-partner-busy-weight     () 0.5)
+; How much nearness counts in picking among partners: a tie-break among equals, never a reason.
+(define-macro k-partner-nearness-weight () 0.01)
 ; The most talks a man begins with one other within an hour before it is a thrash.
 (define-macro k-talks-with-one-man-an-hour () 2)
 (define-macro k-talk-again-window-seconds () 3600.0)

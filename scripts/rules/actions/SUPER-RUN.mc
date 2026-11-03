@@ -17,4 +17,5 @@
     (state running)
     (movement-speed (super_run_speed_mps))
     (delib-turn-speed (run_delib_turn_rate))
+    (acceleration (super_run_accel_mps2))
     (in 0.0) (out 0.0)))
