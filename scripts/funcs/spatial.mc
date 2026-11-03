@@ -132,7 +132,7 @@
   (spatial ?place room /env): ?found
   (for-each ?room (spatial ?place rooms /env)
     (if (is-spot ?found) (then (break)))
-    (for-each ?surface (spatial ?room contents [k loose-furniture] /env)
+    (for-each ?surface (spatial ?room contents [k furniture] /env)
       (if (or (is-a ?surface [k writing-desk]) (is-a ?surface [k table]))
         (then
           (if (find-spot ?kind [/on_top_of ?surface]): ?spot

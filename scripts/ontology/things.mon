@@ -103,6 +103,34 @@
     ; breakfast / luncheon / tea / supper alongside the plain lunch /
     ; dinner.
     ; Man-made things
+    ; Household furniture - scene dressing the detective walks through and searches. Immobile and
+    ; never carried: each piece is a part of the space that holds it, and moving or destroying one
+    ; is a rare world act that pays when it happens. None carry a weapon facet, so furniture never
+    ; floods the improvised-weapon pool.
+    (child furniture
+      (decorations
+        (spatials bounds)
+        (attrs variant birth-date color condition blemishes)
+        (attr name (auto-percept) (ext-per obs)))
+      (population (cap 8192) (blocks-spots) (non-occluder))
+      (child table
+        (children kitchen-table dining-table))
+      (child counter
+        (children bar-counter))
+      (children chair stool armchair bed wardrobe chest crate writing-desk
+                writing-bureau bookshelf sideboard display-cabinet smoking-cabinet hat-stand umbrella-stand bell-pull
+                sewing-machine drying-rack fireplace public-notice-board)
+      (child piano
+        (children upright-piano grand-piano))
+      (children evidence-box))
+    ; A sign indoors - over a bar, on a desk: immobile, never carried, a part of the room that holds
+    ; it as furniture is.
+    (child interior-sign
+      (decorations
+        (spatials bounds)
+        (attrs variant birth-date color condition blemishes)
+        (attr name (auto-percept) (ext-per obs)))
+      (population (cap 1024) (blocks-spots) (non-occluder)))
     (child prop
       (decorations
         (states stolen-from)
@@ -162,21 +190,6 @@
           (children suspenders holster gun-strap watch-chain))
         (child gloves
           (children gauntlets mittens)))
-      ; Inert household furniture - scene dressing the detective walks
-      ; through and searches. None carry a weapon facet (a heavy chair is
-      ; not modelled as an improvised bludgeon - keeping these inert stops
-      ; furniture from flooding the improvised-weapon pool; the genuine
-      ; improvised weapons are the candlestick / fire-poker / cutlery kinds
-      ; under their own families).
-      (child loose-furniture
-        (child table
-          (children kitchen-table dining-table))
-        (children chair stool armchair bed wardrobe chest crate writing-desk
-                  writing-bureau bookshelf sideboard display-cabinet smoking-cabinet hat-stand umbrella-stand bell-pull
-                  sewing-machine drying-rack fireplace public-notice-board)
-        (child piano
-          (children upright-piano grand-piano))
-        (children evidence-box))
       ; Purpose-built instruments of harm. Each leaf is naturally a
       ; weapon (designed for combat / violence) - non-weapon items
       ; that CAN be used to harm (a bust, a candlestick, a knife) live
@@ -550,14 +563,14 @@
       (child meal (price 5)
         (children breakfast lunch luncheon dinner tea-meal supper)))
     ; Groupings of things. A prefab that only ARRANGES other Merlin things - a home office
-    ; of desk, chair and lamp dropped into a room as one piece - is itself a thing with a kind
-    ; and a bound, so its blob composes its members and nothing nested in it is lost; it holds
-    ; no spot of its own, its members do.
-    (child group
+    ; of desk, chair and lamp dropped into a room as one piece - has a kind and a bound so the
+    ; Editor and the composition know it, but is never an entity: its members hang on whatever
+    ; holds it.
+    (child group (composition arrangement)
       (decorations
         (attrs variant)
         (spatials bounds))
-      (population (cap 1024) (children-block-spots) (non-occluder))
+      (population (cap 16) (non-occluder))
       (child furniture-arrangement
         (children home-office-arrangement bedroom-arrangement)))
     ; Man-made structures
@@ -714,15 +727,15 @@
           (decorations (attrs -variant -birth-date -name blemishes))
           (population (cap 4096) (non-occluder)))
         (child mind (motor)))
-      (child structure-part (composition fixture)
+      ; A structure's own fabric - its walls, its roof, the signs on its face - shared by its
+      ; rooms and in none of them. A door or a window is the rooms' it opens into.
+      (child structure-part (composition shell)
         (decorations (attrs blemishes))
         (population (cap 4096) (blocks-spots) (children-block-spots))
-        (child counter
-          (children bar-counter))
         (children wall)
-        ; A sign carries no text of its own: a building-name-sign shows its building's
-        ; `name`, an address-sign its building's `address`.
-        (child sign (+ facets exterior) (facets exterior)
+        ; A sign on a structure's face carries no text of its own: a building-name-sign shows its
+        ; building's `name`, an address-sign its building's `address`.
+        (child exterior-sign (+ facets exterior) (facets exterior)
           (children building-name-sign address-sign))
         ; A passage is a way through a wall and never a space: nothing is filed in one and nobody
         ; stands in one. Every way into a building or between its rooms is one, so a body enters by
@@ -776,6 +789,15 @@
   ; A town carries no address, so it inherits the decl and never uses it.
   (child space (+ per obs) (grounding-anchors address)
     (decorations (states occupant tenant))
+    ; An open part of a room or of an open-air structure - the bar-back, a stage: stood in, its
+    ; floor the floor of the space it lies in, never a room of its own.
+    (child area (composition area)
+      (decorations
+        (attrs variant birth-date address)
+        (attr name (auto-percept) (ext-per obs))
+        (spatials bounds))
+      (population (cap 1024) (non-occluder))
+      (children bar-back stage))
     ; An interior space is a room of its enclosure unless its kind says otherwise.
     (child interior-space (composition room)
       (decorations
@@ -789,7 +811,7 @@
         (decorations (states breakfast-hour lunch-hour supper-hour)))
       (child room
         (children kitchen dining-room restaurant-dining-room hallway living-room bedroom staircase nave bar-room)
-        (children bar-back stage auditorium)
+        (children auditorium)
         ; Rooms the crime arcs need.
         ; study: private workroom; canonical Victorian crime-scene
         ; room (where a gentleman drinks port and reads in the
@@ -834,8 +856,7 @@
           (children crown-dependency)
           (child nation
             (children country)))
-        (child area
-          (children neighborhood)))
+        (children district))
       ; Occupiable exterior spaces with OBBs (Section 4.12). Each is a `space`
       ; entity (so it reuses the OBB co-presence machinery) and may carry
       ; name / address (-> road) / address-number. (street_space deleted: the

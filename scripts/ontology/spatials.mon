@@ -80,8 +80,8 @@
 ;
 ; QUALIFIER (spec, no consumers yet): /ascend [k K] and /descend [k K] walk a relation
 ; WITHIN its own range - K MUST be is-a that range or the query is a load error. So
-; (spatial ?x space /ascend [k area]) is legal (area is-a space) and climbs nested
-; exterior spaces neighborhood -> area -> ...; (spatial ?x space /ascend [k building])
+; (spatial ?x space /ascend [k district]) is legal (district is-a space) and climbs nested
+; exterior spaces district -> ...; (spatial ?x space /ascend [k building])
 ; is rejected (building is not a space). Use `building` / `town` for those levels.
 ;
 ; STORES: the physical edge types + their behavior. The store id is declaration
