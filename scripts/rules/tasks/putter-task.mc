@@ -21,7 +21,7 @@
                  (spatial ?home room [k kitchen]): ?kitchen
                  (spatial @self space ?kitchen)
                  (= (believed-pile-count ?kitchen [k food]) 0)))
-      (when (poll (rest-spot ?kitchen [k pile]): ?spot))
+      (when (poll (claim (rest-spot ?kitchen [k pile]) [k pile]): ?spot))
       (effects (maintain-proposal {@self STOCK-LARDER ?kitchen ?spot})))
     (try
       (role @self {@self wander ?home /succ /caused_by ?putter}

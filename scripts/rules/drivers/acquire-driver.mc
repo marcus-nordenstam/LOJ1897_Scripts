@@ -13,6 +13,7 @@
   (and
     (try
       (role ?mine (is-a ?mine ?kind) {@self own ?mine} (spatial ?mine building (any {@self home ?}).target)
+                  -{@self get ?mine /fail /caused_by ?intent}
         (when (unknown (spatial ?mine held-by)))
         (declare-utility always-pick)
         (effects (maintain-proposal {@self get ?mine}))))

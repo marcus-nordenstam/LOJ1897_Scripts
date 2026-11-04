@@ -26,7 +26,8 @@
         (effects (maintain-proposal {@self enter-building ?shop}))))
     ; at a source, unwatched -> take a shelf item of the kind (the guarded snatch).
     (try
-      (role ?loot (spatial (spatial @self space) contents) (is-a ?loot ?kind) (select (policy first-match))
+      (role ?loot (spatial (spatial @self space) contents) (is-a ?loot ?kind) (claimable ?loot)
+                  -{@self take ?loot /fail /caused_by ?steal} (select (policy first-match))
         (when (and (empty (spatial @self hold ?kind))
                    (is-a (spatial @self building) [k shop])
                    (= (count (spatial (spatial @self space) contents [k human])) 1)))

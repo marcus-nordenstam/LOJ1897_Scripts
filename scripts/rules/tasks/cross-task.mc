@@ -20,13 +20,13 @@
              (then (set-outcome ?cross /succ))))
   (and
     (sequence
-      (stage (bind (flip (barred ?passage) (passage-stance ?passage) @nothing) ?before)
+      (stage (bind (flip (barred ?passage) (claim (passage-stance ?passage)) @nothing) ?before)
              (effects (if (and (is-spot ?before) (not (overlaps ?before @self)))
                           (then (maintain-proposal {@self go-to ?before})))))
       (stage (when (or (not (barred ?passage)) (spatial @self can-reach ?passage)))
              (effects (if (barred ?passage)
                           (then (maintain-proposal {@self OPEN ?passage})))))
-      (stage (bind (passage-spot-beyond ?passage) ?beyond)
+      (stage (bind (claim (passage-spot-beyond ?passage)) ?beyond)
              (effects (maintain-proposal {@self WALK ?beyond})))
       (stage (effects (set-outcome ?cross /succ))))
     (try (when (and (barred ?passage) (not (passage-stance-exists ?passage))))

@@ -1,7 +1,9 @@
 ; ----------------------------------------------------------------------------
-; take ?item - pick the item up into a free hand. With both hands full he first sets the
-; left hand's thing down where he stands; the two hand tries propose GRASP with the hand as
-; an ARGUMENT; the outcome try concludes once a grasp succeeded /caused_by this task.
+; take ?item - pick the item up into a free hand. The item is CLAIMED, first come first served: a
+; claim another holds fails the take and no GRASP is tried.
+; With both hands full he first sets the left hand's thing down where he stands; the two hand
+; tries propose GRASP with the hand as an ARGUMENT; the outcome try concludes once a grasp
+; succeeded /caused_by this task.
 ;
 ; THE HAND PREFERENCE IS A CONDITION, not a bid. It was (declare-utility (above LEFT-TAKE)) -
 ; one act outbidding another - and there is ONE act now, so there is nothing to outbid.
@@ -20,6 +22,9 @@
   (tar @excl [k object] @object)
   (and
     (try
+      (when (not (claim ?item)))
+      (effects (set-outcome ?take /fail)))
+    (try
       (when (not (empty (spatial (spatial @self left-hand) grip))))
       (when (not (empty (spatial (spatial @self right-hand) grip))))
       (effects
@@ -30,11 +35,11 @@
         (maintain-proposal {@self put ?held (spatial @self space)})))
     (try
       (role @self (spatial @self can-reach ?item)
-        (when (empty (spatial (spatial @self right-hand) grip)))
+        (when (and (claim ?item) (empty (spatial (spatial @self right-hand) grip))))
         (effects (maintain-proposal {@self GRASP ?item (spatial @self right-hand)}))))
     (try
       (role @self (spatial @self can-reach ?item)
-        (when (empty (spatial (spatial @self left-hand) grip)))
+        (when (and (claim ?item) (empty (spatial (spatial @self left-hand) grip))))
         (when (not (empty (spatial (spatial @self right-hand) grip))))
         (effects (maintain-proposal {@self GRASP ?item (spatial @self left-hand)}))))
     (try

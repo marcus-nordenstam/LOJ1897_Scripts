@@ -113,7 +113,7 @@
                             (bb-write ?WALK stalled 0.0))
                       (else (bb-write ?WALK stalled (+ (bb-read ?WALK stalled) (act-dt)))))
                   (if (> (bb-read ?WALK stalled) (walk_lock_seconds))
-                      (then (refuse-spot ?dest)
+                      (then (mark-unreachable-spot ?dest)
                             (set-outcome ?WALK /fail))
                       (else (move @self ?steer)
                             (steer-to @self ?steer))))))))))

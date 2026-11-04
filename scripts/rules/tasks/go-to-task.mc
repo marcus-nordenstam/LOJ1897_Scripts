@@ -102,7 +102,7 @@
 ; The spot the next WALK heads for: where he will stand by ?dest once he sees it, else toward the
 ; space it is in.
 (define-func go-walk-spot (?dest ?go-to)
-  (flip (go-in-sight ?dest) (go-stand-spot ?dest ?go-to) (go-sight-spot ?dest)))
+  (flip (go-in-sight ?dest) (claim (go-stand-spot ?dest ?go-to)) (go-sight-spot ?dest)))
 
 ; He walked to where ?dest is for this go-to and still does not see it - the walk go-walk-spot
 ; heads on when he does not.

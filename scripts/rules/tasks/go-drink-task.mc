@@ -11,6 +11,10 @@
 (define-macro session-drinks () 3)
 (define-macro drink-interval-minutes () 60)
 
+; Where he stands to take ?glass off the bar, once ?glass is his: @fail while another holds it.
+(define-func claimed-stand-by (?glass)
+  (if (claim ?glass) (then (claim (stand-spot-by ?glass))) (else @fail)))
+
 (task {@self go-drink}:?go-drink
   (running-requirements (stands-in-room-of [k bar-room] [k pub-building]))
   (cease (if (and (>= (session-drink-count ?go-drink) (session-drinks))
@@ -45,10 +49,11 @@
       (stage
         (role ?glass [k drinking-glass] (spatial ?glass space (spatial @self space))
                                         (unsubstantial (spatial ?glass gripped-by))
+                                        (claimable ?glass)
                                         (substantial (glass-drink ?glass))
                                         (select (score (drink-appeal (kind (glass-drink ?glass))))
                                                 (policy roulette)))
-        (when (stand-spot-by ?glass): ?spot)
+        (when (claimed-stand-by ?glass): ?spot)
         (effects (maintain-proposal {@self go-to ?spot})))
       (stage
         (effects (maintain-proposal {@self take ?glass}))))

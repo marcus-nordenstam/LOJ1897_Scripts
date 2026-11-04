@@ -14,7 +14,7 @@
     (try
       (when (unpresented-lod))
       (when (substantial (spatial ?item gripped-by)))
-      (when (poll (rest-spot ?dest ?item): ?spot))
+      (when (poll (claim (rest-spot ?dest ?item) ?item): ?spot))
       (effects (maintain-proposal {@self PUT ?item ?spot})))
     (try
       (role @self {@self /succ PUT ?item ? /caused_by ?put}

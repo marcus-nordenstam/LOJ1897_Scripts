@@ -37,7 +37,7 @@
 ; Where the walk in heads: the free spot nearest its middle once he sees it, else toward it,
 ; claiming nothing.
 (define-func enter-room-walk-spot (?room)
-  (flip (is-visible ?room) (stand-spot-in ?room) (travel-spot ?room)))
+  (flip (is-visible ?room) (claim (stand-spot-in ?room)) (travel-spot ?room)))
 
 ; He walked toward ?room for this enter-room and still does not see it - the walk
 ; enter-room-walk-spot heads on when he does not.

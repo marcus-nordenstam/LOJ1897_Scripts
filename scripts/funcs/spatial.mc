@@ -37,12 +37,12 @@
         (case (unsubstantial ?here) @false)
         (else (and (is-a ?here [k exterior-space]) (spatial ?x space ?space)))))
 
-; The claimed floor spot through ?passage from where @self stands, whether or not he knows the
+; The free floor spot through ?passage from where @self stands, whether or not he knows the
 ; space there: in a room the free spot nearest its middle, clear of the way for whoever comes
 ; through after him; out of doors at least k_passage_clear_out_m out from the doorway, further out or
-; to either side when that is taken. Polled like rest-spot, and likewise the asking rung's claim.
+; to either side when that is taken. A search: the rung that stands him there claims it.
 (define-func passage-spot-beyond (?passage)
-  (maintain-claim-spot @self [/beyond ?passage] [/near ?passage] [/at_or_near @self]))
+  (find-spot @self [/beyond ?passage] [/near ?passage] [/at_or_near @self]))
 
 ; The space on @self's side of ?passage, where he stands to work it.
 (define-func passage-near-side (?passage)
@@ -53,10 +53,10 @@
   (passage-near-side ?passage): ?near
   (and (substantial ?near) (eq ?near (spatial @self space))))
 
-; The claimed stance on @self's side of ?passage from which he can reach it, to work it. @fail
-; while every such stance is taken.
+; The free stance on @self's side of ?passage from which he can reach it, to work it. @fail
+; while every such stance is taken. A search: the rung that stands him there claims it.
 (define-func passage-stance (?passage)
-  (maintain-claim-spot @self [/before ?passage] [/near ?passage] [/at_or_near @self]
+  (find-spot @self [/before ?passage] [/near ?passage] [/at_or_near @self]
                        [/can_reach ?passage]))
 
 ; There is a stance on @self's side of ?passage, though others may hold every one: the door can be
@@ -116,14 +116,13 @@
   (tolerate (spatial @self building)): ?here
   (and (substantial ?here) (is-a ?here ?kind)))
 
-; Where a thing set down "at ?dest" comes to rest: a claimed spot where the whole thing fits,
-; on the floor of a space or on top of anything else. @fail while no spot is free - the
-; asking rung polls until one is - and the claim is the asking rung's: it is released when
-; that rung ceases, so no act has to give it back.
+; Where a thing set down "at ?dest" comes to rest: a free spot where the whole thing fits, on
+; the floor of a space or on top of anything else. @fail while no spot is free - the asking rung
+; polls until one is. A search: the rung that sets the thing down claims it, (claim .. ?item).
 (define-func rest-spot (?dest ?item)
   (if (is-a ?dest [k space])
-      (then (maintain-claim-spot ?item [/on_floor_of ?dest]))
-      (else (maintain-claim-spot ?item [/on_top_of ?dest]))))
+      (then (find-spot ?item [/on_floor_of ?dest]))
+      (else (find-spot ?item [/on_top_of ?dest]))))
 
 ; Where world-gen sets a new ?kind down in ?bldg: a free spot on a writing-desk or table in
 ; any of its rooms, else a room's floor. Mindless: the world is read as it stands and
@@ -161,11 +160,10 @@
         (case (= (count ?units) 1) (head ?units))
         (else @fail)))
 
-; Where @self stands inside a space: a claimed spot on its floor - in a room the free one nearest
-; its middle, out of doors the one nearest him. Polled like rest-spot, and likewise the asking
-; rung's claim.
+; Where @self stands inside a space: a free spot on its floor - in a room the one nearest its
+; middle, out of doors the one nearest him. A search: the rung that stands him there claims it.
 (define-func stand-spot-in (?space)
-  (maintain-claim-spot @self [/on_floor_of ?space]
+  (find-spot @self [/on_floor_of ?space]
                        [/near (flip (is-a ?space [k exterior-space]) @self ?space)] [/at_or_near @self]): ?spot
   (check (or (not (is-spot ?spot)) (= (spatial ?spot space) ?space)))
   ?spot)
@@ -175,7 +173,7 @@
 ; furniture has the furniture there.
 (define-func stand-spot-by (?ent)
   (spatial ?ent space): ?space
-  (maintain-claim-spot @self [/on_floor_of ?space] [/near ?ent] [/at_or_near @self]
+  (find-spot @self [/on_floor_of ?space] [/near ?ent] [/at_or_near @self]
                        [/can_reach ?ent]): ?spot
   (check (or (not (is-spot ?spot)) (= (spatial ?spot space) ?space)))
   ?spot)
@@ -183,19 +181,19 @@
 ; Where @self stands to face a man: the free floor before his front nearest him, else beside him
 ; when his front is taken - within reach of him either way.
 (define-func stand-spot-before (?person)
-  (maintain-claim-spot @self [/in_front_of ?person] [/near ?person] [/at_or_near @self]
+  (find-spot @self [/in_front_of ?person] [/near ?person] [/at_or_near @self]
                        [/can_reach ?person]): ?front
   (if (is-spot ?front) (then ?front) (else (stand-spot-by ?person))))
 
 ; Where @self stands to talk with a man: before him, face to face, as stand-spot-before stands
 ; him; that taken, the free floor of his space nearest him - within his hearing, not his reach.
 (define-func earshot-spot-of (?person)
-  (maintain-claim-spot @self [/in_front_of ?person] [/near ?person] [/at_or_near @self]
+  (find-spot @self [/in_front_of ?person] [/near ?person] [/at_or_near @self]
                        [/can_reach ?person]): ?front
   (if (is-spot ?front)
       (then ?front)
       (else (bind (spatial ?person space) ?space)
-            (maintain-claim-spot @self [/on_floor_of ?space] [/near ?person] [/at_or_near @self]))))
+            (find-spot @self [/on_floor_of ?space] [/near ?person] [/at_or_near @self]))))
 
 ; The box @self heads for: the one he sees, else the one he remembers. A structure he never had
 ; a box for is find-building's.

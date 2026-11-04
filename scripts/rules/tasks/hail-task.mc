@@ -53,21 +53,21 @@
     (try
       (role @self {@self isa [k human]}
                   -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
-        (role ?partner {?partner SAY ? @self /past}
-                       {?partner SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+        (role ?partner {?partner SAY ? @self /past /most_recent}
+                       {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
           (when (happened-since ?opening ?hail))
           (effects (set-outcome ?hail /fail)))))
     (try
       (lint-waive cacheable-read-in-when)
       (role @self {@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
-        (role ?partner {?partner SAY ? @self /past}
-                       {?partner SAY (formulaic ? opening-phrase ?..) @self /past}:?opening
+        (role ?partner {?partner SAY ? @self /past /most_recent}
+                       {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                        -{@self tell ? ?partner /succ /caused_by ?opening}
           (when (and (conversing-with ?partner @self) (happened-since ?opening ?hail)))
           (effects (maintain-proposal {@self respond ?partner ?opening})))))
     (try
       (lint-waive cacheable-read-in-when)
-      (role ?partner {?partner SAY ? @self /past}
+      (role ?partner {?partner SAY ? @self /past /most_recent}
         (when (hail-accepted ?partner ?hail))
         (effects
           (join-conversation (conversation-of ?partner) ?hail)

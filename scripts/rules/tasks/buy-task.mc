@@ -26,7 +26,9 @@
                    (is-a (spatial @self building): ?shop [k shop])))
 
         (stage
-          (role ?goods (spatial (spatial @self space) contents) (is-a ?goods ?kind) (select (policy first-match)))
+          (role ?goods (spatial (spatial @self space) contents) (is-a ?goods ?kind) (claimable ?goods)
+                       (select (policy first-match)))
+          (when (claim ?goods))
           (effects
             (if (not (bb-any ?buy goods))
                 (then (bb-write ?buy goods ?goods)))))
