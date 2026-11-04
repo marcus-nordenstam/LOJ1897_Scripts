@@ -1,7 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; get-acquainted-driver - an acquaintance of @self's who is not yet a friend is here, and there is
 ; something about himself @self has not told him: @self gets to know him (tasks/
-; get-acquainted-task.mc). One at a time: of all such men here, the one most worth pursuing, the nearest among equals.
+; get-acquainted-task.mc). One at a time: of all such men here, the one most worth pursuing, the nearest among equals;
+; a man who just turned his hail down is let be for the hour.
 ; ----------------------------------------------------------------------------
 
 (driver get-acquainted-driver
@@ -9,6 +10,7 @@
     (role ?other {@self acquaintance ?other} -{@self (closeness-labels friend) ?other}
                  {?other isa [k human], condition [k alive]}
                  (spatial ?other co-located @self)
+                 (not (turned-down-lately ?other))
                  (substantial (disclosure-for ?other))
                  (select (score (partner-pick-score ?other (k-get-acquainted-value))) (policy argmax))
       (when (>= ?age 12))

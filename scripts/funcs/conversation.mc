@@ -258,16 +258,22 @@
         (else ?appeal)))
 
 ; (partner-claims ?partner) - how many other men already hold ?partner: the other parties of a talk he
-; is in that is not @self's, and the men besides @self hailing him.
+; is in that is not @self's. Hails are not counted: two men hailing one would each be worth less to the
+; other the moment the other called, and they would take turns calling him every second.
 (define-func partner-claims (?partner)
   (bind 0.0 ?claims)
   (bind (conversation-of ?partner) ?theirs)
   (if (and (substantial ?theirs) (not (in-conversation @self ?theirs)))
       (then (bind (+ /float (count (parties-of ?theirs)) -1) ?claims)))
-  (for-each ?caller (bb-public-every ? hailing ?partner)
-    (if (neq ?caller @self)
-        (then (bind (+ ?claims 1.0) ?claims))))
   ?claims)
+
+; (turned-down-lately ?other) - ?other's last line to @self turned a hail of his down, within the last
+; k-talk-again-window-seconds.
+(define-func turned-down-lately (?other)
+  (bind (any {?other SAY ? @self /past /most_recent}) ?said)
+  (and (is-belief ?said)
+       (turned-away ?said.target)
+       (<= (seconds-between (time seconds) (start-time ?said)) (k-talk-again-window-seconds))))
 
 ; (partner-pick-score ?partner ?base) - how a driver picks among partners: what pursuing him is worth
 ; (pursuit-worth), the nearer winning among equals.

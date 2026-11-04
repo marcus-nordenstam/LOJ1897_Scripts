@@ -228,9 +228,8 @@
 ; ... and once parted he is worth pursuing again in full only after this long, from this floor.
 (define-macro k-partner-refresh-minutes () 120.0)
 (define-macro k-partner-fresh-floor     () 0.2)
-; How much less a man is worth pursuing for each other man already holding him - each other party
-; of a talk he is in, each other man hailing him - so a crowd spreads over the free rather than
-; piling into one circle.
+; How much less a man is worth pursuing for each other party of a talk he is in, so a crowd spreads
+; over the free rather than piling into one circle.
 (define-macro k-partner-busy-weight     () 0.5)
 ; How much nearness counts in picking among partners: a tie-break among equals, never a reason.
 (define-macro k-partner-nearness-weight () 0.01)

@@ -56,7 +56,7 @@
         (when (claimed-stand-by ?glass): ?spot)
         (effects (maintain-proposal {@self go-to ?spot})))
       (stage
-        (effects (maintain-proposal {@self take ?glass}))))
+        (effects (maintain-proposal {@self get ?glass}))))
     ; STAY: he keeps to the bar-room while he is at it; nothing below his outing's band walks him out.
     (try (declare-utility fallback)
          (effects (maintain-proposal {@self DWELL (spatial @self space) (+ (time hour) 1)})))))
