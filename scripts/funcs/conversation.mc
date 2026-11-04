@@ -287,11 +287,6 @@
        (turned-away ?said.target)
        (<= (seconds-between (time seconds) (start-time ?said)) (k-talk-again-window-seconds))))
 
-; (partner-pick-score ?partner ?base) - how a driver picks among partners: what pursuing him is worth
-; (pursuit-utility), the nearer winning among equals.
-(define-func partner-pick-score (?partner ?base)
-  (* (pursuit-utility ?partner ?base) (+ 1.0 (* (k-partner-nearness-weight) (near @self ?partner)))))
-
 ; (talks-with-lately ?other) - how many talks @self has begun with ?other within the last
 ; k-talk-again-window-seconds.
 (define-func talks-with-lately (?other)

@@ -16,7 +16,8 @@
                    -{@self turn-down ?speaker ? /succ /caused_by ?line}
                    (in-conversation ?speaker ?talk)
                    (happened-since ?line ?part)
-                   (select (score (elapsed /seconds (start-time ?line))) (policy argmax))
+                   ; argmin: a line heard in the second it was said is 0 seconds old, and argmax never picks 0.
+                   (select (score (- 0 (elapsed /seconds (start-time ?line)))) (policy argmin))
       (when (in-conversation @self ?talk))
       (declare-utility obligation)
       (effects (maintain-proposal {@self respond ?speaker ?line} /caused_by ?part)))))

@@ -233,8 +233,6 @@
 ; How much less a man is worth pursuing for each other party of a talk he is in, so a crowd spreads
 ; over the free rather than piling into one circle.
 (define-macro k-partner-busy-weight     () 0.5)
-; How much nearness counts in picking among partners: a tie-break among equals, never a reason.
-(define-macro k-partner-nearness-weight () 0.01)
 ; The most talks a man begins with one other within an hour before it is a thrash.
 (define-macro k-talks-with-one-man-an-hour () 2)
 (define-macro k-talk-again-window-seconds () 3600.0)

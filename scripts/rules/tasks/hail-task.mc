@@ -31,14 +31,16 @@
     (check (is-a ?partner [k human]))
     (bb-public-add-member @self hailing ?partner))
   ; Called out, he hears the answer out however the hail ends: ?partner may be taking him up. Talking
-  ; with ?partner already - he took ?partner's own hail up - there is no answer left to wait for.
+  ; with ?partner already - he took ?partner's own hail up - there is no answer left to wait for, and
+  ; none comes from a man out of call.
   (closing
     (sequence
       (stage
         (when (or (unsubstantial (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /ever /caused_by ?hail}))
                   (is-belief (hail-reply ?partner ?hail))
                   (engaged-with ?partner)
-                  (not (hailable ?partner)))))
+                  (not (hailable ?partner))
+                  (not (within-call ?partner)))))
       (stage
         (effects (done-closing ?hail)))))
   (cease
@@ -49,6 +51,7 @@
           (set-outcome ?hail /succ))))
   (and
     (try
+      (sync hail @self ?partner)
       (role @self {@self isa [k human]}
                   -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
         (effects (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner}))))
