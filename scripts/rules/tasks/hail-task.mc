@@ -9,7 +9,7 @@
 ; then (turn-board, funcs/conversation.mc). Nobody hails a man in a conversation that seats no one
 ; more (hailable): it fails when ?partner's talk fills before he answers. Until answered his hail
 ; stands (hailing). Called to by ?partner before he has called out his own, he lets his hail go and
-; takes ?partner up. It is PREPARATION - an open conversation is what converse assumes - so only a
+; takes ?partner up. It is PREPARATION - an open conversation is what his part in it needs - so only a
 ; driver proposes it. Taken up when ?partner's answer accepts it and both are in one conversation -
 ; also when that is what ends it, its proposer having stopped wanting it the instant it was taken
 ; up; turned down when ?partner refuses or rebuffs him, and failed when his opening could not be
@@ -30,12 +30,14 @@
   (init
     (check (is-a ?partner [k human]))
     (bb-public-add-member @self hailing ?partner))
-  ; Called out, he hears the answer out however the hail ends: ?partner may be taking him up.
+  ; Called out, he hears the answer out however the hail ends: ?partner may be taking him up. Talking
+  ; with ?partner already - he took ?partner's own hail up - there is no answer left to wait for.
   (closing
     (sequence
       (stage
         (when (or (unsubstantial (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /ever /caused_by ?hail}))
                   (is-belief (hail-reply ?partner ?hail))
+                  (engaged-with ?partner)
                   (not (hailable ?partner)))))
       (stage
         (effects (done-closing ?hail)))))

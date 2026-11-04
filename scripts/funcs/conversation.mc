@@ -3,9 +3,10 @@
 ; he opened goes.
 ;
 ; Speech has one task that proposes SAY: tell (tasks/tell-task.mc) says one thing where its
-; audience can hear it. A conversation is four tasks, each saying its lines through tell: hail
-; opens it, take-up accepts it, converse holds the exchange while it is open, and take-leave
-; ends it.
+; audience can hear it. A man is in a conversation while he holds {<talk> participant @self}:
+; hail or take-up begins it, and leaving ends it (drivers/stay-in-conversation-driver.mc).
+; Everything he says in it, and every way he leaves it, keys off that part;
+; maintain-social-presence only keeps his body with the others.
 ;
 ; A CONVERSATION is ONE object, shared (share-object): the opener invents it, and every party
 ; holds his own copy of it, linked to the one the world keeps. Its public board is what keeps the
@@ -74,7 +75,7 @@
 (define-func evading-law ()
   (substantial (any {@self kill|shoot|strangle|hurt|steal|coerce|bribe ? /succ /past})))
 
-(define-func hail-want-worth (?value)
+(define-func hail-want-utility (?value)
   (utility want ?value))
 
 ; (obligation-hail ?speaker) - a hail @self must take up however he feels: a law officer's when he
@@ -87,17 +88,28 @@
 (define-func too-crowded-for (?speaker)
   (and (substantial (any {@self company [k crowded]})) (not (obligation-hail ?speaker))))
 
-; (hail-worth ?speaker) - what taking up ?speaker's hail is worth to @self, as a packed
+; (hail-utility ?speaker) - what taking up ?speaker's hail is worth to @self, as a packed
 ; utility: an obligation when it is a law officer's and he has nothing to hide, or when he
 ; answers to ?speaker, else a want that rises with how close they are.
-(define-func hail-worth (?speaker)
+(define-func hail-utility (?speaker)
   (cond (case (and (law-officer ?speaker) (not (evading-law)))
               (utility obligation (k-hail-authority-value)))
         (case (answers-to ?speaker) (utility obligation (k-hail-bond-value)))
         (case {@self spouse|lover|friend|close-to|mother|father|child|sibling ?speaker}
-              (hail-want-worth (k-hail-bond-value)))
-        (case {@self acquaintance ?speaker} (hail-want-worth (k-hail-acquaintance-value)))
-        (else (hail-want-worth (k-hail-stranger-value)))))
+              (hail-want-utility (k-hail-bond-value)))
+        (case {@self acquaintance ?speaker} (hail-want-utility (k-hail-acquaintance-value)))
+        (else (hail-want-utility (k-hail-stranger-value)))))
+
+; (conversation-utility ?talk) - what staying in ?talk is worth to @self, as a packed utility: what
+; the keenest party whose hail obliges him is worth (hail-utility), else a want.
+(define-func conversation-utility (?talk)
+  (bind (utility want (k-conversation-want-value)) ?utility)
+  (for-each ?party (parties-of ?talk)
+    (if (and (neq ?party @self) (obligation-hail ?party))
+        (then
+          (bind (hail-utility ?party) ?obliged)
+          (if (> ?obliged ?utility) (then (bind ?obliged ?utility))))))
+  ?utility)
 
 ; (authority-introduction ?msg) - ?msg hails its hearer by introducing the speaker's office:
 ; (formulaic [] opening-phrase authority <job kind>). Each field is read only once the one
@@ -236,11 +248,11 @@
        (or (any-happened-since (every {@self hail ?partner /succ}) ?part)
            (any-happened-since (every {@self take-up ?partner /succ}) ?part))))
 
-; (pursuit-worth ?partner ?base) - what pursuing ?partner in talk is worth to @self, in the want
+; (pursuit-utility ?partner ?base) - what pursuing ?partner in talk is worth to @self, in the want
 ; band, from ?base: his warmth toward him, less for every other man already holding him
 ; (partner-claims), falling the longer they have talked, and held down for a while after they part,
 ; so the keenest partner wins and partners change without thrashing.
-(define-func pursuit-worth (?partner ?base)
+(define-func pursuit-utility (?partner ?base)
   (bind (/ (* ?base 0.5 (+ 1.0 (stance ?partner warmth)) (social-appetite))
            (+ 1.0 (* (k-partner-busy-weight) (partner-claims ?partner)))) ?appeal)
   (bind (conversation-of @self) ?talk)
@@ -276,9 +288,9 @@
        (<= (seconds-between (time seconds) (start-time ?said)) (k-talk-again-window-seconds))))
 
 ; (partner-pick-score ?partner ?base) - how a driver picks among partners: what pursuing him is worth
-; (pursuit-worth), the nearer winning among equals.
+; (pursuit-utility), the nearer winning among equals.
 (define-func partner-pick-score (?partner ?base)
-  (* (pursuit-worth ?partner ?base) (+ 1.0 (* (k-partner-nearness-weight) (near @self ?partner)))))
+  (* (pursuit-utility ?partner ?base) (+ 1.0 (* (k-partner-nearness-weight) (near @self ?partner)))))
 
 ; (talks-with-lately ?other) - how many talks @self has begun with ?other within the last
 ; k-talk-again-window-seconds.

@@ -25,7 +25,7 @@
 "seeing to some business"               coerce                      .
 "collecting the applications"           collect-applications        .
 "writing a letter"                      confess-letter              .
-"talking with someone"                  converse                    .
+"talking with someone"                  maintain-social-presence    .
 "seeing to the dead"                    convey-corpse               .
 "on the way"                            cross                       .
 "seeing to some business"               denounce                    .
@@ -123,7 +123,7 @@
 "see to some business"                  coerce                      .
 "collect the applications"              collect-applications        .
 "write a letter"                        confess-letter              .
-"speak with someone"                    converse                    .
+"speak with someone"                    maintain-social-presence    .
 "see to the dead"                       convey-corpse               .
 "be off"                                cross                       .
 "see to some business"                  denounce                    .

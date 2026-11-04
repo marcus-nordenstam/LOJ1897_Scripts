@@ -94,7 +94,7 @@
   (if (eq (nth (k-msg-first-content-field) ?msg) @unknown)
       (then (adopt-not-knowing ?speaker ?tell)))
   ; A QUESTION is not a claim. The heard {asker SAY (qs ..)} record IS the
-  ; deliverable - converse answers it straight off that record - and adopting the
+  ; deliverable - respond answers it straight off that record - and adopting the
   ; asked pattern would turn a man's question into this listener's belief.
   (if (is-qs ?msg)
     (then @fail)

@@ -216,8 +216,10 @@
 (define-macro k-hail-bond-value         () 800.0)
 ; ... and from a law officer, in the obligation band: above a Sunday's church (the band default).
 (define-macro k-hail-authority-value    () 900.0)
+; What staying in a conversation is worth, in the want band, while no party in it obliges him.
+(define-macro k-conversation-want-value () 500.0)
 
-; What pursuing a partner in talk is worth, in the want band, before pursuit-worth weighs the
+; What pursuing a partner in talk is worth, in the want band, before pursuit-utility weighs the
 ; partner: getting acquainted, catching up, telling gossip, flirting.
 (define-macro k-get-acquainted-value () 400.0)
 (define-macro k-catch-up-value       () 500.0)

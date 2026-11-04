@@ -31,8 +31,8 @@
   (cast hailed): ?hailed
   (expect (> (+ (acts ?opener hail succ) (acts ?hailed hail succ)) 0) "c01: no hail was ever taken up")
   (expect (> (+ (acts ?opener take-up succ) (acts ?hailed take-up succ)) 0) "c01: neither took the other up")
-  (expect (> (acts ?opener converse started) 0) "c01: his exchange never began")
-  (expect (in-mind ?opener (unsubstantial (any {@self converse ?}))) "c01: his exchange never ended")
+  (expect (in-mind ?opener (substantial (any {? participant @self /ever}))) "c01: his exchange never began")
+  (expect (in-mind ?opener (unsubstantial (any {? participant @self}))) "c01: his exchange never ended")
   (expect (>= (acts ?hailed tell succ) 2) "c01: she never answered him")
   (expect (or (left-talk ?opener) (left-talk ?hailed)) "c01: neither took their leave")
   (expect (in-mind ?opener (substantial (any {? participant @self /ever}))) "c01: he knows no talk he was in")

@@ -2,12 +2,12 @@
 ; answer-hail (thinks). A hail - a (formulaic opening-phrase ..) said to @self by a man in a
 ; conversation (funcs/conversation.mc) - is ALWAYS answered, and how is @self's
 ; choice: engage, decline or rebuff. Engaging is taking up the conversation
-; (tasks/take-up-task.mc) and then holding the exchange (tasks/converse-task.mc) while it stays
-; open; declining and rebuffing are turning it down (tasks/turn-down-task.mc). Whatever he answers
+; (tasks/take-up-task.mc), which gives him his part in it (drivers/stay-in-conversation-driver.mc);
+; declining and rebuffing are turning it down (tasks/turn-down-task.mc). Whatever he answers
 ; he finishes: a turn-down and a begun take-up both run at (declare-utility unbeatable), above
 ; everything he has going. The choice stays open until he begins answering: a man who would have
 ; engaged but finds something keener before he has begun taking it up declines instead, and says
-; what it is. A man in a conversation answers as a line of it, caused by his converse: taking the
+; what it is. A man in a conversation answers as a line of it, caused by his part in it: taking the
 ; caller up brings him into that conversation, and turning him down is said over his shoulder and
 ; gives the conversation as what he is busy with - neither ends it.
 ; ----------------------------------------------------------------------------
@@ -27,18 +27,18 @@
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
-    (bind (hail-worth ?speaker) ?worth)
-    (declare-utility (utility-band ?worth) (utility-value ?worth))
+    (bind (hail-utility ?speaker) ?utility)
+    (declare-utility (utility-band ?utility) (utility-value ?utility))
     (when (and (within-call ?speaker)
                (not (in-full-talk))
                (not (rebuffs ?speaker))
                (not (turning-down ?speaker))
                (not (too-crowded-for ?speaker))
-               (unsubstantial (top-competing-act {@self take-up ?speaker} ?worth))))
+               (unsubstantial (top-competing-act {@self take-up ?speaker} ?utility))))
     (effects
-      (bind (any {@self converse ?}) ?converse)
-      (if (substantial ?converse)
-          (then (maintain-proposal {@self take-up ?speaker} /caused_by ~[?opening ?converse]))
+      (bind (any {? participant @self}) ?part)
+      (if (substantial ?part)
+          (then (maintain-proposal {@self take-up ?speaker} /caused_by ~[?opening ?part]))
           (else (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))))
 
 ; A take-up he has begun is a yes already being said: he finishes it.
@@ -51,9 +51,9 @@
                  {@self take-up ?speaker}
     (declare-utility unbeatable)
     (effects
-      (bind (any {@self converse ?}) ?converse)
-      (if (substantial ?converse)
-          (then (maintain-proposal {@self take-up ?speaker} /caused_by ~[?opening ?converse]))
+      (bind (any {? participant @self}) ?part)
+      (if (substantial ?part)
+          (then (maintain-proposal {@self take-up ?speaker} /caused_by ~[?opening ?part]))
           (else (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))))
 
 ; Declining for what he would rather be doing, and saying what it is: the decision is made once,
@@ -64,8 +64,8 @@
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
-    (bind (hail-worth ?speaker) ?worth)
-    (bind (top-competing-act {@self take-up ?speaker} ?worth) ?busy-with)
+    (bind (hail-utility ?speaker) ?utility)
+    (bind (top-competing-act {@self take-up ?speaker} ?utility) ?busy-with)
     (when (and (within-call ?speaker)
                (not (in-full-talk))
                (not (rebuffs ?speaker))
@@ -78,10 +78,10 @@
     (lock)
     (lint-waive begin-proposal)
     (effects
-      (bind (any {@self converse ?}) ?converse)
-      (if (substantial ?converse)
-          (then (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?converse)} /uninterruptable
-                                /caused_by ~[?opening ?converse]))
+      (bind (any {? participant @self}) ?part)
+      (if (substantial ?part)
+          (then (begin-proposal {@self turn-down ?speaker (formulaic [] refusal in_conversation)} /uninterruptable
+                                /caused_by ~[?opening ?part]))
           (else
             (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?busy-with)} /uninterruptable
                             /caused_by ?opening))))))
@@ -104,10 +104,10 @@
     (lock)
     (lint-waive begin-proposal)
     (effects
-      (bind (any {@self converse ?}) ?converse)
-      (if (substantial ?converse)
+      (bind (any {? participant @self}) ?part)
+      (if (substantial ?part)
           (then (begin-proposal {@self turn-down ?speaker (formulaic [] refusal weary)} /uninterruptable
-                                /caused_by ~[?opening ?converse]))
+                                /caused_by ~[?opening ?part]))
           (else (begin-proposal {@self turn-down ?speaker (formulaic [] refusal weary)} /uninterruptable
                                 /caused_by ?opening))))))
 
@@ -123,9 +123,9 @@
                (rebuffs ?speaker)))
     (declare-utility unbeatable)
     (effects
-      (bind (any {@self converse ?}) ?converse)
-      (if (substantial ?converse)
+      (bind (any {? participant @self}) ?part)
+      (if (substantial ?part)
           (then (maintain-proposal {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)}
-                                   /caused_by ~[?opening ?converse]))
+                                   /caused_by ~[?opening ?part]))
           (else (maintain-proposal {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)}
                                    /caused_by ?opening))))))

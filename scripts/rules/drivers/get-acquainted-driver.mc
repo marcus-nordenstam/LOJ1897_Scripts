@@ -14,5 +14,5 @@
                  (substantial (disclosure-for ?other))
                  (select (score (partner-pick-score ?other (k-get-acquainted-value))) (policy argmax))
       (when (>= ?age 12))
-      (declare-utility want (pursuit-worth ?other (k-get-acquainted-value)))
+      (declare-utility want (pursuit-utility ?other (k-get-acquainted-value)))
       (effects (maintain-proposal {@self get-acquainted ?other} /quit-trying-on-fail)))))

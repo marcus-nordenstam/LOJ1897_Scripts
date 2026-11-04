@@ -12,8 +12,8 @@
 ; SAY it began is said. A man says one thing at a time (lock speech-act). It succeeds when the
 ; SAY does and fails when he cannot reach his audience.
 ;
-; Saying something and waiting for an answer is a conversation: converse says each of its
-; lines through this task.
+; Saying something and waiting for an answer is a conversation: each of its lines is said
+; through this task.
 ; ----------------------------------------------------------------------------
 
 (task {@self tell ?msg ?audience}:?tell

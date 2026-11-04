@@ -4,10 +4,10 @@
 ; ----------------------------------------------------------------------------
 
 (driver flirt-fancy-driver
-  (role @self {@self converse ?talk}:?converse -{@self company [k crowded]}
+  (role ?talk {?talk participant @self}:?part -{@self company [k crowded]}
     (role ?partner {@self fancy|desire|crave ?partner}:?fancy
       (when (and (in-conversation @self ?talk)
                  (in-conversation ?partner ?talk)
                  (not (flirted-in ?talk))))
-      (declare-utility want (pursuit-worth ?partner (k-flirt-value)))
-      (effects (maintain-proposal {@self flirt ?talk ?partner} /caused_by ~[?converse ?fancy])))))
+      (declare-utility want (pursuit-utility ?partner (k-flirt-value)))
+      (effects (maintain-proposal {@self flirt ?talk ?partner} /caused_by ~[?part ?fancy])))))

@@ -20,6 +20,7 @@
 ;"A moment, if you please; I am engaged in conversation"                        ( formulaic refusal conv busy ) .
 "I can't talk right now because $st(ST)"                                        ( formulaic [] refusal $st(ST) ) .
 "I can't stop now"                                                              ( formulaic [] refusal busy ) .
+"I can't talk right now because I am talking with someone"                     ( formulaic [] refusal in_conversation ) .
 "I have had my fill of company"                                                 ( formulaic [] refusal weary ) .
 "I must go now because $st(ST)"                                                 ( formulaic [] leave_taking excuse $st(ST) ) .
 "Leave me be"                                                                   ( formulaic [] rebuff ) .

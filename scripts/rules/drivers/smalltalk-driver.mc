@@ -5,7 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver smalltalk-unease-driver
-  (role @self {@self converse ?talk}:?converse {@self unease ?talk}:?unease -{@self company [k crowded]}
+  (role ?talk {?talk participant @self}:?part {@self unease ?talk}:?unease -{@self company [k crowded]}
     (role ?partner {?talk participant ?partner}
                    (neq ?partner @self)
       (role ?town {?town sky|rain|snow|fog|wind ?}
@@ -13,4 +13,4 @@
                    (in-conversation ?partner ?talk)
                    (substantial (smalltalk-line ?talk))))
         (declare-utility want)
-        (effects (maintain-proposal {@self smalltalk ?talk ?partner} /caused_by ~[?converse ?unease]))))))
+        (effects (maintain-proposal {@self smalltalk ?talk ?partner} /caused_by ~[?part ?unease]))))))

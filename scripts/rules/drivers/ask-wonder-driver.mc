@@ -5,11 +5,12 @@
 ; ----------------------------------------------------------------------------
 
 (driver ask-wonder-driver
-  (role @self {@self converse ?talk}:?converse {@self wonder ?fact}:?wonder
-    (role ?partner {?talk participant ?partner}
-                   (neq ?partner @self)
-      (when (and (in-conversation @self ?talk)
-                 (engaged-with ?partner)
-                 (askable ?partner ?fact)))
-      (declare-utility want)
-      (effects (maintain-proposal {@self inquire ?partner (inquiry-of ?fact)} /caused_by ~[?converse ?wonder])))))
+  (role ?talk {?talk participant @self}:?part
+    (role ?fact {@self wonder ?fact}:?wonder
+      (role ?partner {?talk participant ?partner}
+                     (neq ?partner @self)
+        (when (and (in-conversation @self ?talk)
+                   (engaged-with ?partner)
+                   (askable ?partner ?fact)))
+        (declare-utility want)
+        (effects (maintain-proposal {@self inquire ?partner (inquiry-of ?fact)} /caused_by ~[?part ?wonder]))))))

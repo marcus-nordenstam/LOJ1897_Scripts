@@ -29,8 +29,8 @@
   (cast first): ?first
   (cast second): ?second
   (expect (> (+ (acts ?first hail succ) (acts ?second hail succ)) 0) "c10: neither sought the other's company")
-  (expect (> (acts ?first converse started) 0) "c10: the first never held a conversation")
-  (expect (> (acts ?second converse started) 0) "c10: the second never held a conversation")
+  (expect (in-mind ?first (substantial (any {? participant @self /ever}))) "c10: the first never held a conversation")
+  (expect (in-mind ?second (substantial (any {? participant @self /ever}))) "c10: the second never held a conversation")
   (expect (>= (acts ?first tell succ) 3) "c10: the first said fewer than three things")
   (expect (>= (acts ?second tell succ) 3) "c10: the second said fewer than three things")
   (expect (in-mind ?first (asked-whats-new ?second)) "c10: the first never asked the second's news, or had no answer")

@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver respond-driver
-  (role ?talk {@self converse ?talk}:?converse {?talk participant @self}:?part
+  (role ?talk {?talk participant @self}:?part
     (role ?speaker {?speaker SAY ?msg @self /past /most_recent}:?line
                    (owes-response ?msg)
                    -{@self tell ? ?speaker /succ /caused_by ?line}
@@ -19,4 +19,4 @@
                    (select (score (elapsed /seconds (start-time ?line))) (policy argmax))
       (when (in-conversation @self ?talk))
       (declare-utility obligation)
-      (effects (maintain-proposal {@self respond ?speaker ?line} /caused_by ?converse)))))
+      (effects (maintain-proposal {@self respond ?speaker ?line} /caused_by ?part)))))

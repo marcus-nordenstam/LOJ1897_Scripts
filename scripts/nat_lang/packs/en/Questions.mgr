@@ -48,7 +48,7 @@
 ; Any bare question-phrase asked directly - "what is your name", "who is your
 ; mother", "what is your age", etc. - with no wrapper and no enclosing parens.
 ; Wraps the QSP in qs so the SAY ships a question payload, which the hearer's
-; converse task answers (rules/tasks/converse-task.mc).
+; respond task answers (rules/tasks/respond-task.mc).
 "$qs_phrase(QSP)"
 ( qs [] $qs_phrase(QSP) )
 .
@@ -193,7 +193,7 @@
 ; -----------------------------------------------------------------------------
 ; All entries below are :QSP forms - the top-level "$qs_phrase(QSP)" router
 ; (above) wraps any of them in (qs ...) so the player's SAY ships a question
-; payload, which the hearer's converse task evaluates against his own beliefs.
+; payload, which the hearer's respond task evaluates against his own beliefs.
 ; Each question carries several surface phrasings, blunt -> eloquent, so the
 ; same fact can be asked plainly ("what do you do") or formally ("by what
 ; trade do you make your living"); a synonym is a word-class member
