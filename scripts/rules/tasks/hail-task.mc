@@ -13,8 +13,9 @@
 ; driver proposes it. Taken up when ?partner's answer accepts it and both are in one conversation -
 ; also when that is what ends it, its proposer having stopped wanting it the instant it was taken
 ; up; turned down when ?partner refuses or rebuffs him, and failed when his opening could not be
-; said. A hail is complete only when answered, so when ?partner has hailed him too, each answers
-; the other's opening as part of his own hail.
+; said or went unanswered (call-unanswered: nobody heard it). A hail is complete only when
+; answered, so when ?partner has hailed him too, each answers the other's opening as part of his
+; own hail.
 ; ----------------------------------------------------------------------------
 
 (task {@self hail ?partner}:?hail
@@ -26,13 +27,14 @@
   (running-requirements (clear-to-talk ?partner))
   (failure-cond (or (hail-turned-down ?partner ?hail)
                     (not (hailable ?partner))
-                    (substantial (any {@self tell (formulaic ? opening-phrase ?) ?partner /fail /caused_by ?hail}))))
+                    (substantial (any {@self tell (formulaic ? opening-phrase ?) ?partner /fail /caused_by ?hail}))
+                    (call-unanswered ?partner ?hail)))
   (init
     (check (is-a ?partner [k human]))
     (bb-public-add-member @self hailing ?partner))
   ; Called out, he hears the answer out however the hail ends: ?partner may be taking him up. Talking
   ; with ?partner already - he took ?partner's own hail up - there is no answer left to wait for, and
-  ; none comes from a man out of call.
+  ; none comes from a man out of call, or once the call has gone unanswered too long to have been heard.
   (closing
     (sequence
       (stage
@@ -40,7 +42,8 @@
                   (is-belief (hail-reply ?partner ?hail))
                   (engaged-with ?partner)
                   (not (hailable ?partner))
-                  (not (within-call ?partner)))))
+                  (not (within-call ?partner))
+                  (call-unanswered ?partner ?hail))))
       (stage
         (effects (done-closing ?hail)))))
   (cease
@@ -50,21 +53,21 @@
           (join-conversation (conversation-of ?partner) ?hail)
           (set-outcome ?hail /succ))))
   (and
+    ; The call holds its sync for as long as the hail stands, so nobody calls either man until it is
+    ; answered; the tell, (once), is not said again.
     (try
       (sync hail @self ?partner)
-      (role @self {@self isa [k human]}
-                  -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
-        (effects (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner}))))
+      (effects (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner})))
     (try
       (role @self {@self isa [k human]}
-                  -{@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
+                  -{@self tell (formulaic ? opening-phrase ?) ?partner /succ /caused_by ?hail}
         (role ?partner {?partner SAY ? @self /past /most_recent}
                        {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
           (when (happened-since ?opening ?hail))
           (effects (set-outcome ?hail /fail)))))
     (try
       (lint-waive cacheable-read-in-when)
-      (role @self {@self tell (formulaic ? opening-phrase ?) ?partner /past /caused_by ?hail}
+      (role @self {@self tell (formulaic ? opening-phrase ?) ?partner /succ /caused_by ?hail}
         (role ?partner {?partner SAY ? @self /past /most_recent}
                        {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                        -{@self tell ? ?partner /succ /caused_by ?opening}

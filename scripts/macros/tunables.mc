@@ -245,6 +245,9 @@
 ; How close the player stands to a man, box to box, before he can hail him.
 (define-macro k-hail-reach () 2.0)
 
+; How long a man who called out waits for the answer: none by then, and nobody heard him.
+(define-macro k-hail-answer-wait-minutes () 10)
+
 ; The kitchen-larder doctrine numbers, in PERSON-DAYS of food (1 prop = 1
 ; person-day; only a home supper consumes, so a 4-head household eats 4 per
 ; sim-day). Target 16 = ~4 sim-days; the low-water refill (a basket of 8) puts

@@ -312,6 +312,15 @@
         (or (eq ?category refusal) (eq ?category rebuff)))
       (else @false)))
 
+; (call-unanswered ?partner ?hail) - @self called ?partner out in ?hail longer ago than an answer
+; takes, and none came: ?partner never heard it (asleep, or gone before it was said).
+(define-func call-unanswered (?partner ?hail)
+  (bind (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /ever /caused_by ?hail}) ?opening)
+  (bind @false ?unanswered)
+  (if (and (is-belief ?opening) (not (is-belief (hail-reply ?partner ?hail))))
+      (then (bind (> (elapsed /minutes ?opening) (k-hail-answer-wait-minutes)) ?unanswered)))
+  ?unanswered)
+
 ; (hail-accepted ?partner ?hail) - ?partner answered the opening @self called in ?hail without
 ; turning it down, and the two are in one conversation.
 (define-func hail-accepted (?partner ?hail)

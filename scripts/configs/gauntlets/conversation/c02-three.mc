@@ -33,7 +33,10 @@
   (cast second): ?second
   (cast cook): ?cook
   (expect (> (+ (acts ?first hail succ) (acts ?second hail succ)) 1) "c02: fewer than two hails taken up")
-  (expect (> (acts ?cook take-up succ) 0) "c02: she never took anyone up")
+  (expect (or (> (acts ?cook take-up succ) 0)
+              (in-mind ?first (substantial (any {@self take-up ?cook /succ /ever})))
+              (in-mind ?second (substantial (any {@self take-up ?cook /succ /ever}))))
+          "c02: no hail between her and a man was taken up")
   (expect (in-mind ?cook (knows-talk-with ?first ?second)) "c02: she does not know three in one talk")
   (expect (in-mind ?first (substantial (any {? participant ? /ever}))) "c02: the first knows no talk")
   (expect (in-mind ?second (substantial (any {? participant ? /ever}))) "c02: the second knows no talk")

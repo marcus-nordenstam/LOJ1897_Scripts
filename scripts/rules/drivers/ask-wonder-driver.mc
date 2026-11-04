@@ -5,8 +5,8 @@
 ; ----------------------------------------------------------------------------
 
 (driver ask-wonder-driver
-  (role ?talk {?talk participant @self}:?part
-    (role ?fact {@self wonder ?fact}:?wonder
+  (role @self {@self wonder ?fact}:?wonder
+    (role ?talk {?talk participant @self}:?part
       (role ?partner {?talk participant ?partner}
                      (neq ?partner @self)
         (when (and (in-conversation @self ?talk)

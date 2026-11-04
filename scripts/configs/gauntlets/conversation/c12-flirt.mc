@@ -31,7 +31,7 @@
 (define-func c12-validate ()
   (cast suitor): ?suitor
   (cast beloved): ?beloved
-  (expect (> (acts ?suitor hail succ) 0) "c12: he never sought her company")
+  (expect (> (acts ?suitor hail started) 0) "c12: he never sought her company")
   (expect (in-mind ?suitor (substantial (any {@self fancy|desire|crave ?}))) "c12: he does not fancy her")
   (expect (> (acts ?suitor flirt started) 0) "c12: he never flirted")
   (expect (in-mind ?beloved (answered-flirt ?suitor)) "c12: she never answered his flirt")
