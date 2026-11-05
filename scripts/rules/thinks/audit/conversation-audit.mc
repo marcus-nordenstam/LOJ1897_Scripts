@@ -49,8 +49,9 @@
     (effects (expect @false "conversation: making smalltalk with two at once"))))
 
 ; One man's hail stands on another at a time: the rest wait their turn on its sync (tasks/hail-task.mc).
-; More is a crowd calling him at once, and his answer rules cast once per caller.
+; More is a crowd calling him at once, his answer rules cast once per caller - a broken invariant, so
+; it is a (check ..), not an expectation.
 (audit audit-hailed-by-many
   (role @self {@self isa [k human]}
     (when (> (count (bb-public-every ? hailing @self)) 1))
-    (effects (expect @false "conversation: more than one hail stands on one man at once"))))
+    (effects (check @false))))
