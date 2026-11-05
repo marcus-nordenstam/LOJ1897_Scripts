@@ -13,7 +13,14 @@
   level "Theatres/demo_tech_level_v2.grs"
   startup c09-startup)
 
-(define-list gauntlet validate c09-validate deadline 20)
+; The household is primed - everyone under the roof knows the others and that they live there - and
+; everything that would take the cast out of the house, busy them elsewhere or open a talk beside the
+; one judged (getting acquainted) is inhibited: what is judged is the talk.
+(define-list gauntlet validate c09-validate deadline 20
+  inhibit want-drink-driver feel-charitable-driver want-worship-driver want-eat-out-pub-driver
+          want-eat-out-restaurant-driver want-provisions-driver gamble-urge-driver
+          bored-gamble-driver plan-gathering-driver plan-impromptu-supper-driver
+          want-attend-guest-driver want-read-mail-driver want-putter-driver get-acquainted-driver)
 
 (define-func c09-startup ()
   (seed_property)
@@ -29,7 +36,7 @@
   (make-human ?home [k lower] [k female]): ?cook
   (cast cook ?cook)
   (initialize-minds)
-  (seed-founding-matches (founding-wedding-first-day) (founding-wedding-days)))
+  (conversation-household ?home))
 
 (define-func c09-validate ()
   (cast first): ?first

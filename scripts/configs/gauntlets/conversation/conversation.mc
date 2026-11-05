@@ -13,6 +13,27 @@
   (check (substantial ?home))
   ?home)
 
+; (conversation-household ?home) - everyone under ?home's roof knows every other one by name, and
+; that they share the home.
+(define-func conversation-household (?home)
+  (for-each ?ch-a (env-entities [k human])
+    (if (spatial ?ch-a unit ?home /env)
+        (then
+          (for-each ?ch-b (env-entities [k human])
+            (if (and (neq ?ch-a ?ch-b) (spatial ?ch-b unit ?home /env))
+                (then (seed-housemate-half ?ch-a ?ch-b))))))))
+
+; (conversation-wed ?a ?b) - ?a and ?b are married, each in his own mind.
+(define-func conversation-wed (?a ?b)
+  (enter-mind ?a)
+  (observe ?b): ?cw-b
+  (begin-belief {@self spouse ?cw-b})
+  (exit-mind)
+  (enter-mind ?b)
+  (observe ?a): ?cw-a
+  (begin-belief {@self spouse ?cw-a})
+  (exit-mind))
+
 ; (spoken-over) - in a mind: the lines two different men said to @self at once, each pair counted
 ; from both of its lines. A jump-clock line lasts exactly one second, so two that overlap end in
 ; the same second.

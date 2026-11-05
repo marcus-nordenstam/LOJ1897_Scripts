@@ -12,7 +12,14 @@
   level "Theatres/demo_tech_level_v2.grs"
   startup c01-startup)
 
-(define-list gauntlet validate c01-validate deadline 15)
+; The household is primed - everyone under the roof knows the others and that they live there - and
+; everything that would take the cast out of the house, busy them elsewhere or open a talk beside the
+; one judged (getting acquainted) is inhibited: what is judged is the talk.
+(define-list gauntlet validate c01-validate deadline 15
+  inhibit want-drink-driver feel-charitable-driver want-worship-driver want-eat-out-pub-driver
+          want-eat-out-restaurant-driver want-provisions-driver gamble-urge-driver
+          bored-gamble-driver plan-gathering-driver plan-impromptu-supper-driver
+          want-attend-guest-driver want-read-mail-driver want-putter-driver get-acquainted-driver)
 
 (include "conversation.mc")
 
@@ -24,7 +31,8 @@
   (make-human ?home [k lower] [k female]): ?hailed
   (cast hailed ?hailed)
   (initialize-minds)
-  (seed-founding-matches (founding-wedding-first-day) (founding-wedding-days)))
+  (conversation-household ?home)
+  (conversation-wed ?opener ?hailed))
 
 (define-func c01-validate ()
   (cast opener): ?opener

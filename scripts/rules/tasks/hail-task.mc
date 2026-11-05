@@ -1,21 +1,21 @@
 ; ----------------------------------------------------------------------------
-; hail ?partner - @self calls to ?partner, within call of him, and says the opening - its tell
-; does the closing in, as every speaker does, while ?partner stays put. It requires, for as long as
-; it runs, that no talk of his holds him back (clear-to-talk, funcs/preconditions.mc): in another
-; talk than ?partner's that has room, or in a full one when ?partner is in none, he takes his leave
-; of it first. Hailing is not joining: only ?partner taking the hail up (tasks/take-up-task.mc)
-; brings him into a conversation - ?partner's when he is in one, else @self's own, else a new one.
+; hail ?partner - @self calls to ?partner, within call of him, and says the opening - its tell does
+; the closing in, as every speaker does, while ?partner stays put. It requires, for as long as it
+; runs, that no talk of his holds him back (clear-to-talk, funcs/preconditions.mc): in another talk
+; than ?partner's that has room, or in a full one when ?partner is in none, he takes his leave of
+; it first. Hailing is not joining: only ?partner taking the hail up (tasks/take-up-task.mc) brings
+; him into a conversation - ?partner's when he is in one, else @self's own, else a new one.
 ; ?partner in a conversation: @self waits from outside it for an opening, its turn, and calls out
 ; then (turn-board, funcs/conversation.mc). Nobody hails a man in a conversation that seats no one
-; more (hailable): it fails when ?partner's talk fills before he answers. Until answered his hail
-; stands (hailing). Called to by ?partner before he has called out his own, he lets his hail go and
-; takes ?partner up. It is PREPARATION - an open conversation is what his part in it needs - so only a
-; driver proposes it. Taken up when ?partner's answer accepts it and both are in one conversation -
-; also when that is what ends it, its proposer having stopped wanting it the instant it was taken
-; up; turned down when ?partner refuses or rebuffs him, and failed when his opening could not be
-; said or went unanswered (call-unanswered: nobody heard it). A hail is complete only when
-; answered, so when ?partner has hailed him too, each answers the other's opening as part of his
-; own hail.
+; more, nor one asleep or senseless (hailable): it fails when ?partner's talk fills or he sleeps
+; before he answers. Until answered his hail stands (hailing). Called to by ?partner before he has
+; called out his own, he lets his hail go and takes ?partner up. It is PREPARATION - an open
+; conversation is what his part in it needs - so only a driver proposes it. Taken up when
+; ?partner's answer accepts it and both are in one conversation - also when that is what ends it,
+; its proposer having stopped wanting it the instant it was taken up; turned down when ?partner
+; refuses or rebuffs him, and failed when his opening could not be said. A hail is complete only
+; when answered, so when ?partner has hailed him too, each answers the other's opening as part of
+; his own hail.
 ; ----------------------------------------------------------------------------
 
 (task {@self hail ?partner}:?hail
@@ -27,14 +27,13 @@
   (running-requirements (clear-to-talk ?partner))
   (failure-cond (or (hail-turned-down ?partner ?hail)
                     (not (hailable ?partner))
-                    (substantial (any {@self tell (formulaic ? opening-phrase ?) ?partner /fail /caused_by ?hail}))
-                    (call-unanswered ?partner ?hail)))
+                    (substantial (any {@self tell (formulaic ? opening-phrase ?) ?partner /fail /caused_by ?hail}))))
   (init
     (check (is-a ?partner [k human]))
     (bb-public-add-member @self hailing ?partner))
   ; Called out, he hears the answer out however the hail ends: ?partner may be taking him up. Talking
   ; with ?partner already - he took ?partner's own hail up - there is no answer left to wait for, and
-  ; none comes from a man out of call, or once the call has gone unanswered too long to have been heard.
+  ; none comes from a man out of call or one who cannot hear him (hailable).
   (closing
     (sequence
       (stage
@@ -42,8 +41,7 @@
                   (is-belief (hail-reply ?partner ?hail))
                   (engaged-with ?partner)
                   (not (hailable ?partner))
-                  (not (within-call ?partner))
-                  (call-unanswered ?partner ?hail))))
+                  (not (within-call ?partner)))))
       (stage
         (effects (done-closing ?hail)))))
   (cease

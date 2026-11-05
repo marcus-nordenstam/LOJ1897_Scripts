@@ -17,8 +17,8 @@
   (preparatory)
   (running-requirements (clear-to-talk ?partner))
   (sequence
-    (role ?partner {?partner SAY ? @self /past}
-                   {?partner SAY (formulaic ? opening-phrase ?..):?opening @self /past}
+    (role ?partner {?partner SAY ? @self /past /most_recent}
+                   {?partner SAY (formulaic ? opening-phrase ?..):?opening @self /past /most_recent}
       (stage
         (bind (hail-response ?opening) ?response)
         (effects (maintain-proposal {@self tell ?response ?partner})))

@@ -13,14 +13,22 @@
   (seed-match-half ?bride ?groom ?day))
 
 (define-func seed-match-half (?self ?other ?day)
+  (seed-housemate-half ?self ?other)
   (enter-mind ?self)
   (observe ?other): ?smh-other
-  (begin-belief {?smh-other name (attr ?other name)})
-  (bind (any {@self home ?}) ?smh-home)
-  (if (is-belief ?smh-home)
-      (then (begin-belief {?smh-other home ?smh-home.target})))
   (begin-belief {@self obligation {@self wed ?smh-other} ?smh-other})
   (begin-belief {@self wedding-day ?day})
+  (exit-mind))
+
+; seed-housemate-half ?self ?other - ?self knows ?other's name and, when he has a home, that they
+; share it.
+(define-func seed-housemate-half (?self ?other)
+  (enter-mind ?self)
+  (observe ?other): ?shh-other
+  (begin-belief {?shh-other name (attr ?other name)})
+  (bind (any {@self home ?}) ?shh-home)
+  (if (is-belief ?shh-home)
+      (then (begin-belief {?shh-other home ?shh-home.target})))
   (exit-mind))
 
 ; seed-founding-matches ?first-day ?days - in every unit the first man and the first woman under

@@ -279,21 +279,20 @@
       (then (bind (+ /float (count (parties-of ?theirs)) -1) ?claims)))
   ?claims)
 
-; (turned-down-lately ?other) - ?other's last line to @self turned a hail of his down, within the last
-; k-talk-again-window-seconds.
-(define-func turned-down-lately (?other)
+; (turned-down-by ?other) - the last thing ?other said to @self turned a hail of his down.
+(define-func turned-down-by (?other)
   (bind (any {?other SAY ? @self /past /most_recent}) ?said)
-  (and (is-belief ?said)
-       (turned-away ?said.target)
-       (<= (seconds-between (time seconds) (start-time ?said)) (k-talk-again-window-seconds))))
+  (and (is-belief ?said) (turned-away ?said.target)))
 
 ; (talks-with-lately ?other) - how many talks @self has begun with ?other within the last
 ; k-talk-again-window-seconds.
 (define-func talks-with-lately (?other)
   (bind 0 ?count)
-  (for-each ?mine (every {? participant @self /ever})
+  (bind (time seconds) ?twl-now)
+  (bind (- ?twl-now (seconds (k-talk-again-window-seconds) s)) ?twl-since)
+  (for-each ?mine (every {? participant @self /during ?twl-since ?twl-now})
     (bind ?mine.subject ?talk)
-    (if (and (<= (seconds-between (time seconds) (start-time ?mine)) (k-talk-again-window-seconds))
+    (if (and (<= (seconds-between ?twl-now (start-time ?mine)) (k-talk-again-window-seconds))
              (substantial (any {?talk participant ?other /ever})))
         (then (bind (+ ?count 1) ?count))))
   ?count)
@@ -311,15 +310,6 @@
         (bind (nth (k-formulaic-category-field) ?msg) ?category)
         (or (eq ?category refusal) (eq ?category rebuff)))
       (else @false)))
-
-; (call-unanswered ?partner ?hail) - @self called ?partner out in ?hail longer ago than an answer
-; takes, and none came: ?partner never heard it (asleep, or gone before it was said).
-(define-func call-unanswered (?partner ?hail)
-  (bind (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /ever /caused_by ?hail}) ?opening)
-  (bind @false ?unanswered)
-  (if (and (is-belief ?opening) (not (is-belief (hail-reply ?partner ?hail))))
-      (then (bind (> (elapsed /minutes ?opening) (k-hail-answer-wait-minutes)) ?unanswered)))
-  ?unanswered)
 
 ; (hail-accepted ?partner ?hail) - ?partner answered the opening @self called in ?hail without
 ; turning it down, and the two are in one conversation.
@@ -394,11 +384,15 @@
 (define-func conversation-full (?talk)
   (>= (count (parties-of ?talk)) (conversation-size-max)))
 
-; (hailable ?partner) - @self may hail ?partner: he is in no conversation, or in one that seats
-; another.
+; (hailable ?partner) - @self may hail ?partner: he is awake to hear it, and in no conversation, or
+; in one that seats another. A man whose last word to @self turned him down is hailed again only
+; once he is in no conversation at all.
 (define-func hailable (?partner)
   (bind (conversation-of ?partner) ?theirs)
-  (or (unsubstantial ?theirs) (not (conversation-full ?theirs))))
+  (and (not (attr-is ?partner awareness [k asleep]))
+       (not (attr-is ?partner awareness [k unconscious]))
+       (or (unsubstantial ?theirs)
+           (and (not (conversation-full ?theirs)) (not (turned-down-by ?partner))))))
 
 ; (in-full-talk) - @self is in a conversation that seats no one more.
 (define-func in-full-talk ()
