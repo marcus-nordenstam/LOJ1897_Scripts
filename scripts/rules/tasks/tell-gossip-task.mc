@@ -8,8 +8,8 @@
 (task {@self tell-gossip ?friend}:?tell-gossip
   (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
-  (category social)
-  (hosts reply)
+  (category social (scope (talk-between ?friend)))
+  (hosts reply enter-conversation)
   (success-cond (unsubstantial (gossip-for ?friend)))
   (stable-or
     (try

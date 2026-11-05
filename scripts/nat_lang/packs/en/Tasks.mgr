@@ -92,7 +92,6 @@
 "seeing to some business"               strangle                    .
 "taking something"                      take                        .
 "taking the applications"               take-applications           .
-"taking leave"                          take-leave                  .
 "seeing to a private matter"            take-lover                  .
 "collecting letters"                    take-my-letters             .
 "taking stock"                          take-stock                  .
@@ -190,7 +189,6 @@
 "see to some business"                  strangle                    .
 "take something"                        take                        .
 "take the applications"                 take-applications           .
-"take leave"                            take-leave                  .
 "see to a private matter"               take-lover                  .
 "collect some letters"                  take-my-letters             .
 "take stock"                            take-stock                  .

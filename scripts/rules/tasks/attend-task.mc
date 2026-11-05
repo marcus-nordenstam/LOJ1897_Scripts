@@ -13,7 +13,7 @@
 
 (task {@self attend ?occ}:?attend
   (category occasion)
-  (hosts social reply occasion)
+  (hosts social reply occasion enter-conversation)
   (construed-act social-act)
   (tar [k occasion] @object)
   (and

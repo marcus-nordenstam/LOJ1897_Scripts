@@ -1,9 +1,9 @@
 ; ----------------------------------------------------------------------------
 ; hail ?partner - @self calls to ?partner, within call of him, and says the opening - its tell does
-; the closing in, as every speaker does, while ?partner stays put. It requires, for as long as it
-; runs, that no talk of his holds him back (clear-to-talk, funcs/preconditions.mc): in another talk
-; than ?partner's that has room, or in a full one when ?partner is in none, he takes his leave of
-; it first. Hailing is not joining: only ?partner taking the hail up (tasks/take-up-task.mc) brings
+; the closing in, as every speaker does, while ?partner stays put. It happens within the talk the two
+; would talk in (talk-between, funcs/conversation.mc): a talk of his hosts it only when it is that
+; one, so a hail into another talk competes with his part in his own, and only by outbidding it
+; takes him out of it (tasks/maintain-social-presence-task.mc). Hailing is not joining: only ?partner taking the hail up (tasks/take-up-task.mc) brings
 ; him into a conversation - ?partner's when he is in one, else @self's own, else a new one.
 ; ?partner in a conversation: @self waits from outside it for an opening, its turn, and calls out
 ; then (turn-board, funcs/conversation.mc). Nobody hails a man in a conversation that seats no one
@@ -19,12 +19,11 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self hail ?partner}:?hail
-  (category social)
+  (category social (scope (talk-between ?partner)))
   (hosts reply)
   (tar @excl [k human] @object)
   (preparatory)
   (preconditions (in-call-of ?partner))
-  (running-requirements (clear-to-talk ?partner))
   (failure-cond (or (hail-turned-down ?partner ?hail)
                     (not (hailable ?partner))
                     (substantial (any {@self tell (formulaic ? opening-phrase ?) ?partner /fail /caused_by ?hail}))))

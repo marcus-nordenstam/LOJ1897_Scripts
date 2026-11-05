@@ -12,7 +12,7 @@
 (task {@self wed ?partner}:?wed
   (category occasion)
   (success-cond (substantial (any {@self spouse ?partner})))
-  (hosts social reply occasion)
+  (hosts social reply occasion enter-conversation)
   (tar [k human] @object)
   (role ?occ [k wedding] {?occ hours ?start ?end} {?occ venue ?venue}
              (or {@self organize ?occ} {?partner invite @self ?occ})

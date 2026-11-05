@@ -6,8 +6,8 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self smalltalk ?talk ?partner}:?smalltalk
-  (category social)
-  (hosts reply)
+  (category social (scope ?talk))
+  (hosts reply enter-conversation)
   (tar @excl [k conversation] @object)
   (aux [k human] @object)
   (and

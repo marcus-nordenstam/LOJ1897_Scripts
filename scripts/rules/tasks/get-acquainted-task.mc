@@ -9,8 +9,8 @@
 (task {@self get-acquainted ?other}:?get-acquainted
   (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
-  (category social)
-  (hosts reply)
+  (category social (scope (talk-between ?other)))
+  (hosts reply enter-conversation)
   (success-cond (unsubstantial (disclosure-for ?other)))
   (stable-or
     (try

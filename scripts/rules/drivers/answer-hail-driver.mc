@@ -18,9 +18,9 @@
 (define-func turning-down (?speaker)
   (substantial (any {@self turn-down ?speaker ?})))
 
-; Taking it up, at what talking with ?speaker is worth to him, while nothing else he has going
-; outbids it. Every answer to a hail is caused by the opening it answers, and only a speaker's
-; latest opening is answered: his hail stands on that one.
+; Taking it up, at what talking with ?speaker is worth to him: task selection weighs it against
+; whatever else he has going. Every answer to a hail is caused by the opening it answers, and only
+; a speaker's latest opening is answered: his hail stands on that one.
 (driver engage-hail-driver
   (role ?speaker (bb-public-every ?speaker hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
@@ -33,8 +33,7 @@
                (not (in-full-talk))
                (not (rebuffs ?speaker))
                (not (turning-down ?speaker))
-               (not (too-crowded-for ?speaker))
-               (unsubstantial (top-competing-act {@self take-up ?speaker} ?utility))))
+               (not (too-crowded-for ?speaker))))
     (effects
       (bind (any {? participant @self}) ?part)
       (if (substantial ?part)
@@ -56,16 +55,15 @@
           (then (maintain-proposal {@self take-up ?speaker} /caused_by ~[?opening ?part]))
           (else (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))))
 
-; Declining for what he would rather be doing, and saying what it is: the decision is made once,
-; and the refusal it begins always completes.
+; Declining once task selection has put something else above taking it up (outbids), and saying
+; what it is: the decision is made once, and the refusal it begins always completes.
 (driver decline-hail-driver
   (role ?speaker (bb-public-every ?speaker hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
                  (not (conversing-with @self ?speaker))
-    (bind (hail-utility ?speaker) ?utility)
-    (bind (top-competing-act {@self take-up ?speaker} ?utility) ?busy-with)
+    (bind (outbids {@self take-up ?speaker}) ?busy-with)
     (when (and (within-call ?speaker)
                (not (in-full-talk))
                (not (rebuffs ?speaker))

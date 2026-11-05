@@ -49,12 +49,6 @@
   (condition (flip (is-kind ?kind) (substantial (find-building-found ?kind)) @true))
   (achieve (maintain-proposal {@self find-building ?kind (current-exterior @self)})))
 
-; No conversation he is in holds him back from talking with ?partner (talk-to-leave): he takes his
-; leave of it first.
-(precondition clear-to-talk (?partner)
-  (condition (unsubstantial (talk-to-leave ?partner)))
-  (achieve (maintain-proposal {@self take-leave (talk-to-leave ?partner)})))
-
 ; He would be heard calling to ?audience, a man; a broadcast or a conversation is said where he
 ; stands. He goes to stand within earshot of him.
 (precondition in-call-of (?audience)

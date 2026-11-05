@@ -2,8 +2,9 @@
 ; take-up ?partner - @self takes up the hail ?partner called to him from outside any conversation
 ; @self is in: he gives the response its opening calls for, and the two of them are in one
 ; conversation (take-up-talk, funcs/conversation.mc) - ?partner's when he is in one, else @self's
-; own, else a new one. It requires, for as long as it runs, that no talk of his holds him back (clear-to-talk,
-; funcs/preconditions.mc), so in another talk than ?partner's he takes his leave of it first. It is
+; own, else a new one. Entering a conversation is its own category, enter-conversation, within the
+; talk the two would talk in (talk-between): a talk of his hosts it only when it is that one, so
+; taking up a hail into another talk competes with his part in his own. It is
 ; PREPARATION for his part in the conversation, proposed by engage-hail (drivers/answer-hail-driver.mc). Until he has
 ; taken ?partner in the hail still stands, so a man who finds something keener first declines it
 ; instead (decline-hail). Once in it, his part there is what he says and how he
@@ -12,10 +13,9 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self take-up ?partner}:?take-up
-  (category reply)
+  (category enter-conversation (scope (talk-between ?partner)))
   (tar @excl [k human] @object)
   (preparatory)
-  (running-requirements (clear-to-talk ?partner))
   (sequence
     (role ?partner {?partner SAY ? @self /past /most_recent}
                    {?partner SAY (formulaic ? opening-phrase ?..):?opening @self /past /most_recent}

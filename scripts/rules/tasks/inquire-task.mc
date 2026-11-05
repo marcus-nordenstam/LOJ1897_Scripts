@@ -7,8 +7,8 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self inquire ?partner ?qs}:?inquire
-  (category social)
-  (hosts reply)
+  (category social (scope (talk-between ?partner)))
+  (hosts reply enter-conversation)
   (tar @excl [k human] @object)
   (aux ?)
   (and

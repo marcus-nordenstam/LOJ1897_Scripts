@@ -15,7 +15,7 @@
 (task {@self find-out ?fact}:?find-out
   (tar @pattern)
   (category social)
-  (hosts reply)
+  (hosts reply enter-conversation)
   (lint-waive task-no-preparation)
   (success-cond (substantial (any ?fact)))
   (role ?who {?who isa [k human]}

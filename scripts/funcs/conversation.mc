@@ -100,17 +100,6 @@
         (case {@self acquaintance ?speaker} (hail-want-utility (k-hail-acquaintance-value)))
         (else (hail-want-utility (k-hail-stranger-value)))))
 
-; (conversation-utility ?talk) - what staying in ?talk is worth to @self, as a packed utility: what
-; the keenest party whose hail obliges him is worth (hail-utility), else a want.
-(define-func conversation-utility (?talk)
-  (bind (utility want (k-conversation-want-value)) ?utility)
-  (for-each ?party (parties-of ?talk)
-    (if (and (neq ?party @self) (obligation-hail ?party))
-        (then
-          (bind (hail-utility ?party) ?obliged)
-          (if (> ?obliged ?utility) (then (bind ?obliged ?utility))))))
-  ?utility)
-
 ; (authority-introduction ?msg) - ?msg hails its hearer by introducing the speaker's office:
 ; (formulaic [] opening-phrase authority <job kind>). Each field is read only once the one
 ; before has shown the message is long enough to hold it.
@@ -399,26 +388,27 @@
   (bind (conversation-of @self) ?talk)
   (and (substantial ?talk) (conversation-full ?talk)))
 
-; (talk-to-leave ?partner) - the conversation @self must leave before he talks with ?partner: his
-; own, when ?partner is in another that has room, or when his is full and ?partner is in none - a
-; man in a full talk clears himself of it before he talks with anyone outside it; else @nothing.
-(define-func talk-to-leave (?partner)
-  (bind (conversation-of @self) ?mine)
+; (talk-between ?partner) - the conversation @self and ?partner would talk in: ?partner's when he is
+; in one with room, else @self's own with room, else @nothing - a new one. It is what every act of
+; talking with ?partner happens within (scope), so a talk of his hosts it only when it is that one.
+; While ?partner's seats no one more they cannot talk at all, and the act moves @self nowhere: it is
+; within his own talk, where it waits or fails (hailable).
+(define-func talk-between (?partner)
   (bind (conversation-of ?partner) ?theirs)
-  (cond (case (unsubstantial ?mine) @nothing)
-        (case (unsubstantial ?theirs) (flip (conversation-full ?mine) ?mine @nothing))
-        (case (eq ?mine ?theirs) @nothing)
-        (case (conversation-full ?theirs) @nothing)
-        (else ?mine)))
+  (bind (conversation-of @self) ?mine)
+  (cond (case (and (substantial ?theirs) (conversation-full ?theirs)) ?mine)
+        (case (substantial ?theirs) ?theirs)
+        (case (and (substantial ?mine) (not (conversation-full ?mine))) ?mine)
+        (else @nothing)))
 
-; (take-up-talk ?partner) - the conversation @self takes ?partner's hail up into: ?partner's, else
-; his own, else a new one; @fail when ?partner's seats no one more.
+; (take-up-talk ?partner) - the conversation @self takes ?partner's hail up into: the one they would
+; talk in (talk-between), a new one when that is none; @fail when ?partner's seats no one more.
 (define-func take-up-talk (?partner)
   (bind (conversation-of ?partner) ?theirs)
-  (bind (conversation-of @self) ?mine)
-  (cond (case (substantial ?theirs) (flip (conversation-full ?theirs) @fail ?theirs))
-        (case (substantial ?mine) ?mine)
-        (else (open-conversation))))
+  (bind (talk-between ?partner) ?talk)
+  (cond (case (and (substantial ?theirs) (conversation-full ?theirs)) @fail)
+        (case (eq ?talk @nothing) (open-conversation))
+        (else ?talk)))
 
 ; (leave-conversation ?talk) - @self leaves the conversation ?talk: he comes off its participant
 ; and has-more sets, and his part in it and his knowing where it is held end.
@@ -690,6 +680,21 @@
   (if (substantial ?talk)
       (then (and (not (agenda-for ?talk)) (bb-public-none ?talk has-more)))
       (else @false)))
+
+; (talked-out ?talk ?part) - nobody in ?talk has anything left to say (said-all), and a party of it
+; has said something to @self since he took his part ?part in it: a talk nothing has been said in
+; yet is not over.
+(define-func talked-out (?talk ?part)
+  (bind @false ?heard)
+  (if (said-all ?talk)
+      (then
+        (for-each ?party (parties-of ?talk)
+          (if (neq ?party @self)
+              (then
+                (bind (any {?party SAY ? @self /past /most_recent}) ?said)
+                (if (and (is-belief ?said) (happened-since ?said ?part))
+                    (then (bind @true ?heard) (break))))))))
+  ?heard)
 
 ; (answer-to ?qs ?partner) - what @self says to ?partner's question ?qs: its content evaluated in
 ; his mind, or "nothing much" when it asked his news and he has none.

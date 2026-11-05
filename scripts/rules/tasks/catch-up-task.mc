@@ -9,8 +9,8 @@
 (task {@self catch-up ?friend}:?catch-up
   (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
-  (category social)
-  (hosts reply)
+  (category social (scope (talk-between ?friend)))
+  (hosts reply enter-conversation)
   (success-cond (caught-up ?friend))
   (stable-or
     (try
