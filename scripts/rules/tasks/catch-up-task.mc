@@ -14,7 +14,7 @@
   (success-cond (caught-up ?friend))
   (stable-or
     (try
-      (when (and (not (engaged-with ?friend)) (hailable ?friend)))
+      (when (and (not (conversing-with ?friend)) (hailable ?friend)))
       (effects (maintain-proposal {@self hail ?friend})))
     (try
       (role @self {@self hail ?friend /fail /caused_by ?catch-up}:?hail
@@ -23,12 +23,12 @@
     ; Tested live in (when): a hold re-tests the gate, never a (bind ..), so a bound ?news would
     ; hold the rung on news already told and the ask below would never get its turn.
     (try
-      (when (and (engaged-with ?friend) (substantial (news-for ?friend))))
+      (when (and (conversing-with ?friend) (substantial (news-for ?friend))))
       (effects
         (bind (news-for ?friend) ?news)
         (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?news) ?friend} /quit-trying-on-fail)))
     (try
-      (when (and (engaged-with ?friend)
+      (when (and (conversing-with ?friend)
                  (unsubstantial (news-for ?friend))
                  (not (asked-news ?friend (conversation-of @self)))))
       (effects (maintain-proposal {@self tell (qs /utterable [/msg-class tidings] (pick-untold-belief /news @i)) ?friend}

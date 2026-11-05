@@ -18,5 +18,5 @@
 
 (reflex {? participant @self}
   (role ?hailer {@self obligation {@self hail ?hailer} ?hailer}:?owed
-    (when (engaged-with ?hailer))
+    (when (conversing-with ?hailer))
     (effects (end-belief ?owed))))

@@ -26,7 +26,7 @@
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
-                 (not (conversing-with @self ?speaker))
+                 (not (in-one-conversation @self ?speaker))
     (bind (hail-utility ?speaker) ?utility)
     (declare-utility (utility-band ?utility) (utility-value ?utility))
     (when (and (within-call ?speaker)
@@ -46,7 +46,7 @@
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
-                 (not (conversing-with @self ?speaker))
+                 (not (in-one-conversation @self ?speaker))
                  {@self take-up ?speaker}
     (declare-utility unbeatable)
     (effects
@@ -62,7 +62,7 @@
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
-                 (not (conversing-with @self ?speaker))
+                 (not (in-one-conversation @self ?speaker))
     (bind (outbids {@self take-up ?speaker}) ?busy-with)
     (when (and (within-call ?speaker)
                (not (in-full-talk))
@@ -90,7 +90,7 @@
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
-                 (not (conversing-with @self ?speaker))
+                 (not (in-one-conversation @self ?speaker))
     (when (and (within-call ?speaker)
                (not (in-full-talk))
                (not (rebuffs ?speaker))
@@ -115,7 +115,7 @@
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
                  -{@self turn-down ?speaker ? /succ /caused_by ?opening}
-                 (not (conversing-with @self ?speaker))
+                 (not (in-one-conversation @self ?speaker))
     (when (and (within-call ?speaker)
                (not (in-full-talk))
                (rebuffs ?speaker)))

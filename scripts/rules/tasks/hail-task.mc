@@ -3,12 +3,15 @@
 ; the closing in, as every speaker does, while ?partner stays put. It happens within the talk the two
 ; would talk in (talk-between, funcs/conversation.mc): a talk of his hosts it only when it is that
 ; one, so a hail into another talk competes with his part in his own, and only by outbidding it
-; takes him out of it (tasks/maintain-social-presence-task.mc). Hailing is not joining: only ?partner taking the hail up (tasks/take-up-task.mc) brings
-; him into a conversation - ?partner's when he is in one, else @self's own, else a new one.
+; takes him out of it (tasks/maintain-social-presence-task.mc). Hailing is not joining: only
+; ?partner taking the hail up (tasks/take-up-task.mc) brings him into a conversation - ?partner's
+; when he is in one, else @self's own, else a new one.
 ; ?partner in a conversation: @self waits from outside it for an opening, its turn, and calls out
 ; then (turn-board, funcs/conversation.mc). Nobody hails a man in a conversation that seats no one
 ; more, nor one asleep or senseless (hailable): it fails when ?partner's talk fills or he sleeps
-; before he answers. Until answered his hail stands (hailing). Called to by ?partner before he has
+; before he answers. One man's hail stands on ?partner at a time (sync, held from its start to its
+; end), and only that one is his (hailing): the rest wait their turn unheard, so a crowd that all
+; want him at once never stands on him at once. Called to by ?partner before he has
 ; called out his own, he lets his hail go and takes ?partner up. It is PREPARATION - an open
 ; conversation is what his part in it needs - so only a driver proposes it. Taken up when
 ; ?partner's answer accepts it and both are in one conversation - also when that is what ends it,
@@ -27,6 +30,7 @@
   (failure-cond (or (hail-turned-down ?partner ?hail)
                     (not (hailable ?partner))
                     (substantial (any {@self tell (formulaic ? opening-phrase ?) ?partner /fail /caused_by ?hail}))))
+  (sync hail @self ?partner)
   (init
     (check (is-a ?partner [k human]))
     (bb-public-add-member @self hailing ?partner))
@@ -38,22 +42,20 @@
       (stage
         (when (or (unsubstantial (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /ever /caused_by ?hail}))
                   (is-belief (hail-reply ?partner ?hail))
-                  (engaged-with ?partner)
+                  (conversing-with ?partner)
                   (not (hailable ?partner))
                   (not (within-call ?partner)))))
       (stage
         (effects (done-closing ?hail)))))
   (cease
     (bb-public-remove-member @self hailing ?partner)
-    (if (and (not (engaged-with ?partner)) (hail-accepted ?partner ?hail))
+    (if (and (not (conversing-with ?partner)) (hail-accepted ?partner ?hail))
         (then
           (join-conversation (conversation-of ?partner) ?hail)
           (set-outcome ?hail /succ))))
   (and
-    ; The call holds its sync for as long as the hail stands, so nobody calls either man until it is
-    ; answered; the tell, (once), is not said again.
+    ; The tell, (once), is not said again.
     (try
-      (sync hail @self ?partner)
       (effects (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner})))
     (try
       (role @self {@self isa [k human]}
@@ -68,7 +70,7 @@
         (role ?partner {?partner SAY ? @self /past /most_recent}
                        {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                        -{@self tell ? ?partner /succ /caused_by ?opening}
-          (when (and (conversing-with ?partner @self) (happened-since ?opening ?hail)))
+          (when (and (in-one-conversation ?partner @self) (happened-since ?opening ?hail)))
           (effects (maintain-proposal {@self respond ?partner ?opening})))))
     (try
       (lint-waive cacheable-read-in-when)

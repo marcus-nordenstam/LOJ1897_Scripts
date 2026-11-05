@@ -156,8 +156,9 @@
 (define-func in-conversation (?party ?talk)
   (and (substantial ?talk) (substantial (bb-public-any ?talk participant ?party))))
 
-; (conversing-with ?party ?partner) - both take part in one conversation.
-(define-func conversing-with (?party ?partner)
+; (in-one-conversation ?party ?partner) - both take part in one conversation: a talk they share,
+; not yet a talk between them (conversing-with).
+(define-func in-one-conversation (?party ?partner)
   (in-conversation ?partner (conversation-of ?party)))
 
 ; A LINE TAKES A TURN: one man at a time speaks on a board, the rest wait for it, and the man who
@@ -172,7 +173,7 @@
 (define-func turn-board (?audience)
   (cond (case (unsubstantial ?audience) @nothing)
         (case (is-a ?audience [k conversation]) ?audience)
-        (case (conversing-with @self ?audience) (conversation-of @self))
+        (case (in-one-conversation @self ?audience) (conversation-of @self))
         (case (substantial (conversation-of ?audience)) (conversation-of ?audience))
         (else ?audience)))
 
@@ -226,10 +227,10 @@
   (cond (case (not ?other) (turn-release ?))
         (case (and (substantial ?board) (not ?shared)) (turn-release ?board))))
 
-; (engaged-with ?partner) - @self and ?partner talk together: both are in one conversation, and
+; (conversing-with ?partner) - @self and ?partner talk together: both are in one conversation, and
 ; since @self joined it a hail between them has been answered - his hail taken up, or ?partner's
 ; taken up by him. Being in one talk with a man is not yet talking to him.
-(define-func engaged-with (?partner)
+(define-func conversing-with (?partner)
   (bind (conversation-of @self) ?talk)
   (bind (any {?talk participant @self}) ?part)
   (and (is-belief ?part)
@@ -252,7 +253,7 @@
       (then (bind ?left.subject ?left-talk)
             (if (substantial (any {?left-talk participant ?partner /ever}))
                 (then (bind ?left ?parted)))))
-  (cond (case (engaged-with ?partner)
+  (cond (case (conversing-with ?partner)
               (/ ?appeal (+ 1.0 (/ (+ /float (elapsed /minutes ?part) 0) (k-partner-weary-minutes)))))
         (case (is-belief ?parted)
               (* ?appeal (clamp (/ (+ /float (elapsed /minutes ?parted) 0) (k-partner-refresh-minutes)) (k-partner-fresh-floor) 1.0)))
@@ -306,7 +307,7 @@
   (bind (hail-reply ?partner ?hail) ?reply)
   (and (is-belief ?reply)
        (not (turned-away ?reply.target))
-       (conversing-with ?partner @self)))
+       (in-one-conversation ?partner @self)))
 
 ; (hail-turned-down ?partner ?hail) - ?partner answered the opening @self called in ?hail with a
 ; refusal or a rebuff.
@@ -733,7 +734,7 @@
 ; (engaged-here ?npc) - ?npc has taken up the player's hail and the player is still within
 ; earshot of his speaking voice: the host opens the dialogue on it.
 (define-func engaged-here (?npc)
-  (and (conversing-with ?npc @self) (in-earshot ?npc [k speech])))
+  (and (in-one-conversation ?npc @self) (in-earshot ?npc [k speech])))
 
 ; (player-hail ?npc ?authority) - the player hails ?npc as a man's hail does (tasks/hail-task.mc):
 ; his one standing hail is to ?npc (hailing), and only ?npc taking it up brings them into a

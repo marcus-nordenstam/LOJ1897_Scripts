@@ -13,7 +13,7 @@
   (success-cond (unsubstantial (gossip-for ?friend)))
   (stable-or
     (try
-      (when (and (not (engaged-with ?friend)) (hailable ?friend)))
+      (when (and (not (conversing-with ?friend)) (hailable ?friend)))
       (effects (maintain-proposal {@self hail ?friend})))
     (try
       (role @self {@self hail ?friend /fail /caused_by ?tell-gossip}:?hail
@@ -21,5 +21,5 @@
         (effects (set-outcome ?tell-gossip /fail))))
     (try
       (bind (gossip-for ?friend) ?gossip)
-      (when (and (engaged-with ?friend) (substantial ?gossip)))
+      (when (and (conversing-with ?friend) (substantial ?gossip)))
       (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?gossip) ?friend} /quit-trying-on-fail)))))

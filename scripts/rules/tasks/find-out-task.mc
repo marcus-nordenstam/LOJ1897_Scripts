@@ -24,8 +24,8 @@
     (when (askable ?who ?fact))
     (stable-or
       (try
-        (when (engaged-with ?who))
+        (when (conversing-with ?who))
         (effects (maintain-proposal {@self inquire ?who (inquiry-of ?fact)})))
       (try
-        (when (and (not (engaged-with ?who)) (hailable ?who)))
+        (when (and (not (conversing-with ?who)) (hailable ?who)))
         (effects (maintain-proposal {@self hail ?who} /keep-trying-on-fail))))))

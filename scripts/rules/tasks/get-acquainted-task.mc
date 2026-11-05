@@ -14,7 +14,7 @@
   (success-cond (unsubstantial (disclosure-for ?other)))
   (stable-or
     (try
-      (when (and (not (engaged-with ?other)) (hailable ?other)))
+      (when (and (not (conversing-with ?other)) (hailable ?other)))
       (effects (maintain-proposal {@self hail ?other})))
     (try
       (role @self {@self hail ?other /fail /caused_by ?get-acquainted}:?hail
@@ -22,5 +22,5 @@
         (effects (set-outcome ?get-acquainted /fail))))
     (try
       (bind (disclosure-for ?other) ?aspect)
-      (when (and (engaged-with ?other) (substantial ?aspect)))
+      (when (and (conversing-with ?other) (substantial ?aspect)))
       (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?aspect) ?other} /quit-trying-on-fail)))))

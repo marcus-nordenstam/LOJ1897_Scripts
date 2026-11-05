@@ -10,6 +10,6 @@
     (bind (hail-utility ?hailer) ?utility)
     (declare-utility (utility-band ?utility) (utility-value ?utility))
     (when (and (within-call ?hailer)
-               (not (engaged-with ?hailer))
+               (not (conversing-with ?hailer))
                (hailable ?hailer)))
     (effects (maintain-proposal {@self hail ?hailer} /caused_by ?owed))))
