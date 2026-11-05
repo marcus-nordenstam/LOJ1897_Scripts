@@ -53,5 +53,6 @@
       (when (and (in-conversation @self ?talk)
                  (other-party-in ?talk)
                  (< (conversation-utility ?talk) (utility errand 0.0))))
-      (declare-utility want)
+      (bind (conversation-utility ?talk) ?utility)
+      (declare-utility (utility-band ?utility) (utility-value ?utility))
       (effects (maintain-proposal {@self take-leave ?talk} /caused_by ?part)))))

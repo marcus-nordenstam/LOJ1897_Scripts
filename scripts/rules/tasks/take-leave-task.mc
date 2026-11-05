@@ -2,7 +2,9 @@
 ; take-leave ?talk [?line] - @self leaves the conversation ?talk: with others in it he says his
 ; leave-taking to it first - ?line when he gives one, else his goodbye - and alone he simply goes
 ; (funcs/conversation.mc); the others know by its participant set no longer holding him. He stays
-; where he stands until it is said, so what called him away waits for his goodbye.
+; where he stands until it is said, so what called him away waits for his goodbye. A leave is taken
+; only for what outbids the talk: one proposed at less than the talk is worth to him - a hail that
+; needs him free of it (clear-to-talk) for something he wants less - fails before a word is said.
 ; ----------------------------------------------------------------------------
 
 (task {@self take-leave ?talk ?line}:?take-leave
@@ -10,6 +12,7 @@
   (hosts reply)
   (tar @excl [k conversation] @object)
   (aux ?)
+  (failure-cond (< (utility ?take-leave) (conversation-utility ?talk)))
   (and
     (sequence
       (stage
