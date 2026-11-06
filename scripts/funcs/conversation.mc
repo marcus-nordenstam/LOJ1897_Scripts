@@ -240,22 +240,18 @@
 
 ; (pursuit-utility ?partner ?base) - what pursuing ?partner in talk is worth to @self, in the want
 ; band, from ?base: his warmth toward him, less for every other man already holding him
-; (partner-claims), falling the longer they have talked, and held down for a while after they part,
-; so the keenest partner wins and partners change without thrashing.
+; (partner-claims), and held down for a while after they part, so the keenest partner wins and
+; partners change without thrashing.
 (define-func pursuit-utility (?partner ?base)
   (bind (/ (* ?base 0.5 (+ 1.0 (stance ?partner warmth)) (social-appetite))
            (+ 1.0 (* (k-partner-busy-weight) (partner-claims ?partner)))) ?appeal)
-  (bind (conversation-of @self) ?talk)
-  (bind (any {?talk participant @self}) ?part)
   (bind (any {? participant @self /past /most_recent}) ?left)
   (bind @nothing ?parted)
   (if (is-belief ?left)
       (then (bind ?left.subject ?left-talk)
             (if (substantial (any {?left-talk participant ?partner /ever}))
                 (then (bind ?left ?parted)))))
-  (cond (case (conversing-with ?partner)
-              (/ ?appeal (+ 1.0 (/ (+ /float (elapsed /minutes ?part) 0) (k-partner-weary-minutes)))))
-        (case (is-belief ?parted)
+  (cond (case (is-belief ?parted)
               (* ?appeal (clamp (/ (+ /float (elapsed /minutes ?parted) 0) (k-partner-refresh-minutes)) (k-partner-fresh-floor) 1.0)))
         (else ?appeal)))
 
@@ -480,12 +476,11 @@
   ?asks)
 
 ; (speech-worthy ?belief ?friend) - @self may tell ?friend the belief ?belief and believes he does
-; not know it: its tier admits him, @self does not take him to know it, and either takes him not
-; to or does not presume him to.
+; not have it: its tier admits him, and either @self takes him not to know it or does not presume
+; him to have it.
 (define-func speech-worthy (?belief ?friend)
   (and (is-belief ?belief)
        (disclosable-to ?belief ?friend)
-       (none {?friend know (clausify ?belief)})
        (or (substantial (any {?friend /not know (clausify ?belief)}))
            (not (presumed-known ?belief ?friend)))))
 

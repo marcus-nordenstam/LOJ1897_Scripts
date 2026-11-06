@@ -225,9 +225,7 @@
 (define-macro k-catch-up-value       () 500.0)
 (define-macro k-tell-gossip-value    () 450.0)
 (define-macro k-flirt-value          () 600.0)
-; A partner wears: talk with him is worth half its start after this long ...
-(define-macro k-partner-weary-minutes () 30.0)
-; ... and once parted he is worth pursuing again in full only after this long, from this floor.
+; Once parted, a partner is worth pursuing again in full only after this long, from this floor.
 (define-macro k-partner-refresh-minutes () 120.0)
 (define-macro k-partner-fresh-floor     () 0.2)
 ; How much less a man is worth pursuing for each other party of a talk he is in, so a crowd spreads

@@ -6,7 +6,7 @@
 
 (think conversation-has-more
   (role ?talk {?talk participant @self} {?talk venue ?}
-    (bind (agenda-for ?talk) ?more)
+    (bind (tolerate (agenda-for ?talk)) ?more)
     (when (neq ?more (substantial (bb-public-any ?talk has-more @self))))
     (effects
       (if ?more

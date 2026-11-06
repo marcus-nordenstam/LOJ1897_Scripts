@@ -22,5 +22,7 @@
         (effects (set-outcome ?get-acquainted /fail))))
     (try
       (bind (disclosure-for ?other) ?aspect)
-      (when (and (conversing-with ?other) (substantial ?aspect)))
+      (when (conversing-with ?other)
+            (substantial ?aspect)
+            (poll (eq ?aspect (disclosure-for ?other))))
       (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?aspect) ?other} /quit-trying-on-fail)))))
