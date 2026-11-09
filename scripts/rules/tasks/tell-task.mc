@@ -38,6 +38,7 @@
         (effects (set-outcome ?tell /fail))))
     (try
       (when (and (or (unsubstantial ?audience) (within-voice ?audience ?msg))
+                 (or (not (is-a ?audience [k human])) (visible ?audience))
                  (my-turn ?audience)
                  (not (being-called))))
       (effects (maintain-proposal {@self SAY ?msg ?audience})))

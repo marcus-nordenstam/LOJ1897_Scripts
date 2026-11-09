@@ -82,14 +82,14 @@
 (define-func go-no-room (?dest ?go-to)
   (cond (case (is-spot ?dest) @false)
         (case (is-a ?dest [k human]) (and (spatial ?dest co-located @self)
-                                          (is-visible ?dest)
+                                          (visible ?dest)
                                           (not (is-spot (go-stand-spot ?dest ?go-to)))))
         (else @false)))
 
 ; A spot is placed by its own coordinates; anything else only once @self sees it, since finding
 ; where to stand by it is looking it over.
 (define-func go-in-sight (?dest)
-  (flip (is-spot ?dest) @true (is-visible ?dest)))
+  (flip (is-spot ?dest) @true (visible ?dest)))
 
 ; Where he heads for ?dest out of his sight, claiming nothing: the box he holds for a thing, else a
 ; point in the space it is in - a unit has no floor of its own to head for.
