@@ -21,6 +21,7 @@
   (role ?who {?who isa [k human]}
              (neq ?who @self)
              (spatial ?who co-located @self)
+             (or (conversing-with ?who) (hailable ?who))
     (when (askable ?who ?fact))
     (preemptive-or
       (try
