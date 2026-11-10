@@ -461,17 +461,22 @@
         (then (bind @true ?asks) (break))))
   ?asks)
 
-; (told-to ?belief ?listener) - @self has said ?belief to ?listener: to his face, or to a talk he
-; took part in.
-(define-func told-to (?belief ?listener)
-  (bind @false ?told)
-  (for-each ?SAY (every {@self SAY (msg ? ?belief) ? /succ /ever})
+; (said-to ?lines ?listener) - one of @self's lines ?lines reached ?listener: said to his face, or to
+; a talk he took part in.
+(define-func said-to (?lines ?listener)
+  (bind @false ?said)
+  (for-each ?SAY ?lines
     (bind ?SAY.auxiliary ?audience)
     (if (and (is-object ?audience)
              (or (eq ?audience ?listener)
                  (substantial (any {?audience participant ?listener /ever}))))
-        (then (bind @true ?told) (break))))
-  ?told)
+        (then (bind @true ?said) (break))))
+  ?said)
+
+; (told-to ?belief ?listener) - @self has said ?belief to ?listener, alone or in a bundled line.
+(define-func told-to (?belief ?listener)
+  (or (said-to (every {@self SAY (msg ? ?belief) ? /succ /ever}) ?listener)
+      (said-to (every {@self SAY (msg ? ~[?belief]) ? /succ /ever}) ?listener)))
 
 ; (speakable ?belief) - ?belief is a thing @self can say: a belief he holds, not forgotten, and still
 ; true now. Whatever is picked to be told - news, gossip, an aspect of himself - is speakable.
