@@ -15,8 +15,8 @@
                                    {@self READ ?spent /succ}
         (effects (maintain-proposal {@self DESTROY-ENTITY ?spent}))))
     (try
-      (no-role [k application] (spatial ?norole held-by @self) {@self READ ?norole /succ})
-      (role @self -{@self stack-browse ?stack ? /succ /caused_by ?take-applications}
+      (role -?application [k application] (spatial ?application held-by @self) {@self READ ?application /succ})
+      (belief -{@self stack-browse ?stack ? /succ /caused_by ?take-applications}
         (effects
           (maintain-proposal
             {@self stack-browse ?stack
@@ -25,5 +25,5 @@
                              (then (bb-write .?stack-browse keep @true))
                              (else (maintain-proposal {@self DESTROY-ENTITY .?item})))))}))))
     (try
-      (role @self {@self stack-browse ?stack ? /succ /caused_by ?take-applications}
+      (belief {@self stack-browse ?stack ? /succ /caused_by ?take-applications}
         (effects (set-outcome ?take-applications /succ))))))

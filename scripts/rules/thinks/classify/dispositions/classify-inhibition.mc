@@ -5,7 +5,7 @@
 ; held-value / justification counts. decorum and stress read 0 until they are derived.
 (think classify-inhibition
   (cooldown 1 d try-once)
-  (role @self {@self politeness ?politeness}
+  (belief {@self politeness ?politeness}
               {@self industriousness ?industriousness}
               {@self compassion ?compassion}
               {@self volatility ?volatility}

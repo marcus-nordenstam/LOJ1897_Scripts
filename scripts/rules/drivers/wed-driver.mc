@@ -12,7 +12,7 @@
 (driver {@self intent {@self wed ?partner}}:?intent
   (preemptive-or
     (try
-      (role @self {@self gender [k male]}
+      (belief {@self gender [k male]}
                   -{@self fiancee ?partner}
         (effects (maintain-proposal {@self propose-marriage ?partner}))))
     (try
@@ -28,7 +28,7 @@
         (when (date-is-today ?held-on))
         (effects (maintain-proposal {@self wed ?partner}))))
     (try
-      (role @self {@self gender [k female]}
+      (belief {@self gender [k female]}
                   {@self fiancee ?partner}
                   (none {@self organize [k wedding]})
         (effects (maintain-proposal {@self plan-gathering [k wedding] (wedding-date)}))))))

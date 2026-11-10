@@ -36,7 +36,7 @@
         (if (not (spatial @self can-reach ?stk))
             (then (maintain-proposal {@self go-to ?stk})))))
     (stage
-      (role @self (spatial @self can-reach ?stk))
+      (belief (spatial @self can-reach ?stk))
       (effects (maintain-proposal {@self STACK-PUT ?listing ?stk})))
 
     (stage

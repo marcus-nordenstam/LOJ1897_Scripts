@@ -19,7 +19,7 @@
 (intender suicide-disgrace
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self pressure [k humiliation] ?target}:?pressure
+  (belief ?pressure {@self pressure [k humiliation] ?target}:?pressure
     (when (and (latch-eval (chance (* (k-grievance-rate)
                                       (* 0.01 (grievance-drive ?pressure ?target 1.0)))))
                (despairing @self)))
@@ -29,7 +29,7 @@
 (intender suicide-grief
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self pressure [k attachment-loss] ?target}:?pressure
+  (belief ?pressure {@self pressure [k attachment-loss] ?target}:?pressure
     (when (and (latch-eval (chance (* (k-grievance-rate)
                                       (* 0.03 (grievance-drive ?pressure ?target 1.0)))))
                (despairing @self)))

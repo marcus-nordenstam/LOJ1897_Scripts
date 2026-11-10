@@ -58,7 +58,7 @@
       ; since exposing the affair would advertise the motive.
       ; Divorce: the husband's remedy alone; the proper / high-decorum are likeliest to cut
       ; the tie. Once put away there is no spouse left to divorce.
-      (role @self {@self emotion [k anger] ?partner}
+      (belief {@self emotion [k anger] ?partner}
                   {@self spouse ?partner}
                   {@self gender [k male]}
                   {@self decorum ?decorum}

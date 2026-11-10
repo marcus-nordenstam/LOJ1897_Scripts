@@ -8,10 +8,10 @@
   (tar [k human] @object)
   (and
     (try
-      (role @self -{@self tell ? ?lover /succ /caused_by ?break-off}
+      (belief -{@self tell ? ?lover /succ /caused_by ?break-off}
         (effects (maintain-proposal {@self tell (formulaic [/msg-class jilt] breakup) ?lover}))))
     (try
-      (role @self {@self tell ? ?lover /succ /caused_by ?break-off}
+      (belief {@self tell ? ?lover /succ /caused_by ?break-off}
         (effects
           (end-belief {@self lover ?lover})
           (set-outcome ?break-off /succ))))))

@@ -11,7 +11,7 @@
   (rng-stream migrations)
   ; (population-pressure) is an AMBIENT SCALAR, as in admit-immigrant-driver: it names no object.
   (lint-waive env-read-outside-action)
-  (role @self {@self openness ?openness}
+  (belief {@self openness ?openness}
               {@self isa [k human], condition [k alive]}
               {@self age-band [k youth|young-adult|middle-aged]}
               -{@self own ?}

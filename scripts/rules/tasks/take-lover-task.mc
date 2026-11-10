@@ -10,7 +10,7 @@
 (task {@self take-lover ?lover}:?take-lover
   (tar [k human] @object)
   (sequence
-    (role @self {@self name ?}
+    (belief {@self name ?}
       (stage
         (effects
           (if -{@self tell ? ?lover /succ /caused_by ?take-lover}

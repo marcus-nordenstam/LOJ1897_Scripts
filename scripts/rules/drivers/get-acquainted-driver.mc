@@ -8,7 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver get-acquainted-driver
-  (role @self {@self age ?age} -{@self company [k crowded]}
+  (belief {@self age ?age} -{@self company [k crowded]}
     (role ?other {@self acquaintance ?other} -{@self (closeness-labels friend) ?other}
                  {?other isa [k human], condition [k alive]}
                  (or (in-one-conversation @self ?other)

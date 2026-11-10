@@ -16,7 +16,7 @@
     (try
       (role ?station [k police-station] (not (spatial @self building ?station))
                      (select (score (near @self ?station)) (policy roulette unknown-last))
-        (role @self {@self education ?education}
+        (belief {@self education ?education}
                     -{@self report-crime ?focus /succ /ever}
           (when (and {? stolen-from @self}
                      (>= ?education (literacy-education-min))
@@ -25,15 +25,15 @@
     ; knows no station -> search the region for one; the search's own /fail is what the
     ; abandon try below reads as "this town has no police station".
     (try
-      (no-role [k police-station])
-      (role @self {@self education ?education}
+      (role -?station [k police-station])
+      (belief {@self education ?education}
                   -{@self report-crime ?focus /succ /ever}
         (when (and {? stolen-from @self}
                    (>= ?education (literacy-education-min))
                    (current-exterior @self): ?rg))
         (effects (maintain-proposal {@self find-building [k police-station] ?rg}))))
     (sequence
-      (role @self {@self education ?education}
+      (belief {@self education ?education}
         (stage
           (when (and {? stolen-from @self}
                      (>= ?education (literacy-education-min))
@@ -67,6 +67,6 @@
                 {@self report-crime ?focus /succ /ever}))
       (effects (set-outcome ?report-crime /fail)))
     (try
-      (role @self {@self education ?education}
+      (belief {@self education ?education}
         (when (< ?education (literacy-education-min)))
         (effects (set-outcome ?report-crime /fail))))))

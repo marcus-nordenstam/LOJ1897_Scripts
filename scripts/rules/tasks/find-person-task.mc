@@ -12,9 +12,9 @@
   (preparatory)
   (success-cond (placed ?person))
   (preemptive-or
-    (try (role @self (substantial ?place) (not (premises-searched ?place ?find-person))
+    (try (belief (substantial ?place) (not (premises-searched ?place ?find-person))
            (effects (maintain-proposal {@self wander ?place} /tolerate-fail))))
-    (try (role @self (substantial ?place)
+    (try (belief (substantial ?place)
            (effects (set-outcome ?find-person /fail))))
     (try (role ?seen (spatial ?person space /most-recent-memory)
            (when (place-holding ?seen): ?last
@@ -34,7 +34,7 @@
                      (grounded ?work)
                      (not (premises-searched ?work ?find-person)))
                (effects (maintain-proposal {@self wander ?work} /tolerate-fail))))))
-    (try (role @self (substantial (seen-house-of ?person))
+    (try (belief (substantial (seen-house-of ?person))
                      (one-premises (seen-house-of ?person))
                      (not (premises-searched (seen-house-of ?person) ?find-person))
            (effects (maintain-proposal {@self wander (seen-house-of ?person)} /tolerate-fail))))

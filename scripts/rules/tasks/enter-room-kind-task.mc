@@ -21,12 +21,12 @@
   (init (check (is-kind ?kind)))
   (success-cond (enter-room-kind-done ?kind ?bldg ?enter-room-kind))
   (preemptive-or
-    (try (role @self (is-object ?bldg)
+    (try (belief (is-object ?bldg)
            (role ?room (spatial ?bldg rooms) (is-a ?room ?kind)
                        -{@self enter-room ?room /fail /caused_by ?enter-room-kind}
                        (select (score (near @self ?room)) (policy roulette unknown-last))
              (effects (maintain-proposal {@self enter-room ?room} /tolerate-fail)))))
-    (try (role @self (is-kind ?bldg)
+    (try (belief (is-kind ?bldg)
            (role ?building [k building] (is-a ?building ?bldg)
                            -{@self enter-room-kind ?kind ?building /fail /caused_by ?enter-room-kind}
                            (select (score (near @self ?building)) (policy argmax unknown-last))

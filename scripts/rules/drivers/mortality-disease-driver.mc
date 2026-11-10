@@ -18,7 +18,7 @@
   (cooldown 1 m try-once)
   (rng-stream deaths)
 
-  (role @self {@self age ?age}
+  (belief {@self age ?age}
 
     (when (and (>= ?age 1)
                (latch-eval (chance 0.0008))))   ; ~1% per year background disease rate

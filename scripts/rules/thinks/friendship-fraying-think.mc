@@ -29,7 +29,7 @@
 
   ;; SELF-POV: @self reads and ends only his OWN mind - his soured warmth toward ?b and his
   ;; own friend bond.
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k young-adult|middle-aged|mature|elderly]}
     (role ?b {?b isa [k human], condition [k alive]}
              ; @self now detests ?b (sustained strong-negative warmth, the floor
              ; warmth band - so the exact-band belief IS "warmth at least detest") ...

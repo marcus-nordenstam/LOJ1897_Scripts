@@ -7,7 +7,7 @@
 (think pry
   (cooldown 1 m try-once)
   (rng-stream incidents)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k young-adult|middle-aged|mature|elderly]}
     (role ?host {?host isa [k human], condition [k alive]} (spatial ?host co-located-building @self)
                 {?host spouse ?host_spouse, gender ?host_gender}
       (role ?visitor {?visitor isa [k human], condition [k alive]} (spatial ?visitor co-located-building @self)

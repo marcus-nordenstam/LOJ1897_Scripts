@@ -36,7 +36,7 @@
 ; back in their own mind - the bride hears the vow at the altar; an absent bride
 ; learns by gossip and marries then.
 (think spouse-reciprocate
-  (role @self -{@self spouse ?}
+  (belief -{@self spouse ?}
     (role ?p {@self fiancee ?p}
              {?p spouse @self}:?vow
       (effects

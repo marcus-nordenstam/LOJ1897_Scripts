@@ -31,7 +31,7 @@
 ;(think landlord_estate
 ;  (cooldown 1 m try-once)
 ;  (rng-stream business)
-;  (role @self (old_human @self)
+;  (belief (old_human @self)
 ;              -{@self job [k head-of-non-household-org]}
 ;              -{@self FOUND-ORG [k estate] ? /succ /ever}
 ;    (role ?rental {@self own ?rental}

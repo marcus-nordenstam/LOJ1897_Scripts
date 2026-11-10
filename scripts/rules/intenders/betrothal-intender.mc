@@ -17,7 +17,7 @@
   ;; HE has heard of ((count (every {?bride lover ? /ever})) - per-observer, never an
   ;; omniscient public reading), her availability as his own belief
   ;; ((any {?bride <label> ?}), permissive on the unknown).
-  (role @self {@self class-situation ?my-class}
+  (belief {@self class-situation ?my-class}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self gender [k male]}
               -{@self spouse ?}
@@ -55,7 +55,7 @@
 
       ;; A lover of his own station keeps him out of the arranged market: such pairs wed
       ;; via love-match.
-      (no-role [k human] {@self lover ?norole} {?norole class-situation ?my-class})
+      (role -?lover [k human] {@self lover ?lover} {?lover class-situation ?my-class})
 
       ;; Only the non-cacheable gates stay live: the per-groom (chance) pacing and the
       ;; per-observer chastity count.

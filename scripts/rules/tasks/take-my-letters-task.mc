@@ -12,7 +12,7 @@
   (tar @excl [k stack] @object)
   (and
     (try
-      (role @self {@self name ?name} 
+      (belief ?name-held {@self name ?name}:?name-held
                   -{@self stack-browse ?stack ? /succ /caused_by ?take-my-letters}
         (effects
           (maintain-proposal
@@ -24,6 +24,6 @@
                         -{@self READ .?item /succ})
                    (then (maintain-proposal {@self READ .?item})))}))))
     (try
-      (role @self {@self stack-browse ?stack ? /succ /caused_by ?take-my-letters}
+      (belief {@self stack-browse ?stack ? /succ /caused_by ?take-my-letters}
         (effects
                  (set-outcome ?take-my-letters /succ))))))

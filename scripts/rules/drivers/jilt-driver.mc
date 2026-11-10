@@ -35,7 +35,7 @@
 
   ; The jilter: holds BOTH a lover bond and a betrothal (to someone else -
   ; the ?jilted filters enforce the third party).
-  (role @self 
+  (belief 
                 {@self lover ?}
                 {@self fiancee ?}
     ; The jilted: the jilter's lover who is NOT the jilter's fiancee (the
@@ -74,7 +74,7 @@
   ; An un-betrothed, unmarried lover-holder of marriageable standing - the
   ; market is open to them the moment the affair ends. decorum-weighted:
   ; the proper feel the impropriety of the mismatch most keenly.
-  (role @self {@self decorum ?decorum} 
+  (belief {@self decorum ?decorum} 
                 {@self lover ?}
                 -{@self fiancee ?}
                 -{@self spouse ?}

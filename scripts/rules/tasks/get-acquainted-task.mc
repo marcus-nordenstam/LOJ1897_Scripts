@@ -17,8 +17,7 @@
       (when (and (not (conversing-with ?other)) (hailable ?other)))
       (effects (maintain-proposal {@self hail ?other})))
     (try
-      (role @self {@self (facet-labels self-disclosable) ?}:?aspect
+      (belief ?aspect {@self (facet-labels self-disclosable) ?}:?aspect
                   (speech-worthy ?aspect ?other)
-                  (select (policy first-match))
         (when (conversing-with ?other))
         (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?aspect) ?other} /quit-trying-on-fail))))))

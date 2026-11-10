@@ -6,11 +6,11 @@
   (tar [k church-building] @object)
   (and
     (try
-      (role @self (not (spatial @self building ?venue))
+      (belief (not (spatial @self building ?venue))
         (effects (maintain-proposal {@self enter-building ?venue}))))
     (try
-      (role @self (spatial @self building ?venue)
+      (belief (spatial @self building ?venue)
         (effects (maintain-proposal {@self GIVE-ALMS ?venue}))))
     (try
-      (role @self {@self GIVE-ALMS ?venue /succ /caused_by ?give-charity}
+      (belief {@self GIVE-ALMS ?venue /succ /caused_by ?give-charity}
         (effects (set-outcome ?give-charity /succ))))))

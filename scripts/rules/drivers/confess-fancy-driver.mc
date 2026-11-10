@@ -27,7 +27,7 @@
   ; specific pair is the ?target stance gate below).
   ; grown = marriageable-age; @self's own isa/condition (from any_human) are
   ; no-ops for the deliberating self, so drop them from the cached self-gate.
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               -{@self spouse ?}
               {@self fancy ?}
     ; ?target is the specific person @self is attracted to (attraction at least

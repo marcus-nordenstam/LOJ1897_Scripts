@@ -22,7 +22,7 @@
 
   ; Bind the aggressor + the witnessed violent act (the /caused_by handle); a believed-dead
   ; aggressor filters out.
-  (role @self {@self volatility ?volatility}
+  (belief {@self volatility ?volatility}
               {@self sadism ?sadism}
               {@self compassion ?compassion}
     (role ?foe {?foe (theme-labels violent-to) @self /ever}:?violent-to

@@ -9,10 +9,10 @@
 (think classify-pet-peeves
   (and
     (try
-      (role @self {@self devoutness ?devoutness} -{@self aversion [k alcoholic-drink]}
+      (belief {@self devoutness ?devoutness} -{@self aversion [k alcoholic-drink]}
         (when (>= ?devoutness (peeve-trait-min)))
         (effects (begin-belief {@self aversion [k alcoholic-drink]}))))
     (try
-      (role @self {@self politeness ?politeness} -{@self aversion [k slight-act]}
+      (belief {@self politeness ?politeness} -{@self aversion [k slight-act]}
         (when (>= ?politeness (peeve-trait-min)))
         (effects (begin-belief {@self aversion [k slight-act]}))))))

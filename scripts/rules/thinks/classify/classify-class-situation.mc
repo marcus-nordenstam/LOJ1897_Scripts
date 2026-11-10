@@ -12,7 +12,7 @@
 (think classify-class-situation
   (rng-stream behaviour)
 
-  (role @self {@self breeding ?breeding}
+  (belief {@self breeding ?breeding}
               {@self prestige ?prestige}
               {@self wealth ?wealth}
 

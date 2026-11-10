@@ -26,16 +26,15 @@
   ;; social life-aim (belonging / respectability - the aims that prize community
   ;; visibility) OR being a parent (parties for one's child). The enthusiasm-scaled
   ;; chance gate lives in (when) below (non-belief filter).
-  (role @self {@self enthusiasm ?enthusiasm}
+  (belief {@self enthusiasm ?enthusiasm}
               (or {@self life-aim belonging-aim}
                   {@self life-aim respectability-aim}
                   {@self identity parent-role})
     ; The conversation @self is in, with a friend of his in it: the friend tie is the guest list.
     (role ?talk {?talk participant @self} {?talk venue ?}
       (role ?guest {?talk participant ?guest} {@self friend ?guest}
-        (role @self {@self news ?told}:?news
+        (belief ?news {@self news ?told}:?news
                     (worthy-for ?told ?talk)
-                    (select (policy first-match))
 
           ;; Non-belief gate, not a @self role filter: enthusiasm-scaled chance, multiplicative
           ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly

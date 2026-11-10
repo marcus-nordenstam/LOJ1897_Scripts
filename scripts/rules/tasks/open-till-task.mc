@@ -18,5 +18,5 @@
           (if (substantial ?till)
               (then (maintain-proposal {@self put ?till (spatial @self space)}))))))
     (try
-      (role @self {@self /succ put ? ? /caused_by ?open-till}
+      (belief {@self /succ put ? ? /caused_by ?open-till}
         (effects (set-outcome ?open-till /succ))))))

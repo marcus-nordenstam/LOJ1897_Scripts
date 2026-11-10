@@ -15,6 +15,6 @@
   (init (check (one-premises ?place)))
   (success-cond (find-room-known ?room ?place))
   (preemptive-or
-    (try (role @self (not (premises-searched ?place ?find-room))
+    (try (belief (not (premises-searched ?place ?find-room))
            (effects (maintain-proposal {@self wander ?place} /tolerate-fail))))
     (try (effects (set-outcome ?find-room /fail)))))

@@ -21,17 +21,17 @@
       (try
         (effects (set-occasion-alarm ?start)))
       (try
-        (role @self {@self fiancee ?partner} -{@self spouse ?}
+        (belief {@self fiancee ?partner} -{@self spouse ?}
                     (within-place @self ?venue)
                     -{@self tell ? ?partner /succ /caused_by ?wed}
           (when (hours (- ?start (attend-prep-lead)) ?end))
           (effects (maintain-proposal {@self tell (msg /utterable [] {@self spouse ?partner}) ?partner}))))
       (try
-        (role @self {@self fiancee ?partner} -{@self spouse ?}
+        (belief {@self fiancee ?partner} -{@self spouse ?}
                     (not (within-place @self ?venue))
           (when (hours (- ?start (attend-prep-lead)) ?end))
           (effects (maintain-proposal {@self enter-building ?venue}))))
       (try
-        (role @self {@self tell ? ?partner /succ /caused_by ?wed}
+        (belief {@self tell ? ?partner /succ /caused_by ?wed}
                     -{@self spouse ?}
           (effects (begin-belief {@self spouse ?partner})))))))

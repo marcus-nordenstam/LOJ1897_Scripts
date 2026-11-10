@@ -15,7 +15,7 @@
 (include "../../macros/intensity-macros.mc")
 
 (driver sleep-driver
-  (role @self {@self alertness [k tired|sleepy]}
+  (belief {@self alertness [k tired|sleepy]}
     (role ?home {@self home ?home}
       (declare-utility (flip {@self alertness [k sleepy]} crisis need) default)
       (effects (maintain-proposal {@self go-to-bed ?home})))))

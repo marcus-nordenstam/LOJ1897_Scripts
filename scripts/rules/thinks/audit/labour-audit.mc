@@ -41,7 +41,7 @@
 (audit audit-hired-never-worked
   (aspect labour)
   (cooldown 1 d try-once)
-  (role @self {@self job ?job}:?held
+  (belief ?held {@self job ?job}:?held
     (when (and (/ (seconds-between (time seconds) (start-time ?held)) 86400.0): ?held-days
                (>= ?held-days 30.0)
                (>= (days-since-last-float {@self work ? /succ}) ?held-days)))
@@ -58,7 +58,7 @@
   (aspect labour)
   (cooldown 1 d try-once)
   (cease-after-fire)
-  (role @self {@self duty-to ?org recruit-staff}
+  (belief ?duty-to {@self duty-to ?org recruit-staff}:?duty-to
     (effects
       (bind 0 ?offers)
       (bind 0 ?open)
@@ -74,7 +74,7 @@
 (audit audit-two-verdicts-one-man
   (aspect labour)
   (cooldown 1 d try-once)
-  (role @self {@self duty-to ?org recruit-staff}
+  (belief ?duty-to {@self duty-to ?org recruit-staff}:?duty-to
     (role ?p [k human] {@self draft-verdict ?p ?job /succ}
       (when (>= (count (every {@self draft-verdict ?p ?job /succ})) 2))
       (effects (expect @false "labour: two verdicts drafted for one applicant about one seat")))))
@@ -83,6 +83,6 @@
 ; or the /pres gate has failed.
 (audit apply-for-audit-two-in-flight
   (aspect labour)
-  (role @self {@self apply-for ?}
+  (belief {@self apply-for ?}
     (when (>= (count (every {@self apply-for ? /pres})) 2))
     (effects (expect @false "labour: two applications in flight at once"))))

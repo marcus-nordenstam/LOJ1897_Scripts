@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (think coercion-pressure
-  (role @self {@self class-situation ?class}
+  (belief {@self class-situation ?class}
     (role ?coercer {?coercer isa [k human], condition [k alive]}
                    {?coercer threaten @self ?}:?threat
       (effects

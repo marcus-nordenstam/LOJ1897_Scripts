@@ -57,10 +57,10 @@
   (success-cond (enter-room-done ?room ?enter-room))
   (preemptive-or
     ; A BUILDING OR A UNIT.
-    (try (role @self (enter-room-enclosure ?room)
+    (try (belief (enter-room-enclosure ?room)
                      -{@self enter-building ?room /fail /caused_by ?enter-room}
            (effects (maintain-proposal {@self enter-building ?room} /tolerate-fail))))
-    (try (role @self (enter-room-enclosure ?room)
+    (try (belief (enter-room-enclosure ?room)
            (effects (set-outcome ?enter-room /fail))))
     ; A ROOM, through its doors.
     (try (role ?door (spatial @self next-door ?room)
@@ -76,14 +76,14 @@
                      -{@self cross ?door /fail /caused_by ?enter-room}
                      (select (score (near @self ?door)) (policy argmax unknown-last))
            (effects (maintain-proposal {@self enter-room (passage-near-side ?door)} /tolerate-fail))))
-    (try (role @self (enter-room-beyond-my-place ?room)
+    (try (belief (enter-room-beyond-my-place ?room)
                      -{@self wander (place-holding (spatial @self space)) /succ /caused_by ?enter-room}
            (effects (maintain-proposal {@self wander (place-holding (spatial @self space))} /tolerate-fail))))
-    (try (role @self (enter-room-outside-its-place ?room)
+    (try (belief (enter-room-outside-its-place ?room)
                      -{@self go-to (enter-room-premises ?room) /succ /caused_by ?enter-room}
                      -{@self go-to (enter-room-premises ?room) /fail /caused_by ?enter-room}
            (effects (maintain-proposal {@self go-to (enter-room-premises ?room)} /tolerate-fail))))
-    (try (role @self (or (enter-room-beyond-my-place ?room)
+    (try (belief (or (enter-room-beyond-my-place ?room)
                          (enter-room-outside-its-place ?room)
                          (substantial (any {@self cross ? /fail /caused_by ?enter-room})))
            (effects
@@ -91,7 +91,7 @@
                          (substantial (any {@self go-to|cross ? /fail /caused_by ?enter-room})))
                      "enter-room: a door on the way and none he can cross, untried")
              (set-outcome ?enter-room /fail))))
-    (try (role @self (enter-room-walked-blind ?room ?enter-room)
+    (try (belief (enter-room-walked-blind ?room ?enter-room)
            (effects (set-outcome ?enter-room /fail))))
     (try (when (enter-room-walk-spot ?room): ?spot (is-spot ?spot))
          (effects (maintain-proposal {@self WALK ?spot})))))

@@ -28,7 +28,7 @@
   ; belief-pure perceived age-band predicates (adult-age / age-peers, which expand
   ; to age-band believes). Only the enthusiasm-scaled (chance) roll is non-belief
   ; and lives in the (when ...) clause below.
-  (role @self {@self enthusiasm ?enthusiasm}
+  (belief {@self enthusiasm ?enthusiasm}
               -{@self repute [k scandalous]}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self age-band ?peer_band}

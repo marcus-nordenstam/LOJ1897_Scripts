@@ -2,7 +2,7 @@
 ; polite and compassionate confess and report where the dark and volatile expose and coerce.
 (think classify-prosocial-tilt
   (cooldown 1 d try-once)
-  (role @self {@self politeness ?politeness}
+  (belief {@self politeness ?politeness}
               {@self compassion ?compassion}
               {@self volatility ?volatility}
               {@self narcissism ?narcissism}

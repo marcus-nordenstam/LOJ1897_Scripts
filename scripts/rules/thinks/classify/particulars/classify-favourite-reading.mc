@@ -4,7 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (think classify-favourite-reading
-  (role @self {@self like|adore|dislike|detest [k sermon-book|romance-novel|adventure-novel|detective-novel|scientific-romance|penny-dreadful|poetry-book|almanac]}
+  (belief {@self like|adore|dislike|detest [k sermon-book|romance-novel|adventure-novel|detective-novel|scientific-romance|penny-dreadful|poetry-book|almanac]}
     (effects
       (mint-argmax {@self favourite} (favourite-warmth-min) @nothing
         [k sermon-book]        (stance [k sermon-book] warmth)

@@ -34,14 +34,14 @@
   (rng-stream perpetration)
 
   ; @self: a credible successor - seated (binds my org), senior grade, not the head.
-  (role @self {@self machiavellianism ?machiavellianism}
+  (belief ?aim {@self machiavellianism ?machiavellianism}
               {@self narcissism ?narcissism}
               {@self inhibition ?inhibition}
               {@self life-aim [k power-aim]}:?aim
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
-              {@self job.org ?org}
               {@self job.level [k senior]}
               -{@self job [k org-head]}
+    (belief ?job {@self job.org ?org}:?job
 
     ; The incumbent head I stand behind - a known colleague (learned from the staff
     ; register by read-roster) whose job is-a org-head. read-roster only mints coworkers
@@ -63,4 +63,4 @@
 
       (declare-utility want)
       (effects
-        (maintain-intent {@self intent {@self kill ?victim}} /caused_by ?aim)))))
+        (maintain-intent {@self intent {@self kill ?victim}} /caused_by ?aim))))))

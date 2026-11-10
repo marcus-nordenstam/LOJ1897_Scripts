@@ -28,8 +28,8 @@
                    (unknown (spatial ?paramour space))))
         (effects (maintain-proposal {@self enter-building ?phome}))))
     (try
-      (no-role [k human] {@self spouse ?norole} (spatial ?norole co-located @self))
-      (role @self {@self gender ?gender}
+      (role -?spouse [k human] {@self spouse ?spouse} (spatial ?spouse co-located @self))
+      (belief {@self gender ?gender}
                   -{@self lover ?paramour}
                   -{@self (kin-labels) ?paramour}
                   -{@self HAVE-SEX-WITH ?paramour /succ /caused_by ?seduce}
@@ -39,10 +39,10 @@
         (declare-utility always-pick)
         (effects (maintain-proposal {@self HAVE-SEX-WITH ?paramour}))))
     (try
-      (role @self {@self lover ?paramour}
+      (belief {@self lover ?paramour}
         (effects (set-outcome ?seduce /succ))))
     (try
-      (role @self {@self gender ?gender}
+      (belief {@self gender ?gender}
         (when (or (not (alive ?paramour))
                   {?paramour gender ?gender}
                   {@self (kin-labels) ?paramour}))

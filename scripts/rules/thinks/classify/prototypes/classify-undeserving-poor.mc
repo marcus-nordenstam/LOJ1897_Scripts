@@ -1,7 +1,7 @@
 ; undeserving-poor: poor/destitute + disreputable.
 (think classify-undeserving-poor
   (rng-stream behaviour)
-  (role @self {@self economic-situation ?}
+  (belief {@self economic-situation ?}
     (effects
       (mint-band {@self prototype}
         (* (clamp (+ (prob {@self economic-situation [k poor]})

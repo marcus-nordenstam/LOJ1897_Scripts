@@ -9,7 +9,7 @@
   (preparatory)
   (preemptive-or
     (try
-      (role @self {@self tell ? ?partner /succ /caused_by ?propose-marriage}
+      (belief {@self tell ? ?partner /succ /caused_by ?propose-marriage}
         (effects
           (begin-belief {@self fiancee ?partner})
           (set-outcome ?propose-marriage /succ))))

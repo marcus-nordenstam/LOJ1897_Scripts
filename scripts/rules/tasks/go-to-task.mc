@@ -121,17 +121,17 @@
     (check (not (go-into-space ?dest))))
   (preemptive-or
     (try (role ?space (spatial ?dest space)
-           (role @self (go-boxless ?dest)
+           (belief (go-boxless ?dest)
                        -{@self enter-room ?space /fail /caused_by ?go-to}
              (effects (maintain-proposal {@self enter-room ?space} /tolerate-fail)))))
     ; It stands in a space he is not in: he goes into that space first, through whatever doors lie
     ; between - a building's or a unit's space is the exterior it stands in.
     (try (role ?space (spatial ?dest space)
-           (role @self (not (within-space @self ?space))
+           (belief (not (within-space @self ?space))
                        -{@self enter-room ?space /fail /caused_by ?go-to}
              (effects (maintain-proposal {@self enter-room ?space} /tolerate-fail)))))
     (try (role ?space (spatial ?dest space)
-           (role @self (not (within-space @self ?space))
+           (belief (not (within-space @self ?space))
                        {@self enter-room ?space /fail /caused_by ?go-to}
              (effects (set-outcome ?go-to /fail)))))
     (try (when (go-walk-spot ?dest ?go-to): ?spot (is-spot ?spot))

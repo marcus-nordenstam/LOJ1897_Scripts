@@ -30,7 +30,7 @@
     ; A home supper eats one loaf off a kitchen larder PILE he knows of, handed to EAT which
     ; decrements it; any other meal, or a larder he has not seen, stays abstract.
     (try
-      (role @self {@self home ?place}
+      (belief {@self home ?place}
         (role ?food [k pile] {?food content-kind [k food]} {?food count >0}
                     (= (spatial ?food space) (spatial ?place room [k kitchen]))
                     (select (policy first-match))
@@ -41,8 +41,8 @@
             (caused-by {@self EAT ? ? /past} ?eat): ?EAT
             (if ?EAT (then (set-outcome ?eat (outcome ?EAT))))))))
     (try
-      (no-role [k pile] {?norole content-kind [k food]} {?norole count >0}
-                        (= (spatial ?norole space) (spatial ?place room [k kitchen]))
+      (role -?kitchen-food [k pile] {?kitchen-food content-kind [k food]} {?kitchen-food count >0}
+                        (= (spatial ?kitchen-food space) (spatial ?place room [k kitchen]))
                         {@self home ?place}
                         (is-a ?meal [k supper]))
       (when (at-meal-place ?place))
@@ -53,7 +53,7 @@
         (if ?EAT (then (set-outcome ?eat (outcome ?EAT))))))
     (try
       (role ?home {@self home ?home}
-        (role @self -{@self tell ? ? /succ /caused_by ?eat}
+        (belief -{@self tell ? ? /succ /caused_by ?eat}
           (when (and (= ?place ?home) (at-meal-place ?place) (latch-eval (chance 0.25))))
           (effects
             (for-each ?breakfast-hour (every {?home breakfast-hour ?})
@@ -70,9 +70,8 @@
       (rng-stream behaviour)
       (role ?talk {?talk participant @self} {?talk venue ?}
                   -{@self tell ? ?talk /succ /caused_by ?eat}
-        (role @self {@self news ?told}:?news
+        (belief ?news {@self news ?told}:?news
                     (worthy-for ?told ?talk)
-                    (select (policy first-match))
           (when (at-meal-place ?place))
           (effects
             (msg /utterable [] ?told): ?msg

@@ -3,7 +3,7 @@
 (driver introduce-driver
   (cooldown 1 m try-once)
   (rng-stream behaviour)
-  (role @self {@self enthusiasm ?enthusiasm}
+  (belief {@self enthusiasm ?enthusiasm}
               {@self (disclosure-tier-labels stranger) ?}
     (role ?stranger 
          {?stranger isa [k human], condition [k alive]}

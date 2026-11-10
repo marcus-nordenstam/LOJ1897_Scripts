@@ -14,7 +14,7 @@
       (when (is-a (spatial @self building) [k church-building]))
       (effects (maintain-proposal {@self CONVEY ?corpse})))
     (try
-      (role @self {@self CONVEY ?corpse /succ /caused_by ?convey-corpse}
+      (belief {@self CONVEY ?corpse /succ /caused_by ?convey-corpse}
         (effects (set-outcome ?convey-corpse /succ))))
     (try
       (role ?corpse {?corpse internment [k buried]}

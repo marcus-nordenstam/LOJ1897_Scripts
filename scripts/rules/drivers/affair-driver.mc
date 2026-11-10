@@ -31,7 +31,7 @@
   ;; @self - a married adult, not already mid-affair. The disposition-to-stray
   ;; gate (the chance product over openness x enthusiasm x impropriety) is a
   ;; non-belief filter and lives in the (when ...) clause below.
-  (role @self {@self compassion ?compassion}
+  (belief {@self compassion ?compassion}
               {@self infidelity-disposition ?infidelity-disposition}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self spouse ?}

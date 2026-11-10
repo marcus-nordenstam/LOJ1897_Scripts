@@ -28,7 +28,7 @@
   ;; non-belief gate (the (chance) trait-graded pacing) lives in (when); the role
   ;; keeps the belief-pure availability / repute / gender filters plus the
   ;; perceived age-peer + blood-kin predicates (belief macros).
-  (role @self {@self enthusiasm ?enthusiasm}
+  (belief ?aim {@self enthusiasm ?enthusiasm}
               {@self openness ?openness}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self gender [k male]}

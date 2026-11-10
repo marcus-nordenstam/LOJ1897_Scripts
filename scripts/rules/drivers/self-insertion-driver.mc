@@ -11,7 +11,7 @@
 (driver self-insertion-driver
   (cooldown 1 m try-once)
   (rng-stream perpetration)
-  (role @self {@self narcissism ?narcissism}
+  (belief {@self narcissism ?narcissism}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
     ; His own overt-method kill: the corpse whose mystery he inserts himself into.
     (role ?victim {@self strangle|shoot ?victim /succ /ever}

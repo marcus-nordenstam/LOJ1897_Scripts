@@ -20,7 +20,7 @@
 (think classify-coward-identity
   (rng-stream behaviour)
 
-  (role @self {@self assertiveness ?assertiveness}
+  (belief {@self assertiveness ?assertiveness}
               {@self withdrawal ?withdrawal}
               {@self inhibition ?inhibition}
               {@self repute ?}

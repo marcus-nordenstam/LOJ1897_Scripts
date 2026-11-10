@@ -27,7 +27,7 @@
 ;  ;; @self reads, so they gate the fire in (when), not role selection.
 ;  ;; SELF-POV (telepathy purge CAT-2): the youth is the sole deliberator,
 ;  ;; reading his OWN employment / marital / schooling state.
-;  (role @self {@self breeding ?breeding}
+;  (belief {@self breeding ?breeding}
 ;              -{@self job.salary ?}
 ;              -{@self spouse ?}
 ;                   ;; A youth still in school (PR-education) is not on the labour
@@ -68,7 +68,7 @@
 ;      ;; proposal per org's articles and overflow the attention set).
 ;      ;; Focus = the org's articles, recovered from @self's {?org record ?art} belief.
 ;      ;; MAINTENANCE: the decision OWNS the seek-indenture proposal end to end. While the
-;      ;; youth is unemployed (role @self (none {@self job.salary ?})) and not yet a trainee
+;      ;; youth is unemployed (belief (none {@self job.salary ?})) and not yet a trainee
 ;      ;; (the (when) trainee-rank gate), the proposal stands; the moment seek-indenture's
 ;      ;; ENROL files his clerk row and hire-beliefs mints {@self job ...}, both gates fall
 ;      ;; and maintain-proposal withdraws. The task never ends the motivating proposal.

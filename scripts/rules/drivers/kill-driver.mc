@@ -12,7 +12,7 @@
 (driver {@self intent {@self kill ?victim}}:?intent
   (preemptive-or
     (try
-      (role @self {@self strength ?strength}
+      (belief {@self strength ?strength}
         (when (>= ?strength (strangling_strength)))
         (effects (maintain-proposal {@self strangle ?victim}))))
     (try

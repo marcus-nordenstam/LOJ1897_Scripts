@@ -19,7 +19,7 @@
 
 (driver list-to-let-driver
   (cooldown 1 y try-until-succ)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k young-adult|middle-aged|mature|elderly]}
     ; His OWN vacant residential holdings (object-cache role over his beliefs).
     (role ?prop {@self own ?prop}
                 {?prop isa [k residential-building]}

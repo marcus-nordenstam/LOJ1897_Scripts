@@ -11,7 +11,7 @@
 
 (driver rehabilitation-driver
   (cooldown 15 d try-until-succ)
-  (role @self {@self isa [k human], condition [k alive]}
+  (belief {@self isa [k human], condition [k alive]}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self repute [k disreputable]}
     (when    (>= (days-since-last {@self WORSHIP /succ /ever}) 15))

@@ -21,7 +21,7 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
-  (role @self -{@self calling ?}
+  (belief -{@self calling ?}
 
     (role ?domain {@self interest ?domain}
                   (or {@self skill-level ?domain [k competent]}

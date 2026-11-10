@@ -4,7 +4,7 @@
   ; (rehabilitation). The gate's prototype disjunct keeps the rule eligible across the
   ; removing fire.
   (rng-stream behaviour)
-  (role @self (or {@self craving ?}
+  (belief (or {@self craving ?}
                   {@self prototype [k drunkard]})
     (effects
       (mint-band {@self prototype} (prob {@self craving ?})

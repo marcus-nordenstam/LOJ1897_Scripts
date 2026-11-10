@@ -20,7 +20,7 @@
   ;; the peer's class is read from @self's own view (3-arg situation, banded in via
   ;; believe_about), so a same-class match needs the two to be acquainted (an
   ;; unknown child's class @fails). No cross-mind read.
-  (role @self {@self enthusiasm ?enthusiasm}
+  (belief {@self enthusiasm ?enthusiasm}
       {@self age-band [k juvenile|adolescent]}
       {@self age-band ?peer_band}
     (role ?b {?b isa [k human], condition [k alive]}

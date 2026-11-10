@@ -26,7 +26,7 @@
 (driver plan-gathering-driver
   (cooldown 1 m try-once)
   (rng-stream behaviour)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when (chance 0.02))
     (declare-utility want)
     (effects (maintain-proposal {@self plan-gathering [k dinner-party] (occasion-date-ahead (dinner-lead-months))}))))
@@ -39,7 +39,7 @@
 (driver plan-impromptu-supper-driver
   (cooldown 1 m try-once)
   (rng-stream behaviour)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (when (chance 0.015))
     (declare-utility want)
     (effects (maintain-proposal {@self plan-gathering [k dinner-party] (time date)}))))

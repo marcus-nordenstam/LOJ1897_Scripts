@@ -13,7 +13,7 @@
     ; finished before another is made.
     (stable-or
       (try
-        (role @self {@self send-mail ? ? /succ /caused_by ?denounce}
+        (belief {@self send-mail ? ? /succ /caused_by ?denounce}
           (effects
             (bb-clear ?denounce alias)
             (set-outcome ?denounce /succ))))

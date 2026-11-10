@@ -32,7 +32,7 @@
   (rng-stream incidents)
 
   ; Open contempt is a considered, adult act - minors do not deliver it.
-  (role @self {@self compassion ?compassion}
+  (belief {@self compassion ?compassion}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
     (role ?victim {?victim isa [k human], condition [k alive]}
                   ; @self holds ?victim in deep contempt (esteem `despise`, the

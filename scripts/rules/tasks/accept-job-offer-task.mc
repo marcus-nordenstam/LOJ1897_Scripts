@@ -23,7 +23,7 @@
       (stable-or
         ; if you're not at the job's workplace, then go there
         (try
-          (role @self (not (within-space @self ?wp))
+          (belief (not (within-space @self ?wp))
             (effects (maintain-proposal {@self enter-room ?wp}))))
 
         ; if you're at the workplace and in the same room as the recruiter, then announce
@@ -31,7 +31,7 @@
         (try
           (role ?officer [k human] {?officer recruit-staff ?}
                                    (spatial ?officer co-located @self)
-            (role @self {@self name ?myname}
+            (belief ?name {@self name ?myname}:?name
                         -{@self tell ? ?officer /succ /caused_by ?accept-job-offer}
               ; The seat travels as its DESCRIPTION - kind, org and line - the way the officer's own
               ; word names it: a seat has no name for the msg to carry.
@@ -48,7 +48,7 @@
           (role ?officer [k human] {?officer recruit-staff ?}
                                    (spatial ?officer co-located @self)
                                    -{?officer SAY (msg ? {? job ?}) @self /succ}
-            (role @self {@self tell ? ?officer /succ /caused_by ?accept-job-offer}
+            (belief {@self tell ? ?officer /succ /caused_by ?accept-job-offer}
               (effects (maintain-proposal {@self DWELL ?wp (+ (time hour) 1)})))))
 
         ; told: this task is successful now, whether or not the job turns out to be mine.
@@ -58,7 +58,7 @@
         (try
           (role ?officer [k human] {?officer recruit-staff ?}
                                    {?officer SAY (msg ? {? job ?}) @self /succ}
-            (role @self {@self tell ? ?officer /succ /caused_by ?accept-job-offer}
+            (belief {@self tell ? ?officer /succ /caused_by ?accept-job-offer}
                         {@self job ?job}
               (effects
                 (begin-belief {?job since (time year)})
@@ -71,7 +71,7 @@
         ; learned on an earlier visit is not a refusal. The offer is spent.
         (try
           (role ?officer [k human] {?officer recruit-staff ?}
-            (role @self {@self tell ? ?officer /succ /caused_by ?accept-job-offer}
+            (belief {@self tell ? ?officer /succ /caused_by ?accept-job-offer}
               (role ?holder [k human] {?holder job ?job}:?held
                 (when (and (!= ?holder @self)
                            (>= (abs-seconds (start-time ?held)) (abs-seconds (start-time ?accept-job-offer)))))

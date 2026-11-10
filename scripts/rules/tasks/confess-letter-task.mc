@@ -16,7 +16,7 @@
   (and
     ; Make the paper, pen it, post it - three deeds, each reading the world for what is done.
     (try
-      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-letter}
+      (belief -{@self send-mail ? ? /succ /caused_by ?confess-letter}
         (role ?my-home {@self home ?my-home}
           (role ?ltr [k confession-letter] (spatial @self can-reach ?ltr)
                                            {@self WRITE ?ltr ? /succ}
@@ -28,7 +28,7 @@
                 (maintain-proposal {@self send-mail ?ltr ?out})))))))
 
     (try
-      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-letter}
+      (belief -{@self send-mail ? ? /succ /caused_by ?confess-letter}
         (role ?ltr [k confession-letter] (spatial @self can-reach ?ltr)
                                          (unsubstantial (attr ?ltr writing))
           (role ?partner {@self lover|HAVE-SEX-WITH ?partner /ever}
@@ -49,7 +49,7 @@
                                         {@self lover ?partner})}))))))))
 
     (try
-      (role @self -{@self send-mail ? ? /succ /caused_by ?confess-letter}
+      (belief -{@self send-mail ? ? /succ /caused_by ?confess-letter}
         (role ?partner {@self lover|HAVE-SEX-WITH ?partner /ever}
                        -{@self spouse ?partner /ever}
                        (select (policy first-match))
@@ -73,7 +73,7 @@
           (effects (set-outcome ?confess-letter /fail)))))
     ; The letter is in the post: the confession is made.
     (try
-      (role @self {@self send-mail ? ? /succ /caused_by ?confess-letter}
+      (belief {@self send-mail ? ? /succ /caused_by ?confess-letter}
         (effects
           (spend-grievance ?confess-letter)
           (set-outcome ?confess-letter /succ))))

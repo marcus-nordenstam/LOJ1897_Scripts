@@ -4,7 +4,7 @@
 ; belonging falls 0.18 per unit of unmet need.
 (think classify-belonging
   (cooldown 1 m try-once)
-  (role @self {@self enthusiasm ?enthusiasm}
+  (belief {@self enthusiasm ?enthusiasm}
               {@self assertiveness ?assertiveness}
     (effects
       (begin-belief {@self belonging

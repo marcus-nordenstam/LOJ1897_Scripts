@@ -26,7 +26,7 @@
 ; late-hired cook does not usurp a sitting family cook (first claim sticks).
 
 (think claim-cook-hired
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
                            {@self job [k cook]}
               -{@self household-cook ?}
     (role ?home {@self home ?home}
@@ -36,25 +36,25 @@
         (begin-belief {@self household-cook ?home})))))
 
 (think claim-cook-woman
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
                            {@self gender [k female]}
               -{@self household-cook ?}
               -{@self class-situation [k upper]}
     (role ?home {@self home ?home}
-      (no-role [k human] {@self mother ?norole} {?norole home ?home})
+      (role -?mother [k human] {@self mother ?mother} {?mother home ?home})
       (when (bb-public-none ?home cook))
       (effects
         (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))
         (begin-belief {@self household-cook ?home})))))
 
 (think claim-cook-man
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
                            {@self gender [k male]}
               -{@self household-cook ?}
               -{@self spouse ?}
               -{@self class-situation [k upper]}
     (role ?home {@self home ?home}
-      (no-role [k human] {@self child ?norole} {?norole gender [k female]} {?norole home ?home})
+      (role -?daughter [k human] {@self child ?daughter} {?daughter gender [k female]} {?daughter home ?home})
       (when (bb-public-none ?home cook))
       (effects
         (bb-public-maintain ?home cook @self (cook_marker_ttl_cycles))

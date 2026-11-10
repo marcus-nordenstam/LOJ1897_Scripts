@@ -18,7 +18,7 @@
                      -{@self cross ?door /fail /caused_by ?enter-building}
                      (select (score (near @self ?door)) (policy argmax unknown-last))
            (effects (maintain-proposal {@self cross ?door} /tolerate-fail))))
-    (try (role @self -{@self go-to ?place /succ /caused_by ?enter-building}
+    (try (belief -{@self go-to ?place /succ /caused_by ?enter-building}
                      -{@self go-to ?place /fail /caused_by ?enter-building}
            (effects (maintain-proposal {@self go-to ?place} /tolerate-fail))))
     (try (effects (set-outcome ?enter-building /fail)))))

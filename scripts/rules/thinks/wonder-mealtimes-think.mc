@@ -9,7 +9,7 @@
   (role ?home {@self home ?home}
     (and
       (try
-        (role @self {@self age ?age}
+        (belief {@self age ?age}
                     -{@self duty-to ? set-mealtimes}
                     -{@self wonder {?home supper-hour ?}}
                     -{?home supper-hour ?}
@@ -18,5 +18,5 @@
       (try
         (role ?known {?known supper-hour ?}
                      (eq ?known ?home)
-          (role @self {@self wonder {?home supper-hour ?}}:?wonder
+          (belief ?wonder {@self wonder {?home supper-hour ?}}:?wonder
             (effects (end-belief ?wonder))))))))

@@ -12,7 +12,7 @@
 (intender conspiracy-adoption
   (cooldown 1 m try-once)
   (rng-stream perpetration)
-  (role @self {@self psychopathy ?psychopathy}
+  (belief {@self psychopathy ?psychopathy}
     (role ?instigator {?instigator isa [k human], condition [k alive]}
                       {@self desire|crave ?instigator}
                       (!= ?instigator @self)

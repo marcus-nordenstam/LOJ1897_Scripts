@@ -57,7 +57,7 @@
     (try
       (effects (maintain-proposal {@self tell (formulaic [] opening-phrase greeting) ?partner})))
     (try
-      (role @self {@self isa [k human]}
+      (belief {@self isa [k human]}
                   -{@self tell (formulaic ? opening-phrase ?) ?partner /succ /caused_by ?hail}
         (role ?partner {?partner SAY ? @self /past /most_recent}
                        {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
@@ -65,7 +65,7 @@
           (effects (set-outcome ?hail /fail)))))
     (try
       (lint-waive cacheable-read-in-when)
-      (role @self {@self tell (formulaic ? opening-phrase ?) ?partner /succ /caused_by ?hail}
+      (belief {@self tell (formulaic ? opening-phrase ?) ?partner /succ /caused_by ?hail}
         (role ?partner {?partner SAY ? @self /past /most_recent}
                        {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                        -{@self tell ? ?partner /succ /caused_by ?opening}

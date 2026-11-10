@@ -18,7 +18,7 @@
   ; commits. The timer is desynced across the herd; cold_start_window self-primes it.
   (cooldown 1 m try-once)
 
-  (role @self {@self politeness ?politeness}
+  (belief {@self politeness ?politeness}
               {@self machiavellianism ?machiavellianism}
               {@self industriousness ?industriousness}
               {@self compassion ?compassion}

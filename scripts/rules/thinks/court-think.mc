@@ -24,7 +24,7 @@
 
   ; @self the suitor must ALREADY fancy someone and be a marriageable single -
   ; courtship is the directed pursuit of a specific crush, not a random advance.
-  (role @self 
+  (belief 
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               -{@self spouse ?}
               -{@self fiancee ?}

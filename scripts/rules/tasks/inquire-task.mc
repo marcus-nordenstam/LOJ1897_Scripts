@@ -13,7 +13,7 @@
   (aux ?)
   (and
     (try
-      (role @self {@self SAY ?qs ?partner /succ /caused_by ?inquire}:?SAY
+      (belief {@self SAY ?qs ?partner /succ /caused_by ?inquire}:?SAY
         (when (replied ?partner ?SAY))
         (effects (set-outcome ?inquire /succ))))
     (try

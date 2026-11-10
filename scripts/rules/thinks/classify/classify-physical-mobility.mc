@@ -19,10 +19,10 @@
 
   (and
     (try
-      (role @self {@self condition [k dead]} {@self physical-mobility ?}
+      (belief {@self condition [k dead]} {@self physical-mobility ?}
         (effects (end-belief {@self physical-mobility ?}))))
     (try
-      (role @self {@self condition ?} -{@self condition [k dead]}
+      (belief {@self condition ?} -{@self condition [k dead]}
         (effects
           (begin-belief {@self physical-mobility
             (flip {@self awareness [k unconscious]} [k bedridden] [k mobile])}))))))

@@ -48,7 +48,7 @@
     ; (a pile's contents are learned by observing them and by no other route), so `nothing
     ; on top` is never a fact he can hold - only the answer a fresh look gives back.
     (try
-      (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
+      (role -?document [k document] (= (bb-read ?document from-stack) ?stack))
       (when (unknown (spatial ?stack top)))
       (effects
         (tolerate (observe (spatial ?stack top /env)): ?fresh-top)
@@ -59,7 +59,7 @@
     (try
       (role ?circled-top (spatial ?stack top)
             (= ?circled-top (bb-read ?stack-browse cycle-end))
-        (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
+        (role -?document [k document] (= (bb-read ?document from-stack) ?stack))
         (effects (set-outcome ?stack-browse /succ))))
 
     ; HE IS KEEPING IT: the body claimed the doc and it is in his hand, so the errand is
@@ -70,14 +70,14 @@
             (bb-any ?stack-browse keep)
         (effects (set-outcome ?stack-browse /succ))))
 
-    ; THE LIFT: one paper at a time - the no-role is "I am not already working one off this
+    ; THE LIFT: one paper at a time - the negated role is "I am not already working one off this
     ; pile". AT THE STACK: (spatial ?stack top) is what @self BELIEVES is on top, a memory
     ; rather than a reach, so without the co-location gate he lifts from across town.
     (try
       (role ?lift-top (spatial ?stack top)
             (!= ?lift-top (bb-read ?stack-browse cycle-end))
-        (no-role [k document] (= (bb-read ?norole from-stack) ?stack))
-        (role @self (spatial @self can-reach ?stack)
+        (role -?document [k document] (= (bb-read ?document from-stack) ?stack))
+        (belief (spatial @self can-reach ?stack)
                     (bb-none ?stack-browse keep)
           ; A HAND TO LIFT IT WITH. stack-take asserts one is free - a proposer reaching with
           ; full hands is an authoring error, and this is the only rung that proposes it. The
@@ -90,7 +90,7 @@
     ; ONE DOC: do the caller's work, then re-file it.
     (sequence
       (role ?doc [k document] (= (bb-read ?doc from-stack) ?stack)
-        (role @self (spatial @self can-reach ?stack)
+        (belief (spatial @self can-reach ?stack)
 
           ; THE CALLER'S WORK. ?item is what the body's .?item resolves to - it is named here,
           ; in the rule that evaluates the body, which is the whole of the late-bound mechanism.

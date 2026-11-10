@@ -12,7 +12,7 @@
 
   ; @self the suitor: an unmarried, un-betrothed adult who is not socially shut
   ; out. The per-suitor (chance) gate lives in (when ...) (role-belief purity).
-  (role @self
+  (belief
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self age-band ?peer_band}
               -{@self spouse ?}

@@ -10,32 +10,32 @@
 (define-macro read-intellect-threshold () 0.5)
 
 (driver household-read-driver
-  (role @self {@self stimulation [k bored|restless]}
+  (belief {@self stimulation [k bored|restless]}
               {@self intellect ?intellect}
               {@self home ?home}
               (spatial ?home room [k study])
     (declare-utility want)
     (preemptive-or
       (try
-        (role @self {@self interest [k academic-field|literature]}
+        (belief {@self interest [k academic-field|literature]}
           (effects (maintain-proposal {@self read-at ?home} /quit-trying-on-fail))))
       (try
         (when (>= ?intellect (read-intellect-threshold)))
         (effects (maintain-proposal {@self read-at ?home} /quit-trying-on-fail))))))
 
 (driver household-retreat-driver
-  (role @self {@self company [k crowded]}
+  (belief {@self company [k crowded]}
               {@self home ?home}
     (declare-utility want)
     (preemptive-or
       (try
-        (role @self (spatial ?home room [k study])
+        (belief (spatial ?home room [k study])
           (effects (maintain-proposal {@self read-at ?home} /quit-trying-on-fail))))
       (try
         (effects (maintain-proposal {@self rest ?home} /quit-trying-on-fail))))))
 
 (driver household-rest-driver
-  (role @self {@self ease [k strained|frayed]}
+  (belief {@self ease [k strained|frayed]}
               {@self home ?home}
     (declare-utility want (flip {@self ease [k frayed]} (frayed-rest-value) (strained-rest-value)))
     (effects (maintain-proposal {@self rest ?home} /quit-trying-on-fail))))
@@ -56,7 +56,7 @@
   ; a CACHED role: home + no-supper-hour tested against the SAME candidate, and
   ; the role BINDS ?home for the effects. Whichever adult woman fires first sets
   ; the hours; the (not supper-hour) filter then empties for the whole household.
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self gender [k female]}
     (role ?household [k household] {@self duty-to ?household set-mealtimes}
       (role ?home {@self home ?home}

@@ -4,7 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (think classify-favourite-drink
-  (role @self {@self like|adore|dislike|detest [k beer|porter|gin|whisky|claret|tea-drink|coffee|lemonade]}
+  (belief {@self like|adore|dislike|detest [k beer|porter|gin|whisky|claret|tea-drink|coffee|lemonade]}
     (effects
       (mint-argmax {@self favourite} (favourite-warmth-min) @nothing
         [k beer]      (stance [k beer] warmth)

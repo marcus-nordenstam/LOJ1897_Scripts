@@ -12,7 +12,7 @@
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
-  (role @self {@self psychopathy ?psychopathy}
+  (belief {@self psychopathy ?psychopathy}
               {@self machiavellianism ?machiavellianism}
               {@self compassion ?compassion}
               {@self inhibition ?inhibition}

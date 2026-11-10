@@ -25,7 +25,7 @@
 (driver sack-review-driver
   (cooldown 1 m try-once)
   (rng-stream employment)
-  (role @self {@self duty-to ?org dismiss_staff}
+  (belief ?duty-to {@self duty-to ?org dismiss_staff}:?duty-to
     (role ?w    {?w work-standing ?ws}
       (when (and (!= ?w @self)
                  (> 0.4 ?ws)
@@ -36,7 +36,7 @@
 (driver promote-review-driver
   (cooldown 1 m try-once)
   (rng-stream employment)
-  (role @self {@self duty-to ?org review_staff}
+  (belief ?duty-to {@self duty-to ?org review_staff}:?duty-to
     (role ?w    {?w work-standing ?ws}
       (when (and (!= ?w @self)
                  (> ?ws 0.7)
@@ -49,7 +49,7 @@
 (driver retirement-driver
   (cooldown 1 m try-once)
   (rng-stream employment)
-  (role @self {@self age ?age}
+  (belief {@self age ?age}
               {@self job ?}
     (when (and (>= ?age 65)
                (latch-eval (chance 0.033))))

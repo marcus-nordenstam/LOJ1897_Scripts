@@ -27,7 +27,7 @@
 ;   (cooldown 1 m)
 ;   (rng-stream incidents)
 ; 
-;   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+;   (belief {@self age-band [k young-adult|middle-aged|mature|elderly]}
 ;               {@self lover ?}
 ;               {@self spouse @something}
 ;               -{@self class-situation [k lower]}
@@ -97,7 +97,7 @@
 ;   (cooldown 1 m)
 ;   (rng-stream incidents)
 ; 
-;   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+;   (belief {@self age-band [k young-adult|middle-aged|mature|elderly]}
 ;               {@self lover ?}
 ;               {@self name ?author_name})
 ;   (role ?paramour {?paramour isa [k human], condition [k alive]}
@@ -148,7 +148,7 @@
 ;   (cooldown 1 m)
 ;   (rng-stream incidents)
 ; 
-;   (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+;   (belief {@self age-band [k young-adult|middle-aged|mature|elderly]}
 ;               {@self lover ?}
 ;               {@self name ?author_name})
 ;   (role ?paramour {?paramour isa [k human], condition [k alive]}

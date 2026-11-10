@@ -10,14 +10,14 @@
               (spatial ?home room [k kitchen]): ?kitchen
     (and
       (try
-        (role @self (not (spatial @self building ?shop))
+        (belief (not (spatial @self building ?shop))
           (when (> (provision-basket ?kitchen) 0))
           (effects (maintain-proposal {@self enter-building ?shop}))))
       (try
-        (role @self (spatial @self building ?shop)
+        (belief (spatial @self building ?shop)
           (when (and (provision-basket ?kitchen): ?cap
                      (> ?cap 0)))
           (effects (maintain-proposal {@self PROVISION ?cap}))))
       (try
-        (role @self {@self PROVISION ? /succ /caused_by ?provision}
+        (belief {@self PROVISION ? /succ /caused_by ?provision}
           (effects (set-outcome ?provision /succ)))))))

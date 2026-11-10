@@ -26,7 +26,7 @@
   ; @self is any human; the dark-tetrad assault disposition that rolls once
   ; per NPC now lives in the (when ...) gate below (a non-belief chance read
   ; cannot live on the role under the belief-purity invariant).
-  (role @self {@self volatility ?volatility}
+  (belief {@self volatility ?volatility}
               {@self psychopathy ?psychopathy}
               {@self sadism ?sadism}
               {@self politeness ?politeness}

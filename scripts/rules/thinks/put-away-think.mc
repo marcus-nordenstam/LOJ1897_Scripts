@@ -4,7 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (think put-away
-  (role @self {@self gender [k female]}
+  (belief {@self gender [k female]}
     (role ?husband {@self spouse ?husband}
                    {?husband /not spouse @self}
       (effects

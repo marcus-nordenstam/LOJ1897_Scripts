@@ -31,7 +31,7 @@
       (stage (effects (set-outcome ?cross /succ))))
     (try (when (and (barred ?passage) (not (passage-stance-exists ?passage))))
          (effects (set-outcome ?cross /fail)))
-    (try (role @self (or (barred-locked ?passage)
+    (try (belief (or (barred-locked ?passage)
                          {@self OPEN ?passage /fail /caused_by ?cross}
                          {@self go-to|WALK ? /fail /caused_by ?cross})
            (effects (set-outcome ?cross /fail))))))

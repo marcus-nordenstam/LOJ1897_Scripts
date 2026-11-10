@@ -4,7 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (think classify-favourite-food
-  (role @self {@self like|adore|dislike|detest [k roast-beef|mutton|pie|fish|oyster|curry|pickles|pudding|bread|cheese-food]}
+  (belief {@self like|adore|dislike|detest [k roast-beef|mutton|pie|fish|oyster|curry|pickles|pudding|bread|cheese-food]}
     (effects
       (mint-argmax {@self favourite} (favourite-warmth-min) @nothing
         [k roast-beef]   (stance [k roast-beef] warmth)

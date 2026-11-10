@@ -37,7 +37,7 @@
                           (consequence -{?victim pay @self /during ?told ?deadline} {@self expose ?victim} ?deadline)})
                       ?victim})))
     (try
-      (role @self {@self tell ? ?victim /succ /caused_by ?coerce}
+      (belief {@self tell ? ?victim /succ /caused_by ?coerce}
         (effects
           (bind (bb-read ?coerce told) ?told)
           (bind (+ ?told (seconds (threat_grace_days) d)) ?deadline)

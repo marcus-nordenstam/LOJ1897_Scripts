@@ -9,7 +9,7 @@
 ; stops firing until the larder is eaten down again; a truly empty kitchen keeps
 ; reading 0 and the resident falls through to the meal-less chains, as it should.
 (think notice-larder
-  (role @self {@self satiety [k hungry|famished]}
+  (belief {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 (spatial @self unit ?home)
                 (spatial ?home room [k kitchen]): ?kitchen   ; a resident who does not know their kitchen just skips

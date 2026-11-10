@@ -51,7 +51,7 @@
 
 ;; Once the firm is wound up he puts his own premises on the market.
 ;(think list_failed_premises
-;  (role @self {@self CLOSE-BUSINESS ? ?wp /succ}
+;  (belief {@self CLOSE-BUSINESS ? ?wp /succ}
 ;              {@self own ?wp}
 ;              -{?wp availability ?}
 ;    (declare-utility errand)

@@ -7,7 +7,7 @@
 (include "../../../macros/money-macros.mc")
 
 (think classify-wealth
-  (role @self {@self age ?age}
+  (belief {@self age ?age}
     (role ?carrying-cash-pile {@self carrying-cash-pile ?carrying-cash-pile} {?carrying-cash-pile count ?coins}
       (when (>= ?age (wealth_age_min)))
       (effects

@@ -8,7 +8,7 @@
 (intender arranged-match
   (cooldown 1 m try-once)
   (rng-stream marriages)
-  (role @self {@self life-aim [k respectability-aim|wealth-aim]}:?aim
+  (belief ?aim {@self life-aim [k respectability-aim|wealth-aim]}:?aim
               {@self class-situation ?class}
     (role ?daughter {?daughter isa [k human], condition [k alive]}
                     {@self child ?daughter}

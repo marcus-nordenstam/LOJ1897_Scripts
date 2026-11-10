@@ -9,7 +9,7 @@
 ; The corpse is cast off the ongoing {?corpse condition dead} belief alone: learning a death
 ; end-dates the observer's {?corpse isa [k human]} belief.
 (driver want-convey-driver
-  (role @self {@self politeness ?politeness}
+  (belief {@self politeness ?politeness}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?corpse {?corpse condition [k dead]}
                   {?corpse internment [k unburied]}
@@ -21,7 +21,7 @@
       (declare-utility want (* 10.0 ?politeness 85.0))
       (stable-or
         (try
-          (no-role [k church-building])
+          (role -?church [k church-building])
           (when -{@self find-building [k church-building] ? /fail})
           (effects (maintain-proposal {@self find-building [k church-building] (current-exterior @self)})))
         (try

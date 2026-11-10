@@ -1,7 +1,7 @@
 ; brute path: the lower-class strong man with NO lethal skill (footpad / cosh thug).
 (think classify-for-hire-brute
   (rng-stream behaviour)
-  (role @self {@self strength ?strength}
+  (belief {@self strength ?strength}
               {@self compassion ?compassion}
               {@self industriousness ?industriousness}
               {@self politeness ?politeness}

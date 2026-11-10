@@ -16,7 +16,7 @@
 
 (driver want-worship-driver
   (cooldown 3 d try-until-succ)
-  (role @self {@self company [k lonely|isolated]}
+  (belief {@self company [k lonely|isolated]}
               {@self politeness ?politeness}
               {@self enthusiasm ?enthusiasm}
               {@self withdrawal ?withdrawal}

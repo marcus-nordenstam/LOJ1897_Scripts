@@ -30,7 +30,7 @@
   ;; @self - a romantically-open single, not already deep in a crush. The trait
   ;; chance (openness x enthusiasm x compassion) gates the receptive crush in
   ;; (when ...) below - a non-belief filter, so it never sits in the role.
-  (role @self {@self openness ?openness}
+  (belief {@self openness ?openness}
               {@self enthusiasm ?enthusiasm}
               {@self compassion ?compassion}
               {@self age-band [k youth|young-adult|middle-aged]}

@@ -16,9 +16,9 @@
         (when (alive ?payee))
         (effects (maintain-proposal {@self give ?counted ?payee}))))
     (try
-      (no-role [k pile] {?norole content-kind [k coin]} (= (spatial ?norole held-by) @self))
+      (role -?coins [k pile] {?coins content-kind [k coin]} (= (spatial ?coins held-by) @self))
       (when (alive ?payee))
       (effects (maintain-proposal {@self unpocket-coins ?count})))
     (try
-      (role @self {@self give ? ?payee /succ /caused_by ?pay}
+      (belief {@self give ? ?payee /succ /caused_by ?pay}
         (effects (set-outcome ?pay /succ))))))

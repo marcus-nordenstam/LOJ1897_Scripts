@@ -18,7 +18,7 @@
   (cooldown 1 m try-once)
   (rng-stream deaths)
 
-  (role @self {@self age ?age}
+  (belief {@self age ?age}
 
     (bind (cond
             (case (< ?age 15) 0.006)

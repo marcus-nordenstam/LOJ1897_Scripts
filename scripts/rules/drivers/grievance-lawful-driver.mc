@@ -19,7 +19,7 @@
 (driver report-injustice-driver
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self inhibition ?inhibition}
+  (belief {@self inhibition ?inhibition}
               {@self prosocial-tilt ?prosocial-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k injustice] ?target}:?pressure
@@ -33,7 +33,7 @@
 (driver report-for-relief-driver
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self inhibition ?inhibition}
+  (belief {@self inhibition ?inhibition}
               {@self prosocial-tilt ?prosocial-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k resource-scarcity] ?target}:?pressure
@@ -50,7 +50,7 @@
 (driver confess-at-risk-driver
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self inhibition ?inhibition}
+  (belief {@self inhibition ?inhibition}
               {@self prosocial-tilt ?prosocial-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k exposure-risk] ?target}:?pressure
@@ -64,7 +64,7 @@
 (driver confess-remorse-driver
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self inhibition ?inhibition}
+  (belief {@self inhibition ?inhibition}
               {@self prosocial-tilt ?prosocial-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k moral-violation] ?target}:?pressure

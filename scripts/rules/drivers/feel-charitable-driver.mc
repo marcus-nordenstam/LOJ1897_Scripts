@@ -7,7 +7,7 @@
 
 (driver feel-charitable-driver
   (cooldown 20 d try-until-succ)
-  (role @self {@self compassion ?compassion}
+  (belief {@self compassion ?compassion}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?venue [k church-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
       (when (>= (days-since-last {@self GIVE-ALMS /succ /ever}) 20))

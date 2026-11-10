@@ -27,7 +27,7 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
-  (role @self {@self class-situation ?}
+  (belief {@self class-situation ?}
 
     (effects
       ; Economic rank: headship of a non-household org is the top band and trumps any

@@ -22,7 +22,7 @@
 ;   (cooldown 1 m)
 ;   (rng-stream marriages)
 ; 
-;   (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+;   (belief {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
 ;               -{@self spouse ?}
 ;               -{@self fiancee ?}
 ;               {@self fancy ?}

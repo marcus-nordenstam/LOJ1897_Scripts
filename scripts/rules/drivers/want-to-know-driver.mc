@@ -9,7 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver want-to-know-driver
-  (role @self {@self wonder ?fact}:?wonder
+  (belief ?wonder {@self wonder ?fact}:?wonder
     (role ?who {?who isa [k human]}
                (neq ?who @self)
                (spatial ?who co-located @self)

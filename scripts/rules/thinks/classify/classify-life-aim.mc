@@ -18,7 +18,7 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
-  (role @self {@self compassion ?compassion}
+  (belief {@self compassion ?compassion}
               {@self politeness ?politeness}
               {@self industriousness ?industriousness}
               {@self assertiveness ?assertiveness}

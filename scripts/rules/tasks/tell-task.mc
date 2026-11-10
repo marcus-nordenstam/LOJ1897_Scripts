@@ -31,7 +31,7 @@
         (then (release-line-turns ?tell))))
   (preemptive-or
     (try
-      (role @self {@self SAY ? /succ /caused_by ?tell}
+      (belief {@self SAY ? /succ /caused_by ?tell}
         (effects (set-outcome ?tell /succ))))
     (try
       (when (and (or (unsubstantial ?audience) (within-voice ?audience ?msg))

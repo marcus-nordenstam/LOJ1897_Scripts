@@ -3,7 +3,7 @@
 ; family, marital or decorum term - so a serial cheater strays whatever their home life.
 (think classify-infidelity-disposition
   (cooldown 1 m try-once)
-  (role @self {@self narcissism ?narcissism}
+  (belief {@self narcissism ?narcissism}
               {@self psychopathy ?psychopathy}
               {@self volatility ?volatility}
     (effects

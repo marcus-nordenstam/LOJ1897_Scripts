@@ -48,7 +48,7 @@
   ; CONTINUOUS completion gate as a CACHED role filter: while the child is not yet studying
   ; primary the goal stands; the moment enrol_primary_act matriculates him ({@self study [k
   ; primary-school-curriculum]}) the role drops and the goal ends. The act never ends the goal.
-  (role @self {@self breeding ?breeding}
+  (belief {@self breeding ?breeding}
               {@self age ?age}
               -{@self school-grades [k primary-school-curriculum] ?}
               -{@self study [k primary-school-curriculum]}
@@ -74,7 +74,7 @@
   ; instead falls to apprenticeship_start, which excludes pupils).
   ; CONTINUOUS completion gate as a CACHED role filter: the role drops (and the goal ends) when
   ; enrol_secondary_act matriculates him ({@self study [k secondary-school-curriculum]}).
-  (role @self {@self breeding ?breeding}
+  (belief {@self breeding ?breeding}
               {@self age ?age}
               {@self school-grades [k primary-school-curriculum] ?}
               -{@self school-grades [k secondary-school-curriculum] ?}
@@ -100,7 +100,7 @@
   ; ...), NOT a fixed university curriculum, so the completion gate is the generic (not
   ; (any {@self study ?})) CACHED role filter: at 18-20 the youth holds no prior
   ; study, so the role drops (and the goal ends) exactly when he matriculates.
-  (role @self {@self breeding ?breeding}
+  (belief {@self breeding ?breeding}
               {@self age ?age}
               {@self school-grades [k secondary-school-curriculum] ?}
               -{@self study ?}

@@ -13,7 +13,7 @@
 
 (driver gamble-urge-driver
   (cooldown 10 d try-once)
-  (role @self {@self gambling-addiction ?gambling-addiction}
+  (belief {@self gambling-addiction ?gambling-addiction}
               {@self industriousness ?industriousness}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?venue [k pub-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
@@ -24,7 +24,7 @@
 
 (driver bored-gamble-driver
   (cooldown 10 d try-once)
-  (role @self {@self stimulation [k bored|restless]}
+  (belief {@self stimulation [k bored|restless]}
               {@self gambling-addiction ?gambling-addiction}
               {@self industriousness ?industriousness}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}

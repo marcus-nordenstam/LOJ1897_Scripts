@@ -2,7 +2,7 @@
 
 (think classify-sadist-identity
   (rng-stream behaviour)
-  (role @self {@self sadism ?sadism}
+  (belief {@self sadism ?sadism}
               {@self class-situation ?}
     (effects
       (mint-band {@self identity}

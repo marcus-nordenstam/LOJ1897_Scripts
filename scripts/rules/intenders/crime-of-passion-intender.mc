@@ -36,7 +36,7 @@
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
-  (role @self {@self volatility ?volatility}
+  (belief {@self volatility ?volatility}
               {@self psychopathy ?psychopathy}
               {@self inhibition ?inhibition} 
     ; The craved beloved - the durable REASON; capture the crave belief as the

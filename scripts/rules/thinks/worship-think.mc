@@ -10,7 +10,7 @@
 ; A devout man's standing duty to his parish, the church org he is a member of, held while he
 ; is devout.
 (think worship-duty
-  (role @self {@self devoutness ?devoutness}
+  (belief {@self devoutness ?devoutness}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?church [k church-org] {@self member-of ?church}
       (when (>= ?devoutness (k-devout-min)))

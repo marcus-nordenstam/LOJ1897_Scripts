@@ -27,7 +27,7 @@
 (intender expose-slight
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self inhibition ?inhibition}
+  (belief {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k humiliation|status-loss|rivalry-pressure] ?target}:?pressure
@@ -42,7 +42,7 @@
 (intender expose-wrongdoing
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self inhibition ?inhibition}
+  (belief {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k injustice] ?target}:?pressure
@@ -59,7 +59,7 @@
 (intender humiliate-slight
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self inhibition ?inhibition}
+  (belief {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k humiliation|rivalry-pressure] ?target}:?pressure
@@ -76,7 +76,7 @@
 (intender coerce-silence
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self inhibition ?inhibition}
+  (belief {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k humiliation] ?target}:?pressure
@@ -90,7 +90,7 @@
 (intender coerce-hold
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self inhibition ?inhibition}
+  (belief {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k attachment-loss] ?target}:?pressure
@@ -106,7 +106,7 @@
 (intender seduce-replacement
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self inhibition ?inhibition}
+  (belief {@self inhibition ?inhibition}
               {@self aggressive-tilt ?aggressive-tilt}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k attachment-loss] ?target}:?pressure
@@ -123,7 +123,7 @@
 (intender bribe-to-bury
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self inhibition ?inhibition}
+  (belief {@self inhibition ?inhibition}
     (role ?target {?target isa [k human], condition [k alive]}
       {@self pressure [k exposure-risk] ?target}:?pressure
       (when (and (not (= ?target @self))

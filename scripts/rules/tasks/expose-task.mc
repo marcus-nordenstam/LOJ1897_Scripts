@@ -17,7 +17,7 @@
   (construed-act expose-act betray-act wrong-act) (contradicts privacy)
   (and
     (try
-      (role @self -{@self spouse ?victim}
+      (belief -{@self spouse ?victim}
         (role ?partner {?victim lover|HAVE-SEX-WITH ?partner /ever}
                        -{?victim spouse ?partner /ever}
                        -{@self spouse ?partner}
@@ -27,7 +27,7 @@
                        (unknown (spatial ?victim space))))
             (effects (maintain-proposal {@self enter-building ?vhome}))))))
     (try
-      (role @self -{@self spouse ?victim}
+      (belief -{@self spouse ?victim}
                   -{@self tell ? ?victim /succ /caused_by ?expose}
         (role ?partner {?victim lover|HAVE-SEX-WITH ?partner /ever}
                        -{?victim spouse ?partner /ever}
@@ -37,7 +37,7 @@
           (declare-utility always-pick)
           (effects (maintain-proposal {@self tell (msg /utterable [] {?victim lover ?partner}) ?victim})))))
     (try
-      (role @self {@self tell ? ?victim /succ /caused_by ?expose}
+      (belief {@self tell ? ?victim /succ /caused_by ?expose}
         (effects
           ; TELEPATHY - this pushed the secret into every other mind. The SAY above is
           ; already the honest channel; the spread belongs to the hearers' own adoption.

@@ -1,6 +1,6 @@
 (think classify-gentleman-identity
   (rng-stream behaviour)
-  (role @self {@self gender ?gender}
+  (belief {@self gender ?gender}
               {@self class-situation ?}
     (effects
       (mint-band {@self identity}

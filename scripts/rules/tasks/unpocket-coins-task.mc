@@ -21,7 +21,7 @@
         (effects
           (maintain-proposal {@self PILE-SPLIT-LEFT ?carrying-cash-pile ?count}))))
     (try
-      (role @self {@self /succ PILE-SPLIT-LEFT|PILE-SPLIT-RIGHT ? ? /caused_by ?unpocket-coins}
+      (belief {@self /succ PILE-SPLIT-LEFT|PILE-SPLIT-RIGHT ? ? /caused_by ?unpocket-coins}
         (effects (set-outcome ?unpocket-coins /succ))))
     (try
       (when (and -{@self /succ PILE-SPLIT-LEFT|PILE-SPLIT-RIGHT ? ? /caused_by ?unpocket-coins}

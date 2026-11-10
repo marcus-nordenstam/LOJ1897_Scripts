@@ -26,7 +26,7 @@
     (try
       (role ?occ {?occ hours ?start ?end}
         (role ?venue {?occ venue ?venue}
-          (role @self (not (within-place @self ?venue))
+          (belief (not (within-place @self ?venue))
             (when (hours (- ?start (attend-prep-lead)) ?end))
             (effects (maintain-proposal {@self enter-building ?venue}))))))
 
@@ -34,7 +34,7 @@
     (try
       (role ?occ {?occ hours ?start ?end}
         (role ?venue {?occ venue ?venue}
-          (role @self (within-place @self ?venue)
+          (belief (within-place @self ?venue)
             (when (hours (- ?start (attend-prep-lead)) ?end))
             (effects (maintain-proposal {@self DWELL ?venue ?end}))))))
 

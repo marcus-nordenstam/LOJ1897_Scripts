@@ -17,5 +17,5 @@
                     (within-space @self ?wp)
             (effects (maintain-proposal {@self QUIT-WORK}))))))
     (try
-      (role @self {@self QUIT-WORK /succ /caused_by ?retire}
+      (belief {@self QUIT-WORK /succ /caused_by ?retire}
         (effects (set-outcome ?retire /succ))))))

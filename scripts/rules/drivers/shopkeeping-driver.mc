@@ -8,7 +8,7 @@
 (driver plan-stocktake-driver
   (cooldown 1 m try-until-succ)
   (rng-stream behaviour)
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?job {@self job ?job}
       (role ?org {?job org ?org}
         (role ?wp {?org workplace ?wp}
@@ -19,13 +19,13 @@
 
 ; A shop its keeper stands in with no till he knows of gets one: buyers pay into it.
 (driver plan-open-till-driver
-  (role @self {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?job {@self job ?job}
       (role ?org {?job org ?org}
         (role ?wp {?org workplace ?wp} (within-space @self ?wp)
-          (no-role [k pile] {?norole content-kind [k coin]}
-                            (within-space ?norole ?wp)
-                            (unknown (spatial ?norole gripped-by)))
+          (role -?coins [k pile] {?coins content-kind [k coin]}
+                            (within-space ?coins ?wp)
+                            (unknown (spatial ?coins gripped-by)))
           (when (is-a (building-of ?wp) [k shop]))
           (declare-utility duty)
           (effects (maintain-proposal {@self open-till (building-of ?wp)})))))))

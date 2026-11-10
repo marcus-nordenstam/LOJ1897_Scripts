@@ -31,7 +31,7 @@
   ; SEPARATE role filters, not as the fertile_wife macro: that macro expands to one
   ; (and ..), and a single op filter never joins the alpha - the role would carry no
   ; membership at all and the rule would never be admitted.
-  (role @self {@self isa [k human], condition [k alive]}
+  (belief {@self isa [k human], condition [k alive]}
               {@self gender [k female]}
               {@self age-band [k youth|young-adult|middle-aged]}
               {@self spouse ?}
@@ -53,8 +53,8 @@
 (driver deliver-driver
   (cooldown 1 d try-until-succ)
 
-  (role @self {@self pregnant ?}
-              {@self pregnant-when ?conceived-when}
+  (belief ?pregnant-when {@self pregnant ?}
+              {@self pregnant-when ?conceived-when}:?pregnant-when
     (role ?father {@self pregnant ?father}
 
       (when (>= (elapsed /weeks ?conceived-when) (gestation_weeks)))

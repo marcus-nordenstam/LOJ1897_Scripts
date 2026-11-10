@@ -7,7 +7,7 @@
 
 (intender want-work
   (aspect labour)
-  (role @self {@self age ?age}
+  (belief ?aim {@self age ?age}
               {@self life-aim ?}:?aim
               -{@self job ?}
     (when (job-seeker @self ?age))

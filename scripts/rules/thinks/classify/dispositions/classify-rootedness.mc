@@ -4,7 +4,7 @@
 ; recently-arrived immigrant with just a job reads low (~0.20); a settled local family high.
 (think classify-rootedness
   (cooldown 1 m try-once)
-  (role @self {@self age-band ?}
+  (belief {@self age-band ?}
     (effects
       (begin-belief {@self rootedness
                      (clamp (+ (* 0.15 (prob {@self mother ?}))

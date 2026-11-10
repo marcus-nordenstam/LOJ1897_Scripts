@@ -8,7 +8,7 @@
   ; and ends the study). The credential then gates secondary
   ; enrollment; a non-continuer becomes apprenticeship-eligible. Monthly firing is
   ; idempotent - the first fire ends the study, so later months no-op. age -> (when).
-  (role @self {@self age ?age}
+  (belief {@self age ?age}
               {@self study [k primary-school-curriculum]}
 
     (when (>= ?age 11))
@@ -22,7 +22,7 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
-  (role @self {@self age ?age}
+  (belief {@self age ?age}
               {@self study [k secondary-school-curriculum]}
 
     (when (>= ?age 17))
@@ -39,7 +39,7 @@
   ; Any ongoing study at 22+ is a university degree (primary / secondary pupils
   ; are <18 and have already left). graduate-from-study mints the subject credential
   ; {@self school-grades <subject> <grade>} and an interest in the subject.
-  (role @self {@self age ?age}
+  (belief {@self age ?age}
               {@self study ?}
 
     (when (>= ?age 22))

@@ -31,7 +31,7 @@
     ; pulled away between stages, and STACK-PUT asserts the reach it is given. The stage
     ; HOLDS until he is back at it.
     (stage
-      (role @self (spatial @self can-reach ?out))
+      (belief (spatial @self can-reach ?out))
       (effects (maintain-proposal {@self STACK-PUT ?doc ?out})))
 
     (stage

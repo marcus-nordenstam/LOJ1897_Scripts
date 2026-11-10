@@ -40,7 +40,7 @@
 
     ; OUTCOME: the disinheritance was announced.
     (try
-      (role @self {@self tell ? ?victim /succ /caused_by ?disinherit}
+      (belief {@self tell ? ?victim /succ /caused_by ?disinherit}
         (effects (set-outcome ?disinherit /succ))))
 
     ; ABANDON: the victim died before it could be announced.

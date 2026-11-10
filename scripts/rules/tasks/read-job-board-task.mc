@@ -19,5 +19,5 @@
       (when (not (spatial @self building ?board)))
       (effects (maintain-proposal {@self go-to ?board})))
     (try
-      (no-role [k job-posting] (spatial ?norole building ?board) -{@self READ ?norole /succ})
+      (role -?posting [k job-posting] (spatial ?posting building ?board) -{@self READ ?posting /succ})
       (effects (set-outcome ?read-job-board /succ)))))

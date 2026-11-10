@@ -1,7 +1,7 @@
 ; skilled path: a martial or garrotting skill IS the capability; mint on reason.
 (think classify-for-hire-skilled
   (rng-stream behaviour)
-  (role @self {@self compassion ?compassion}
+  (belief {@self compassion ?compassion}
               {@self industriousness ?industriousness}
               {@self politeness ?politeness}
               {@self volatility ?volatility}

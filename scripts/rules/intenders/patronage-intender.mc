@@ -19,7 +19,7 @@
   (cooldown 1 m try-once)
   (rng-stream business)
 
-  (role @self {@self age ?age} {@self isa [k human], condition [k alive]}
+  (belief {@self age ?age} {@self isa [k human], condition [k alive]}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self repute [k exemplary]}:?repute
               {@self prestige ?prestige}

@@ -61,12 +61,12 @@
         ; that is a date on the seat's line. The act that stamps the page concludes into the
         ; belief that the post is advertised - the same seam HIRE uses for the holder's job.
         (stage
-          (role @self {?org employee-register ?reg})
+          (belief {?org employee-register ?reg})
           (effects
             (if (not (spatial @self can-reach ?reg))
                 (then (maintain-proposal {@self go-to ?reg})))))
         (stage
-          (role @self {?org employee-register ?reg}
+          (belief {?org employee-register ?reg}
                       (spatial @self can-reach ?reg))
           (when {?job job-id ?job-id})
           (effects
@@ -82,6 +82,6 @@
             (set-outcome ?post-ad /succ)))))
 
     (try
-      (no-role [k church-building])
+      (role -?church [k church-building])
       (when (current-exterior @self): ?rg)
       (effects (maintain-proposal {@self find-building [k church-building] ?rg})))))

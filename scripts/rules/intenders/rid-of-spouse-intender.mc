@@ -31,7 +31,7 @@
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
-  (role @self {@self compassion ?compassion}
+  (belief {@self compassion ?compassion}
               {@self psychopathy ?psychopathy}
               {@self inhibition ?inhibition} 
               {@self age-band [k young-adult|middle-aged|mature|elderly]}

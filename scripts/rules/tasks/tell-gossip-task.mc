@@ -16,8 +16,7 @@
       (when (and (not (conversing-with ?friend)) (hailable ?friend)))
       (effects (maintain-proposal {@self hail ?friend})))
     (try
-      (role @self {@self gossip ?heard}:?gossip
+      (belief ?gossip {@self gossip ?heard}:?gossip
                   (gossip-worthy-for ?heard ?friend)
-                  (select (policy first-match))
         (when (conversing-with ?friend))
         (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?heard) ?friend} /quit-trying-on-fail))))))

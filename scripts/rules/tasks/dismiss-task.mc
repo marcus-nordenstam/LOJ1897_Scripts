@@ -20,5 +20,5 @@
             (role ?reg {?org employee-register ?reg}
               (effects (maintain-proposal {@self SACK ?w ?reg})))))))
     (try
-      (role @self {@self SACK ?w ? /succ /caused_by ?dismiss}
+      (belief {@self SACK ?w ? /succ /caused_by ?dismiss}
         (effects (set-outcome ?dismiss /succ))))))

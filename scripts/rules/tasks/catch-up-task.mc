@@ -18,9 +18,8 @@
       (effects (maintain-proposal {@self hail ?friend})))
     ; One activation per piece of news, so a piece told, or no longer true, is a withdrawn tell.
     (try
-      (role @self {@self news ?told}:?news
+      (belief ?news {@self news ?told}:?news
                   (speech-worthy ?told ?friend)
-                  (select (policy first-match))
         (when (conversing-with ?friend))
         (effects
           (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?told) ?friend} /quit-trying-on-fail))))

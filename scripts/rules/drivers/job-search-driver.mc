@@ -26,7 +26,7 @@
     ; ONE application at a time, and none while an offer waits to be taken up.
     (try
       (lock)
-      (role @self -{? offered-to @self}
+      (belief -{? offered-to @self}
         (role ?org {?org workplace ?wp}
           (role ?job {?job org ?org}
                      {?job job-id ?}
@@ -47,14 +47,14 @@
             (effects (maintain-proposal {@self apply-for ?job} /quit-trying-on-fail))))))
 
     (try
-      (role @self -{@self apply-for ? /pres}
+      (belief -{@self apply-for ? /pres}
         (role ?board [k church-building] (select (score (near @self ?board)) (policy roulette unknown-last))
           (when (and (hours (business_open_hour) (business_close_hour))
                      (>= (days-since-last {@self read-job-board ?board /succ}) (board_visit_days))))
           (effects (maintain-proposal {@self read-job-board ?board})))))
 
     (try
-      (no-role [k church-building])
+      (role -?church [k church-building])
       (when (and (hours (business_open_hour) (business_close_hour))
                  -{@self find-building [k church-building] ? /fail}))
       (effects (maintain-proposal {@self find-building [k church-building] (current-exterior @self)})))))

@@ -3,10 +3,10 @@
   (cooldown 1 m try-once)
   (rng-stream incidents)
 
-  (role @self {@self infidelity-disposition ?infidelity-disposition}
+  (belief ?name {@self infidelity-disposition ?infidelity-disposition}
               {@self age-band [k young-adult|middle-aged|mature|elderly]} {@self lover ?}
                    ; @self signs the denunciation - bind his OWN name for "Signed, ..".
-              {@self name ?author_name}
+              {@self name ?author_name}:?name
     (role ?cheater {?cheater isa [k human], condition [k alive]}
       {@self lover ?cheater}
       ; @self names the cheater in the letter body (a name value, not the object).

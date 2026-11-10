@@ -18,7 +18,7 @@
   (cease (if {@self SLEEP /succ /caused_by ?go-to-bed}
              (then (set-outcome ?go-to-bed /succ))))
   (preemptive-or
-    (try (role @self (or (and (go-to-bed-in-bedroom ?home)
+    (try (belief (or (and (go-to-bed-in-bedroom ?home)
                               (unsubstantial (any {@self enter-room-kind ? ? /caused_by ?go-to-bed})))
                          (substantial (any {@self enter-room-kind|find-room ? ? /fail /caused_by ?go-to-bed})))
            (effects (maintain-proposal {@self SLEEP}))))

@@ -7,11 +7,11 @@
   (tar [k shop] @object)
   (and
     (try
-      (role @self (not (spatial @self building ?shop))
+      (belief (not (spatial @self building ?shop))
         (effects (maintain-proposal {@self enter-building ?shop}))))
     (try
-      (role @self (spatial @self building ?shop)
+      (belief (spatial @self building ?shop)
         (effects (maintain-proposal {@self STOCKTAKE}))))
     (try
-      (role @self {@self STOCKTAKE /succ /caused_by ?take-stock}
+      (belief {@self STOCKTAKE /succ /caused_by ?take-stock}
         (effects (set-outcome ?take-stock /succ))))))

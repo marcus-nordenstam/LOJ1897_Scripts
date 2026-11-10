@@ -46,7 +46,7 @@
   (cooldown 1 m try-once)
   (rng-stream incidents)
 
-  (role @self  {@self compassion ?compassion}
+  (belief  {@self compassion ?compassion}
               {@self narcissism ?narcissism}
               {@self isa [k human], condition [k alive]}
     (role ?victim {?victim isa [k human], condition [k alive]}

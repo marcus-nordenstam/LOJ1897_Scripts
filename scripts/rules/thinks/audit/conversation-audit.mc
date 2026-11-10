@@ -7,32 +7,32 @@
 ; ----------------------------------------------------------------------------
 
 (audit audit-two-get-acquainted
-  (role @self {@self get-acquainted ?}
+  (belief {@self get-acquainted ?}
     (when (>= (count (every {@self get-acquainted ? /pres})) 2))
     (effects (expect @false "conversation: getting acquainted with two at once"))))
 
 (audit audit-two-flirts
-  (role @self {@self flirt ? ?}
+  (belief {@self flirt ? ?}
     (when (>= (count (every {@self flirt ? ? /pres})) 2))
     (effects (expect @false "conversation: flirting with two at once"))))
 
 (audit audit-two-catch-ups
-  (role @self {@self catch-up ?}
+  (belief {@self catch-up ?}
     (when (>= (count (every {@self catch-up ? /pres})) 2))
     (effects (expect @false "conversation: catching up with two at once"))))
 
 (audit audit-two-gossip-tellings
-  (role @self {@self tell-gossip ?}
+  (belief {@self tell-gossip ?}
     (when (>= (count (every {@self tell-gossip ? /pres})) 2))
     (effects (expect @false "conversation: telling gossip to two at once"))))
 
 (audit audit-two-find-outs
-  (role @self {@self find-out ?}
+  (belief {@self find-out ?}
     (when (>= (count (every {@self find-out ? /pres})) 2))
     (effects (expect @false "conversation: finding out two things at once"))))
 
 (audit audit-two-inquiries
-  (role @self {@self inquire ? ?}
+  (belief {@self inquire ? ?}
     (when (>= (count (every {@self inquire ? ? /pres})) 2))
     (effects (expect @false "conversation: inquiring of two at once"))))
 
@@ -44,7 +44,7 @@
       (expect @false "conversation: more talks begun with one man within an hour than k-talks-with-one-man-an-hour"))))
 
 (audit audit-two-smalltalks
-  (role @self {@self smalltalk ? ?}
+  (belief {@self smalltalk ? ?}
     (when (>= (count (every {@self smalltalk ? ? /pres})) 2))
     (effects (expect @false "conversation: making smalltalk with two at once"))))
 
@@ -52,6 +52,6 @@
 ; More is a crowd calling him at once, his answer rules cast once per caller - a broken invariant, so
 ; it is a (check ..), not an expectation.
 (audit audit-hailed-by-many
-  (role @self {@self isa [k human]}
+  (belief {@self isa [k human]}
     (when (> (count (bb-public-every ? hailing @self)) 1))
     (effects (check @false))))

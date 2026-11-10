@@ -3,7 +3,7 @@
   ; wealth re-derives annually; breeding is birth-seeded (an inert input, kept to document it).
   ; The toggle drops if wealth is retracted.
   (rng-stream behaviour)
-  (role @self {@self wealth ?wealth} {@self breeding ?breeding}
+  (belief {@self wealth ?wealth} {@self breeding ?breeding}
     (effects
       (mint-band {@self prototype}
         (* (>= ?wealth 0.60)

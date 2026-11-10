@@ -3,7 +3,7 @@
 ; top. Each half clamps to [0, 2], so the product spans [0, 4].
 (think classify-aggressive-tilt
   (cooldown 1 d try-once)
-  (role @self {@self narcissism ?narcissism}
+  (belief {@self narcissism ?narcissism}
               {@self machiavellianism ?machiavellianism}
               {@self psychopathy ?psychopathy}
               {@self sadism ?sadism}

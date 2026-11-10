@@ -15,7 +15,7 @@
 
 (think accept-lover
   (rng-stream marriages)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k young-adult|middle-aged|mature|elderly]}
     (role ?suitor {?suitor isa [k human], condition [k alive]}
                   {?suitor lover @self}
                   -{@self lover ?suitor}

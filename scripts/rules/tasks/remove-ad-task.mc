@@ -40,7 +40,7 @@
           (if (not (spatial @self can-reach ?reg))
               (then (maintain-proposal {@self go-to ?reg})))))
       (stage
-        (role @self {?org employee-register ?reg}
+        (belief {?org employee-register ?reg}
                     (spatial @self can-reach ?reg))
         (when {?job job-id ?job-id})
         (effects

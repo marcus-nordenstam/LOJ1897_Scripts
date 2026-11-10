@@ -12,7 +12,7 @@
   (tar [k unit] @object)
   (and
     (try
-      (role @self -{@self wander ?home /succ /caused_by ?putter}
+      (belief -{@self wander ?home /succ /caused_by ?putter}
         (effects (maintain-proposal {@self wander ?home}))))
     ; STOPGAP (actions/STOCK-LARDER.mc): the supply run never reaches the shop, so a
     ; resident standing in his own empty kitchen stocks it himself. Delete with that file.
@@ -24,5 +24,5 @@
       (when (poll (claim (rest-spot ?kitchen [k pile]) [k pile]): ?spot))
       (effects (maintain-proposal {@self STOCK-LARDER ?kitchen ?spot})))
     (try
-      (role @self {@self wander ?home /succ /caused_by ?putter}
+      (belief {@self wander ?home /succ /caused_by ?putter}
         (effects (set-outcome ?putter /succ))))))

@@ -33,7 +33,7 @@
 ; re-check ends the goal the cycle a gate drops (shift end, or leaving the workplace).
 
 (driver day-work-driver
-  (role @self {@self industriousness ?industriousness}
+  (belief {@self industriousness ?industriousness}
     (role ?job {@self job ?job}
     (role ?org {?job org ?org}           ; PRODUCED-RESTRICTED: ?org threaded off ?job (unified)
       (role ?wp {?org workplace ?wp}

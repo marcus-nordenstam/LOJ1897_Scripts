@@ -26,7 +26,7 @@
 ; the spouse in the room (the cue to peel away). Needs somewhere private to go.
 (driver tryst-slip-driver
   (cooldown 1 d try-once)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}
     (role ?paramour (spatial ?paramour co-located-building @self)
                     {?paramour isa [k human], condition [k alive]}
@@ -50,7 +50,7 @@
 ; lover @self BELIEVES shares his room (the location co-location role filter).
 (driver affair-consummate-driver
   (cooldown 1 d try-once)
-  (role @self {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}
     (role ?paramour (spatial ?paramour co-located @self)
                     {?paramour isa [k human], condition [k alive]}

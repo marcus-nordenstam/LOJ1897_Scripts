@@ -15,7 +15,7 @@
 (driver flee-foe-driver
   (cooldown 1 m try-once)
 
-  (role @self {@self volatility ?volatility}
+  (belief {@self volatility ?volatility}
               {@self sadism ?sadism}
               {@self compassion ?compassion}
               {@self home ?myhome}

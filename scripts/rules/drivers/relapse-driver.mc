@@ -6,7 +6,7 @@
 
 (driver relapse-driver
   (cooldown 1 d try-once)
-  (role @self {@self withdrawal ?withdrawal}
+  (belief {@self withdrawal ?withdrawal}
               {@self industriousness ?industriousness}
               {@self devoutness ?devoutness}
               {@self belonging ?belonging}

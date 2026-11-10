@@ -3,7 +3,7 @@
   ; Toggle over the situation bands + repute (a Tier-2 sibling this reads);
   ; breeding is birth-seeded (inert). It drops when any input band toggles off.
   (rng-stream behaviour)
-  (role @self {@self class-situation ?, breeding ?breeding}
+  (belief {@self class-situation ?, breeding ?breeding}
     (effects
       (mint-band {@self prototype}
         (* (prob {@self social-trajectory [k rising]})

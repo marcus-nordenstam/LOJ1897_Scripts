@@ -6,7 +6,7 @@
 
 (driver want-drink-driver
   (cooldown 3 d try-once)
-  (role @self {@self industriousness ?industriousness}
+  (belief {@self industriousness ?industriousness}
               {@self withdrawal ?withdrawal}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               -{@self craving [k alcohol]}

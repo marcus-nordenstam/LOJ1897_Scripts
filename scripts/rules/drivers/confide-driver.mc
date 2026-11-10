@@ -27,7 +27,7 @@
   ; @self the discloser: old enough to hold a calling (grown >= 16), actually
   ; has one (the filter fire-binds the calling KIND into ?domain for the tell),
   ; and has a friend to confide in.
-  (role @self {@self enthusiasm ?enthusiasm}
+  (belief {@self enthusiasm ?enthusiasm}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
               {@self calling ?domain}
               {@self friend ?}

@@ -42,7 +42,7 @@
   (cooldown 1 m try-once)
   (rng-stream incidents)
 
-  (role @self {@self politeness ?politeness}
+  (belief {@self politeness ?politeness}
               {@self narcissism ?narcissism} 
     (role ?victim {?victim isa [k human], condition [k alive]}
                   {@self (closeness-labels acquaintance) ?victim /ever}

@@ -48,7 +48,7 @@
 ;; Its articles name the office (articles-building). Inherits the acquire drive.
 ;(think buy_home_go
 ;  (goal {@self acquire})
-;  (role @self -{? availability [k for-sale]}   ; no listing read yet - cached
+;  (belief -{? availability [k for-sale]}   ; no listing read yet - cached
 ;    ; The office is the agency's OWN workplace belief. The old spelling bound ?art off
 ;    ; {?agency record ?art} and then had (articles-building ?art ?venue) walk BACK from the
 ;    ; articles to the org that records them - which is ?agency - purely to read its workplace.
@@ -65,7 +65,7 @@
 ;; rung stops.
 ;(think buy_home_read
 ;  (goal {@self acquire})
-;  (role @self -{? availability [k for-sale]}   ; no listing read yet - cached
+;  (belief -{? availability [k for-sale]}   ; no listing read yet - cached
 ;    (role ?agency {?agency isa [k house-agency]}
 ;                  {?agency workplace ?venue}
 ;                  (spatial @self building ?venue)
@@ -77,13 +77,13 @@
 ;; a mental org object + {?org isa ...} belief for EVERY org in town - the only
 ;; honest channel by which an org's identity is learned (co-presence at an office
 ;; teaches acquaintances, not that the office IS a house agency). The instant a
-;; house-agency is learned the (no-role ...) fills, this stops, and buy_home_go
-;; takes over. (no-role [k house-agency]) reads the SAME per-mind object cache
+;; house-agency is learned the (role -?agency ...) fills, this stops, and buy_home_go
+;; takes over. (role -?agency [k house-agency]) reads the SAME per-mind object cache
 ;; buy_home_go's positive role populates ([k <kind>] is sugar for {isa [k <kind>]}).
 ;(think buy_home_find
 ;  (goal {@self acquire})
-;  (no-role [k house-agency])
-;  (role @self -{? availability [k for-sale]}   ; no listing read yet - cached
+;  (role -?agency [k house-agency])
+;  (belief -{? availability [k for-sale]}   ; no listing read yet - cached
 ;    (declare-utility errand)
 ;    (effects       (begin-goal {@self ORIENT}))
 ;    (when-unsupported-effects (set-outcome {@self goal {@self ORIENT}} /succ))))
@@ -98,7 +98,7 @@
 ;; C++ k_buy_wealth_per_value).
 ;(think choose_home
 ;  (goal {@self acquire})
-;  (role @self {@self wealth ?wealth}
+;  (belief {@self wealth ?wealth}
 ;    (role ?dwell {?dwell availability [k for-sale]}
 ;                 (select (score (* (dwelling-value ?dwell)
 ;                                   (if (bb-public-none ?dwell claimed) (then 1) (else 0))))

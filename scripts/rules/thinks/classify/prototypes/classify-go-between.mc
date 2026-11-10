@@ -18,7 +18,7 @@
 ;       someone who does. That rung is how an employer ACQUIRES the name.
 (think classify-go-between
   (rng-stream behaviour)
-  (role @self {@self industriousness ?industriousness}
+  (belief {@self industriousness ?industriousness}
               {@self politeness ?politeness}
               {@self volatility ?volatility}
               {@self repute ?, class-situation ?}

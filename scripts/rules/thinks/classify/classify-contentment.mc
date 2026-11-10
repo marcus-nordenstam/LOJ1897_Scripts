@@ -24,7 +24,7 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
-  (role @self {@self enthusiasm ?enthusiasm}
+  (belief {@self enthusiasm ?enthusiasm}
               {@self withdrawal ?withdrawal}
               {@self belonging ?belonging}
               {@self sobriety ?sobriety}

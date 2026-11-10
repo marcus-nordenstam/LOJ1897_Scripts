@@ -6,7 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver heed-speaker-driver
-  (role @self {@self isa [k human]}
+  (belief {@self isa [k human]}
     (when (spoken-to))
     (declare-utility unbeatable)
     (effects (maintain-proposal {@self DWELL (spatial @self space) (+ (time hour) 1)}))))

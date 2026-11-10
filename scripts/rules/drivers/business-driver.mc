@@ -49,7 +49,7 @@
   ; {?job org ?org} (threaded off {@self job ?job}). The working-age band, not-
   ; already-an-owner, merit and means dims, the completion gate and the onset
   ; chance live in (when ...) below.
-  (role @self {@self industriousness ?industriousness}
+  (belief {@self industriousness ?industriousness}
               {@self assertiveness ?assertiveness}
               {@self age ?age} {@self isa [k human], condition [k alive]}
                                {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
@@ -94,7 +94,7 @@
 ;  ; clerk-makes-partner route (the belief-pure part). The age band, not-already-an-
 ;  ; owner, merit + means dims and the monthly chance are non-belief and live in
 ;  ; (when ...) below.
-;  (role @self (old_human @self)
+;  (belief (old_human @self)
 ;              {@self wealth ?wealth}
 ;              (or {@self repute [k respectable]}
 ;                  {@self repute [k exemplary]})
@@ -160,7 +160,7 @@
 ;  ; SELF-POV (telepathy purge CAT-2): @self weighs his OWN standing; no other
 ;  ; mind is read. Belief-pure part only; the age band, not-already-an-owner, merit
 ;  ; dim, means branch and the monthly chance are non-belief and live in (when ...).
-;  (role @self (old_human @self)
+;  (belief (old_human @self)
 ;              {@self wealth ?wealth}
 ;              -{@self job [k head-of-non-household-org]}
 ;              (or {@self repute [k respectable]}
@@ -213,7 +213,7 @@
 ;  ; (that is the whole point of the floor net). The founding-age band, not-already-
 ;  ; an-owner, not-already-pursuing, the LIVE business-floor gate and the chance are
 ;  ; all non-belief and live in (when ...) below.
-;  (role @self (old_human @self)
+;  (belief (old_human @self)
 ;              -{@self job [k head-of-non-household-org]}
 
 ;    ; MAINTENANCE floor-net (co-minter of {@self FOUND} alongside business_founding). The

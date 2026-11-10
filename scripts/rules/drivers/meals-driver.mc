@@ -86,7 +86,7 @@
 (define-macro supper-lead-hours ()      1)
 
 (driver want-breakfast-driver
-  (role @self {@self satiety [k hungry|famished]}
+  (belief {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home breakfast-hour ?}
                 (spatial @self unit ?home)
@@ -100,7 +100,7 @@
 
 ; LUNCH at the workplace - the CO-WORKER channel (eat where you stand at midday).
 (driver want-lunch-work-driver
-  (role @self {@self satiety [k hungry|famished]}
+  (belief {@self satiety [k hungry|famished]}
     (role ?job {@self job ?job}
       (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
         (role ?wp {?org workplace ?wp}
@@ -115,7 +115,7 @@
 
 ; LUNCH at home - the jobless / housewife / child midday meal, per lunch-hour.
 (driver want-lunch-home-driver
-  (role @self {@self satiety [k hungry|famished]}
+  (belief {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home lunch-hour ?}
                 (spatial @self unit ?home)
@@ -130,7 +130,7 @@
 ; SUPPER at home - the FAMILY table. The window opens an hour early so eat-go's
 ; travel (30 min) lands the household home by the cook's hour.
 (driver want-supper-driver
-  (role @self {@self satiety [k hungry|famished]}
+  (belief {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
       (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (> (believed-home-food-count ?home) 0))
@@ -174,7 +174,7 @@
 ; supper, whose stock gate is this one's negation.
 (driver want-eat-out-pub-driver
   ; class gate = CACHED self-gate filter (the belief form, not the live conjunct).
-  (role @self {@self satiety [k hungry|famished]}
+  (belief {@self satiety [k hungry|famished]}
               -{@self class-situation [k upper]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
@@ -191,7 +191,7 @@
 (driver want-eat-out-restaurant-driver
   ; upper-class only - the CACHED self-gate skips the majority (and the
   ; larder belief-fold below) with zero eval.
-  (role @self {@self satiety [k hungry|famished]}
+  (belief {@self satiety [k hungry|famished]}
               {@self class-situation [k upper]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
@@ -236,13 +236,13 @@
 ; a meal brings hunger back under. The tails keep the live hunger conjunct as
 ; the freshness check - it now only ever runs for the starving few.
 ; (think starving_watch
-;   (role @self -{@self starve}
+;   (belief -{@self starve}
 ;     (when (> (any {@self appetite ?=0.0}).target 1.3))
 ;     (effects
 ;       (begin-belief {@self starve}))))
 
 ; (think starving_watch_end
-;   (role @self {@self starve}
+;   (belief {@self starve}
 ;     (when (not (> (any {@self appetite ?=0.0}).target 1.3)))
 ;     (effects
 ;       (end-belief {@self starve}))))
@@ -255,7 +255,7 @@
 ; Eat what you carry: the laden cook (or laden thief) whose FIRST standing stow
 ; goal is a food item.
 ; (think starving_eat_carried
-;   (role @self {@self starve}
+;   (belief {@self starve}
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (> (held-pile-count @self [k food]) 0)))
 ;     (declare-utility (starve-drive))
@@ -263,7 +263,7 @@
 ;     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
 
 ; (think starving_pantry
-;   (role @self {@self starve}
+;   (belief {@self starve}
 ;     (role ?home {@self home ?home}
 ;                 (spatial @self unit ?home)
 ;       (when (and (> (any {@self appetite ?=0.0}).target 1.3)
@@ -273,7 +273,7 @@
 ;       (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ)))))
 
 ; (think starving_go_home
-;   (role @self {@self starve}
+;   (belief {@self starve}
 ;     (role ?home {@self home ?home}
 ;                 (not (spatial @self unit ?home))
 ;       (when (and (> (any {@self appetite ?=0.0}).target 1.3)
@@ -284,7 +284,7 @@
 ; Buy: at a shop with wealth, one item eaten on the spot (paid-for in the v1
 ; no-coin sense as provisioning).
 ; (think starving_buy
-;   (role @self {@self starve ?, wealth ?wealth}
+;   (belief {@self starve ?, wealth ?wealth}
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (> ?wealth 0.2)
 ;                (is-a (spatial @self building) [k shop])))
@@ -293,7 +293,7 @@
 ;     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
 
 ; (think starving_buy_go
-;   (role @self {@self starve ?, wealth ?wealth}
+;   (belief {@self starve ?, wealth ?wealth}
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (> ?wealth 0.2)
 ;                (not (is-a (spatial @self building) [k shop]))))
@@ -312,7 +312,7 @@
 ; ledger (the shop owner is the victim). The row lands only when something was
 ; actually eaten - forage_act appends it inside its shop branch.
 ; (think starving_steal
-;   (role @self {@self starve ?, wealth ?wealth}
+;   (belief {@self starve ?, wealth ?wealth}
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (not (> ?wealth 0.2))
 ;                (is-a (spatial @self building) [k shop])))
@@ -321,7 +321,7 @@
 ;     (when-unsupported-effects (set-outcome {@self goal {@self forage}} /succ))))
 
 ; (think starving_steal_go
-;   (role @self {@self starve ?, wealth ?wealth}
+;   (belief {@self starve ?, wealth ?wealth}
 ;     (when (and (> (any {@self appetite ?=0.0}).target 1.3)
 ;                (not (> ?wealth 0.2))
 ;                (not (is-a (spatial @self building) [k shop]))))

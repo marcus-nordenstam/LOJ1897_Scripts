@@ -9,7 +9,7 @@
 (think strive-rivalry
   (cooldown 1 m try-once)
   (rng-stream deliberation)
-  (role @self {@self pressure [k rivalry-pressure] ?target}:?pressure
+  (belief ?pressure {@self pressure [k rivalry-pressure] ?target}:?pressure
     (when (chance (* (k-grievance-rate)
                      (* 0.6 (grievance-drive ?pressure ?target 1.0)))))
     (effects (discharge-pressure ?pressure 0.5))))

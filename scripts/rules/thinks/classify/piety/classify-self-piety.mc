@@ -5,7 +5,7 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
 
-  (role @self {@self class-situation ?}
+  (belief {@self class-situation ?}
 
     (effects
       (mint-band {@self piety} (evidence @self WORSHIP 6 6)

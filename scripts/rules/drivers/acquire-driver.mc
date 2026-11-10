@@ -18,7 +18,7 @@
         (declare-utility always-pick)
         (effects (maintain-proposal {@self get ?mine}))))
     (try
-      (no-role [k shop])
+      (role -?shop [k shop])
       (when -{@self find-building [k shop] ? /fail})
       (effects (maintain-proposal {@self find-building [k shop] (current-exterior @self)})))
     (try

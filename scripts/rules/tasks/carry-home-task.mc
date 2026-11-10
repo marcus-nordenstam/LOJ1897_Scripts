@@ -8,16 +8,16 @@
   (aux ?)
   (and
     (try
-      (role @self (not (spatial @self space ?dest))
+      (belief (not (spatial @self space ?dest))
         (effects (maintain-proposal {@self enter-room ?dest}))))
     (try
-      (role @self (spatial @self space ?dest)
+      (belief (spatial @self space ?dest)
         (when (poll (claim (rest-spot ?dest (held-ware @self ?ware)) (held-ware @self ?ware)): ?spot))
         (effects (maintain-proposal {@self BRING ?ware ?spot}))))
     (try
-      (role @self (spatial @self space ?dest)
+      (belief (spatial @self space ?dest)
         (when (poll (not (claim (rest-spot ?dest (held-ware @self ?ware)) (held-ware @self ?ware)))))
         (effects (set-outcome ?carry-home /fail))))
     (try
-      (role @self {@self BRING ?ware ? /succ /caused_by ?carry-home}
+      (belief {@self BRING ?ware ? /succ /caused_by ?carry-home}
         (effects (set-outcome ?carry-home /succ))))))

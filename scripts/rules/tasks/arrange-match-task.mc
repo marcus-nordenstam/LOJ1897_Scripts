@@ -27,11 +27,11 @@
                         {?groom fiancee ?daughter})
                       ?daughter})))
     (try
-      (role @self {@self tell ? ?daughter /succ /caused_by ?arrange-match}
+      (belief {@self tell ? ?daughter /succ /caused_by ?arrange-match}
                   -{@self tell ? ?groom /succ /caused_by ?arrange-match}
         (effects (maintain-proposal {@self tell (msg /utterable [] {?daughter fiancee ?groom}) ?groom}))))
     (try
-      (role @self {@self tell ? ?daughter /succ /caused_by ?arrange-match}
+      (belief {@self tell ? ?daughter /succ /caused_by ?arrange-match}
                   {@self tell ? ?groom /succ /caused_by ?arrange-match}
         (effects
           (bind (bb-read ?arrange-match told) ?told)

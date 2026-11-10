@@ -13,11 +13,11 @@
     (and
       (try
         (role ?stk [k mail-stack] (within-place ?stk ?home) (select (policy first-match))
-          (role @self (spatial @self unit ?home)
+          (belief (spatial @self unit ?home)
             (when (>= (days-since-last {@self read-mail ?home /succ}) 1))
             (effects (maintain-proposal {@self read-mail ?home})))))
       (try
-        (no-role [k mail-stack] (within-place ?norole ?home))
-        (role @self (spatial @self unit ?home)
+        (role -?mail-stack [k mail-stack] (within-place ?mail-stack ?home))
+        (belief (spatial @self unit ?home)
                     -{@self find-thing [k mail-stack] ?home /fail}
           (effects (maintain-proposal {@self find-thing [k mail-stack] ?home})))))))

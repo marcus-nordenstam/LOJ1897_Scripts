@@ -18,7 +18,7 @@
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
-  (role @self {@self compassion ?compassion}
+  (belief {@self compassion ?compassion}
               {@self decorum ?decorum}
               {@self volatility ?volatility}
               {@self psychopathy ?psychopathy}

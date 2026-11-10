@@ -9,17 +9,17 @@
 ;  (tar [k document] @object)
 ;  (and
 ;    (try
-;      (role @self {@self job ?}
+;      (belief {@self job ?}
 ;                  -{@self QUIT-WORK /succ /caused_by ?seek-appointment}
 ;        (effects (maintain-proposal {@self QUIT-WORK}))))
 ;    (try
-;      (role @self -{@self job ?}
+;      (belief -{@self job ?}
 ;        (role ?art_org {?art_org record ?art}
 ;                        {?art_org workplace ?venue}
 ;                        (not (spatial @self building ?venue))
 ;          (effects (maintain-proposal {@self go ?venue})))))
 ;    (try
-;      (role @self -{@self job ?}
+;      (belief -{@self job ?}
 ;        (role ?org {?art declares-org ?org}
 ;                   {?org workplace ?venue}
 ;                   (spatial @self building ?venue)
@@ -27,7 +27,7 @@
 ;                     (not (spatial ?reg building ?venue))
 ;            (effects (maintain-proposal {@self find-thing ?reg ?venue}))))))
 ;    (try
-;      (role @self -{@self job ?}
+;      (belief -{@self job ?}
 ;        (role ?org {?art declares-org ?org}
 ;                   {?org workplace ?venue}
 ;                   (spatial @self building ?venue)

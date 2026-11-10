@@ -6,7 +6,7 @@
 (think born-fondness
   (cooldown 200 y try-once)
   (rng-stream behaviour)
-  (role @self {@self age ?}
+  (belief {@self age ?}
     (when (latch-eval (chance (sensitivity-chance))))
     (effects
       (bind (draw-particular) ?loved)

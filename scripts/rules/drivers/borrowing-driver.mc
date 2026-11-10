@@ -16,7 +16,7 @@
 (driver borrowing-driver
   (cooldown 1 m try-once)
   (rng-stream behaviour)
-  (role @self {@self industriousness ?industriousness}
+  (belief {@self industriousness ?industriousness}
               {@self isa [k human], condition [k alive]}
               {@self age-band [k youth|young-adult|middle-aged|mature|elderly]}
     (role ?creditor {?creditor isa [k human], condition [k alive]}
