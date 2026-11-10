@@ -72,6 +72,7 @@
                   -{@self tell ? ?talk /succ /caused_by ?eat}
         (belief ?news {@self news ?told}:?news
                     (worthy-for ?told ?talk)
+                    (select (policy first-match))
           (when (at-meal-place ?place))
           (effects
             (msg /utterable [] ?told): ?msg

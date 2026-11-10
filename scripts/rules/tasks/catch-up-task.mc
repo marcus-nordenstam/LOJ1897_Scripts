@@ -20,6 +20,7 @@
     (try
       (belief ?news {@self news ?told}:?news
                   (speech-worthy ?told ?friend)
+                  (select (policy first-match))
         (when (conversing-with ?friend))
         (effects
           (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?told) ?friend} /quit-trying-on-fail))))

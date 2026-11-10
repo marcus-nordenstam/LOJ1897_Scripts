@@ -18,5 +18,6 @@
     (try
       (belief ?gossip {@self gossip ?heard}:?gossip
                   (gossip-worthy-for ?heard ?friend)
+                  (select (policy first-match))
         (when (conversing-with ?friend))
         (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?heard) ?friend} /quit-trying-on-fail))))))

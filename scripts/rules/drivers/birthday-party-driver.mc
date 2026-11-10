@@ -35,6 +35,7 @@
       (role ?guest {?talk participant ?guest} {@self friend ?guest}
         (belief ?news {@self news ?told}:?news
                     (worthy-for ?told ?talk)
+                    (select (policy first-match))
 
           ;; Non-belief gate, not a @self role filter: enthusiasm-scaled chance, multiplicative
           ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly
