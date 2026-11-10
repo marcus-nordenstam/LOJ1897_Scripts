@@ -45,7 +45,9 @@
 ; What stays in C++ is the boundary, not the policy: the dead-listener skip and
 ; the mind-space guard are crash-prevention invariants about the abs/mental
 ; seam, and the run-profile notes are instrumentation. The adopted beliefs come
-; back so the engine can count them for the dropped-utterance detector.
+; back so the engine can count them for the dropped-utterance detector; @nothing
+; says the line carries no fact by design - a question, an "I don't know", a
+; formulaic with nothing in it to adopt - and is never counted as dropped.
 ; ----------------------------------------------------------------------------
 
 (define-func absorb-heard-fact (?fact ?tell)
@@ -96,12 +98,12 @@
   ; A QUESTION is not a claim. The heard {asker SAY (qs ..)} record IS the
   ; deliverable - respond answers it straight off that record - and adopting the
   ; asked pattern would turn a man's question into this listener's belief.
-  (if (matches ?msg (qs ?..))
-    (then @fail)
+  (if (or (matches ?msg (qs ?..)) (matches ?msg (msg ? @unknown)))
+    (then @nothing)
     (else
       ; @fail binds through: an undecodable message is no facts, not an abort.
       (tolerate (adopt-msg ?msg ?speaker ?audience): ?out)
       (if (is-list ?out)
         (then (for-each ?fact ?out (absorb-heard-fact ?fact ?tell)))
         (else (absorb-heard-fact ?out ?tell)))
-      ?out)))
+      (flip (and (matches ?msg (formulaic ?..)) (not (is-list ?out)) (not (is-belief ?out))) @nothing ?out))))
