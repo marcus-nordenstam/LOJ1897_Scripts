@@ -12,7 +12,7 @@
   (tar @excl [k object] @object)
   (and
     (try
-      (when (unpresented-lod))
+      (lod unpresented)
       (when (substantial (spatial ?item gripped-by)))
       (when (poll (claim (rest-spot ?dest ?item) ?item): ?spot))
       (effects (maintain-proposal {@self PUT ?item ?spot})))
