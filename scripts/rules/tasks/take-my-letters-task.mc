@@ -12,7 +12,7 @@
   (tar @excl [k stack] @object)
   (and
     (try
-      (belief ?name-held {@self name ?name}:?name-held
+      (belief {@self name ?name}
                   -{@self stack-browse ?stack ? /succ /caused_by ?take-my-letters}
         (effects
           (maintain-proposal

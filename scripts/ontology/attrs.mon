@@ -249,7 +249,7 @@
 ; attraction stance scalar.
 (attr attractiveness (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl))
 ; Relationships
-(attr pregnant-when (type date) (default @nothing) (per obs) (auto-percept))
+(attr pregnant-when (type date) (default @nothing) (per obs) (state-flags-tar @excl) (auto-percept))
 ; Only used to pass on appropriate DNA from the father
 (attr pregnant-by (type entity) (default @nothing) (imperceptible))
 

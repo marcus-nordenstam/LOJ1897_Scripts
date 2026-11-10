@@ -31,7 +31,7 @@
         (try
           (role ?officer [k human] {?officer recruit-staff ?}
                                    (spatial ?officer co-located @self)
-            (belief ?name {@self name ?myname}:?name
+            (belief {@self name ?myname}
                         -{@self tell ? ?officer /succ /caused_by ?accept-job-offer}
               ; The seat travels as its DESCRIPTION - kind, org and line - the way the officer's own
               ; word names it: a seat has no name for the msg to carry.

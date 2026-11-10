@@ -28,10 +28,10 @@
   (rng-stream incidents)
   (declare-utility want)
 
-  (belief ?name {@self age-band [k young-adult|middle-aged|mature|elderly]}
+  (belief {@self age-band [k young-adult|middle-aged|mature|elderly]}
               {@self lover ?}
                    ; @self signs the love letter - bind his OWN name for "Signed, ..".
-              {@self name ?author_name}:?name
+              {@self name ?author_name}
     ; The paramour: a lover who is not also a spouse (the covert third party).
     (role ?paramour {?paramour isa [k human], condition [k alive]}
       {@self lover ?paramour}

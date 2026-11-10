@@ -53,8 +53,8 @@
 (driver deliver-driver
   (cooldown 1 d try-until-succ)
 
-  (belief ?pregnant-when {@self pregnant ?}
-              {@self pregnant-when ?conceived-when}:?pregnant-when
+  (belief {@self pregnant ?}
+              {@self pregnant-when ?conceived-when}
     (role ?father {@self pregnant ?father}
 
       (when (>= (elapsed /weeks ?conceived-when) (gestation_weeks)))

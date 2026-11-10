@@ -816,7 +816,7 @@
 (state internment (tar [k internment] @excl))
 (state lock-status (tar [k lock-status] @excl))
 (state mood (tar [k mood]))
-(state name (tar ?) (disclosure stranger+) (talkable))
+(state name (tar ? @excl) (disclosure stranger+) (talkable))
 (state opening-status (tar [k opening-status] @excl))
 (state prototype (tar [k prototype]))
 (state rain (tar [k strength-measurement] @excl))
