@@ -8,7 +8,7 @@
 ; (busy-refusal ?reason) - a refusal's reason says @self was busy: the act that outbid the hail, or
 ; the talk he was in - never weariness of company.
 (define-func busy-refusal (?reason)
-  (cond (case (is-clause ?reason) @true)
+  (cond (case (is-relation ?reason) @true)
         (else (not (eq ?reason weary)))))
 
 (reflex {@self turn-down ?hailer (formulaic ? refusal ?reason)}:?turn-down

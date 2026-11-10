@@ -34,12 +34,12 @@
             (role @self {@self name ?myname}
                         -{@self tell ? ?officer /succ /caused_by ?accept-job-offer}
               ; The seat travels as its DESCRIPTION - kind, org and line - the way the officer's own
-              ; word names it: a seat has no name for the wire to carry.
+              ; word names it: a seat has no name for the msg to carry.
               (effects
                 (any {?job job-id ?line})
                 (kind ?job): ?jk
-                (msg /utterable [] {@i name ?myname}
-                               {@i accept-job-offer (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
+                (msg /utterable [] {@self name ?myname}
+                               {@self accept-job-offer (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
                 (check ?msg)
                 (maintain-proposal {@self tell ?msg ?officer})))))
 

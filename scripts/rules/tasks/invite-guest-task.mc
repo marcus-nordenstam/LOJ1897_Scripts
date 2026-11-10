@@ -45,7 +45,7 @@
                         [/postlude (bind (bb-read ?CREATE-ENTITY created) ?ltr)
                                    (bb-write ?invite-guest letter ?ltr)])))))
 
-        ; The FORM. An occasion is a nameless abstract object and cannot ride a wire as
+        ; The FORM. An occasion is a nameless abstract object and cannot be named in a msg as
         ; itself, so the letter carries the facts that CONSTITUTE it - whose it is, when,
         ; where, between which hours - and the reader rebuilds his own occasion from them.
         ; Host by NAME and venue by ADDRESS: the two things a stranger can resolve.

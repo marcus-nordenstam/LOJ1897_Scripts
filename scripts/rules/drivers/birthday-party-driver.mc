@@ -6,7 +6,7 @@
 ; everything else, lossily and slowly.
 ;
 ; The host TELLS the conversation he is in, with a friend in it, the freshest piece of his own
-; news that someone in it has not heard: (pick-untold-belief /news ?talk) picks it over the
+; news that someone in it has not heard: (news-for ?talk) picks it over the
 ; (facets news-worthy) labels in their (tell-rank) order, skipping what the listeners are party
 ; to or were told in his hearing. A guest comes to know of people through the host by hearing
 ; it - and self-news cascades onward as ordinary gossip. The guests' own news travels the same
@@ -34,7 +34,7 @@
     ; The conversation @self is in, with a friend of his in it: the friend tie is the guest list.
     (role ?talk {?talk participant @self} {?talk venue ?}
       (role ?guest {?talk participant ?guest} {@self friend ?guest}
-        (bind (pick-untold-belief /news ?talk) ?news)
+        (bind (news-for ?talk) ?news)
 
         ;; Non-belief gate, not a @self role filter: enthusiasm-scaled chance, multiplicative
         ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly

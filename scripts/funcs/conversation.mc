@@ -440,7 +440,7 @@
   (bind @false ?asked)
   (if (substantial ?part)
       (then
-        (for-each ?SAY (every {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ})
+        (for-each ?SAY (every {@self SAY (qs ? (news-for ?..)) ?friend /succ})
           (if (happened-since ?SAY ?part)
               (then (bind @true ?asked) (break))))))
   ?asked)
@@ -475,20 +475,52 @@
         (then (bind @true ?asks) (break))))
   ?asks)
 
-; (speech-worthy ?belief ?friend) - @self may tell ?friend the belief ?belief and believes he does
-; not have it: its tier admits him, and either @self takes him not to know it or does not presume
-; him to have it.
+; (party-of ?who ?belief) - ?who is the subject, target or auxiliary of ?belief.
+(define-func party-of (?who ?belief)
+  (or (and (is-object ?belief.subject) (eq ?who ?belief.subject))
+      (and (is-object ?belief.target) (eq ?who ?belief.target))
+      (and (is-object ?belief.auxiliary) (eq ?who ?belief.auxiliary))))
+
+; (told-to ?belief ?listener) - @self has said ?belief to ?listener: to his face, or to a talk he
+; took part in.
+(define-func told-to (?belief ?listener)
+  (bind @false ?told)
+  (for-each ?SAY (every {@self SAY (msg ? ?belief) ? /succ /ever})
+    (bind ?SAY.auxiliary ?audience)
+    (if (and (is-object ?audience)
+             (or (eq ?audience ?listener)
+                 (substantial (any {?audience participant ?listener /ever}))))
+        (then (bind @true ?told) (break))))
+  ?told)
+
+; (speech-worthy ?belief ?friend) - @self may tell ?friend the belief ?belief: ?friend is no party
+; of it, its tier admits him, and either @self takes him not to know it or has not told it to him.
 (define-func speech-worthy (?belief ?friend)
   (and (is-belief ?belief)
+       (not (party-of ?friend ?belief))
        (disclosable-to ?belief ?friend)
        (or (substantial (any {?friend /not know (clausify ?belief)}))
-           (not (presumed-known ?belief ?friend)))))
+           (not (told-to ?belief ?friend)))))
 
-; (news-for ?friend) - the first piece of @self's news ?friend does not know, or @nothing.
-(define-func news-for (?friend)
+; (worthy-for ?belief ?audience) - @self may tell ?belief to someone in ?audience: the man himself,
+; or any other party of the talk ?audience.
+(define-func worthy-for (?belief ?audience)
+  (bind @false ?worthy)
+  (if (is-a ?audience [k human])
+      (then (bind (speech-worthy ?belief ?audience) ?worthy))
+      (else
+        (for-each ?part (every {?audience participant ? /pres})
+          (bind ?part.target ?party)
+          (if (and (neq ?party @self) (speech-worthy ?belief ?party))
+              (then (bind @true ?worthy) (break))))))
+  ?worthy)
+
+; (news-for ?audience) - the first piece of @self's news someone in ?audience (a man, or a talk) has
+; not been told, or @nothing.
+(define-func news-for (?audience)
   (bind @nothing ?pick)
   (for-each ?news (every {@self news ?})
-    (if (speech-worthy ?news.target ?friend)
+    (if (worthy-for ?news.target ?audience)
         (then (bind ?news.target ?pick) (break))))
   ?pick)
 
@@ -501,15 +533,15 @@
         (then (bind ?aspect ?pick) (break))))
   ?pick)
 
-; (gossip-for ?friend) - the first piece of gossip @self holds that ?friend does not know, about
-; someone @self can name, or @nothing.
-(define-func gossip-for (?friend)
+; (gossip-for ?audience) - the first piece of gossip @self holds that someone in ?audience (a man,
+; or a talk) has not been told, about someone @self can name, or @nothing.
+(define-func gossip-for (?audience)
   (bind @nothing ?pick)
   (for-each ?gossip (every {@self gossip ?})
     (bind ?gossip.target ?heard)
     (if (and (is-belief ?heard)
              (substantial (any {?heard.subject name ?}))
-             (speech-worthy ?heard ?friend))
+             (worthy-for ?heard ?audience))
         (then (bind ?heard ?pick) (break))))
   ?pick)
 
@@ -519,7 +551,7 @@
   (bind @false ?answered)
   (if (substantial ?part)
       (then
-        (for-each ?SAY (every {@self SAY (qs ? (pick-untold-belief ?..)) ?friend /succ})
+        (for-each ?SAY (every {@self SAY (qs ? (news-for ?..)) ?friend /succ})
           (if (and (happened-since ?SAY ?part) (replied ?friend ?SAY))
               (then (bind @true ?answered) (break))))))
   ?answered)
@@ -591,7 +623,7 @@
 (define-func tidings-reply (?speaker)
   (bind @nothing ?news)
   (if (substantial (any {@self (closeness-labels friend) ?speaker}))
-      (then (bind (pick-untold-belief /news ?speaker) ?news)))
+      (then (bind (news-for ?speaker) ?news)))
   (if (substantial ?news)
       (then (msg /utterable [/msg-class tidings] ?news))
       (else (formulaic [/msg-class reply] response receipt))))
@@ -697,7 +729,7 @@
 (define-func answer-to (?qs ?partner)
   (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
   (bind (nth (k-msg-first-content-field) ?qs) ?asked-content)
-  (if (and (eq-func-name ?asked-content pick-untold-belief) (unsubstantial ?answer))
+  (if (and (eq-func-name ?asked-content news-for) (unsubstantial ?answer))
       (then (formulaic [/msg-class reply] response no-news))
       (else (msg /utterable [/msg-class reply] ?answer))))
 

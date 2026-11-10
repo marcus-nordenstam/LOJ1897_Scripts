@@ -60,7 +60,7 @@
           (effects
             (any {?job job-id ?line})
             (kind ?job): ?jk
-            (msg /utterable [] {@you job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
+            (msg /utterable [] {?applicant job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
             (check ?msg)
             (maintain-proposal {@self tell ?msg ?applicant})
             (begin-belief {?applicant job ?job})

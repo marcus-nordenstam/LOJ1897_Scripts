@@ -40,7 +40,7 @@
 ;                 ; location write re-tests membership and the argmax ranks only apart targets.
 ;                 (not (spatial ?target co-located @self))
 ;                 ; @self must KNOW her name to write to her - bind it for the body's
-;                 ; name value (no live object on the wire).
+;                 ; name value (no live object in the msg).
 ;                 {?target name ?target_name}
 ;                 (select (score (stance-band ?target attraction)) (policy argmax)))
 ; 

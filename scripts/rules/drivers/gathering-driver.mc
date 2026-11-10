@@ -34,7 +34,7 @@
 ; An IMPROMPTU supper: the same staging, set for THIS month. Nobody is written to - the
 ; post could not arrive in time - so it reaches only whoever is already there. Reaching
 ; them is not wired: no co-presence op survives, and an occasion is a nameless abstract
-; object that cannot ride a spoken wire either, so today the host stages a supper only
+; object that cannot be named in an uttered msg either, so today the host stages a supper only
 ; he knows about.
 (driver plan-impromptu-supper-driver
   (cooldown 1 m try-once)

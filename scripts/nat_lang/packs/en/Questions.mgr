@@ -62,10 +62,10 @@
 ; and the MC says /ever; where the belief's tense is fixed (/pres age, /pres birth-date), the
 ; verb forms are literal and only the asker folds.
 
-; What is new: the answerer's own news the asker has not heard (pick-untold-belief, its
+; What is new: the answerer's own news the asker has not heard (news-for, its
 ; audience the asker), so it is answered from the answerer's mind like any question.
 "what is new [with you|]"
-( pick-untold-belief /news ?_I )
+( news-for ?_I )
 .
 
 "what $verb(VERB|be) $who(POSS) name"

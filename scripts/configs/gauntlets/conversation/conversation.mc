@@ -88,7 +88,7 @@
 ; (asked-whats-new ?other) - in a mind: @self asked ?other what is new, and he replied to it.
 (define-func asked-whats-new (?other)
   (bind @false ?asked)
-  (for-each ?ask (every {@self SAY (qs ? (pick-untold-belief ?..)) ?other /succ})
+  (for-each ?ask (every {@self SAY (qs ? (news-for ?..)) ?other /succ})
     (if (replied ?other ?ask)
         (then (bind @true ?asked) (break))))
   ?asked)

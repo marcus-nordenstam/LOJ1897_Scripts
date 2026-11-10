@@ -70,7 +70,7 @@
       (rng-stream behaviour)
       (role ?talk {?talk participant @self} {?talk venue ?}
                   -{@self tell ? ?talk /succ /caused_by ?eat}
-        (bind (pick-untold-belief /news ?talk) ?news)
+        (bind (news-for ?talk) ?news)
         (when (and (at-meal-place ?place) (substantial ?news)))
         (effects
           (msg /utterable [] ?news): ?msg
