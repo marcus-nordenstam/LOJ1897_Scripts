@@ -51,7 +51,4 @@
         (set-outcome ?receive /succ)))
     (try
       (when (not (alive ?giver)))
-      (effects (set-outcome ?receive /fail)))
-    (try
-      (role @self {@self take ? /fail /caused_by ?receive}
-        (effects (set-outcome ?receive /fail))))))
+      (effects (set-outcome ?receive /fail)))))

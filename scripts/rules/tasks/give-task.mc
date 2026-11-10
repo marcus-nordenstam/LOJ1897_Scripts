@@ -38,7 +38,4 @@
       (effects (set-outcome ?give /succ)))
     (try
       (when (not (alive ?recipient)))
-      (effects (set-outcome ?give /fail)))
-    (try
-      (role @self {@self take ?thing /fail /caused_by ?give}
-        (effects (set-outcome ?give /fail))))))
+      (effects (set-outcome ?give /fail)))))

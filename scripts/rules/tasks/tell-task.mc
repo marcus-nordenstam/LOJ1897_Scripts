@@ -34,9 +34,6 @@
       (role @self {@self SAY ? /succ /caused_by ?tell}
         (effects (set-outcome ?tell /succ))))
     (try
-      (role @self {@self go-to ?audience /fail /caused_by ?tell}
-        (effects (set-outcome ?tell /fail))))
-    (try
       (when (and (or (unsubstantial ?audience) (within-voice ?audience ?msg))
                  (or (not (is-a ?audience [k human])) (visible ?audience))
                  (my-turn ?audience)

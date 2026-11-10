@@ -160,4 +160,4 @@
                              -{@self hire-applicant ?man ? /fail}
                              (spatial ?man co-located @self)
           (declare-utility always-pick)
-          (effects (maintain-proposal {@self hire-applicant ?man ?job})))))))
+          (effects (maintain-proposal {@self hire-applicant ?man ?job} /tolerate-fail)))))))

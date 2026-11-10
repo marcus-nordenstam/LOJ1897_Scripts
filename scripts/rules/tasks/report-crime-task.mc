@@ -28,7 +28,6 @@
       (no-role [k police-station])
       (role @self {@self education ?education}
                   -{@self report-crime ?focus /succ /ever}
-                  -{@self find-building [k police-station] ? /fail}
         (when (and {? stolen-from @self}
                    (>= ?education (literacy-education-min))
                    (current-exterior @self): ?rg))
@@ -65,7 +64,6 @@
     (try
       (when (or -{? stolen-from @self}
                 -{@self education ?}
-                {@self find-building [k police-station] ? /fail}
                 {@self report-crime ?focus /succ /ever}))
       (effects (set-outcome ?report-crime /fail)))
     (try

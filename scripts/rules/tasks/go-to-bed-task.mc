@@ -22,4 +22,4 @@
                               (unsubstantial (any {@self enter-room-kind ? ? /caused_by ?go-to-bed})))
                          (substantial (any {@self enter-room-kind|find-room ? ? /fail /caused_by ?go-to-bed})))
            (effects (maintain-proposal {@self SLEEP}))))
-    (try (effects (maintain-proposal {@self enter-room-kind [k bedroom] ?home})))))
+    (try (effects (maintain-proposal {@self enter-room-kind [k bedroom] ?home} /tolerate-fail)))))

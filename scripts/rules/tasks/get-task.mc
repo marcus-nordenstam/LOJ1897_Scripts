@@ -18,7 +18,4 @@
       (effects (maintain-proposal {@self take ?item})))
     (try
       (role @self {@self take ?item /succ /caused_by ?get}
-        (effects (set-outcome ?get /succ))))
-    (try
-      (role @self {@self take ?item /fail /caused_by ?get}
-        (effects (set-outcome ?get /fail))))))
+        (effects (set-outcome ?get /succ))))))

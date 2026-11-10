@@ -13,19 +13,19 @@
   (success-cond (placed ?person))
   (preemptive-or
     (try (role @self (substantial ?place) (not (premises-searched ?place ?find-person))
-           (effects (maintain-proposal {@self wander ?place}))))
+           (effects (maintain-proposal {@self wander ?place} /tolerate-fail))))
     (try (role @self (substantial ?place)
            (effects (set-outcome ?find-person /fail))))
     (try (role ?seen (spatial ?person space /most-recent-memory)
            (when (place-holding ?seen): ?last
                  (substantial ?last)
                  (not (premises-searched ?last ?find-person)))
-           (effects (maintain-proposal {@self wander ?last}))))
+           (effects (maintain-proposal {@self wander ?last} /tolerate-fail))))
     (try (role ?home {?person home ?home}
                      (grounded ?home)
                      (one-premises ?home)
                      (not (premises-searched ?home ?find-person))
-           (effects (maintain-proposal {@self wander ?home}))))
+           (effects (maintain-proposal {@self wander ?home} /tolerate-fail))))
     (try (role ?job {?person job ?job}
            (role ?org {?job org ?org}
              (role ?wp {?org workplace ?wp}
@@ -33,9 +33,9 @@
                      (substantial ?work)
                      (grounded ?work)
                      (not (premises-searched ?work ?find-person)))
-               (effects (maintain-proposal {@self wander ?work}))))))
+               (effects (maintain-proposal {@self wander ?work} /tolerate-fail))))))
     (try (role @self (substantial (seen-house-of ?person))
                      (one-premises (seen-house-of ?person))
                      (not (premises-searched (seen-house-of ?person) ?find-person))
-           (effects (maintain-proposal {@self wander (seen-house-of ?person)}))))
+           (effects (maintain-proposal {@self wander (seen-house-of ?person)} /tolerate-fail))))
     (try (effects (set-outcome ?find-person /fail)))))

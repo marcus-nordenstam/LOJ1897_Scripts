@@ -8,6 +8,7 @@
   (tar [k human] @object)
   (aux ?)
   (obs)
+  (failure-cond (not (alive ?payee)))
   (and
     (try
       (role ?counted [k pile] {?counted content-kind [k coin]} (= (spatial ?counted held-by) @self)
@@ -20,8 +21,4 @@
       (effects (maintain-proposal {@self unpocket-coins ?count})))
     (try
       (role @self {@self give ? ?payee /succ /caused_by ?pay}
-        (effects (set-outcome ?pay /succ))))
-    (try
-      (when (or {@self unpocket-coins ?count /fail /caused_by ?pay}
-                (not (alive ?payee))))
-      (effects (set-outcome ?pay /fail)))))
+        (effects (set-outcome ?pay /succ))))))

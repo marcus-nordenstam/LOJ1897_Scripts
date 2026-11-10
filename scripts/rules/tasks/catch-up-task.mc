@@ -16,17 +16,14 @@
     (try
       (when (and (not (conversing-with ?friend)) (hailable ?friend)))
       (effects (maintain-proposal {@self hail ?friend})))
+    ; One activation per piece of news, so a piece told, or no longer true, is a withdrawn tell.
     (try
-      (role @self {@self hail ?friend /fail /caused_by ?catch-up}:?hail
-        (when (hail-turned-down ?friend ?hail))
-        (effects (set-outcome ?catch-up /fail))))
-    ; Tested live in (when): a hold re-tests the gate, never a (bind ..), so a bound ?news would
-    ; hold the rung on news already told and the ask below would never get its turn.
-    (try
-      (when (and (conversing-with ?friend) (substantial (news-for ?friend))))
-      (effects
-        (bind (news-for ?friend) ?news)
-        (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?news) ?friend} /quit-trying-on-fail)))
+      (role @self {@self news ?told}:?news
+                  (speech-worthy ?told ?friend)
+                  (select (policy first-match))
+        (when (conversing-with ?friend))
+        (effects
+          (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?told) ?friend} /quit-trying-on-fail))))
     (try
       (when (and (conversing-with ?friend)
                  (unsubstantial (news-for ?friend))

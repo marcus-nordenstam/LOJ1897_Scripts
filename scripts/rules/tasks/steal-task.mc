@@ -31,7 +31,7 @@
         (when (and (empty (spatial @self hold ?kind))
                    (is-a (spatial @self building) [k shop])
                    (= (count (spatial (spatial @self space) contents [k human])) 1)))
-        (effects (maintain-proposal {@self take ?loot}))))
+        (effects (maintain-proposal {@self take ?loot} /tolerate-fail))))
     ; concluded: the loot is in hand /caused_by this pursuit -> crime row + succ.
     (try
       (role @self {@self take ? /succ /caused_by ?steal}

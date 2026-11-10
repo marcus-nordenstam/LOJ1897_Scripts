@@ -22,6 +22,5 @@
           (record-crime @self ?victim offer_bribe bribe @u @u)
           (set-outcome ?bribe /succ))))
     (try
-      (when (or {@self pay ?victim ? /fail /caused_by ?bribe}
-                (not (alive ?victim))))
+      (when (not (alive ?victim)))
       (effects (set-outcome ?bribe /fail)))))

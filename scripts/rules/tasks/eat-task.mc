@@ -70,8 +70,10 @@
       (rng-stream behaviour)
       (role ?talk {?talk participant @self} {?talk venue ?}
                   -{@self tell ? ?talk /succ /caused_by ?eat}
-        (bind (news-for ?talk) ?news)
-        (when (and (at-meal-place ?place) (substantial ?news)))
-        (effects
-          (msg /utterable [] ?news): ?msg
-          (maintain-proposal {@self tell ?msg ?talk} /quit-trying-on-fail))))))
+        (role @self {@self news ?told}:?news
+                    (worthy-for ?told ?talk)
+                    (select (policy first-match))
+          (when (at-meal-place ?place))
+          (effects
+            (msg /utterable [] ?told): ?msg
+            (maintain-proposal {@self tell ?msg ?talk} /quit-trying-on-fail)))))))

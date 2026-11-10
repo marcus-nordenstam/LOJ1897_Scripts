@@ -16,10 +16,8 @@
       (when (and (not (conversing-with ?friend)) (hailable ?friend)))
       (effects (maintain-proposal {@self hail ?friend})))
     (try
-      (role @self {@self hail ?friend /fail /caused_by ?tell-gossip}:?hail
-        (when (hail-turned-down ?friend ?hail))
-        (effects (set-outcome ?tell-gossip /fail))))
-    (try
-      (bind (gossip-for ?friend) ?gossip)
-      (when (and (conversing-with ?friend) (substantial ?gossip)))
-      (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?gossip) ?friend} /quit-trying-on-fail)))))
+      (role @self {@self gossip ?heard}:?gossip
+                  (gossip-worthy-for ?heard ?friend)
+                  (select (policy first-match))
+        (when (conversing-with ?friend))
+        (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?heard) ?friend} /quit-trying-on-fail))))))

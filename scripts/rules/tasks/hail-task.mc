@@ -28,8 +28,7 @@
   (preparatory)
   (preconditions (in-call-of ?partner))
   (failure-cond (or (hail-turned-down ?partner ?hail)
-                    (not (hailable ?partner))
-                    (substantial (any {@self tell (formulaic ? opening-phrase ?) ?partner /fail /caused_by ?hail}))))
+                    (not (hailable ?partner))))
   (sync hail @self ?partner)
   (init
     (check (is-a ?partner [k human]))

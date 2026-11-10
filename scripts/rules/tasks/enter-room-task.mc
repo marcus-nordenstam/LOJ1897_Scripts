@@ -59,7 +59,7 @@
     ; A BUILDING OR A UNIT.
     (try (role @self (enter-room-enclosure ?room)
                      -{@self enter-building ?room /fail /caused_by ?enter-room}
-           (effects (maintain-proposal {@self enter-building ?room}))))
+           (effects (maintain-proposal {@self enter-building ?room} /tolerate-fail))))
     (try (role @self (enter-room-enclosure ?room)
            (effects (set-outcome ?enter-room /fail))))
     ; A ROOM, through its doors.
@@ -68,21 +68,21 @@
                      (in-near-room ?door)
                      -{@self cross ?door /fail /caused_by ?enter-room}
                      (select (score (near @self ?door)) (policy argmax unknown-last))
-           (effects (maintain-proposal {@self cross ?door}))))
+           (effects (maintain-proposal {@self cross ?door} /tolerate-fail))))
     (try (role ?door (spatial @self next-door ?room)
                      (not (has-facet ?door nav_last_resort))
                      (substantial (passage-near-side ?door))
                      -{@self enter-room (passage-near-side ?door) /fail /caused_by ?enter-room}
                      -{@self cross ?door /fail /caused_by ?enter-room}
                      (select (score (near @self ?door)) (policy argmax unknown-last))
-           (effects (maintain-proposal {@self enter-room (passage-near-side ?door)}))))
+           (effects (maintain-proposal {@self enter-room (passage-near-side ?door)} /tolerate-fail))))
     (try (role @self (enter-room-beyond-my-place ?room)
                      -{@self wander (place-holding (spatial @self space)) /succ /caused_by ?enter-room}
-           (effects (maintain-proposal {@self wander (place-holding (spatial @self space))}))))
+           (effects (maintain-proposal {@self wander (place-holding (spatial @self space))} /tolerate-fail))))
     (try (role @self (enter-room-outside-its-place ?room)
                      -{@self go-to (enter-room-premises ?room) /succ /caused_by ?enter-room}
                      -{@self go-to (enter-room-premises ?room) /fail /caused_by ?enter-room}
-           (effects (maintain-proposal {@self go-to (enter-room-premises ?room)}))))
+           (effects (maintain-proposal {@self go-to (enter-room-premises ?room)} /tolerate-fail))))
     (try (role @self (or (enter-room-beyond-my-place ?room)
                          (enter-room-outside-its-place ?room)
                          (substantial (any {@self cross ? /fail /caused_by ?enter-room})))

@@ -17,12 +17,8 @@
       (when (and (not (conversing-with ?other)) (hailable ?other)))
       (effects (maintain-proposal {@self hail ?other})))
     (try
-      (role @self {@self hail ?other /fail /caused_by ?get-acquainted}:?hail
-        (when (hail-turned-down ?other ?hail))
-        (effects (set-outcome ?get-acquainted /fail))))
-    (try
-      (bind (disclosure-for ?other) ?aspect)
-      (when (conversing-with ?other)
-            (substantial ?aspect)
-            (poll (eq ?aspect (disclosure-for ?other))))
-      (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?aspect) ?other} /quit-trying-on-fail)))))
+      (role @self {@self (facet-labels self-disclosable) ?}:?aspect
+                  (speech-worthy ?aspect ?other)
+                  (select (policy first-match))
+        (when (conversing-with ?other))
+        (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?aspect) ?other} /quit-trying-on-fail))))))

@@ -473,12 +473,16 @@
         (then (bind @true ?told) (break))))
   ?told)
 
-; (speech-worthy ?belief ?friend) - @self may tell ?friend the belief ?belief: it still holds, ?friend
-; is no party of it, its tier admits him, and either @self takes him not to know it or has not told it
-; to him.
+; (speakable ?belief) - ?belief is a thing @self can say: a belief he holds, not forgotten, and still
+; true now. Whatever is picked to be told - news, gossip, an aspect of himself - is speakable.
+(define-func speakable (?belief)
+  (and (is-belief ?belief) (eq (end-time ?belief) @ongoing)))
+
+; (speech-worthy ?belief ?friend) - @self may tell ?friend the belief ?belief: it is speakable,
+; ?friend is no party of it, its tier admits him, and either @self takes him not to know it or has
+; not told it to him.
 (define-func speech-worthy (?belief ?friend)
-  (and (is-belief ?belief)
-       (eq (end-time ?belief) @ongoing)
+  (and (speakable ?belief)
        (not (involved-in ?friend ?belief))
        (disclosable-to ?belief ?friend)
        (or (substantial (any {?friend /not know (clausify ?belief)}))
@@ -515,17 +519,21 @@
         (then (bind ?aspect ?pick) (break))))
   ?pick)
 
-; (gossip-for ?audience) - the first piece of gossip @self holds that someone in ?audience (a man,
-; or a talk) has not been told, about someone @self can name and not about @self, or @nothing.
+; (gossip-worthy-for ?heard ?audience) - @self may pass the gossip ?heard on to someone in ?audience (a
+; man, or a talk) who has not been told it: it is about someone @self can name, and not about @self.
+(define-func gossip-worthy-for (?heard ?audience)
+  (and (is-belief ?heard)
+       (not (involved-in @self ?heard))
+       (substantial (any {?heard.subject name ?}))
+       (worthy-for ?heard ?audience)))
+
+; (gossip-for ?audience) - the first piece of gossip @self may pass on to someone in ?audience, or
+; @nothing.
 (define-func gossip-for (?audience)
   (bind @nothing ?pick)
   (for-each ?gossip (every {@self gossip ?})
-    (bind ?gossip.target ?heard)
-    (if (and (is-belief ?heard)
-             (not (involved-in @self ?heard))
-             (substantial (any {?heard.subject name ?}))
-             (worthy-for ?heard ?audience))
-        (then (bind ?heard ?pick) (break))))
+    (if (gossip-worthy-for ?gossip.target ?audience)
+        (then (bind ?gossip.target ?pick) (break))))
   ?pick)
 
 ; (asked-and-answered ?friend ?talk) - @self asked ?friend what is new in ?talk and has his reply.

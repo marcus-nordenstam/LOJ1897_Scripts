@@ -25,10 +25,10 @@
            (role ?room (spatial ?bldg rooms) (is-a ?room ?kind)
                        -{@self enter-room ?room /fail /caused_by ?enter-room-kind}
                        (select (score (near @self ?room)) (policy roulette unknown-last))
-             (effects (maintain-proposal {@self enter-room ?room})))))
+             (effects (maintain-proposal {@self enter-room ?room} /tolerate-fail)))))
     (try (role @self (is-kind ?bldg)
            (role ?building [k building] (is-a ?building ?bldg)
                            -{@self enter-room-kind ?kind ?building /fail /caused_by ?enter-room-kind}
                            (select (score (near @self ?building)) (policy argmax unknown-last))
-             (effects (maintain-proposal {@self enter-room-kind ?kind ?building})))))
+             (effects (maintain-proposal {@self enter-room-kind ?kind ?building} /tolerate-fail)))))
     (try (effects (set-outcome ?enter-room-kind /fail)))))

@@ -5,10 +5,9 @@
 ; wedding / christening) carry milestones to a bounded guest list; this carries
 ; everything else, lossily and slowly.
 ;
-; The host TELLS the conversation he is in, with a friend in it, the freshest piece of his own
-; news that someone in it has not heard: (news-for ?talk) picks it over the
-; (facets news-worthy) labels in their (tell-rank) order, skipping what the listeners are party
-; to or were told in his hearing. A guest comes to know of people through the host by hearing
+; The host TELLS the conversation he is in, with a friend in it, a piece of his own news someone
+; in it has not been told (worthy-for, funcs/conversation.mc). A guest comes to know of people
+; through the host by hearing
 ; it - and self-news cascades onward as ordinary gossip. The guests' own news travels the same
 ; way, told in the conversations they hold with their friends (catch-up).
 ;
@@ -34,15 +33,17 @@
     ; The conversation @self is in, with a friend of his in it: the friend tie is the guest list.
     (role ?talk {?talk participant @self} {?talk venue ?}
       (role ?guest {?talk participant ?guest} {@self friend ?guest}
-        (bind (news-for ?talk) ?news)
+        (role @self {@self news ?told}:?news
+                    (worthy-for ?told ?talk)
+                    (select (policy first-match))
 
-        ;; Non-belief gate, not a @self role filter: enthusiasm-scaled chance, multiplicative
-        ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly
-        ;; cadence, rolled once per host per month.
-        (when (and (substantial ?news) (chance (* 0.0667 ?enthusiasm))))
+          ;; Non-belief gate, not a @self role filter: enthusiasm-scaled chance, multiplicative
+          ;; so outgoing hosts engage more than withdrawn ones, /12'd to the monthly
+          ;; cadence, rolled once per host per month.
+          (when (chance (* 0.0667 ?enthusiasm)))
 
-        (declare-utility want)
+          (declare-utility want)
 
-        (effects
-          (msg /utterable [] ?news): ?msg
-          (maintain-proposal {@self tell ?msg ?talk} /quit-trying-on-fail))))))
+          (effects
+            (msg /utterable [] ?told): ?msg
+            (maintain-proposal {@self tell ?msg ?talk} /quit-trying-on-fail)))))))
