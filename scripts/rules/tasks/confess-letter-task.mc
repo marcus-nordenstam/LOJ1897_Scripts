@@ -33,7 +33,7 @@
                                          (unsubstantial (attr ?ltr writing))
           (role ?partner {@self lover|HAVE-SEX-WITH ?partner /ever}
                          -{@self spouse ?partner /ever}
-                         {?partner name ?partner-name}
+                         {?partner name ?}
                          (select (policy first-match))
             (role ?kin {@self father|mother|fiancee|spouse|sibling ?kin}
                        {?kin name ?kin-name}
@@ -46,7 +46,7 @@
                   (maintain-proposal
                     {@self write-doc ?ltr
                            (msg /written [/addressee ?kin-name /address ?kin-address]
-                                        {@i lover ?partner-name})}))))))))
+                                        {@self lover ?partner})}))))))))
 
     (try
       (role @self -{@self send-mail ? ? /succ /caused_by ?confess-letter}

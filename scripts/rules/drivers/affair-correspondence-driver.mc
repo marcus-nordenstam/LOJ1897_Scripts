@@ -76,7 +76,7 @@
                   (maintain-proposal
                     {@self write-doc ?ltr
                            (msg /written [/addressee ?paramour_name /address ?her-address /author ?author_name]
-                                        {@i lover ?paramour_name})})))))
+                                        {@self lover ?paramour})})))))
 
           ; The monthly writer rate gates the MAKING alone - once a letter exists it is finished off
           ; whatever the roll says, or a half-written affair sits on the desk for ever.

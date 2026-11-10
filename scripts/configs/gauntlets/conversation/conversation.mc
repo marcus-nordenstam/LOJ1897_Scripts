@@ -117,6 +117,11 @@
         (then (bind @true ?took) (break))))
   ?took)
 
+; (talked-with ?caller) - in a mind: @self came to talk with ?caller, whose hail she turned down or
+; took in: she took him in, or he took up the hail she owed him back.
+(define-func talked-with (?caller)
+  (or (took-in ?caller) (substantial (any {@self hail ?caller /succ /ever}))))
+
 ; (knows-talk-with ?a ?b) - in a mind: @self knows a talk he took part in that ?a and ?b took part in too.
 (define-func knows-talk-with (?a ?b)
   (bind @false ?found)

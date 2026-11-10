@@ -10,7 +10,7 @@
     (role ?cheater {?cheater isa [k human], condition [k alive]}
       {@self lover ?cheater}
       ; @self names the cheater in the letter body (a name value, not the object).
-      {?cheater name ?cheater_name}
+      {?cheater name ?}
       (select (policy first-match))
 
       (declare-utility want)
@@ -44,7 +44,7 @@
                     (maintain-proposal
                       {@self write-doc ?ltr
                              (msg /written [/addressee ?betrayed-name /address ?cheater-address /author ?author_name]
-                                          {?cheater_name lover @i})}))))))
+                                          {?cheater lover @self})}))))))
 
           (try
             (when (chance (* 0.3 ?infidelity-disposition)))

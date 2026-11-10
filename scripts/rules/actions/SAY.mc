@@ -30,25 +30,24 @@
   ; answers.
   (duration (utterance-seconds @self ?msg ?audience))
 
-  ; A presented say starts here, ONCE: the SOUND, which is the Merlin half and how
-  ; anyone else hears this at all, and the VOICE - the words rendered, the visemes cut,
-  ; the jaw driven, the subtitle put up. Effects run every frame while the audio plays
-  ; and would say it again each time.
+  ; A say starts here, ONCE: the SOUND, which is the Merlin half and how anyone else hears
+  ; this at all, and when presented the VOICE - the words rendered, the visemes cut, the jaw
+  ; driven, the subtitle put up. Effects run every frame while the audio plays and would say
+  ; it again each time.
   ; Nobody is spoken to by two men at once: tell held the turn this line takes before proposing it
   ; (turn-board, funcs/conversation.mc). The board can change between the two - its audience joins
   ; or leaves a talk - so it is expected, not checked.
   (init
     (expect (my-turn ?audience) "SAY: the line began without the turn it takes - its board changed since tell held it")
+    (deliver-speech ?xsay)
     (if (presented-lod)
-        (then (deliver-speech ?xsay)
-              (speak-aloud @self ?msg))))
+        (then (speak-aloud @self ?msg))))
 
-  ; The unpresented say is its one tick: the sound, and done. An unpresented man is
-  ; heard and not watched.
+  ; The unpresented say is heard and not watched: its sound went out as it began, and is heard
+  ; the second after, at the instant the line ends.
   (effects
     (if (unpresented-lod)
-        (then (deliver-speech ?xsay)
-              (set-outcome ?SAY /succ))))
+        (then (set-outcome ?SAY /succ))))
 
   ; The turn tell held is the line's until it is said, and its tell's while that runs; the line
   ; gives every turn up when it outlived every tell. The speech-state slot the handler claimed at

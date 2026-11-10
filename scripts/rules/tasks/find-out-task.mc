@@ -22,10 +22,14 @@
              (neq ?who @self)
              (spatial ?who co-located @self)
     (when (askable ?who ?fact))
-    (stable-or
+    (preemptive-or
       (try
         (when (conversing-with ?who))
         (effects (maintain-proposal {@self inquire ?who (inquiry-of ?fact)})))
+      (try
+        (role @self {@self hail ?who /fail /caused_by ?find-out}:?hail
+          (when (hail-turned-down ?who ?hail))
+          (effects (set-outcome ?find-out /fail))))
       (try
         (when (and (not (conversing-with ?who)) (hailable ?who)))
         (effects (maintain-proposal {@self hail ?who} /keep-trying-on-fail))))))

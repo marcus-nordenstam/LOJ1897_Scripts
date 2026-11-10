@@ -100,25 +100,13 @@
         (case {@self acquaintance ?speaker} (hail-want-utility (k-hail-acquaintance-value)))
         (else (hail-want-utility (k-hail-stranger-value)))))
 
-; (authority-introduction ?msg) - ?msg hails its hearer by introducing the speaker's office:
-; (formulaic [] opening-phrase authority <job kind>). Each field is read only once the one
-; before has shown the message is long enough to hold it.
-(define-func authority-introduction (?msg)
-  (if (eq-func-name ?msg formulaic)
-      (then (if (eq (nth (k-formulaic-category-field) ?msg) opening-phrase)
-                (then (eq (nth (k-formulaic-key-field) ?msg) authority))
-                (else @false)))
-      (else @false)))
-
 ; (hail-response ?opening) - the response a hail's opening calls for: a man who introduced
-; himself by his office is answered by it, any other opening by its own key.
+; himself by his office ((formulaic [] opening-phrase authority <job kind>)) is answered by it, any
+; other opening by its own key.
 (define-func hail-response (?opening)
-  (bind (nth (k-formulaic-key-field) ?opening) ?key)
-  (if (authority-introduction ?opening)
-      (then
-        (bind (nth (k-formulaic-office-field) ?opening) ?office)
-        (formulaic [] response authority ?office))
-      (else (formulaic [] response ?key))))
+  (if (matches ?opening (formulaic ? opening-phrase authority ?..))
+      (then (formulaic [] response authority (nth (k-formulaic-office-field) ?opening)))
+      (else (formulaic [] response (nth (k-formulaic-key-field) ?opening)))))
 
 ; (rebuffs ?speaker) - @self rebuffs ?speaker's hail: he despises him and does not answer to him.
 (define-func rebuffs (?speaker)
@@ -268,7 +256,7 @@
 ; (turned-down-by ?other) - the last thing ?other said to @self turned a hail of his down.
 (define-func turned-down-by (?other)
   (bind (any {?other SAY ? @self /past /most_recent}) ?said)
-  (and (is-belief ?said) (turned-away ?said.target)))
+  (and (is-belief ?said) (matches ?said.target (formulaic ? refusal|rebuff ?..))))
 
 ; (talks-with-lately ?other) - how many talks @self has begun with ?other within the last
 ; k-talk-again-window-seconds.
@@ -289,27 +277,21 @@
 (define-func invited-by (?caller)
   (substantial (bb-public-any ?caller hailing @self)))
 
-; (turned-away ?msg) - ?msg turns a hail down: a refusal or a rebuff.
-(define-func turned-away (?msg)
-  (if (eq-func-name ?msg formulaic)
-      (then
-        (bind (nth (k-formulaic-category-field) ?msg) ?category)
-        (or (eq ?category refusal) (eq ?category rebuff)))
-      (else @false)))
-
 ; (hail-accepted ?partner ?hail) - ?partner answered the opening @self called in ?hail without
 ; turning it down, and the two are in one conversation.
 (define-func hail-accepted (?partner ?hail)
-  (bind (hail-reply ?partner ?hail) ?reply)
-  (and (is-belief ?reply)
-       (not (turned-away ?reply.target))
+  (bind (hail-opening ?partner ?hail) ?said)
+  (and (is-belief ?said)
+       (substantial (any {?partner SAY ? @self /succ /caused_by ?said}))
+       (none {?partner SAY (formulaic ? refusal|rebuff ?..) @self /succ /caused_by ?said})
        (in-one-conversation ?partner @self)))
 
 ; (hail-turned-down ?partner ?hail) - ?partner answered the opening @self called in ?hail with a
 ; refusal or a rebuff.
 (define-func hail-turned-down (?partner ?hail)
-  (bind (hail-reply ?partner ?hail) ?reply)
-  (and (is-belief ?reply) (turned-away ?reply.target)))
+  (bind (hail-opening ?partner ?hail) ?said)
+  (and (is-belief ?said)
+       (substantial (any {?partner SAY (formulaic ? refusal|rebuff ?..) @self /succ /caused_by ?said}))))
 
 ; (join-conversation ?talk ?act) - @self takes part in ?talk: he joins its participant set, and he knows
 ; himself a party of it, caused by ?act that joins him, where it is held when he did not yet, and the
@@ -370,15 +352,15 @@
 (define-func conversation-full (?talk)
   (>= (count (parties-of ?talk)) (conversation-size-max)))
 
-; (hailable ?partner) - @self may hail ?partner: he is awake to hear it, and in no conversation, or
-; in one that seats another. A man whose last word to @self turned him down is hailed again only
-; once he is in no conversation at all.
+; (hailable ?partner) - @self may hail ?partner: he is awake to hear it, his last word to @self did
+; not turn him down - that man seeks @self out himself - and he is in no conversation, or in one that
+; seats another.
 (define-func hailable (?partner)
   (bind (conversation-of ?partner) ?theirs)
   (and (not (attr-is ?partner awareness [k asleep]))
        (not (attr-is ?partner awareness [k unconscious]))
-       (or (unsubstantial ?theirs)
-           (and (not (conversation-full ?theirs)) (not (turned-down-by ?partner))))))
+       (not (turned-down-by ?partner))
+       (or (unsubstantial ?theirs) (not (conversation-full ?theirs)))))
 
 ; (in-full-talk) - @self is in a conversation that seats no one more.
 (define-func in-full-talk ()
@@ -450,10 +432,14 @@
 (define-func replied (?speaker ?said)
   (substantial (any {?speaker SAY ? @self /succ /caused_by ?said})))
 
+; (hail-opening ?partner ?hail) - the opening @self called to ?partner in ?hail, or @nothing.
+(define-func hail-opening (?partner ?hail)
+  (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /succ /caused_by ?hail}))
+
 ; (hail-reply ?partner ?hail) - what ?partner said in reply to the opening @self called in ?hail,
 ; or @fail.
 (define-func hail-reply (?partner ?hail)
-  (bind (any {@self SAY (formulaic ? opening-phrase ?..) ?partner /succ /caused_by ?hail}) ?said)
+  (bind (hail-opening ?partner ?hail) ?said)
   (if (is-belief ?said)
       (then (any {?partner SAY ? @self /succ /caused_by ?said}))
       (else @fail)))
@@ -475,12 +461,6 @@
         (then (bind @true ?asks) (break))))
   ?asks)
 
-; (party-of ?who ?belief) - ?who is the subject, target or auxiliary of ?belief.
-(define-func party-of (?who ?belief)
-  (or (and (is-object ?belief.subject) (eq ?who ?belief.subject))
-      (and (is-object ?belief.target) (eq ?who ?belief.target))
-      (and (is-object ?belief.auxiliary) (eq ?who ?belief.auxiliary))))
-
 ; (told-to ?belief ?listener) - @self has said ?belief to ?listener: to his face, or to a talk he
 ; took part in.
 (define-func told-to (?belief ?listener)
@@ -493,11 +473,13 @@
         (then (bind @true ?told) (break))))
   ?told)
 
-; (speech-worthy ?belief ?friend) - @self may tell ?friend the belief ?belief: ?friend is no party
-; of it, its tier admits him, and either @self takes him not to know it or has not told it to him.
+; (speech-worthy ?belief ?friend) - @self may tell ?friend the belief ?belief: it still holds, ?friend
+; is no party of it, its tier admits him, and either @self takes him not to know it or has not told it
+; to him.
 (define-func speech-worthy (?belief ?friend)
   (and (is-belief ?belief)
-       (not (party-of ?friend ?belief))
+       (eq (end-time ?belief) @ongoing)
+       (not (involved-in ?friend ?belief))
        (disclosable-to ?belief ?friend)
        (or (substantial (any {?friend /not know (clausify ?belief)}))
            (not (told-to ?belief ?friend)))))
@@ -534,12 +516,13 @@
   ?pick)
 
 ; (gossip-for ?audience) - the first piece of gossip @self holds that someone in ?audience (a man,
-; or a talk) has not been told, about someone @self can name, or @nothing.
+; or a talk) has not been told, about someone @self can name and not about @self, or @nothing.
 (define-func gossip-for (?audience)
   (bind @nothing ?pick)
   (for-each ?gossip (every {@self gossip ?})
     (bind ?gossip.target ?heard)
     (if (and (is-belief ?heard)
+             (not (involved-in @self ?heard))
              (substantial (any {?heard.subject name ?}))
              (worthy-for ?heard ?audience))
         (then (bind ?heard ?pick) (break))))
@@ -580,21 +563,12 @@
 ; flirtation (a flirt), smalltalk (a remark), tidings (news), or reply - anything that answers a
 ; line rather than calling for an answer, an unclassified line among them.
 (define-func line-kind (?msg)
-  (cond (case (is-qs ?msg) inquiry)
-        (case (eq-func-name ?msg formulaic)
-              (switch (nth (k-formulaic-category-field) ?msg)
-                (on opening-phrase opening-phrase)
-                (on flirt (flip (eq (nth (k-formulaic-key-field) ?msg) compliment) flirtation reply))
-                (else reply)))
-        (else
-          (bind (msg-class-of ?msg) ?class)
-          (if (unsubstantial ?class)
-              (then reply)
-              (else
-                (switch ?class
-                  (on smalltalk smalltalk)
-                  (on tidings tidings)
-                  (else reply)))))))
+  (cond (case (matches ?msg (qs ?..)) inquiry)
+        (case (matches ?msg (formulaic ? opening-phrase ?..)) opening-phrase)
+        (case (matches ?msg (formulaic ? flirt compliment ?..)) flirtation)
+        (case (matches ?msg (msg ~[/msg-class smalltalk] ?..)) smalltalk)
+        (case (matches ?msg (msg ~[/msg-class tidings] ?..)) tidings)
+        (else reply)))
 
 ; (owes-response ?msg) - a line ?msg said to @self calls for a response from him.
 (define-func owes-response (?msg)
@@ -728,8 +702,7 @@
 ; his mind, or "nothing much" when it asked his news and he has none.
 (define-func answer-to (?qs ?partner)
   (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
-  (bind (nth (k-msg-first-content-field) ?qs) ?asked-content)
-  (if (and (eq-func-name ?asked-content news-for) (unsubstantial ?answer))
+  (if (and (matches ?qs (qs ? (news-for ?..))) (unsubstantial ?answer))
       (then (formulaic [/msg-class reply] response no-news))
       (else (msg /utterable [/msg-class reply] ?answer))))
 

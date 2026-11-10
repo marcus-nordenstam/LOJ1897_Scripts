@@ -16,7 +16,7 @@
   (preemptive-or
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
-        (when (and (is-qs ?msg) (withholds ?msg ?speaker)))
+        (when (and (matches ?msg (qs ?..)) (withholds ?msg ?speaker)))
         (effects (maintain-proposal {@self tell (formulaic [/msg-class reply] refusal answer) ?speaker} /caused_by ?line /quit-trying-on-fail))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line

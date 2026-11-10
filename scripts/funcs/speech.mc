@@ -89,14 +89,14 @@
           (break)))))
 
 (define-func /hear adopt-heard-msg (?msg ?speaker ?audience ?tell)
-  (if (authority-introduction ?msg)
+  (if (matches ?msg (formulaic ? opening-phrase authority ?..))
       (then (adopt-authority-introduction ?msg ?speaker ?tell)))
-  (if (eq (nth (k-msg-first-content-field) ?msg) @unknown)
+  (if (matches ?msg (msg ? @unknown))
       (then (adopt-not-knowing ?speaker ?tell)))
   ; A QUESTION is not a claim. The heard {asker SAY (qs ..)} record IS the
   ; deliverable - respond answers it straight off that record - and adopting the
   ; asked pattern would turn a man's question into this listener's belief.
-  (if (is-qs ?msg)
+  (if (matches ?msg (qs ?..))
     (then @fail)
     (else
       ; @fail binds through: an undecodable message is no facts, not an abort.
