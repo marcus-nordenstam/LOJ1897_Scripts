@@ -84,7 +84,8 @@
           (then (begin-proposal {@self turn-down ?speaker (formulaic [] refusal in_conversation)} /uninterruptable
                                 /caused_by ~[?opening ?part]))
           (else
-            (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?busy-with)} /uninterruptable
+            (bind (under-way ?busy-with) ?reason)
+            (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?reason)} /uninterruptable
                             /caused_by ?opening))))))
 
 ; A man who has had his fill of company turns a hail down, saying so, unless it obliges him.
