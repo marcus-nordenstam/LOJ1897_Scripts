@@ -11,7 +11,8 @@
   (aux ?)
   (sequence
     (stage
-      (effects (maintain-proposal {@self tell ?msg ?partner})))
+      (bind (caused-by ?turn-down {?partner SAY ? @self /ever}) ?opening)
+      (effects (maintain-proposal {@self tell ?msg ?partner} /caused_by ?opening)))
     (stage
       (effects
         (set-outcome ?turn-down /succ)))))

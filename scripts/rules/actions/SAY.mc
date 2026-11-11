@@ -41,7 +41,9 @@
     (deliver-speech ?xsay)
     (if (presented-lod)
         (then
-          (expect (my-turn ?audience) "SAY: the line began without the turn it takes - its board changed since tell held it")
+          (bind (caused-by ?SAY {@self tell ? ?audience}) ?tell)
+          (expect (or (and (is-belief ?tell) (answering-line ?tell.target ?audience)) (my-turn ?audience))
+                  "SAY: the line began without the turn it takes - its board changed since tell held it")
           (speak-aloud @self ?msg))))
 
   ; The unpresented say is heard and not watched: its sound went out as it began, and is heard

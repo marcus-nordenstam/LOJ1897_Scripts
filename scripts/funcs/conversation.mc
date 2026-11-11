@@ -170,7 +170,7 @@
 (define-func answering-line (?msg ?audience)
   (bind @false ?answers)
   (for-each ?tell (every {@self tell ?msg ?audience /pres})
-    (if (substantial (tolerate (caused-by ?tell {?audience SAY ? @self})))
+    (if (substantial (tolerate (caused-by ?tell {?audience SAY ? @self /ever})))
         (then (bind @true ?answers) (break))))
   ?answers)
 
@@ -182,6 +182,12 @@
 (define-func my-turn (?audience)
   (bind (turn-board ?audience) ?board)
   (or (unsubstantial ?board) (holds-turn ?board)))
+
+; (may-speak ?msg ?audience) - @self may say ?msg to ?audience now: an answer to him takes no turn,
+; since he asked for it; any other line waits for its turn and for no one to be calling @self.
+(define-func may-speak (?msg ?audience)
+  (or (answering-line ?msg ?audience)
+      (and (my-turn ?audience) (not (being-called)))))
 
 ; (being-called) - another man holds @self's own turn: he is calling @self.
 (define-func being-called ()
@@ -450,10 +456,10 @@
 (define-func inquiry-of (?fact)
   (qs /utterable [/msg-class inquiry] (any ?fact)))
 
-; (askable ?who ?fact) - @self may ask ?who for the fact clause ?fact: he could know it, and @self
-; does not take him not to know it.
+; (askable ?who ?fact) - @self may ask ?who for the fact clause ?fact: he could know it, @self does
+; not take him not to know it, and he has not refused to tell @self it.
 (define-func askable (?who ?fact)
-  (and (could-know ?who ?fact) (none {?who /not know ?fact})))
+  (and (could-know ?who ?fact) (none {?who /not know ?fact}) (none {?who withhold ?fact @self})))
 
 ; (wants-to-ask ?party) - @self wonders about something ?party could tell him.
 (define-func wants-to-ask (?party)

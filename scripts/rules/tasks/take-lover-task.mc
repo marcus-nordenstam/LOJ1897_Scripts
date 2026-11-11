@@ -17,7 +17,7 @@
               (then (maintain-proposal {@self tell (msg /utterable [] {@self lover ?lover}) ?lover})))))
       (stage
         (effects
-          (every {@self (disclosure-tier-labels friend) ?}): ?facts
+          (every {@self (disclosure-tier-labels friend self-disclosable) ?}): ?facts
           (if ?facts
               (then (maintain-proposal {@self tell (msg /utterable [] ?facts) ?lover})))))
       (stage

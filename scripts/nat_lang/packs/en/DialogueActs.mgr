@@ -231,6 +231,8 @@
 ; falls back to a generic press-for-detail when it sees a reason it does
 ; not yet have a specific rule for.
 
+" that is none of your business "
+( formulaic [] refusal answer ) .
 " i'll not say "
 ( formulaic [] refusal answer ) .
 " i'd rather not say "

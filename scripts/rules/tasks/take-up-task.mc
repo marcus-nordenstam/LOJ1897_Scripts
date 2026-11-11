@@ -22,7 +22,8 @@
                    {?partner SAY (formulaic ? opening-phrase ?..):?opening @self /past /most_recent}
       (stage
         (bind (hail-response ?opening) ?response)
-        (effects (maintain-proposal {@self tell ?response ?partner})))
+        (bind (caused-by ?take-up {?partner SAY ? @self /ever}) ?said)
+        (effects (maintain-proposal {@self tell ?response ?partner} /caused_by ?said)))
       (stage
         (effects
           (bind @nothing ?talk)

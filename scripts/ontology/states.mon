@@ -777,6 +777,10 @@
 ; wonder <fact> - @self wants to know the fact clause <fact> ({?home supper-hour ?}): the motive of
 ; finding it out (drivers/want-to-know-driver.mc).
 (state wonder (tar @pattern) (self-known) (motivation))
+; withhold <fact> <asker> - the subject will not tell <asker> the fact clause <fact>: he answered
+; <asker>'s question about it "none of your business" (funcs/speech.mc), and <asker> does not ask him
+; it again until they are closer (reflexes/withhold-lifts.mc).
+(state withhold (tar @pattern) (aux [k human] @object))
 ; news <belief> - a belief of @self's about himself, under a (facets news-worthy) label, worth
 ; telling those who do not know it; gossip <belief> - one about a third party, under a (facets
 ; gossip-worthy) label, worth passing on (reflexes/speech-value.mc). Each fades as any belief does.

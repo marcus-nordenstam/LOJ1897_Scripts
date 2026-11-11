@@ -4,7 +4,7 @@
   (cooldown 1 m try-once)
   (rng-stream behaviour)
   (belief {@self enthusiasm ?enthusiasm}
-              {@self (disclosure-tier-labels stranger) ?}
+              {@self (disclosure-tier-labels stranger self-disclosable) ?}
     (role ?stranger 
          {?stranger isa [k human], condition [k alive]}
          (spatial ?stranger co-located @self)
@@ -26,6 +26,6 @@
       (declare-utility want)
   
       (effects
-        (every {@self (disclosure-tier-labels stranger) ?}): ?facts
+        (every {@self (disclosure-tier-labels stranger self-disclosable) ?}): ?facts
         (begin-proposal {@self tell (msg /utterable [] ?facts) ?stranger})))))
     

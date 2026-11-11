@@ -23,7 +23,7 @@
 ; The household is primed - everyone under the roof knows the others by name and that they live
 ; there - and everything that would take the cast out of the house or busy them elsewhere is
 ; inhibited: what is judged is a crowd getting acquainted.
-(define-list gauntlet validate c13-validate deadline 11
+(define-list gauntlet validate c13-validate deadline 17
   inhibit want-drink-driver feel-charitable-driver want-worship-driver want-eat-out-pub-driver
           want-eat-out-restaurant-driver want-provisions-driver gamble-urge-driver
           bored-gamble-driver plan-gathering-driver plan-impromptu-supper-driver
