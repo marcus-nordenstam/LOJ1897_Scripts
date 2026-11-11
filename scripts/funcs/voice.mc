@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; voice.mc - the register a speaker takes toward the one she speaks to and the one she speaks
-; about, reasoned in her own mind as she says the line and carried on it as its [/reg-des ..]
-; rider. How she sounds whatever she means - her personality, her mood - is not reasoned and is
+; about, reasoned in her own mind as she says the line and carried on it as its [/reg-des ..],
+; [/listener-regard ..] and [/subject-regard ..] riders. How she sounds whatever she means - her personality, her mood - is not reasoned and is
 ; not here: the language layer reads that off her own self.
 ; ----------------------------------------------------------------------------
 
@@ -10,8 +10,6 @@
 (define-macro closeness-familiarity () 2)
 (define-macro formal-deference () 1)
 (define-macro deferential-deference () 2)
-(define-macro mild-warmth-band () 1.0)
-(define-macro strong-warmth-band () 2.0)
 
 ; (voice-line ?msg ?audience) - ?msg as @self says it to ?audience. A broadcast takes no register
 ; toward a listener; a line to a conversation is said as formally as its most deferential party
@@ -20,18 +18,15 @@
   (bind (line-subject ?msg) ?subject)
   (cond
     (case (not (is-object ?audience))
-      (with-register ?msg (affect-toward ?subject)))
+      (with-regard ?msg @nothing ?subject))
     (case (is-a ?audience [k conversation])
-      (with-register ?msg
-        (formality-of (conversation-deference ?audience))
-        (affect-toward ?subject)))
+      (with-regard (with-register ?msg (formality-of (conversation-deference ?audience)))
+                   @nothing ?subject))
     (else
-      (with-register ?msg
-        (dread-tone ?audience)
-        (warmth-toward ?audience)
-        (formality-of (deference-toward ?audience))
-        (bond-to ?audience)
-        (affect-toward ?subject)))))
+      (with-regard (with-register ?msg
+                     (formality-of (deference-toward ?audience))
+                     (bond-to ?audience))
+                   ?audience ?subject))))
 
 ; (line-subject ?msg) - the first one besides @self a sentence of ?msg is about, or @nothing.
 (define-func line-subject (?msg)
@@ -77,36 +72,8 @@
     (case (<= ?deference (- 0 (formal-deference))) familiar)
     (else @nothing)))
 
-(define-func warmth-toward (?person)
-  (bind (stance-band ?person warmth) ?band)
-  (cond
-    (case (any {@self love ?person}) fond)
-    (case (>= ?band (strong-warmth-band)) fond)
-    (case (>= ?band (mild-warmth-band)) warm)
-    (case (<= ?band (- 0.0 (strong-warmth-band))) hostile)
-    (case (<= ?band (- 0.0 (mild-warmth-band))) cool)
-    (case (any {@self emotion [k anger] ?person}) cool)
-    (else @nothing)))
-
-; (dreads ?person) - the durable dread of him, or the fright of the moment.
-(define-func dreads (?person)
-  (or (> (stance-band ?person dread) 0.0) (substantial (any {@self emotion [k fear] ?person}))))
-
-(define-func dread-tone (?person)
-  (flip (dreads ?person) anxious_fear @nothing))
-
 (define-func bond-to (?person)
   (cond
     (case (closeness ?person close_friend+) close)
     (case (closeness ?person friend+) friend)
-    (else @nothing)))
-
-(define-func affect-toward (?subject)
-  (cond
-    (case (unsubstantial ?subject) @nothing)
-    (case (any {@self love ?subject}) loves)
-    (case (> (stance-band ?subject warmth) 0.0) likes)
-    (case (< (stance-band ?subject warmth) 0.0) dislikes)
-    (case (dreads ?subject) fears)
-    (case (any {@self emotion [k anger] ?subject}) resents)
     (else @nothing)))

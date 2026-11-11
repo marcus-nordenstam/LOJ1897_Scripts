@@ -5,7 +5,7 @@
 ; (those live once, in packs/<lang>/*.mgr):
 ;   intents:  the closed intent-tag vocabulary every pack's .mgr tags against.
 ;   schema:   discourse structure - the ordered slots of a description.
-;   select:   affect-conditioned rules mapping (speaker affect / disposition)
+;   select:   voice-conditioned rules mapping (speaker regard / disposition)
 ;             to a ranked phrasing-intent preference for a slot.
 ;
 ; Format (Phase 0 spec 0.4.2): block headers (intents:/schema/select) start at
@@ -57,11 +57,13 @@ schema interest_description:
   slot interest     rep
   slot coda         opt
 
-; --- Affect-conditioned phrasing-intent selection ----------------------------
-; The condition vocabulary: affect:<term> (the speaker's regard / mood toward
-; the subject or listener), cog:<style>, role:<role>, class / bond / formality.
-; Conditions are resolved against the voice-input model at step 4.6; here they
-; are only parsed and validated.
+; --- Voice-conditioned phrasing-intent selection -----------------------------
+; The condition vocabulary: listener:<verb> and subject:<verb> (the speaker's
+; regard for whom he speaks to and of: a stance verb of the signal_verbs table,
+; holding when his band on its dim is at least as strong, on the same side - a
+; dislike holds of a detest), cog:<style>, role:<role>, class / bond / formality.
+; A listener: / subject: verb the signal_verbs table does not declare is a load
+; error at the end of the bring-up.
 
 select opening:
   ; `intro` is the slot-bound tag the opening's vocative-name template
@@ -70,8 +72,8 @@ select opening:
   ; still ends in neutral as the fallback. Schooling is ADDITIVE: low /
   ; unknown leaves the opening at the baseline neutral voice; high biases
   ; toward elaborated / flowery variants.
-  affect:loves      -> intro warm flowery neutral
-  affect:dislikes   -> intro curt neutral
+  subject:love      -> intro warm flowery neutral
+  subject:dislike   -> intro curt neutral
   schooling:high    -> intro flowery elaborated neutral
   cog:abstract      -> intro terse neutral
   cog:sensory       -> intro flowery neutral
@@ -83,33 +85,33 @@ select age:
   *                 -> neutral
 
 select occupation:
-  affect:loves      -> warm neutral
-  affect:resents    -> curt neutral
+  subject:love      -> warm neutral
+  subject:disdain   -> curt neutral
   schooling:high    -> elaborated flowery neutral
   *                 -> neutral
 
 select relations:
-  affect:loves      -> warm neutral
+  subject:love      -> warm neutral
   schooling:high    -> elaborated flowery neutral
   cog:abstract      -> terse neutral
   *                 -> neutral
 
 select interest:
-  affect:loves      -> warm flowery neutral
-  affect:resents    -> curt neutral
+  subject:love      -> warm flowery neutral
+  subject:disdain   -> curt neutral
   schooling:high    -> elaborated flowery neutral
   *                 -> neutral
 
 select regard:
-  affect:loves      -> warm flowery neutral
-  affect:resents    -> blunt curt neutral
-  affect:fears      -> deferential neutral
+  subject:love      -> warm flowery neutral
+  subject:wary      -> deferential neutral
+  subject:disdain   -> blunt curt neutral
   schooling:high    -> elaborated neutral
   *                 -> neutral
 
 select coda:
-  affect:dislikes   -> curt neutral
-  affect:likes      -> warm neutral
+  subject:dislike   -> curt neutral
+  subject:like      -> warm neutral
   schooling:high    -> elaborated neutral
   *                 -> neutral
 
@@ -117,18 +119,18 @@ select coda:
 ; The opening is the same vocative-name template as person_description
 ; (already tagged `:: intro` and matched via slot-bound intent priority).
 ; Body slots default to neutral; future intent-tagged kinship templates can
-; differentiate by affect.
+; differentiate by regard.
 
 select parents:
-  affect:loves      -> warm neutral
+  subject:love      -> warm neutral
   *                 -> neutral
 
 select spouse:
-  affect:loves      -> warm flowery neutral
+  subject:love      -> warm flowery neutral
   *                 -> neutral
 
 select children:
-  affect:loves      -> warm neutral
+  subject:love      -> warm neutral
   *                 -> neutral
 
 select siblings:
@@ -138,16 +140,15 @@ select extended_kin:
   *                 -> neutral
 
 select bonds:
-  affect:loves      -> warm neutral
+  subject:love      -> warm neutral
   *                 -> neutral
 
 ; --- Phase 9.4 decorations ---------------------------------------------------
 ; Per-clause optional surface fragments bolted on top of the realized clause
 ; without making .mgr templates enumerate every (decoration, clause-shape)
 ; combo. First-match-wins per block; the catch-all "* -> "" " is a no-op so
-; untriggered clauses ship unchanged. v1 evaluates only voice-only conditions
-; (cog / role / formality / schooling / class); affect / bond decorations
-; need clause-subject / audience context and are deferred to a follow-up.
+; untriggered clauses ship unchanged. A decoration rule takes the same
+; conditions a select rule does.
 
 ; Address-form suffix (distillation §3.1). A deferential / formal speaker
 ; punctuates with "sir"; an intimate / familiar speaker drops the honorific.

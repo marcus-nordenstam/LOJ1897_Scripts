@@ -9,7 +9,7 @@
 ; Format: `<phrase> <role> [<axis> [<value>]]`
 ;   role   discourse | vocative | politeness | protected
 ;   axis   tone warm-joy|cold-anger|anxious-fear|heavy-grief|proud|light
-;          warmth hostile|cool|warm|fond
+;          listener <stance verb>   (his regard for whom he speaks to: like, detest ..)
 ;          formality intimate|familiar|formal|deferential
 ;          confidentiality          (no value: the speaker asks for discretion)
 ;          authority                (no value: the speaker invokes office or law)
@@ -18,12 +18,12 @@
 ; -----------------------------------------------------------------------------
 
 ; Politeness.
-please              politeness   warmth warm
-if you please       politeness   warmth warm
+please              politeness   listener like
+if you please       politeness   listener like
 if you would        politeness   formality formal
 if it please you    politeness   formality deferential
-kindly              politeness   warmth warm
-thank you           politeness   warmth warm
+kindly              politeness   listener like
+thank you           politeness   listener like
 i beg your pardon   politeness   formality deferential
 begging your pardon politeness   formality deferential
 
@@ -42,17 +42,17 @@ inspector           vocative     formality formal
 doctor              vocative     formality formal
 father              vocative     formality formal
 reverend            vocative     formality formal
-friend              vocative     warmth warm
-my friend           vocative     warmth fond
-my dear             vocative     warmth fond
+friend              vocative     listener like
+my friend           vocative     listener adore
+my dear             vocative     listener adore
 my good man         vocative     formality familiar
 my good woman       vocative     formality familiar
 mate                vocative     formality familiar
 man                 vocative     formality familiar
-you fool            vocative     warmth hostile
-you dog             vocative     warmth hostile
-you wretch          vocative     warmth hostile
-you liar            vocative     warmth hostile
+you fool            vocative     listener detest
+you dog             vocative     listener detest
+you wretch          vocative     listener detest
+you liar            vocative     listener detest
 
 ; Discourse markers.
 well                discourse
