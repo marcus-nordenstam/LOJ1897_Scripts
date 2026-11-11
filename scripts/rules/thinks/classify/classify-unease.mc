@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (think classify-unease
+  (lod presented)
   (and
     (try
       (role ?talk {?talk participant @self} -{@self unease ?talk}

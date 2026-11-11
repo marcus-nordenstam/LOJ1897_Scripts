@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver flirt-fancy-driver
+  (lod presented)
   (role ?talk {?talk participant @self}:?part -{@self company [k crowded]}
     (role ?partner {@self fancy|desire|crave ?partner}:?fancy
       (when (and (in-conversation @self ?talk)

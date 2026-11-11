@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver respond-driver
+  (lod presented)
   (role ?talk {?talk participant @self}:?part
     (role ?speaker {?speaker SAY ?msg @self /past /most_recent}:?line
                    (owes-response ?msg)
@@ -21,3 +22,15 @@
       (when (in-conversation @self ?talk))
       (declare-utility obligation)
       (effects (maintain-proposal {@self respond ?speaker ?line} /caused_by ?part)))))
+
+; respond-direct-driver (driver) - unpresented there is no talk and no decorum: only a question said
+; to @self is owed, and he answers it straight to the man who asked (tasks/respond-task.mc), the
+; oldest question first.
+(driver respond-direct-driver
+  (lod unpresented)
+  (role ?speaker {?speaker SAY ?msg @self /past /most_recent}:?line
+                 (eq (line-kind ?msg) inquiry)
+                 -{@self tell ? ?speaker /succ /caused_by ?line}
+                 (select (score (- 0 (elapsed /seconds (start-time ?line)))) (policy argmin))
+    (declare-utility obligation)
+    (effects (maintain-proposal {@self respond ?speaker ?line}))))

@@ -13,6 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self take-up ?partner}:?take-up
+  (lod presented)
   (category enter-conversation (scope (talk-between ?partner)))
   (tar @excl [k human] @object)
   (preparatory)

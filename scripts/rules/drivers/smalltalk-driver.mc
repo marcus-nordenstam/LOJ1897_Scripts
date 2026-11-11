@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver smalltalk-unease-driver
+  (lod presented)
   (role ?talk {?talk participant @self}:?part {@self unease ?talk}:?unease -{@self company [k crowded]}
     (role ?partner {?talk participant ?partner}
                    (neq ?partner @self)

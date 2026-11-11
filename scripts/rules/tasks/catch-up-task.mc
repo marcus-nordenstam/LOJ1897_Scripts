@@ -14,10 +14,16 @@
   (success-cond (caught-up ?friend))
   (stable-or
     (try
+      (lod unpresented)
+      (when (unsubstantial (news-for ?friend)))
+      (effects (set-outcome ?catch-up /succ)))
+    (try
+      (lod presented)
       (when (and (not (conversing-with ?friend)) (hailable ?friend)))
       (effects (maintain-proposal {@self hail ?friend})))
     ; One activation per piece of news, so a piece told, or no longer true, is a withdrawn tell.
     (try
+      (lod presented)
       (belief ?news {@self news ?told}:?news
                   (speech-worthy ?told ?friend)
                   (select (policy first-match))
@@ -25,6 +31,14 @@
         (effects
           (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?told) ?friend} /quit-trying-on-fail))))
     (try
+      (lod unpresented)
+      (belief-list ?news-items {@self news ?told}:?news
+                   (speech-worthy ?told ?friend)
+        (effects
+          (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?news-items.target) ?friend}
+                             /quit-trying-on-fail))))
+    (try
+      (lod presented)
       (when (and (conversing-with ?friend)
                  (unsubstantial (news-for ?friend))
                  (not (asked-news ?friend (conversation-of @self)))))

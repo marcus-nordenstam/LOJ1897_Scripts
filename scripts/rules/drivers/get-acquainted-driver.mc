@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver get-acquainted-driver
+  (cooldown 1 d try-until-succ)
   (belief {@self age ?age} -{@self company [k crowded]}
     (role ?other {@self acquaintance ?other} -{@self (closeness-labels friend) ?other}
                  {?other isa [k human], condition [k alive]}

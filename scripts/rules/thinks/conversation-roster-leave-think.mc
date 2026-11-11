@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (think conversation-roster-leave
+  (lod presented)
   (role ?talk [k conversation] {?talk participant ?}
     (role ?party {?talk participant ?party}
                  (neq ?party @self)

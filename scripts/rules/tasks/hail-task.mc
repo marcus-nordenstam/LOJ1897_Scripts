@@ -22,6 +22,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self hail ?partner}:?hail
+  (lod presented)
   (category social (scope (talk-between ?partner)))
   (hosts reply)
   (tar @excl [k human] @object)

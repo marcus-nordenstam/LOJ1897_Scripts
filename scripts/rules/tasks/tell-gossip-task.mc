@@ -13,11 +13,20 @@
   (success-cond (unsubstantial (gossip-for ?friend)))
   (stable-or
     (try
+      (lod presented)
       (when (and (not (conversing-with ?friend)) (hailable ?friend)))
       (effects (maintain-proposal {@self hail ?friend})))
     (try
+      (lod presented)
       (belief ?gossip {@self gossip ?heard}:?gossip
                   (gossip-worthy-for ?heard ?friend)
                   (select (policy first-match))
         (when (conversing-with ?friend))
-        (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?heard) ?friend} /quit-trying-on-fail))))))
+        (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?heard) ?friend} /quit-trying-on-fail))))
+    (try
+      (lod unpresented)
+      (belief-list ?gossip-items {@self gossip ?heard}:?gossip
+                   (gossip-worthy-for ?heard ?friend)
+        (effects
+          (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?gossip-items.target) ?friend}
+                             /quit-trying-on-fail))))))

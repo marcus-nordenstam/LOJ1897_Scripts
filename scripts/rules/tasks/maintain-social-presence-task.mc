@@ -11,6 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self maintain-social-presence ?talk}:?maintain-social-presence
+  (lod presented)
   (construed-act social-act)
   (category social (scope ?talk))
   (hosts social reply enter-conversation)

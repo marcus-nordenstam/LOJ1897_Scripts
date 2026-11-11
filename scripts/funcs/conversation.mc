@@ -580,6 +580,7 @@
         (case (matches ?msg (formulaic ? opening-phrase ?..)) opening-phrase)
         (case (matches ?msg (formulaic ? flirt compliment ?..)) flirtation)
         (case (matches ?msg (msg ~[/msg-class smalltalk] ?..)) smalltalk)
+        (case (matches ?msg (msg ~[/msg-class tidings] ~[?])) reply)
         (case (matches ?msg (msg ~[/msg-class tidings] ?..)) tidings)
         (else reply)))
 

@@ -34,15 +34,30 @@
       (belief {@self SAY ? /succ /caused_by ?tell}
         (effects (set-outcome ?tell /succ))))
     (try
+      (lod presented)
       (when (and (or (unsubstantial ?audience) (within-voice ?audience ?msg))
                  (or (not (is-a ?audience [k human])) (visible ?audience))
                  (my-turn ?audience)
                  (not (being-called))))
       (effects (maintain-proposal {@self SAY ?msg ?audience})))
+    ; Unpresented there are no turns and no hails: one line stands on a speaker and his listener at
+    ; a time, so nobody speaks to a man being spoken to and nobody speaks to two at once.
     (try
+      (lod unpresented)
+      (sync talk @self ?audience)
+      (when (and (or (unsubstantial ?audience) (within-voice ?audience ?msg))
+                 (or (not (is-a ?audience [k human])) (visible ?audience))))
+      (effects (maintain-proposal {@self SAY ?msg ?audience})))
+    (try
+      (lod presented)
       (when (and (is-a ?audience [k human]) (within-call ?audience)
                  (my-turn ?audience)
                  (not (being-called))))
+      (effects (maintain-proposal {@self go-to ?audience earshot})))
+    (try
+      (lod unpresented)
+      (when (and (is-a ?audience [k human]) (within-call ?audience)
+                 (not (and (within-voice ?audience ?msg) (visible ?audience)))))
       (effects (maintain-proposal {@self go-to ?audience earshot})))
     (try
       (bind (party-out-of-voice ?audience ?msg) ?far)

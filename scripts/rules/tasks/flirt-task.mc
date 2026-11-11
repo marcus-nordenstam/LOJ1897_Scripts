@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self flirt ?talk ?partner}:?flirt
+  (lod presented)
   (category social (scope ?talk))
   (hosts reply enter-conversation)
   (tar @excl [k conversation] @object)

@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self smalltalk ?talk ?partner}:?smalltalk
+  (lod presented)
   (category social (scope ?talk))
   (hosts reply enter-conversation)
   (tar @excl [k conversation] @object)

@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self turn-down ?partner ?msg}:?turn-down
+  (lod presented)
   (category reply)
   (tar @excl [k human] @object)
   (aux ?)

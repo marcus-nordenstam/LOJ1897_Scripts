@@ -14,11 +14,18 @@
   (success-cond (unsubstantial (disclosure-for ?other)))
   (stable-or
     (try
+      (lod presented)
       (when (and (not (conversing-with ?other)) (hailable ?other)))
       (effects (maintain-proposal {@self hail ?other})))
     (try
+      (lod presented)
       (belief ?aspect {@self (facet-labels self-disclosable) ?}:?aspect
                   (speech-worthy ?aspect ?other)
                   (select (policy first-match))
         (when (conversing-with ?other))
-        (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?aspect) ?other} /quit-trying-on-fail))))))
+        (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?aspect) ?other} /quit-trying-on-fail))))
+    (try
+      (lod unpresented)
+      (belief-list ?aspects {@self (facet-labels self-disclosable) ?}:?aspect
+                   (speech-worthy ?aspect ?other)
+        (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?aspects) ?other} /quit-trying-on-fail))))))

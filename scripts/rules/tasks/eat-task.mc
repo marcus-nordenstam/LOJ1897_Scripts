@@ -65,15 +65,4 @@
                         (maintain-proposal
                           {@self tell (msg /utterable [] {?home breakfast-hour ?b}
                                                     {?home lunch-hour ?l}
-                                                    {?home supper-hour ?s}) _}))))))))
-    (try
-      (rng-stream behaviour)
-      (role ?talk {?talk participant @self} {?talk venue ?}
-                  -{@self tell ? ?talk /succ /caused_by ?eat}
-        (belief ?news {@self news ?told}:?news
-                    (worthy-for ?told ?talk)
-                    (select (policy first-match))
-          (when (at-meal-place ?place))
-          (effects
-            (msg /utterable [] ?told): ?msg
-            (maintain-proposal {@self tell ?msg ?talk} /quit-trying-on-fail)))))))
+                                                    {?home supper-hour ?s}) _}))))))))))

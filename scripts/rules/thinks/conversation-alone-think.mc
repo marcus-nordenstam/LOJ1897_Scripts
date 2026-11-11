@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (think conversation-alone
+  (lod presented)
   (role ?talk {?talk participant @self} {?talk venue ?}
     (when (not (other-party-in ?talk)))
     (effects (leave-conversation ?talk))))

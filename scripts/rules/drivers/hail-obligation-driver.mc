@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (driver hail-obligation-driver
+  (lod presented)
   (role ?hailer {@self obligation {@self hail ?hailer} ?hailer}:?owed
     (bind (hail-utility ?hailer) ?utility)
     (declare-utility (utility-band ?utility) (utility-value ?utility))

@@ -22,6 +22,7 @@
 ; whatever else he has going. Every answer to a hail is caused by the opening it answers, and only
 ; a speaker's latest opening is answered: his hail stands on that one.
 (driver engage-hail-driver
+  (lod presented)
   (role ?speaker (bb-public-every ?speaker hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
@@ -42,6 +43,7 @@
 
 ; A take-up he has begun is a yes already being said: he finishes it.
 (driver complete-take-up-driver
+  (lod presented)
   (role ?speaker (bb-public-every ?speaker hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
@@ -58,6 +60,7 @@
 ; Declining once task selection has put something else above taking it up (outbids), and saying
 ; what it is: the decision is made once, and the refusal it begins always completes.
 (driver decline-hail-driver
+  (lod presented)
   (role ?speaker (bb-public-every ?speaker hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
@@ -86,6 +89,7 @@
 
 ; A man who has had his fill of company turns a hail down, saying so, unless it obliges him.
 (driver weary-hail-driver
+  (lod presented)
   (role ?speaker (bb-public-every ?speaker hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
@@ -111,6 +115,7 @@
 
 ; Rebuffing a man he despises: a retort, heard as the insult it is.
 (driver rebuff-hail-driver
+  (lod presented)
   (role ?speaker (bb-public-every ?speaker hailing @self)
                  {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                  -{@self take-up ?speaker /succ /caused_by ?opening}
