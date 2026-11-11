@@ -17,7 +17,7 @@
 ; regen. See Docs/dialogue_nlg_phase4_design.md section 4.5.
 ; -----------------------------------------------------------------------------
 
-intents: neutral warm curt blunt deferential flowery terse plain metaphorical anecdotal elaborated intro
+intents: neutral warm curt blunt deferential flowery scornful respectful tender spiteful terse plain metaphorical anecdotal elaborated intro
 
 ; --- Discourse schema for a tell_about person description ---------------------
 ; Slots mirror the proven body-fact order of the legacy descriptions engine,
@@ -46,6 +46,7 @@ schema relationship_description:
   slot siblings     opt
   slot extended_kin opt
   slot bonds        opt
+  slot regard       opt
   slot coda         opt
 
 ; --- Discourse schema for "tell me about X's interests" -----------------------
@@ -64,16 +65,34 @@ schema interest_description:
 ; dislike holds of a detest), cog:<style>, role:<role>, class / bond / formality.
 ; A listener: / subject: verb the signal_verbs table does not declare is a load
 ; error at the end of the bring-up.
+;
+; Two axes. A row on the speaker's regard, formality or bond picks the ATTITUDE
+; of a clause; a row on who he is (schooling, cog, role, class) picks its STYLE.
+; Each is the first row of its kind that holds, in the slot's own block, else in
+; the `*` block. With an attitude, its intents are tried in order and the style
+; ranks the templates of each; with none, the style row's intents stand alone.
+; A positional tag (intro) on the slot's style row leads either way.
+
+; The attitudes every slot shares, strongest first: care at its poles, dread,
+; esteem, care, warmth. Trust is said as a hedge (decoration hedge, below).
+select *:
+  subject:hate      -> spiteful curt neutral
+  subject:love      -> warm flowery neutral
+  subject:wary      -> deferential neutral
+  subject:despise   -> scornful blunt curt neutral
+  subject:revere    -> respectful deferential neutral
+  subject:disdain   -> scornful curt neutral
+  subject:admire    -> respectful neutral
+  subject:cherish   -> tender warm neutral
+  subject:begrudge  -> spiteful curt neutral
+  subject:like      -> warm neutral
+  subject:dislike   -> curt neutral
+  *                 -> neutral
 
 select opening:
   ; `intro` is the slot-bound tag the opening's vocative-name template
-  ; carries; preferring it first guarantees that template wins over the
-  ; generic-possessive template (which has the same MC shape). Every chain
-  ; still ends in neutral as the fallback. Schooling is ADDITIVE: low /
-  ; unknown leaves the opening at the baseline neutral voice; high biases
-  ; toward elaborated / flowery variants.
-  subject:love      -> intro warm flowery neutral
-  subject:dislike   -> intro curt neutral
+  ; carries; leading with it guarantees that template wins over the
+  ; generic-possessive template (which has the same MC shape).
   schooling:high    -> intro flowery elaborated neutral
   cog:abstract      -> intro terse neutral
   cog:sensory       -> intro flowery neutral
@@ -85,86 +104,56 @@ select age:
   *                 -> neutral
 
 select occupation:
-  subject:love      -> warm neutral
-  subject:disdain   -> curt neutral
   schooling:high    -> elaborated flowery neutral
   *                 -> neutral
 
 select relations:
-  subject:love      -> warm neutral
   schooling:high    -> elaborated flowery neutral
   cog:abstract      -> terse neutral
   *                 -> neutral
 
 select interest:
-  subject:love      -> warm flowery neutral
-  subject:disdain   -> curt neutral
   schooling:high    -> elaborated flowery neutral
   *                 -> neutral
 
 select regard:
-  subject:love      -> warm flowery neutral
-  subject:wary      -> deferential neutral
-  subject:disdain   -> blunt curt neutral
   schooling:high    -> elaborated neutral
   *                 -> neutral
 
 select coda:
-  subject:dislike   -> curt neutral
-  subject:like      -> warm neutral
   schooling:high    -> elaborated neutral
   *                 -> neutral
 
-; --- relationship_description slot selection ---------------------------------
-; The opening is the same vocative-name template as person_description
-; (already tagged `:: intro` and matched via slot-bound intent priority).
-; Body slots default to neutral; future intent-tagged kinship templates can
-; differentiate by regard.
+; --- Decorations ---------------------------------------------------------------
+; Surface fragments bolted onto a whole utterance - a description, a statement or
+; a question - without making .mgr templates enumerate every (decoration,
+; clause-shape) combo. Blocks apply in file order, the first rule of each that
+; holds; the catch-all "* -> "" " is a no-op. A decoration rule takes the same
+; conditions a select rule does. A question vouches for or doubts no one: its
+; subject: conditions never hold.
 
-select parents:
-  subject:love      -> warm neutral
-  *                 -> neutral
-
-select spouse:
-  subject:love      -> warm flowery neutral
-  *                 -> neutral
-
-select children:
-  subject:love      -> warm neutral
-  *                 -> neutral
-
-select siblings:
-  *                 -> neutral
-
-select extended_kin:
-  *                 -> neutral
-
-select bonds:
-  subject:love      -> warm neutral
-  *                 -> neutral
-
-; --- Phase 9.4 decorations ---------------------------------------------------
-; Per-clause optional surface fragments bolted on top of the realized clause
-; without making .mgr templates enumerate every (decoration, clause-shape)
-; combo. First-match-wins per block; the catch-all "* -> "" " is a no-op so
-; untriggered clauses ship unchanged. A decoration rule takes the same
-; conditions a select rule does.
+; Hedge suffix: the speaker's trust in whom he speaks of.
+decoration hedge:
+  position: suffix
+  subject:distrust      -> ", for what that is worth"
+  subject:rely          -> ", you may depend on it"
+  *                     -> ""
 
 ; Address-form suffix (distillation §3.1). A deferential / formal speaker
-; punctuates with "sir"; an intimate / familiar speaker drops the honorific.
-; v1 ships one polite suffix; class-down forms ("my good man") added when the
-; class-delta derivation finds an audience to compare against.
+; punctuates with "sir"; one fond of his listener calls him friend, one who
+; detests him says so.
 decoration address_form:
   position: suffix
   formality:deferential -> ", sir"
   formality:formal      -> ", sir"
+  listener:adore        -> ", my friend"
+  listener:detest       -> ", you wretch"
   *                     -> ""
 
-; Softener prefix (distillation §3.2). Cushions the question / statement
-; when the speaker holds a deferential register. v1 fires on formality;
-; adding warmth / sensitivity conditions needs the per-clause subject
-; context the decoration evaluator does not yet thread through.
+; Softener prefix (distillation §3.2). Cushions what is said to one the speaker
+; defers to or is wary of.
 decoration softener:
   position: prefix
   formality:deferential -> "Forgive me, but "
+  listener:wary         -> "Forgive me, but "
   *                     -> ""

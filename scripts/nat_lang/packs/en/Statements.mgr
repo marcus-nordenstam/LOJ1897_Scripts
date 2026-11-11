@@ -96,9 +96,9 @@ $form(FORM)
 :: curt terse
 .
 
-; Warm - the speaker approves of the subject's livelihood; "makes his living"
+; Warm - the speaker approves of the subject's livelihood; "earns a living"
 ; casts honest labour as a virtue. The 1897-narrator turn of phrase.
-"$sub_np(NP) makes his living as a $kind(KIND|/isa|job)"
+"$sub_np(NP) earns a living as a $kind(KIND|/isa|job)"
 { $sub_np(NP) /pres job $kind(KIND|/isa|job) }
 :: warm
 .
@@ -117,6 +117,31 @@ $form(FORM)
 "$sub_np(NP) plies the trade of a $kind(KIND|/isa|job)"
 { $sub_np(NP) /pres job $kind(KIND|/isa|job) }
 :: flowery
+.
+
+; Warm and schooled at once: the schooled speaker's approval.
+"$sub_np(NP) is honourably employed as a $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+:: warm elaborated
+.
+
+; The speaker's esteem and care for the subject, said of his trade: respect, scorn,
+; tenderness, spite.
+"$sub_np(NP) is a $kind(KIND|/isa|job) of good standing"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+:: respectful
+.
+"$sub_np(NP) passes for a $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+:: scornful
+.
+"$sub_np(NP) toils away as a $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+:: tender
+.
+"$sub_np(NP) scrapes by as a $kind(KIND|/isa|job)"
+{ $sub_np(NP) /pres job $kind(KIND|/isa|job) }
+:: spiteful
 .
 
 
@@ -186,55 +211,6 @@ $form(FORM)
 " $value(NP) ++, $sub_np(NP) ++'s friend "
 { $sub_np(NP) /pres friend $value(NP) }
 :: terse curt
-.
-
-; Warm variants - "dear" prepended, the affectionate-narrator's gloss for kin
-; the speaker holds in regard. Mirrors the first-person "my dear mother" form
-; above; same belief shape as the neutral third-party templates.
-" $sub_np(NP) ++'s dear mother is $value(NP) "
-{ $sub_np(NP) /pres mother $value(NP) }
-:: warm
-.
-" $sub_np(NP) ++'s dear father is $value(NP) "
-{ $sub_np(NP) /pres father $value(NP) }
-:: warm
-.
-" $sub_np(NP) ++'s dear sibling is $value(NP) "
-{ $sub_np(NP) /pres sibling $value(NP) }
-:: warm
-.
-" $sub_np(NP) ++'s dear child is $value(NP) "
-{ $sub_np(NP) /pres child $value(NP) }
-:: warm
-.
-" $sub_np(NP) ++'s dear spouse is $value(NP) "
-{ $sub_np(NP) /pres spouse $value(NP) }
-:: warm
-.
-" $sub_np(NP) ++'s dear friend is $value(NP) "
-{ $sub_np(NP) /pres friend $value(NP) }
-:: warm
-.
-
-; Elaborated kinship - "esteemed" prepended, the schooled-narrator's adjective
-; of choice for naming kin in the formal periphrastic register. Picked by the
-; .mph relations select when schooling:high holds. Same belief shape as the
-; neutral forms, so parse accepts either.
-" $sub_np(NP) ++'s esteemed mother is $value(NP) "
-{ $sub_np(NP) /pres mother $value(NP) }
-:: elaborated
-.
-" $sub_np(NP) ++'s esteemed father is $value(NP) "
-{ $sub_np(NP) /pres father $value(NP) }
-:: elaborated
-.
-" $sub_np(NP) ++'s esteemed sibling is $value(NP) "
-{ $sub_np(NP) /pres sibling $value(NP) }
-:: elaborated
-.
-" $sub_np(NP) ++'s esteemed spouse is $value(NP) "
-{ $sub_np(NP) /pres spouse $value(NP) }
-:: elaborated
 .
 
 ; Birthplace / home are object-valued; same possessive shape.
@@ -309,6 +285,23 @@ $form(FORM)
 :: deferential
 .
 
+" $sub_np(NP) is devoted to $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) }
+:: respectful
+.
+" $sub_np(NP) is besotted with $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) }
+:: scornful
+.
+" $sub_np(NP) has given all the heart there is to $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) }
+:: tender
+.
+" $sub_np(NP) is welcome to $value(NP) "
+{ $sub_np(NP) /pres love $value(NP) }
+:: spiteful
+.
+
 
 ; --- EMOTION : AFFECTION (object focus) ------------------------------------
 " $sub_np(NP) is fond of $value(REF_NP) "
@@ -335,6 +328,22 @@ $form(FORM)
 .
 " $sub_np(NP) is glad "
 { $sub_np(NP) /pres emotion [k joy ] } .
+" $sub_np(NP) takes an honest pleasure in $value(NP) "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) }
+:: respectful
+.
+" $sub_np(NP) crows over $value(NP) "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) }
+:: scornful
+.
+" $sub_np(NP) is so happy with $value(NP) "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) }
+:: tender
+.
+" $sub_np(NP) is pleased enough with $value(NP) for the moment "
+{ $sub_np(NP) /pres emotion [k joy ] $value(NP) }
+:: spiteful
+.
 
 ; --- EMOTION : PRIDE -------------------------------------------------------
 " $sub_np(NP) is proud of $value(NP) "
@@ -365,6 +374,22 @@ $form(FORM)
 .
 " $sub_np(NP) is sad "
 { $sub_np(NP) /pres emotion [k grief ] } .
+" $sub_np(NP) mourns $value(NP) with great dignity "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) }
+:: respectful
+.
+" $sub_np(NP) makes a great show of mourning $value(NP) "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) }
+:: scornful
+.
+" $sub_np(NP) is quite lost without $value(NP) "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) }
+:: tender
+.
+" $sub_np(NP) will get over $value(NP) soon enough "
+{ $sub_np(NP) /pres emotion [k grief ] $value(NP) }
+:: spiteful
+.
 
 ; --- EMOTION : ANGER (the "resents" reading) ------------------------------
 " $sub_np(NP) is angry at $value(NP) "
@@ -383,6 +408,22 @@ $form(FORM)
 .
 " $sub_np(NP) is angry "
 { $sub_np(NP) /pres emotion [k anger ] } .
+" $sub_np(NP) is justly aggrieved with $value(NP) "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) }
+:: respectful
+.
+" $sub_np(NP) sulks over $value(NP) "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) }
+:: scornful
+.
+" $sub_np(NP) has been sorely tried by $value(NP) "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) }
+:: tender
+.
+" $sub_np(NP) can stew over $value(NP) for all anyone cares "
+{ $sub_np(NP) /pres emotion [k anger ] $value(NP) }
+:: spiteful
+.
 
 ; --- EMOTION : FEAR --------------------------------------------------------
 " $sub_np(NP) is afraid of $value(NP) "
@@ -401,6 +442,22 @@ $form(FORM)
 .
 " $sub_np(NP) is afraid "
 { $sub_np(NP) /pres emotion [k fear ] } .
+" $sub_np(NP) is rightly wary of $value(NP) "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) }
+:: respectful
+.
+" $sub_np(NP) cowers before $value(NP) "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) }
+:: scornful
+.
+" $sub_np(NP) is frightened half to death of $value(NP) "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) }
+:: tender
+.
+" $sub_np(NP) has good reason to fear $value(NP) "
+{ $sub_np(NP) /pres emotion [k fear ] $value(NP) }
+:: spiteful
+.
 
 ; --- EMOTION : SHAME -------------------------------------------------------
 " $sub_np(NP) is ashamed of $value(NP) "
@@ -633,6 +690,24 @@ $form(FORM)
 " $sub_np(NP) cares for $kind(KIND|/isa|domain) "
 { $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
 :: curt
+.
+
+; The speaker's esteem and care for the subject, said of what he gives his time to.
+" $sub_np(NP) is well versed in $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
+:: respectful
+.
+" $sub_np(NP) dabbles in $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
+:: scornful
+.
+" $sub_np(NP) takes such comfort in $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
+:: tender
+.
+" $sub_np(NP) fritters the days away on $kind(KIND|/isa|domain) "
+{ $sub_np(NP) /pres interest $kind(KIND|/isa|domain) }
+:: spiteful
 .
 
 
