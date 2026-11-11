@@ -39,8 +39,8 @@
 ;
 ; The engine calls it once per (utterance, listener), with the listener as @self:
 ;   ?msg      the heard message - this listener's own mental copy
-;   ?speaker  who said it                 (@i)
-;   ?audience who it was said to          (@you); @nothing for a broadcast
+;   ?speaker  who said it                 (@i), as this listener holds him
+;   ?audience who it was said to          (@you), as this listener holds him; @nothing for a broadcast
 ;   ?tell     this listener's mental {?speaker SAY ?msg ?audience} record
 ; What stays in C++ is the boundary, not the policy: the dead-listener skip and
 ; the mind-space guard are crash-prevention invariants about the abs/mental
