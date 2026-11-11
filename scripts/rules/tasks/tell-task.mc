@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; tell ?msg ?audience - THE one-way speech task, and the only one that proposes SAY: say ?msg
-; to ?audience where he can hear it. The speaker does the moving, never the man spoken to. It
+; to ?audience where he can hear it, in the register he takes toward him (voice-line, funcs/voice.mc). The speaker does the moving, never the man spoken to. It
 ; requires that he is within call of a man he tells (in-call-of, funcs/preconditions.mc): out of
 ; call he goes toward him first. Within call he asks for the turn his line takes (turn-board:
 ; the conversation he says it in, or the man he calls) and waits until it is handed to him -
@@ -39,7 +39,8 @@
                  (or (not (is-a ?audience [k human])) (visible ?audience))
                  (my-turn ?audience)
                  (not (being-called))))
-      (effects (maintain-proposal {@self SAY ?msg ?audience})))
+      (bind (voice-line ?msg ?audience) ?line)
+      (effects (maintain-proposal {@self SAY ?line ?audience})))
     ; Unpresented there are no turns and no hails: one line stands on a speaker and his listener at
     ; a time, so nobody speaks to a man being spoken to and nobody speaks to two at once.
     (try
@@ -47,7 +48,8 @@
       (sync talk @self ?audience)
       (when (and (or (unsubstantial ?audience) (within-voice ?audience ?msg))
                  (or (not (is-a ?audience [k human])) (visible ?audience))))
-      (effects (maintain-proposal {@self SAY ?msg ?audience})))
+      (bind (voice-line ?msg ?audience) ?line)
+      (effects (maintain-proposal {@self SAY ?line ?audience})))
     (try
       (lod presented)
       (when (and (is-a ?audience [k human]) (within-call ?audience)

@@ -13,9 +13,10 @@
   (aux ?)
   (and
     (try
-      (belief {@self SAY ?qs ?partner /succ /caused_by ?inquire}:?SAY
+      (belief {@self tell ?qs ?partner /succ /caused_by ?inquire}:?tell
+              {@self SAY ? ?partner /succ /caused_by ?tell}:?SAY
         (when (replied ?partner ?SAY))
         (effects (set-outcome ?inquire /succ))))
     (try
-      (when (none {@self SAY ?qs ?partner /succ /caused_by ?inquire}))
+      (when (none {@self tell ?qs ?partner /succ /caused_by ?inquire}))
       (effects (maintain-proposal {@self tell ?qs ?partner} /quit-trying-on-fail)))))

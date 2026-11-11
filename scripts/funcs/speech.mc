@@ -78,7 +78,8 @@
 (define-func adopt-not-knowing (?speaker ?tell)
   (for-each ?inquire (every {@self inquire ?speaker ? /ever})
     (bind ?inquire.auxiliary ?asked-msg)
-    (bind (any {@self SAY ?asked-msg ?speaker /succ /caused_by ?inquire}) ?asked)
+    (bind (any {@self tell ?asked-msg ?speaker /succ /caused_by ?inquire}) ?asked-tell)
+    (bind (flip (is-belief ?asked-tell) (any {@self SAY ? ?speaker /succ /caused_by ?asked-tell}) @nothing) ?asked)
     (if (and (is-belief ?asked) (eq ?tell (any {?speaker SAY ? @self /succ /caused_by ?asked})))
         (then
           (bind (nth (k-msg-first-content-field) ?asked-msg) ?asked-content)
