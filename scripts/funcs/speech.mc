@@ -72,19 +72,12 @@
   (bind (nth (k-formulaic-office-field) ?msg) ?kind)
   (absorb-heard-fact (begin-belief {?speaker job (o ?kind {?speaker job @o})}) ?tell))
 
-; (asked-clause ?speaker ?reply) - the fact ?reply answered: back along its causes, the line @self
-; asked ?speaker, the tell that said it and the inquire that told it - the fact @self wondered about
-; when that caused the asking, else the clause the question searched; @nothing when ?reply answered
-; no question of @self's.
+; (asked-clause ?speaker ?reply) - the fact ?reply answered: the question of the inquire up ?reply's
+; causes that @self made of ?speaker - the fact @self wondered about when that caused the asking,
+; else the clause the question searched; @nothing when ?reply answered no question of @self's.
 (define-func asked-clause (?speaker ?reply)
   (bind @nothing ?answered)
-  (bind @nothing ?tell)
-  (bind @nothing ?inquire)
-  (bind (caused-by ?reply {@self SAY ? ?speaker /ever}) ?SAY)
-  (if (is-belief ?SAY)
-      (then (bind (caused-by ?SAY {@self tell ? ?speaker /ever}) ?tell)))
-  (if (is-belief ?tell)
-      (then (bind (caused-by ?tell {@self inquire ?speaker ? /ever}) ?inquire)))
+  (bind (caused-by /recurse ?reply {@self inquire ?speaker ? /ever}) ?inquire)
   (if (is-belief ?inquire)
       (then
         (bind ?inquire.auxiliary ?asked-msg)

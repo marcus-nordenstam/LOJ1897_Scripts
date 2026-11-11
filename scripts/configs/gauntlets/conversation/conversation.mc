@@ -94,6 +94,22 @@
   (begin-belief {?ckm-home supper-hour (household-supper-hour)})
   (exit-mind))
 
+; (conversation-wonder-life-aim ?asker ?other) - ?other holds what she wants her life to amount
+; to - a fact she tells only a friend (life-aim's disclosure) - and ?asker, no friend of hers,
+; wonders what it is: he will ask her what he has no business asking.
+(define-func conversation-wonder-life-aim (?asker ?other)
+  (enter-mind ?other)
+  (begin-belief {@self life-aim [k respectability-aim]})
+  (exit-mind)
+  (enter-mind ?asker)
+  (observe ?other): ?cwl-other
+  (begin-belief {@self wonder {?cwl-other life-aim ?}})
+  (exit-mind))
+
+; (withheld-from-me ?other) - in a mind: ?other would not tell @self something @self asked.
+(define-func withheld-from-me (?other)
+  (substantial (any {?other withhold ? @self})))
+
 ; (knows-supper-hour) - in a mind: @self knows his home's supper hour.
 (define-func knows-supper-hour ()
   (any {@self home ?ksh-home})

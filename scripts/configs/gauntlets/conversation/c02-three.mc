@@ -3,7 +3,9 @@
 ; round the first man): each man hails her to ask it, at once; she takes one up and answers him in
 ; that talk, and the other, standing by, hears the answer. The second home is not presented: there
 ; is no hail and no talk, each man asks her straight out. In both, the men end knowing the supper
-; hour and never two speak to her at once. Seeds state only; the validate func reads.
+; hour and never two speak to her at once. The first man also asks her what she wants her life to
+; amount to, which she tells only a friend: she answers that it is none of his business, and he
+; takes her to withhold it from him. Seeds state only; the validate func reads.
 
 (include "conversation.mc")
 
@@ -46,7 +48,9 @@
   (conversation-household ?home)
   (conversation-household ?far-home)
   (conversation-knows-mealtimes ?cook ?home)
-  (conversation-knows-mealtimes ?cook-u ?far-home))
+  (conversation-knows-mealtimes ?cook-u ?far-home)
+  (conversation-wonder-life-aim ?first ?cook)
+  (conversation-wonder-life-aim ?first-u ?cook-u))
 
 (define-func c02-validate ()
   (cast first): ?first
@@ -67,9 +71,11 @@
   (expect (in-mind ?cook (= (spoken-over) 0)) "c02: two men spoke to her at once")
   (expect (in-mind ?first (knows-supper-hour)) "c02: the first does not know the supper hour")
   (expect (in-mind ?second (knows-supper-hour)) "c02: the second does not know the supper hour")
+  (expect (in-mind ?first (withheld-from-me ?cook)) "c02: she told him what she tells only a friend, or he never learned she would not")
   ; The unpresented three: no protocol, the same knowledge.
   (expect (= (+ (acts ?first-u hail started) (acts ?second-u hail started) (acts ?cook-u hail started)) 0)
           "c02: the far three hailed - there is no hailing unpresented")
   (expect (in-mind ?cook-u (= (spoken-over) 0)) "c02: two far men spoke to her at once")
   (expect (in-mind ?first-u (knows-supper-hour)) "c02: the far first does not know the supper hour")
-  (expect (in-mind ?second-u (knows-supper-hour)) "c02: the far second does not know the supper hour"))
+  (expect (in-mind ?second-u (knows-supper-hour)) "c02: the far second does not know the supper hour")
+  (expect (in-mind ?first-u (withheld-from-me ?cook-u)) "c02: the far cook told him what she tells only a friend, or he never learned she would not"))
