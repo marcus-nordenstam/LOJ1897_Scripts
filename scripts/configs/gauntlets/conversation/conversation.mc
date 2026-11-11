@@ -52,6 +52,11 @@
   (begin-belief {@self spouse ?cw-a})
   (exit-mind))
 
+; (knows-supper-hour) - in a mind: @self knows his home's supper hour.
+(define-func knows-supper-hour ()
+  (any {@self home ?ksh-home})
+  (substantial (any {?ksh-home supper-hour ?})))
+
 ; (spoken-over) - in a mind: the lines two different men said to @self at once, each pair counted
 ; from both of its lines. A jump-clock line lasts exactly one second, so two that overlap end in
 ; the same second.
