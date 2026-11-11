@@ -21,7 +21,7 @@
 ; everything that would take the cast out of the house, busy them elsewhere or open a talk beside the
 ; one judged (getting acquainted) is inhibited, and so is the wedding each engagement would set her
 ; planning: what is judged is the talk.
-(define-list gauntlet validate c10-validate deadline 15
+(define-list gauntlet validate c10-validate deadline 3
   inhibit want-drink-driver feel-charitable-driver want-worship-driver want-eat-out-pub-driver
           want-eat-out-restaurant-driver want-provisions-driver gamble-urge-driver
           bored-gamble-driver plan-gathering-driver plan-impromptu-supper-driver

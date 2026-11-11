@@ -10,6 +10,6 @@
   level "Theatres/demo_tech_level_v2.grs"
   startup doorway-startup)
 
-(define-list gauntlet validate doorway-validate deadline 15
+(define-list gauntlet validate doorway-validate deadline 3
   inhibit want-drink-driver idle-go-home-driver want-read-mail-driver sleep-driver
           want-putter-driver feel-charitable-driver want-worship-driver want-attend-guest-driver)

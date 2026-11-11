@@ -20,7 +20,7 @@
 ; The households are primed - everyone under a roof knows the others and that they live there - and
 ; everything that would take the cast out of the house, busy them elsewhere or open a talk beside the
 ; one judged (getting acquainted) is inhibited: what is judged is the courtship.
-(define-list gauntlet validate c12-validate deadline 15
+(define-list gauntlet validate c12-validate deadline 3
   inhibit want-drink-driver feel-charitable-driver want-worship-driver want-eat-out-pub-driver
           want-eat-out-restaurant-driver want-provisions-driver gamble-urge-driver
           bored-gamble-driver plan-gathering-driver plan-impromptu-supper-driver
