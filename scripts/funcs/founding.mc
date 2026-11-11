@@ -92,13 +92,14 @@
 ; that anchor rather than searched for a second time. Heading is NOT employment - no salary.
 (define-func seat-org-head (?art ?wp ?reg ?head-role)
   (do
-    (observe ?art)
+    (observe ?art): ?soh-art
     (observe ?reg)
-    (adopt-aoc ?art)
-    (o {?art declares-org @o}): ?org
-    (begin-belief {?org record ?art})
+    (observe ?wp): ?soh-wp
+    (adopt-aoc ?soh-art)
+    (o {?soh-art declares-org @o}): ?org
+    (begin-belief {?org record ?soh-art})
     (fill-post ?reg ?head-role [k senior])
-    (begin-belief {?wp occupant @self})
+    (begin-belief {?soh-wp occupant @self})
     ; The head's seat is a ledger line like any other - keyed on it, so his own job object
     ; is the one every later reader of this book lands on.
     (if (table-match (attr ?reg writing) worker (name @self) job ?head-role job-id ?soh-line

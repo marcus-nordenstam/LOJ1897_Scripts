@@ -103,8 +103,8 @@
 
 (define-func join-parish (?h ?art)
   (enter-mind ?h)
-  (observe ?art)
-  (adopt-aoc ?art)
-  (o {?art declares-org @o}): ?jp-church
+  (observe ?art): ?jp-seen-art
+  (adopt-aoc ?jp-seen-art)
+  (o {?jp-seen-art declares-org @o}): ?jp-church
   (begin-belief {@self member-of ?jp-church})
   (exit-mind))
