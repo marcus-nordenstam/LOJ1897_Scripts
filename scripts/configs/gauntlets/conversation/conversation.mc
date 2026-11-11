@@ -4,6 +4,7 @@
 ; The first residential building that holds a unit, as its unit: a chapel is a residential
 ; building too, and has none.
 (include "../../../macros/occasion-macros.mc")
+(include "../../../macros/home-macros.mc")
 
 (define-func conversation-first-home ()
   (bind @nothing ?home)
@@ -81,6 +82,16 @@
   (enter-mind ?b)
   (observe ?a): ?cw-a
   (begin-belief {@self spouse ?cw-a})
+  (exit-mind))
+
+; (conversation-knows-mealtimes ?who ?home) - ?who has long known ?home's meal hours, as the one who
+; set them holds them: she has no need to set them, and those who wonder about them can ask her.
+(define-func conversation-knows-mealtimes (?who ?home)
+  (enter-mind ?who)
+  (observe ?home): ?ckm-home
+  (begin-belief {?ckm-home breakfast-hour (household-breakfast-hour)})
+  (begin-belief {?ckm-home lunch-hour (household-lunch-hour)})
+  (begin-belief {?ckm-home supper-hour (household-supper-hour)})
   (exit-mind))
 
 ; (knows-supper-hour) - in a mind: @self knows his home's supper hour.

@@ -1,16 +1,19 @@
-; c02 three - two men and one woman under one roof, the house's supper hour unknown: each man
-; hails her to ask it. The hails come at once, each opening a talk of its own; she takes one
-; up, and the other man follows her into that talk, or is declined and hails again into it, so
-; one talk holds three. Every mind knows the other two as parties of its own copy of the one
-; talk. Seeds state only; the validate func reads.
+; c02 three - in each of two homes far apart, two men and one woman under one roof, the house's
+; supper hour known to her and unknown to the men. The first home is presented (the bubble forms
+; round the first man): each man hails her to ask it, at once; she takes one up and answers him in
+; that talk, and the other, standing by, hears the answer. The second home is not presented: there
+; is no hail and no talk, each man asks her straight out. In both, the men end knowing the supper
+; hour and never two speak to her at once. Seeds state only; the validate func reads.
 
 (include "conversation.mc")
 
 (define-list config
-  seeds 4242 4243
-  start 1700-01-01
-  end 1700-01-31
-  clock jump
+  seeds 4242
+  start 1700-01-19-06
+  end 1700-01-19-22
+  clock real
+  fps 10
+  presented first
   level "Theatres/demo_tech_level_v2.grs"
   startup c02-startup)
 
@@ -32,22 +35,41 @@
   (cast second ?second)
   (make-human ?home [k lower] [k female]): ?cook
   (cast cook ?cook)
+  (conversation-far-home ?home): ?far-home
+  (make-human ?far-home [k lower] [k male]): ?first-u
+  (cast first-u ?first-u)
+  (make-human ?far-home [k lower] [k male]): ?second-u
+  (cast second-u ?second-u)
+  (make-human ?far-home [k lower] [k female]): ?cook-u
+  (cast cook-u ?cook-u)
   (initialize-minds)
-  (conversation-household ?home))
+  (conversation-household ?home)
+  (conversation-household ?far-home)
+  (conversation-knows-mealtimes ?cook ?home)
+  (conversation-knows-mealtimes ?cook-u ?far-home))
 
 (define-func c02-validate ()
   (cast first): ?first
   (cast second): ?second
   (cast cook): ?cook
-  (expect (and (or (> (acts ?first hail succ) 0) (> (acts ?first take-up succ) 0))
-               (or (> (acts ?second hail succ) 0) (> (acts ?second take-up succ) 0)))
-          "c02: a man never came into a talk by a hail, his own or hers")
+  (cast first-u): ?first-u
+  (cast second-u): ?second-u
+  (cast cook-u): ?cook-u
+  (expect (in-mind ?first (presented-lod)) "c02: the presented first man is not presented")
+  (expect (in-mind ?first-u (unpresented-lod)) "c02: the far first man is presented")
+  ; The presented three: a talk she was hailed into, then what the men came to know.
   (expect (or (> (acts ?cook take-up succ) 0)
               (in-mind ?first (substantial (any {@self take-up ?cook /succ /ever})))
               (in-mind ?second (substantial (any {@self take-up ?cook /succ /ever}))))
           "c02: no hail between her and a man was taken up")
-  (expect (in-mind ?cook (knows-talk-with ?first ?second)) "c02: she does not know three in one talk")
-  (expect (in-mind ?first (substantial (any {? participant ? /ever}))) "c02: the first knows no talk")
-  (expect (in-mind ?second (substantial (any {? participant ? /ever}))) "c02: the second knows no talk")
+  (expect (in-mind ?cook (substantial (any {? participant @self /ever}))) "c02: she knows no talk she was in")
   (expect (unsubstantial (conversation-of ?cook)) "c02: she is still in a conversation")
-  (expect (in-mind ?cook (= (spoken-over) 0)) "c02: two men spoke to her at once"))
+  (expect (in-mind ?cook (= (spoken-over) 0)) "c02: two men spoke to her at once")
+  (expect (in-mind ?first (knows-supper-hour)) "c02: the first does not know the supper hour")
+  (expect (in-mind ?second (knows-supper-hour)) "c02: the second does not know the supper hour")
+  ; The unpresented three: no protocol, the same knowledge.
+  (expect (= (+ (acts ?first-u hail started) (acts ?second-u hail started) (acts ?cook-u hail started)) 0)
+          "c02: the far three hailed - there is no hailing unpresented")
+  (expect (in-mind ?cook-u (= (spoken-over) 0)) "c02: two far men spoke to her at once")
+  (expect (in-mind ?first-u (knows-supper-hour)) "c02: the far first does not know the supper hour")
+  (expect (in-mind ?second-u (knows-supper-hour)) "c02: the far second does not know the supper hour"))
