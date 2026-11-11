@@ -13,6 +13,24 @@
   (check (substantial ?home))
   ?home)
 
+; How far apart the presented group's home and the unpresented group's must be: past the
+; presentation bubble's range (96 m, t_presentation_bubble::k_present_range_m) with room to spare.
+(define-macro k-conversation-apart-m () 200.0)
+
+; (conversation-far-home ?near) - the residential unit farthest from ?near: the unpresented group's
+; home, out of the presented group's bubble and earshot.
+(define-func conversation-far-home (?near)
+  (bind @nothing ?far)
+  (bind 0.0 ?far-m)
+  (for-each ?house (env-entities [k residential-building])
+    (head (spatial ?house parts [k unit] /env)): ?unit
+    (if (substantial ?unit)
+        (then
+          (distance (spatial ?unit bounds /env) (spatial ?near bounds /env)): ?unit-m
+          (if (> ?unit-m ?far-m) (then (bind ?unit ?far) (bind ?unit-m ?far-m))))))
+  (check (> ?far-m (k-conversation-apart-m)))
+  ?far)
+
 ; (conversation-household ?home) - everyone under ?home's roof knows every other one by name, and
 ; that they share the home.
 (define-func conversation-household (?home)

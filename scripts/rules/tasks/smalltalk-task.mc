@@ -1,16 +1,16 @@
 ; ----------------------------------------------------------------------------
-; smalltalk ?talk ?partner - the SMALLTALK dialogue task: in the conversation ?talk @self remarks on
+; smalltalk ?partner ?talk - the SMALLTALK dialogue task: in the conversation ?talk @self remarks on
 ; the weather to ?partner (smalltalk-line, funcs/conversation.mc), once a talk. It is spent, a
 ; success, when he has no remark left and his remark has its answer. Proposed by smalltalk-unease
 ; (drivers/smalltalk-driver.mc); a remark said to him is answered by the respond driver.
 ; ----------------------------------------------------------------------------
 
-(task {@self smalltalk ?talk ?partner}:?smalltalk
+(task {@self smalltalk ?partner ?talk}:?smalltalk
   (lod presented)
   (category social (scope ?talk))
   (hosts reply enter-conversation)
-  (tar @excl [k conversation] @object)
-  (aux [k human] @object)
+  (tar @excl [k human] @object)
+  (aux [k conversation] @object)
   (and
     (try
       (role ?partner {?talk participant ?partner}

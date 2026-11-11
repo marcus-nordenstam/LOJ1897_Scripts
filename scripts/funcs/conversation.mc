@@ -562,7 +562,7 @@
 ; (remarked-in ?talk) - @self has made his smalltalk remark in ?talk: one a talk.
 (define-func remarked-in (?talk)
   (bind @false ?remarked)
-  (for-each ?smalltalk (every {@self smalltalk ?talk ? /ever})
+  (for-each ?smalltalk (every {@self smalltalk ? ?talk /ever})
     (if (substantial (any {@self tell (msg ~[/msg-class smalltalk] ?..) ? /succ /caused_by ?smalltalk}))
         (then (bind @true ?remarked) (break))))
   ?remarked)
@@ -649,7 +649,7 @@
 ; (flirted-in ?talk) - @self has made his flirt in ?talk: one a talk.
 (define-func flirted-in (?talk)
   (bind @false ?flirted)
-  (for-each ?flirt (every {@self flirt ?talk ? /ever})
+  (for-each ?flirt (every {@self flirt ? ?talk /ever})
     (if (substantial (any {@self tell (formulaic ~[/msg-class flirtation] flirt compliment) ? /succ /caused_by ?flirt}))
         (then (bind @true ?flirted) (break))))
   ?flirted)
@@ -676,7 +676,7 @@
 ; (agenda-for ?talk) - @self still has something to say in ?talk: a dialogue task of his still runs
 ; there, or a dialogue-line of some class is waiting for someone in it - the union over the classes.
 (define-func agenda-for (?talk)
-  (bind (or (substantial (any {@self smalltalk|flirt ?talk ?}))
+  (bind (or (substantial (any {@self smalltalk|flirt ? ?talk}))
             (and (substantial (any {@self unease ?talk})) (substantial (smalltalk-line ?talk))))
         ?more)
   (if (not ?more)

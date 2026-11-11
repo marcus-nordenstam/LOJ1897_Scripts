@@ -14,4 +14,4 @@
                    (in-conversation ?partner ?talk)
                    (substantial (smalltalk-line ?talk))))
         (declare-utility want)
-        (effects (maintain-proposal {@self smalltalk ?talk ?partner} /caused_by ~[?part ?unease]))))))
+        (effects (maintain-proposal {@self smalltalk ?partner ?talk} /caused_by ~[?part ?unease]))))))

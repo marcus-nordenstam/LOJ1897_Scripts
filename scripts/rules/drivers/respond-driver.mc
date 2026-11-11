@@ -23,13 +23,13 @@
       (declare-utility obligation)
       (effects (maintain-proposal {@self respond ?speaker ?line} /caused_by ?part)))))
 
-; respond-direct-driver (driver) - unpresented there is no talk and no decorum: only a question said
-; to @self is owed, and he answers it straight to the man who asked (tasks/respond-task.mc), the
-; oldest question first.
+; respond-direct-driver (driver) - unpresented there is no talk and no decorum: only a question or a
+; flirt said to @self is owed - an answer, and the courtship's flirt back or rebuff - and he answers
+; it straight to the one who said it (tasks/respond-task.mc), the oldest first.
 (driver respond-direct-driver
   (lod unpresented)
   (role ?speaker {?speaker SAY ?msg @self /past /most_recent}:?line
-                 (eq (line-kind ?msg) inquiry)
+                 (or (eq (line-kind ?msg) inquiry) (eq (line-kind ?msg) flirtation))
                  -{@self tell ? ?speaker /succ /caused_by ?line}
                  (select (score (- 0 (elapsed /seconds (start-time ?line)))) (policy argmin))
     (declare-utility obligation)
