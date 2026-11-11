@@ -102,11 +102,14 @@
 
 ; (hail-response ?opening) - the response a hail's opening calls for: a man who introduced
 ; himself by his office ((formulaic [] opening-phrase authority <job kind>)) is answered by it, any
-; other opening by its own key.
+; other opening by its own key. A (formulaic ..) quotes its args, so the office and the key are
+; read off the opening first.
 (define-func hail-response (?opening)
   (if (matches ?opening (formulaic ? opening-phrase authority ?..))
-      (then (formulaic [] response authority (nth (k-formulaic-office-field) ?opening)))
-      (else (formulaic [] response (nth (k-formulaic-key-field) ?opening)))))
+      (then (bind (nth (k-formulaic-office-field) ?opening) ?office)
+            (formulaic [] response authority ?office))
+      (else (bind (nth (k-formulaic-key-field) ?opening) ?key)
+            (formulaic [] response ?key))))
 
 ; (rebuffs ?speaker) - @self rebuffs ?speaker's hail: he despises him and does not answer to him.
 (define-func rebuffs (?speaker)
