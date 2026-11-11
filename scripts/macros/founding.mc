@@ -286,15 +286,6 @@
 ;    ; --- the employment beliefs in @self's mind, off the line he now holds.
 ;    (employ-beliefs ?org ?wp ?job-kind ?level ?reg)))
 
-; ----------------------------------------------------------------------------
-; fire-self - a worker leaves his OWN post. Scrubs @self's row off the firm's
-; employee-register (a public doc, keyed on him via (find worker (name @self))) and
-; ends his OWN {@self job} belief (its org / salary / level decorations go with
-; it). The register is reached by @self's own forward belief walk: {@self job.org}
-; -> {org record} -> the articles' `register` field. Every step is @self / a
-; public doc - no cross-mind write. (A boss firing SOMEONE ELSE cannot end their
-; beliefs; the sacked worker reconciles his own stale row.)
-; ----------------------------------------------------------------------------
 
 
 
