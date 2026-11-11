@@ -25,10 +25,10 @@
   ; OPTIONAL by declaration: an absent audience is a BROADCAST, which is a first-class
   ; SAY form (confide / expose / humiliate / the burial announcement all use it).
   (aux @msgAudience ?)
-  ; THE LENGTH IS THE WORDS: the seconds the rendered message takes to say when he is
-  ; presented, and never under a second for anyone, so no reply shares a second with what it
-  ; answers.
-  (duration (utterance-seconds @self ?msg ?audience))
+  ; THE LENGTH IS THE WORDS: the seconds the line takes to say as the world holds it - the words
+  ; the sound and the subtitle carry - when he is presented, and never under a second for anyone,
+  ; so no reply shares a second with what it answers.
+  (duration (utterance-seconds ?xsay))
 
   ; A say starts here, ONCE: the SOUND, which is the Merlin half and how anyone else hears
   ; this at all, and when presented the VOICE - the words rendered, the visemes cut, the jaw
