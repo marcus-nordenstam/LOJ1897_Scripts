@@ -31,6 +31,37 @@
   (check (> ?far-m (k-conversation-apart-m)))
   ?far)
 
+; (conversation-third-home ?a ?b) - the residential unit farthest from both ?a and ?b: a home for
+; people the groups know of but who live in neither of their homes.
+(define-func conversation-third-home (?a ?b)
+  (bind @nothing ?third)
+  (bind 0.0 ?third-m)
+  (for-each ?house (env-entities [k residential-building])
+    (head (spatial ?house parts [k unit] /env)): ?unit
+    (if (substantial ?unit)
+        (then
+          (distance (spatial ?unit bounds /env) (spatial ?a bounds /env)): ?unit-a-m
+          (distance (spatial ?unit bounds /env) (spatial ?b bounds /env)): ?unit-b-m
+          (min ?unit-a-m ?unit-b-m): ?unit-m
+          (if (> ?unit-m ?third-m) (then (bind ?unit ?third) (bind ?unit-m ?third-m))))))
+  (check (> ?third-m (k-conversation-apart-m)))
+  ?third)
+
+; (conversation-engage ?woman ?home) - ?woman has just got engaged to a man of ?home: news of her own
+; she has told nobody. A belief seeded before the run is not born in it, so the news the speech-value
+; reflex would mint is seeded with it.
+(define-func conversation-engage (?woman ?home)
+  (make-human ?home [k lower] [k male]): ?ce-man
+  (enter-mind ?woman)
+  (observe ?ce-man): ?ce-fiance
+  (begin-belief {@self fiancee ?ce-fiance}): ?ce-engaged
+  (begin-belief {@self news ?ce-engaged})
+  (exit-mind))
+
+; (holds-engagement-of ?other) - in a mind: @self knows whom ?other is engaged to.
+(define-func holds-engagement-of (?other)
+  (substantial (any {?other fiancee ?})))
+
 ; (conversation-household ?home) - everyone under ?home's roof knows every other one by name, and
 ; that they share the home.
 (define-func conversation-household (?home)
