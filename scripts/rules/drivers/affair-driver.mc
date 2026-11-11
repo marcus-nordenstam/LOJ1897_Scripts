@@ -51,6 +51,9 @@
                  ; from his own (visible-on-sight -> cacheable), and non-kin.
                  -{?lover gender (any {@self gender}).target}
                  (none {@self (kin-labels) ?lover})
+                 ; One of them, drawn - the straying is rolled once per NPC per month, not once
+                 ; per acquaintance.
+                 (select (score 1) (policy roulette))
 
       ;; The disposition-to-stray, rolled once per NPC per month: the character tail
       ;; (infidelity-disposition) released by callousness (the empathy brake off),

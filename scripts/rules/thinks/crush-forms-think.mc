@@ -52,6 +52,9 @@
                   ; inline (any {@self age-band}).target does NOT resolve against the
                   ; plural age-span belief, so the band must be a bound variable.
                   {?victim age-span ?peer_band}
+                  ; One of them, drawn - the crush is rolled once per NPC per month, not once per
+                  ; acquaintance.
+                  (select (score 1) (policy roulette))
 
       ; The trait chance (openness x enthusiasm x compassion) is a non-belief filter,
       ; rolled once per NPC per month in (when) rather than as a role criterion.
