@@ -34,14 +34,15 @@
   ; this at all, and when presented the VOICE - the words rendered, the visemes cut, the jaw
   ; driven, the subtitle put up. Effects run every frame while the audio plays and would say
   ; it again each time.
-  ; Nobody is spoken to by two men at once: tell held the turn this line takes before proposing it
-  ; (turn-board, funcs/conversation.mc). The board can change between the two - its audience joins
-  ; or leaves a talk - so it is expected, not checked.
+  ; Nobody is spoken to by two men at once: presented, tell held the turn this line takes before
+  ; proposing it (turn-board, funcs/conversation.mc); unpresented there are no turns. The board can
+  ; change between the two - its audience joins or leaves a talk - so it is expected, not checked.
   (init
-    (expect (my-turn ?audience) "SAY: the line began without the turn it takes - its board changed since tell held it")
     (deliver-speech ?xsay)
     (if (presented-lod)
-        (then (speak-aloud @self ?msg))))
+        (then
+          (expect (my-turn ?audience) "SAY: the line began without the turn it takes - its board changed since tell held it")
+          (speak-aloud @self ?msg))))
 
   ; The unpresented say is heard and not watched: its sound went out as it began, and is heard
   ; the second after, at the instant the line ends.
