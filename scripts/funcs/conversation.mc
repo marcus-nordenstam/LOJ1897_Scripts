@@ -352,15 +352,17 @@
 (define-func conversation-full (?talk)
   (>= (count (parties-of ?talk)) (conversation-size-max)))
 
-; (hailable ?partner) - @self may hail ?partner: he is awake to hear it, his last word to @self did
-; not turn him down - that man seeks @self out himself - and he is in no conversation, or in one that
-; seats another.
+; (hailable ?partner) - @self may hail ?partner, THE gate on every hail: he is awake to hear it, his
+; last word to @self did not turn him down - that man seeks @self out himself - he is in no
+; conversation, or in one that seats another, and @self is in none that seats no one more, since
+; ?partner taking him up would join it.
 (define-func hailable (?partner)
   (bind (conversation-of ?partner) ?theirs)
   (and (not (attr-is ?partner awareness [k asleep]))
        (not (attr-is ?partner awareness [k unconscious]))
        (not (turned-down-by ?partner))
-       (or (unsubstantial ?theirs) (not (conversation-full ?theirs)))))
+       (or (unsubstantial ?theirs) (not (conversation-full ?theirs)))
+       (not (in-full-talk))))
 
 ; (in-full-talk) - @self is in a conversation that seats no one more.
 (define-func in-full-talk ()

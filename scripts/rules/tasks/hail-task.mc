@@ -7,12 +7,13 @@
 ; ?partner taking the hail up (tasks/take-up-task.mc) brings him into a conversation - ?partner's
 ; when he is in one, else @self's own, else a new one.
 ; ?partner in a conversation: @self waits from outside it for an opening, its turn, and calls out
-; then (turn-board, funcs/conversation.mc). Nobody hails a man in a conversation that seats no one
-; more, nor one asleep or senseless (hailable): it fails when ?partner's talk fills or he sleeps
-; before he answers. One man's hail stands on ?partner at a time (sync, held from its start to its
-; end), and only that one is his (hailing): the rest wait their turn unheard, so a crowd that all
-; want him at once never stands on him at once. Called to by ?partner before he has
-; called out his own, he lets his hail go and takes ?partner up. It is PREPARATION - an open
+; then (turn-board, funcs/conversation.mc). Nobody hails one who is not hailable, and every proposer
+; gates on it: a man in a conversation that seats no one more, from one, or one asleep or senseless.
+; It fails when either talk fills or ?partner sleeps before he answers. One man's hail stands on
+; ?partner at a time (sync, held from its start to its end), and only that one is his (hailing): the
+; rest stay proposals until their turn, so a crowd that all want him at once never stands on him at
+; once. Called to by ?partner before he has called out his own, he lets his hail go and takes
+; ?partner up. It is PREPARATION - an open
 ; conversation is what his part in it needs - so only a driver proposes it. Taken up when
 ; ?partner's answer accepts it and both are in one conversation - also when that is what ends it,
 ; its proposer having stopped wanting it the instant it was taken up; turned down when ?partner
@@ -33,6 +34,7 @@
   (sync hail @self ?partner)
   (init
     (check (is-a ?partner [k human]))
+    (check (hailable ?partner))
     (bb-public-add-member @self hailing ?partner))
   ; Called out, he hears the answer out however the hail ends: ?partner may be taking him up. Talking
   ; with ?partner already - he took ?partner's own hail up - there is no answer left to wait for, and
