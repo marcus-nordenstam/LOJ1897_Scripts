@@ -183,7 +183,13 @@
   (bind (turn-board ?audience) ?board)
   (or (unsubstantial ?board) (holds-turn ?board)))
 
-; (may-speak ?msg ?audience) - @self may say ?msg to ?audience now: an answer to him takes no turn,
+; (line-took-its-turn ?SAY ?audience) - the line ?SAY @self began saying to ?audience had its turn:
+; the tell that proposed it answers him, or @self holds the turn it takes.
+(define-func line-took-its-turn (?SAY ?audience)
+  (bind (caused-by ?SAY {@self tell ? ?audience}) ?tell)
+  (or (and (is-belief ?tell) (answering-line ?tell.target ?audience)) (my-turn ?audience)))
+
+; (may-speak?msg ?audience) - @self may say ?msg to ?audience now: an answer to him takes no turn,
 ; since he asked for it; any other line waits for its turn and for no one to be calling @self.
 (define-func may-speak (?msg ?audience)
   (or (answering-line ?msg ?audience)
@@ -200,7 +206,7 @@
       (and (substantial ?talk) (turn-held-by-another ?talk))))
 
 ; (speaking) - a line of @self's is being said: his SAY runs, and it holds his turn until it ends
-; however it ends (actions/SAY.mc), whatever stopped the tell that proposed it.
+; however it ends, whatever stopped the tell that proposed it (thinks/give-up-turns-think.mc).
 (define-func speaking ()
   (substantial (any {@self SAY ?})))
 

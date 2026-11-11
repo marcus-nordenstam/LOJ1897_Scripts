@@ -37,13 +37,14 @@
   ; Nobody is spoken to by two men at once: presented, tell held the turn this line takes before
   ; proposing it (turn-board, funcs/conversation.mc); unpresented there are no turns. The board can
   ; change between the two - its audience joins or leaves a talk - so it is expected, not checked.
+  ; The player's lines take no turn and he has no mind to read the tell in.
   (init
     (deliver-speech ?xsay)
     (if (presented-lod)
         (then
-          (bind (caused-by ?SAY {@self tell ? ?audience}) ?tell)
-          (expect (or (and (is-belief ?tell) (answering-line ?tell.target ?audience)) (my-turn ?audience))
-                  "SAY: the line began without the turn it takes - its board changed since tell held it")
+          (if (is-npc)
+              (then (expect (line-took-its-turn ?SAY ?audience)
+                            "SAY: the line began without the turn it takes - its board changed since tell held it")))
           (speak-aloud @self ?msg))))
 
   ; The unpresented say is heard and not watched: its sound went out as it began, and is heard
@@ -52,13 +53,8 @@
     (if (unpresented-lod)
         (then (set-outcome ?SAY /succ))))
 
-  ; The turn tell held is the line's until it is said, and its tell's while that runs; the line
-  ; gives every turn up when it outlived every tell. The speech-state slot the handler claimed at
-  ; install is released with it. That is a (cease ..): it must happen on EVERY end, and a slot
-  ; leaked per interrupted utterance is a mouth that stops working after a few dozen
-  ; conversations.
+  ; The speech-state slot the handler claimed at install is released on EVERY end: a slot leaked
+  ; per interrupted utterance is a mouth that stops working after a few dozen conversations.
   (cease
-    (if (none {@self tell ? ?})
-        (then (turn-release ?)))
     (if (presented-lod)
         (then (end-speech @self)))))
