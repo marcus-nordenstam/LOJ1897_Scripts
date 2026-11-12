@@ -1,23 +1,60 @@
 (abstract name (name-kind human)
   (child first-name
     (child male-name
+      ; A name's (alias ..) are the short forms it goes by: "Tom" is Thomas to every name match,
+      ; and no pool ever draws an alias as a man's name.
       (child male-english-name (+ pname)
-        (children Arthur Albert Alfred Abel Archibald Benjamin Barnaby Bartholomew
-                  Bertram Cecil Charles Christopher Clarence Cornelius Daniel David
-                  Donald Edward Edwin Ernest Francis Frederick Felix George
+        (children Arthur Albert Abel Barnaby
+                  Bertram Cecil Clarence Cornelius David
+                  Donald Edwin Ernest Francis Felix George
                   Harold Harry Henry Herbert Hugh Horace Hubert Humphrey
-                  Jack Joseph James John Jasper Leonard Leopold Matthew
-                  Maurice Michael Mortimer Nathaniel Oscar Percy Phineas Peter
-                  Reginald Richard Robert Rupert Samuel Sidney Stephen Thomas
-                  Thaddeus Vernon William Walter Wilbur Wilfred Winthrop)))
+                  Jack John Jasper Leopold Matthew
+                  Maurice Mortimer Oscar Percy Phineas
+                  Reginald Rupert Sidney Stephen
+                  Thaddeus Vernon Wilbur Wilfred Winthrop)
+        (child Alfred (alias Alf))
+        (child Archibald (alias Archie))
+        (child Bartholomew (alias Bart))
+        (child Benjamin (alias Ben))
+        (child Charles (alias Charlie))
+        (child Christopher (alias Kit))
+        (child Daniel (alias Dan Danny))
+        (child Edward (alias Ed Ted Ned))
+        (child Frederick (alias Fred Freddie))
+        (child James (alias Jim Jimmy Jem))
+        (child Joseph (alias Joe))
+        (child Leonard (alias Len))
+        (child Michael (alias Mick))
+        (child Nathaniel (alias Nat))
+        (child Peter (alias Pete))
+        (child Richard (alias Dick Rick))
+        (child Robert (alias Rob Bob Bobby))
+        (child Samuel (alias Sam))
+        (child Thomas (alias Tom Tommy))
+        (child Walter (alias Walt Wally))
+        (child William (alias Will Bill Billy))))
     (child female-name
       (child female-english-name (+ pname)
-        (children Alice Amelia Arabella Ada Anna Beatrice Caroline
-                  Catherine Constance Charlotte Sophia Sophie Clara Rebecca Doris
-                  Edith Emmeline Eliza Eleanor Nora Elizabeth Emily Flora
-                  Florence Henrietta Harriet Susannah Cecilia Isabella Ivy
-                  Lillian Louisa Jane Mary Matilda Mabel Maggie Martha
-                  Minnie Rose Olivia Sarah Victoria Violet))))
+        (children Alice Arabella Ada Anna Beatrice
+                  Sophia Sophie Clara Doris
+                  Edith Emmeline Eliza Eleanor Nora Emily Flora
+                  Cecilia Ivy
+                  Lillian Louisa Jane Mary Mabel Maggie Martha
+                  Minnie Rose Olivia Sarah Violet)
+        (child Amelia (alias Millie))
+        (child Caroline (alias Carrie))
+        (child Catherine (alias Kate Kitty))
+        (child Charlotte (alias Lottie))
+        (child Constance (alias Connie))
+        (child Elizabeth (alias Beth Betsy Bess Lizzie))
+        (child Florence (alias Flo Florrie))
+        (child Harriet (alias Hattie))
+        (child Henrietta (alias Hetty))
+        (child Isabella (alias Bella))
+        (child Matilda (alias Tilly))
+        (child Rebecca (alias Becky))
+        (child Susannah (alias Sue Susie))
+        (child Victoria (alias Vicky)))))
   (child surname
     (child common-surname
       (child common-english-surname (+ pname)

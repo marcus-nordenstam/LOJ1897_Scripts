@@ -76,6 +76,11 @@ $form(FORM)
 { $sub_np(NP) /ever nationality $kind(KIND|/isa|nationality) }
 .
 
+; "Mary is tired": a band of alertness is said as that state, never as what she is.
+"$sub_np(NP) $verb(VERB|be) $kind(KIND|/isa|alertness)"
+{ $sub_np(NP) /pres alertness $kind(KIND|/isa|alertness) }
+.
+
 ; class-situation is a kind-valued state ([k lower] / [k middle] / [k upper]);
 ; the trailing "-class" suffix reads naturally for all three values.
 "$sub_np(NP) $verb(VERB|be) $kind(KIND|/isa|class-situation) ++-class"

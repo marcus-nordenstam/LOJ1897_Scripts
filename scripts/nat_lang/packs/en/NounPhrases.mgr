@@ -33,9 +33,11 @@ _
 ( o [k pile ] { $owner(NP) carrying-cash-pile @o } )
 .
 
-; A named object such as John Smith
+; A named object such as John Smith, said by its name. Never read: a name alone the player says is
+; the bare [n ..] (PNAME below), (o ..) being only for an object qualified past its name.
 "$pname(PNAME)"
 ( o $pname(PNAME) )
+:: realize-only
 .
 
 ; Unnamed person reference - the speaker knows OF a person but does not
