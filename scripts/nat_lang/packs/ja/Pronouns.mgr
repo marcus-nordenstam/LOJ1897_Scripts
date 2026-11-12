@@ -37,18 +37,18 @@
 ; the objective form repeats the subjective (case is carried by the
 ; following particle: 彼女に / 彼女を). Same pronoun under both markers.
 
-"彼女"    ?_third_s
+"彼女"    ?_third_f
 :: agree:f
 .
-"彼"      ?_third_s
+"彼"      ?_third_m
 :: agree:m
 .
 "彼ら"    ?_third_s  .
 
-"彼女"    ?_third_o
+"彼女"    ?_third_fo
 :: agree:f
 .
-"彼"      ?_third_o
+"彼"      ?_third_mo
 :: agree:m
 .
 "彼ら"    ?_third_o  .

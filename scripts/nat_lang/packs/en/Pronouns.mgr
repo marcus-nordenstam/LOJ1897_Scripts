@@ -11,15 +11,15 @@
 "yourself" ?_you   .
 "this"     ?_this  .
 
-; Third-person second-mention pronouns. The realize layer requests
-; ?_third_s (subjective case) or ?_third_o (objective case), and the
-; `:: agree:` tag selects gender. Untagged entries are the default
-; ("they"/"them") for unknown / non-binary referents.
+; Third-person pronouns, one variable per gender and case: ?_third_m he, ?_third_mo him,
+; ?_third_f she, ?_third_fo her, ?_third_s they, ?_third_o them (the default for a referent of
+; unknown gender). The realize layer picks the variable by the referent's gender; a player's
+; pronoun binds the man the NPC's talk gives it, of that gender.
 
-"she"   ?_third_s   :: agree:f  .
-"he"    ?_third_s   :: agree:m  .
+"she"   ?_third_f   :: agree:f  .
+"he"    ?_third_m   :: agree:m  .
 "they"  ?_third_s               .
 
-"her"   ?_third_o   :: agree:f  .
-"him"   ?_third_o   :: agree:m  .
+"her"   ?_third_fo   :: agree:f  .
+"him"   ?_third_mo   :: agree:m  .
 "them"  ?_third_o               .

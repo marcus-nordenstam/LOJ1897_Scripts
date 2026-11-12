@@ -114,7 +114,12 @@
   ; deliverable - respond answers it straight off that record - and adopting the
   ; asked pattern would turn a man's question into this listener's belief.
   (if (or (matches ?msg (qs ?..)) (matches ?msg (msg ? @unknown)))
-    (then @nothing)
+    (then
+      ; A question names whom it asks about: the talk notes those @self holds, so a pronoun after
+      ; it can mean them.
+      (if (matches ?msg (qs ?..))
+          (then (record-heard ?SAY (shared-talk ?speaker))))
+      @nothing)
     (else
       ; @fail binds through: an undecodable message is no facts, not an abort.
       (tolerate (adopt-msg ?SAY (shared-talk ?speaker)): ?out)

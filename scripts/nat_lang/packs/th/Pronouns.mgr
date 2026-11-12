@@ -33,18 +33,18 @@
 ; Third-person second-mention pronouns. Thai pronouns have no case
 ; distinction; the objective form repeats the subjective.
 
-"เธอ"    ?_third_s
+"เธอ"    ?_third_f
 :: agree:f
 .
-"เขา"    ?_third_s
+"เขา"    ?_third_m
 :: agree:m
 .
 "พวกเขา"  ?_third_s  .
 
-"เธอ"    ?_third_o
+"เธอ"    ?_third_fo
 :: agree:f
 .
-"เขา"    ?_third_o
+"เขา"    ?_third_mo
 :: agree:m
 .
 "พวกเขา"  ?_third_o  .

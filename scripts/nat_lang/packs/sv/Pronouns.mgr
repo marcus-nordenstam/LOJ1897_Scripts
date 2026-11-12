@@ -23,22 +23,22 @@
 "den"    ?_this  .
 "det"    ?_this  .
 
-; Third-person second-mention pronouns. Same pattern as en/Pronouns.mgr -
-; ?_third_s for subjective case, ?_third_o for objective. Swedish has
+; Third-person pronouns. Same variables as en/Pronouns.mgr - one per gender and
+; case. Swedish has
 ; distinct object forms (henne / honom / dem).
 
-"hon"    ?_third_s
+"hon"    ?_third_f
 :: agree:f
 .
-"han"    ?_third_s
+"han"    ?_third_m
 :: agree:m
 .
 "de"     ?_third_s  .
 
-"henne"  ?_third_o
+"henne"  ?_third_fo
 :: agree:f
 .
-"honom"  ?_third_o
+"honom"  ?_third_mo
 :: agree:m
 .
 "dem"    ?_third_o  .

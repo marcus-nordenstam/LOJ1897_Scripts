@@ -40,18 +40,18 @@
 ; post-preposition use ("una carta sobre ella"); pre-verbal clitic
 ; placement ("la vio") would need a separate path.
 
-"ella"   ?_third_s
+"ella"   ?_third_f
 :: agree:f
 .
-"él"     ?_third_s
+"él"     ?_third_m
 :: agree:m
 .
 "ellos"  ?_third_s  .
 
-"ella"   ?_third_o
+"ella"   ?_third_fo
 :: agree:f
 .
-"él"     ?_third_o
+"él"     ?_third_mo
 :: agree:m
 .
 "ellos"  ?_third_o  .
