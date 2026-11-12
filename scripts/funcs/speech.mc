@@ -37,11 +37,10 @@
 ; SOURCED from the utterance that carried it rather than from one's own eyes,
 ; and that hearing about someone makes them an acquaintance.
 ;
-; The engine calls it once per (utterance, listener), with the listener as @self:
-;   ?msg      the heard message - this listener's own mental copy
-;   ?speaker  who said it                 (@i), as this listener holds him
-;   ?audience who it was said to          (@you), as this listener holds him; @nothing for a broadcast
-;   ?tell     this listener's mental {?speaker SAY ?msg ?audience} record
+; The engine calls it once per (utterance, listener), with the listener as @self, and passes
+; ?SAY, this listener's own {<speaker> SAY <msg> <audience>} record: its target is the heard
+; message (his own mental copy), its subject the speaker (@i) and its auxiliary the audience
+; (@you), each as he holds them; @nothing for a broadcast.
 ; What stays in C++ is the boundary, not the policy: the dead-listener skip and
 ; the mind-space guard are crash-prevention invariants about the abs/mental
 ; seam, and the run-profile notes are instrumentation. The adopted beliefs come
@@ -50,12 +49,12 @@
 ; formulaic with nothing in it to adopt - and is never counted as dropped.
 ; ----------------------------------------------------------------------------
 
-(define-func absorb-heard-fact (?fact ?tell)
+(define-func absorb-heard-fact (?fact ?SAY)
   (if (is-belief ?fact)
     (then
       ; HOW this mind came to know it: the utterance, not its own eyes.
       ; Interrogation and the re-tell cascade both read that link.
-      (add-source ?fact ?tell)
+      (add-source ?fact ?SAY)
       (bind ?fact.subject ?subj)
       ; PEOPLE only. A heard fact can subject a BUILDING - the enclosure deixis
       ; carries household facts about the home - and an acquaintance tie to a
@@ -65,12 +64,12 @@
                (neq ?subj @self))
         (then (begin-belief {@self acquaintance ?subj}))))))
 
-; (adopt-authority-introduction ?msg ?speaker ?tell) - the hearer takes ?speaker to hold a job of
+; (adopt-authority-introduction ?msg ?speaker ?SAY) - the hearer takes ?speaker to hold a job of
 ; the kind he introduced himself by: the job he already knows him to hold of that kind, else a
 ; new one.
-(define-func adopt-authority-introduction (?msg ?speaker ?tell)
+(define-func adopt-authority-introduction (?msg ?speaker ?SAY)
   (bind (nth (k-formulaic-office-field) ?msg) ?kind)
-  (absorb-heard-fact (begin-belief {?speaker job (o ?kind {?speaker job @o})}) ?tell))
+  (absorb-heard-fact (begin-belief {?speaker job (o ?kind {?speaker job @o})}) ?SAY))
 
 ; (asked-clause ?speaker ?reply) - the fact ?reply answered: the question of the inquire up ?reply's
 ; causes that @self made of ?speaker - the fact @self wondered about when that caused the asking,
@@ -88,27 +87,29 @@
             (then (bind ?wonder.target ?answered)))))
   ?answered)
 
-; (adopt-not-knowing ?speaker ?tell) - ?speaker answered "I don't know" (?tell) to a question @self
+; (adopt-not-knowing ?speaker ?SAY) - ?speaker answered "I don't know" (?SAY) to a question @self
 ; inquired of him: the hearer takes him not to know what it asked.
-(define-func adopt-not-knowing (?speaker ?tell)
-  (bind (asked-clause ?speaker ?tell) ?asked)
+(define-func adopt-not-knowing (?speaker ?SAY)
+  (bind (asked-clause ?speaker ?SAY) ?asked)
   (if (is-clause ?asked)
-      (then (absorb-heard-fact (begin-belief {?speaker /not know ?asked}) ?tell))))
+      (then (absorb-heard-fact (begin-belief {?speaker /not know ?asked}) ?SAY))))
 
-; (adopt-withholding ?speaker ?tell) - ?speaker answered "none of your business" (?tell) to a
+; (adopt-withholding ?speaker ?SAY) - ?speaker answered "none of your business" (?SAY) to a
 ; question @self inquired of him: the hearer takes him to withhold what it asked from @self.
-(define-func adopt-withholding (?speaker ?tell)
-  (bind (asked-clause ?speaker ?tell) ?asked)
+(define-func adopt-withholding (?speaker ?SAY)
+  (bind (asked-clause ?speaker ?SAY) ?asked)
   (if (is-clause ?asked)
-      (then (absorb-heard-fact (begin-belief {?speaker withhold ?asked @self}) ?tell))))
+      (then (absorb-heard-fact (begin-belief {?speaker withhold ?asked @self}) ?SAY))))
 
-(define-func /hear adopt-heard-msg (?msg ?speaker ?audience ?tell)
+(define-func /hear adopt-heard-msg (?SAY)
+  (bind ?SAY.target ?msg)
+  (bind ?SAY.subject ?speaker)
   (if (matches ?msg (formulaic ? opening-phrase authority ?..))
-      (then (adopt-authority-introduction ?msg ?speaker ?tell)))
+      (then (adopt-authority-introduction ?msg ?speaker ?SAY)))
   (if (matches ?msg (msg ? @unknown))
-      (then (adopt-not-knowing ?speaker ?tell)))
+      (then (adopt-not-knowing ?speaker ?SAY)))
   (if (matches ?msg (formulaic ? refusal answer))
-      (then (adopt-withholding ?speaker ?tell)))
+      (then (adopt-withholding ?speaker ?SAY)))
   ; A QUESTION is not a claim. The heard {asker SAY (qs ..)} record IS the
   ; deliverable - respond answers it straight off that record - and adopting the
   ; asked pattern would turn a man's question into this listener's belief.
@@ -116,8 +117,8 @@
     (then @nothing)
     (else
       ; @fail binds through: an undecodable message is no facts, not an abort.
-      (tolerate (adopt-msg ?msg ?speaker ?audience (shared-talk ?speaker)): ?out)
+      (tolerate (adopt-msg ?SAY (shared-talk ?speaker)): ?out)
       (if (is-list ?out)
-        (then (for-each ?fact ?out (absorb-heard-fact ?fact ?tell)))
-        (else (absorb-heard-fact ?out ?tell)))
+        (then (for-each ?fact ?out (absorb-heard-fact ?fact ?SAY)))
+        (else (absorb-heard-fact ?out ?SAY)))
       (flip (and (matches ?msg (formulaic ?..)) (not (is-list ?out)) (not (is-belief ?out))) @nothing ?out))))
