@@ -53,11 +53,7 @@
     (check ?at-hand)
     ; Whatever the message claims about who wrote it, the hand is the writer's own, and it is
     ; the hand he has TODAY: a letter from his boyhood keeps his boyhood hand.
-    (set-msg-rider (set-msg-rider ?sentence dated (time date)) handwriting
-      (attr @self handwriting)
-      (attr @self hand-slant) (attr @self hand-weight)
-      (attr @self hand-letter-spacing) (attr @self hand-line-spacing)
-      (attr @self hand-regularity)): ?penned
+    (pen ?sentence): ?penned
     (cond
       (case (nothing (attr ?doc writing))
         (set-writing ?doc ?penned))

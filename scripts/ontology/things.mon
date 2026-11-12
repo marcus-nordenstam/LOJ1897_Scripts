@@ -136,7 +136,7 @@
         (states stolen-from)
         (spatials gripped-by grip space in-stack bounds)
         (attrs variant birth-date color condition writing grip-force addressee
-               addressee-duty destination blemishes)
+               addressee-duty destination blemishes scribbles)
         (attr name (auto-percept) (ext-per obs)))
       (population (cap 32768) (blocks-spots) (non-occluder))
       (child container (+ facets totable) (facets totable)
@@ -327,7 +327,7 @@
           (decorations
             (spatials -grip -in-stack items)
             (attrs -color -condition -name -writing -grip-force -addressee -addressee-duty
-                   -destination -blemishes stack-label))
+                   -destination -blemishes -scribbles stack-label))
           (population (cap 2048))
           (children root-npc-knowledge-stack for-sale-listing-stack for-lease-listing-stack title-deed-stack)
           ; The company registry's INCORPORATION stack: every org's
@@ -358,7 +358,7 @@
           (decorations
             (spatials -grip -in-stack)
             (attrs -color -condition -name -writing -grip-force -addressee -addressee-duty
-                   -destination -blemishes content-kind count dish))
+                   -destination -blemishes -scribbles content-kind count dish))
           (population (cap 16384))))
       (child sporting-gear (+ facets totable) (facets totable)
         (child ball

@@ -266,6 +266,11 @@
 ; wrapper around one or more belief sentences. /read transmits it to a
 ; reader's mind, where the sentences are evaluated into beliefs.
 (attr writing (type pattern) (default @nothing) (per read) (state-flags-tar @msg @S))
+; What anyone has written ON a thing, beside a document's own writing: a name in the front of a book,
+; a child's on his favourite toy, the seller's crossed out and the buyer's under it. A message, one
+; sentence per scribble, seen by whoever looks at the thing - like a blemish, it marks the one copy
+; it is on (SCRIBBLE writes it).
+(attr scribbles (type pattern) (default @nothing) (per obs) (auto-percept) (state-flags-tar @msg @S))
 ; How hard the entity is being gripped. 0=loose, 1=hard
 (attr grip-force (type int) (range 0 1) (imperceptible))
 

@@ -6,6 +6,15 @@
 ; writing it (thinks/know-own-writing-think.mc).
 ; ----------------------------------------------------------------------------
 
+; (pen ?sentence) - ?sentence as @self's hand puts it on paper or on a thing: dated today and in his
+; handwriting - the hand's kind and the aspects it is written with. WRITE and SCRIBBLE pen alike.
+(define-func pen (?sentence)
+  (set-msg-rider (set-msg-rider ?sentence dated (time date)) handwriting
+    (attr @self handwriting)
+    (attr @self hand-slant) (attr @self hand-weight)
+    (attr @self hand-letter-spacing) (attr @self hand-line-spacing)
+    (attr @self hand-regularity)))
+
 ; (learn-envelope ?doc ?msg ?date) - @self takes ?doc to be signed, addressed and dated as ?msg's
 ; riders say, and written on ?date. An unsigned or unaddressed document teaches neither.
 (define-func learn-envelope (?doc ?msg ?date)
