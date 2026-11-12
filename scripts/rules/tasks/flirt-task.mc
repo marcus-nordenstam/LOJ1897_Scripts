@@ -18,7 +18,7 @@
       (lod presented)
       (role ?partner {@self fancy|desire|crave ?partner}
         (when (and (not (flirted-in ?talk)) (not (awaits-flirt-answer ?talk ?partner))))
-        (effects (maintain-proposal {@self tell (formulaic [/msg-class flirtation] flirt compliment) ?partner}
+        (effects (maintain-proposal {@self tell (formulaic /flirtation [] flirt compliment) ?partner}
                                     /quit-trying-on-fail))))
     (try
       (lod presented)
@@ -29,7 +29,7 @@
     (try
       (lod unpresented)
       (when (none {@self tell ? ?partner /succ /caused_by ?flirt}))
-      (effects (maintain-proposal {@self tell (formulaic [/msg-class flirtation] flirt compliment) ?partner}
+      (effects (maintain-proposal {@self tell (formulaic /flirtation [] flirt compliment) ?partner}
                                   /quit-trying-on-fail)))
     (try
       (lod unpresented)

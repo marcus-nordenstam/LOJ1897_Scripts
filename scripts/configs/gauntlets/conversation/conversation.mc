@@ -152,7 +152,7 @@
 ; answered it - a line of his caused by that remark.
 (define-func answered-smalltalk (?other)
   (bind @false ?answered)
-  (for-each ?line (every {?other SAY (msg ~[/msg-class smalltalk] ?..) @self /past})
+  (for-each ?line (every {?other SAY (msg /smalltalk ? ?..) @self /past})
     (if (substantial (any {@self tell ? ?other /succ /caused_by ?line}))
         (then (bind @true ?answered) (break))))
   ?answered)
@@ -161,7 +161,7 @@
 ; his caused by that flirt.
 (define-func answered-flirt (?other)
   (bind @false ?answered)
-  (for-each ?line (every {?other SAY (formulaic ~[/msg-class flirtation] flirt compliment) @self /past})
+  (for-each ?line (every {?other SAY (formulaic /flirtation ? flirt compliment) @self /past})
     (if (substantial (any {@self tell ? ?other /succ /caused_by ?line}))
         (then (bind @true ?answered) (break))))
   ?answered)
@@ -178,7 +178,7 @@
 ; @self's in response, caused by it - his own tidings when he had some, else its receipt.
 (define-func responded-to-tidings (?other)
   (bind @true ?responded)
-  (for-each ?line (every {?other SAY (msg ~[/msg-class tidings] ?..) @self /past})
+  (for-each ?line (every {?other SAY (msg /tidings ? ?..) @self /past})
     (if (unsubstantial (any {@self tell ? ?other /succ /caused_by ?line}))
         (then (bind @false ?responded) (break))))
   ?responded)

@@ -129,7 +129,7 @@
     (effects
       (bind (any {? participant @self}) ?part)
       (if (substantial ?part)
-          (then (maintain-proposal {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)}
+          (then (maintain-proposal {@self turn-down ?speaker (formulaic /insult [] rebuff)}
                                    /caused_by ~[?opening ?part]))
-          (else (maintain-proposal {@self turn-down ?speaker (formulaic [/msg-class insult] rebuff)}
+          (else (maintain-proposal {@self turn-down ?speaker (formulaic /insult [] rebuff)}
                                    /caused_by ?opening))))))

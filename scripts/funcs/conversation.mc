@@ -479,7 +479,7 @@
 ; one @self means: the line he said it in, "You told me Tom is ill. Tom who?", or the document he
 ; wrote it in, "In your letter you wrote that Tom is ill. Tom who?".
 (define-func inquiry-of (?who ?fact)
-  (bind (qs /utterable [/msg-class inquiry] (any ?fact)) ?qs)
+  (bind (qs /utterable /inquiry [] (any ?fact)) ?qs)
   (bind (naming-line ?who ?fact) ?line)
   (cond (case (is-belief ?line) (set-msg-rider ?qs context quote ?who ?line.target))
         (case (is-object ?line) (set-msg-rider ?qs context doc ?line))
@@ -618,7 +618,7 @@
 (define-func remarked-in (?talk)
   (bind @false ?remarked)
   (for-each ?smalltalk (every {@self smalltalk ? ?talk /ever})
-    (if (substantial (any {@self tell (msg ~[/msg-class smalltalk] ?..) ? /succ /caused_by ?smalltalk}))
+    (if (substantial (any {@self tell (msg /smalltalk ? ?..) ? /succ /caused_by ?smalltalk}))
         (then (bind @true ?remarked) (break))))
   ?remarked)
 
@@ -635,9 +635,9 @@
   (cond (case (matches ?msg (qs ?..)) inquiry)
         (case (matches ?msg (formulaic ? opening-phrase ?..)) opening-phrase)
         (case (matches ?msg (formulaic ? flirt compliment ?..)) flirtation)
-        (case (matches ?msg (msg ~[/msg-class smalltalk] ?..)) smalltalk)
-        (case (matches ?msg (msg ~[/msg-class tidings] ~[?])) reply)
-        (case (matches ?msg (msg ~[/msg-class tidings] ?..)) tidings)
+        (case (matches ?msg (msg /smalltalk ? ?..)) smalltalk)
+        (case (matches ?msg (msg /tidings ? ~[?])) reply)
+        (case (matches ?msg (msg /tidings ? ?..)) tidings)
         (case (and (matches ?msg (msg ?..)) (unsubstantial (msg-class-of ?msg))) statement)
         (else reply)))
 
@@ -701,11 +701,11 @@
           (case (is-belief ?emotion)
             (bind ?emotion.target ?feeling)
             (bind ?emotion.auxiliary ?whom)
-            (bind (formulaic [/msg-class reply] ?knowing ?fact {@self emotion ?feeling ?whom}) ?reply))
+            (bind (formulaic /reply [] ?knowing ?fact {@self emotion ?feeling ?whom}) ?reply))
           (case (and (misfortune ?fact) (courteous))
-            (bind (formulaic [/msg-class reply] ?knowing ?fact condolence) ?reply))
+            (bind (formulaic /reply [] ?knowing ?fact condolence) ?reply))
           (else
-            (bind (formulaic [/msg-class reply] ?knowing ?fact) ?reply)))))
+            (bind (formulaic /reply [] ?knowing ?fact) ?reply)))))
   ?reply)
 
 ; (opening-reply ?opening ?speaker) - what @self answers an opening ?speaker said to him in a
@@ -713,7 +713,7 @@
 ; A man already talking is never too busy for one joining his talk, so only a rebuff turns him away.
 (define-func opening-reply (?opening ?speaker)
   (if (rebuffs ?speaker)
-      (then (formulaic [/msg-class insult] rebuff))
+      (then (formulaic /insult [] rebuff))
       (else (hail-response ?opening))))
 
 ; (tidings-reply ?speaker) - what @self answers ?speaker's tidings with: tidings of his own the
@@ -723,8 +723,8 @@
   (if (substantial (any {@self (closeness-labels friend) ?speaker}))
       (then (bind (news-for ?speaker) ?news)))
   (if (substantial ?news)
-      (then (msg /utterable [/msg-class tidings] ?news))
-      (else (formulaic [/msg-class reply] response receipt))))
+      (then (msg /utterable /tidings [] ?news))
+      (else (formulaic /reply [] response receipt))))
 
 ; (smalltalk-reply ?talk) - what @self answers a remark with in ?talk: his own remark, building on
 ; it, or having none, agreement.
@@ -732,13 +732,13 @@
   (bind (smalltalk-line ?talk) ?remark)
   (if (substantial ?remark)
       (then ?remark)
-      (else (formulaic [/msg-class smalltalk] response agree))))
+      (else (formulaic /smalltalk [] response agree))))
 
 ; (awaits-smalltalk-answer ?talk ?partner) - the last smalltalk remark ?partner made to @self, in
 ; ?talk, is still unanswered.
 (define-func awaits-smalltalk-answer (?talk ?partner)
   (bind (any {?talk participant @self}) ?part)
-  (bind (any {?partner SAY (msg ~[/msg-class smalltalk] ?..) @self /past /most_recent}) ?line)
+  (bind (any {?partner SAY (msg /smalltalk ? ?..) @self /past /most_recent}) ?line)
   (if (substantial ?line)
       (then (and (happened-since ?line ?part) (none {@self tell ? ?partner /succ /caused_by ?line})))
       (else @false)))
@@ -753,14 +753,14 @@
       (then
         (for-each ?weather (every {?here sky|rain|snow|fog|wind ?})
           (if (neq ?weather.target [k none])
-              (then (bind (msg /utterable [/msg-class smalltalk] ?weather) ?line) (break))))))
+              (then (bind (msg /utterable /smalltalk [] ?weather) ?line) (break))))))
   ?line)
 
 ; (flirted-in ?talk) - @self has made his flirt in ?talk: one a talk.
 (define-func flirted-in (?talk)
   (bind @false ?flirted)
   (for-each ?flirt (every {@self flirt ? ?talk /ever})
-    (if (substantial (any {@self tell (formulaic ~[/msg-class flirtation] flirt compliment) ? /succ /caused_by ?flirt}))
+    (if (substantial (any {@self tell (formulaic /flirtation ? flirt compliment) ? /succ /caused_by ?flirt}))
         (then (bind @true ?flirted) (break))))
   ?flirted)
 
@@ -768,7 +768,7 @@
 ; unanswered.
 (define-func awaits-flirt-answer (?talk ?partner)
   (bind (any {?talk participant @self}) ?part)
-  (bind (any {?partner SAY (formulaic ~[/msg-class flirtation] flirt compliment) @self /past /most_recent}) ?line)
+  (bind (any {?partner SAY (formulaic /flirtation ? flirt compliment) @self /past /most_recent}) ?line)
   (if (substantial ?line)
       (then (and (happened-since ?line ?part) (none {@self tell ? ?partner /succ /caused_by ?line})))
       (else @false)))
@@ -777,11 +777,11 @@
 ; back to one he fancies, a rebuff - heard as the slight it is - to one he dislikes, else flattered.
 (define-func flirt-reply (?partner)
   (if (substantial (any {@self fancy|desire|crave ?partner}))
-      (then (formulaic [/msg-class flirtation] flirt return))
+      (then (formulaic /flirtation [] flirt return))
       (else
         (if (substantial (any {@self dislike|detest ?partner}))
-            (then (formulaic [/msg-class insult] refusal flirt))
-            (else (formulaic [/msg-class flirtation] response flattered))))))
+            (then (formulaic /insult [] refusal flirt))
+            (else (formulaic /flirtation [] response flattered))))))
 
 ; (agenda-for ?talk) - @self still has something to say in ?talk: a dialogue task of his still runs
 ; there, or a dialogue-line of some class is waiting for someone in it - the union over the classes.
@@ -827,8 +827,8 @@
 (define-func answer-to (?qs ?partner)
   (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
   (if (and (matches ?qs (qs ? (news-for ?..))) (unsubstantial ?answer))
-      (then (formulaic [/msg-class reply] response no-news))
-      (else (msg /utterable [/msg-class reply] ?answer))))
+      (then (formulaic /reply [] response no-news))
+      (else (msg /utterable /reply [] ?answer))))
 
 ; (focus-of ?talk) - whom @self faces in ?talk: the party he is telling a line to, else the first
 ; other party in it.

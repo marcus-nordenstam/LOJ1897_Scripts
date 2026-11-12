@@ -17,7 +17,7 @@
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
         (when (and (matches ?msg (qs ?..)) (withholds ?msg ?speaker)))
-        (effects (maintain-proposal {@self tell (formulaic [/msg-class reply] refusal answer) ?speaker} /caused_by ?line /quit-trying-on-fail))))
+        (effects (maintain-proposal {@self tell (formulaic /reply [] refusal answer) ?speaker} /caused_by ?line /quit-trying-on-fail))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
         (bind (reply-to ?line ?speaker) ?reply)

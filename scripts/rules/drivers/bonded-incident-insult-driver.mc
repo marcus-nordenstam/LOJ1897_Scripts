@@ -93,4 +93,4 @@
       (declare-utility want)
 
       (effects
-        (begin-proposal {@self tell (msg /utterable [/msg-class insult] ?barb) ?victim})))))
+        (begin-proposal {@self tell (msg /utterable /insult [] ?barb) ?victim})))))

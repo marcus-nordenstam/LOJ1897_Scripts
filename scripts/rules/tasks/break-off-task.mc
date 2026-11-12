@@ -9,7 +9,7 @@
   (and
     (try
       (belief -{@self tell ? ?lover /succ /caused_by ?break-off}
-        (effects (maintain-proposal {@self tell (formulaic [/msg-class jilt] breakup) ?lover}))))
+        (effects (maintain-proposal {@self tell (formulaic /jilt [] breakup) ?lover}))))
     (try
       (belief {@self tell ? ?lover /succ /caused_by ?break-off}
         (effects

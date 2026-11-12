@@ -22,11 +22,11 @@
                   (gossip-worthy-for ?heard ?friend)
                   (select (policy first-match))
         (when (conversing-with ?friend))
-        (effects (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?heard) ?friend} /quit-trying-on-fail))))
+        (effects (maintain-proposal {@self tell (msg /utterable /tidings [] ?heard) ?friend} /quit-trying-on-fail))))
     (try
       (lod unpresented)
       (belief-list ?gossip-items {@self gossip ?heard}:?gossip
                    (gossip-worthy-for ?heard ?friend)
         (effects
-          (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?gossip-items.target) ?friend}
+          (maintain-proposal {@self tell (msg /utterable /tidings [] ?gossip-items.target) ?friend}
                              /quit-trying-on-fail))))))

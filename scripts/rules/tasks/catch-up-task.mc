@@ -29,18 +29,18 @@
                   (select (policy first-match))
         (when (conversing-with ?friend))
         (effects
-          (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?told) ?friend} /quit-trying-on-fail))))
+          (maintain-proposal {@self tell (msg /utterable /tidings [] ?told) ?friend} /quit-trying-on-fail))))
     (try
       (lod unpresented)
       (belief-list ?news-items {@self news ?told}:?news
                    (speech-worthy ?told ?friend)
         (effects
-          (maintain-proposal {@self tell (msg /utterable [/msg-class tidings] ?news-items.target) ?friend}
+          (maintain-proposal {@self tell (msg /utterable /tidings [] ?news-items.target) ?friend}
                              /quit-trying-on-fail))))
     (try
       (lod presented)
       (when (and (conversing-with ?friend)
                  (unsubstantial (news-for ?friend))
                  (not (asked-news ?friend (conversation-of @self)))))
-      (effects (maintain-proposal {@self tell (qs /utterable [/msg-class tidings] (news-for @self)) ?friend}
+      (effects (maintain-proposal {@self tell (qs /utterable /tidings [] (news-for @self)) ?friend}
                                   /quit-trying-on-fail)))))
