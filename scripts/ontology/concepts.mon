@@ -323,7 +323,9 @@
     ; avoid colliding with the `desire` attraction verb-state label. No stance
     ; coupling row: the attraction scalar is already driven by mate-value, so
     ; this is a pure feeling (mood / NLG surface), not a stance re-driver.
-    (children longing))
+    (children longing)
+    ; sympathy: feeling for another's misfortune - felt, never the compassion trait that scales it.
+    (children sympathy))
 
   ; Personal pressure - second-order standing motivational loads that build
   ; when beliefs + drives + appraisals + constraints converge (plan section
@@ -658,8 +660,6 @@
     (children hot-tempered callous cruel selfish))
   (child class-situation
     (children upper middle lower))
-  (child health-situation
-    (children robust frail ailing invalid))
   (child social-trajectory
     (children rising stable-trajectory declining))
   (child life-satisfaction
@@ -785,7 +785,16 @@
     (children degrade-act)
     ; What an act is like to DO, whoever else is in it: the leisure drives read them off a
     ; running act's label (funcs/leisure-drives.mc).
-    (children sensual-act play-act social-act rest-act exertion-act toil-act devotion-act pain-act))
+    (children sensual-act play-act social-act rest-act exertion-act toil-act devotion-act pain-act)
+    ; misfortune-act: harm befalling a man with no actor - his health failing - construed from the
+    ; value of the state that holds it ((construed-act misfortune-act) on the value kind).
+    (children misfortune-act))
+
+  ; Declared after construed-act, which its misfortunes name.
+  (child health-situation
+    (children robust frail)
+    (child ailing (construed-act misfortune-act))
+    (child invalid (construed-act misfortune-act)))
 
   ; Message classes - what kind of line a SAY is, riding its msg as [/msg-class <leaf>]. A
   ; leaf's (construed-act ..) is how a hearer construes the line (reflexes/construe-speech.mc).

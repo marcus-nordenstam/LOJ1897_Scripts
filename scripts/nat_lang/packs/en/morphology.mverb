@@ -77,6 +77,9 @@ verb ride     /past = rode
 verb know     /pres = knows
 verb know     /past = knew
 
+verb feel     /pres = feels
+verb feel     /past = felt
+
 verb handle   /pres = handles
 verb handle   /past = handled
 

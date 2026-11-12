@@ -524,6 +524,14 @@
         (then (bind @true ?told) (break))))
   ?told)
 
+; (teller-of ?belief) - the man whose line first told @self ?belief, or @nothing when no line did.
+(define-func teller-of (?belief)
+  (bind @nothing ?teller)
+  (for-each ?source (sources ?belief)
+    (if (and (is-belief ?source) (eq ?source.label SAY))
+        (then (bind ?source.subject ?teller) (break))))
+  ?teller)
+
 ; (speakable ?belief) - ?belief is a thing @self can say: a belief he holds, not forgotten, and still
 ; true now. Whatever is picked to be told - news, gossip, an aspect of himself - is speakable.
 (define-func speakable (?belief)
@@ -616,12 +624,13 @@
 
 ; Every line said to a man makes a response from him relevant, and its kind decides which: a
 ; question an answer, an opening an opening's answer, a flirt a flirt's answer, a remark a remark
-; or agreement, tidings tidings of his own or a receipt. A response itself calls for none. The
+; or agreement, tidings tidings of his own or a receipt, a statement what he knew of it and felt
+; about it. A response itself calls for none. The
 ; respond driver (drivers/respond-driver.mc) owes it, the respond task says it, caused by the line.
 
 ; (line-kind ?msg) - the kind of move ?msg is: inquiry (a question), opening-phrase (a hail),
-; flirtation (a flirt), smalltalk (a remark), tidings (news), or reply - anything that answers a
-; line rather than calling for an answer, an unclassified line among them.
+; flirtation (a flirt), smalltalk (a remark), tidings (news), statement (an unclassed claim), or
+; reply - anything that answers a line rather than calling for an answer.
 (define-func line-kind (?msg)
   (cond (case (matches ?msg (qs ?..)) inquiry)
         (case (matches ?msg (formulaic ? opening-phrase ?..)) opening-phrase)
@@ -629,21 +638,75 @@
         (case (matches ?msg (msg ~[/msg-class smalltalk] ?..)) smalltalk)
         (case (matches ?msg (msg ~[/msg-class tidings] ~[?])) reply)
         (case (matches ?msg (msg ~[/msg-class tidings] ?..)) tidings)
+        (case (and (matches ?msg (msg ?..)) (unsubstantial (msg-class-of ?msg))) statement)
         (else reply)))
 
 ; (owes-response ?msg) - a line ?msg said to @self calls for a response from him.
 (define-func owes-response (?msg)
   (neq (line-kind ?msg) reply))
 
-; (reply-to ?msg ?speaker) - the response @self gives ?speaker's line ?msg, or @nothing.
-(define-func reply-to (?msg ?speaker)
+; (reply-to ?line ?speaker) - the response @self gives ?speaker's heard line ?line, or @nothing.
+(define-func reply-to (?line ?speaker)
+  (bind ?line.target ?msg)
   (switch (line-kind ?msg)
     (on inquiry (answer-to ?msg ?speaker))
     (on opening-phrase (opening-reply ?msg ?speaker))
     (on flirtation (flirt-reply ?speaker))
     (on smalltalk (smalltalk-reply (conversation-of @self)))
     (on tidings (tidings-reply ?speaker))
+    (on statement (statement-reply ?line))
     (else @nothing)))
+
+; (told-fact ?line) - the fact the heard line ?line told @self, as he holds it: the belief its
+; first claim was adopted as, sourced from the line, or @nothing when he took nothing from it.
+(define-func told-fact (?line)
+  (bind (nth (k-msg-first-content-field) ?line.target) ?content)
+  (bind @nothing ?fact)
+  (if (is-clause ?content)
+      (then
+        (bind ?content.label ?label)
+        (bind (any {? ?label ? /sources ?line}) ?fact)))
+  ?fact)
+
+; (misfortune ?fact) - ?fact is a misfortune: a state whose value declares one (ailing, invalid).
+(define-func misfortune (?fact)
+  (bind ?fact.target ?value)
+  (bind @false ?found)
+  (if (is-kind ?value)
+      (then
+        (for-each ?construal (construals-of ?value)
+          (if (eq ?construal misfortune-act)
+              (then (bind @true ?found) (break))))))
+  ?found)
+
+; (courteous) - @self's manners have him show a sympathy he does not feel.
+(define-func courteous ()
+  (any {@self politeness ?politeness=0.5})
+  (> ?politeness (k-courtesy-politeness)))
+
+; (statement-reply ?line) - what @self answers a heard statement ?line with: a courtesy, never a
+; claim - whether he knew the fact it told before the line (already-knew) or it is news to him
+; (did-not-know), with what it made him feel, read off the feeling it caused
+; (reflexes/reactions.mc), or, feeling nothing for a misfortune, the condolence a courteous man
+; offers. A formulaic, so no hearer takes anything from it. @nothing when he took nothing from
+; the line.
+(define-func statement-reply (?line)
+  (bind (told-fact ?line) ?fact)
+  (bind @nothing ?reply)
+  (if (is-belief ?fact)
+      (then
+        (bind (flip (learned-before ?fact ?line) already-knew did-not-know) ?knowing)
+        (bind (any {@self emotion ? ? /caused_by ?fact}) ?emotion)
+        (cond
+          (case (is-belief ?emotion)
+            (bind ?emotion.target ?feeling)
+            (bind ?emotion.auxiliary ?whom)
+            (bind (formulaic [/msg-class reply] ?knowing ?fact {@self emotion ?feeling ?whom}) ?reply))
+          (case (and (misfortune ?fact) (courteous))
+            (bind (formulaic [/msg-class reply] ?knowing ?fact condolence) ?reply))
+          (else
+            (bind (formulaic [/msg-class reply] ?knowing ?fact) ?reply)))))
+  ?reply)
 
 ; (opening-reply ?opening ?speaker) - what @self answers an opening ?speaker said to him in a
 ; conversation he is in: a rebuff when he despises him, else the response the opening calls for.

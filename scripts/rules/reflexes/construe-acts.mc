@@ -11,6 +11,8 @@
 ;     own actor (self-defence exoneration via the cause chain).
 ;   intimacy-act - betray-by-diversion: each exclusive-bond partner of the
 ;     actor OTHER than the act's patient is construed as betrayed.
+; A STATE may be construed by its VALUE instead of its label: {X health-situation ailing} is a
+; misfortune because ailing declares it, what befell X sitting in the agent slot.
 ; Replaces the appraisal.cc generator registry (categorize / generate_*).
 ; ----------------------------------------------------------------------------
 
@@ -43,6 +45,12 @@
 
 (reflex {?agent (construed-labels honour-act) ?patient /ever}:?honour-act
   (effects (construe ?honour-act honour-act ?agent ?patient)))
+
+(reflex {?holder (construed-value-labels) ?value /ever}:?state
+  (when (is-kind ?value))
+  (effects
+    (for-each ?construal (construals-of ?value)
+      (construe ?state ?construal ?value ?holder))))
 
 ; (No construe rules for help-act / aid-act / provision-act / commitment-act /
 ; repudiation-act / threaten-act / slight-act: NO label carries those tags today (an insult is a

@@ -739,6 +739,7 @@
 (state friend (tar [k human] @object) (inclusive_bond) (converse friend) (disclosure acquaintance+) (closeness friend) (describe-in bonds) (talkable) (facets self-disclosable) (tell-rank 23))
 (state half-sibling (tar [k human] @object) (inclusive_bond) (converse half-sibling) (refines sibling) (kin) (appraisal_input) (disclosure acquaintance+) (closeness close_friend) (describe-in siblings))
 (state harm-act (tar [k harm-act] @object))
+(state health-situation (tar [k health-situation] @excl) (disclosure acquaintance+) (talkable))
 (state help-act (tar [k help-act] @object))
 (state hiding-spot (tar [k interior-space] @object))
 (state home (tar [k building|unit] @object @excl) (disclosure acquaintance+) (talkable) (facets news-worthy self-disclosable) (tell-rank 19))
@@ -771,6 +772,7 @@
 ; wedding-day: {@self wedding-day <date>} - the day his family set for his wedding (a founding match).
 (state wedding-day (tar ? @excl) (self-known))
 (state sibling (tar [k human] @object) (inclusive_bond) (converse sibling) (kin) (appraisal_input) (disclosure acquaintance+) (closeness close_friend) (describe-in siblings) (talkable) (facets self-disclosable) (tell-rank 22))
+(state misfortune-act (tar [k misfortune-act] @object))
 (state slight-act (tar [k slight-act] @object))
 (state social-trajectory (tar [k social-trajectory] @excl))
 (state spouse (tar [k human] @object @excl) (exclusive_bond) (converse spouse) (appraisal_input) (disclosure stranger+) (closeness close_friend) (describe-in spouse) (talkable) (self-known) (facets gossip-worthy news-worthy) (tell-rank 12))

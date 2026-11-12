@@ -3,7 +3,7 @@
 ; ?line calls for, caused by it (reply-to, funcs/conversation.mc): a question answered from his
 ; own mind - "I don't know" when he does not know, a refusal when the answer is closer than he
 ; holds ?speaker (withholds) - an opening greeted back, a flirt answered, a remark met, tidings
-; met with his own or received. Proposed by the respond driver (drivers/respond-driver.mc), and
+; met with his own or received, a statement met with what he knew of it and felt about it. Proposed by the respond driver (drivers/respond-driver.mc), and
 ; by a hail for the opening of a man hailing him too; it succeeds when the line is said, or at
 ; once when the line calls for nothing he can say.
 ; ----------------------------------------------------------------------------
@@ -20,7 +20,7 @@
         (effects (maintain-proposal {@self tell (formulaic [/msg-class reply] refusal answer) ?speaker} /caused_by ?line /quit-trying-on-fail))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
-        (bind (reply-to ?msg ?speaker) ?reply)
+        (bind (reply-to ?line ?speaker) ?reply)
         (when (substantial ?reply))
         (effects (maintain-proposal {@self tell ?reply ?speaker} /caused_by ?line /quit-trying-on-fail))))
     (try

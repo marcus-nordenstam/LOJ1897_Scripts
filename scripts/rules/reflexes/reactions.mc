@@ -59,7 +59,13 @@
 (reflex {?actor harm-act ?patient ?harm-act}
   (effects
     (mint-emotion [k fear] ?actor 48)
-    (mint-pressure [k existential-threat] ?actor (* 720 (mobilisation-scale ?patient)))))
+    (mint-pressure [k existential-threat] ?actor (* 720 (mobilisation-scale ?patient)))
+    (feel-for-misfortune ?patient ?harm-act)))
+
+; -- misfortune-act (harm befalling a man with no actor - his health failing). The agent slot is
+; what befell him.
+(reflex {?befallen misfortune-act ?victim ?misfortune-act}
+  (effects (feel-for-misfortune ?victim ?misfortune-act)))
 
 ; -- appropriation-act (theft / fraud / embezzlement) --
 (reflex {?actor appropriation-act @self ?appropriation-act}
@@ -78,12 +84,15 @@
 ; -- suffer-loss-act (patient lost something - theft discovery, ruin). The
 ; agent slot is the LOST PROP (the culprit is unknown by design), so anger and
 ; distress are FOCUSLESS and the pressure drives acquisitive deliberation, not
-; aggression. No actor or third-party rows.
+; aggression. No actor row.
 (reflex {?prop suffer-loss-act @self ?suffer-loss-act}
   (effects
     (mint-emotion [k anger] @nothing 72)
     (mint-emotion [k distress] @nothing 168)
     (mint-pressure [k resource-scarcity] @nothing 1440)))
+
+(reflex {?prop suffer-loss-act ?patient ?suffer-loss-act}
+  (effects (feel-for-misfortune ?patient ?suffer-loss-act)))
 
 ; -- coercion-act (forcible compulsion) --
 (reflex {?actor coercion-act @self ?coercion-act}

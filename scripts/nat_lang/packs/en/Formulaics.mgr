@@ -41,6 +41,15 @@
 "It is indeed"                                                                  ( formulaic [] response agree ) .
 "Nothing much"                                                                  ( formulaic [] response no-news ) .
 "How interesting"                                                               ( formulaic [] response receipt ) .
+; A statement answered as a courtesy, never a claim: the fact was news to him or he knew it, then
+; what it made him feel, or the condolence a courteous man offers for a misfortune he feels nothing
+; for.
+"I did not know that $fact(ST) ++, and $feeling(ST)"                            ( formulaic [] did-not-know $fact(ST) $feeling(ST) ) .
+"I did not know that $fact(ST) ++, and I am sorry to hear it"                   ( formulaic [] did-not-know $fact(ST) condolence ) .
+"I did not know that $fact(ST)"                                                 ( formulaic [] did-not-know $fact(ST) ) .
+"Yes, I know that $fact(ST) ++, and $feeling(ST)"                               ( formulaic [] already-knew $fact(ST) $feeling(ST) ) .
+"Yes, I know that $fact(ST) ++, and I am sorry for it"                          ( formulaic [] already-knew $fact(ST) condolence ) .
+"Yes, I know that $fact(ST)"                                                    ( formulaic [] already-knew $fact(ST) ) .
 
 "No, I don't know"                                                              ( formulaic [] no_dont_know ) .
 "Yes, it's $answer(NP)"                                                         ( formulaic [] yes_its $answer(NP) ) .

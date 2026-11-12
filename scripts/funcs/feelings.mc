@@ -36,6 +36,7 @@
   (record psychopathy [k guilt]              _          -0.6 0.0    1)
   (record psychopathy [k fear]               _          -0.6 0.0    1)
   (record psychopathy [k moral-violation]    _          -0.6 0.0    1)
+  (record compassion  [k sympathy]           _           1.2 0.0    0)
   (record sadism      [k contempt]           betray-act  0.0 -192.0 1)
   (record sadism      [k joy]                betray-act  0.0 30.0   1)
   (record sadism      [k pride]              betray-act  0.0 60.0   1)
@@ -142,3 +143,33 @@
   (bind (feeling-salience ?kind ?hours @nothing) ?salience)
   (if (>= ?salience 1.0)
       (then (mint-feeling pressure ?kind ?focus ?salience (max-pressure-salience) @false @nothing))))
+
+; How long a feeling about another's misfortune is felt per band of @self's stance toward him, and
+; the sympathy a stranger's misfortune earns when one @self cares for or looks up to tells it.
+(define-macro misfortune-feeling-hours () 24.0)
+(define-macro told-misfortune-feeling-hours () 12.0)
+
+; (feel-for-misfortune ?victim ?misfortune) - what @self feels about the misfortune ?misfortune (a
+; belief: an illness, a harm, a loss) befalling ?victim, however he came to know it: as he stands
+; toward ?victim, several feelings at once - sympathy for one he cares for, joy for one he wishes
+; ill, contempt for one he despises, relief for one he fears. A victim he has no stance toward
+; moves him only through the man who told him, when he cares for or looks up to him.
+(define-func feel-for-misfortune (?victim ?misfortune)
+  (bind (stance-band ?victim care) ?care)
+  (bind (stance-band ?victim esteem) ?esteem)
+  (bind (stance-band ?victim dread) ?dread)
+  (bind (and (< ?esteem 0.0) (<= ?care 0.0)) ?despised)
+  (bind (> ?dread 0.0) ?feared)
+  (cond
+    (case (> ?care 0.0) (mint-emotion [k sympathy] ?victim (* (misfortune-feeling-hours) ?care)))
+    (case (< ?care 0.0) (mint-emotion [k joy] ?victim (* (misfortune-feeling-hours) (- 0.0 ?care)))))
+  (if ?despised
+      (then (mint-emotion [k contempt] ?victim (* (misfortune-feeling-hours) (- 0.0 ?esteem)))))
+  (if ?feared
+      (then (mint-emotion [k relief] ?victim (* (misfortune-feeling-hours) ?dread))))
+  (if (not (or (neq ?care 0.0) ?despised ?feared))
+      (then
+        (bind (teller-of ?misfortune) ?teller)
+        (if (and (is-object ?teller)
+                 (or (> (stance-band ?teller care) 0.0) (> (stance-band ?teller esteem) 0.0)))
+            (then (mint-emotion [k sympathy] ?victim (told-misfortune-feeling-hours)))))))

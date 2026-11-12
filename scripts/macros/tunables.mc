@@ -262,3 +262,7 @@
 ; Days a priest may leave a body he knows of unburied, the coroner's month included, before
 ; his obligation to bury it strains him.
 (define-macro burial_grace_days () 90)
+
+; The politeness above which a man who feels nothing for a misfortune he is told of shows a
+; sympathy he does not feel.
+(define-macro k-courtesy-politeness () 0.6)
