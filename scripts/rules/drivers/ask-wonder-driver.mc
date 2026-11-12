@@ -14,4 +14,4 @@
                    (conversing-with ?partner)
                    (askable ?partner ?fact)))
         (declare-utility want)
-        (effects (maintain-proposal {@self inquire ?partner (inquiry-of ?fact)} /caused_by ~[?part ?wonder]))))))
+        (effects (maintain-proposal {@self inquire ?partner (inquiry-of ?partner ?fact)} /caused_by ~[?part ?wonder]))))))

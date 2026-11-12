@@ -26,11 +26,11 @@
     (preemptive-or
       (try
         (lod unpresented)
-        (effects (maintain-proposal {@self inquire ?who (inquiry-of ?fact)})))
+        (effects (maintain-proposal {@self inquire ?who (inquiry-of ?who ?fact)})))
       (try
         (lod presented)
         (when (conversing-with ?who))
-        (effects (maintain-proposal {@self inquire ?who (inquiry-of ?fact)})))
+        (effects (maintain-proposal {@self inquire ?who (inquiry-of ?who ?fact)})))
       (try
         (lod presented)
         (belief {@self hail ?who /fail /caused_by ?find-out}:?hail

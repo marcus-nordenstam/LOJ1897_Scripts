@@ -466,9 +466,16 @@
       (then (any {?partner SAY ? @self /succ /caused_by ?said}))
       (else @fail)))
 
-; (inquiry-of ?fact) - the question that searches the fact clause ?fact.
-(define-func inquiry-of (?fact)
-  (qs /utterable [/msg-class inquiry] (any ?fact)))
+; (inquiry-of ?who ?fact) - the question @self asks ?who that searches the fact clause ?fact. When
+; ?fact is about a ghost ?who named to @self, the question carries the context that tells him which
+; one @self means: the line he said it in, "You told me Tom is ill. Tom who?", or the document he
+; wrote it in, "In your letter you wrote that Tom is ill. Tom who?".
+(define-func inquiry-of (?who ?fact)
+  (bind (qs /utterable [/msg-class inquiry] (any ?fact)) ?qs)
+  (bind (naming-line ?who ?fact) ?line)
+  (cond (case (is-belief ?line) (set-msg-rider ?qs context quote ?who ?line.target))
+        (case (is-object ?line) (set-msg-rider ?qs context doc ?line))
+        (else ?qs)))
 
 ; (askable ?who ?fact) - @self may ask ?who for the fact clause ?fact: he could know it, @self does
 ; not take him not to know it, and he has not refused to tell @self it.
