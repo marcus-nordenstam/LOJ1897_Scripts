@@ -500,17 +500,27 @@
   (or (said-to (every {@self SAY (msg ? ?belief) ? /succ /ever}) ?listener)
       (said-to (every {@self SAY (msg ? ~[?belief]) ? /succ /ever}) ?listener)))
 
+; (told-by ?belief ?friend) - ?friend told @self ?belief: a line of his is among how @self came to
+; know it.
+(define-func told-by (?belief ?friend)
+  (bind @false ?told)
+  (for-each ?source (sources ?belief)
+    (if (and (is-belief ?source) (eq ?source.subject ?friend) (eq ?source.label SAY))
+        (then (bind @true ?told) (break))))
+  ?told)
+
 ; (speakable ?belief) - ?belief is a thing @self can say: a belief he holds, not forgotten, and still
 ; true now. Whatever is picked to be told - news, gossip, an aspect of himself - is speakable.
 (define-func speakable (?belief)
   (and (is-belief ?belief) (eq (end-time ?belief) @ongoing)))
 
 ; (speech-worthy ?belief ?friend) - @self may tell ?friend the belief ?belief: it is speakable,
-; ?friend is no party of it, its tier admits him, and either @self takes him not to know it or has
-; not told it to him.
+; ?friend is no party of it and did not tell it to @self, its tier admits him, and either @self
+; takes him not to know it or has not told it to him.
 (define-func speech-worthy (?belief ?friend)
   (and (speakable ?belief)
        (not (involved-in ?friend ?belief))
+       (not (told-by ?belief ?friend))
        (disclosable-to ?belief ?friend)
        (or (substantial (any {?friend /not know (clausify ?belief)}))
            (not (told-to ?belief ?friend)))))
