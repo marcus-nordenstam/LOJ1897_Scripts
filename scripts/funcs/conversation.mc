@@ -147,6 +147,11 @@
 (define-func in-conversation (?party ?talk)
   (and (substantial ?talk) (substantial (bb-public-any ?talk participant ?party))))
 
+; (shared-talk ?party) - the conversation @self and ?party both take part in, or @nothing: the
+; discourse a line ?party says to him belongs to. A line overheard from a talk he is not in has none.
+(define-func shared-talk (?party)
+  (flip (in-one-conversation @self ?party) (conversation-of @self) @nothing))
+
 ; (in-one-conversation ?party ?partner) - both take part in one conversation: a talk they share,
 ; not yet a talk between them (conversing-with).
 (define-func in-one-conversation (?party ?partner)

@@ -174,5 +174,5 @@
               (begin-belief {?ihost invite @self ?iocc}))))
       ; A book carries no writing a mind adopts: what reading it does is felt (reflexes/particulars.mc).
       (on [k book] @true)
-      (else (adopt-msg (attr ?doc writing))))
+      (else (adopt-msg (attr ?doc writing) ?doc)))
     (set-outcome ?READ /succ)))

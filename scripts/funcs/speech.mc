@@ -116,7 +116,7 @@
     (then @nothing)
     (else
       ; @fail binds through: an undecodable message is no facts, not an abort.
-      (tolerate (adopt-msg ?msg ?speaker ?audience): ?out)
+      (tolerate (adopt-msg ?msg ?speaker ?audience (shared-talk ?speaker)): ?out)
       (if (is-list ?out)
         (then (for-each ?fact ?out (absorb-heard-fact ?fact ?tell)))
         (else (absorb-heard-fact ?out ?tell)))
