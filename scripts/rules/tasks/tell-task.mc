@@ -11,7 +11,8 @@
 ; has closed on any party out of voice; a broadcast (an absent ?audience) takes no turn and is said where @self stands, so
 ; its proposer brings him to the place first. The turn gives way when the tell ends, or once the
 ; SAY it began is said. A man says one thing at a time (lock speech-act). It succeeds when the
-; SAY does and fails when he cannot reach his audience.
+; SAY does, the line recorded in the talk he said it in (record-said), and fails when he cannot
+; reach his audience.
 ;
 ; Saying something and waiting for an answer is a conversation: each of its lines is said
 ; through this task.
@@ -32,8 +33,10 @@
         (then (release-line-turns ?tell))))
   (preemptive-or
     (try
-      (belief {@self SAY ? /succ /caused_by ?tell}
-        (effects (set-outcome ?tell /succ))))
+      (belief {@self SAY ?said ? /succ /caused_by ?tell}
+        (effects
+          (record-said ?said (talk-of-line ?audience))
+          (set-outcome ?tell /succ))))
     (try
       (lod presented)
       (when (and (or (unsubstantial ?audience) (within-voice ?audience ?msg))

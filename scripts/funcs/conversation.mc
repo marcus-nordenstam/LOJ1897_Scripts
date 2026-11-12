@@ -152,6 +152,14 @@
 (define-func shared-talk (?party)
   (flip (in-one-conversation @self ?party) (conversation-of @self) @nothing))
 
+; (talk-of-line ?audience) - the conversation a line @self says to ?audience is said in: ?audience
+; itself when it is one, else the one @self shares with him, else @nothing (a broadcast, or a man
+; he is in no talk with).
+(define-func talk-of-line (?audience)
+  (cond (case (unsubstantial ?audience) @nothing)
+        (case (is-a ?audience [k conversation]) ?audience)
+        (else (shared-talk ?audience))))
+
 ; (in-one-conversation ?party ?partner) - both take part in one conversation: a talk they share,
 ; not yet a talk between them (conversing-with).
 (define-func in-one-conversation (?party ?partner)
