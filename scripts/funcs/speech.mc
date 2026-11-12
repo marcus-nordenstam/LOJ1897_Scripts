@@ -101,6 +101,17 @@
   (if (is-clause ?asked)
       (then (absorb-heard-fact (begin-belief {?speaker withhold ?asked @self}) ?SAY))))
 
+; (identity-asked ?speaker ?msg ?SAY) - the ghost @self asked ?speaker which one it is, when ?SAY,
+; his reply ?msg, answers that question; @nothing otherwise.
+(define-func identity-asked (?speaker ?msg ?SAY)
+  (bind @nothing ?ghost)
+  (if (matches ?msg (msg /reply ?..))
+      (then
+        (bind (asked-clause ?speaker ?SAY) ?asked)
+        (if (is-object ?asked)
+            (then (bind ?asked ?ghost)))))
+  ?ghost)
+
 (define-func /hear adopt-heard-msg (?SAY)
   (bind ?SAY.target ?msg)
   (bind ?SAY.subject ?speaker)
@@ -121,8 +132,13 @@
           (then (record-heard ?SAY (shared-talk ?speaker))))
       @nothing)
     (else
-      ; @fail binds through: an undecodable message is no facts, not an abort.
-      (tolerate (adopt-msg ?SAY (shared-talk ?speaker)): ?out)
+      ; The answer to "which one?" tells the ghost asked about apart - it is read as facts about
+      ; him, never as a claim of its own. @fail binds through: an undecodable message is no facts,
+      ; not an abort.
+      (bind (identity-asked ?speaker ?msg ?SAY) ?ghost)
+      (if (is-object ?ghost)
+          (then (tolerate (adopt-identity ?SAY ?ghost (shared-talk ?speaker))): ?out)
+          (else (tolerate (adopt-msg ?SAY (shared-talk ?speaker))): ?out))
       (if (is-list ?out)
         (then (for-each ?fact ?out (absorb-heard-fact ?fact ?SAY)))
         (else (absorb-heard-fact ?out ?SAY)))

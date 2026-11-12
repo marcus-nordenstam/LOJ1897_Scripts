@@ -474,16 +474,38 @@
       (then (any {?partner SAY ? @self /succ /caused_by ?said}))
       (else @fail)))
 
-; (inquiry-of ?who ?fact) - the question @self asks ?who that searches the fact clause ?fact. When
-; ?fact is about a ghost ?who named to @self, the question carries the context that tells him which
-; one @self means: the line he said it in, "You told me Tom is ill. Tom who?", or the document he
-; wrote it in, "In your letter you wrote that Tom is ill. Tom who?".
+; (inquiry-of ?who ?fact) - the question @self asks ?who about what he wonders, ?fact: a fact clause
+; is searched, (any ?fact); a ghost is asked after itself, which one it is, (which ?fact @self).
+; When it is about a ghost ?who named to @self in an earlier talk, the question carries the context
+; that tells him which one @self means: the line he said it in, "You told me Tom is ill. Tom who?",
+; or the document he wrote it in, "In your letter you wrote that Tom is ill. Tom who?". A line said
+; in the talk they are in now needs no quoting: the talk itself says which one.
 (define-func inquiry-of (?who ?fact)
-  (bind (qs /utterable /inquiry [] (any ?fact)) ?qs)
+  (bind (cond (case (is-object ?fact) (qs /utterable /inquiry [] (which ?fact @self)))
+              (else (qs /utterable /inquiry [] (any ?fact))))
+        ?qs)
   (bind (naming-line ?who ?fact) ?line)
-  (cond (case (is-belief ?line) (set-msg-rider ?qs context quote ?who ?line.target))
+  (cond (case (and (is-belief ?line) (not (said-in-our-talk ?line ?who)))
+              (set-msg-rider ?qs context quote ?who ?line.target))
         (case (is-object ?line) (set-msg-rider ?qs context doc ?line))
         (else ?qs)))
+
+; (said-in-our-talk ?line ?who) - the line ?line @self heard was said in the talk he and ?who are in
+; now.
+(define-func said-in-our-talk (?line ?who)
+  (bind (shared-talk ?who) ?talk)
+  (bind @false ?here)
+  (if (substantial ?talk)
+      (then
+        (bind (any {?talk participant @self}) ?part)
+        (bind (and (is-belief ?part) (happened-since ?line ?part)) ?here)))
+  ?here)
+
+; (found-out ?fact) - @self knows what he wondered, ?fact: a fact clause he holds, or a ghost he no
+; longer wonders about - it is identified.
+(define-func found-out (?fact)
+  (cond (case (is-object ?fact) (none {@self wonder ?fact}))
+        (else (substantial (any ?fact)))))
 
 ; (askable ?who ?fact) - @self may ask ?who for the fact clause ?fact: he could know it, @self does
 ; not take him not to know it, and he has not refused to tell @self it.
