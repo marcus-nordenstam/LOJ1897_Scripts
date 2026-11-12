@@ -369,9 +369,10 @@
       ; mx_make_entity can create them; the org / property documents the
       ; historical sim builds depend on that.
       (child document (+ facets totable) (facets totable)
-        (decorations (states declares-org))
+        (decorations (states declares-org author write-date))
         (children diploma)
-        (child letter
+        ; A letter is said by its envelope: "your letter to me of the 14th".
+        (child letter (grounding-anchors author addressee write-date)
           (children adverts-letter)
           ; The occasion aspect's invitation: its writing names the occasion, and
           ; holding one is how a guest knows an occasion exists at all.

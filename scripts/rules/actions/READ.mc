@@ -30,6 +30,9 @@
   ; Merlin's - the .act declared `transmission = read` and the codec adopts the
   ; target's writing into the reader's mind.
   (effects
+    (bind (attr ?doc writing) ?writing)
+    (if (and (substantial ?writing) (not (is-list ?writing)))
+        (then (learn-envelope ?doc ?writing (msg-rider ?writing dated))))
     (switch (kind ?doc)
       ; A VERDICT letter answers ONE application, and it names which: kind + org. The offer
       ; is minted as a state of the SEAT - {?job offered-to @self}, the seeker's side of the

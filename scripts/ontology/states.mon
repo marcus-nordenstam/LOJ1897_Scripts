@@ -378,6 +378,10 @@
 ; (year/month/day/hour/date/...): reusing `date` would impose this
 ; (sub occasion) constraint on every time object's own `date` belief.
 (state held-on (tar ? @excl))
+; A document's envelope as written: the name it is signed with (an alias on a forged letter) and the
+; date written on it. A reader learns them reading it, its writer writing it (funcs/documents.mc).
+(state author (tar [k human] @excl))
+(state write-date (tar ? @excl))
 (state hours (tar ?) (aux ?))
 (state organize (tar [k occasion] @object))
 ; invite: {<host> invite <guest> /aux <occ>}. The host records it as
