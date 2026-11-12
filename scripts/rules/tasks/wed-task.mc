@@ -34,4 +34,6 @@
       (try
         (belief {@self tell ? ?partner /succ /caused_by ?wed}
                     -{@self spouse ?}
-          (effects (begin-belief {@self spouse ?partner})))))))
+          (effects
+            (bind (kin-label spouse ?partner) ?bond)
+            (begin-belief {@self ?bond ?partner})))))))

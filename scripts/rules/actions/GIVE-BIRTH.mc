@@ -63,15 +63,14 @@
     (observe ?xgive-birth.subject): ?known-mother
     (observe ?xgive-birth.target): ?known-father
     (begin-belief {@self mother ?known-mother})
-    (begin-belief {@self parent ?known-mother})
     (begin-belief {@self father ?known-father})
-    (begin-belief {@self parent ?known-father})
     (exit-mind)
     ; The mother's own belief about the child she just bore. SEE it first: a
     ; belief field converts into the believer's realm, so an object the mind has
     ; never met lands as @fail.
     (observe ?baby): ?known-baby
-    (begin-belief {@self child ?known-baby /caused_by ?GIVE-BIRTH})
+    (bind (kin-label child ?gender) ?bond)
+    (begin-belief {@self ?bond ?known-baby /caused_by ?GIVE-BIRTH})
     ; The pregnancy is over.
     (set-attr @self pregnant-when @nothing)
     (set-attr @self pregnant-by @nothing)

@@ -43,6 +43,10 @@
 "half-siblings"         half-sibling            .
 "parents"               parent                  .
 "children"              child                   .
+"sons"                  son                     .
+"daughters"             daughter                .
+"brothers"              brother                 .
+"sisters"               sister                  .
 "friends"               friend                  .
 "acquaintances"         acquaintance            .
 "lovers"                lover                   .
@@ -58,6 +62,12 @@
 "half sibling"          half-sibling            .
 "half-sibling"          half-sibling            .
 "child"                 child                   .
+"son"                   son                     .
+"daughter"              daughter                .
+"husband"               husband                 .
+"wife"                  wife                    .
+"brother"               brother                 .
+"sister"                sister                  .
 "friend"                friend                  .
 "acquaintance"          acquaintance            .
 "lover"                 lover                   .

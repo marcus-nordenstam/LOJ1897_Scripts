@@ -41,4 +41,5 @@
              {?p spouse @self}:?vow
       (effects
         (end-belief {@self fiancee ?p})
-        (begin-belief {@self spouse ?p /caused_by ?vow})))))
+        (bind (kin-label spouse ?p) ?bond)
+        (begin-belief {@self ?bond ?p /caused_by ?vow})))))
