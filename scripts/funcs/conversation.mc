@@ -10,7 +10,7 @@
 ;
 ; A CONVERSATION is ONE object, shared (share-object): the opener invents it, and every party
 ; holds his own copy of it, linked to the one the world keeps. Its public board is what keeps the
-; group in step: its participant set is who takes part (parties-of) and its has-more set who still
+; group in step: its participant set is who takes part (talk-participants) and its has-more set who still
 ; has something to say. Joining adds him to the set and leaving takes him off it; a change to
 ; either set wakes every party reading it, busy or not, and each mirrors it in his own mind
 ; (conversation-roster-join / -leave). When the last party leaves, the board is empty and the
@@ -278,7 +278,7 @@
   (bind 0.0 ?claims)
   (bind (conversation-of ?partner) ?theirs)
   (if (and (substantial ?theirs) (not (in-conversation @self ?theirs)))
-      (then (bind (+ /float (count (parties-of ?theirs)) -1) ?claims)))
+      (then (bind (+ /float (count (talk-participants ?theirs)) -1) ?claims)))
   ?claims)
 
 ; (turned-down-by ?other) - the last thing ?other said to @self turned a hail of his down.
@@ -341,8 +341,8 @@
   (share-object (o /invent [k conversation])): ?talk
   ?talk)
 
-; (parties-of ?talk) - every party in ?talk: its participant set.
-(define-func parties-of (?talk)
+; (talk-participants ?talk) - every party in ?talk: its participant set.
+(define-func talk-participants (?talk)
   (bb-public-members ?talk participant))
 
 ; (out-of-call-of ?talk) - nobody else @self knows to be in ?talk would hear him call out: he has
@@ -357,7 +357,7 @@
 ; (other-party-in ?talk) - a party besides @self is in ?talk.
 (define-func other-party-in (?talk)
   (bind @false ?still)
-  (for-each ?party (parties-of ?talk)
+  (for-each ?party (talk-participants ?talk)
     (if (neq ?party @self)
         (then (bind @true ?still) (break))))
   ?still)
@@ -365,20 +365,20 @@
 ; (roster-lacks ?talk) - a party in ?talk is not yet a participant of it in @self's mind.
 (define-func roster-lacks (?talk)
   (bind @false ?lacks)
-  (for-each ?party (parties-of ?talk)
+  (for-each ?party (talk-participants ?talk)
     (if (unsubstantial (any {?talk participant ?party}))
         (then (bind @true ?lacks) (break))))
   ?lacks)
 
 ; (roster-add ?talk) - every party in ?talk takes part in it from now in @self's mind.
 (define-func roster-add (?talk)
-  (for-each ?party (parties-of ?talk)
+  (for-each ?party (talk-participants ?talk)
     (if (unsubstantial (any {?talk participant ?party}))
         (then (begin-belief {?talk participant ?party})))))
 
 ; (conversation-full ?talk) - ?talk seats no one more (conversation-size-max).
 (define-func conversation-full (?talk)
-  (>= (count (parties-of ?talk)) (conversation-size-max)))
+  (>= (count (talk-participants ?talk)) (conversation-size-max)))
 
 ; (hailable ?partner) - @self may hail ?partner, THE gate on every hail: he is awake to hear it, his
 ; last word to @self did not turn him down - that man seeks @self out himself - he is in no
@@ -856,7 +856,7 @@
         ?more)
   (if (not ?more)
       (then
-        (for-each ?party (parties-of ?talk)
+        (for-each ?party (talk-participants ?talk)
           (if (and (neq ?party @self)
                    (or (substantial (any {@self inquire|respond ?party ?}))
                        (substantial (any {@self catch-up|tell-gossip|get-acquainted ?party}))
@@ -879,7 +879,7 @@
   (bind @false ?heard)
   (if (said-all ?talk)
       (then
-        (for-each ?party (parties-of ?talk)
+        (for-each ?party (talk-participants ?talk)
           (if (neq ?party @self)
               (then
                 (bind (any {?party SAY ? @self /past /most_recent}) ?said)
@@ -907,7 +907,7 @@
             (then (bind ?audience ?focus)))))
   (if (unsubstantial ?focus)
       (then
-        (for-each ?party (parties-of ?talk)
+        (for-each ?party (talk-participants ?talk)
           (if (neq ?party @self)
               (then (bind ?party ?focus) (break))))))
   ?focus)

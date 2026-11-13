@@ -57,7 +57,7 @@
 
 (define-func conversation-deference (?talk)
   (bind @nothing ?most)
-  (for-each ?party (parties-of ?talk)
+  (for-each ?party (talk-participants ?talk)
     (if (neq ?party @self)
         (then
           (bind (deference-toward ?party) ?deference)

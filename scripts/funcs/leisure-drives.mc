@@ -24,7 +24,7 @@
   (bind 0.0 ?count)
   (if (substantial ?talk)
       (then
-        (for-each ?party (parties-of ?talk)
+        (for-each ?party (talk-participants ?talk)
           (if (neq ?party @self)
               (then (bind (+ ?sum (* 0.5 (+ 1.0 (stance ?party warmth)))) ?sum)
                     (bind (+ ?count 1.0) ?count))))))
