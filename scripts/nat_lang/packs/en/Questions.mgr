@@ -1,6 +1,16 @@
 
 :QS
 
+"can you identify $np(Q_NP)"
+( qs [] ( any { $np(Q_NP) /pres name } ).target )
+.
+
+
+; A question is said bare, "Which Tom?"; the wrapped forms after it are how it may also be heard.
+"$qs_phrase(QSP) ++?"
+( qs [] $qs_phrase(QSP) )
+.
+
 ; A question put inside a wrapper - "could you tell me what your name is", "do you know who
 ; this is", "tell me, what is your name" - is the bare question: the wrapper is a word class
 ; (#ask-wrapper, words.mwrd) and carries nothing into the MC. "do you know X" is answered as
@@ -10,15 +20,6 @@
 .
 
 "#ask-wrapper $qs_phrase(QSP)"
-( qs [] $qs_phrase(QSP) )
-.
-
-"can you identify $np(Q_NP)"
-( qs [] ( any { $np(Q_NP) /pres name } ).target )
-.
-
-
-"$qs_phrase(QSP) ++?"
 ( qs [] $qs_phrase(QSP) )
 .
 
@@ -66,6 +67,11 @@
 ; audience the asker), so it is answered from the answerer's mind like any question.
 "what is new [with you|]"
 ( news-for ?_I )
+.
+
+; Which one of a name the asker means: the man asked tells him apart, "My brother."
+"which $who(PNAME)"
+( which $who(PNAME) ?_I )
 .
 
 "what $verb(VERB|be) $who(POSS) name"

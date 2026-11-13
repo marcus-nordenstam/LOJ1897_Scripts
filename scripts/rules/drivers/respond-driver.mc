@@ -11,7 +11,8 @@
   (lod presented)
   (role ?talk {?talk participant @self}:?part
     (role ?speaker {?speaker SAY ?msg @self /past /most_recent}:?line
-                   (owes-response ?msg)
+                   (owes-response ?line)
+                   -{@self respond ?speaker ?line /succ}
                    -{@self tell ? ?speaker /succ /caused_by ?line}
                    -{@self take-up ?speaker /succ /caused_by ?line}
                    -{@self turn-down ?speaker ? /succ /caused_by ?line}
@@ -29,7 +30,7 @@
 (driver respond-direct-driver
   (lod unpresented)
   (role ?speaker {?speaker SAY ?msg @self /past /most_recent}:?line
-                 (or (eq (line-kind ?msg) inquiry) (eq (line-kind ?msg) flirtation))
+                 (or (eq (line-kind ?line) inquiry) (eq (line-kind ?line) flirtation))
                  -{@self tell ? ?speaker /succ /caused_by ?line}
                  (select (score (- 0 (elapsed /seconds (start-time ?line)))) (policy argmin))
     (declare-utility obligation)

@@ -477,8 +477,8 @@
 ; (inquiry-of ?who ?fact) - the question @self asks ?who about what he wonders, ?fact: a fact clause
 ; is searched, (any ?fact); a ghost is asked after itself, which one it is, (which ?fact @self).
 ; When it is about a ghost ?who named to @self in an earlier talk, the question carries the context
-; that tells him which one @self means: the line he said it in, "You told me Tom is ill. Tom who?",
-; or the document he wrote it in, "In your letter you wrote that Tom is ill. Tom who?". A line said
+; that tells him which one @self means: the line he said it in, "You told me Tom is ailing. Tom who?",
+; or the document he wrote it in, "In your letter you wrote that Tom is ailing. Tom who?". A line said
 ; in the talk they are in now needs no quoting: the talk itself says which one.
 (define-func inquiry-of (?who ?fact)
   (bind (cond (case (is-object ?fact) (qs /utterable /inquiry [] (which ?fact @self)))
@@ -500,6 +500,14 @@
         (bind (any {?talk participant @self}) ?part)
         (bind (and (is-belief ?part) (happened-since ?line ?part)) ?here)))
   ?here)
+
+; (prompting-line ?who ?qs) - the line ?who said to @self in the talk they are in now that named
+; what the question ?qs asks about: asking it answers that line, "Tom is ailing" - "Which Tom?".
+; @fail when ?who said none here.
+(define-func prompting-line (?who ?qs)
+  (bind (nth 1 (nth (k-msg-first-content-field) ?qs)) ?asked)
+  (bind (naming-line ?who ?asked) ?line)
+  (flip (and (is-belief ?line) (said-in-our-talk ?line ?who)) ?line @fail))
 
 ; (found-out ?fact) - @self knows what he wondered, ?fact: a fact clause he holds, or a ghost he no
 ; longer wonders about - it is identified.
@@ -650,34 +658,69 @@
 ; about it. A response itself calls for none. The
 ; respond driver (drivers/respond-driver.mc) owes it, the respond task says it, caused by the line.
 
-; (line-kind ?msg) - the kind of move ?msg is: inquiry (a question), opening-phrase (a hail),
-; flirtation (a flirt), smalltalk (a remark), tidings (news), statement (an unclassed claim), or
-; reply - anything that answers a line rather than calling for an answer.
-(define-func line-kind (?msg)
+; ; (line-kind ?line) - the kind of move the heard line ?line is: inquiry (a question), opening-phrase
+; (a hail), flirtation (a flirt), smalltalk (a remark), tidings (news), identified (the answer to
+; @self's asking which man was meant), statement (an unclassed claim), or reply - anything else that
+; answers a line rather than calling for an answer.
+(define-func line-kind (?line)
+  (bind ?line.target ?msg)
   (cond (case (matches ?msg (qs ?..)) inquiry)
         (case (matches ?msg (formulaic ? opening-phrase ?..)) opening-phrase)
         (case (matches ?msg (formulaic ? flirt compliment ?..)) flirtation)
         (case (matches ?msg (msg /smalltalk ? ?..)) smalltalk)
         (case (matches ?msg (msg /tidings ? ~[?])) reply)
         (case (matches ?msg (msg /tidings ? ?..)) tidings)
+        (case (is-object (identity-asked ?line.subject ?msg ?line)) identified)
         (case (and (matches ?msg (msg ?..)) (unsubstantial (msg-class-of ?msg))) statement)
         (else reply)))
 
-; (owes-response ?msg) - a line ?msg said to @self calls for a response from him.
-(define-func owes-response (?msg)
-  (neq (line-kind ?msg) reply))
+; (owes-response ?line) - the heard line ?line calls for a response from @self now: a statement
+; about a man he must first ask the speaker which one he is waits for the answer.
+(define-func owes-response (?line)
+  (bind (line-kind ?line) ?kind)
+  (and (neq ?kind reply)
+       (or (neq ?kind statement) (not (awaits-identity ?line)))))
+
+; (awaits-identity ?line) - the statement ?line told @self about a man he wonders which of several
+; he is, and could ask its speaker: "Tom is ailing" waits on "Which Tom?".
+(define-func awaits-identity (?line)
+  (bind (told-fact ?line) ?fact)
+  (and (is-belief ?fact)
+       (or (wondered-who ?fact.subject ?line.subject) (wondered-who ?fact.target ?line.subject))))
+
+; (wondered-who ?thing ?speaker) - @self wonders which man ?thing is, and could ask ?speaker.
+(define-func wondered-who (?thing ?speaker)
+  (and (is-object ?thing) (substantial (any {@self wonder ?thing})) (askable ?speaker ?thing)))
 
 ; (reply-to ?line ?speaker) - the response @self gives ?speaker's heard line ?line, or @nothing.
 (define-func reply-to (?line ?speaker)
   (bind ?line.target ?msg)
-  (switch (line-kind ?msg)
+  (switch (line-kind ?line)
     (on inquiry (answer-to ?msg ?speaker))
     (on opening-phrase (opening-reply ?msg ?speaker))
     (on flirtation (flirt-reply ?speaker))
     (on smalltalk (smalltalk-reply (conversation-of @self)))
     (on tidings (tidings-reply ?speaker))
+    (on identified (identified-reply ?line ?speaker))
     (on statement (statement-reply ?line))
     (else @nothing)))
+
+; (identified-reply ?line ?speaker) - what @self says once ?speaker's answer ?line told him which man
+; he meant: the response to ?speaker's statement that waited on it (awaits-identity) - his latest in
+; the talk before ?line that @self has not answered - or @nothing.
+(define-func identified-reply (?line ?speaker)
+  (bind @nothing ?waited)
+  (for-each ?said (every {?speaker SAY (msg ?..) @self /past})
+    (if (and (neq ?said ?line)
+             (happened-since ?line ?said)
+             (said-in-our-talk ?said ?speaker)
+             (eq (line-kind ?said) statement)
+             (none {@self tell ? ?speaker /caused_by ?said})
+             (or (unsubstantial ?waited) (happened-since ?said ?waited)))
+        (then (bind ?said ?waited))))
+  (if (is-belief ?waited)
+      (then (statement-reply ?waited))
+      (else @nothing)))
 
 ; (told-fact ?line) - the fact the heard line ?line told @self, as he holds it: the belief its
 ; first claim was adopted as, sourced from the line, or @nothing when he took nothing from it.
@@ -893,6 +936,31 @@
   (if (is-kind ?authority)
       (then (formulaic [] opening-phrase authority ?authority))
       (else (formulaic [] opening-phrase player_talk))))
+
+; (owed-question ?party) - the question @self last put to ?party, or to the talk they are in now,
+; that ?party has said nothing in reply to: what a line ?party says to him now answers, or @nothing.
+; The host asks it of the man the player speaks to, and the player's line is caused by it.
+(define-func owed-question (?party)
+  (bind (shared-talk ?party) ?talk)
+  (bind @nothing ?owed)
+  (if (substantial ?talk)
+      (then
+        (bind (any {?talk participant @self}) ?part)
+        (for-each ?SAY (every {@self SAY (qs ?..) ? /ever})
+          (if (and (or (eq ?SAY.auxiliary ?party) (eq ?SAY.auxiliary ?talk))
+                   (happened-since ?SAY ?part)
+                   (not (replied ?party ?SAY))
+                   (or (unsubstantial ?owed) (happened-since ?SAY ?owed)))
+              (then (bind ?SAY ?owed))))))
+  ?owed)
+
+; (player-line ?line ?owed) - ?line as the player says it: when it answers ?owed, the man's question
+; he owes a reply (owed-question), a reply, as a man's own answer is (answer-to).
+(define-func player-line (?line ?owed)
+  (bind (nth 1 ?line) ?riders)
+  (bind (nth 2 ?line) ?content)
+  (cond (case (and (is-belief ?owed) (matches ?line (msg ?..))) (msg /reply ?riders ?content))
+        (else ?line)))
 
 ; (player-leave-taking ?npc) - the player leaves the conversation with ?npc, and the answer is
 ; the line he takes his leave with. He comes off its participant set, and his hail of ?npc ends.
