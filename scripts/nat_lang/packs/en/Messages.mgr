@@ -31,3 +31,12 @@ $form(FORM)
 "$np_plur(NP_PLUR)"
 ( msg [] $np_plur(NP_PLUR) )
 .
+
+:CONTEXT
+
+; What frames a question, said before it as a sentence of its own: the line the one asked said
+; earlier, in another talk, that the question is about.
+"you told me that $fact(ST) ++."
+[ quote @you ( msg [] $fact(ST) ) ]
+:: realize-only
+.

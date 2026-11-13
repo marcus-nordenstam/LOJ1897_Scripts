@@ -475,13 +475,15 @@
       (else @fail)))
 
 ; (inquiry-of ?who ?fact) - the question @self asks ?who about what he wonders, ?fact: a fact clause
-; is searched, (any ?fact); a ghost is asked after itself, which one it is, (which ?fact @self).
+; is searched, (any ?fact) - the rest of a ghost's name, {G name >[n Tom]}, asks for the name alone,
+; "Tom who?"; a ghost is asked after itself, which one it is, (which ?fact @self).
 ; When it is about a ghost ?who named to @self in an earlier talk, the question carries the context
 ; that tells him which one @self means: the line he said it in, "You told me Tom is ailing. Tom who?",
 ; or the document he wrote it in, "In your letter you wrote that Tom is ailing. Tom who?". A line said
 ; in the talk they are in now needs no quoting: the talk itself says which one.
 (define-func inquiry-of (?who ?fact)
   (bind (cond (case (is-object ?fact) (qs /utterable /inquiry [] (which ?fact @self)))
+              (case (is-object (named-whom ?fact)) (qs /utterable /inquiry [] (any ?fact).target))
               (else (qs /utterable /inquiry [] (any ?fact))))
         ?qs)
   (bind (naming-line ?who ?fact) ?line)
@@ -489,6 +491,19 @@
               (set-msg-rider ?qs context quote ?who ?line.target))
         (case (is-object ?line) (set-msg-rider ?qs context doc ?line))
         (else ?qs)))
+
+; (named-whom ?fact) - the one whose name the fact clause ?fact is about, {G name ..}, or @nothing.
+(define-func named-whom (?fact)
+  (bind @nothing ?whom)
+  (if (and (is-clause ?fact) (eq ?fact.label name))
+      (then (bind ?fact.subject ?whom)))
+  ?whom)
+
+; (whom-asked ?asked) - the man a question or a wondering ?asked tells apart: the one asked after
+; himself, (which ..), or the one whose name it asks the rest of; @nothing for any other.
+(define-func whom-asked (?asked)
+  (cond (case (is-object ?asked) ?asked)
+        (else (named-whom ?asked))))
 
 ; (said-in-our-talk ?line ?who) - the line ?line @self heard was said in the talk he and ?who are in
 ; now.
@@ -688,9 +703,16 @@
   (and (is-belief ?fact)
        (or (wondered-who ?fact.subject ?line.subject) (wondered-who ?fact.target ?line.subject))))
 
-; (wondered-who ?thing ?speaker) - @self wonders which man ?thing is, and could ask ?speaker.
+; (wondered-who ?thing ?speaker) - @self wonders which man ?thing is, or the rest of his name, and
+; could ask ?speaker.
 (define-func wondered-who (?thing ?speaker)
-  (and (is-object ?thing) (substantial (any {@self wonder ?thing})) (askable ?speaker ?thing)))
+  (bind @false ?wondered)
+  (if (is-object ?thing)
+      (then
+        (for-each ?wonder (every {@self wonder ?})
+          (if (eq (whom-asked ?wonder.target) ?thing)
+              (then (bind (askable ?speaker ?wonder.target) ?wondered) (break))))))
+  ?wondered)
 
 ; (reply-to ?line ?speaker) - the response @self gives ?speaker's heard line ?line, or @nothing.
 (define-func reply-to (?line ?speaker)

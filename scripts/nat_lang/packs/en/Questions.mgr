@@ -74,6 +74,14 @@
 ( which $who(PNAME) ?_I )
 .
 
+; The rest of a name the asker was given: a name that says more than it, "Tom Walker".
+"$who(PNAME) who"
+( any { $who(PNAME) name >$who(PNAME) } ).target
+.
+"what is the full name of $who(PNAME)"
+( any { $who(PNAME) name >$who(PNAME) } ).target
+.
+
 "what $verb(VERB|be) $who(POSS) name"
 ( any { $who(POSS) /ever name } ).target
 .

@@ -101,15 +101,12 @@
   (if (is-clause ?asked)
       (then (absorb-heard-fact (begin-belief {?speaker withhold ?asked @self}) ?SAY))))
 
-; (identity-asked ?speaker ?msg ?SAY) - the ghost @self asked ?speaker which one it is, when ?SAY,
-; his reply ?msg, answers that question; @nothing otherwise.
+; (identity-asked ?speaker ?msg ?SAY) - the ghost @self asked ?speaker which one it is, or the rest of
+; whose name he asked, when ?SAY, his reply ?msg, answers that question; @nothing otherwise.
 (define-func identity-asked (?speaker ?msg ?SAY)
   (bind @nothing ?ghost)
   (if (matches ?msg (msg /reply ?..))
-      (then
-        (bind (asked-clause ?speaker ?SAY) ?asked)
-        (if (is-object ?asked)
-            (then (bind ?asked ?ghost)))))
+      (then (bind (whom-asked (asked-clause ?speaker ?SAY)) ?ghost)))
   ?ghost)
 
 (define-func /hear adopt-heard-msg (?SAY)
@@ -132,8 +129,9 @@
           (then (record-heard ?SAY (shared-talk ?speaker))))
       @nothing)
     (else
-      ; The answer to "which one?" tells the ghost asked about apart - it is read as facts about
-      ; him, never as a claim of its own. @fail binds through: an undecodable message is no facts,
+      ; The answer to "which one?" or "Tom who?" tells the ghost asked about apart - it is read as
+      ; facts about him, never as a claim of its own: a name answered lands on him, not on whoever
+      ; else holds it. @fail binds through: an undecodable message is no facts,
       ; not an abort.
       (bind (identity-asked ?speaker ?msg ?SAY) ?ghost)
       (if (is-object ?ghost)
