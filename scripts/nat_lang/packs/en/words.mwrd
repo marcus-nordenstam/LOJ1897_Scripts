@@ -23,3 +23,8 @@ firm-noun     | firm | house | establishment | concern | employer | company
 kill-verb     | killed | murdered | slain | done in
 dear-adj      | closest | dearest | best | nearest | oldest
 spouse-noun   | wife | husband | spouse
+
+; Times (Times.mgr): the word an hour is put with, and what tells it - "when the chapel bell had gone eight".
+at-hour       | at | about | around | towards | toward | near | close on | nigh on | round about | on the stroke of | just after | just before
+bell-noun     | bell | clock | chapel bell | church bell | town clock | church clock | chapel clock | bells
+strike-verb   | struck | rang | went | tolled | chimed | had gone | had struck | had rung | had tolled | had chimed | was striking

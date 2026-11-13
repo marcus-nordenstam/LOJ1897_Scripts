@@ -1,0 +1,168 @@
+; -----------------------------------------------------------------------------
+; Times.mgr - when a thing was, as the asker puts it: a day, a part of a day, an
+; hour read off the dial or told by a bell. A WHEN's MC is the absolute interval
+; it stands for, what (whereabouts-on ..) and the other interval readers take.
+; An hour is read off the dial with its half of the day unsaid ("at nine") unless
+; a part of the day says it; (dial-interval ..) takes the latest reading that
+; fits, the quarter-hour each side of it.
+; -----------------------------------------------------------------------------
+
+:WEEKDAY
+
+"monday"      monday    .
+"tuesday"     tuesday   .
+"wednesday"   wednesday .
+"thursday"    thursday  .
+"friday"      friday    .
+"saturday"    saturday  .
+"sunday"      sunday    .
+
+
+:BAND
+
+"morning"     morning   .
+"afternoon"   afternoon .
+"evening"     evening   .
+"night"       night     .
+
+
+; The part of the day an hour is said in: "nine in the evening", "two at night".
+:PART
+
+"in the morning"    morning   .
+"in the forenoon"   morning   .
+"in the afternoon"  afternoon .
+"in the evening"    evening   .
+"at night"          night     .
+
+
+; A whole day.
+:DAY
+
+"yesterday"
+( days-ago 1 )
+.
+
+"today"
+( days-ago 0 )
+.
+
+"the day before yesterday"
+( days-ago 2 )
+.
+
+"[on|last|] $weekday(WEEKDAY)"
+( last-weekday $weekday(WEEKDAY) )
+.
+
+
+; An hour read off the dial, its half of the day unsaid: the clock it reads on the first half.
+:DIAL
+
+"$hour(NUM) [o'clock|]"
+( clock $hour(NUM) 0 )
+.
+
+"$hour(NUM) $minutes(NUM)"
+( clock $hour(NUM) $minutes(NUM) )
+.
+
+"half past $hour(NUM)"
+( clock $hour(NUM) 30 )
+.
+
+"a quarter past $hour(NUM)"
+( clock $hour(NUM) 15 )
+.
+
+"a quarter to $hour(NUM)"
+( clock ( - $hour(NUM) 1 ) 45 )
+.
+
+"$minutes(NUM) [minutes|] past $hour(NUM)"
+( clock $hour(NUM) $minutes(NUM) )
+.
+
+"$minutes(NUM) [minutes|] to $hour(NUM)"
+( clock ( - $hour(NUM) 1 ) ( - 60 $minutes(NUM) ) )
+.
+
+
+; An hour as it was told: read off the dial, or struck by a clock or a bell - "when the chapel bell
+; had gone eight".
+:TOLD
+
+"#at-hour $dial(DIAL)"
+$dial(DIAL)
+.
+
+"[when|as|just as|by the time] the #bell-noun #strike-verb $hour(NUM)"
+( clock $hour(NUM) 0 )
+.
+
+
+:WHEN
+
+"$day(DAY)"
+$day(DAY)
+.
+
+"last night"
+( band-interval ( days-ago 1 ) night )
+.
+
+"this $band(BAND)"
+( band-interval ( days-ago 0 ) $band(BAND) )
+.
+
+"$day(DAY) $band(BAND)"
+( band-interval $day(DAY) $band(BAND) )
+.
+
+"$day(DAY) $part(PART)"
+( band-interval $day(DAY) $part(PART) )
+.
+
+"$told(TOLD)"
+( dial-interval $told(TOLD) @unknown @unknown )
+.
+
+"$told(TOLD) $part(PART)"
+( dial-interval $told(TOLD) $part(PART) @unknown )
+.
+
+"$told(TOLD) $day(DAY)"
+( dial-interval $told(TOLD) @unknown $day(DAY) )
+.
+
+"$day(DAY) $told(TOLD)"
+( dial-interval $told(TOLD) @unknown $day(DAY) )
+.
+
+"$told(TOLD) $part(PART) $day(DAY)"
+( dial-interval $told(TOLD) $part(PART) $day(DAY) )
+.
+
+"$day(DAY) $told(TOLD) $part(PART)"
+( dial-interval $told(TOLD) $part(PART) $day(DAY) )
+.
+
+"$told(TOLD) last night"
+( dial-interval $told(TOLD) night ( days-ago 1 ) )
+.
+
+"$told(TOLD) this $band(BAND)"
+( dial-interval $told(TOLD) $band(BAND) ( days-ago 0 ) )
+.
+
+"$told(TOLD) $day(DAY) $band(BAND)"
+( dial-interval $told(TOLD) $band(BAND) $day(DAY) )
+.
+
+"#at-hour [noon|midday]"
+( dial-interval ( clock 12 0 ) midday @unknown )
+.
+
+"#at-hour midnight"
+( dial-interval ( clock 12 0 ) night @unknown )
+.

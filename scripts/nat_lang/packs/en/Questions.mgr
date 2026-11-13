@@ -624,8 +624,17 @@
 ( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) morning ) )
 .
 
-; FLAG: an inspector-named clock time ("where were you at nine") needs a
-; band-from-clock-time func; only crime-anchored day-bands resolve today.
+; Where a man was at a time the asker names (Times.mgr): "where were you at nine last night",
+; "where was John yesterday morning", "when the chapel bell had gone eight".
+"where $verb(VERB|be) $who(Q_NP) $when(WHEN)"
+( whereabouts-on $who(Q_NP) $when(WHEN) )
+.
+"where did $who(Q_NP) [go|spend] $when(WHEN)"
+( whereabouts-on $who(Q_NP) $when(WHEN) )
+.
+"[can|could] you account for $who(POSS) whereabouts $when(WHEN)"
+( whereabouts-on $who(POSS) $when(WHEN) )
+.
 
 
 ; =============================================================================

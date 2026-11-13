@@ -195,7 +195,7 @@
 (state begrudge (appraisal_input) (tar [k object] @object) (self-known))
 (state hate (appraisal_input) (tar [k object] @object) (self-known) (motivation))
 ; attraction axis (one-sided pull)
-(state fancy (appraisal_input) (tar [k human] @object) (motivation) (disclosure friend+) (facets gossip-worthy news-worthy) (tell-rank 14))
+(state fancy (appraisal_input) (tar [k human] @object) (self-known) (motivation) (disclosure friend+) (facets gossip-worthy news-worthy) (tell-rank 14))
 (state desire (appraisal_input) (tar [k human] @object) (motivation))
 (state crave (appraisal_input) (tar [k human] @object) (motivation))
 ; dread axis (one-sided fear OF a person - the long-tail of the fear
@@ -307,7 +307,7 @@
 ; integer amount for a money debt, a debt mobject for a non-money
 ; obligation. One owe belief per (debtor, creditor) pair; the
 ; amount is updated in place.
-(state owe (tar [k human|org] @object) (motivation))
+(state owe (tar [k human|org] @object) (self-known) (motivation))
 ; inherit: {heir inherit <thing> <benefactor>} - the HAVE-state of a
 ; bequest, one relation per inherited object (partial / split
 ; inheritances are expressible per thing). Tense lives in the
@@ -726,11 +726,11 @@
 (state degrade-act (tar [k degrade-act] @object))
 (state display-ad (tar [k job] @object))
 (state economic-situation (tar [k economic-situation] @excl))
-(state emotion (tar [k emotion] @object) (episodic) (motivation) (describe-in regard))
+(state emotion (tar [k emotion]) (episodic) (self-known) (motivation) (describe-in regard))
 (state employee-register (tar [k employee-register] @object) (obs))
 (state expose-act (tar [k expose-act] @object))
 (state father (tar [k human] @object @excl) (inclusive_bond) (converse child) (refines parent) (target-gender male) (kin) (appraisal_input) (disclosure acquaintance+) (closeness close_friend) (describe-in parents) (talkable) (self-known) (facets self-disclosable) (tell-rank 21))
-(state fiancee (tar [k human] @object @excl) (exclusive_bond) (converse fiancee) (appraisal_input) (disclosure acquaintance+) (closeness close_friend) (describe-in spouse) (talkable) (motivation) (facets gossip-worthy news-worthy) (tell-rank 13))
+(state fiancee (tar [k human] @object @excl) (exclusive_bond) (self-known) (converse fiancee) (appraisal_input) (disclosure acquaintance+) (closeness close_friend) (describe-in spouse) (talkable) (motivation) (facets gossip-worthy news-worthy) (tell-rank 13))
 (state hair-color-fixation (tar [k color]) (motivation))
 (state eye-color-fixation (tar [k color]))
 (state founder (tar [k human] @object @excl))

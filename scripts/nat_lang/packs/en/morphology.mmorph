@@ -22,9 +22,22 @@ hundred: hundred
 ; speaks to say their possessive pronoun in its stead (Pronouns.mgr case:possessive).
 possessive: 's
 
-; A clock on the twelve-hour dial, "six PM"; a minute under ten after its oh, "six oh five PM".
-clock: AM PM
-clock-oh: oh
+; How the hour is told: the words for a minute of it ({h} the hour on the dial, {n} the next hour,
+; {m} the minutes), `past` and `to` for any other minute before and after the half; then the part of
+; the day, from the hour it begins (listed in order); and the hours named alone on the hour.
+clock-say: 0 {h} o'clock
+clock-say: 15 a quarter past {h}
+clock-say: 30 half past {h}
+clock-say: 45 a quarter to {n}
+clock-say: past {m} minutes past {h}
+clock-say: to {m} minutes to {n}
+clock-part: 0 at night
+clock-part: 5 in the morning
+clock-part: 12 in the afternoon
+clock-part: 17 in the evening
+clock-part: 21 at night
+clock-name: 0 midnight
+clock-name: 12 noon
 
 ; Ones
 number 0 = zero
