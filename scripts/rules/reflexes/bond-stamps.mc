@@ -5,11 +5,11 @@
 ; never perceives his birth, so his stamp names no act.
 ; ----------------------------------------------------------------------------
 
-(reflex {@self child ?baby /caused_by ?GIVE-BIRTH}:?child
+(reflex {@self child ?baby /caused_by ?give-birth}:?child
   (when (dirty-born))
   (effects
-    (feel-stance ?baby care (care-stamp-felt) ?GIVE-BIRTH)
-    (feel-stance ?baby warmth (warmth-stamp-felt) ?GIVE-BIRTH)))
+    (feel-stance ?baby care (care-stamp-felt) ?give-birth)
+    (feel-stance ?baby warmth (warmth-stamp-felt) ?give-birth)))
 
 (reflex {@self mother ?woman}:?mother
   (when (dirty-born))

@@ -11,20 +11,19 @@
 ; it is.
 ;
 ; PHYSICAL ONLY. A newborn gets a body, its parents' traits and the knowledge of
-; who bore it. It gets no name, no nationality, no class and no home - those are
-; beliefs, an action may not read beliefs (action-purity), and an act pattern
-; carries two fields, which is one short of what that inheritance needs. They are
-; the parents' job in their own rung, where their own beliefs are readable.
+; who bore it. It gets no name - CHRISTEN gives it - and no nationality, class or
+; home: those are beliefs, and an action may not read beliefs (action-purity).
+; The mother's own beliefs about the child - her bond, the end of her pregnancy -
+; are the give-birth task's (tasks/give-birth-task.mc), which reads the child off
+; this act's `created`.
 ;
 ; Who ELSE learns of the child is not settled here either. The newborn knows its
-; own parents and the mother knows her child; every other relative learns the
-; ordinary way, by meeting the baby or being told about it. The newborn's mind is
+; own parents; its mother introduces it to her other children; every other
+; relative learns the ordinary way, by meeting it or being told. The newborn's mind is
 ; seeded the way world-gen seeds a founder's - (enter-mind ?baby), the one seam
 ; that writes a mind other than the actor's - before it has ever deliberated.
 ;
-; Delivering ENDS the pregnancy - the pregnant-when / pregnant-by physiology and
-; the {@self pregnant ?} self-belief that gated her out of re-conceiving - so she
-; is eligible again.
+; Delivering ENDS the pregnancy's physiology - pregnant-when / pregnant-by.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -33,7 +32,7 @@
 (include "../../funcs/money.mc")
 
 (action {@self GIVE-BIRTH ?father}:?GIVE-BIRTH
-  (motor body)
+  (motor all)
   (xaction ?xgive-birth)
   (presentation
     (preroll 0.0) (in 0.5) (out 0.5))
@@ -65,14 +64,9 @@
     (begin-belief {@self mother ?known-mother})
     (begin-belief {@self father ?known-father})
     (exit-mind)
-    ; The mother's own belief about the child she just bore. SEE it first: a
-    ; belief field converts into the believer's realm, so an object the mind has
-    ; never met lands as @fail.
+    ; She sees the child she bore, and the give-birth task takes it from there.
     (observe ?baby): ?known-baby
-    (bind (kin-label child ?gender) ?bond)
-    (begin-belief {@self ?bond ?known-baby /caused_by ?GIVE-BIRTH})
-    ; The pregnancy is over.
+    (bb-write ?GIVE-BIRTH created ?known-baby)
     (set-attr @self pregnant-when @nothing)
     (set-attr @self pregnant-by @nothing)
-    (end-belief {@self pregnant ?father})
     (set-outcome ?GIVE-BIRTH /succ)))

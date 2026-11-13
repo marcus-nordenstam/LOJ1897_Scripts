@@ -10,8 +10,8 @@
 ;       wife and a paramour alike, which is why an affair can produce a child
 ;       without a second rule anywhere.
 ;   deliver-driver - she has carried the pregnancy its full term, so the child is due.
-;       The father comes off her own {@self pregnant ?} belief and rides the act
-;       pattern, so GIVE-BIRTH does no reading of its own.
+;       The father comes off her own {@self pregnant ?} belief and rides the task
+;       pattern; the give-birth task delivers, names and introduces the child.
 ;
 ; The term is measured against pregnant-when, which is her own self-belief (every
 ; self-attr is mirrored as one) - never an attr read, which would be outside the
@@ -61,5 +61,8 @@
 
       (declare-utility need)
 
+      ; Begun, not maintained: the delivery ends the pregnancy this gate reads, and a birth begun
+      ; is seen through - the child named and introduced.
+      (lint-waive begin-proposal)
       (effects
-        (maintain-proposal {@self GIVE-BIRTH ?father})))))
+        (begin-proposal {@self give-birth ?father})))))
