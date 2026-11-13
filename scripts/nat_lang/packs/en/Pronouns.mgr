@@ -1,14 +1,17 @@
 
 :PRONOUN
 
-"I"        ?_I     .
-"me"       ?_I     .
-"my"       ?_I     .
+; The speaker and the one he speaks to, each case tagged: the realizer says "I" where he is the
+; subject, "me" where he is not, "my" in place of a possessor ("my home"; morphology.mmorph
+; possessive:). An untagged form serves every case no tagged one does.
+"I"        ?_I     :: case:subject     .
+"me"       ?_I     :: case:object      .
+"my"       ?_I     :: case:possessive  .
 "mine"     ?_I     .
-"myself"   ?_I     .
+"myself"   ?_I     :: case:reflexive   .
 "you"      ?_you   .
-"your"     ?_you   .
-"yourself" ?_you   .
+"your"     ?_you   :: case:possessive  .
+"yourself" ?_you   :: case:reflexive   .
 "this"     ?_this  .
 
 ; Third-person pronouns, one variable per gender and case: ?_third_m he, ?_third_mo him,

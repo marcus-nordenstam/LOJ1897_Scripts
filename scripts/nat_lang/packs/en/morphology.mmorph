@@ -18,6 +18,9 @@ singular: ies y
 singular: es
 singular: s
 hundred: hundred
+; The clitic a template glues on to make a possessor, "John ++'s home": the speaker and the one he
+; speaks to say their possessive pronoun in its stead (Pronouns.mgr case:possessive).
+possessive: 's
 
 ; Ones
 number 0 = zero
