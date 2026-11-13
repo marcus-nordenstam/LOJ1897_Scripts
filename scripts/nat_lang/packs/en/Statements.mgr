@@ -179,6 +179,18 @@ $form(FORM)
 { $sub_np(NP) /pres sibling $value(NP) } .
 " $sub_np(NP) ++'s child is $value(NP) "
 { $sub_np(NP) /pres child $value(NP) } .
+" $sub_np(NP) ++'s sister is $value(NP) "
+{ $sub_np(NP) /pres sister $value(NP) } .
+" $sub_np(NP) ++'s brother is $value(NP) "
+{ $sub_np(NP) /pres brother $value(NP) } .
+" $sub_np(NP) ++'s son is $value(NP) "
+{ $sub_np(NP) /pres son $value(NP) } .
+" $sub_np(NP) ++'s daughter is $value(NP) "
+{ $sub_np(NP) /pres daughter $value(NP) } .
+" $sub_np(NP) ++'s husband is $value(NP) "
+{ $sub_np(NP) /pres husband $value(NP) } .
+" $sub_np(NP) ++'s wife is $value(NP) "
+{ $sub_np(NP) /pres wife $value(NP) } .
 " $sub_np(NP) ++'s spouse is $value(NP) "
 { $sub_np(NP) /pres spouse $value(NP) } .
 " $sub_np(NP) ++'s fiancee is $value(NP) "
@@ -208,6 +220,30 @@ $form(FORM)
 .
 " $value(NP) ++, $sub_np(NP) ++'s child "
 { $sub_np(NP) /pres child $value(NP) }
+:: terse curt
+.
+" $value(NP) ++, $sub_np(NP) ++'s sister "
+{ $sub_np(NP) /pres sister $value(NP) }
+:: terse curt
+.
+" $value(NP) ++, $sub_np(NP) ++'s brother "
+{ $sub_np(NP) /pres brother $value(NP) }
+:: terse curt
+.
+" $value(NP) ++, $sub_np(NP) ++'s son "
+{ $sub_np(NP) /pres son $value(NP) }
+:: terse curt
+.
+" $value(NP) ++, $sub_np(NP) ++'s daughter "
+{ $sub_np(NP) /pres daughter $value(NP) }
+:: terse curt
+.
+" $value(NP) ++, $sub_np(NP) ++'s husband "
+{ $sub_np(NP) /pres husband $value(NP) }
+:: terse curt
+.
+" $value(NP) ++, $sub_np(NP) ++'s wife "
+{ $sub_np(NP) /pres wife $value(NP) }
 :: terse curt
 .
 " $value(NP) ++, $sub_np(NP) ++'s spouse "

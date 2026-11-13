@@ -58,6 +58,13 @@
 "Yes, it's $answer(NP)"                                                         ( formulaic [] yes_its $answer(NP) ) .
 "Yes, this is my $rel(REL) $name(PNAME)"                                        ( formulaic [] yes_this_is $rel(REL) $name(PNAME) ) .
 
+; An introduction: two people made known to each other at once, each told who the other is to him.
+; The told message rides inside it, and a hearer adopts it as he would the message alone.
+"$first(NP) ++, this is your $rel(REL) $second(NP) ++, and $second(NP) ++, this is your $converse(REL) $first(NP)"
+( formulaic [] introduction ( msg [] { $first(NP) /ever $rel(REL) $second(NP) } { $second(NP) /ever $converse(REL) $first(NP) } ) )
+:: realize-only
+.
+
 "..."                                                                           ( formulaic [] opening-phrase player_talk ) .
 "Excuse me, I am a $job(KIND|/isa|job)"                                         ( formulaic [] opening-phrase authority $job(KIND|/isa|job) ) .
 "Yes?"                                                                          ( formulaic [] response player_talk ) .
