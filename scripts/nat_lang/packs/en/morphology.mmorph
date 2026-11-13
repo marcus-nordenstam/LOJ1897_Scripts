@@ -22,6 +22,10 @@ hundred: hundred
 ; speaks to say their possessive pronoun in its stead (Pronouns.mgr case:possessive).
 possessive: 's
 
+; A clock on the twelve-hour dial, "six PM"; a minute under ten after its oh, "six oh five PM".
+clock: AM PM
+clock-oh: oh
+
 ; Ones
 number 0 = zero
 number 1 = one

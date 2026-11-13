@@ -86,6 +86,13 @@ $form(FORM)
 { $sub_np(NP) /pres health-situation $kind(KIND|/isa|health-situation) }
 .
 
+"$sub_np(NP) $verb(VERB|be) honest"
+{ $sub_np(NP) /ever honesty [k good] }
+.
+"$sub_np(NP) $verb(VERB|be) dishonest"
+{ $sub_np(NP) /ever honesty [k lax] }
+.
+
 ; class-situation is a kind-valued state ([k lower] / [k middle] / [k upper]);
 ; the trailing "-class" suffix reads naturally for all three values.
 "$sub_np(NP) $verb(VERB|be) $kind(KIND|/isa|class-situation) ++-class"
@@ -983,6 +990,40 @@ $form(FORM)
 
 " $sub_np(NP) $state(STATE) $obj(ST|QS|MSG|NP) "
 { $sub_np(NP) $state(STATE) $obj(ST|QS|MSG|NP) }
+.
+
+; What a thing is: isa takes a kind and nothing else.
+" $sub_np(NP) $verb(VERB|be) $kind(INDEF_KIND) "
+{ $sub_np(NP) /ever isa $kind(INDEF_KIND) }
+.
+
+" $sub_np(NP) $verb(VERB|be) pregnant by $value(REF_NP) "
+{ $sub_np(NP) /ever pregnant-by $value(REF_NP) }
+.
+
+; A bond said from the related one's side: "Henry is my brother".
+" $value(NP) $verb(VERB|be) my $rel(REL) "
+{ ?_I /ever $rel(REL) $value(NP) }
+:: parse-only
+.
+" $value(NP) $verb(VERB|be) your $rel(REL) "
+{ ?_you /ever $rel(REL) $value(NP) }
+:: parse-only
+.
+" $value(NP) $verb(VERB|be) $sub_np(NP) ++'s $rel(REL) "
+{ $sub_np(NP) /ever $rel(REL) $value(NP) }
+:: parse-only
+.
+
+" $sub_np(NP) married $value(NP) "
+{ $sub_np(NP) /pres spouse $value(NP) }
+:: parse-only
+.
+
+; A relative of no name: "Darragh has a child".
+" $sub_np(NP) $verb(VERB|have) a $rel(REL) "
+{ $sub_np(NP) /ever $rel(REL) [k human] }
+:: parse-only
 .
 
 

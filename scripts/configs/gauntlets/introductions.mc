@@ -30,10 +30,7 @@
 ; ?mother has carried ?father's child a full year: the child is due.
 (define-func introductions-at-term (?mother ?father)
   (set-attr ?mother pregnant-when (create-date (- (time year) 1) (time month) (time day)))
-  (set-attr ?mother pregnant-by ?father)
-  (enter-mind ?mother)
-  (begin-belief {@self pregnant (observe ?father)})
-  (exit-mind))
+  (set-attr ?mother pregnant-by ?father))
 
 (define-func introductions-startup ()
   (seed_property)

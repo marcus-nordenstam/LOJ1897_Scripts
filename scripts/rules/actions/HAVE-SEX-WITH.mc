@@ -40,8 +40,7 @@
     (if ?conceived
       (then
         (set-attr @self pregnant-when (time date))
-        (set-attr @self pregnant-by ?paramour)
-        (begin-belief {@self pregnant ?paramour})))
+        (set-attr @self pregnant-by ?paramour)))
     ; The reciprocal act-record on the paramour (the actor's own side is the
     ; begun-then-ended running act-belief, auto-ended at completion).
     (begin-belief {?paramour HAVE-SEX-WITH @self /momentary})

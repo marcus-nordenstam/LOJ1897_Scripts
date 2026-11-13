@@ -13,13 +13,16 @@
       (try
         (belief -{@self tell ? _ /succ /caused_by ?set-mealtimes}
           (effects
-            (maintain-proposal {@self tell (msg /utterable [] {?home breakfast-hour (household-breakfast-hour)}
-                                                          {?home lunch-hour (household-lunch-hour)}
-                                                          {?home supper-hour (household-supper-hour)}) _}))))
+            (bind (clock (household-breakfast-hour) 0) ?breakfast)
+            (bind (clock (household-lunch-hour) 0) ?lunch)
+            (bind (clock (household-supper-hour) 0) ?supper)
+            (maintain-proposal {@self tell (msg /utterable [] {?home breakfast-hour ?breakfast}
+                                                          {?home lunch-hour ?lunch}
+                                                          {?home supper-hour ?supper}) _}))))
       (try
         (belief {@self tell ? _ /succ /caused_by ?set-mealtimes}
           (effects
-            (begin-belief {?home breakfast-hour (household-breakfast-hour)})
-            (begin-belief {?home lunch-hour (household-lunch-hour)})
-            (begin-belief {?home supper-hour (household-supper-hour)})
+            (begin-belief {?home breakfast-hour (clock (household-breakfast-hour) 0)})
+            (begin-belief {?home lunch-hour (clock (household-lunch-hour) 0)})
+            (begin-belief {?home supper-hour (clock (household-supper-hour) 0)})
             (set-outcome ?set-mealtimes /succ)))))))

@@ -59,6 +59,14 @@ _
 :: flowery
 .
 
+"a woman"
+( o [k human ] { @o /pres gender [k female ] } )
+.
+
+"a man"
+( o [k human ] { @o /pres gender [k male ] } )
+.
+
 ; An un-named object known only by its kind, e.g. an unnamed relative.
 "a $kind(KIND)"
 ( o $kind(KIND) )
@@ -193,6 +201,18 @@ _
 
 "$pname(PNAME) ++'s $rel(REL)"
 ( o /known { $pname(PNAME) /ever $rel(REL) @o } )
+.
+
+"my #home-noun"
+( o /known { ?_I /ever home @o } )
+.
+
+"your #home-noun"
+( o /known { ?_you /ever home @o } )
+.
+
+"$pname(PNAME) ++'s #home-noun"
+( o /known { $pname(PNAME) /ever home @o } )
 .
 
 :Q_NP = VARIABLE|PRONOUN|Q_REG_NP|PNAME

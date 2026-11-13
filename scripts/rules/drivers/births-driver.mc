@@ -10,7 +10,7 @@
 ;       wife and a paramour alike, which is why an affair can produce a child
 ;       without a second rule anywhere.
 ;   deliver-driver - she has carried the pregnancy its full term, so the child is due.
-;       The father comes off her own {@self pregnant ?} belief and rides the task
+;       The father comes off her own {@self pregnant-by ?} belief and rides the task
 ;       pattern; the give-birth task delivers, names and introduces the child.
 ;
 ; The term is measured against pregnant-when, which is her own self-belief (every
@@ -35,7 +35,7 @@
               {@self gender [k female]}
               {@self age-band [k youth|young-adult|middle-aged]}
               {@self spouse ?}
-              -{@self pregnant ?}
+              -{@self pregnant-by ?}
 
     ; her husband, and under the same roof - a coupling needs both bodies present.
     (role ?husband {@self spouse ?husband}
@@ -53,9 +53,9 @@
 (driver deliver-driver
   (cooldown 1 d try-until-succ)
 
-  (belief {@self pregnant ?}
+  (belief {@self pregnant-by ?}
               {@self pregnant-when ?conceived-when}
-    (role ?father {@self pregnant ?father}
+    (role ?father {@self pregnant-by ?father}
 
       (when (>= (elapsed /weeks ?conceived-when) (gestation_weeks)))
 

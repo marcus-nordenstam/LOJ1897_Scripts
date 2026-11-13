@@ -670,10 +670,6 @@
 ; re-reading the hunger attr per deliberation. Label-only self state.
 (state starve (motivation))
 
-; Gestation: {?woman pregnant ?father}. Private physiological state (no
-; disclosure - not gossiped), ended at delivery by the update_physiology
-; gestation timer; gates re-conception while carried.
-(state pregnant (tar [k human] @excl @object) (motivation))
 
 ; Document -> org back-link: the inverse of org-state's `record`
 ; (concepts.mon). Lets any mind reconstruct its own per-mind org

@@ -112,6 +112,14 @@
 ( any { $who(Q_NP) /ever home } ).target
 .
 
+; When a thing happens, as the one asked knows it: an occasion's day, a meal's hour at a home.
+"when is $what(NP) at $where(Q_NP)"
+( when $what(NP) $where(Q_NP) )
+.
+"when is $what(NP)"
+( when $what(NP) _ )
+.
+
 ; birth date
 "when [was|were] $who(Q_NP) born"
 ( any { $who(Q_NP) /pres birth-date } ).target

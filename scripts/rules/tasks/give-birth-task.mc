@@ -36,5 +36,4 @@
           (if (and (neq ?sibling ?child) (unsubstantial (any {?sibling condition [k dead]})))
               (then (begin-intent {@self intent {@self introduce ?child ?sibling}}
                                   [/utility crisis 1000]))))
-        (end-belief {@self pregnant ?father})
         (set-outcome ?give-birth /succ)))))
