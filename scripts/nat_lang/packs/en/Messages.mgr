@@ -40,3 +40,9 @@ $form(FORM)
 [ quote @you ( msg [] $fact(ST) ) ]
 :: realize-only
 .
+
+; A ghost read in a document: the document the question is about.
+"I have read $doc(NP) ++."
+[ doc $doc(NP) ]
+:: realize-only
+.

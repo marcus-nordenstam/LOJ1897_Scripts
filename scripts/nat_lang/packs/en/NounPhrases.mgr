@@ -40,6 +40,13 @@ _
 :: realize-only
 .
 
+; A named thing rides with its kind, which tells the hearer what the name names; it is said by its
+; name alone - "Walker Cooperage".
+"$pname(PNAME)"
+( o $pname(PNAME) $kind(KIND) )
+:: realize-only
+.
+
 ; Unnamed person reference - the speaker knows OF a person but does not
 ; know their name (or hasn't bothered to use it). "Someone" reads more
 ; natural than "a human" in every conversational context. MUST come
@@ -91,9 +98,41 @@ _
 ( o { ?_you /pres $rel(REL) @o } )
 .
 
+; A man said by his name and the bond that tells him from his namesakes: "Ada's son Tom", "my son Tom".
+"$holder(NP) ++'s $rel(REL) $pname(PNAME)"
+( o $pname(PNAME) { $holder(NP) /pres $rel(REL) @o } )
+.
+
 ; e.g. "John's mother"
 "$pname(PNAME) ++'s $rel(REL)"
 ( o { $pname(PNAME) /pres $rel(REL) @o } )
+.
+
+; A letter, said by the envelope the speaker holds of it - who wrote it, to whom, and when - as
+; much of it as he holds.
+"$author(NP) ++'s $kind(KIND) to $addressee(NP) of $date(PNAME)"
+( o $kind(KIND) { @o author $author(NP) } { @o addressee $addressee(NP) } { @o write-date $date(PNAME) } )
+:: realize-only
+.
+"$author(NP) ++'s $kind(KIND) to $addressee(NP)"
+( o $kind(KIND) { @o author $author(NP) } { @o addressee $addressee(NP) } )
+:: realize-only
+.
+"$author(NP) ++'s $kind(KIND) of $date(PNAME)"
+( o $kind(KIND) { @o author $author(NP) } { @o write-date $date(PNAME) } )
+:: realize-only
+.
+"the $kind(KIND) to $addressee(NP) of $date(PNAME)"
+( o $kind(KIND) { @o addressee $addressee(NP) } { @o write-date $date(PNAME) } )
+:: realize-only
+.
+"$author(NP) ++'s $kind(KIND)"
+( o $kind(KIND) { @o author $author(NP) } )
+:: realize-only
+.
+"the $kind(KIND) to $addressee(NP)"
+( o $kind(KIND) { @o addressee $addressee(NP) } )
+:: realize-only
 .
 
 ; The reified job application, identified by who submitted it + the post + org -

@@ -21,8 +21,8 @@
 
 "she"   ?_third_f   :: agree:f  .
 "he"    ?_third_m   :: agree:m  .
-"they"  ?_third_s               .
+"they"  ?_third_s   :: agree:pl .
 
 "her"   ?_third_fo   :: agree:f  .
 "him"   ?_third_mo   :: agree:m  .
-"them"  ?_third_o               .
+"them"  ?_third_o   :: agree:pl .
