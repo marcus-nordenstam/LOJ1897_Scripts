@@ -93,6 +93,13 @@ $form(FORM)
 { $sub_np(NP) /ever honesty [k lax] }
 .
 
+"$sub_np(NP) $verb(VERB|be) a woman"
+{ $sub_np(NP) /ever gender [k female] }
+.
+"$sub_np(NP) $verb(VERB|be) a man"
+{ $sub_np(NP) /ever gender [k male] }
+.
+
 ; class-situation is a kind-valued state ([k lower] / [k middle] / [k upper]);
 ; the trailing "-class" suffix reads naturally for all three values.
 "$sub_np(NP) $verb(VERB|be) $kind(KIND|/isa|class-situation) ++-class"
