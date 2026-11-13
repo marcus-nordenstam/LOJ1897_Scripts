@@ -1,6 +1,11 @@
 ; English verb conjugation (Phase 8.2)
 ; Format: verb <base> <tense> = <inflected>
 ; A line naming no person is the third singular; 1sg, 2sg and pl name the rest.
+; `verb * <tense>/<person> = *`: a verb listing no form for that tense and person says its base -
+; I, you and they spend, only he spends.
+verb *     /pres/1sg = *
+verb *     /pres/2sg = *
+verb *     /pres/pl = *
 
 verb be    /pres = is
 verb be    /pres/1sg = am
