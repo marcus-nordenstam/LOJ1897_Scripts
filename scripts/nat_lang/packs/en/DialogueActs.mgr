@@ -232,20 +232,20 @@
 ; not yet have a specific rule for.
 
 " that is none of your business "
-( formulaic [] refusal answer ) .
+( formulaic /reply [] refusal answer ) .
 " i'll not say "
-( formulaic [] refusal answer ) .
+( formulaic /reply [] refusal answer ) .
 " i'd rather not say "
-( formulaic [] refusal answer ) .
+( formulaic /reply [] refusal answer ) .
 " i prefer not to discuss it "
-( formulaic [] refusal answer ) .
+( formulaic /reply [] refusal answer ) .
 " it is not fit to speak of "
-( formulaic [] refusal answer ) .
+( formulaic /reply [] refusal answer ) .
 " nil nisi bonum "
-( formulaic [] refusal speak_ill_of_dead ) .
+( formulaic /reply [] refusal speak_ill_of_dead ) .
 " i'll not blacken a name "
-( formulaic [] refusal speak_ill_of_dead ) .
+( formulaic /reply [] refusal speak_ill_of_dead ) .
 " that is between me and god "
-( formulaic [] refusal religious_matter ) .
+( formulaic /reply [] refusal religious_matter ) .
 " such matters are above me "
-( formulaic [] refusal above_my_station ) .
+( formulaic /reply [] refusal above_my_station ) .

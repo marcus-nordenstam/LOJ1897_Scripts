@@ -5,6 +5,9 @@
 
 :FORM
 
+; A formulaic carries the class a man's rules give it (/reply, /flirtation, /insult ..), so the
+; player's line reads as the same line from anyone.
+
 ;"Good day to you"                   ( formulaic opening-phrase goodDay @unknown )    .
 ;"Good day to you, too"              ( formulaic response goodDay @unknown )  .
 
@@ -23,8 +26,8 @@
 "I can't talk right now because I am talking with someone"                     ( formulaic [] refusal in_conversation ) .
 "I have had my fill of company"                                                 ( formulaic [] refusal weary ) .
 "I must go now because $st(ST)"                                                 ( formulaic [] leave_taking excuse $st(ST) ) .
-"Leave me be"                                                                   ( formulaic [] rebuff ) .
-"It is over between us"                                                        ( formulaic [] breakup ) .
+"Leave me be"                                                                   ( formulaic /insult [] rebuff ) .
+"It is over between us"                                                        ( formulaic /jilt [] breakup ) .
 
 ; Letter envelope lines. "Signed, <name>" is the AUTHOR rider, "To <name>" the
 ; ADDRESSEE rider: the composer (compose_nl_msg) lifts a (/rider ..) form into the
@@ -34,22 +37,22 @@
 "Signed, $name(PNAME)"                                                          ( /author $name(PNAME) ) .
 "To $name(PNAME)"                                                               ( /addressee $name(PNAME) ) .
 
-"You look lovely today"                                                        ( formulaic [] flirt compliment ) .
-"You are rather charming yourself"                                             ( formulaic [] flirt return ) .
-"You flatter me"                                                               ( formulaic [] response flattered ) .
-"Mind your manners"                                                            ( formulaic [] refusal flirt ) .
-"It is indeed"                                                                  ( formulaic [] response agree ) .
-"Nothing much"                                                                  ( formulaic [] response no-news ) .
-"How interesting"                                                               ( formulaic [] response receipt ) .
+"You look lovely today"                                                        ( formulaic /flirtation [] flirt compliment ) .
+"You are rather charming yourself"                                             ( formulaic /flirtation [] flirt return ) .
+"You flatter me"                                                               ( formulaic /flirtation [] response flattered ) .
+"Mind your manners"                                                            ( formulaic /insult [] refusal flirt ) .
+"It is indeed"                                                                  ( formulaic /smalltalk [] response agree ) .
+"Nothing much"                                                                  ( formulaic /reply [] response no-news ) .
+"How interesting"                                                               ( formulaic /reply [] response receipt ) .
 ; A statement answered as a courtesy, never a claim: the fact was news to him or he knew it, then
 ; what it made him feel, or the condolence a courteous man offers for a misfortune he feels nothing
 ; for.
-"I did not know that $fact(ST) ++, and $feeling(ST)"                            ( formulaic [] did-not-know $fact(ST) $feeling(ST) ) .
-"I did not know that $fact(ST) ++, and I am sorry to hear it"                   ( formulaic [] did-not-know $fact(ST) condolence ) .
-"I did not know that $fact(ST)"                                                 ( formulaic [] did-not-know $fact(ST) ) .
-"Yes, I know that $fact(ST) ++, and $feeling(ST)"                               ( formulaic [] already-knew $fact(ST) $feeling(ST) ) .
-"Yes, I know that $fact(ST) ++, and I am sorry for it"                          ( formulaic [] already-knew $fact(ST) condolence ) .
-"Yes, I know that $fact(ST)"                                                    ( formulaic [] already-knew $fact(ST) ) .
+"I did not know that $fact(ST) ++, and $feeling(ST)"                            ( formulaic /reply [] did-not-know $fact(ST) $feeling(ST) ) .
+"I did not know that $fact(ST) ++, and I am sorry to hear it"                   ( formulaic /reply [] did-not-know $fact(ST) condolence ) .
+"I did not know that $fact(ST)"                                                 ( formulaic /reply [] did-not-know $fact(ST) ) .
+"Yes, I know that $fact(ST) ++, and $feeling(ST)"                               ( formulaic /reply [] already-knew $fact(ST) $feeling(ST) ) .
+"Yes, I know that $fact(ST) ++, and I am sorry for it"                          ( formulaic /reply [] already-knew $fact(ST) condolence ) .
+"Yes, I know that $fact(ST)"                                                    ( formulaic /reply [] already-knew $fact(ST) ) .
 
 "No, I don't know"                                                              ( formulaic [] no_dont_know ) .
 "Yes, it's $answer(NP)"                                                         ( formulaic [] yes_its $answer(NP) ) .
