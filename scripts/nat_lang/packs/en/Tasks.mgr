@@ -105,6 +105,104 @@
 "writing"                               write-doc                   .
 "writing a will"                        write-will                  .
 
+; A task done and over, as the past after its subject: what a man did next. A task that should not
+; be named aloud says what it saw to plainly, as its ongoing form does.
+:DONE_TASK
+"let a property"                  LET .
+"took up a post"                  accept-job-offer .
+"applied for a post"              apply-for .
+"arranged a match"                arrange-match .
+"kept an engagement"              attend .
+"went to church"                  attend-church-service .
+"backed a venture"                back .
+"saw to a private matter"         break-off .
+"saw to some business"            bribe .
+"buried the dead"                 bury .
+"did the shopping"                buy .
+"carried things home"             carry-home .
+"saw to some business"            coerce .
+"collected the applications"      collect-applications .
+"wrote a letter"                  confess-letter .
+"talked with someone"             maintain-social-presence .
+"saw to the dead"                 convey-corpse .
+"went on"                         cross .
+"saw to some business"            denounce .
+"settled affairs"                 disinherit .
+"dismissed a man"                 dismiss .
+"saw to a private matter"         divorce .
+"drafted a verdict"               draft-verdict .
+"had a meal"                      eat .
+"left the country"                emigrate .
+"went indoors"                    enter-building .
+"went in"                         enter-room .
+"went in"                         enter-room-kind .
+"saw to some business"            expose .
+"got into a fight"                fight .
+"looked for a place"              find-building .
+"looked for someone"              find-person .
+"looked for a room"               find-room .
+"looked for something"            find-thing .
+"gambled"                         gamble .
+"fetched something"               get .
+"handed something over"           give .
+"took alms to the church"         give-charity .
+"went for a drink"                go-drink .
+"set off"                         go-to .
+"went to bed"                     go-to-bed .
+"called on someone"               hail .
+"took a man on"                   hire-applicant .
+"saw to some business"            hire-assassin .
+"saw to some business"            hire-procure .
+"saw to some business"            humiliate .
+"saw to some business"            hurt .
+"invited a guest"                 invite-guest .
+"enrolled at school"              matriculate .
+"opened the shop"                 open-till .
+"settled a debt"                  pay .
+"planned a gathering"             plan-gathering .
+"put money away"                  pocket-coins .
+"posted an advertisement"         post-ad .
+"prepared an application"         prepare-application .
+"saw to the staff"                promote-staff .
+"saw to a private matter"         propose-marriage .
+"stocked the shop"                provision .
+"put something away"              put .
+"saw to the house"                putter .
+"read"                            read-at .
+"read a document"                 read-doc .
+"read the job board"              read-job-board .
+"read the mail"                   read-mail .
+"received someone"                receive .
+"took on staff"                   recruit-staff .
+"took down an advertisement"      remove-ad .
+"went to the police"              report-crime .
+"rested"                          rest .
+"retired"                         retire .
+"saw to a private matter"         seduce .
+"saw about a loan"                seek-loan .
+"posted a letter"                 send-mail .
+"saw to the household"            set-mealtimes .
+"saw to some business"            shoot .
+"saw to a protege"                sponsor .
+"looked through some papers"      stack-browse .
+"took some papers"                stack-take .
+"saw to some business"            steal .
+"saw to some business"            strangle .
+"took something"                  take .
+"took the applications"           take-applications .
+"saw to a private matter"         take-lover .
+"collected letters"               take-my-letters .
+"took stock"                      take-stock .
+"talked with someone"             take-up .
+"spoke with someone"              tell .
+"spoke with someone"              turn-down .
+"got money out"                   unpocket-coins .
+"went out walking"                wander .
+"got married"                     wed .
+"went to work"                    work .
+"wrote"                           write-doc .
+"wrote a will"                    write-will .
+
 ; A task proposed and not yet begun, as the infinitive after "has to".
 :DUE_TASK
 "let a property"                        LET                         .

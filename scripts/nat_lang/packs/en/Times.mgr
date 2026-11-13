@@ -107,6 +107,11 @@ $dial(DIAL)
 $day(DAY)
 .
 
+; The time the talk is about: the last one a line of it named.
+"[then|at that time|at the time|at that hour]"
+?_then
+.
+
 "last night"
 ( band-interval ( days-ago 1 ) night )
 .

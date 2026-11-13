@@ -925,6 +925,15 @@ $form(FORM)
 { $sub_np(NP) /future $act(DUE_TASK) }
 :: realize-only
 .
+; An act done and over: what a man did next. Where he went is said; any other act by its task.
+" $sub_np(NP) went to $dest(NP) "
+{ $sub_np(NP) /past go-to $dest(NP) }
+:: realize-only
+.
+" $sub_np(NP) $act(DONE_TASK) "
+{ $sub_np(NP) /past $act(DONE_TASK) }
+:: realize-only
+.
 
 ; WEATHER - a smalltalk remark on the weather the speaker has seen, whatever carries it: said,
 ; never read.

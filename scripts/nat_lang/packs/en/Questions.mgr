@@ -636,6 +636,30 @@
 ( whereabouts-on $who(POSS) $when(WHEN) )
 .
 
+; Who was with him, when he left, what he did next: at the time the talk is about (?_then, the last
+; time a line of it named) unless the question names one.
+"who [saw|was with] you $when(WHEN)"
+( company-during ?_you $when(WHEN) )
+.
+"who [saw|was with] you"
+( company-during ?_you ?_then )
+.
+"who [else|] was there $when(WHEN)"
+( company-during ?_you $when(WHEN) )
+.
+"who [else|] was there"
+( company-during ?_you ?_then )
+.
+"[when|what time] did you leave [there|]"
+( clock ( start-time ( next-episode ?_you ?_then go-to ) ) )
+.
+"what did you do [next|after that|then]"
+( next-episode ?_you ?_then )
+.
+"what happened [next|after that|then]"
+( next-episode ?_you ?_then )
+.
+
 
 ; =============================================================================
 ; OBJECT-CENTRIC FORMS
