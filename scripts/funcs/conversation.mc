@@ -909,6 +909,34 @@
                     (then (bind @true ?heard) (break))))))))
   ?heard)
 
+; (asked-home) - the question @self was last asked searched a home: the address that answers it is
+; the answer itself, never "at home".
+(define-func asked-home ()
+  (bind @false ?asked)
+  (bind (any {? SAY (qs ?..) @self /past /most_recent}) ?SAY)
+  (if (is-belief ?SAY)
+      (then
+        (bind (nth 1 (nth (k-msg-first-content-field) ?SAY.target)) ?searched)
+        (if (is-clause ?searched)
+            (then (bind (eq ?searched.label home) ?asked)))))
+  ?asked)
+
+; (self-home ?place) - ?place, an address as a line names it, is in the premises of @self's home - the
+; home itself or a room of it - and the question it answers did not ask his home: the pack says it
+; "at home" (Messages.mgr :: when:self-home).
+(define-func self-home (?place)
+  (bind @false ?own)
+  (if (and (is-address ?place) (not (asked-home)))
+      (then
+        (for-each ?home (every {@self home ?})
+          (if (same-premises (any {?home.target address ?}).target ?place)
+              (then (bind @true ?own) (break))))))
+  ?own)
+
+; (self-home-room ?place ?room) - self-home, for the template that also says the room ?room.
+(define-func self-home-room (?place ?room)
+  (self-home ?place))
+
 ; (answer-to ?qs ?partner) - what @self says to ?partner's question ?qs: its content evaluated in
 ; his mind, or "nothing much" when it asked his news and he has none.
 (define-func answer-to (?qs ?partner)

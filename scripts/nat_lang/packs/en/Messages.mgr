@@ -1,7 +1,30 @@
 
 :MSG
 
-; Formulaic phrases first
+; A place said on its own, an answer to where, is where he is. These come first: an address bound
+; to a plainer template's hole would otherwise be said bare. His own home is "at home", said only
+; when its func holds in his mind.
+"at home ++, in my $room(KIND)"
+( msg [] [address $place room $room(KIND) ] )
+:: realize-only when:self-home-room
+.
+
+"at home"
+( msg [] [address $place room _ ] )
+:: realize-only when:self-home
+.
+
+"in $where(ADDRESS)"
+( msg [] [address $where(ADDRESS) room $room(KIND) ] )
+:: realize-only
+.
+
+"at $where(ADDRESS)"
+( msg [] [address $where(ADDRESS) room _ ] )
+:: realize-only
+.
+
+; Formulaic phrases
 
 "$form(FORM)"
 $form(FORM)
@@ -17,6 +40,12 @@ $form(FORM)
 
 "$st(ST)"
 ( msg [] $st(ST) )
+.
+
+; A place said on its own - an answer to where - is where a man is: "at the Red Lion".
+"at $place(PNAME)"
+( msg [] ( o $place(PNAME) $kind(KIND|/isa|building) ) )
+:: realize-only
 .
 
 "$np(NP)"

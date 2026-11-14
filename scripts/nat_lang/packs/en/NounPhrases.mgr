@@ -271,3 +271,47 @@ _
 "$person(Q_NP) ++'s"
 $person(Q_NP)
 .
+
+; An address, taken apart by its slots (`[address <slot> <$hole | _> ..]`): every address the
+; realizer says is said here.
+:ADDRESS
+
+"the $room(KIND) at $number(PNAME) $street(PNAME) ++, apartment $unit(PNAME)"
+[address number $number(PNAME) street $street(PNAME) apartment $unit(PNAME) room $room(KIND) ]
+:: realize-only
+.
+
+"the $room(KIND) at $number(PNAME) $street(PNAME) ++, floor $floor(PNAME)"
+[address number $number(PNAME) street $street(PNAME) floor $floor(PNAME) room $room(KIND) ]
+:: realize-only
+.
+
+"the $room(KIND) at $number(PNAME) $street(PNAME)"
+[address number $number(PNAME) street $street(PNAME) apartment _ floor _ room $room(KIND) ]
+:: realize-only
+.
+
+"$number(PNAME) $street(PNAME) ++, apartment $unit(PNAME)"
+[address number $number(PNAME) street $street(PNAME) apartment $unit(PNAME) room _ ]
+:: realize-only
+.
+
+"$number(PNAME) $street(PNAME) ++, floor $floor(PNAME)"
+[address number $number(PNAME) street $street(PNAME) floor $floor(PNAME) room _ ]
+:: realize-only
+.
+
+"$number(PNAME) $street(PNAME)"
+[address number $number(PNAME) street $street(PNAME) apartment _ floor _ room _ ]
+:: realize-only
+.
+
+"the $room(KIND) at $name(PNAME)"
+[address place-name $name(PNAME) street _ room $room(KIND) ]
+:: realize-only
+.
+
+"$name(PNAME)"
+[address place-name $name(PNAME) street _ room _ ]
+:: realize-only
+.
