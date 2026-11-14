@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self enter-building ?place}:?enter-building
+  (belief-timeout 10 min)
   (tar @excl [k building|unit] @object)
   (preconditions (placed ?place))
   (success-cond (and (within-place @self ?place)

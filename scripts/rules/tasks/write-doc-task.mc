@@ -15,6 +15,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self write-doc ?doc ?sentence}:?write-doc
+  (belief-timeout 1 h)
   (tar [k document] @object)
   (and
     (try

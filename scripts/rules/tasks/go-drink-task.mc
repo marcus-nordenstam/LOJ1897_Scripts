@@ -16,6 +16,7 @@
   (if (claim ?glass) (then (claim (stand-spot-by ?glass))) (else @fail)))
 
 (task {@self go-drink}:?go-drink
+  (belief-timeout 3 h)
   (running-requirements (stands-in-room-of [k bar-room] [k pub-building]))
   (cease (if (and (>= (session-drink-count ?go-drink) (session-drinks))
                   (unsubstantial (held-glass @self)))

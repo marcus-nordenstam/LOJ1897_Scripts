@@ -11,6 +11,7 @@
 (include "../../macros/acquisition-macros.mc")
 
 (task {@self steal ?kind}:?steal
+  (belief-timeout 15 min)
   (obs)
   (track-skill-level [k illicit])
   (tar ?)

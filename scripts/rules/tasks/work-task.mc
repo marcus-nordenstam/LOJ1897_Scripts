@@ -18,6 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self work ?wp}:?work
+  (belief-timeout 10 h)
   (construed-act toil-act)
   (tar [k structure|org|space] @object)
   (role ?job {@self job ?job}

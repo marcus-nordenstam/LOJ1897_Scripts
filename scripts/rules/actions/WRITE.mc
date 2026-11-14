@@ -23,6 +23,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self WRITE ?doc ?sentence}:?WRITE
+  (belief-timeout 30 min)
   (track-skill-level [k literacy])
   (motor right-hand)
   (obs)

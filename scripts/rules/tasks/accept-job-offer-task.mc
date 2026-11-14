@@ -15,6 +15,7 @@
 ; that minted a DWELL would advance only when the DWELL itself ended.
 
 (task {@self accept-job-offer ?job}:?accept-job-offer
+  (belief-timeout 1 h)
   (aspect labour)
   (tar [k job] @object)
   ; The seat's org keeps its door at ?wp - where the errand goes.

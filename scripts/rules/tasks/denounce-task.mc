@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self denounce ?innocent ?victim}:?denounce
+  (belief-timeout 30 min)
   (tar [k human] @object)
   (aux [k human] @object)
   (role ?my-home {@self home ?my-home}

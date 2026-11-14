@@ -52,6 +52,7 @@
        (unsubstantial (any {@self enter-building|cross|WALK|enter-room ? /caused_by ?enter-room}))))
 
 (task {@self enter-room ?room}:?enter-room
+  (belief-timeout 5 min)
   (tar ?)
   (preconditions (placed ?room))
   (success-cond (enter-room-done ?room ?enter-room))

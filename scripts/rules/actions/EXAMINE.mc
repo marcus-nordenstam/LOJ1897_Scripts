@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (action {@self EXAMINE ?target}
+  (belief-timeout 15 min)
   (duration procedural)
   (motor eyes)
   (rsn)

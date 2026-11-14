@@ -16,6 +16,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self draft-verdict ?p ?job}:?draft-verdict
+  (belief-timeout 2 h)
   (preconditions (knows-thing-in [k outgoing-mail-stack] (job-workplace ?job)))
   (aspect labour)
   (track-skill-level [k law])

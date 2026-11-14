@@ -19,6 +19,7 @@
 
 
 (task {@self invite-guest ?guest ?occ}:?invite-guest
+  (belief-timeout 15 min)
   (preconditions (knows-thing-in [k outgoing-mail-stack] (home-of @self)))
   (preparatory)
   ; Ending at home with the letter it penned still in hand, unposted, he sets it down there; on

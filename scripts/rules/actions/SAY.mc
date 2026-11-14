@@ -11,6 +11,7 @@
 ; carries is the pipeline's own.
 
 (action {@self SAY ?msg ?audience}:?SAY
+  (belief-timeout 1 min)
   (motor mouth)
   (unique)
   ; A line once begun is said to its end: nothing outbids it on the mouth.

@@ -13,6 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self take-up ?partner}:?take-up
+  (belief-timeout 15 min)
   (lod presented)
   (category enter-conversation (scope (talk-between ?partner)))
   (tar @excl [k human] @object)

@@ -113,6 +113,7 @@
              (substantial (any {@self WALK (go-sight-spot ?dest) /succ /caused_by ?go-to})))))
 
 (task {@self go-to ?dest}:?go-to
+  (belief-timeout 1 h)
   (running-requirements (placed ?dest))
   (success-cond (go-arrived ?dest ?go-to))
   (failure-cond (or (go-unplaceable ?dest ?go-to) (go-no-room ?dest ?go-to)))

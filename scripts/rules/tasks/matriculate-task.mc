@@ -11,6 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self matriculate ?curriculum}:?matriculate
+  (belief-timeout 2 h)
   (tar [k academic-field])
   (and
     ; GO: not at a school -> travel to one I know whose school I know (nearest preferred).

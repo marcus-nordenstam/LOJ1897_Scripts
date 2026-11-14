@@ -13,6 +13,7 @@
                    (spatial ?here unit ?home)))))
 
 (task {@self go-to-bed ?home}:?go-to-bed
+  (belief-timeout 30 min)
   (tar @excl [k unit] @object)
   (running-requirements (inside ?home))
   (cease (if {@self SLEEP /succ /caused_by ?go-to-bed}

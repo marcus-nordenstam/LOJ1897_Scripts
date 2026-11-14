@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self back ?org}:?back
+  (belief-timeout 15 min)
   (tar [k org] @object)
   (role ?wp {?org workplace ?wp}
     (and

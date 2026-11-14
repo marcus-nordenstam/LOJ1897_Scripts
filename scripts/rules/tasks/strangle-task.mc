@@ -7,6 +7,7 @@
 
 
 (task {@self strangle ?victim}:?strangle
+  (belief-timeout 10 min)
   (track-skill-level [k garrotting])
   (tar [k human] @object)
   (construed-act harm-act) (theme violent-to) (contradicts life)

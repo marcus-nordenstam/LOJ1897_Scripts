@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self sponsor ?protege}:?sponsor
+  (belief-timeout 1 h)
   (tar [k human] @object)
   (sequence
     (stage

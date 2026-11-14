@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self retire}:?retire
+  (belief-timeout 1 h)
   (and
     (try
       (role ?job {@self job ?job}

@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self read-job-board ?board}:?read-job-board
+  (belief-timeout 30 min)
   (aspect labour)
   (preparatory)
   (tar [k church-building] @object)

@@ -23,6 +23,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self hail ?partner}:?hail
+  (belief-timeout 15 min)
   (lod presented)
   (category social (scope (talk-between ?partner)))
   (hosts reply)

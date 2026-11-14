@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self give-birth ?father}:?give-birth
+  (belief-timeout 12 h)
   (tar [k human] @object)
   (sequence
     (stage

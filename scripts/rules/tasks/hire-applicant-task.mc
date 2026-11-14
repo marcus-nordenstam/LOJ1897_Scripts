@@ -18,6 +18,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self hire-applicant ?applicant ?job}:?hire-applicant
+  (belief-timeout 1 h)
   (aspect labour)
   (track-skill-level [k personnel])
   (tar [k human] @object)

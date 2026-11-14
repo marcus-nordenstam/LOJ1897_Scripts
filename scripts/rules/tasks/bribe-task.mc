@@ -7,6 +7,7 @@
 (include "../../macros/acquisition-macros.mc")
 
 (task {@self bribe ?victim}:?bribe
+  (belief-timeout 30 min)
   (track-skill-level [k illicit])
   (tar [k human] @object)
   (aux ?)

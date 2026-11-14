@@ -14,6 +14,7 @@
 
 
 (task {@self fight ?foe}:?fight
+  (belief-timeout 15 min)
   (obs)
   (track-skill-level [k martial])
   (tar [k human] @object)

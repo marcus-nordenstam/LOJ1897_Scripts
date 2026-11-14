@@ -9,6 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self take-my-letters ?stack}:?take-my-letters
+  (belief-timeout 15 min)
   (tar @excl [k stack] @object)
   (and
     (try

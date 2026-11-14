@@ -10,6 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self LET ?prop}:?LET
+  (belief-timeout 5 min)
   (tar @excl [k building] @object)
   (sequence
     (stage

@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self pay ?payee ?count}:?pay
+  (belief-timeout 5 min)
   (tar [k human] @object)
   (aux ?)
   (obs)

@@ -10,6 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self give ?thing ?recipient}:?give
+  (belief-timeout 5 min)
   (tar @excl [k object] @object)
   (aux [k human] @object)
   (and

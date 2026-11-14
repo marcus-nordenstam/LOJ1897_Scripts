@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self propose-marriage ?partner}:?propose-marriage
+  (belief-timeout 15 min)
   (tar [k human] @object)
   (preparatory)
   (preemptive-or

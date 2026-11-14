@@ -23,6 +23,7 @@
   (unsubstantial ?untoured))
 
 (task {@self wander ?place}:?wander
+  (belief-timeout 1 h)
   (tar @excl [k building|unit] @object)
   (preconditions (inside ?place))
   (init

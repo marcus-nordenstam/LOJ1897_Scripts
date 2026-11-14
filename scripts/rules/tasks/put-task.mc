@@ -9,6 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self put ?item ?dest}:?put
+  (belief-timeout 5 min)
   (tar @excl [k object] @object)
   (and
     (try

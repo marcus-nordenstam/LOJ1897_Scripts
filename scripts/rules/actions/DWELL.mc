@@ -15,6 +15,7 @@
 ; duties, waiting out an occasion - so it stays in its proposer's band and competes there
 ; like any other act; a post-stay sits at the band's floor (fallback), below every duty.
 (action {@self DWELL ?place ?until}:?DWELL
+  (belief-timeout 1 h)
   (motor legs)
   (duration (seconds (minutes-until-hour (modulo ?until (clock_hours))) min))
   (cap-outcome succ))

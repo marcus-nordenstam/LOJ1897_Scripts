@@ -36,6 +36,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self stack-browse ?stack ?do-this}:?stack-browse
+  (belief-timeout 15 min)
   (tar [k stack] @object)
   (aux ?)
   ; THE OPENING LOOK, once, when the rule-rung rises. It only looks: the empty pile is

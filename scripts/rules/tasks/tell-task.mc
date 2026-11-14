@@ -19,6 +19,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self tell ?msg ?audience}:?tell
+  (belief-timeout 15 min)
   (unique)
   (once)
   (sub @msgAuthor [k human] @object)

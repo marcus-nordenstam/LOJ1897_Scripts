@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self carry-home ?ware ?dest}:?carry-home
+  (belief-timeout 1 h)
   (tar ?)
   (aux ?)
   (and

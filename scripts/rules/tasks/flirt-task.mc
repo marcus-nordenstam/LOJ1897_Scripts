@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self flirt ?partner ?talk}:?flirt
+  (belief-timeout 30 min)
   (obs)
   (category social (scope ?talk))
   (hosts reply enter-conversation)

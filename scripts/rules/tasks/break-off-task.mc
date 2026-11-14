@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self break-off ?lover}:?break-off
+  (belief-timeout 15 min)
   (tar [k human] @object)
   (and
     (try

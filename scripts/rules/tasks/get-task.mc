@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self get ?item}:?get
+  (belief-timeout 5 min)
   (tar @excl [k object] @object)
   (and
     (try

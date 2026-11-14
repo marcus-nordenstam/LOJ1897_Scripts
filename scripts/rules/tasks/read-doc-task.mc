@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self read-doc ?doc}:?read-doc
+  (belief-timeout 30 min)
   (tar [k document] @object)
   ; THE CONDITION THE TASK RUNS UNDER: he has not read it yet. Stated once here rather
   ; than on the rung that proposes the READ, because it is true of the whole errand -

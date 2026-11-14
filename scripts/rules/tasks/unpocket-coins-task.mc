@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self unpocket-coins ?count}:?unpocket-coins
+  (belief-timeout 5 min)
   (tar ?)
   (and
     (try

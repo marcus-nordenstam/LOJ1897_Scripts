@@ -6,6 +6,7 @@
 
 
 (task {@self shoot ?victim}:?shoot
+  (belief-timeout 5 min)
   (track-skill-level [k marksmanship])
   (tar [k human] @object)
   (construed-act harm-act) (theme violent-to) (contradicts life)

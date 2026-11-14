@@ -1,6 +1,7 @@
 ; ?target only names the side: (side ?x), or [k left] / [k right].
 
 (action {@self ARM-LOW-FORWARD ?target}
+  (belief-timeout 1 min)
   (duration procedural)
   (sided target left-arm right-arm)
   (obs)

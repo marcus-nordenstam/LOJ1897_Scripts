@@ -1,17 +1,17 @@
 ; Tasks declared by row rather than by a (task ..) head: duties an org assigns
 ; (org_duties, tables/duty-tables.mc) that no rule performs yet. A duty is a TASK label -
 ; {@self duty-to ?org [k <duty>]} - so the name is a task term under act > task.
-(task dismiss_staff (sub [k human] @object))
-(task review_staff (sub [k human] @object))
-(task keep_records (sub [k human] @object))
-(task provide_for (sub [k human] @object))
-(task protect (sub [k human] @object))
-(task officiate (sub [k human] @object))
-(task admit_member (sub [k human] @object))
+(task dismiss_staff (sub [k human] @object) (belief-timeout 1 h))
+(task review_staff (sub [k human] @object) (belief-timeout 1 h))
+(task keep_records (sub [k human] @object) (belief-timeout 1 h))
+(task provide_for (sub [k human] @object) (belief-timeout 1 h))
+(task protect (sub [k human] @object) (belief-timeout 1 h))
+(task officiate (sub [k human] @object) (belief-timeout 1 h))
+(task admit_member (sub [k human] @object) (belief-timeout 1 h))
 ; kill and acquire are pursued as intents ({@self intent kill ?victim}): their drivers pick the
 ; means (thinks/hot/kill-think.mc, thinks/hot/acquire-think.mc) and no task performs them whole.
-(task kill (tar [k human] @object))
-(task acquire (tar ?))
+(task kill (tar [k human] @object) (belief-timeout 1 d))
+(task acquire (tar ?) (belief-timeout 1 d))
 ; get-job is pursued as an intent ({@self intent {@self get-job}}): its driver reads the parish
 ; board and applies (thinks/hot/job-search-think.mc); taking up an offer performs it.
-(task get-job)
+(task get-job (belief-timeout 1 d))

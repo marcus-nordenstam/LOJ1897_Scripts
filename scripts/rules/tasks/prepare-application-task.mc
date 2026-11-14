@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self prepare-application ?job}:?prepare-application
+  (belief-timeout 1 h)
   (aspect labour)
   (tar [k job] @object)
   (sequence

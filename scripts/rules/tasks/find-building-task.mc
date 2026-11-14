@@ -21,6 +21,7 @@
   ?found)
 
 (task {@self find-building ?sought ?region}:?find-building
+  (belief-timeout 2 h)
   ; The frontier IS the exception: covering unexplored ground means asking the world what
   ; is out there that @self has not seen yet. Signed off deliberately.
   (lint-waive env-read-outside-action)

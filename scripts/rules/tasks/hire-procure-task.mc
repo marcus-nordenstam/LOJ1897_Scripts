@@ -8,6 +8,7 @@
 
 
 (task {@self hire-procure ?agent ?kind}:?hire-procure
+  (belief-timeout 1 h)
   (tar [k human] @object)
   (aux ?)
   (and

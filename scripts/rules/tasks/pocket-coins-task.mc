@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self pocket-coins ?pile}:?pocket-coins
+  (belief-timeout 5 min)
   (tar [k pile] @object)
   (and
     (try

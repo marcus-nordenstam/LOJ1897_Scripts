@@ -11,6 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self maintain-social-presence ?talk}:?maintain-social-presence
+  (belief-timeout 2 h)
   (lod presented)
   (construed-act social-act)
   (category social (scope ?talk))

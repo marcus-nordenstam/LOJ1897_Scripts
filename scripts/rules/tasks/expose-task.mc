@@ -12,6 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self expose ?victim}:?expose
+  (belief-timeout 30 min)
   (facets gossip-worthy news-worthy) (tell-rank 6)
   (tar @pattern)
   (construed-act expose-act betray-act wrong-act) (contradicts privacy)

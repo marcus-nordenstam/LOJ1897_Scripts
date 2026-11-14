@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self send-mail ?doc ?out}:?send-mail
+  (belief-timeout 30 min)
   (tar [k document] @object)
   (aux [k stack] @object)
   (sequence

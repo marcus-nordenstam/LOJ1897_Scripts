@@ -7,6 +7,7 @@
 (include "../../macros/home-macros.mc")
 
 (task {@self set-mealtimes ?household}:?set-mealtimes
+  (belief-timeout 5 min)
   (tar [k household] @object)
   (role ?home {@self home ?home}
     (and

@@ -9,6 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self putter ?home}:?putter
+  (belief-timeout 2 h)
   (tar [k unit] @object)
   (and
     (try

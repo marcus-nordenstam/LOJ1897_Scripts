@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self convey-corpse ?corpse}:?convey-corpse
+  (belief-timeout 1 h)
   (tar ?)
   (and
     (try

@@ -3,6 +3,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self give-charity ?venue}:?give-charity
+  (belief-timeout 30 min)
   (tar [k church-building] @object)
   (and
     (try

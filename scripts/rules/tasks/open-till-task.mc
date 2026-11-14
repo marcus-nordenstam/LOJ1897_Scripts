@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self open-till ?shop}:?open-till
+  (belief-timeout 10 min)
   (tar [k shop] @object)
   (and
     (sequence

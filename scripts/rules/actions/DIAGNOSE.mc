@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (action {@self DIAGNOSE ?target}
+  (belief-timeout 30 min)
   (duration procedural)
   (motor eyes)
   (rsn)

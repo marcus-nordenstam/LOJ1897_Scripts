@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (action {@self CRY-EXPR ?target}
+  (belief-timeout 1 min)
   (duration procedural)
   (motor face)
   (obs)

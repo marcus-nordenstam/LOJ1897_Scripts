@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self seduce ?paramour}:?seduce
+  (belief-timeout 2 h)
   (facets gossip-worthy news-worthy) (tell-rank 5)
   (track-skill-level [k seduction])
   (tar [k human] @object)

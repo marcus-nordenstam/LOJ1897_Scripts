@@ -15,6 +15,7 @@
        (unsubstantial (any {@self enter-room-kind ? ? /caused_by ?enter-room-kind}))))
 
 (task {@self enter-room-kind ?kind ?bldg}:?enter-room-kind
+  (belief-timeout 5 min)
   (tar ?)
   (aux ?)
   (preconditions (knows-room-of ?kind ?bldg) (knows-building-of ?bldg))

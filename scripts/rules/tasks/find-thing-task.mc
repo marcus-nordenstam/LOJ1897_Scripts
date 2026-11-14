@@ -14,6 +14,7 @@
         (placed ?thing)))
 
 (task {@self find-thing ?thing ?place}:?find-thing
+  (belief-timeout 1 h)
   (tar ?)
   (aux ?)
   (preparatory)

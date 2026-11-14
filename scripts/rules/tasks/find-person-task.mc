@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self find-person ?person ?place}:?find-person
+  (belief-timeout 2 h)
   (tar [k human] @object)
   (aux ?)
   (preparatory)

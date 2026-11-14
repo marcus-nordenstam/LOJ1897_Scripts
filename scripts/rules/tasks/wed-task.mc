@@ -10,6 +10,7 @@
 (include "../../macros/occasion-macros.mc")
 
 (task {@self wed ?partner}:?wed
+  (belief-timeout 3 h)
   (category occasion)
   (success-cond (substantial (any {@self spouse ?partner})))
   (hosts social reply occasion enter-conversation)

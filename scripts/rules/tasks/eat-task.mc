@@ -19,6 +19,7 @@
     (else             780)))
 
 (task {@self eat ?meal ?place}:?eat
+  (belief-timeout 1 h)
   (construed-act sensual-act social-act)
   (tar [k meal])
   (aux [k structure|space] @object)

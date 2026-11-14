@@ -3,6 +3,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self emigrate}:?emigrate
+  (belief-timeout 1 d)
   (preemptive-or
     (try
       (belief {@self DEPART /succ /caused_by ?emigrate}

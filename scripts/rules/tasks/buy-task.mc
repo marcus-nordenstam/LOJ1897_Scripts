@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self buy ?kind}:?buy
+  (belief-timeout 30 min)
   (tar ?)
   (and
     ; not at a shop -> head to a shop @self KNOWS (any shop carries the stock).

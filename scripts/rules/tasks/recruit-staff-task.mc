@@ -21,6 +21,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self recruit-staff ?org}:?recruit-staff
+  (belief-timeout 1 d)
   (aspect labour)
   ; OBSERVABLE, and for the WHOLE SHIFT: a man keeping the hiring book does it in the open,
   ; so anyone in the room reads the duty off him - that is how an applicant identifies the

@@ -3,6 +3,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self rest ?home}:?rest
+  (belief-timeout 2 h)
   (construed-act rest-act)
   (tar [k structure|space] @object)
   (running-requirements (inside ?home))

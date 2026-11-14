@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self turn-down ?partner ?msg}:?turn-down
+  (belief-timeout 15 min)
   (lod presented)
   (category reply)
   (tar @excl [k human] @object)

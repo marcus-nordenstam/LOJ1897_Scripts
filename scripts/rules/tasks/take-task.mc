@@ -19,6 +19,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self take ?item}:?take
+  (belief-timeout 5 min)
   (tar @excl [k object] @object)
   (and
     (try

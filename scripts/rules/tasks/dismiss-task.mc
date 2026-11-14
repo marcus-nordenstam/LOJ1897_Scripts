@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self dismiss ?w}:?dismiss
+  (belief-timeout 30 min)
   (tar [k human] @object)
   (and
     (try

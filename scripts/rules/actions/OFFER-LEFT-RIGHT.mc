@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self OFFER-LEFT ?thing ?recipient}:?OFFER-LEFT
+  (belief-timeout 1 min)
   (motor left-hand)
   (obs)
   (tar [k object] @object) (aux [k human] @object)
@@ -19,6 +20,7 @@
     (bb-public-write ?recipient take ?thing)))
 
 (action {@self OFFER-RIGHT ?thing ?recipient}:?OFFER-RIGHT
+  (belief-timeout 1 min)
   (motor right-hand)
   (obs)
   (tar [k object] @object) (aux [k human] @object)

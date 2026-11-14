@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self collect-applications ?wp}:?collect-applications
+  (belief-timeout 2 h)
   (preconditions (knows-thing-in [k mail-stack] ?wp))
   (aspect labour)
   ; OBSERVABLE: the office round is done in the open, so anyone in the room reads it off

@@ -13,6 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self post-ad ?org ?job}:?post-ad
+  (belief-timeout 30 min)
   (aspect labour)
   (lint-waive task-no-preparation)
   (tar [k org] @object)

@@ -9,6 +9,7 @@
   (flip (is-kind ?room) (known-room-of ?room ?place) (placed ?room)))
 
 (task {@self find-room ?room ?place}:?find-room
+  (belief-timeout 30 min)
   (tar ?)
   (aux [k building|unit] @object)
   (preparatory)

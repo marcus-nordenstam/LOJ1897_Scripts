@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self tell-gossip ?friend}:?tell-gossip
+  (belief-timeout 15 min)
   (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
   (category social (scope (talk-between ?friend)))

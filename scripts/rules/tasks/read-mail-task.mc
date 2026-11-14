@@ -9,6 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self read-mail ?prem}:?read-mail
+  (belief-timeout 30 min)
   (tar @excl [k building|unit] @object)
   (and
     (try

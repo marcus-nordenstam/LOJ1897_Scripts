@@ -15,6 +15,7 @@
 
 
 (task {@self divorce ?partner}:?divorce
+  (belief-timeout 2 h)
   (facets gossip-worthy news-worthy) (tell-rank 8)
   (tar [k human] @object)
   (init

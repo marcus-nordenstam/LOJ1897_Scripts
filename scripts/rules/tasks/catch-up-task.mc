@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self catch-up ?friend}:?catch-up
+  (belief-timeout 30 min)
   (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
   (category social (scope (talk-between ?friend)))

@@ -14,6 +14,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self find-out ?fact}:?find-out
+  (belief-timeout 2 h)
   (tar @pattern)
   (category social)
   (hosts reply enter-conversation)

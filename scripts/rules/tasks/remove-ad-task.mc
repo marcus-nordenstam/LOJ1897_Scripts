@@ -12,6 +12,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self remove-ad ?org ?job}:?remove-ad
+  (belief-timeout 15 min)
   (aspect labour)
   (tar [k org] @object)
   (aux [k job] @object)

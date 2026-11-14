@@ -3,6 +3,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self gamble ?venue}:?gamble
+  (belief-timeout 3 h)
   (tar [k pub-building] @object)
   (and
     (try

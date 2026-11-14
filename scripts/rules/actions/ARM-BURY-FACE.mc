@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (action {@self ARM-BURY-FACE ?target}
+  (belief-timeout 1 min)
   (duration procedural)
   (sided target left-arm right-arm)
   (obs)

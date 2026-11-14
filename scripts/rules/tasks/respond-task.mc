@@ -9,6 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self respond ?speaker ?line}:?respond
+  (belief-timeout 15 min)
   (category reply)
   (tar @excl [k human] @object)
   (aux ?)

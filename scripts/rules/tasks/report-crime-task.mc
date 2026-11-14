@@ -10,6 +10,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self report-crime ?focus}:?report-crime
+  (belief-timeout 30 min)
   (lint-waive task-no-preparation)
   (tar ?)
   (and

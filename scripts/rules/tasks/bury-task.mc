@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self bury ?corpse}:?bury
+  (belief-timeout 2 h)
   (tar [k human] @object)
   (and
     (try

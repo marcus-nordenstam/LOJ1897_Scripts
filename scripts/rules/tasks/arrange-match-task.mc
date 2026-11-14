@@ -10,6 +10,7 @@
 (include "../../macros/tunables.mc")
 
 (task {@self arrange-match ?daughter ?groom}:?arrange-match
+  (belief-timeout 1 d)
   (tar [k human] @object)
   (aux [k human] @object)
   (and

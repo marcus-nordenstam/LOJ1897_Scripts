@@ -11,6 +11,7 @@
 (include "../../macros/tunables.mc")
 
 (task {@self coerce ?victim}:?coerce
+  (belief-timeout 30 min)
   (track-skill-level [k illicit])
   (tar [k human] @object)
   (aux ?)

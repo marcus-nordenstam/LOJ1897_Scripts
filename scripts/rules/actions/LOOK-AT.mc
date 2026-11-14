@@ -14,6 +14,7 @@
 
 
 (action {@self LOOK-AT ?target}:?LOOK-AT
+  (belief-timeout 1 min)
   (motor head)
   (obs)
   (tar @excl)

@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self attend-church-service}:?attend-church-service
+  (belief-timeout 2 h)
   (construed-act social-act)
   (running-requirements (stands-in-room-of [k nave] [k church-building]))
   (cease (if {@self WORSHIP /succ /caused_by ?attend-church-service}

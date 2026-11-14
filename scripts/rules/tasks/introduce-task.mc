@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self introduce ?a ?b}:?introduce
+  (belief-timeout 15 min)
   (tar [k human] @object)
   (aux [k human] @object)
   (preemptive-or

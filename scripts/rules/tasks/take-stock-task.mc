@@ -3,6 +3,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self take-stock ?shop}:?take-stock
+  (belief-timeout 1 h)
   (construed-act toil-act)
   (tar [k shop] @object)
   (and

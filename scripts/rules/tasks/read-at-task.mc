@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self read-at ?home}:?read-at
+  (belief-timeout 30 min)
   (construed-act play-act)
   (tar [k structure|space] @object)
   (running-requirements (stands-in-room-of [k study] ?home))

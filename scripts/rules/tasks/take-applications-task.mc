@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self take-applications ?stack}:?take-applications
+  (belief-timeout 2 h)
   (aspect labour)
   (tar @excl [k stack] @object)
   (and

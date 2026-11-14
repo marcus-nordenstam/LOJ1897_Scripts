@@ -9,6 +9,7 @@
 ; is proper to sleeping, not a mistake, so the window-exit pass concludes this act at the hour
 ; its duration gave it rather than cutting it off at midnight.
 (action {@self SLEEP}:?SLEEP
+  (belief-timeout 10 h)
   (construed-act rest-act)
   (motor all)
   (init (set-attr @self awareness [k asleep]))

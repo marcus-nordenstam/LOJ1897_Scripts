@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self receive ?giver}:?receive
+  (belief-timeout 5 min)
   (tar [k human] @object)
   (lint-waive try-rungs-not-exclusive)
   (and

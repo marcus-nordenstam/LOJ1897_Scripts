@@ -21,6 +21,7 @@
 (include "../../macros/occasion-macros.mc")
 
 (task {@self plan-gathering ?kind ?date}:?plan-gathering
+  (belief-timeout 1 h)
   (preparatory)
   (sequence
     (role ?my-home {@self home ?my-home}

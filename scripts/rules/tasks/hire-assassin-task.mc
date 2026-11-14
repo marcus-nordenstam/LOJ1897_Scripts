@@ -20,6 +20,7 @@
 
 
 (task {@self hire-assassin ?victim}:?hire-assassin
+  (belief-timeout 1 h)
   (tar [k human] @object)
   (construed-act harm-act) (theme violent-to) (contradicts life)
   (facets reportable_crime blackmailable)

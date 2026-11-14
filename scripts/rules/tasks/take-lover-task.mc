@@ -8,6 +8,7 @@
 (include "../../macros/affair-macros.mc")
 
 (task {@self take-lover ?lover}:?take-lover
+  (belief-timeout 2 h)
   (tar [k human] @object)
   (sequence
     (belief {@self name ?}

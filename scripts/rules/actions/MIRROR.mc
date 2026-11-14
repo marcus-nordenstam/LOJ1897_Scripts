@@ -8,6 +8,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self MIRROR ?other}:?MIRROR
+  (belief-timeout 1 min)
   (motor legs)
   (obs)
   (tar @excl)

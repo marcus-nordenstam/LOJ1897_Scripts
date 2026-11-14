@@ -15,6 +15,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self write-will ?heir}:?write-will
+  (belief-timeout 2 h)
   (tar @excl [k human] @object)
   (sequence
     (stage

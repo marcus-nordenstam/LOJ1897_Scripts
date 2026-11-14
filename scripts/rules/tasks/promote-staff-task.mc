@@ -7,6 +7,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self promote-staff ?worker}:?promote-staff
+  (belief-timeout 30 min)
   (track-skill-level [k personnel])
   (tar [k human] @object)
   (and

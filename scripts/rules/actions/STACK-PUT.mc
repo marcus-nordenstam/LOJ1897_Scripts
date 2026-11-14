@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self STACK-PUT ?doc ?stack}:?STACK-PUT
+  (belief-timeout 1 min)
   (motor body)
   (obs)
   (tar @excl)

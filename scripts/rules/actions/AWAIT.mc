@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (action {@self AWAIT ?target}:?AWAIT
+  (belief-timeout 1 h)
   (motor legs)
   (obs)
   (tar [k human] @object)

@@ -19,6 +19,7 @@
 
 
 (task {@self disinherit ?victim}:?disinherit
+  (belief-timeout 1 h)
   (facets gossip-worthy news-worthy) (tell-rank 1)
   (tar [k human] @object)
   (construed-act abandonment-act wrong-act) (contradicts kin-loyalty)

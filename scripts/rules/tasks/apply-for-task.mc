@@ -13,6 +13,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self apply-for ?job}:?apply-for
+  (belief-timeout 1 h)
   (preconditions (knows-thing-in [k outgoing-mail-stack] (home-of @self)))
   (aspect labour)
   (preparatory)

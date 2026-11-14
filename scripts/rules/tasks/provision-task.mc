@@ -5,6 +5,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self provision ?shop}:?provision
+  (belief-timeout 2 h)
   (tar [k shop] @object)
   (role ?home {@self household-cook ?home}
               (spatial ?home room [k kitchen]): ?kitchen

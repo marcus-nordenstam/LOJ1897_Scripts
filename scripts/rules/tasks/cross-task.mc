@@ -14,6 +14,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self cross ?passage}:?cross
+  (belief-timeout 5 min)
   (tar @excl [k passage] @object)
   (init (check (in-near-room ?passage)))
   (cease (if (substantial (any {@self WALK ? /succ /caused_by ?cross}))

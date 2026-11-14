@@ -3,6 +3,7 @@
 ;   when this action is scripted (docs/plans/action_unification_plan.md).
 
 (action {@self SIT ?target}
+  (belief-timeout 1 h)
   (construed-act rest-act)
   (duration procedural)
   (motor legs)

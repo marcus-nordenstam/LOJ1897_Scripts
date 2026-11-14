@@ -10,6 +10,7 @@
 
 
 (task {@self hurt ?victim}:?hurt
+  (belief-timeout 10 min)
   (obs)
   (tar [k human] @object)
   (and

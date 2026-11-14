@@ -11,6 +11,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self confess-letter ?focus}:?confess-letter
+  (belief-timeout 1 h)
   (tar [k human] @object)
   (construed-act honour-act)
   (and

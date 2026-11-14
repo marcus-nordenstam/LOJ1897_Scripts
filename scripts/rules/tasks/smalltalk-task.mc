@@ -6,6 +6,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self smalltalk ?partner ?talk}:?smalltalk
+  (belief-timeout 30 min)
   (lod presented)
   (category social (scope ?talk))
   (hosts reply enter-conversation)

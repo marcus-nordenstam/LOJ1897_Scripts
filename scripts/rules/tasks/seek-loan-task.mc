@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (task {@self seek-loan ?creditor}:?seek-loan
+  (belief-timeout 2 h)
   (tar [k human] @object)
   (and
     (try
