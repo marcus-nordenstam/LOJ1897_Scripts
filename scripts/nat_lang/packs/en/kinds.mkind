@@ -24,6 +24,9 @@
 ; element, so the whole axis is owned here for a clean, browsable vocabulary.
 
 ; academic-field
+factory-worker                factory worker
+shop-clerk                    shop clerk
+literacy                      reading and writing
 upper                         upper class
 middle                        middle class
 lower                         lower class

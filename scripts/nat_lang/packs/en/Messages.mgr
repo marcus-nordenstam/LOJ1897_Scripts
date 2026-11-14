@@ -24,6 +24,12 @@
 :: realize-only
 .
 
+; A post said on its own, an answer to what he does: his trade and where - "a clerk at Meridian Bank".
+"a $kind(KIND) at $org(NP)"
+( msg [] ( o $kind(KIND|/isa|job) { @o org $org(NP) } { @o job-id ? } ) )
+:: realize-only
+.
+
 ; Formulaic phrases
 
 "$form(FORM)"

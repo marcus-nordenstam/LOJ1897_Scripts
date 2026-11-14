@@ -826,6 +826,13 @@ $form(FORM)
 { $sub_np(NP)      $passive_rel(PASSIVE_REL_PLUR) $conj(CONJ) }
 .
 
+; A post, said by its trade and the org that keeps it: "Wilbur Parker is a superintendent at the Land
+; Registry".
+"$sub_np(NP) $verb(VERB|be) a $kind(KIND) at $org(NP)"
+{ $sub_np(NP) /pres job ( o $kind(KIND|/isa|job) { @o org $org(NP) } { @o job-id ? } ) }
+:: realize-only
+.
+
 ; any possessive relation that is a noun-phrase, e.g. john's friend is a big red pig
 " $sub_np(NP) ++'s $passive_rel(PASSIVE_REL) $np(NP) "
 { $sub_np(NP)      $passive_rel(PASSIVE_REL) $np(NP) }
@@ -1039,7 +1046,6 @@ $form(FORM)
 ; A relative of no name: "Darragh has a child".
 " $sub_np(NP) $verb(VERB|have) a $rel(REL) "
 { $sub_np(NP) /ever $rel(REL) [k human] }
-:: parse-only
 .
 
 
