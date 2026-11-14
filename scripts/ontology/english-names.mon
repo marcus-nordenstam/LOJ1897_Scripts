@@ -1,6 +1,6 @@
 (abstract name (name-kind human)
   (child first-name
-    (child male-name
+    (child male-name (name-gender male)
       ; A name's (alias ..) are the short forms it goes by: "Tom" is Thomas to every name match,
       ; and no pool ever draws an alias as a man's name.
       (child male-english-name (+ pname)
@@ -33,7 +33,7 @@
         (child Thomas (alias Tom Tommy))
         (child Walter (alias Walt Wally))
         (child William (alias Will Bill Billy))))
-    (child female-name
+    (child female-name (name-gender female)
       (child female-english-name (+ pname)
         (children Alice Arabella Ada Anna Beatrice
                   Sophia Sophie Clara Doris

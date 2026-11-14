@@ -1,12 +1,12 @@
 (abstract name (name-kind human)
   (child first-name
-    (child male-name
+    (child male-name (name-gender male)
       (child male-st-revieran-name (+ pname)
         (children Ambrose Anatole Alphonse Augustus Armand Blaise Clement Cyril
                   Edgar Edmond Francois Ferdinand Gaspard Gideon Henri Isidore
                   Louis Laurent Marcellin Octave Percival Philippe Theophile
                   Urbain Victor)))
-    (child female-name
+    (child female-name (name-gender female)
       (child female-st-revieran-name (+ pname)
         (children Adelaide Amelie Annabelle Adele Agnes Aimee Albertine Aline
                   Angelique Antoinette Blanche Clemence Elodie Estelle Felicie Eugenie

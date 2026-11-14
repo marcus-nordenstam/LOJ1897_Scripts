@@ -67,6 +67,6 @@
     ; She sees the child she bore, and the give-birth task takes it from there.
     (observe ?baby): ?known-baby
     (bb-write ?GIVE-BIRTH created ?known-baby)
-    (set-attr @self pregnant-when @nothing)
-    (set-attr @self pregnant-by @nothing)
+    (set-attr @self pregnant-when @unassigned)
+    (set-attr @self pregnant-by @unassigned)
     (set-outcome ?GIVE-BIRTH /succ)))

@@ -51,7 +51,7 @@
       (try
         (role ?reg {?org employee-register ?reg}
           (when (day-interval (time seconds)): ?today
-                (none {@self read-doc ?reg /succ /during ?today /possibly}))
+                (none {@self read-doc ?reg /succ /during ?today /maybe-during}))
           (effects (maintain-proposal {@self read-doc ?reg}))))
 
       ; POST A NOTICE for an open post that has none. ONE posting at a time: two concurrent
@@ -83,7 +83,7 @@
         (role ?wp {?org workplace ?wp}
                   {?org display-ad ?}
           (when (day-interval (time seconds)): ?today
-                (none {@self collect-applications ?wp /succ /during ?today /possibly}))
+                (none {@self collect-applications ?wp /succ /during ?today /maybe-during}))
           (effects (maintain-proposal {@self collect-applications ?wp}))))
 
       ; BACK FOR THE NEXT FORM: the round brings in one, and once it is read the pile may hold

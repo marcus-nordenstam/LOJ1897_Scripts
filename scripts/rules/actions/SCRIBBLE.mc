@@ -18,7 +18,7 @@
     (check (spatial @self can-reach ?thing /env))
     (pen ?sentence): ?penned
     (set-writing ?thing
-                 (cond (case (nothing (attr ?thing scribbles)) ?penned)
+                 (cond (case (unsubstantial (attr ?thing scribbles)) ?penned)
                        (else (add-func-arg (attr ?thing scribbles) ?penned)))
                  scribbles)
     (set-outcome ?SCRIBBLE /succ)))

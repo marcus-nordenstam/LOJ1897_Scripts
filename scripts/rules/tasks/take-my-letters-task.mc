@@ -19,8 +19,9 @@
             {@self stack-browse ?stack
               '(if (and (or (and (substantial (tolerate (attr .?item addressee)))
                                  (= (tolerate (attr .?item addressee)) ?name))
-                            (nothing (tolerate (attr .?item addressee)))
-                            {@self duty-to ? (tolerate (attr .?item addressee-duty))})
+                            (unsubstantial (tolerate (attr .?item addressee)))
+                            (and (substantial (tolerate (attr .?item addressee-duty)))
+                                 {@self duty-to ? (tolerate (attr .?item addressee-duty))}))
                         -{@self READ .?item /succ})
                    (then (maintain-proposal {@self READ .?item})))}))))
     (try

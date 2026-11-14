@@ -1,13 +1,13 @@
 (abstract name (name-kind human)
   (child first-name
-    (child male-name
+    (child male-name (name-gender male)
       (child male-irish-name (+ pname)
         (children Aidan Aengus Barra Brendan Brian Cathal Colm Conall
                   Cillian Conor Cormac Darragh Dermot Declan Desmond Donal
                   Eamon Eoghan Fergus Finley Flann Liam Lorcan Malachy
                   Michel Niall Oisin Patrick Ronan Seamus Shane Tadhg
                   Tiernan Tomas)))
-    (child female-name
+    (child female-name (name-gender female)
       (child female-irish-name (+ pname)
         (children Aileen Aisling Aoife Ailish Bridget Brigid Ciara Colleen
                   Darina Dervla Deirdre Eileen Eithne Fiona Finola Grainne

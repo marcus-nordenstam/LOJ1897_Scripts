@@ -55,7 +55,7 @@
     ; the hand he has TODAY: a letter from his boyhood keeps his boyhood hand.
     (pen ?sentence): ?penned
     (cond
-      (case (nothing (attr ?doc writing))
+      (case (unsubstantial (attr ?doc writing))
         (set-writing ?doc ?penned))
       (else
         (check (unsubstantial (table-rows ?sentence)))
