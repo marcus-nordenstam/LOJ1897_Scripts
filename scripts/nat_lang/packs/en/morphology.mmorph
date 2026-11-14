@@ -24,7 +24,9 @@ possessive: 's
 
 ; How the hour is told: the words for a minute of it ({h} the hour on the dial, {n} the next hour,
 ; {m} the minutes), `past` and `to` for any other minute before and after the half; then the part of
-; the day, from the hour it begins (listed in order); and the hours named alone on the hour.
+; the day, from the hour it begins (listed in order); and the hours named alone on the hour. A clock
+; remembered only so well is told about its nearest quarter or hour ({t}), by its part of the day
+; alone, or, known no closer than the day, as forgotten.
 clock-say: 0 {h} o'clock
 clock-say: 15 a quarter past {h}
 clock-say: 30 half past {h}
@@ -38,6 +40,8 @@ clock-part: 17 in the evening
 clock-part: 21 at night
 clock-name: 0 midnight
 clock-name: 12 noon
+clock-about: about {t}
+clock-forgotten: some time that day
 ; The hour as the bell told it, to a man with no watch to read: the hour it struck, gone or near, no
 ; part of the day - "at gone ten by the chapel bell".
 bell-say: 0 {h} by the chapel bell
