@@ -829,7 +829,7 @@ $form(FORM)
 ; A post, said by its trade and the org that keeps it: "Wilbur Parker is a superintendent at the Land
 ; Registry".
 "$sub_np(NP) $verb(VERB|be) a $kind(KIND) at $org(NP)"
-{ $sub_np(NP) /pres job ( o $kind(KIND|/isa|job) { @o org $org(NP) } { @o job-id ? } ) }
+{ $sub_np(NP) /ever job ( o $kind(KIND|/isa|job) { @o org $org(NP) } { @o job-id ? } ) }
 :: realize-only
 .
 

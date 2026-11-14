@@ -938,12 +938,17 @@
   (self-home ?place))
 
 ; (answer-to ?qs ?partner) - what @self says to ?partner's question ?qs: its content evaluated in
-; his mind, or "nothing much" when it asked his news and he has none.
+; his mind, or "nothing much" when it asked his news and he has none. What a man does is answered
+; with the whole fact, whose it is as well as what: "I am a superintendent at the Land Registry".
 (define-func answer-to (?qs ?partner)
   (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
-  (if (and (matches ?qs (qs ? (news-for ?..))) (unsubstantial ?answer))
-      (then (formulaic /reply [] response no-news))
-      (else (msg /utterable /reply [] ?answer))))
+  (bind (nth 1 (nth (k-msg-first-content-field) ?qs)) ?searched)
+  (cond
+    (case (and (matches ?qs (qs ? (news-for ?..))) (unsubstantial ?answer))
+      (formulaic /reply [] response no-news))
+    (case (and (is-clause ?searched) (eq ?searched.label job) (is-object ?answer))
+      (msg /utterable /reply [] {?searched.subject job ?answer}))
+    (else (msg /utterable /reply [] ?answer))))
 
 ; (focus-of ?talk) - whom @self faces in ?talk: the party he is telling a line to, else the first
 ; other party in it.
