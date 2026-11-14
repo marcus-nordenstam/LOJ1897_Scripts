@@ -17,7 +17,7 @@
 ; regen. See Docs/dialogue_nlg_phase4_design.md section 4.5.
 ; -----------------------------------------------------------------------------
 
-intents: neutral warm curt blunt deferential flowery scornful respectful tender spiteful terse plain metaphorical anecdotal elaborated intro
+intents: neutral warm curt blunt deferential flowery scornful respectful tender spiteful terse plain metaphorical anecdotal elaborated intro bell
 
 ; --- Discourse schema for a tell_about person description ---------------------
 ; Slots mirror the proven body-fact order of the legacy descriptions engine,
@@ -75,6 +75,12 @@ schema interest_description:
 
 ; The attitudes every slot shares, strongest first: care at its poles, dread,
 ; esteem, care, warmth. Trust is said as a hedge (decoration hedge, below).
+; How a speaker tells a clock: the lower class, who carry no watch, by the bell (the pack's
+; bell-say lines); everyone else off the dial.
+select clock:
+  class:lower       -> bell
+  *                 -> plain
+
 select *:
   subject:hate      -> spiteful curt neutral
   subject:love      -> warm flowery neutral
