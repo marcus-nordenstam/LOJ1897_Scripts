@@ -2,6 +2,8 @@
 ; cast as the `interviewee` every scenario talks to. A scenario seeds what it needs into his mind
 ; itself ((@do ..) lines), so the world stays one and the scenarios stay apart. msim saves it on the
 ; Sunday afternoon of the first window (tests/talkie/run_dialogue_tests.ps1), when the town is awake.
+; Nobody reckons his wealth, so the class a man is founded with stands, and a scenario's implanted
+; class holds from its first step.
 
 (include "../../macros/occasion-macros.mc")
 
@@ -29,4 +31,5 @@
   end 1700-12-31
   clock jump
   level "Theatres/demo_tech_level_v2.grs"
-  startup dialogue-startup)
+  startup dialogue-startup
+  inhibit classify-wealth)

@@ -24,6 +24,9 @@
 ; element, so the whole axis is owned here for a clean, browsable vocabulary.
 
 ; academic-field
+upper                         upper class
+middle                        middle class
+lower                         lower class
 classics                      classics
 engineering                   engineering
 medicine                      medicine

@@ -15,7 +15,6 @@
 (define-macro wage_payday_month () 12)
 (define-macro wage_payday_day   () 1)
 
-; The 0..1 wealth dimension: carried coins plus the estate a home stands for, normalised
+; The 0..1 wealth dimension: the estate a home stands for, normalised
 ; off the 0..100 surface (classify-wealth).
-(define-macro wealth_coin_div () 120.0)   ; coins -> wealth points
 (define-macro wealth_age_min () 15)       ; the age a man's wealth is first reckoned
