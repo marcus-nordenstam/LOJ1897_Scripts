@@ -660,6 +660,31 @@
 ( next-episode ?_you ?_then )
 .
 
+; --- 11. WITNESS: what a man had on --------------------------------------------
+; Whatever the man saw him wearing at the time asked about (?_then when the question names none):
+; the articles, each a kind; "what was on his head" narrows to the part an article is worn on.
+"what $verb(VERB|be) $who(Q_NP) wearing $when(WHEN)"
+( worn-during $who(Q_NP) [k prop ] [k body-part ] $when(WHEN) ).target
+.
+"what was $who(Q_NP) wearing"
+( worn-during $who(Q_NP) [k prop ] [k body-part ] ?_then ).target
+.
+"what is $who(Q_NP) wearing"
+( every { $who(Q_NP) /pres wear ? } ).target
+.
+"what was on $who(POSS) $part(KIND|/isa|body-part) $when(WHEN)"
+( worn-during $who(POSS) [k prop ] $part(KIND|/isa|body-part) $when(WHEN) ).target
+.
+"what was on $who(POSS) $part(KIND|/isa|body-part)"
+( worn-during $who(POSS) [k prop ] $part(KIND|/isa|body-part) ?_then ).target
+.
+"was $who(Q_NP) wearing a $article(KIND|/isa|prop) $when(WHEN)"
+( wore-during $who(Q_NP) $article(KIND|/isa|prop) $when(WHEN) )
+.
+"was $who(Q_NP) wearing a $article(KIND|/isa|prop)"
+( wore-during $who(Q_NP) $article(KIND|/isa|prop) ?_then )
+.
+
 
 ; =============================================================================
 ; OBJECT-CENTRIC FORMS

@@ -54,7 +54,7 @@
                    condition pregnant-when sexual-orient fatigue hunger adrenaline sleepiness appetite strain tedium social-hunger pain
                    openness intellect industriousness orderliness enthusiasm assertiveness compassion politeness
                    volatility withdrawal devoutness narcissism machiavellianism psychopathy sadism strength dexterity
-                   agility endurance eyesight pregnant-by awareness internment carrying-cash-pile)
+                   agility endurance eyesight pregnant-by awareness internment carrying-cash-pile wear)
             (structs left-hand right-hand head left-eye right-eye mouth torso))
           (child human-npc
             (decorations
@@ -136,7 +136,7 @@
         (states stolen-from)
         (spatials gripped-by grip space in-stack bounds)
         (attrs variant birth-date color condition writing grip-force addressee
-               addressee-duty destination blemishes scribbles)
+               addressee-duty destination blemishes scribbles worn-on)
         (attr name (auto-percept) (ext-per obs)))
       (population (cap 32768) (blocks-spots) (non-occluder))
       (child container (+ facets totable) (facets totable)
@@ -156,19 +156,19 @@
       ; garment tools list a thing as wearable when its kind sits under either.
       (child accessory (+ facets totable) (facets totable)
         (children cufflink umbrella backpack)
-        (child ring
+        (child ring (worn-on ring-finger)
           (children engagement-ring wedding-band))
-        (child hat
+        (child hat (worn-on head)
           (children bowler))
-        (child eyewear
+        (child eyewear (worn-on head)
           (children spectacles monocle))
         (child mouth-accessory
           (children pipe cigar cigarette-holder))
         ; Footwear, the muddy-prints clue class.
-        (child footwear
+        (child footwear (worn-on feet)
           (children boots shoes)))
-      (child garment (+ facets totable) (facets totable)
-        ; Grouped by the body socket a garment binds to.
+      (child garment (+ facets totable) (facets totable) (worn-on torso)
+        ; Grouped by the body part a garment is worn on: the torso unless a group says otherwise.
         (children police-uniform)
         (child dress
           (children summer-dress evening-gown nightgown))
@@ -180,15 +180,15 @@
           (children frock-coat tailcoat morning-coat duster trench-coat jacket overcoat))
         (child cloak
           (children cape shawl))
-        (child lower-garment
+        (child lower-garment (worn-on legs)
           (children trousers breeches skirt petticoat bloomers))
         (child belt
           (children sash))
-        (child neckwear
+        (child neckwear (worn-on neck)
           (children scarf necktie bowtie cravat collar))
         (child chestwear
           (children suspenders holster gun-strap watch-chain))
-        (child gloves
+        (child gloves (worn-on hand)
           (children gauntlets mittens)))
       ; Purpose-built instruments of harm. Each leaf is naturally a
       ; weapon (designed for combat / violence) - non-weapon items
@@ -687,13 +687,13 @@
         (child hand
           (child right-hand (motor) (side right)
             (decorations
-              (attrs -variant -birth-date -name wear blemishes)
+              (attrs -variant -birth-date -name blemishes)
               (spatials grip)
               (structs right-ring-finger))
             (population (cap 4352) (non-occluder)))
           (child left-hand (motor) (side left)
             (decorations
-              (attrs -variant -birth-date -name wear blemishes)
+              (attrs -variant -birth-date -name blemishes)
               (spatials grip)
               (structs left-ring-finger))
             (population (cap 4352) (non-occluder))))
@@ -708,7 +708,7 @@
         (child left-arm (motor) (side left))
         (child finger
           (decorations
-            (attrs -variant -birth-date -name wear blemishes)
+            (attrs -variant -birth-date -name blemishes)
             (spatials grip))
           (population (cap 8704) (non-occluder))
           (child ring-finger
@@ -727,6 +727,10 @@
         (child torso
           (decorations (attrs -variant -birth-date -name blemishes))
           (population (cap 4096) (non-occluder)))
+        ; Parts apparel is worn on and nothing acts with: the neck a cravat goes round, the feet
+        ; boots go on. The legs trousers go on are the legs motor above.
+        (child neck)
+        (child feet)
         (child mind (motor)))
       ; A structure's own fabric - its walls, its roof, the signs on its face - shared by its
       ; rooms and in none of them. A door or a window is the rooms' it opens into.

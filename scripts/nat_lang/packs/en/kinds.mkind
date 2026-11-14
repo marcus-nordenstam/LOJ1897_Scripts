@@ -156,3 +156,23 @@ birthday-party                birthday party
 sporting-occasion             sporting occasion
 church-service                church service
 market-day                    market day
+
+; === apparel (things.mon accessory / garment) ===================================
+engagement-ring               engagement ring
+wedding-band                  wedding band
+cigarette-holder              cigarette holder
+summer-dress                  summer dress
+evening-gown                  evening gown
+police-uniform                police uniform
+frock-coat                    frock coat
+morning-coat                  morning coat
+trench-coat                   trench coat
+gun-strap                     gun strap
+watch-chain                   watch chain
+
+; === body parts apparel is worn on (things.mon body-part) =======================
+ring-finger                   ring finger
+left-ring-finger              left ring finger
+right-ring-finger             right ring finger
+left-hand                     left hand
+right-hand                    right hand

@@ -272,6 +272,18 @@ _
 $person(Q_NP)
 .
 
+"his"
+?_third_m
+.
+
+"her"
+?_third_f
+.
+
+"their"
+?_third_s
+.
+
 ; An address, taken apart by its slots (`[address <slot> <$hole | _> ..]`): every address the
 ; realizer says is said here.
 :ADDRESS

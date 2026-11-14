@@ -5,6 +5,14 @@
 $kind(KIND)
 .
 
+; Things the speaker cannot name, each said by its kind - the bare kinds the codec gives an unnamed
+; prop ("a bowler, a wedding band, and an overcoat"). Oxford-joined as NP_PLUR is.
+:THING_PLUR
+"a $kind(KIND|/isa|prop)"                                       $kind(KIND|/isa|prop)                                  .
+"a $kind(KIND|/isa|prop) and a $kind(KIND|/isa|prop)"           $kind(KIND|/isa|prop) and $kind(KIND|/isa|prop)        .
+"a $kind(KIND|/isa|prop) ++, and a $kind(KIND|/isa|prop)"       $kind(KIND|/isa|prop) , and $kind(KIND|/isa|prop)      .
+"a $kind(KIND|/isa|prop) ++, $things(THING_PLUR)"               $kind(KIND|/isa|prop) , $things(THING_PLUR)            .
+
 
 ; Plural-only kind class for kind-quantified content requests like
 ; "tell me about your brothers" / "tell me about your interests" /

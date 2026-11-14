@@ -961,6 +961,18 @@
       (else (bind (recalled-clock /start /told ?episode) ?told)
             (msg /utterable /reply [] ?told ?anchor))))
 
+; (worn-during ?wearer ?article ?part ?interval) - the beliefs of what @self saw ?wearer wearing at some
+; time in ?interval: articles of kind ?article ([k prop] for any) on ?part ([k body-part] for all of him).
+(define-func worn-during (?wearer ?article ?part ?interval)
+  (every {?wearer wear ?article ?part /during ?interval}))
+
+; (wore-during ?wearer ?article ?interval) - whether @self saw ?wearer wearing a ?article in ?interval:
+; @unknown when he saw nothing of what ?wearer had on then.
+(define-func wore-during (?wearer ?article ?interval)
+  (cond (case (none {?wearer wear ? /during ?interval}) @unknown)
+        (case (none {?wearer wear ?article /during ?interval}) @false)
+        (else @true)))
+
 ; (answer-to ?qs ?partner) - what @self says to ?partner's question ?qs: its content evaluated in
 ; his mind, or "nothing much" when it asked his news and he has none. What a man does is answered
 ; with the whole fact, whose it is as well as what: "I am a superintendent at the Land Registry".

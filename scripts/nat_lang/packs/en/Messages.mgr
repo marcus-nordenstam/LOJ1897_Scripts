@@ -53,10 +53,15 @@
 $form(FORM)
 .
 
-; Bare kind (e.g. "a beer")
+; Bare kind of thing (e.g. "a beer"); a category ("middle class") is said bare, as a noun phrase.
 
-"$kind(INDEF_KIND)"
-( msg [] $kind(INDEF_KIND) )
+"$kind(INDEF_KIND|/isa|object)"
+( msg [] $kind(INDEF_KIND|/isa|object) )
+.
+
+"$things(THING_PLUR)"
+( msg [] $things(THING_PLUR) )
+:: realize-only
 .
 
 ; Then non-formulaics:

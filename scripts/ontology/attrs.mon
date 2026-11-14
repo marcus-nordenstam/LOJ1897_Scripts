@@ -43,10 +43,10 @@
 ; addressee is visible on sight, so a mind that observes the letter internalizes
 ; {letter addressee <person>} - WITHOUT learning the message (that needs reading).
 ; The role-based mail-reading binds a letter via this belief.
-(attr addressee (type name) (per obs) (auto-percept))
+(attr addressee (type name) (per obs) (auto-percept) (belief-timeout 2 d))
 ; The DUTY a document is addressed to ("To the Recruiting Officer") - the office
 ; envelope line, matched against the reader's own duty-to aux by take-my-letters.
-(attr addressee-duty (type kind task) (per obs) (auto-percept))
+(attr addressee-duty (type kind task) (per obs) (auto-percept) (belief-timeout 2 d))
 
 ; Conditions & properties. Conceptual: kind-typed; @excl lives on the concept.
 ; condition is perceptible on sight: liveness (alive/dead) is visible, so a
@@ -59,7 +59,7 @@
 ; Anything but awake is OBLIVIOUS: the mind hears and feels but neither sees nor
 ; thinks. Mirrors like condition, so a witness who observes the body internalizes
 ; {them awareness asleep|unconscious}; @excl (concept-side) supersedes the prior value.
-(attr awareness (type kind) (default awake) (spec-attr awareness) (per obs) (auto-percept))
+(attr awareness (type kind) (default awake) (spec-attr awareness) (per obs) (auto-percept) (belief-timeout 2 h))
 ; Interment axis - human-npc only. Default unburied, so anyone who observes a
 ; person holds {them internment unburied}; the burial rite mints buried
 ; belief-side, which @excl-supersedes the unburied percept in every witness.
@@ -71,11 +71,13 @@
 (attr sound-sensor (type sound-sensor))
 (attr physical-motors (type physical-motors))
 
-; Body structure
-; Hands are integral to reasoning - they get their own attrs even though they also appear in parts.
-; Body parts are FELT internally (the NPC always knows their own body) AND observed externally
-; (others see your hands when they look at you). Same int-feel-ext-obs split as `name`.
-(attr wear (type entity) (per obs) (auto-percept))
+; What a man has on: every article of apparel he wears, each on the body part its own `worn-on`
+; names - a bowler on his head, a band on his left ring finger. Seen with him, and held as
+; {<man> wear <article> <part>}: the part rides as the aux, read off the article.
+(attr wear (type entity array 16) (per obs) (auto-percept) (lookup-aux worn-on) (belief-timeout 3 h))
+; The body part an article of apparel is worn on (a body-part kind); read off it into its wearer's
+; `wear` beliefs, never perceived as a fact of the article alone.
+(attr worn-on (type kind body-part) (imperceptible))
 
 ; Demographics
 (attr game-role (type kind) (per obs) (auto-percept) (unaware))
@@ -185,7 +187,7 @@
 
 ; Accumulated intoxication, 0..1 - the get-drunk seed event bumps it; the F3.7
 ; sobriety classifier reads it (see hsim_derive.cc).
-(attr intoxication (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl) (continuous))
+(attr intoxication (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl) (continuous) (belief-timeout 2 h))
 
 ; Gambling addiction, 0..1 (1 = morbidly addicted) - a behavioural addiction,
 ; the standing DISPOSITION to gamble (not an act, not a specific game). The
@@ -249,7 +251,7 @@
 ; attraction stance scalar.
 (attr attractiveness (type float) (range 0 1) (int-per feel) (ext-per obs) (state-flags-tar @excl))
 ; Relationships
-(attr pregnant-when (type date) (per obs) (state-flags-tar @excl) (auto-percept))
+(attr pregnant-when (type date) (per obs) (state-flags-tar @excl) (auto-percept) (belief-timeout 270 d))
 ; The father of the child she carries.
 (attr pregnant-by (type entity) (per feel) (state-flags-tar @excl))
 
@@ -285,20 +287,20 @@
 ; FEELS both on a pile he has stowed about him (his carrying-cash-pile).
 (attr content-kind (type kind thing) (int-per feel) (ext-per obs) (auto-percept))
 ; The dish a food pile holds (STOCK-LARDER), seen by whoever sees the pile: what eating from it meets.
-(attr dish (type kind food) (int-per feel) (ext-per obs) (auto-percept))
-(attr count (type int) (range 0 1000000) (int-per feel) (ext-per obs) (auto-percept))
+(attr dish (type kind food) (int-per feel) (ext-per obs) (auto-percept) (belief-timeout 1 h))
+(attr count (type int) (range 0 1000000) (int-per feel) (ext-per obs) (auto-percept) (belief-timeout 6 h))
 
 ; Weather (region)
-(attr rain (type kind strength-measurement) (default heavy) (per obs) (auto-percept))
-(attr snow (type kind strength-measurement) (default none) (per obs) (auto-percept))
-(attr fog (type kind strength-measurement) (default none) (per obs) (auto-percept))
-(attr wind (type kind strength-measurement) (default none) (per obs) (auto-percept))
-(attr sky (type kind sky-condition) (default clear) (per obs) (auto-percept))
+(attr rain (type kind strength-measurement) (default heavy) (per obs) (auto-percept) (belief-timeout 1 h))
+(attr snow (type kind strength-measurement) (default none) (per obs) (auto-percept) (belief-timeout 1 h))
+(attr fog (type kind strength-measurement) (default none) (per obs) (auto-percept) (belief-timeout 1 h))
+(attr wind (type kind strength-measurement) (default none) (per obs) (auto-percept) (belief-timeout 1 h))
+(attr sky (type kind sky-condition) (default clear) (per obs) (auto-percept) (belief-timeout 1 h))
 
 ; Region mood - non-sentient archetype, so per Q4 we keep mood state on the
 ; region itself as parallel-array attrs. Updated by run_region_mood_pass.
-(attr mood-kinds (type kind mood array 8) (state "mood") (per obs) (auto-percept))
-(attr mood-intensities (type int array 8) (range 0 100) (per obs))
+(attr mood-kinds (type kind mood array 8) (state "mood") (per obs) (auto-percept) (belief-timeout 30 min))
+(attr mood-intensities (type int array 8) (range 0 100) (per obs) (belief-timeout 30 min))
 (attr mood-set-dates (type date array 8) (imperceptible))
 
 ; Premises open/closed STATUS (no-telepathy teardown). A perceivable PHYSICAL fact the
@@ -356,7 +358,7 @@
 ; the recipient's home / workplace and the mail service routes by it. Perceptible like
 ; `addressee`: the delivery line is written on the outside, so observing the letter reads it
 ; without reading the message.
-(attr destination (type address) (per obs) (auto-percept))
+(attr destination (type address) (per obs) (auto-percept) (belief-timeout 2 d))
 
 ; Address-numbering POLICY (lives on the ROAD; see things.mon (road)). Authored in the
 ; GrymEngine Spline Tool and pushed by the Player at scene load. These tell the
@@ -373,7 +375,7 @@
 (attr address-ascends-forward (type int) (range 0 1) (imperceptible))
 
 ; Fluid
-(attr fluid-amount (type float) (range 0 1) (per obs) (auto-percept) (state-flags-tar @excl))
+(attr fluid-amount (type float) (range 0 1) (per obs) (auto-percept) (state-flags-tar @excl) (belief-timeout 15 min))
 ; Poison taint on a drink fluid (interrogation detail plan): the concrete
 ; poison kind (Objects.mon `fluid > poison`) a wine / tea / water fluid was
 ; laced with. IMPERCEPTIBLE - poison in a drink is not seen by looking; it
