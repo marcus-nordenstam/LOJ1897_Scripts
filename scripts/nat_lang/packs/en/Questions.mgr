@@ -651,7 +651,7 @@
 ( company-during ?_you ?_then )
 .
 "[when|what time] did you leave [there|]"
-( recalled-clock /start ( next-episode ?_you ?_then go-to ) )
+( reckoned-time ( next-episode ?_you ?_then go-to ) )
 .
 "what did you do [next|after that|then]"
 ( next-episode ?_you ?_then )

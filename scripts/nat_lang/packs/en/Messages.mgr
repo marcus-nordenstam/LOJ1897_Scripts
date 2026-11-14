@@ -30,6 +30,23 @@
 :: realize-only
 .
 
+; A time reckoned from the meal before it, when he no longer knows the clock exactly: the meal, and the
+; clock it puts the time at.
+"well ++, it was after my $meal(KIND) ++, so maybe $t(NP) ++?"
+( msg [] $t(NP) { ?_I /past eat $meal(KIND) ? } )
+:: realize-only
+.
+
+"it was after my $meal(KIND) ++, so it must have been around $t(NP)"
+( msg [] $t(NP) { ?_I /past eat $meal(KIND) ? } )
+:: realize-only terse curt
+.
+
+"let me think ++ - I had had my $meal(KIND) ++, so it would have been around $t(NP) ++, I suppose"
+( msg [] $t(NP) { ?_I /past eat $meal(KIND) ? } )
+:: realize-only elaborated flowery
+.
+
 ; Formulaic phrases
 
 "$form(FORM)"

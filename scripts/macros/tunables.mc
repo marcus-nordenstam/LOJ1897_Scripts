@@ -263,6 +263,9 @@
 ; his obligation to bury it strains him.
 (define-macro burial_grace_days () 90)
 
+; How long after a meal a man still reckons a time from it: "it was after my supper, so ..".
+(define-macro time_anchor_hours () 6)
+
 ; The politeness above which a man who feels nothing for a misfortune he is told of shows a
 ; sympathy he does not feel.
 (define-macro k-courtesy-politeness () 0.6)

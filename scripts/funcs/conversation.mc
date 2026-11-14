@@ -937,6 +937,30 @@
 (define-func self-home-room (?place ?room)
   (self-home ?place))
 
+; (time-anchor-before ?episode) - the meal @self remembers ending within (time_anchor_hours) before
+; ?episode began, the latest of them: what he reckons a time he no longer knows exactly from.
+; @nothing when there is none.
+(define-func time-anchor-before (?episode)
+  (bind @nothing ?anchor)
+  (bind (start-time ?episode) ?began)
+  (for-each ?eat (every {@self eat ? ? /past})
+    (bind (end-time ?eat) ?ended)
+    (if (and (< ?ended ?began)
+             (> ?ended (- ?began (seconds (time_anchor_hours) h)))
+             (or (unsubstantial ?anchor) (> ?ended (end-time ?anchor))))
+        (then (bind ?eat ?anchor))))
+  ?anchor)
+
+; (reckoned-time ?episode) - when @self says ?episode began: the clock he remembers, and, once he no
+; longer knows it exactly, the line that reckons it from the meal before it - the clock and the meal,
+; said "it was after my supper, so maybe ten o'clock?".
+(define-func reckoned-time (?episode)
+  (bind (time-anchor-before ?episode) ?anchor)
+  (if (or (remembered-exactly /start ?episode) (unsubstantial ?anchor))
+      (then (recalled-clock /start ?episode))
+      (else (bind (recalled-clock /start /told ?episode) ?told)
+            (msg /utterable /reply [] ?told ?anchor))))
+
 ; (answer-to ?qs ?partner) - what @self says to ?partner's question ?qs: its content evaluated in
 ; his mind, or "nothing much" when it asked his news and he has none. What a man does is answered
 ; with the whole fact, whose it is as well as what: "I am a superintendent at the Land Registry".
@@ -950,6 +974,8 @@
       (formulaic /reply [] response no-news))
     (case (and (is-clause ?searched) (eq ?searched.label job) (is-object ?answer))
       (answer-as-sure (msg /utterable /reply [] {?searched.subject job ?answer}) ?certainty))
+    (case (matches ?answer (msg ?..))
+      (answer-as-sure ?answer ?certainty))
     (else (answer-as-sure (msg /utterable /reply [] ?answer) ?certainty))))
 
 ; (answer-as-sure ?line ?certainty) - ?line as sure as @self is of it: a line he would swear to rides
