@@ -145,6 +145,14 @@ decoration hedge:
   subject:rely          -> ", you may depend on it"
   *                     -> ""
 
+; Certainty suffix: how sure the speaker is of what the line tells - its [/certainty ..] rider, which
+; a line he would swear to carries none.
+decoration certainty:
+  position: suffix
+  certainty:likely      -> ", I believe"
+  certainty:maybe       -> ", I think, though I couldn't swear to it"
+  *                     -> ""
+
 ; Address-form suffix (distillation §3.1). A deferential / formal speaker
 ; punctuates with "sir"; one fond of his listener calls him friend, one who
 ; detests him says so.

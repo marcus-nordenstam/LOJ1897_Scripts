@@ -940,15 +940,24 @@
 ; (answer-to ?qs ?partner) - what @self says to ?partner's question ?qs: its content evaluated in
 ; his mind, or "nothing much" when it asked his news and he has none. What a man does is answered
 ; with the whole fact, whose it is as well as what: "I am a superintendent at the Land Registry".
+; An answer he is less than sure of rides how sure he is ([/certainty @likely]).
 (define-func answer-to (?qs ?partner)
   (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
   (bind (nth 1 (nth (k-msg-first-content-field) ?qs)) ?searched)
+  (bind (answer-certainty ?qs ?partner) ?certainty)
   (cond
     (case (and (matches ?qs (qs ? (news-for ?..))) (unsubstantial ?answer))
       (formulaic /reply [] response no-news))
     (case (and (is-clause ?searched) (eq ?searched.label job) (is-object ?answer))
-      (msg /utterable /reply [] {?searched.subject job ?answer}))
-    (else (msg /utterable /reply [] ?answer))))
+      (answer-as-sure (msg /utterable /reply [] {?searched.subject job ?answer}) ?certainty))
+    (else (answer-as-sure (msg /utterable /reply [] ?answer) ?certainty))))
+
+; (answer-as-sure ?line ?certainty) - ?line as sure as @self is of it: a line he would swear to rides
+; nothing, any other how sure he is.
+(define-func answer-as-sure (?line ?certainty)
+  (if (= ?certainty @true)
+      (then ?line)
+      (else (set-msg-rider ?line certainty ?certainty))))
 
 ; (focus-of ?talk) - whom @self faces in ?talk: the party he is telling a line to, else the first
 ; other party in it.
