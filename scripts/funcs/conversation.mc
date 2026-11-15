@@ -953,25 +953,17 @@
 
 ; (reckoned-time ?episode) - when @self says ?episode began: the clock he remembers, and, once he no
 ; longer knows it exactly, the line that reckons it from the meal before it - the clock and the meal,
-; said "it was after my supper, so maybe ten o'clock?".
+; said "it was after my supper, so maybe ten o'clock?". A start he never saw is not known: the line
+; says so and the clock he surely saw it at, "I don't know, but she had it on at eight".
 (define-func reckoned-time (?episode)
+  (bind (recalled-clock /start ?episode) ?clock)
   (bind (time-anchor-before ?episode) ?anchor)
-  (if (or (remembered-exactly /start ?episode) (unsubstantial ?anchor))
-      (then (recalled-clock /start ?episode))
-      (else (bind (recalled-clock /start /told ?episode) ?told)
-            (msg /utterable /reply [] ?told ?anchor))))
-
-; (worn-during ?wearer ?article ?part ?interval) - the beliefs of what @self saw ?wearer wearing at some
-; time in ?interval: articles of kind ?article ([k prop] for any) on ?part ([k body-part] for all of him).
-(define-func worn-during (?wearer ?article ?part ?interval)
-  (every {?wearer wear ?article ?part /during ?interval}))
-
-; (wore-during ?wearer ?article ?interval) - whether @self saw ?wearer wearing a ?article in ?interval:
-; @unknown when he saw nothing of what ?wearer had on then.
-(define-func wore-during (?wearer ?article ?interval)
-  (cond (case (none {?wearer wear ? /during ?interval}) @unknown)
-        (case (none {?wearer wear ?article /during ?interval}) @false)
-        (else @true)))
+  (cond (case (unknown ?clock)
+          (bind (recalled-clock /start /seen ?episode) ?seen)
+          (msg /utterable /reply [] @unknown ?seen ?episode))
+        (case (or (remembered-exactly /start ?episode) (unsubstantial ?anchor)) ?clock)
+        (else (bind (recalled-clock /start /told ?episode) ?told)
+              (msg /utterable /reply [] ?told ?anchor))))
 
 ; (answer-to ?qs ?partner) - what @self says to ?partner's question ?qs: its content evaluated in
 ; his mind, or "nothing much" when it asked his news and he has none. What a man does is answered

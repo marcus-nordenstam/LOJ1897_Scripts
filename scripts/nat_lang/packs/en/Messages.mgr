@@ -47,6 +47,12 @@
 :: realize-only elaborated flowery
 .
 
+; When a thing began that he never saw begin: that he does not know, and the clock he surely saw it at.
+"I don't know ++, but $who(NP) had it on at $t(NP)"
+( msg [] @unknown $t(NP) { $who(NP) wear ? ? } )
+:: realize-only
+.
+
 ; Formulaic phrases
 
 "$form(FORM)"
