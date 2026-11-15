@@ -5,7 +5,6 @@
 (action {@self OPEN-JAW ?target}
   (duration 1.0)
   (motor mouth)
-  (obs)
   (tar @excl)
   (presentation
     (proc-anim open_jaw)

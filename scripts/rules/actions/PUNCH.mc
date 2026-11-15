@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; PUNCH - one fist blow at ?foe, NON-LETHAL: a landed punch bruises the head and knocks
-; the foe out, a graze bruises the torso, and either hurts. Witnesses SEE it (obs); the
+; the foe out, a graze bruises the torso, and either hurts. Witnesses see it; the
 ; violent-to theme and harm construal are what appraisal and the defender's counter-fight
 ; read. Blame is runtime (appraisal.cc suppresses wrong-act for a blow that answers a
 ; violent act on its own actor), never on the blow.
@@ -9,7 +9,7 @@
 (action {@self PUNCH ?foe}:?PUNCH
   (motor body)
   (track-skill-level [k martial])
-  (obs) (theme violent-to) (construed-act harm-act) (contradicts safety) (duration (seconds 1 min))
+  (theme violent-to) (construed-act harm-act) (contradicts safety) (duration (seconds 1 min))
   (effects
     (switch (land-blow)
       (on hit   (yield-evidence ?foe [k head] [k bruise])

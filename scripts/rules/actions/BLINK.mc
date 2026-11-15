@@ -5,7 +5,6 @@
 (action {@self BLINK ?target}
   (duration 0.3)
   (motor eyelid)
-  (obs)
   (tar @excl)
   (presentation
     (proc-anim blink)

@@ -11,7 +11,6 @@
 (action {@self REACH-FOR ?target ?arm}:?REACH-FOR
   (lod presented)
   (sided aux left-arm right-arm)
-  (obs)
   (tar @excl)
   (duration 0.1)
   (cap-outcome succ)

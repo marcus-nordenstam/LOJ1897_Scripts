@@ -11,7 +11,6 @@
 (action {@self TURN-TO ?target}:?TURN-TO
   (belief-timeout 1 min)
   (motor legs)
-  (obs)
   (tar @excl)
   (duration procedural)
   (presentation

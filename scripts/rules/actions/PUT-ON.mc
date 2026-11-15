@@ -9,7 +9,6 @@
 
 (action {@self PUT-ON ?article ?part}:?PUT-ON
   (motor right-hand)
-  (obs)
   (duration 0.6)
   (presentation
     (preroll 0.0) (in 0.4) (out 0.4))

@@ -53,7 +53,6 @@
 (action {@self WALK ?dest}:?WALK
   (construed-act exertion-act)
   (motor legs)
-  (obs)
   (tar @excl)
   (belief-timeout 600)
   (presentation

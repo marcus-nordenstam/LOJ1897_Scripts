@@ -6,7 +6,6 @@
   (belief-timeout 30 min)
   (duration procedural)
   (motor eyes)
-  (rsn)
   (tar @excl)
   (presentation
     (preroll 0.0) (in 0.5) (out 0.5)))

@@ -5,7 +5,6 @@
 (action {@self ARM-DRINK ?target}
   (duration 1)
   (sided target left-arm right-arm)
-  (obs)
   (tar @excl)
   (presentation
     (anim right_drink)

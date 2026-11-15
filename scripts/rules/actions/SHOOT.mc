@@ -1,13 +1,13 @@
 ; ----------------------------------------------------------------------------
 ; SHOOT - one shot at ?foe, LETHAL: a landed shot through the head kills, a graze wounds
-; the hand and may still kill (blow_succumb_prob), and either hurts. Witnesses SEE it
-; (obs); blame is runtime, never on the shot.
+; the hand and may still kill (blow_succumb_prob), and either hurts. Witnesses see it;
+; blame is runtime, never on the shot.
 ; ----------------------------------------------------------------------------
 
 (action {@self SHOOT ?foe}:?SHOOT
   (motor body)
   (track-skill-level [k martial])
-  (obs) (theme violent-to) (construed-act harm-act) (contradicts safety) (duration (seconds 1 min))
+  (theme violent-to) (construed-act harm-act) (contradicts safety) (duration (seconds 1 min))
   (effects
     (switch (land-blow)
       (on hit   (yield-evidence ?foe [k head] [k puncture-wound])

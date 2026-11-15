@@ -12,7 +12,6 @@
 (action {@self UNGRASP ?item ?hand}:?UNGRASP
   (lod presented)
   (sided aux left-hand right-hand)
-  (obs)
   (tar @excl)
   (duration 0)
   (presentation

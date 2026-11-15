@@ -50,7 +50,7 @@
       (declare-utility want)
       (effects
         ; A DRIVER (no incident-anchor): propose the hurt task, which reaches the victim and
-        ; PUNCHes them. The PUNCH is an (obs) violent action - co-present bystanders perceive it
+        ; PUNCHes them. The PUNCH is a seen violent action - co-present bystanders perceive it
         ; and their appraisal/classifiers fire naturally (the record IS the ended act-belief;
         ; blame is runtime, since the blow traces to no violence against @self).
         (maintain-proposal {@self hurt ?victim})))))

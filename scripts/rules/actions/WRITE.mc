@@ -26,7 +26,6 @@
   (belief-timeout 30 min)
   (track-skill-level [k literacy])
   (motor right-hand)
-  (obs)
   (tar @excl)
   (aux @msg @excl)
   (duration

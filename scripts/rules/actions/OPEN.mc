@@ -14,7 +14,6 @@
 
 (action {@self OPEN ?thing}:?OPEN
   (motor right-hand)
-  (obs)
   (tar [k object] @object @excl)
   (duration (open_seconds))
   (cap-outcome succ)

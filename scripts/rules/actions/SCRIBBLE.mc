@@ -8,7 +8,6 @@
 (action {@self SCRIBBLE ?thing ?sentence}:?SCRIBBLE
   (track-skill-level [k literacy])
   (motor right-hand)
-  (obs)
   (tar @excl)
   (aux @msg @excl)
   (duration (seconds 1 min))

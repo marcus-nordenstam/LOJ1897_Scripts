@@ -7,7 +7,6 @@
   (construed-act rest-act)
   (duration procedural)
   (motor legs)
-  (obs)
   (tar @excl)
   (presentation
     (anim Motion_Uni_Sitting_Talking_01)

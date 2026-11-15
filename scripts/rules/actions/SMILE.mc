@@ -6,7 +6,6 @@
   (belief-timeout 1 min)
   (duration procedural)
   (motor face)
-  (obs)
   (tar @excl)
   (presentation
     (expression smile_neutral.esp)

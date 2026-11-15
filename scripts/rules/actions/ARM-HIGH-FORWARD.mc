@@ -4,7 +4,6 @@
   (belief-timeout 1 min)
   (duration procedural)
   (sided target left-arm right-arm)
-  (obs)
   (tar @excl)
   (presentation
     (anim-left Left_Lantern_Hold)

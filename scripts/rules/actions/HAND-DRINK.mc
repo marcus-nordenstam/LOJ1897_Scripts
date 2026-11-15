@@ -5,7 +5,6 @@
 (action {@self HAND-DRINK ?target}
   (duration 1)
   (sided target left-hand right-hand)
-  (obs)
   (tar @excl)
   (construed-act aid-act)
   (presentation

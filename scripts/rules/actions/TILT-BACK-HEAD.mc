@@ -6,7 +6,6 @@
   (belief-timeout 1 min)
   (duration procedural)
   (motor head)
-  (obs)
   (tar @excl)
   (presentation
     (anim right_drink)

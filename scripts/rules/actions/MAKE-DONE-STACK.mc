@@ -15,7 +15,6 @@
 
 (action {@self MAKE-DONE-STACK ?working-stack ?where}:?MAKE-DONE-STACK
   (motor eyes)
-  (obs)
   (tar @excl)
   (duration 0)
   (presentation

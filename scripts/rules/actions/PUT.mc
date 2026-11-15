@@ -16,7 +16,6 @@
 (action {@self PUT ?item ?spot}:?PUT
   (lod unpresented)
   (motor body)
-  (obs)
   (tar @excl)
   (duration (seconds 1 min))
 

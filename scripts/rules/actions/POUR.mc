@@ -9,7 +9,6 @@
 
 (action {@self POUR ?source ?vessel}:?POUR
   (motor right-hand)
-  (obs)
   (tar @excl)
   (duration 0.8)
   (presentation

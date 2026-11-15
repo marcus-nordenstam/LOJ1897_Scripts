@@ -6,7 +6,6 @@
   (belief-timeout 1 min)
   (duration procedural)
   (motor face)
-  (obs)
   (tar @excl)
   (presentation
     (expression Scene_01_CryingLady_X_008.esp)

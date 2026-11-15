@@ -14,7 +14,6 @@
 
 (action {@self STACK-TAKE ?stack ?hand}:?STACK-TAKE
   (sided aux left-hand right-hand)
-  (obs)
   (tar @excl)
   (duration (seconds 1 min))
   (presentation

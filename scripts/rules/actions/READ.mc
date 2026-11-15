@@ -19,7 +19,6 @@
 
 (action {@self READ ?doc}:?READ
   (motor eyes)
-  (obs)
   (tar @excl)
   (presentation
     (preroll 0.0) (in 0.4) (out 0.4))

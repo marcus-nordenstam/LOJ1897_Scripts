@@ -11,7 +11,6 @@
 
 (action {@self STOW ?thing}:?STOW
   (motor mind)
-  (obs)
   (tar @excl)
   (duration 0.6)
   (presentation

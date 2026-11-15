@@ -5,7 +5,6 @@
 (action {@self STAND-UP ?target}
   (duration 1.0)
   (motor legs)
-  (obs)
   (tar @excl)
   (presentation
     (anim-flags backwards)

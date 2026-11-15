@@ -10,7 +10,6 @@
 
 (action {@self JUMP ?target}:?JUMP
   (motor legs)
-  (obs)
   (tar @excl)
   (duration 1.0)
   (cap-outcome succ)
