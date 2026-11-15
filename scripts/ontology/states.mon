@@ -785,6 +785,10 @@
 ; wonder <fact> - @self wants to know the fact clause <fact> ({?home supper-hour ?}): the motive of
 ; finding it out (drivers/want-to-know-driver.mc).
 (state wonder (tar @pattern) (self-known) (motivation))
+; means <reference> <meaning> - what the subject meant by a talk reference he said (@then, @there, @he,
+; @she, @it): the time, place, man or thing it stood for. @self wonders it of a speaker whose line their
+; talk gives no meaning (the engine begins and ends that wonder at each deliberation), and asks him.
+(state means (tar ?) (aux ?) (talkable))
 ; withhold <fact> <asker> - the subject will not tell <asker> the fact clause <fact>: he answered
 ; <asker>'s question about it "none of your business" (funcs/speech.mc), and <asker> does not ask him
 ; it again until they are closer (reflexes/withhold-lifts.mc).

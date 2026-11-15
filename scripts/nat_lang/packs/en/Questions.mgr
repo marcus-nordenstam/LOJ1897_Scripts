@@ -74,6 +74,24 @@
 ( which $who(PNAME) ?_I )
 .
 
+; What the asker meant by a then, there, he, she or it his line left without one: the time, place or
+; man it stood for, "Last Sunday".
+"when do you mean"
+( any { ?_you means @then ? } )
+.
+"where do you mean"
+( any { ?_you means @there ? } )
+.
+"who do you mean by he"
+( any { ?_you means @he ? } )
+.
+"who do you mean by she"
+( any { ?_you means @she ? } )
+.
+"what do you mean by it"
+( any { ?_you means @it ? } )
+.
+
 ; The rest of a name the asker was given: a name that says more than it, "Tom Walker".
 "$who(PNAME) who"
 ( any { $who(PNAME) name >$who(PNAME) } ).target
@@ -645,10 +663,10 @@
 ( who-was-there ( whereabouts-on ?_you ?_then ) ?_then )
 .
 "who [else|] was there $when(WHEN)"
-( who-was-there ( whereabouts-on ?_you $when(WHEN) ) $when(WHEN) )
+( who-was-there ?_there $when(WHEN) )
 .
 "who [else|] was there"
-( who-was-there ( whereabouts-on ?_you ?_then ) ?_then )
+( who-was-there ?_there ?_then )
 .
 "[when|what time] did you leave [there|]"
 ( reckoned-time ( next-episode ?_you ?_then go-to ) )

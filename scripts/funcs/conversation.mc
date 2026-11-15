@@ -517,11 +517,16 @@
   ?here)
 
 ; (prompting-line ?who ?qs) - the line ?who said to @self in the talk they are in now that named
-; what the question ?qs asks about: asking it answers that line, "Tom is ailing" - "Which Tom?".
-; @fail when ?who said none here.
+; what the question ?qs asks about: asking it answers that line, "Tom is ailing" - "Which Tom?". What
+; he meant by a then, there, he, she or it is asked of his last line, the one that left it unsaid or
+; answered the one asked before: "Who was there?" - "Where do you mean?" - "The Red Lion" - "When do
+; you mean?". @fail when ?who said none here.
 (define-func prompting-line (?who ?qs)
   (bind (nth 1 (nth (k-msg-first-content-field) ?qs)) ?asked)
-  (bind (naming-line ?who ?asked) ?line)
+  (bind (flip (and (is-clause ?asked) (eq ?asked.label means))
+              (any {?who SAY ? @self /past /most_recent})
+              (naming-line ?who ?asked))
+        ?line)
   (flip (and (is-belief ?line) (said-in-our-talk ?line ?who)) ?line @fail))
 
 ; (found-out ?fact) - @self knows what he wondered, ?fact: a fact clause he holds, or a ghost he no
@@ -686,15 +691,18 @@
         (case (matches ?msg (msg /tidings ? ~[?])) reply)
         (case (matches ?msg (msg /tidings ? ?..)) tidings)
         (case (is-object (identity-asked ?line.subject ?msg ?line)) identified)
+        (case (is-belief (meaning-awaited ?line)) identified)
         (case (and (matches ?msg (msg ?..)) (unsubstantial (msg-class-of ?msg))) statement)
         (else reply)))
 
 ; (owes-response ?line) - the heard line ?line calls for a response from @self now: a statement
-; about a man he must first ask the speaker which one he is waits for the answer.
+; about a man he must first ask the speaker which one he is waits for the answer, and so does a line
+; he wonders what its speaker meant by.
 (define-func owes-response (?line)
   (bind (line-kind ?line) ?kind)
   (and (neq ?kind reply)
-       (or (neq ?kind statement) (not (awaits-identity ?line)))))
+       (or (neq ?kind statement) (not (awaits-identity ?line)))
+       (not (awaits-meaning ?line))))
 
 ; (awaits-identity ?line) - the statement ?line told @self about a man he wonders which of several
 ; he is, and could ask its speaker: "Tom is ailing" waits on "Which Tom?".
@@ -727,21 +735,54 @@
     (on statement (statement-reply ?line))
     (else @nothing)))
 
+; (meaning-awaited ?line) - the line before ?line of its speaker's, still unanswered, that left @self
+; wondering what he meant: the line ?line answers ("Where do you mean?" - "The Red Lion"), or @nothing.
+(define-func meaning-awaited (?line)
+  (bind @nothing ?awaited)
+  (for-each ?said (every {?line.subject SAY ? @self /past})
+    (if (and (neq ?said ?line)
+             (happened-since ?line ?said)
+             (substantial (any {@self wonder {? means ? ?} /ever /caused_by ?said}))
+             (not (dealt-with ?said ?line.subject)))
+        (then (bind ?said ?awaited) (break))))
+  ?awaited)
+
+; (awaits-meaning ?line) - @self wonders what the speaker of ?line, or of the line it answers, meant by
+; the first then, there, he, she or it his talk still gives no meaning: the line waits on the answer.
+(define-func awaits-meaning (?line)
+  (bind (flip (empty (unresolved-in ?line)) (meaning-awaited ?line) ?line) ?awaited)
+  (bind (flip (is-belief ?awaited) ?awaited ?line) ?said)
+  (bind (head (unresolved-in ?said)) ?token)
+  (bind @false ?awaits)
+  (for-each ?wonder (every {@self wonder {? means ? ?} /caused_by ?said})
+    (bind ?wonder.target ?asked)
+    (if (eq ?asked.target ?token)
+        (then (bind @true ?awaits) (break))))
+  ?awaits)
+
+; (dealt-with ?said ?speaker) - @self has responded to ?speaker's line ?said, or to a line of his since.
+(define-func dealt-with (?said ?speaker)
+  (bind (any {@self respond ?speaker ? /succ /most_recent}) ?last)
+  (and (is-belief ?last)
+       (or (eq ?said ?last.auxiliary) (not (happened-since ?said ?last.auxiliary)))))
+
 ; (identified-reply ?line ?speaker) - what @self says once ?speaker's answer ?line told him which man
-; he meant: the response to ?speaker's statement that waited on it (awaits-identity) - his latest in
-; the talk before ?line that @self has not answered - or @nothing.
+; he meant, or what his then, there, he, she or it stood for: the response to ?speaker's statement or
+; question that waited on it - his latest in the talk before ?line that @self has not answered - or
+; @nothing.
 (define-func identified-reply (?line ?speaker)
   (bind @nothing ?waited)
-  (for-each ?said (every {?speaker SAY (msg ?..) @self /past})
+  (for-each ?said (every {?speaker SAY ? @self /past})
+    (bind (line-kind ?said) ?kind)
     (if (and (neq ?said ?line)
              (happened-since ?line ?said)
              (said-in-our-talk ?said ?speaker)
-             (eq (line-kind ?said) statement)
-             (none {@self tell ? ?speaker /caused_by ?said})
+             (or (eq ?kind statement) (eq ?kind inquiry))
+             (not (dealt-with ?said ?speaker))
              (or (unsubstantial ?waited) (happened-since ?said ?waited)))
         (then (bind ?said ?waited))))
   (if (is-belief ?waited)
-      (then (statement-reply ?waited))
+      (then (reply-to ?waited ?speaker))
       (else @nothing)))
 
 ; (told-fact ?line) - the fact the heard line ?line told @self, as he holds it: the belief its
@@ -971,7 +1012,7 @@
 ; An answer he is less than sure of rides how sure he is ([/certainty @likely]).
 (define-func answer-to (?qs ?partner)
   (bind (eval-msg /output_unknown_on_fail ?qs ?partner) ?answer)
-  (bind (nth 1 (nth (k-msg-first-content-field) ?qs)) ?searched)
+  (bind (nth 1 (msg-content ?qs ?partner)) ?searched)
   (bind (answer-certainty ?qs ?partner) ?certainty)
   (cond
     (case (and (matches ?qs (qs ? (news-for ?..))) (unsubstantial ?answer))

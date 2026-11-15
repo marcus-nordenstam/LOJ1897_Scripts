@@ -31,6 +31,7 @@
   (lod unpresented)
   (role ?speaker {?speaker SAY ?msg @self /past /most_recent}:?line
                  (or (eq (line-kind ?line) inquiry) (eq (line-kind ?line) flirtation))
+                 (empty (unresolved-in ?line))
                  -{@self tell ? ?speaker /succ /caused_by ?line}
                  (select (score (- 0 (elapsed /seconds (start-time ?line)))) (policy argmin))
     (declare-utility obligation)
