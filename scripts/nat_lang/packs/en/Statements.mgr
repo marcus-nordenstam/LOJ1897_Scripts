@@ -23,6 +23,16 @@
 @unknown%
 .
 
+"I don't know, maybe"
+@maybe
+:: realize-only
+.
+
+"I think it's unlikely"
+@unlikely
+:: realize-only
+.
+
 "Yes"
 @true
 .
