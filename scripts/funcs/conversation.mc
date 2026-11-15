@@ -735,14 +735,16 @@
     (on statement (statement-reply ?line))
     (else @nothing)))
 
-; (meaning-awaited ?line) - the line before ?line of its speaker's, still unanswered, that left @self
-; wondering what he meant: the line ?line answers ("Where do you mean?" - "The Red Lion"), or @nothing.
+; (meaning-awaited ?line) - the line before ?line of its speaker's in the talk they are in, still
+; unanswered, that left @self wondering what he meant: the line ?line answers ("Where do you mean?" -
+; "The Red Lion"), or @nothing.
 (define-func meaning-awaited (?line)
   (bind @nothing ?awaited)
   (for-each ?said (every {?line.subject SAY ? @self /past})
     (if (and (neq ?said ?line)
              (happened-since ?line ?said)
              (substantial (any {@self wonder {? means ? ?} /ever /caused_by ?said}))
+             (said-in-our-talk ?said ?line.subject)
              (not (dealt-with ?said ?line.subject)))
         (then (bind ?said ?awaited) (break))))
   ?awaited)
