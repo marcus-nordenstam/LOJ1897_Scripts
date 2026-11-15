@@ -10,7 +10,7 @@
 (driver respond-driver
   (lod presented)
   (role ?talk {?talk participant @self}:?part
-    (role ?speaker {?speaker SAY ?msg @self /past /most_recent}:?line
+    (role ?speaker {?speaker SAY ? @self /past /most_recent}:?line
                    (owes-response ?line)
                    -{@self respond ?speaker ?line /succ}
                    -{@self tell ? ?speaker /succ /caused_by ?line}
@@ -29,7 +29,7 @@
 ; it straight to the one who said it (tasks/respond-task.mc), the oldest first.
 (driver respond-direct-driver
   (lod unpresented)
-  (role ?speaker {?speaker SAY ?msg @self /past /most_recent}:?line
+  (role ?speaker {?speaker SAY ? @self /past}:?line
                  (or (eq (line-kind ?line) inquiry) (eq (line-kind ?line) flirtation))
                  (empty (unresolved-in ?line))
                  -{@self tell ? ?speaker /succ /caused_by ?line}
