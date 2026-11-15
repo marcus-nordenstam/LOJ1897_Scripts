@@ -803,8 +803,18 @@
     (child jilt (construed-act abandonment-act wrong-act))
     (child urge (construed-act coercion-act))
     ; The dialogue-line classes: each is said by its own dialogue task, and a reactive driver
-    ; finds the class inline on the heard line, (msg /smalltalk ?..).
-    (children inquiry reply smalltalk tidings flirtation))
+    ; finds the class inline on the heard line, (msg /smalltalk ?..). The kind of a heard line
+    ; (line-kind, funcs/conversation.mc) is one of these; a class its hearer owes an answer carries
+    ; answer-owed (wherever it is said to him) or answer-owed-in-talk (from a party of his
+    ; conversation) - reflexes/obligation-respond.mc.
+    (child inquiry (facets answer-owed))
+    (child flirtation (facets answer-owed))
+    (child smalltalk (facets answer-owed-in-talk))
+    (child tidings (facets answer-owed-in-talk))
+    (child opener (facets answer-owed-in-talk))
+    (child statement (facets answer-owed-in-talk))
+    (child identified (facets answer-owed-in-talk))
+    (child reply))
 
   (child sky-condition
     (children clear overcast cloudy))

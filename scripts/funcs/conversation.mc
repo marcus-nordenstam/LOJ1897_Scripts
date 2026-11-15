@@ -678,14 +678,14 @@
 ; about it. A response itself calls for none. The
 ; respond driver (drivers/respond-driver.mc) owes it, the respond task says it, caused by the line.
 
-; ; (line-kind ?line) - the kind of move the heard line ?line is: inquiry (a question), opening-phrase
-; (a hail), flirtation (a flirt), smalltalk (a remark), tidings (news), identified (the answer to
-; @self's asking which man was meant), statement (an unclassed claim), or reply - anything else that
-; answers a line rather than calling for an answer.
+; (line-kind ?line) - the class of the heard line ?line, a msg-class leaf (ontology/concepts.mon):
+; inquiry (a question), opener (a hail), flirtation (a flirt), smalltalk (a remark), tidings (news),
+; identified (the answer to @self's asking which man was meant), statement (an unclassed claim), or
+; reply - anything else that answers a line rather than calling for an answer.
 (define-func line-kind (?line)
   (bind ?line.target ?msg)
   (cond (case (matches ?msg (qs ?..)) inquiry)
-        (case (matches ?msg (formulaic ? opening-phrase ?..)) opening-phrase)
+        (case (matches ?msg (formulaic ? opening-phrase ?..)) opener)
         (case (matches ?msg (formulaic ? flirt compliment ?..)) flirtation)
         (case (matches ?msg (msg /smalltalk ? ?..)) smalltalk)
         (case (matches ?msg (msg /tidings ? ~[?])) reply)
@@ -727,7 +727,7 @@
   (bind ?line.target ?msg)
   (switch (line-kind ?line)
     (on inquiry (answer-to ?msg ?speaker))
-    (on opening-phrase (opening-reply ?msg ?speaker))
+    (on opener (opening-reply ?msg ?speaker))
     (on flirtation (flirt-reply ?speaker))
     (on smalltalk (smalltalk-reply (conversation-of @self)))
     (on tidings (tidings-reply ?speaker))
