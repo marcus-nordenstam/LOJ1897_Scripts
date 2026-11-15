@@ -639,16 +639,16 @@
 ; Who was with him, when he left, what he did next: at the time the talk is about (?_then, the last
 ; time a line of it named) unless the question names one.
 "who [saw|was with] you $when(WHEN)"
-( company-during ?_you $when(WHEN) )
+( who-was-there ( whereabouts-on ?_you $when(WHEN) ) $when(WHEN) )
 .
 "who [saw|was with] you"
-( company-during ?_you ?_then )
+( who-was-there ( whereabouts-on ?_you ?_then ) ?_then )
 .
 "who [else|] was there $when(WHEN)"
-( company-during ?_you $when(WHEN) )
+( who-was-there ( whereabouts-on ?_you $when(WHEN) ) $when(WHEN) )
 .
 "who [else|] was there"
-( company-during ?_you ?_then )
+( who-was-there ( whereabouts-on ?_you ?_then ) ?_then )
 .
 "[when|what time] did you leave [there|]"
 ( reckoned-time ( next-episode ?_you ?_then go-to ) )
