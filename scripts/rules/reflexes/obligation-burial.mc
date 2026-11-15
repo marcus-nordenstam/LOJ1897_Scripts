@@ -4,6 +4,7 @@
 ; ----------------------------------------------------------------------------
 
 (reflex {?corpse condition [k dead]}
+  (lint-waive reflex-duplicate-pattern)
   (role ?office [k priest] {@self job ?office}:?job
     (when (and {?corpse internment [k unburied]}
                (none {@self obligation {@self bury ?corpse} ?corpse})))
