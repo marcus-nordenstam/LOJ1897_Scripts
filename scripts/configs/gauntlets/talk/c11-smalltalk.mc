@@ -5,7 +5,7 @@
 ; agreeing. The second is not: there is no talk, so nobody is ill at ease in one, and smalltalk,
 ; which only a talk has, never happens. Seeds state only; the validate func reads.
 
-(include "conversation.mc")
+(include "talk.mc")
 
 (define-list config
   seeds 4242
@@ -29,10 +29,10 @@
 ; (c11-lodgers ?home ?lodger ?cook) - the two under ?home's roof know each other and have seen the
 ; day's weather; he counts her a friend.
 (define-func c11-lodgers (?home ?lodger ?cook)
-  (conversation-household ?home)
+  (talk-household ?home)
   (spatial ?home town /env): ?town
-  (conversation-see-weather ?lodger ?town)
-  (conversation-see-weather ?cook ?town)
+  (talk-see-weather ?lodger ?town)
+  (talk-see-weather ?cook ?town)
   (enter-mind ?lodger)
   (observe ?cook): ?c11-friend
   (begin-belief {@self friend ?c11-friend})
@@ -40,12 +40,12 @@
 
 (define-func c11-startup ()
   (seed_property)
-  (conversation-first-home): ?home
+  (talk-first-home): ?home
   (make-human ?home [k lower] [k male]): ?lodger
   (cast lodger ?lodger)
   (make-human ?home [k lower] [k female]): ?cook
   (cast cook ?cook)
-  (conversation-far-home ?home): ?far-home
+  (talk-far-home ?home): ?far-home
   (make-human ?far-home [k lower] [k male]): ?lodger-u
   (cast lodger-u ?lodger-u)
   (make-human ?far-home [k lower] [k female]): ?cook-u
@@ -67,8 +67,8 @@
   (expect (or (in-mind ?lodger (answered-smalltalk ?cook)) (in-mind ?cook (answered-smalltalk ?lodger)))
           "c11: no remark on the weather was answered")
   (expect (in-mind ?cook (unsubstantial (any {@self unease ?}))) "c11: she is still ill at ease")
-  (expect (unsubstantial (conversation-of ?lodger)) "c11: he is still in a conversation")
-  (expect (unsubstantial (conversation-of ?cook)) "c11: she is still in a conversation")
+  (expect (unsubstantial (talk-of ?lodger)) "c11: he is still in a talk")
+  (expect (unsubstantial (talk-of ?cook)) "c11: she is still in a talk")
   ; The unpresented pair: no talk, so no smalltalk.
   (expect (= (+ (acts ?lodger-u hail started) (acts ?cook-u hail started)) 0) "c11: the far pair hailed - there is no hailing unpresented")
   (expect (= (+ (acts ?lodger-u smalltalk started) (acts ?cook-u smalltalk started)) 0) "c11: the far pair made smalltalk - smalltalk is only had in a talk"))

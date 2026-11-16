@@ -49,7 +49,7 @@
   (condition (flip (is-kind ?kind) (substantial (find-building-found ?kind)) @true))
   (achieve (maintain-proposal {@self find-building ?kind (current-exterior @self)})))
 
-; He would be heard calling to ?audience, a man; a broadcast or a conversation is said where he
+; He would be heard calling to ?audience, a man; a broadcast or a talk is said where he
 ; stands. He goes to stand within earshot of him.
 (precondition in-call-of (?audience)
   (condition (flip (is-a ?audience [k human]) (within-call ?audience) @true))

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; classify-unease - a man talking with someone he is not close to is ill at ease in that
-; conversation: it forms when he takes part in it with such a one, and it goes when he no longer
+; talk: it forms when he takes part in it with such a one, and it goes when he no longer
 ; takes part. The motive of smalltalk (drivers/smalltalk-driver.mc).
 ; ----------------------------------------------------------------------------
 

@@ -1,4 +1,4 @@
-; The conversation gauntlets' shared funcs, included by one config per case (c01-pair.mc,
+; The talk gauntlets' shared funcs, included by one config per case (c01-pair.mc,
 ; c02-three.mc ..). Seeds state only; nothing here behaves.
 
 ; The first residential building that holds a unit, as its unit: a chapel is a residential
@@ -6,7 +6,7 @@
 (include "../../../macros/occasion-macros.mc")
 (include "../../../macros/home-macros.mc")
 
-(define-func conversation-first-home ()
+(define-func talk-first-home ()
   (bind @nothing ?home)
   (for-each ?house (env-entities [k residential-building])
     (head (spatial ?house parts [k unit] /env)): ?unit
@@ -16,11 +16,11 @@
 
 ; How far apart the presented group's home and the unpresented group's must be: past the
 ; presentation bubble's range (96 m, t_presentation_bubble::k_present_range_m) with room to spare.
-(define-macro k-conversation-apart-m () 200.0)
+(define-macro k-talk-apart-m () 200.0)
 
-; (conversation-far-home ?near) - the residential unit farthest from ?near: the unpresented group's
+; (talk-far-home ?near) - the residential unit farthest from ?near: the unpresented group's
 ; home, out of the presented group's bubble and earshot.
-(define-func conversation-far-home (?near)
+(define-func talk-far-home (?near)
   (bind @nothing ?far)
   (bind 0.0 ?far-m)
   (for-each ?house (env-entities [k residential-building])
@@ -29,12 +29,12 @@
         (then
           (distance (spatial ?unit bounds /env) (spatial ?near bounds /env)): ?unit-m
           (if (> ?unit-m ?far-m) (then (bind ?unit ?far) (bind ?unit-m ?far-m))))))
-  (check (> ?far-m (k-conversation-apart-m)))
+  (check (> ?far-m (k-talk-apart-m)))
   ?far)
 
-; (conversation-third-home ?a ?b) - the residential unit farthest from both ?a and ?b: a home for
+; (talk-third-home ?a ?b) - the residential unit farthest from both ?a and ?b: a home for
 ; people the groups know of but who live in neither of their homes.
-(define-func conversation-third-home (?a ?b)
+(define-func talk-third-home (?a ?b)
   (bind @nothing ?third)
   (bind 0.0 ?third-m)
   (for-each ?house (env-entities [k residential-building])
@@ -45,13 +45,13 @@
           (distance (spatial ?unit bounds /env) (spatial ?b bounds /env)): ?unit-b-m
           (min ?unit-a-m ?unit-b-m): ?unit-m
           (if (> ?unit-m ?third-m) (then (bind ?unit ?third) (bind ?unit-m ?third-m))))))
-  (check (> ?third-m (k-conversation-apart-m)))
+  (check (> ?third-m (k-talk-apart-m)))
   ?third)
 
-; (conversation-engage ?woman ?home) - ?woman has just got engaged to a man of ?home: news of her own
+; (talk-engage ?woman ?home) - ?woman has just got engaged to a man of ?home: news of her own
 ; she has told nobody. A belief seeded before the run is not born in it, so the news the speech-value
 ; reflex would mint is seeded with it.
-(define-func conversation-engage (?woman ?home)
+(define-func talk-engage (?woman ?home)
   (make-human ?home [k lower] [k male]): ?ce-man
   (enter-mind ?woman)
   (observe ?ce-man): ?ce-fiance
@@ -63,9 +63,9 @@
 (define-func holds-engagement-of (?other)
   (substantial (any {?other fiancee ?})))
 
-; (conversation-household ?home) - everyone under ?home's roof knows every other one by name, and
+; (talk-household ?home) - everyone under ?home's roof knows every other one by name, and
 ; that they share the home.
-(define-func conversation-household (?home)
+(define-func talk-household (?home)
   (for-each ?ch-a (env-entities [k human])
     (if (spatial ?ch-a unit ?home /env)
         (then
@@ -73,8 +73,8 @@
             (if (and (neq ?ch-a ?ch-b) (spatial ?ch-b unit ?home /env))
                 (then (seed-housemate-half ?ch-a ?ch-b))))))))
 
-; (conversation-wed ?a ?b) - ?a and ?b are married, each in his own mind.
-(define-func conversation-wed (?a ?b)
+; (talk-wed ?a ?b) - ?a and ?b are married, each in his own mind.
+(define-func talk-wed (?a ?b)
   (enter-mind ?a)
   (observe ?b): ?cw-b
   (begin-belief {@self spouse ?cw-b})
@@ -84,9 +84,9 @@
   (begin-belief {@self spouse ?cw-a})
   (exit-mind))
 
-; (conversation-knows-mealtimes ?who ?home) - ?who has long known ?home's meal hours, as the one who
+; (talk-knows-mealtimes ?who ?home) - ?who has long known ?home's meal hours, as the one who
 ; set them holds them: she has no need to set them, and those who wonder about them can ask her.
-(define-func conversation-knows-mealtimes (?who ?home)
+(define-func talk-knows-mealtimes (?who ?home)
   (enter-mind ?who)
   (observe ?home): ?ckm-home
   (begin-belief {?ckm-home breakfast-hour (household-breakfast-hour)})
@@ -94,10 +94,10 @@
   (begin-belief {?ckm-home supper-hour (household-supper-hour)})
   (exit-mind))
 
-; (conversation-wonder-life-aim ?asker ?other) - ?other holds what she wants her life to amount
+; (talk-wonder-life-aim ?asker ?other) - ?other holds what she wants her life to amount
 ; to - a fact she tells only a friend (life-aim's disclosure) - and ?asker, no friend of hers,
 ; wonders what it is: he will ask her what he has no business asking.
-(define-func conversation-wonder-life-aim (?asker ?other)
+(define-func talk-wonder-life-aim (?asker ?other)
   (enter-mind ?other)
   (begin-belief {@self life-aim [k respectability-aim]})
   (exit-mind)
@@ -131,8 +131,8 @@
           (then (bind (+ ?pairs 1) ?pairs)))))
   ?pairs)
 
-; (conversation-befriend ?a ?b) - ?a and ?b are friends, each in his own mind.
-(define-func conversation-befriend (?a ?b)
+; (talk-befriend ?a ?b) - ?a and ?b are friends, each in his own mind.
+(define-func talk-befriend (?a ?b)
   (enter-mind ?a)
   (observe ?b): ?cb-friend
   (begin-belief {@self friend ?cb-friend})
@@ -142,8 +142,8 @@
   (begin-belief {@self friend ?cb-friend-back})
   (exit-mind))
 
-; (conversation-see-weather ?who ?town) - ?who has seen the town's weather: he perceives the town.
-(define-func conversation-see-weather (?who ?town)
+; (talk-see-weather ?who ?town) - ?who has seen the town's weather: he perceives the town.
+(define-func talk-see-weather (?who ?town)
   (enter-mind ?who)
   (observe ?town)
   (exit-mind))

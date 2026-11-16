@@ -17,9 +17,9 @@
      (flip {@self company [k isolated]} (isolated-company-level) (lonely-company-level))
      (sociability ?enthusiasm ?withdrawal)))
 
-; His warmth toward the others in his conversation through its neutral point, (1 + warmth) / 2.
+; His warmth toward the others in his talk through its neutral point, (1 + warmth) / 2.
 (define-func company-warmth ()
-  (bind (conversation-of @self) ?talk)
+  (bind (talk-of @self) ?talk)
   (bind 0.0 ?sum)
   (bind 0.0 ?count)
   (if (substantial ?talk)

@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; flirt ?partner ?talk - the FLIRTING dialogue task: @self pays ?partner, whom he fancies, his
-; compliment. Presented, in the conversation ?talk, once a talk; unpresented there is no talk, and
+; compliment. Presented, in the talk ?talk, once a talk; unpresented there is no talk, and
 ; he says it to her straight out. It is spent, a success, when he has flirted or fancies ?partner no
 ; longer. Seen while it runs (obs), it tells whoever sees it - ?partner herself or an onlooker -
 ; that he likely fancies her (reflexes/flirt-suggests-fancy.mc). Proposed by the flirt drivers
@@ -11,7 +11,7 @@
   (belief-timeout 30 min)
   (obs)
   (category social (scope ?talk))
-  (hosts reply enter-conversation)
+  (hosts reply enter-talk)
   (tar @excl [k human] @object)
   (aux ?)
   (and

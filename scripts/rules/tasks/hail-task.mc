@@ -1,21 +1,21 @@
 ; ----------------------------------------------------------------------------
 ; hail ?partner - @self calls to ?partner, within call of him, and says the opening - its tell does
 ; the closing in, as every speaker does, while ?partner stays put. It happens within the talk the two
-; would talk in (talk-between, funcs/conversation.mc): a talk of his hosts it only when it is that
+; would talk in (talk-between, funcs/talk.mc): a talk of his hosts it only when it is that
 ; one, so a hail into another talk competes with his part in his own, and only by outbidding it
 ; takes him out of it (tasks/maintain-social-presence-task.mc). Hailing is not joining: only
-; ?partner taking the hail up (tasks/take-up-task.mc) brings him into a conversation - ?partner's
+; ?partner taking the hail up (tasks/take-up-task.mc) brings him into a talk - ?partner's
 ; when he is in one, else @self's own, else a new one.
-; ?partner in a conversation: @self waits from outside it for an opening, its turn, and calls out
-; then (turn-board, funcs/conversation.mc). Nobody hails one who is not hailable, and every proposer
-; gates on it: a man in a conversation that seats no one more, from one, or one asleep or senseless.
+; ?partner in a talk: @self waits from outside it for an opening, its turn, and calls out
+; then (turn-board, funcs/talk.mc). Nobody hails one who is not hailable, and every proposer
+; gates on it: a man in a talk that seats no one more, from one, or one asleep or senseless.
 ; It fails when either talk fills or ?partner sleeps before he answers. One man's hail stands on
 ; ?partner at a time (sync, held from its start to its end), and only that one is his (hailing): the
 ; rest stay proposals until their turn, so a crowd that all want him at once never stands on him at
 ; once. Called to by ?partner before he has called out his own, he lets his hail go and takes
 ; ?partner up. It is PREPARATION - an open
-; conversation is what his part in it needs - so only a driver proposes it. Taken up when
-; ?partner's answer accepts it and both are in one conversation - also when that is what ends it,
+; talk is what his part in it needs - so only a driver proposes it. Taken up when
+; ?partner's answer accepts it and both are in one talk - also when that is what ends it,
 ; its proposer having stopped wanting it the instant it was taken up; turned down when ?partner
 ; refuses or rebuffs him, and failed when his opening could not be said. A hail is complete only
 ; when answered, so when ?partner has hailed him too, each answers the other's opening as part of
@@ -54,7 +54,7 @@
     (bb-public-remove-member @self hailing ?partner)
     (if (and (not (conversing-with ?partner)) (hail-accepted ?partner ?hail))
         (then
-          (join-conversation (conversation-of ?partner) ?hail)
+          (join-talk (talk-of ?partner) ?hail)
           (set-outcome ?hail /succ))))
   (and
     ; The tell, (once), is not said again.
@@ -73,12 +73,12 @@
         (role ?partner {?partner SAY ? @self /past /most_recent}
                        {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
                        -{@self tell ? ?partner /succ /caused_by ?opening}
-          (when (and (in-one-conversation ?partner @self) (happened-since ?opening ?hail)))
+          (when (and (in-one-talk ?partner @self) (happened-since ?opening ?hail)))
           (effects (maintain-proposal {@self respond ?partner ?opening})))))
     (try
       (lint-waive cacheable-read-in-when)
       (role ?partner {?partner SAY ? @self /past /most_recent}
         (when (hail-accepted ?partner ?hail))
         (effects
-          (join-conversation (conversation-of ?partner) ?hail)
+          (join-talk (talk-of ?partner) ?hail)
           (set-outcome ?hail /succ))))))

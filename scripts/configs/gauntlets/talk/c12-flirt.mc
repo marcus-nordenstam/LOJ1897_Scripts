@@ -5,7 +5,7 @@
 ; talk, and he pays it to her straight out, once a day. In both, his flirt tells her - and the
 ; lodger, when he sees it - that he likely fancies her. Seeds state only; the validate func reads.
 
-(include "conversation.mc")
+(include "talk.mc")
 
 (define-list config
   seeds 4242
@@ -36,8 +36,8 @@
 
 (define-func c12-startup ()
   (seed_property)
-  (conversation-first-home): ?home
-  (conversation-far-home ?home): ?far-home
+  (talk-first-home): ?home
+  (talk-far-home ?home): ?far-home
   (make-human ?home [k lower] [k male]): ?suitor
   (cast suitor ?suitor)
   (make-human ?home [k lower] [k female]): ?beloved
@@ -51,8 +51,8 @@
   (make-human ?far-home [k lower] [k male]): ?lodger-u
   (cast lodger-u ?lodger-u)
   (initialize-minds)
-  (conversation-household ?home)
-  (conversation-household ?far-home)
+  (talk-household ?home)
+  (talk-household ?far-home)
   (c12-court ?suitor ?beloved)
   (c12-court ?suitor-u ?beloved-u))
 
@@ -80,8 +80,8 @@
   (expect (in-mind ?suitor (substantial (any {@self fancy|desire|crave ?}))) "c12: he does not fancy her")
   (expect (> (acts ?suitor flirt started) 0) "c12: he never flirted")
   (expect (in-mind ?beloved (answered-flirt ?suitor)) "c12: she never answered his flirt")
-  (expect (unsubstantial (conversation-of ?suitor)) "c12: he is still in a conversation")
-  (expect (unsubstantial (conversation-of ?beloved)) "c12: she is still in a conversation")
+  (expect (unsubstantial (talk-of ?suitor)) "c12: he is still in a talk")
+  (expect (unsubstantial (talk-of ?beloved)) "c12: she is still in a talk")
   (expect (in-mind ?beloved (c12-takes-to-fancy ?suitor ?beloved)) "c12: she does not take him to fancy her")
   (expect (or (not (in-mind ?lodger (c12-saw-flirt ?suitor ?beloved))) (in-mind ?lodger (c12-takes-to-fancy ?suitor ?beloved)))
           "c12: the lodger saw him flirt and does not take him to fancy her")

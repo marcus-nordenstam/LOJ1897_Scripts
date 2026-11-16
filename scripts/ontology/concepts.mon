@@ -445,13 +445,13 @@
     (decorations (states host venue held-on hours))
     (children dinner-party wedding engagement-party birthday-party sporting-occasion church-service market-day))
 
-  ; Conversations - a talk between people. ONE bodiless abs object, created when the talk
-  ; begins, and every party holds his own mental conversation linked to it. It has no name:
+  ; Talks - a talk between people. ONE bodiless abs object, created when the talk
+  ; begins, and every party holds his own mental talk linked to it. It has no name:
   ; it is known by who took part ({<conv> participant <npc>}, one interval per spell of
   ; taking part), where and when ({<conv> venue <space> /i <began> <ended>}) and the
   ; occasion it was part of ({<conv> occasion <occasion>}), said instead of the venue when
-  ; held. The live contract between the parties is its public bb (funcs/conversation.mc).
-  (child conversation (grounding-anchors participant (prefer occasion venue))
+  ; held. The live contract between the parties is its public bb (funcs/talk.mc).
+  (child talk (grounding-anchors participant (prefer occasion venue))
     (decorations (states participant venue occasion)))
 
   ; Intoxicants - the abstract substance an NPC can form a `craving` for
@@ -522,7 +522,7 @@
       ; office-as-position concept.)
       (children official)
       ; The law officers: a hail from one is answered as an obligation by a man with nothing
-      ; to hide from the law (funcs/conversation.mc hail-utility).
+      ; to hide from the law (funcs/talk.mc hail-utility).
       (child law-officer
         (children detective constable))
       ; Performer parent-kind (Phase 9 dialogue) - witnesses whose job
@@ -804,9 +804,9 @@
     (child urge (construed-act coercion-act))
     ; The dialogue-line classes: each is said by its own dialogue task, and a reactive driver
     ; finds the class inline on the heard line, (msg /smalltalk ?..). The kind of a heard line
-    ; (line-kind, funcs/conversation.mc) is one of these; a class its hearer owes an answer carries
+    ; (line-kind, funcs/talk.mc) is one of these; a class its hearer owes an answer carries
     ; answer-owed (wherever it is said to him) or answer-owed-in-talk (from a party of his
-    ; conversation) - reflexes/obligation-respond.mc.
+    ; talk) - reflexes/obligation-respond.mc.
     (child inquiry (facets answer-owed))
     (child flirtation (facets answer-owed))
     (child smalltalk (facets answer-owed-in-talk))

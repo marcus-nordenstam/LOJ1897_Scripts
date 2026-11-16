@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; formulaic-macros.mc - where a (formulaic ..) message keeps what, for every func that reads one
-; (funcs/conversation.mc, funcs/speech.mc).
+; (funcs/talk.mc, funcs/speech.mc).
 ; ----------------------------------------------------------------------------
 
 ; Fields read out of a message (a test of its shape matches it positionally instead): field 0 is

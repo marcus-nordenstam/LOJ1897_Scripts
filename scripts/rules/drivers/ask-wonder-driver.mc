@@ -10,7 +10,7 @@
     (role ?talk {?talk participant @self}:?part
       (role ?partner {?talk participant ?partner}
                      (neq ?partner @self)
-        (when (and (in-conversation @self ?talk)
+        (when (and (in-talk @self ?talk)
                    (conversing-with ?partner)
                    (askable ?partner ?fact)))
         (declare-utility want)

@@ -8,7 +8,7 @@
 ; out, each at least once in the day. In both, whoever a man got acquainted with holds a fact about
 ; him he disclosed. Seeds state only; the validate func reads.
 
-(include "conversation.mc")
+(include "talk.mc")
 
 (define-list config
   seeds 4242
@@ -50,15 +50,15 @@
 
 (define-func c13-startup ()
   (seed_property)
-  (conversation-first-home): ?home
+  (talk-first-home): ?home
   (c13-crowd ?home): ?first
   (cast crowd-first ?first)
-  (conversation-far-home ?home): ?far-home
+  (talk-far-home ?home): ?far-home
   (c13-crowd ?far-home): ?first-u
   (cast crowd-first-u ?first-u)
   (initialize-minds)
-  (conversation-household ?home)
-  (conversation-household ?far-home)
+  (talk-household ?home)
+  (talk-household ?far-home)
   (c13-seat-household ?home)
   (c13-seat-household ?far-home))
 
@@ -122,8 +122,8 @@
 (define-func c13-validate ()
   (cast crowd-first): ?first
   (cast crowd-first-u): ?first-u
-  (conversation-first-home): ?home
-  (conversation-far-home ?home): ?far-home
+  (talk-first-home): ?home
+  (talk-far-home ?home): ?far-home
   (expect (in-mind ?first (presented-lod)) "c13: the presented crowd's first man is not presented")
   (expect (in-mind ?first-u (unpresented-lod)) "c13: the far crowd's first man is presented")
   ; The presented crowd: the hails, taken in one at a time.

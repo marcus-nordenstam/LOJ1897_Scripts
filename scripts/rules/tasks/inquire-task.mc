@@ -10,7 +10,7 @@
 (task {@self inquire ?partner ?qs}:?inquire
   (belief-timeout 15 min)
   (category social (scope (talk-between ?partner)))
-  (hosts reply enter-conversation)
+  (hosts reply enter-talk)
   (tar @excl [k human] @object)
   (aux ?)
   (and

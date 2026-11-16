@@ -141,7 +141,7 @@
 
 ; (end-speech ?who) - release the speech-state slot ?who claimed to speak. Must run on
 ; EVERY end of an utterance, conclusive or not: a slot leaked per interrupted sentence is a
-; mouth that stops working after a few dozen conversations.
+; mouth that stops working after a few dozen talks.
 (declare-func end-speech (args ?who))
 
 ; (openable-target ?thing) - what the player's aim at ?thing opens or closes: a door-leaf's

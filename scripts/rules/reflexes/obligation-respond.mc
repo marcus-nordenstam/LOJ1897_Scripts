@@ -2,10 +2,10 @@
 ; obligation-respond - a line said to @self that calls for an answer obliges him to respond to it
 ; (tasks/respond-task.mc), owed to its speaker: its class (line-kind) carries answer-owed, owed
 ; wherever it is said to him (a question, a flirt), or answer-owed-in-talk, owed when its speaker is
-; in the conversation he is in (ontology/concepts.mon). In a conversation a speaker's last line is
+; in the talk he is in (ontology/concepts.mon). In a talk a speaker's last line is
 ; the one answered, so a new line of his discharges what his earlier ones were owed; out of one only
 ; a question or a flirt stays owed until answered. Responding discharges it, and so does taking a
-; part in another conversation since the line was said in-talk. The obligation stands, or a
+; part in another talk since the line was said in-talk. The obligation stands, or a
 ; superseded one ends, as the line is heard (immediate), and minting it wakes the driver that
 ; reads it.
 ; ----------------------------------------------------------------------------
@@ -15,7 +15,7 @@
   (line-kind ?SAY):?kind
   (when (and (neq ?speaker @self)
              (or (has-facet ?kind answer-owed)
-                 (and (has-facet ?kind answer-owed-in-talk) (in-one-conversation @self ?speaker)))))
+                 (and (has-facet ?kind answer-owed-in-talk) (in-one-talk @self ?speaker)))))
   (effects (begin-belief {@self obligation {@self respond ?speaker ?SAY} ?speaker /caused_by ?SAY})))
 
 (reflex {? SAY ? @self /ever}:?SAY
@@ -24,7 +24,7 @@
   (role ?speaker {@self obligation {@self respond ?speaker ?line} ?speaker}:?owed
                  (eq ?speaker ?SAY.subject)
                  (neq ?line ?SAY)
-                 (or (in-one-conversation @self ?speaker) (not (has-facet (line-kind ?line) answer-owed)))
+                 (or (in-one-talk @self ?speaker) (not (has-facet (line-kind ?line) answer-owed)))
     (effects (end-belief ?owed))))
 
 (reflex {@self respond ?speaker ?line /succ}

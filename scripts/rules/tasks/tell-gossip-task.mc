@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; tell-gossip ?friend - @self passes on to a friend each piece of gossip he holds that the friend
-; does not know (gossip-for, funcs/conversation.mc), hailing him first unless they are talking.
+; does not know (gossip-for, funcs/talk.mc), hailing him first unless they are talking.
 ; Done when there is none left for him; a friend who turns the hail down ends it /fail. Proposed
 ; by tell-gossip-driver (drivers/tell-gossip-driver.mc).
 ; ----------------------------------------------------------------------------
@@ -10,7 +10,7 @@
   (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
   (category social (scope (talk-between ?friend)))
-  (hosts reply enter-conversation)
+  (hosts reply enter-talk)
   (success-cond (unsubstantial (gossip-for ?friend)))
   (stable-or
     (try

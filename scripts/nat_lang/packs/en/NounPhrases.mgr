@@ -160,11 +160,11 @@ _
 ; occasion it was part of, that stands for the venue: "the talk with Carol and Mary at Sam's
 ; party". Both are heard as a venue, so the occasion form is said only.
 "the talk with $who(NP) at $where(NP)"
-( o [k conversation ] { @o participant $who(NP) } { @o venue $where(NP) } )
+( o [k talk ] { @o participant $who(NP) } { @o venue $where(NP) } )
 .
 
 "the talk with $who(NP) at $occasion(NP)"
-( o [k conversation ] { @o participant $who(NP) } { @o occasion $occasion(NP) } )
+( o [k talk ] { @o participant $who(NP) } { @o occasion $occasion(NP) } )
 :: realize-only
 .
 

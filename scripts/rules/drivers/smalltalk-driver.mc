@@ -11,7 +11,7 @@
                    (neq ?partner @self)
       (role ?town {?town sky|rain|snow|fog|wind ?}
         (when (and (eq ?town (spatial @self town))
-                   (in-conversation ?partner ?talk)
+                   (in-talk ?partner ?talk)
                    (substantial (smalltalk-line ?talk))))
         (declare-utility want)
         (effects (maintain-proposal {@self smalltalk ?partner ?talk} /caused_by ~[?part ?unease]))))))

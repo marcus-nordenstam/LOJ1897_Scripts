@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; conversation-has-more (think). While @self still has something to say in his conversation
-; (agenda-for, funcs/conversation.mc) he shows it - he is in the conversation's has-more set - and
+; talk-has-more (think). While @self still has something to say in his talk
+; (agenda-for, funcs/talk.mc) he shows it - he is in the talk's has-more set - and
 ; once he has nothing left he comes off it.
 ; ----------------------------------------------------------------------------
 
-(think conversation-has-more
+(think talk-has-more
   (lod presented)
   (role ?talk {?talk participant @self} {?talk venue ?}
     (bind (tolerate (agenda-for ?talk)) ?more)

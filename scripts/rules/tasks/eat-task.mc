@@ -7,7 +7,7 @@
 ;                 copied onto the eat task at the cease (bottom-up conclusion). A home
 ;                 supper resolves a real food prop to destroy; otherwise abstract (?food 0).
 ;   table_hours - now and then re-air the house's mealtimes to everyone at the home table.
-;   table_talk  - tell the conversation at the table one untold piece of my own news.
+;   table_talk  - tell the talk at the table one untold piece of my own news.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/collection-macros.mc")

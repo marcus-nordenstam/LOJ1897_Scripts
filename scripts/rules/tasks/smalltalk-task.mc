@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
-; smalltalk ?partner ?talk - the SMALLTALK dialogue task: in the conversation ?talk @self remarks on
-; the weather to ?partner (smalltalk-line, funcs/conversation.mc), once a talk. It is spent, a
+; smalltalk ?partner ?talk - the SMALLTALK dialogue task: in the talk ?talk @self remarks on
+; the weather to ?partner (smalltalk-line, funcs/talk.mc), once a talk. It is spent, a
 ; success, when he has no remark left and his remark has its answer. Proposed by smalltalk-unease
 ; (drivers/smalltalk-driver.mc); a remark said to him is answered by the respond driver.
 ; ----------------------------------------------------------------------------
@@ -9,9 +9,9 @@
   (belief-timeout 30 min)
   (lod presented)
   (category social (scope ?talk))
-  (hosts reply enter-conversation)
+  (hosts reply enter-talk)
   (tar @excl [k human] @object)
-  (aux [k conversation] @object)
+  (aux [k talk] @object)
   (and
     (try
       (role ?partner {?talk participant ?partner}

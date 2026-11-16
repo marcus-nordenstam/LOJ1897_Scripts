@@ -6,7 +6,7 @@
 ; line at a time. In both, the men end knowing the supper hour. Seeds state only; the validate func
 ; reads.
 
-(include "conversation.mc")
+(include "talk.mc")
 
 (define-list config
   seeds 4242
@@ -29,7 +29,7 @@
 
 (define-func c09-startup ()
   (seed_property)
-  (conversation-first-home): ?home
+  (talk-first-home): ?home
   (make-human ?home [k lower] [k male]): ?first
   (cast first ?first)
   (make-human ?home [k lower] [k male]): ?second
@@ -40,7 +40,7 @@
   (cast fourth ?fourth)
   (make-human ?home [k lower] [k female]): ?cook
   (cast cook ?cook)
-  (conversation-far-home ?home): ?far-home
+  (talk-far-home ?home): ?far-home
   (make-human ?far-home [k lower] [k male]): ?first-u
   (cast first-u ?first-u)
   (make-human ?far-home [k lower] [k male]): ?second-u
@@ -52,10 +52,10 @@
   (make-human ?far-home [k lower] [k female]): ?cook-u
   (cast cook-u ?cook-u)
   (initialize-minds)
-  (conversation-household ?home)
-  (conversation-household ?far-home)
-  (conversation-knows-mealtimes ?cook ?home)
-  (conversation-knows-mealtimes ?cook-u ?far-home))
+  (talk-household ?home)
+  (talk-household ?far-home)
+  (talk-knows-mealtimes ?cook ?home)
+  (talk-knows-mealtimes ?cook-u ?far-home))
 
 ; (c09-all-know ?a ?b ?c ?d) - all four men know the supper hour.
 (define-func c09-all-know (?a ?b ?c ?d)

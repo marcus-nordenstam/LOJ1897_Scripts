@@ -1,27 +1,27 @@
 ; ----------------------------------------------------------------------------
-; conversation.mc - who hears whom, how a man answers being hailed, and how a conversation
+; talk.mc - who hears whom, how a man answers being hailed, and how a talk
 ; he opened goes.
 ;
 ; Speech has one task that proposes SAY: tell (tasks/tell-task.mc) says one thing where its
-; audience can hear it. A man is in a conversation while he holds {<talk> participant @self}:
-; hail or take-up begins it, and leaving ends it (drivers/stay-in-conversation-driver.mc).
+; audience can hear it. A man is in a talk while he holds {<talk> participant @self}:
+; hail or take-up begins it, and leaving ends it (drivers/stay-in-talk-driver.mc).
 ; Everything he says in it, and every way he leaves it, keys off that part;
 ; maintain-social-presence only keeps his body with the others.
 ;
-; A CONVERSATION is ONE object, shared (share-object): the opener invents it, and every party
+; A TALK is ONE object, shared (share-object): the opener invents it, and every party
 ; holds his own copy of it, linked to the one the world keeps. Its public board is what keeps the
 ; group in step: its participant set is who takes part (talk-participants) and its has-more set who still
 ; has something to say. Joining adds him to the set and leaving takes him off it; a change to
 ; either set wakes every party reading it, busy or not, and each mirrors it in his own mind
-; (conversation-roster-join / -leave). When the last party leaves, the board is empty and the
-; world lets the conversation go. What a man knows of a talk
+; (talk-roster-join / -leave). When the last party leaves, the board is empty and the
+; world lets the talk go. What a man knows of a talk
 ; is his own beliefs, kept to the board: {<talk> participant <party>} for each party, one
-; interval per spell (conversation-roster-join / -leave), {<talk> venue <space>} while he is in
+; interval per spell (talk-roster-join / -leave), {<talk> venue <space>} while he is in
 ; it, {<talk> occasion <occasion>} when it is part of one.
 ;
-; A HAIL is a (formulaic opening-phrase ..) said to @self by a man in a conversation @self is not
+; A HAIL is a (formulaic opening-phrase ..) said to @self by a man in a talk @self is not
 ; in. It is always answered, and how is his choice: he takes up the
-; conversation, declines it for what he is busy with, or rebuffs a man he despises
+; talk, declines it for what he is busy with, or rebuffs a man he despises
 ; (drivers/answer-hail-driver.mc).
 ;
 ; The funcs at the foot are the player's side, asked by the host: whom he can hail, his
@@ -45,10 +45,10 @@
   (in-earshot ?listener [k shout]))
 
 ; (within-voice ?listener ?msg) - ?listener would hear @self say ?msg: a person within earshot,
-; a conversation when every party @self knows to be in it is. tell closes on its audience until
+; a talk when every party @self knows to be in it is. tell closes on its audience until
 ; this holds.
 (define-func within-voice (?listener ?msg)
-  (if (and (is-object ?listener) (is-a ?listener [k conversation]))
+  (if (and (is-object ?listener) (is-a ?listener [k talk]))
       (then (unsubstantial (party-out-of-voice ?listener ?msg)))
       (else (in-earshot ?listener (voice-sound ?msg)))))
 
@@ -115,7 +115,7 @@
 (define-func rebuffs (?speaker)
   (and (any {@self despise ?speaker}) (not (answers-to ?speaker))))
 
-; (taking-up ?caller) - @self has begun taking up ?caller's conversation.
+; (taking-up ?caller) - @self has begun taking up ?caller's talk.
 (define-func taking-up (?caller)
   (substantial (any {@self take-up ?caller})))
 
@@ -134,41 +134,41 @@
           (break))))
   ?found)
 
-; (conversation-of ?party) - the conversation whose participant set holds ?party, or @nothing. A
-; man takes part in one conversation at a time.
-(define-func conversation-of (?party)
+; (talk-of ?party) - the talk whose participant set holds ?party, or @nothing. A
+; man takes part in one talk at a time.
+(define-func talk-of (?party)
   (bind @nothing ?talk)
   (for-each ?one (bb-public-every ? participant ?party)
     (bind ?one ?talk)
     (break))
   ?talk)
 
-; (in-conversation ?party ?talk) - ?talk's participant set holds ?party.
-(define-func in-conversation (?party ?talk)
+; (in-talk ?party ?talk) - ?talk's participant set holds ?party.
+(define-func in-talk (?party ?talk)
   (and (substantial ?talk) (substantial (bb-public-any ?talk participant ?party))))
 
-; (shared-talk ?party) - the conversation @self and ?party both take part in, or @nothing: the
+; (shared-talk ?party) - the talk @self and ?party both take part in, or @nothing: the
 ; discourse a line ?party says to him belongs to. A line overheard from a talk he is not in has none.
 (define-func shared-talk (?party)
-  (flip (in-one-conversation @self ?party) (conversation-of @self) @nothing))
+  (flip (in-one-talk @self ?party) (talk-of @self) @nothing))
 
-; (talk-of-line ?audience) - the conversation a line @self says to ?audience is said in: ?audience
+; (talk-of-line ?audience) - the talk a line @self says to ?audience is said in: ?audience
 ; itself when it is one, else the one @self shares with him, else @nothing (a broadcast, or a man
 ; he is in no talk with).
 (define-func talk-of-line (?audience)
   (cond (case (unsubstantial ?audience) @nothing)
-        (case (is-a ?audience [k conversation]) ?audience)
+        (case (is-a ?audience [k talk]) ?audience)
         (else (shared-talk ?audience))))
 
-; (in-one-conversation ?party ?partner) - both take part in one conversation: a talk they share,
+; (in-one-talk ?party ?partner) - both take part in one talk: a talk they share,
 ; not yet a talk between them (conversing-with).
-(define-func in-one-conversation (?party ?partner)
-  (in-conversation ?partner (conversation-of ?party)))
+(define-func in-one-talk (?party ?partner)
+  (in-talk ?partner (talk-of ?party)))
 
 ; A LINE TAKES A TURN: one man at a time speaks on a board, the rest wait for it, and the man who
 ; is done hands it on (turn-request, holds-turn, turn-release - the engine's). A line to a
-; conversation, or to a man in one, takes that conversation's turn; a line to a man in no
-; conversation takes his own; a broadcast takes none. A line answering one said to the speaker
+; talk, or to a man in one, takes that talk's turn; a line to a man in no
+; talk takes his own; a broadcast takes none. A line answering one said to the speaker
 ; goes before the rest, and of the others the man longest since he last spoke. A man being called
 ; (another holds his own turn) answers before he calls anyone, so two men never call each other
 ; at once; and a man spoken to stays where he is (heed-speaker).
@@ -176,9 +176,9 @@
 ; (turn-board ?audience) - the board whose turn a line to ?audience takes, or @nothing.
 (define-func turn-board (?audience)
   (cond (case (unsubstantial ?audience) @nothing)
-        (case (is-a ?audience [k conversation]) ?audience)
-        (case (in-one-conversation @self ?audience) (conversation-of @self))
-        (case (substantial (conversation-of ?audience)) (conversation-of ?audience))
+        (case (is-a ?audience [k talk]) ?audience)
+        (case (in-one-talk @self ?audience) (talk-of @self))
+        (case (substantial (talk-of ?audience)) (talk-of ?audience))
         (else ?audience)))
 
 ; (answering-line ?msg ?audience) - the line @self is telling ?audience answers one ?audience said
@@ -215,9 +215,9 @@
 (define-func being-called ()
   (turn-held-by-another @self))
 
-; (spoken-to) - another man holds the turn of @self, or of the conversation he is in.
+; (spoken-to) - another man holds the turn of @self, or of the talk he is in.
 (define-func spoken-to ()
-  (bind (conversation-of @self) ?talk)
+  (bind (talk-of @self) ?talk)
   (or (turn-held-by-another @self)
       (and (substantial ?talk) (turn-held-by-another ?talk))))
 
@@ -243,14 +243,14 @@
   (cond (case (not ?other) (turn-release ?))
         (case (and (substantial ?board) (not ?shared)) (turn-release ?board))))
 
-; (conversing-with ?partner) - @self and ?partner talk together: both are in one conversation, and
+; (conversing-with ?partner) - @self and ?partner talk together: both are in one talk, and
 ; since @self joined it a hail between them has been answered - his hail taken up, or ?partner's
 ; taken up by him. Being in one talk with a man is not yet talking to him.
 (define-func conversing-with (?partner)
-  (bind (conversation-of @self) ?talk)
+  (bind (talk-of @self) ?talk)
   (bind (any {?talk participant @self}) ?part)
   (and (is-belief ?part)
-       (in-conversation ?partner ?talk)
+       (in-talk ?partner ?talk)
        (or (any-happened-since (every {@self hail ?partner /succ}) ?part)
            (any-happened-since (every {@self take-up ?partner /succ}) ?part))))
 
@@ -276,8 +276,8 @@
 ; other the moment the other called, and they would take turns calling him every second.
 (define-func partner-claims (?partner)
   (bind 0.0 ?claims)
-  (bind (conversation-of ?partner) ?theirs)
-  (if (and (substantial ?theirs) (not (in-conversation @self ?theirs)))
+  (bind (talk-of ?partner) ?theirs)
+  (if (and (substantial ?theirs) (not (in-talk @self ?theirs)))
       (then (bind (+ /float (count (talk-participants ?theirs)) -1) ?claims)))
   ?claims)
 
@@ -306,13 +306,13 @@
   (substantial (bb-public-any ?caller hailing @self)))
 
 ; (hail-accepted ?partner ?hail) - ?partner answered the opening @self called in ?hail without
-; turning it down, and the two are in one conversation.
+; turning it down, and the two are in one talk.
 (define-func hail-accepted (?partner ?hail)
   (bind (hail-opening ?partner ?hail) ?said)
   (and (is-belief ?said)
        (substantial (any {?partner SAY ? @self /succ /caused_by ?said}))
        (none {?partner SAY (formulaic ? refusal|rebuff ?..) @self /succ /caused_by ?said})
-       (in-one-conversation ?partner @self)))
+       (in-one-talk ?partner @self)))
 
 ; (hail-turned-down ?partner ?hail) - ?partner answered the opening @self called in ?hail with a
 ; refusal or a rebuff.
@@ -321,11 +321,11 @@
   (and (is-belief ?said)
        (substantial (any {?partner SAY (formulaic ? refusal|rebuff ?..) @self /succ /caused_by ?said}))))
 
-; (join-conversation ?talk ?act) - @self takes part in ?talk: he joins its participant set, and he knows
+; (join-talk ?talk ?act) - @self takes part in ?talk: he joins its participant set, and he knows
 ; himself a party of it, caused by ?act that joins him, where it is held when he did not yet, and the
 ; occasion it is part of when he holds one for here today. Joining the talk he is in already changes
 ; nothing.
-(define-func join-conversation (?talk ?act)
+(define-func join-talk (?talk ?act)
   (bb-public-add-member ?talk participant @self)
   (if (unsubstantial (any {?talk participant @self}))
       (then (begin-belief {?talk participant @self /caused_by ?act})))
@@ -335,10 +335,10 @@
   (if (and (substantial ?occasion) (unsubstantial (any {?talk occasion ?})))
       (then (begin-belief {?talk occasion ?occasion}))))
 
-; (open-conversation) - a new conversation, a shared object, for @self to join. Taking up a hail
-; makes one when neither man is in a conversation.
-(define-func open-conversation ()
-  (share-object (o /invent [k conversation])): ?talk
+; (open-talk) - a new talk, a shared object, for @self to join. Taking up a hail
+; makes one when neither man is in a talk.
+(define-func open-talk ()
+  (share-object (o /invent [k talk])): ?talk
   ?talk)
 
 ; (talk-participants ?talk) - every party in ?talk: its participant set.
@@ -376,52 +376,52 @@
     (if (unsubstantial (any {?talk participant ?party}))
         (then (begin-belief {?talk participant ?party})))))
 
-; (conversation-full ?talk) - ?talk seats no one more (conversation-size-max).
-(define-func conversation-full (?talk)
-  (>= (count (talk-participants ?talk)) (conversation-size-max)))
+; (talk-full ?talk) - ?talk seats no one more (talk-size-max).
+(define-func talk-full (?talk)
+  (>= (count (talk-participants ?talk)) (talk-size-max)))
 
 ; (hailable ?partner) - @self may hail ?partner, THE gate on every hail: he is awake to hear it, his
 ; last word to @self did not turn him down - that man seeks @self out himself - he is in no
-; conversation, or in one that seats another, and @self is in none that seats no one more, since
+; talk, or in one that seats another, and @self is in none that seats no one more, since
 ; ?partner taking him up would join it.
 (define-func hailable (?partner)
-  (bind (conversation-of ?partner) ?theirs)
+  (bind (talk-of ?partner) ?theirs)
   (and (not (attr-is ?partner awareness [k asleep]))
        (not (attr-is ?partner awareness [k unconscious]))
        (not (turned-down-by ?partner))
-       (or (unsubstantial ?theirs) (not (conversation-full ?theirs)))
+       (or (unsubstantial ?theirs) (not (talk-full ?theirs)))
        (not (in-full-talk))))
 
-; (in-full-talk) - @self is in a conversation that seats no one more.
+; (in-full-talk) - @self is in a talk that seats no one more.
 (define-func in-full-talk ()
-  (bind (conversation-of @self) ?talk)
-  (and (substantial ?talk) (conversation-full ?talk)))
+  (bind (talk-of @self) ?talk)
+  (and (substantial ?talk) (talk-full ?talk)))
 
-; (talk-between ?partner) - the conversation @self and ?partner would talk in: ?partner's when he is
+; (talk-between ?partner) - the talk @self and ?partner would talk in: ?partner's when he is
 ; in one with room, else @self's own with room, else @nothing - a new one. It is what every act of
 ; talking with ?partner happens within (scope), so a talk of his hosts it only when it is that one.
 ; While ?partner's seats no one more they cannot talk at all, and the act moves @self nowhere: it is
 ; within his own talk, where it waits or fails (hailable).
 (define-func talk-between (?partner)
-  (bind (conversation-of ?partner) ?theirs)
-  (bind (conversation-of @self) ?mine)
-  (cond (case (and (substantial ?theirs) (conversation-full ?theirs)) ?mine)
+  (bind (talk-of ?partner) ?theirs)
+  (bind (talk-of @self) ?mine)
+  (cond (case (and (substantial ?theirs) (talk-full ?theirs)) ?mine)
         (case (substantial ?theirs) ?theirs)
-        (case (and (substantial ?mine) (not (conversation-full ?mine))) ?mine)
+        (case (and (substantial ?mine) (not (talk-full ?mine))) ?mine)
         (else @nothing)))
 
-; (take-up-talk ?partner) - the conversation @self takes ?partner's hail up into: the one they would
+; (take-up-talk ?partner) - the talk @self takes ?partner's hail up into: the one they would
 ; talk in (talk-between), a new one when that is none; @fail when ?partner's seats no one more.
 (define-func take-up-talk (?partner)
-  (bind (conversation-of ?partner) ?theirs)
+  (bind (talk-of ?partner) ?theirs)
   (bind (talk-between ?partner) ?talk)
-  (cond (case (and (substantial ?theirs) (conversation-full ?theirs)) @fail)
-        (case (eq ?talk @nothing) (open-conversation))
+  (cond (case (and (substantial ?theirs) (talk-full ?theirs)) @fail)
+        (case (eq ?talk @nothing) (open-talk))
         (else ?talk)))
 
-; (leave-conversation ?talk) - @self leaves the conversation ?talk: he comes off its participant
+; (leave-talk ?talk) - @self leaves the talk ?talk: he comes off its participant
 ; and has-more sets, and his part in it and his knowing where it is held end.
-(define-func leave-conversation (?talk)
+(define-func leave-talk (?talk)
   (if (substantial ?talk)
       (then
         (if (not (speaking))
@@ -431,7 +431,7 @@
         (end-belief {?talk participant @self})
         (end-belief {?talk venue ?}))))
 
-; (has-more-anywhere ?party) - a conversation's has-more set still holds ?party.
+; (has-more-anywhere ?party) - a talk's has-more set still holds ?party.
 (define-func has-more-anywhere (?party)
   (bind @false ?more)
   (for-each ?one (bb-public-every ? has-more ?party)
@@ -439,11 +439,11 @@
     (break))
   ?more)
 
-; A conversation lasts until its parties have run out of things to say. What a man still has to
+; A talk lasts until its parties have run out of things to say. What a man still has to
 ; say in one is his AGENDA, never stored: what his mind yields for it now (agenda-for). While it is
-; not empty he shows it - he is in the conversation's has-more set - and comes off it when it is
-; (thinks/conversation-has-more-think.mc).
-; He is done with a conversation when his agenda is empty and its has-more set is (said-all): the
+; not empty he shows it - he is in the talk's has-more set - and comes off it when it is
+; (thinks/talk-has-more-think.mc).
+; He is done with a talk when his agenda is empty and its has-more set is (said-all): the
 ; last to run out takes his leave, and his goodbye wakes the rest.
 
 ; (asked-news ?friend ?talk) - @self has asked ?friend what is new since he joined ?talk.
@@ -659,7 +659,7 @@
 
 ; (caught-up ?friend) - in a talk with ?friend, @self has told him all his news and has asked his.
 (define-func caught-up (?friend)
-  (bind (conversation-of @self) ?talk)
+  (bind (talk-of @self) ?talk)
   (and (substantial ?talk)
        (unsubstantial (news-for ?friend))
        (asked-and-answered ?friend ?talk)))
@@ -729,7 +729,7 @@
     (on inquiry (answer-to ?msg ?speaker))
     (on opener (opening-reply ?msg ?speaker))
     (on flirtation (flirt-reply ?speaker))
-    (on smalltalk (smalltalk-reply (conversation-of @self)))
+    (on smalltalk (smalltalk-reply (talk-of @self)))
     (on tidings (tidings-reply ?speaker))
     (on identified (identified-reply ?line ?speaker))
     (on statement (statement-reply ?line))
@@ -843,7 +843,7 @@
   ?reply)
 
 ; (opening-reply ?opening ?speaker) - what @self answers an opening ?speaker said to him in a
-; conversation he is in: a rebuff when he despises him, else the response the opening calls for.
+; talk he is in: a rebuff when he despises him, else the response the opening calls for.
 ; A man already talking is never too busy for one joining his talk, so only a rebuff turns him away.
 (define-func opening-reply (?opening ?speaker)
   (if (rebuffs ?speaker)
@@ -1044,7 +1044,7 @@
   (if (is-belief ?telling)
       (then
         (bind ?telling.auxiliary ?audience)
-        (if (and (is-object ?audience) (in-conversation ?audience ?talk))
+        (if (and (is-object ?audience) (in-talk ?audience ?talk))
             (then (bind ?audience ?focus)))))
   (if (unsubstantial ?focus)
       (then
@@ -1064,11 +1064,11 @@
 ; (engaged-here ?npc) - ?npc has taken up the player's hail and the player is still within
 ; earshot of his speaking voice: the host opens the dialogue on it.
 (define-func engaged-here (?npc)
-  (and (in-one-conversation ?npc @self) (in-earshot ?npc [k speech])))
+  (and (in-one-talk ?npc @self) (in-earshot ?npc [k speech])))
 
 ; (player-hail ?npc ?authority) - the player hails ?npc as a man's hail does (tasks/hail-task.mc):
 ; his one standing hail is to ?npc (hailing), and only ?npc taking it up brings them into a
-; conversation. The answer is the line he hails him with - plainly, or, when ?authority names the
+; talk. The answer is the line he hails him with - plainly, or, when ?authority names the
 ; kind of his job, introducing himself by it.
 (define-func player-hail (?npc ?authority)
   (for-each ?hailed (bb-public-members @self hailing)
@@ -1103,11 +1103,11 @@
   (cond (case (and (is-belief ?owed) (matches ?line (msg ?..))) (msg /reply ?riders ?content))
         (else ?line)))
 
-; (player-leave-taking ?npc) - the player leaves the conversation with ?npc, and the answer is
+; (player-leave-taking ?npc) - the player leaves the talk with ?npc, and the answer is
 ; the line he takes his leave with. He comes off its participant set, and his hail of ?npc ends.
 (define-func player-leave-taking (?npc)
   (bb-public-remove-member @self hailing ?npc)
-  (bind (conversation-of @self) ?talk)
+  (bind (talk-of @self) ?talk)
   (if (substantial ?talk)
       (then (bb-public-remove-member ?talk participant @self)))
   (formulaic [] leave_taking player_bye))

@@ -2,7 +2,7 @@
 ; hour unknown to him. The first home is presented (the bubble forms round the opener): one hails the
 ; other - whichever hail lands first is taken up - he asks and she answers, and once neither has
 ; anything left to say one of them takes his leave and the other, left alone, leaves too. ONE
-; conversation: each holds his own talk, both in it, with a venue that opens and closes; when it is
+; talk: each holds his own talk, both in it, with a venue that opens and closes; when it is
 ; over its participant set is empty. The second home is not presented: there is no hail and no talk,
 ; he asks her straight out. In both, the two end knowing the supper hour. Seeds state only; the
 ; validate func reads.
@@ -26,25 +26,25 @@
           bored-gamble-driver plan-gathering-driver plan-impromptu-supper-driver
           want-attend-guest-driver want-read-mail-driver want-putter-driver get-acquainted-driver)
 
-(include "conversation.mc")
+(include "talk.mc")
 
 (define-func c01-startup ()
   (seed_property)
-  (conversation-first-home): ?home
+  (talk-first-home): ?home
   (make-human ?home [k lower] [k male]): ?opener
   (cast opener ?opener)
   (make-human ?home [k lower] [k female]): ?hailed
   (cast hailed ?hailed)
-  (conversation-far-home ?home): ?far-home
+  (talk-far-home ?home): ?far-home
   (make-human ?far-home [k lower] [k male]): ?opener-u
   (cast opener-u ?opener-u)
   (make-human ?far-home [k lower] [k female]): ?hailed-u
   (cast hailed-u ?hailed-u)
   (initialize-minds)
-  (conversation-household ?home)
-  (conversation-household ?far-home)
-  (conversation-wed ?opener ?hailed)
-  (conversation-wed ?opener-u ?hailed-u)
+  (talk-household ?home)
+  (talk-household ?far-home)
+  (talk-wed ?opener ?hailed)
+  (talk-wed ?opener-u ?hailed-u)
   (found-household ?hailed)
   (found-household ?hailed-u))
 
@@ -67,8 +67,8 @@
   (expect (in-mind ?opener (substantial (any {? participant ? /past}))) "c01: his part in the talk never ended")
   (expect (in-mind ?hailed (substantial (any {? participant ? /past}))) "c01: her part in the talk never ended")
   (expect (in-mind ?opener (substantial (any {? venue ? /past}))) "c01: the talk's venue never closed")
-  (expect (unsubstantial (conversation-of ?opener)) "c01: he is still in a conversation")
-  (expect (unsubstantial (conversation-of ?hailed)) "c01: she is still in a conversation")
+  (expect (unsubstantial (talk-of ?opener)) "c01: he is still in a talk")
+  (expect (unsubstantial (talk-of ?hailed)) "c01: she is still in a talk")
   (expect (in-mind ?opener (knows-supper-hour)) "c01: he does not know the supper hour")
   (expect (in-mind ?hailed (knows-supper-hour)) "c01: she does not know the supper hour")
   ; The unpresented pair: no protocol, the same knowledge.

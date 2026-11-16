@@ -1,11 +1,11 @@
 ; c10 friends - in each of two homes far apart, two friends under one roof, each with news of her own
 ; the other has not heard: she has just got engaged. The first home is presented (the bubble forms round the first friend): in
-; the same room, one seeks the other's company: a hail, a conversation, and in it each tells her news
+; the same room, one seeks the other's company: a hail, a talk, and in it each tells her news
 ; and asks the other's, one line at a time, until neither has anything left to say - then they part.
 ; The second is not: there is no hail and no talk, each tells the other straight out. In both, each
 ; ends holding the other's news. Seeds state only; the validate func reads.
 
-(include "conversation.mc")
+(include "talk.mc")
 
 (define-list config
   seeds 4242
@@ -30,26 +30,26 @@
 
 (define-func c10-startup ()
   (seed_property)
-  (conversation-first-home): ?home
+  (talk-first-home): ?home
   (make-human ?home [k lower] [k female]): ?first
   (cast first ?first)
   (make-human ?home [k lower] [k female]): ?second
   (cast second ?second)
-  (conversation-far-home ?home): ?far-home
+  (talk-far-home ?home): ?far-home
   (make-human ?far-home [k lower] [k female]): ?first-u
   (cast first-u ?first-u)
   (make-human ?far-home [k lower] [k female]): ?second-u
   (cast second-u ?second-u)
   (initialize-minds)
-  (conversation-household ?home)
-  (conversation-household ?far-home)
-  (conversation-befriend ?first ?second)
-  (conversation-befriend ?first-u ?second-u)
-  (conversation-third-home ?home ?far-home): ?third-home
-  (conversation-engage ?first ?third-home)
-  (conversation-engage ?second ?third-home)
-  (conversation-engage ?first-u ?third-home)
-  (conversation-engage ?second-u ?third-home))
+  (talk-household ?home)
+  (talk-household ?far-home)
+  (talk-befriend ?first ?second)
+  (talk-befriend ?first-u ?second-u)
+  (talk-third-home ?home ?far-home): ?third-home
+  (talk-engage ?first ?third-home)
+  (talk-engage ?second ?third-home)
+  (talk-engage ?first-u ?third-home)
+  (talk-engage ?second-u ?third-home))
 
 (define-func c10-validate ()
   (cast first): ?first
@@ -60,8 +60,8 @@
   (expect (in-mind ?first-u (unpresented-lod)) "c10: the far first friend is presented")
   ; The presented pair: the talk's protocol, then what they came to know.
   (expect (> (+ (acts ?first hail succ) (acts ?second hail succ)) 0) "c10: neither sought the other's company")
-  (expect (in-mind ?first (substantial (any {? participant @self /ever}))) "c10: the first never held a conversation")
-  (expect (in-mind ?second (substantial (any {? participant @self /ever}))) "c10: the second never held a conversation")
+  (expect (in-mind ?first (substantial (any {? participant @self /ever}))) "c10: the first never held a talk")
+  (expect (in-mind ?second (substantial (any {? participant @self /ever}))) "c10: the second never held a talk")
   (expect (>= (acts ?first tell succ) 3) "c10: the first said fewer than three things")
   (expect (>= (acts ?second tell succ) 3) "c10: the second said fewer than three things")
   (expect (in-mind ?first (asked-whats-new ?second)) "c10: the first never asked the second's news, or had no answer")
@@ -71,8 +71,8 @@
   (expect (or (left-talk ?first) (left-talk ?second)) "c10: neither took her leave")
   (expect (in-mind ?first (= (spoken-over) 0)) "c10: two spoke to the first at once")
   (expect (in-mind ?second (= (spoken-over) 0)) "c10: two spoke to the second at once")
-  (expect (unsubstantial (conversation-of ?first)) "c10: the first is still in a conversation")
-  (expect (unsubstantial (conversation-of ?second)) "c10: the second is still in a conversation")
+  (expect (unsubstantial (talk-of ?first)) "c10: the first is still in a talk")
+  (expect (unsubstantial (talk-of ?second)) "c10: the second is still in a talk")
   (expect (not (has-more-anywhere ?first)) "c10: the first still shows she has more to say")
   (expect (not (has-more-anywhere ?second)) "c10: the second still shows she has more to say")
   (expect (in-mind ?first (holds-engagement-of ?second)) "c10: the first does not hold the second's news")

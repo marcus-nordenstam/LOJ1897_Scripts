@@ -36,7 +36,7 @@
   ; driven, the subtitle put up. Effects run every frame while the audio plays and would say
   ; it again each time.
   ; Nobody is spoken to by two men at once: presented, tell held the turn this line takes before
-  ; proposing it (turn-board, funcs/conversation.mc); unpresented there are no turns. The board can
+  ; proposing it (turn-board, funcs/talk.mc); unpresented there are no turns. The board can
   ; change between the two - its audience joins or leaves a talk - so it is expected, not checked.
   ; The player's lines take no turn and he has no mind to read the tell in.
   (init
@@ -55,7 +55,7 @@
         (then (set-outcome ?SAY /succ))))
 
   ; The speech-state slot the handler claimed at install is released on EVERY end: a slot leaked
-  ; per interrupted utterance is a mouth that stops working after a few dozen conversations.
+  ; per interrupted utterance is a mouth that stops working after a few dozen talks.
   (cease
     (if (presented-lod)
         (then (end-speech @self)))))

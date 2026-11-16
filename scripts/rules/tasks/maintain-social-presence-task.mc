@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; maintain-social-presence ?talk - @self's BODY in the conversation ?talk: he stays where he stands
+; maintain-social-presence ?talk - @self's BODY in the talk ?talk: he stays where he stands
 ; and faces whom he is talking to. It hosts every line said in the talk, so its stance never
 ; competes with them, and every act within ?talk - talking with a man in it, or taking one into it
 ; (scope) - while an act within another talk competes with it. Whether he is in the talk is his part
 ; in it, {?talk participant @self}, and nothing reads this task for that
-; (drivers/stay-in-conversation-driver.mc).
+; (drivers/stay-in-talk-driver.mc).
 ; It is how he leaves: outbid, he says what calls him away (outbids), and withdrawn - the talk
 ; spent, or he wants it no more - he says goodbye; alone he simply goes. Whatever outbid it waits
 ; for the line.
@@ -15,16 +15,16 @@
   (lod presented)
   (construed-act social-act)
   (category social (scope ?talk))
-  (hosts social reply enter-conversation)
-  (tar @excl [k conversation] @object)
+  (hosts social reply enter-talk)
+  (tar @excl [k talk] @object)
   (lint-waive try-rungs-not-exclusive)
-  (success-cond (not (in-conversation @self ?talk)))
+  (success-cond (not (in-talk @self ?talk)))
   (closing
     (sequence
       (stage
         (bind (outbids ?maintain-social-presence) ?outbidder)
         (effects
-          (if (and (in-conversation @self ?talk) (other-party-in ?talk))
+          (if (and (in-talk @self ?talk) (other-party-in ?talk))
               (then
                 (flip (substantial ?outbidder)
                       (formulaic [] leave_taking excuse ?outbidder)
@@ -32,13 +32,13 @@
                 (maintain-proposal {@self tell ?leave-taking ?talk})))))
       (stage
         (effects
-          (leave-conversation ?talk)
+          (leave-talk ?talk)
           (done-closing ?maintain-social-presence)))))
   (and
     (try
       (lint-waive cacheable-read-in-when)
       (declare-utility fallback)
-      (when (in-conversation @self ?talk))
+      (when (in-talk @self ?talk))
       (effects (maintain-proposal {@self DWELL (spatial @self space) (+ (time hour) 1)})))
     (try
       (lint-waive cacheable-read-in-when)

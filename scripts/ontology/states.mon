@@ -322,7 +322,7 @@
 ; (`employer`). Non-exclusive: an NPC may join several.
 (state member-of (tar [k org] @object) (self-known))
 ; participant: who takes part in a GROUP ACTIVITY object - {<game>
-; participant <co-player>}, {<conversation> participant <party>}. Subject
+; participant <co-player>}, {<talk> participant <party>}. Subject
 ; is the activity (overriding the block's human default), target a person;
 ; one interval per spell of taking part, so leaving ends it and rejoining
 ; begins a new one. The inverse, player-side belief of a game is {@self
@@ -372,7 +372,7 @@
 ; ---- occasion_agenda ----
 (state host (tar [k human] @object))
 (state venue (tar [k building|unit|space] @object))
-; occasion: the occasion a conversation was part of - {<conversation> occasion <occasion>}.
+; occasion: the occasion a talk was part of - {<talk> occasion <occasion>}.
 (state occasion (tar [k occasion] @object))
 ; `held-on` (the occasion's date), NOT the core temporal `date` relation
 ; (year/month/day/hour/date/...): reusing `date` would impose this
@@ -781,7 +781,7 @@
 (state suffer-loss-act (tar [k suffer-loss-act] @object))
 (state tenant (tar [k human|org] @object @excl))
 (state threaten-act (tar [k threaten-act] @object))
-(state unease (tar [k conversation] @object) (motivation))
+(state unease (tar [k talk] @object) (motivation))
 ; wonder <fact> - @self wants to know the fact clause <fact> ({?home supper-hour ?}): the motive of
 ; finding it out (drivers/want-to-know-driver.mc).
 (state wonder (tar @pattern) (self-known) (motivation))

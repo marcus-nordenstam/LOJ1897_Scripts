@@ -16,7 +16,7 @@
 ; A DIRECTED say stamps the addressee in the act's /aux (the per-listener "told"
 ; dedup); a BROADCAST leaves it absent. Delivery is by earshot either way - the
 ; addressee is who it is ADDRESSED to, never who receives it. Which sound it makes is
-; (voice-sound ..) (funcs/conversation.mc), the voice the line rides, which tell measures by too.
+; (voice-sound ..) (funcs/talk.mc), the voice the line rides, which tell measures by too.
 ; ----------------------------------------------------------------------------
 
 (include "../macros/formulaic-macros.mc")

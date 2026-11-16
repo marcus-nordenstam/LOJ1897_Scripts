@@ -11,7 +11,7 @@
 (driver catch-up-driver
   (belief {@self age ?age} -{@self company [k crowded]}
     (role ?friend {@self (closeness-labels friend) ?friend} {?friend isa [k human], condition [k alive]}
-                  (or (spatial ?friend co-located @self) (in-one-conversation @self ?friend))
+                  (or (spatial ?friend co-located @self) (in-one-talk @self ?friend))
       (when (>= ?age 12))
       (declare-utility want (pursuit-utility ?friend (k-catch-up-value)))
       (preemptive-or
@@ -21,7 +21,7 @@
         (try
           (lod presented)
           (when (or (substantial (any {@self catch-up ?friend}))
-                    (and (in-one-conversation @self ?friend) (not (caught-up ?friend)))))
+                    (and (in-one-talk @self ?friend) (not (caught-up ?friend)))))
           (effects (maintain-proposal {@self catch-up ?friend} /quit-trying-on-fail)))))))
 
 (driver lonely-catch-up-driver

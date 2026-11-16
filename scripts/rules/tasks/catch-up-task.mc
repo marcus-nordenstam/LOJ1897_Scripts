@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; catch-up ?friend - @self catches up with a friend: hails him unless they are talking already,
-; tells him each piece of his news he does not know (news-for, funcs/conversation.mc), then asks
+; tells him each piece of his news he does not know (news-for, funcs/talk.mc), then asks
 ; what is new with him. Done when he has told it all and has the friend's reply; a friend who
 ; turns the hail down ends it /fail. The friend's answers and his own news are the general
 ; response's (drivers/respond-driver.mc). Proposed by catch-up-driver (drivers/catch-up-driver.mc).
@@ -11,7 +11,7 @@
   (tar @excl [k human] @object)
   (lint-waive task-no-preparation)
   (category social (scope (talk-between ?friend)))
-  (hosts reply enter-conversation)
+  (hosts reply enter-talk)
   (success-cond (caught-up ?friend))
   (stable-or
     (try
@@ -42,6 +42,6 @@
       (lod presented)
       (when (and (conversing-with ?friend)
                  (unsubstantial (news-for ?friend))
-                 (not (asked-news ?friend (conversation-of @self)))))
+                 (not (asked-news ?friend (talk-of @self)))))
       (effects (maintain-proposal {@self tell (qs /utterable /tidings [] (news-for @self)) ?friend}
                                   /quit-trying-on-fail)))))

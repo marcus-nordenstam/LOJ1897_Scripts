@@ -7,7 +7,7 @@
 ; amount to, which she tells only a friend: she answers that it is none of his business, and he
 ; takes her to withhold it from him. Seeds state only; the validate func reads.
 
-(include "conversation.mc")
+(include "talk.mc")
 
 (define-list config
   seeds 4242
@@ -30,14 +30,14 @@
 
 (define-func c02-startup ()
   (seed_property)
-  (conversation-first-home): ?home
+  (talk-first-home): ?home
   (make-human ?home [k lower] [k male]): ?first
   (cast first ?first)
   (make-human ?home [k lower] [k male]): ?second
   (cast second ?second)
   (make-human ?home [k lower] [k female]): ?cook
   (cast cook ?cook)
-  (conversation-far-home ?home): ?far-home
+  (talk-far-home ?home): ?far-home
   (make-human ?far-home [k lower] [k male]): ?first-u
   (cast first-u ?first-u)
   (make-human ?far-home [k lower] [k male]): ?second-u
@@ -45,12 +45,12 @@
   (make-human ?far-home [k lower] [k female]): ?cook-u
   (cast cook-u ?cook-u)
   (initialize-minds)
-  (conversation-household ?home)
-  (conversation-household ?far-home)
-  (conversation-knows-mealtimes ?cook ?home)
-  (conversation-knows-mealtimes ?cook-u ?far-home)
-  (conversation-wonder-life-aim ?first ?cook)
-  (conversation-wonder-life-aim ?first-u ?cook-u))
+  (talk-household ?home)
+  (talk-household ?far-home)
+  (talk-knows-mealtimes ?cook ?home)
+  (talk-knows-mealtimes ?cook-u ?far-home)
+  (talk-wonder-life-aim ?first ?cook)
+  (talk-wonder-life-aim ?first-u ?cook-u))
 
 (define-func c02-validate ()
   (cast first): ?first
@@ -67,7 +67,7 @@
               (in-mind ?second (substantial (any {@self take-up ?cook /succ /ever}))))
           "c02: no hail between her and a man was taken up")
   (expect (in-mind ?cook (substantial (any {? participant @self /ever}))) "c02: she knows no talk she was in")
-  (expect (unsubstantial (conversation-of ?cook)) "c02: she is still in a conversation")
+  (expect (unsubstantial (talk-of ?cook)) "c02: she is still in a talk")
   (expect (in-mind ?cook (= (spoken-over) 0)) "c02: two men spoke to her at once")
   (expect (in-mind ?first (knows-supper-hour)) "c02: the first does not know the supper hour")
   (expect (in-mind ?second (knows-supper-hour)) "c02: the second does not know the supper hour")

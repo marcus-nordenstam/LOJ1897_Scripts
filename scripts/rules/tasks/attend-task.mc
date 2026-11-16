@@ -14,7 +14,7 @@
 (task {@self attend ?occ}:?attend
   (belief-timeout 3 h)
   (category occasion)
-  (hosts social reply occasion enter-conversation)
+  (hosts social reply occasion enter-talk)
   (construed-act social-act)
   (tar [k occasion] @object)
   (and

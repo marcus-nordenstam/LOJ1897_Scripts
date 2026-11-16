@@ -5,7 +5,7 @@
 ; perception delivers the fact to every co-present NPC and the friend hears it like
 ; anyone else in the room. Overhearing by another person present is the natural,
 ; emergent consequence of speaking aloud - the same model isim uses for the player
-; and NPCs. The rarest of the conversation rules - intimacy, not chatter - so the
+; and NPCs. The rarest of the talk rules - intimacy, not chatter - so the
 ; lowest chance.
 ;
 ; Fired by the per-NPC emergent pass, MONTHLY: the low extraversion-weighted chance

@@ -16,8 +16,8 @@
 ; Days after catching up with a friend before loneliness sends @self to him again.
 (define-macro catch-up-interval-days () 1)
 
-; The most a conversation seats: an NPC's hail to a man in a full one is turned down.
-(define-macro conversation-size-max () 5)
+; The most a talk seats: an NPC's hail to a man in a full one is turned down.
+(define-macro talk-size-max () 5)
 
 ; The warmth @self feels toward a man on learning they share an interest.
 (define-macro shared-interest-warmth () 0.4)

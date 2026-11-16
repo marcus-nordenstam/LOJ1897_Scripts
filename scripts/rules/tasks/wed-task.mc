@@ -13,7 +13,7 @@
   (belief-timeout 3 h)
   (category occasion)
   (success-cond (substantial (any {@self spouse ?partner})))
-  (hosts social reply occasion enter-conversation)
+  (hosts social reply occasion enter-talk)
   (tar [k human] @object)
   (role ?occ [k wedding] {?occ hours ?start ?end} {?occ venue ?venue}
              (or {@self organize ?occ} {?partner invite @self ?occ})

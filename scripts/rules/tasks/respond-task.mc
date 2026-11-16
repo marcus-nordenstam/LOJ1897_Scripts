@@ -1,6 +1,6 @@
 ; ----------------------------------------------------------------------------
 ; respond ?speaker ?line - the RESPONSE dialogue task: @self says the one line ?speaker's heard
-; ?line calls for, caused by it (reply-to, funcs/conversation.mc): a question answered from his
+; ?line calls for, caused by it (reply-to, funcs/talk.mc): a question answered from his
 ; own mind - "I don't know" when he does not know, a refusal when the answer is closer than he
 ; holds ?speaker (withholds) - an opening greeted back, a flirt answered, a remark met, tidings
 ; met with his own or received, a statement met with what he knew of it and felt about it. Proposed by the respond driver (drivers/respond-driver.mc), and

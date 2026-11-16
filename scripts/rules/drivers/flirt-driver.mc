@@ -7,8 +7,8 @@
   (lod presented)
   (role ?talk {?talk participant @self}:?part -{@self company [k crowded]}
     (role ?partner {@self fancy|desire|crave ?partner}:?fancy
-      (when (and (in-conversation @self ?talk)
-                 (in-conversation ?partner ?talk)
+      (when (and (in-talk @self ?talk)
+                 (in-talk ?partner ?talk)
                  (not (flirted-in ?talk))))
       (declare-utility want (pursuit-utility ?partner (k-flirt-value)))
       (effects (maintain-proposal {@self flirt ?partner ?talk} /caused_by ~[?part ?fancy])))))
