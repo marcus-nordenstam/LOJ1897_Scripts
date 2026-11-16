@@ -80,4 +80,5 @@ abs.private_bb_records.pool         =   1024    128     64
 # uses one). maxItems is bounded by MEnv::k_max_public_bbs (65536) - asserted at
 # startup. Bump initial reserve and stride if profiling shows churn.
 abs.public_bb.pool                  =   65536   1024    512
+abs.public_bb_records.pool          =   65536   1024    512
 
