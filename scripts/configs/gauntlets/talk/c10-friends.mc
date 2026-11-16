@@ -77,7 +77,7 @@
   (expect (not (has-more-anywhere ?second)) "c10: the second still shows she has more to say")
   (expect (in-mind ?first (holds-engagement-of ?second)) "c10: the first does not hold the second's news")
   (expect (in-mind ?second (holds-engagement-of ?first)) "c10: the second does not hold the first's news")
-  ; The unpresented pair: no protocol, the same knowledge.
-  (expect (= (+ (acts ?first-u hail started) (acts ?second-u hail started)) 0) "c10: the far pair hailed - there is no hailing unpresented")
+  ; The unpresented pair: the same protocol on the boards, no lines of it, the same knowledge.
+  (expect (> (+ (acts ?first-u hail started) (acts ?second-u hail started)) 0) "c10: the far pair never hailed")
   (expect (in-mind ?first-u (holds-engagement-of ?second-u)) "c10: the far first does not hold the far second's news")
   (expect (in-mind ?second-u (holds-engagement-of ?first-u)) "c10: the far second does not hold the far first's news"))

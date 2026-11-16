@@ -71,7 +71,7 @@
   (expect (unsubstantial (talk-of ?hailed)) "c01: she is still in a talk")
   (expect (in-mind ?opener (knows-supper-hour)) "c01: he does not know the supper hour")
   (expect (in-mind ?hailed (knows-supper-hour)) "c01: she does not know the supper hour")
-  ; The unpresented pair: no protocol, the same knowledge.
-  (expect (= (+ (acts ?opener-u hail started) (acts ?hailed-u hail started)) 0) "c01: the far pair hailed - there is no hailing unpresented")
+  ; The unpresented pair: the same protocol on the boards, no lines of it, the same knowledge.
+  (expect (> (+ (acts ?opener-u hail started) (acts ?hailed-u hail started)) 0) "c01: the far pair never hailed")
   (expect (in-mind ?opener-u (knows-supper-hour)) "c01: the far husband does not know the supper hour")
   (expect (in-mind ?hailed-u (knows-supper-hour)) "c01: the far wife does not know the supper hour"))

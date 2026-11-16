@@ -12,7 +12,6 @@
 
 (task {@self maintain-social-presence ?talk}:?maintain-social-presence
   (belief-timeout 2 h)
-  (lod presented)
   (construed-act social-act)
   (category social (scope ?talk))
   (hosts social reply enter-talk)
@@ -24,7 +23,7 @@
       (stage
         (bind (outbids ?maintain-social-presence) ?outbidder)
         (effects
-          (if (and (in-talk @self ?talk) (other-party-in ?talk))
+          (if (and (presented-lod) (in-talk @self ?talk) (other-party-in ?talk))
               (then
                 (flip (substantial ?outbidder)
                       (formulaic [] leave-taking excuse ?outbidder)
@@ -41,11 +40,13 @@
       (when (in-talk @self ?talk))
       (effects (maintain-proposal {@self DWELL (spatial @self space) (+ (time hour) 1)})))
     (try
+      (lod presented)
       (lint-waive cacheable-read-in-when)
       (bind (focus-of ?talk) ?focus)
       (when (substantial ?focus))
       (effects (maintain-proposal {@self LOOK-AT ?focus})))
     (try
+      (lod presented)
       (lint-waive cacheable-read-in-when)
       (bind (focus-of ?talk) ?focus)
       (when (and (substantial ?focus) (not (is-facing ?focus))))

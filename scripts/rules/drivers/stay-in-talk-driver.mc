@@ -15,7 +15,6 @@
 ; ----------------------------------------------------------------------------
 
 (driver stay-want-driver
-  (lod presented)
   (role ?talk {?talk participant @self}:?part {?talk participant !@self}
     (when (and (in-talk @self ?talk)
                (not (talked-out ?talk ?part))
@@ -25,7 +24,6 @@
     (effects (maintain-proposal {@self maintain-social-presence ?talk}))))
 
 (driver stay-obliged-driver
-  (lod presented)
   (role ?talk {?talk participant @self} {?talk participant !@self}
     (role ?party {?talk participant ?party}
                  (neq ?party @self)

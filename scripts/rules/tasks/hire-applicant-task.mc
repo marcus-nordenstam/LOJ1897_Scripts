@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; hire-applicant ?applicant ?job - a man is standing at the counter to take up ?job, the
 ; seat he was offered: he told the officer his name and his errand. If he is one of the
-; men she has heard of only on paper, the two accounts are fused first, so the promise she
+; men she has heard of only on paper, the two accounts are reconciled first, so the promise she
 ; wrote lands on the man in front of her. Then the seat decides:
 ;   vacant -> HIRE him onto its line; the signing done, tell him it is his and conclude
 ;   held   -> tell him who holds it and conclude
@@ -26,7 +26,7 @@
   (role ?org {@self duty-to ?org recruit-staff}
     (and
       ; THE PAPER MAN AND THE MAN: the officer heard of him off a form - a name, realis and
-      ; ungrounded. The man at the counter carries the same name; fuse them, so what was
+      ; ungrounded. The man at the counter carries the same name; reconcile them, so what was
       ; promised to the one on paper is now known of the one in the room.
       (try
         (role ?applicant {?applicant name ?pname}

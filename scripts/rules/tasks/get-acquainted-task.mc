@@ -15,7 +15,6 @@
   (success-cond (unsubstantial (disclosure-for ?other)))
   (stable-or
     (try
-      (lod presented)
       (when (and (not (conversing-with ?other)) (hailable ?other)))
       (effects (maintain-proposal {@self hail ?other})))
     (try
@@ -29,4 +28,5 @@
       (lod unpresented)
       (belief-list ?aspects {@self (facet-labels self-disclosable) ?}:?aspect
                    (speech-worthy ?aspect ?other)
+        (when (conversing-with ?other))
         (effects (maintain-proposal {@self tell (msg /utterable /tidings [] ?aspects) ?other} /quit-trying-on-fail))))))

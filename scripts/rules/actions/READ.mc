@@ -89,7 +89,7 @@
               (if -{?org workplace ?} (then (begin-belief {?org workplace ?apply-at}))))))
       ; An APPLICATION names a MAN, so reading one is hearing of him: a name and an
       ; address is a specific someone, realis and UNGROUNDED - @self has heard of him
-      ; and never met him, and the day he walks in the two fuse on the name. What the
+      ; and never met him, and the day he walks in the two are reconciled on the name. What the
       ; form says is then held about HIM, in the ordinary states anybody is described
       ; by, rather than in a private vocabulary of the paper's own.
       ;

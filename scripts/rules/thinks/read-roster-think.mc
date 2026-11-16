@@ -45,7 +45,7 @@
             (if (and (substantial ?cw-name) (!= ?cw-name (name @self)))
                 (then
                   ; The roster NAMES him; the colleague object is what the workplace-social rules
-                  ; role-cast on. Imagined until @self has met him, then fused by identity_by_name.
+                  ; role-cast on. Imagined until @self has met him, then reconciled by identity_by_name.
                   (o [k human] {@o name ?cw-name}): ?cw
                   (o ?jk {@o org ?org} {@o job-id ?line}): ?cojob
                   (begin-belief {?cojob org ?org})

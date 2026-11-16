@@ -4,9 +4,9 @@
 ; same one, in the same minute. One man's hail stands on another at a time and the rest wait their
 ; turn (sync, tasks/hail-task.mc), so nobody is hailed by a crowd (audit-hailed-by-many) and no
 ; answer rule is cast once per caller past what a crowd can hold; and the hails are answered. The
-; second is not: there is no hail, each tells the one he gets acquainted with about himself straight
-; out, each at least once in the day. In both, whoever a man got acquainted with holds a fact about
-; him he disclosed. Seeds state only; the validate func reads.
+; second is not, and gets acquainted the same way, its hails and answers on the boards with none of
+; them said. In both, whoever a man got acquainted with holds a fact about him he disclosed. Seeds
+; state only; the validate func reads.
 
 (include "talk.mc")
 
@@ -89,14 +89,6 @@
         (then (bind (+ ?c13-got (acts ?c13-a get-acquainted succ)) ?c13-got))))
   ?c13-got)
 
-; (c13-unacquainted-count ?home) - how many under ?home's roof concluded no get-acquainted /succ.
-(define-func c13-unacquainted-count (?home)
-  (bind 0 ?c13-none)
-  (for-each ?c13-a (env-entities [k human])
-    (if (and (spatial ?c13-a unit ?home /env) (= (acts ?c13-a get-acquainted succ) 0))
-        (then (bind (+ ?c13-none 1) ?c13-none))))
-  ?c13-none)
-
 ; (got-acquainted-with ?other) - in a mind: @self got acquainted with ?other.
 (define-func got-acquainted-with (?other)
   (substantial (any {@self get-acquainted ?other /succ /ever})))
@@ -131,8 +123,8 @@
   (expect (> (c13-took-in-count ?home) (/ (k-c13-crowd) 2)) "c13: fewer than half the crowd's callers were taken in")
   (expect (> (c13-got-acquainted ?home) 0) "c13: nobody in the presented crowd got acquainted")
   (expect (= (c13-untold-count ?home) 0) "c13: one the presented crowd got acquainted with holds no fact about him")
-  ; The unpresented crowd: no hails, every one of them acquainted with someone in the day, the same
-  ; knowledge.
-  (expect (= (c13-hails-started ?far-home) 0) "c13: the far crowd hailed - there is no hailing unpresented")
-  (expect (= (c13-unacquainted-count ?far-home) 0) "c13: one of the far crowd got acquainted with nobody all day")
+  ; The unpresented crowd: the same hails on the boards, no lines of them, the same knowledge.
+  (expect (> (c13-hails-started ?far-home) (k-c13-crowd)) "c13: fewer far hails were begun than the crowd is many")
+  (expect (> (c13-took-in-count ?far-home) (/ (k-c13-crowd) 2)) "c13: fewer than half the far crowd's callers were taken in")
+  (expect (> (c13-got-acquainted ?far-home) 0) "c13: nobody in the far crowd got acquainted")
   (expect (= (c13-untold-count ?far-home) 0) "c13: one the far crowd got acquainted with holds no fact about him"))

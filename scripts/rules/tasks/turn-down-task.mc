@@ -1,19 +1,27 @@
 ; ----------------------------------------------------------------------------
-; turn-down ?partner ?msg - @self declines the talk ?partner opened: he says ?msg, a
-; refusal or a retort, once; hearing it, ?partner's hail fails and he leaves what he opened.
-; Proposed by decline-hail and rebuff-hail (drivers/answer-hail-driver.mc).
+; turn-down ?partner ?msg - @self declines the talk ?partner opened, ?msg a refusal or a retort: his
+; answer, turned-down, goes on ?partner's board (answer-hail, funcs/talk.mc), and ?partner's hail
+; fails on it. Presented he first says ?msg, once, to the opening it answers. Proposed by
+; decline-hail and rebuff-hail (drivers/answer-hail-driver.mc).
 ; ----------------------------------------------------------------------------
 
 (task {@self turn-down ?partner ?msg}:?turn-down
   (belief-timeout 15 min)
-  (lod presented)
   (category reply)
   (tar @excl [k human] @object)
   (aux ?)
-  (sequence
-    (stage
-      (bind (caused-by ?turn-down {?partner SAY ? @self /ever}) ?opening)
-      (effects (maintain-proposal {@self tell ?msg ?partner} /caused_by ?opening)))
-    (stage
+  (and
+    (sequence
+      (lod presented)
+      (role ?partner {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
+        (stage
+          (effects (maintain-proposal {@self tell ?msg ?partner} /caused_by ?opening)))
+        (stage
+          (effects
+            (answer-hail ?partner turned-down)
+            (set-outcome ?turn-down /succ)))))
+    (try
+      (lod unpresented)
       (effects
+        (answer-hail ?partner turned-down)
         (set-outcome ?turn-down /succ)))))

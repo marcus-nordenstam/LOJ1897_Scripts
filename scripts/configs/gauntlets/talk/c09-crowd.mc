@@ -86,10 +86,10 @@
           "c09: she talked with no man")
   (expect (in-mind ?cook (= (spoken-over) 0)) "c09: two men spoke to her at once")
   (expect (c09-all-know ?first ?second ?third ?fourth) "c09: a man does not know the supper hour")
-  ; The unpresented crowd: no hails, one line at a time, the same knowledge.
-  (expect (= (+ (acts ?first-u hail started) (acts ?second-u hail started) (acts ?third-u hail started)
+  ; The unpresented crowd: the same hails on the boards, no lines of them, the same knowledge.
+  (expect (> (+ (acts ?first-u hail started) (acts ?second-u hail started) (acts ?third-u hail started)
                 (acts ?fourth-u hail started) (acts ?cook-u hail started))
              0)
-          "c09: the far crowd hailed - there is no hailing unpresented")
+          "c09: the far crowd never hailed")
   (expect (in-mind ?cook-u (= (spoken-over) 0)) "c09: two far men spoke to her at once")
   (expect (c09-all-know ?first-u ?second-u ?third-u ?fourth-u) "c09: a far man does not know the supper hour"))

@@ -69,6 +69,6 @@
   (expect (in-mind ?cook (unsubstantial (any {@self unease ?}))) "c11: she is still ill at ease")
   (expect (unsubstantial (talk-of ?lodger)) "c11: he is still in a talk")
   (expect (unsubstantial (talk-of ?cook)) "c11: she is still in a talk")
-  ; The unpresented pair: no talk, so no smalltalk.
-  (expect (= (+ (acts ?lodger-u hail started) (acts ?cook-u hail started)) 0) "c11: the far pair hailed - there is no hailing unpresented")
-  (expect (= (+ (acts ?lodger-u smalltalk started) (acts ?cook-u smalltalk started)) 0) "c11: the far pair made smalltalk - smalltalk is only had in a talk"))
+  ; The unpresented pair: the same hail on the boards, no lines of it, and no smalltalk.
+  (expect (> (+ (acts ?lodger-u hail started) (acts ?cook-u hail started)) 0) "c11: the far pair never hailed")
+  (expect (= (+ (acts ?lodger-u smalltalk started) (acts ?cook-u smalltalk started)) 0) "c11: the far pair made smalltalk - there is none unpresented"))

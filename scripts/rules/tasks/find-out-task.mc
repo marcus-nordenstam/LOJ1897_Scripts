@@ -27,18 +27,12 @@
     (when (askable ?who ?fact))
     (preemptive-or
       (try
-        (lod unpresented)
-        (effects (maintain-proposal {@self inquire ?who (inquiry-of ?who ?fact)})))
-      (try
-        (lod presented)
         (when (conversing-with ?who))
         (effects (maintain-proposal {@self inquire ?who (inquiry-of ?who ?fact)})))
       (try
-        (lod presented)
         (belief {@self hail ?who /fail /caused_by ?find-out}:?hail
           (when (hail-turned-down ?who ?hail))
           (effects (set-outcome ?find-out /fail))))
       (try
-        (lod presented)
-        (when (and (not (conversing-with ?who)) (hailable ?who)))
+        (when (hailable ?who))
         (effects (maintain-proposal {@self hail ?who} /keep-trying-on-fail))))))

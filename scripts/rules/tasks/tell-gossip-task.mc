@@ -14,7 +14,6 @@
   (success-cond (unsubstantial (gossip-for ?friend)))
   (stable-or
     (try
-      (lod presented)
       (when (and (not (conversing-with ?friend)) (hailable ?friend)))
       (effects (maintain-proposal {@self hail ?friend})))
     (try
@@ -28,6 +27,7 @@
       (lod unpresented)
       (belief-list ?gossip-items {@self gossip ?heard}:?gossip
                    (gossip-worthy-for ?heard ?friend)
+        (when (conversing-with ?friend))
         (effects
           (maintain-proposal {@self tell (msg /utterable /tidings [] ?gossip-items.target) ?friend}
                              /quit-trying-on-fail))))))

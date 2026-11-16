@@ -72,9 +72,9 @@
   (expect (in-mind ?first (knows-supper-hour)) "c02: the first does not know the supper hour")
   (expect (in-mind ?second (knows-supper-hour)) "c02: the second does not know the supper hour")
   (expect (in-mind ?first (withheld-from-me ?cook)) "c02: she told him what she tells only a friend, or he never learned she would not")
-  ; The unpresented three: no protocol, the same knowledge.
-  (expect (= (+ (acts ?first-u hail started) (acts ?second-u hail started) (acts ?cook-u hail started)) 0)
-          "c02: the far three hailed - there is no hailing unpresented")
+  ; The unpresented three: the same protocol on the boards, no lines of it, the same knowledge.
+  (expect (> (+ (acts ?first-u hail started) (acts ?second-u hail started) (acts ?cook-u hail started)) 0)
+          "c02: the far three never hailed")
   (expect (in-mind ?cook-u (= (spoken-over) 0)) "c02: two far men spoke to her at once")
   (expect (in-mind ?first-u (knows-supper-hour)) "c02: the far first does not know the supper hour")
   (expect (in-mind ?second-u (knows-supper-hour)) "c02: the far second does not know the supper hour")

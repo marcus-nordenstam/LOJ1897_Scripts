@@ -11,8 +11,9 @@
 ; has closed on any party out of voice; a broadcast (an absent ?audience) takes no turn and is said where @self stands, so
 ; its proposer brings him to the place first. The turn gives way when the tell ends, or once the
 ; SAY it began is said. A man says one thing at a time (lock speech-act). It succeeds when the
-; SAY does, the line recorded in the talk he said it in (record-said), and fails when he cannot
-; reach his audience.
+; SAY does, the line logged in the talk it went into (record-line) and recorded in his common ground
+; of it (record-said), and fails when he cannot reach his audience. A talk it opened and nobody took
+; part in goes when it ends, unless a hail of his to ?audience still waits on its answer.
 ;
 ; Saying something and waiting for an answer is a talk: each of its lines is said
 ; through this task.
@@ -31,12 +32,15 @@
   (failure-cond (and (is-a ?audience [k talk]) (not (other-party-in ?audience))))
   (cease
     (if (not (speaking))
-        (then (release-line-turns ?tell))))
+        (then (release-line-turns ?tell)))
+    (if (and (is-object ?audience) (none {@self hail ?audience}))
+        (then (let-go-opened ?audience))))
   (preemptive-or
     (try
-      (belief {@self SAY ?said ? /succ /caused_by ?tell}
+      (belief {@self SAY ?said ? /succ /caused_by ?tell}:?SAY
         (effects
-          (record-said ?said (talk-of-line ?audience))
+          (bind (record-line ?SAY ?audience (replied-line ?tell ?audience)) ?talk)
+          (record-said ?said ?talk)
           (set-outcome ?tell /succ))))
     (try
       (lod presented)
@@ -69,6 +73,7 @@
       (when (and (substantial ?far) (may-speak ?msg ?audience)))
       (effects (maintain-proposal {@self go-to ?far earshot})))
     (try
+      (lod presented)
       (bind (turn-board ?audience) ?board)
       (when (and (substantial ?board) (not (holds-turn ?board)) (not (being-called))
                  (not (answering-line ?msg ?audience))))

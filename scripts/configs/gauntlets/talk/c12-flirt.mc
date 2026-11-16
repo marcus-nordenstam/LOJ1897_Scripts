@@ -85,8 +85,8 @@
   (expect (in-mind ?beloved (c12-takes-to-fancy ?suitor ?beloved)) "c12: she does not take him to fancy her")
   (expect (or (not (in-mind ?lodger (c12-saw-flirt ?suitor ?beloved))) (in-mind ?lodger (c12-takes-to-fancy ?suitor ?beloved)))
           "c12: the lodger saw him flirt and does not take him to fancy her")
-  ; The unpresented courtship: no decorum, the same knowledge.
-  (expect (= (acts ?suitor-u hail started) 0) "c12: the far suitor hailed - there is no hailing unpresented")
+  ; The unpresented courtship: the same protocol on the boards, no lines of it, the same knowledge.
+  (expect (> (acts ?suitor-u hail started) 0) "c12: the far suitor never hailed")
   (expect (> (acts ?suitor-u flirt started) 0) "c12: the far suitor never flirted")
   (expect (in-mind ?beloved-u (answered-flirt ?suitor-u)) "c12: the far woman never answered his flirt")
   (expect (in-mind ?beloved-u (c12-takes-to-fancy ?suitor-u ?beloved-u)) "c12: the far woman does not take him to fancy her")

@@ -1,6 +1,6 @@
 ; --- keep the men we wrote to in sight ---------------------------------------
 ; A man the officer offered a post to exists in his mind as a name on paper - realis,
-; ungrounded. The day he walks in perception mints a second object, and the two fuse only
+; ungrounded. The day he walks in perception mints a second object, and the two are reconciled only
 ; if the paper one is in the RECONCILE set at that moment. The pipeline arms an object only
 ; while an act involving it runs, so the arming must be renewed for as long as the offer is
 ; outstanding: every offer-letter record whose man is not yet on any book.

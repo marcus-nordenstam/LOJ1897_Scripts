@@ -6,7 +6,6 @@
 ; ----------------------------------------------------------------------------
 
 (think talk-roster-join
-  (lod presented)
   (role ?talk {?talk participant @self} {?talk venue ?}
     (when (roster-lacks ?talk))
     (effects (roster-add ?talk))))

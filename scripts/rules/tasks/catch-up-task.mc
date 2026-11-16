@@ -19,7 +19,6 @@
       (when (unsubstantial (news-for ?friend)))
       (effects (set-outcome ?catch-up /succ)))
     (try
-      (lod presented)
       (when (and (not (conversing-with ?friend)) (hailable ?friend)))
       (effects (maintain-proposal {@self hail ?friend})))
     ; One activation per piece of news, so a piece told, or no longer true, is a withdrawn tell.
@@ -35,6 +34,7 @@
       (lod unpresented)
       (belief-list ?news-items {@self news ?told}:?news
                    (speech-worthy ?told ?friend)
+        (when (conversing-with ?friend))
         (effects
           (maintain-proposal {@self tell (msg /utterable /tidings [] ?news-items.target) ?friend}
                              /quit-trying-on-fail))))

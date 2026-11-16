@@ -170,7 +170,7 @@
 (define-func asked-whats-new (?other)
   (bind @false ?asked)
   (for-each ?ask (every {@self SAY (qs ? (news-for ?..)) ?other /succ})
-    (if (replied ?other ?ask)
+    (if (substantial (any {?other SAY ? @self /succ /caused_by ?ask}))
         (then (bind @true ?asked) (break))))
   ?asked)
 
@@ -188,13 +188,12 @@
 (define-func left-talk (?who)
   (in-mind ?who (substantial (any {@self SAY (formulaic ? leave-taking ?..) ? /past}))))
 
-; (took-in ?caller) - in a mind: @self answered an opening ?caller said to her by taking him in -
+; (took-in ?caller) - in a mind: @self answered a hail ?caller called to her by taking him in -
 ; taking his talk up, or answering it inside her own talk, which a caller joins before he opens.
 (define-func took-in (?caller)
-  (bind @false ?took)
+  (bind (substantial (any {@self take-up ?caller /succ /ever})) ?took)
   (for-each ?opening (every {?caller SAY (formulaic ? opening-phrase ?..) @self /past})
-    (if (or (substantial (any {@self take-up ?caller /succ /caused_by ?opening}))
-            (substantial (any {@self respond ?caller ?opening /succ})))
+    (if (substantial (any {@self respond ?caller ?opening /succ}))
         (then (bind @true ?took) (break))))
   ?took)
 

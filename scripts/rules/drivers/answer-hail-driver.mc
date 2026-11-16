@@ -10,8 +10,9 @@
 ; what it is. A man in a talk answers as a line of it, caused by his part in it: taking the
 ; caller up brings him into that talk, and turning him down is said over his shoulder and
 ; gives the talk as what he is busy with - neither ends it.
-; Every answer is caused by the opening it answers, and only a speaker's latest opening is
-; answered: his hail stands on that one, unanswered while no take-up or turn-down of it succeeded.
+; The hail is the caller's hailing set, at both levels of detail - presented he puts @self there once
+; he has said its opening - and it stands unanswered while his bbk-hail-answer record of @self is
+; empty. Presented the answer waits to be said until the opening has been heard (take-up, turn-down).
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -21,11 +22,8 @@
   (substantial (any {@self turn-down ?speaker ?})))
 
 (driver answer-hail-driver
-  (lod presented)
   (role ?speaker (bb-public-every ?speaker hailing @self)
-                 {?speaker SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
-                 -{@self take-up ?speaker /succ /caused_by ?opening}
-                 -{@self turn-down ?speaker ? /succ /caused_by ?opening}
+                 (unsubstantial (bb-public-read-rec ?speaker bbk-hail-answer @self answer))
                  (not (in-one-talk @self ?speaker))
     (and
       ; Engage: taking it up, at what talking with ?speaker is worth to him - task selection weighs
@@ -41,8 +39,8 @@
         (effects
           (bind (any {? participant @self}) ?part)
           (if (substantial ?part)
-              (then (maintain-proposal {@self take-up ?speaker} /caused_by ~[?opening ?part]))
-              (else (maintain-proposal {@self take-up ?speaker} /caused_by ?opening)))))
+              (then (maintain-proposal {@self take-up ?speaker} /caused_by ?part))
+              (else (maintain-proposal {@self take-up ?speaker})))))
       ; A take-up he has begun is a yes already being said: he finishes it.
       (try
         (belief {@self take-up ?speaker}
@@ -50,8 +48,8 @@
           (effects
             (bind (any {? participant @self}) ?part)
             (if (substantial ?part)
-                (then (maintain-proposal {@self take-up ?speaker} /caused_by ~[?opening ?part]))
-                (else (maintain-proposal {@self take-up ?speaker} /caused_by ?opening))))))
+                (then (maintain-proposal {@self take-up ?speaker} /caused_by ?part))
+                (else (maintain-proposal {@self take-up ?speaker}))))))
       ; Decline once task selection has put something else above taking it up (outbids), saying
       ; what it is: the decision is made once, and the refusal it begins always completes.
       (try
@@ -71,11 +69,10 @@
           (bind (any {? participant @self}) ?part)
           (if (substantial ?part)
               (then (begin-proposal {@self turn-down ?speaker (formulaic [] refusal in_talk)} /uninterruptable
-                                    /caused_by ~[?opening ?part]))
+                                    /caused_by ?part))
               (else
                 (bind (under-way ?busy-with) ?reason)
-                (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?reason)} /uninterruptable
-                                /caused_by ?opening)))))
+                (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?reason)} /uninterruptable)))))
       ; A man who has had his fill of company turns a hail down, saying so, unless it obliges him.
       (try
         (when (and (within-call ?speaker)
@@ -92,9 +89,8 @@
           (bind (any {? participant @self}) ?part)
           (if (substantial ?part)
               (then (begin-proposal {@self turn-down ?speaker (formulaic [] refusal weary)} /uninterruptable
-                                    /caused_by ~[?opening ?part]))
-              (else (begin-proposal {@self turn-down ?speaker (formulaic [] refusal weary)} /uninterruptable
-                                    /caused_by ?opening)))))
+                                    /caused_by ?part))
+              (else (begin-proposal {@self turn-down ?speaker (formulaic [] refusal weary)} /uninterruptable)))))
       ; Rebuffing a man he despises: a retort, heard as the insult it is.
       (try
         (when (and (within-call ?speaker)
@@ -105,6 +101,6 @@
           (bind (any {? participant @self}) ?part)
           (if (substantial ?part)
               (then (maintain-proposal {@self turn-down ?speaker (formulaic [] rebuff)}
-                                       /caused_by ~[?opening ?part]))
+                                       /caused_by ?part))
               (else (maintain-proposal {@self turn-down ?speaker (formulaic [] rebuff)}
-                                       /caused_by ?opening))))))))
+                                      ))))))))

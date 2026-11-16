@@ -5,7 +5,6 @@
 ; ----------------------------------------------------------------------------
 
 (driver ask-wonder-driver
-  (lod presented)
   (belief ?wonder {@self wonder ?fact}:?wonder
     (role ?talk {?talk participant @self}:?part
       (role ?partner {?talk participant ?partner}

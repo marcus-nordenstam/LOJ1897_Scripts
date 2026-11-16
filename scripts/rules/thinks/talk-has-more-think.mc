@@ -5,7 +5,6 @@
 ; ----------------------------------------------------------------------------
 
 (think talk-has-more
-  (lod presented)
   (role ?talk {?talk participant @self} {?talk venue ?}
     (bind (tolerate (agenda-for ?talk)) ?more)
     (when (neq ?more (substantial (bb-public-any ?talk has-more @self))))

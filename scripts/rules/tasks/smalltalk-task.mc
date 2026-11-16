@@ -18,9 +18,9 @@
         (bind (smalltalk-line ?talk) ?remark)
         (when (and (substantial ?remark)
                    (none {@self tell ?remark ?partner /succ /caused_by ?smalltalk})
-                   (not (awaits-smalltalk-answer ?talk ?partner))))
+                   (not (awaits-answer ?talk ?partner smalltalk))))
         (effects (maintain-proposal {@self tell ?remark ?partner} /quit-trying-on-fail))))
     (try
       (lint-waive cacheable-read-in-when)
-      (when (and (unsubstantial (smalltalk-line ?talk)) (not (awaits-smalltalk-answer ?talk ?partner))))
+      (when (and (unsubstantial (smalltalk-line ?talk)) (not (awaits-answer ?talk ?partner smalltalk))))
       (effects (set-outcome ?smalltalk /succ)))))
