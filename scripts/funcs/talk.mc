@@ -661,7 +661,9 @@
 ; (askable ?who ?fact) - @self may ask ?who for the fact clause ?fact: he could know it, @self does
 ; not take him not to know it, and he has not refused to tell @self it.
 (define-func askable (?who ?fact)
-  (and (could-know ?who ?fact) (none {?who /not know ?fact}) (none {?who withhold ?fact @self})))
+  (and (could-know ?who ?fact)
+       (not (takes-not-to-know ?who (clausify ?fact /strip-interval)))
+       (none {?who withhold ?fact @self})))
 
 ; (wants-to-ask ?party) - @self wonders about something ?party could tell him.
 (define-func wants-to-ask (?party)
@@ -671,31 +673,63 @@
         (then (bind @true ?asks) (break))))
   ?asks)
 
-; (said-to ?lines ?listener) - one of @self's lines ?lines reached ?listener: said to his face, or to
-; a talk he took part in.
-(define-func said-to (?lines ?listener)
-  (bind @false ?said)
-  (for-each ?SAY ?lines
-    (bind ?SAY.auxiliary ?audience)
-    (if (and (is-object ?audience)
-             (or (eq ?audience ?listener)
-                 (substantial (any {?audience participant ?listener /ever}))))
-        (then (bind @true ?said) (break))))
-  ?said)
+; WHAT @self TAKES OTHERS TO KNOW is held as who-knows entries, one of each fact - a clause with no
+; interval - and each person, with the line that grounds it: (knows ?who ?fact) answers as (prob ..)
+; does, (knows /not ..) whether he is taken NOT to know it, (knows .. /why) the line. A line marks
+; every fact it carries, for its speaker and for everyone who heard it.
 
-; (told-to ?belief ?listener) - @self has said ?belief to ?listener, alone or in a bundled line.
-(define-func told-to (?belief ?listener)
-  (or (said-to (every {@self SAY (msg ? ?belief) ? /succ /ever}) ?listener)
-      (said-to (every {@self SAY (msg ? ~[?belief]) ? /succ /ever}) ?listener)))
+; (takes-to-know ?who ?fact) - @self takes ?who to know the fact clause ?fact.
+(define-func takes-to-know (?who ?fact)
+  (bind (knows ?who ?fact) ?held)
+  (and (neq ?held @unknown) (neq ?held @false)))
 
-; (told-by ?belief ?friend) - ?friend told @self ?belief: a line of his is among how @self came to
-; know it.
-(define-func told-by (?belief ?friend)
-  (bind @false ?told)
-  (for-each ?source (sources ?belief)
-    (if (and (is-belief ?source) (eq ?source.subject ?friend) (eq ?source.label SAY))
-        (then (bind @true ?told) (break))))
-  ?told)
+; (takes-not-to-know ?who ?fact) - @self takes ?who NOT to know the fact clause ?fact: he said so.
+(define-func takes-not-to-know (?who ?fact)
+  (bind (knows /not ?who ?fact) ?held)
+  (and (neq ?held @unknown) (neq ?held @false)))
+
+; (mark-fact-told ?fact ?hearer ?SAY) - ?hearer, a person other than @self, knows ?fact by the line ?SAY.
+(define-func mark-fact-told (?fact ?hearer ?SAY)
+  (if (and (is-object ?hearer) (is-a ?hearer [k human]) (neq ?hearer @self))
+      (then (set-knows ?hearer ?fact ?SAY))))
+
+; (mark-fact-heard-by ?fact ?audience ?SAY) - everyone the line ?SAY reached knows ?fact: the man it
+; was said to, the parties of the talk it was said to, and for a line said to nobody everyone @self
+; holds to be within earshot of it.
+(define-func mark-fact-heard-by (?fact ?audience ?SAY)
+  (cond (case (unsubstantial ?audience)
+              (for-each ?person (spatial (spatial @self space) contents [k human])
+                (if (in-earshot ?person [k speech])
+                    (then (mark-fact-told ?fact ?person ?SAY)))))
+        (case (is-a ?audience [k talk])
+              (for-each ?party (talk-participants ?audience)
+                (mark-fact-told ?fact ?party ?SAY)))
+        (else (mark-fact-told ?fact ?audience ?SAY))))
+
+; (mark-item-told ?item ?audience ?SAY) - ?item, a belief or a clause the line ?SAY carried, is known
+; by everyone it reached; anything else it carried marks nothing.
+(define-func mark-item-told (?item ?audience ?SAY)
+  (if (or (is-belief ?item) (is-clause ?item))
+      (then (mark-fact-heard-by (clausify ?item /strip-interval) ?audience ?SAY))))
+
+; (mark-told ?SAY ?audience) - the line ?SAY @self said to ?audience told everyone it reached every
+; fact it carries, each one of a bundle of them apart. A question and an "I don't know" carry none.
+(define-func mark-told (?SAY ?audience)
+  (bind ?SAY.target ?msg)
+  (if (and (matches ?msg (msg ?..)) (not (matches ?msg (msg ? @unknown))))
+      (then
+        (for-each ?sentence (msg-sentences ?msg)
+          (if (is-list ?sentence)
+              (then (for-each ?item ?sentence (mark-item-told ?item ?audience ?SAY)))
+              (else (mark-item-told ?sentence ?audience ?SAY)))))))
+
+; (mark-heard ?fact ?SAY) - the fact ?fact @self took from the line ?SAY he heard: its speaker knows
+; it, and so does everyone else the line was said to.
+(define-func mark-heard (?fact ?SAY)
+  (bind (clausify ?fact /strip-interval) ?clause)
+  (mark-fact-told ?clause ?SAY.subject ?SAY)
+  (if (substantial ?SAY.auxiliary)
+      (then (mark-fact-heard-by ?clause ?SAY.auxiliary ?SAY))))
 
 ; (teller-of ?belief) - the man whose line first told @self ?belief, or @nothing when no line did.
 (define-func teller-of (?belief)
@@ -711,15 +745,13 @@
   (and (is-belief ?belief) (eq (end-time ?belief) @ongoing)))
 
 ; (speech-worthy ?belief ?friend) - @self may tell ?friend the belief ?belief: it is speakable,
-; ?friend is no party of it and did not tell it to @self, its tier admits him, and either @self
-; takes him not to know it or has not told it to him.
+; ?friend is no party of it, its tier admits him, and @self does not take him to know it - he
+; neither told it to @self, nor was told it by @self, nor heard it said.
 (define-func speech-worthy (?belief ?friend)
   (and (speakable ?belief)
        (not (involved-in ?friend ?belief))
-       (not (told-by ?belief ?friend))
        (disclosable-to ?belief ?friend)
-       (or (substantial (any {?friend /not know (clausify ?belief)}))
-           (not (told-to ?belief ?friend)))))
+       (not (takes-to-know ?friend (clausify ?belief /strip-interval)))))
 
 ; (worthy-for ?belief ?audience) - @self may tell ?belief to someone in ?audience: the man himself,
 ; or any other party of the talk ?audience.

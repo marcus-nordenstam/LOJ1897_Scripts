@@ -41,6 +41,7 @@
         (effects
           (bind (record-line ?SAY ?audience (replied-line ?tell ?audience)) ?talk)
           (record-said ?said ?talk)
+          (mark-told ?SAY ?audience)
           (set-outcome ?tell /succ))))
     (try
       (lod presented)

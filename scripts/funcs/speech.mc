@@ -55,6 +55,7 @@
       ; HOW this mind came to know it: the utterance, not its own eyes.
       ; Interrogation and the re-tell cascade both read that link.
       (add-source ?fact ?SAY)
+      (mark-heard ?fact ?SAY)
       (bind ?fact.subject ?subj)
       ; PEOPLE only. A heard fact can subject a BUILDING - the enclosure deixis
       ; carries household facts about the home - and an acquaintance tie to a
@@ -92,7 +93,7 @@
 (define-func adopt-not-knowing (?speaker ?SAY)
   (bind (asked-clause ?speaker ?SAY) ?asked)
   (if (is-clause ?asked)
-      (then (absorb-heard-fact (begin-belief {?speaker /not know ?asked}) ?SAY))))
+      (then (set-knows /not ?speaker (clausify ?asked /strip-interval) ?SAY))))
 
 ; (adopt-withholding ?speaker ?SAY) - ?speaker answered "none of your business" (?SAY) to a
 ; question @self inquired of him: the hearer takes him to withhold what it asked from @self.
