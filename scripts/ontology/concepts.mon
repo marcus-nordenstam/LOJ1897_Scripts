@@ -807,7 +807,6 @@
     (child tidings (facets answer-owed-in-talk))
     (child opener (facets answer-owed-in-talk))
     (child statement (facets answer-owed-in-talk) (default-for msg))
-    (child identified (facets answer-owed-in-talk))
     (child reply))
 
   ; A line's CONSTRUAL - how its hearer takes it, (msg-construal ?msg), its (construed-act ..)

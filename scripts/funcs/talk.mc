@@ -863,36 +863,80 @@
 ; respond driver (drivers/respond-driver.mc) owes it, the respond task says it, caused by the line.
 
 ; (line-kind ?line) - the move @self takes the heard line ?line to make, a msg-class leaf
-; (ontology/concepts.mon): its own move (msg-class), but identified when it answers @self's asking
-; which man, or what, was meant, and a reply when it is tidings of a list or a line he construes
-; (an insult): his answer to that is his reaction (reflexes/construe-speech.mc).
+; (ontology/concepts.mon): its own move (msg-class), but a reply when it is tidings of a list or a
+; line he construes (an insult): his answer to that is his reaction (reflexes/construe-speech.mc).
 (define-func line-kind (?line)
   (bind ?line.target ?msg)
   (bind (msg-class ?msg) ?move)
   (cond (case (or (eq ?move question) (eq ?move opener) (eq ?move flirtation) (eq ?move smalltalk)) ?move)
         (case (matches ?msg (msg /tidings ? ~[?])) reply)
         (case (eq ?move tidings) tidings)
-        (case (is-object (identity-asked ?line.subject ?msg ?line)) identified)
-        (case (is-belief (meaning-awaited ?line)) identified)
         (case (substantial (msg-construal ?msg)) reply)
         (case (substantial ?move) ?move)
         (else reply)))
 
-; (owes-response ?line) - the heard line ?line calls for a response from @self now: a statement
-; about a man he must first ask the speaker which one he is waits for the answer, and so does a line
-; he wonders what its speaker meant by.
-(define-func owes-response (?line)
-  (bind (line-kind ?line) ?kind)
-  (and (neq ?kind reply)
-       (or (neq ?kind statement) (not (awaits-identity ?line)))
-       (not (awaits-meaning ?line))))
+; A LINE SAID TO A MAN IN A TALK HAS A REPLY STATE on his own board of that talk (bbk-reply-state,
+; boards/talk.mc), written as he hears it (note-reply-state, called by the hear func) and settled at
+; the head of each of his deliberations (tend-replies, the engine's /tend): a line its talk leaves a
+; then, there, he, she or it unsaid in, or a statement about a man he must first ask which one he is,
+; is blocked on that; he wonders what was meant by the first such, which has him ask back
+; (drivers/ask-wonder-driver.mc); once nothing blocks it the line is heard again for what waited in
+; it and, when its kind is owed a reply, is due: he is obliged to respond to it
+; (drivers/respond-driver.mc). Lines that come due together are replied to oldest first. Presented,
+; every owed line gets its reply; unpresented only a line owed wherever it is said.
 
-; (awaits-identity ?line) - the statement ?line told @self about a man he wonders which of several
-; he is, and could ask its speaker: "Tom is ailing" waits on "Which Tom?".
-(define-func awaits-identity (?line)
+; (answers-inquiry ?line) - the heard line ?line answers a question @self has asked its speaker and
+; still waits on: an inquire of his runs whose question is said.
+(define-func answers-inquiry (?line)
+  (bind ?line.subject ?speaker)
+  (bind @false ?answers)
+  (for-each ?inquire (every {@self inquire ?speaker ?})
+    (if (substantial (any {@self tell ? ?speaker /succ /caused_by ?inquire}))
+        (then (bind @true ?answers) (break))))
+  ?answers)
+
+; (owed-reply ?line) - the line ?line, heard now, is owed a reply by @self: its kind is owed wherever
+; it is said (a question, a flirt), or, presented, owed from a party of the talk he is in - but not a
+; statement that answers what he asked.
+(define-func owed-reply (?line)
+  (bind ?line.subject ?speaker)
+  (bind (line-kind ?line) ?kind)
+  (and (neq ?speaker @self)
+       (not (and (eq ?kind statement) (answers-inquiry ?line)))
+       (or (has-facet ?kind answer-owed)
+           (and (has-facet ?kind answer-owed-in-talk) (presented-lod) (in-one-talk @self ?speaker)))))
+
+; (owe-reply ?line ?prompt) - @self is obliged to respond to ?line now, on the line ?prompt that
+; made it due (?line itself when nothing blocked it).
+(define-func owe-reply (?line ?prompt)
+  (bind ?line.subject ?speaker)
+  (if (none {@self obligation {@self respond ?speaker ?line} ?speaker})
+      (then
+        (bind (begin-belief {@self obligation {@self respond ?speaker ?line} ?speaker /caused_by ?line}) ?owed)
+        (if (and (is-belief ?prompt) (neq ?prompt ?line))
+            (then (add-causes ?owed ?prompt))))))
+
+; (note-reply-state ?SAY) - the line ?SAY just said to @self is given its reply state in the talk he
+; shares with its speaker; outside one, a line owed a reply obliges him at once. @true when the line
+; waits on what its speaker meant.
+(define-func note-reply-state (?SAY)
+  (bind ?SAY.subject ?speaker)
+  (bind (shared-talk ?speaker) ?talk)
+  (bind (tolerate (owed-reply ?SAY)) ?owed)
+  (bind (tolerate (and (substantial ?talk) (not (empty (unresolved-in ?SAY))))) ?waits)
+  (cond (case (and (substantial ?talk) ?owed) (bb-write-rec ?talk bbk-reply-state ?SAY (/state owed /blocked-on @nothing)))
+        (case ?waits (bb-write-rec ?talk bbk-reply-state ?SAY (/state unowed /blocked-on @nothing)))
+        (case ?owed (owe-reply ?SAY ?SAY)))
+  ?waits)
+
+; (awaited-ghost ?line) - the man the statement ?line told @self about whom he wonders which of
+; several he is, and could ask its speaker: "Tom is ailing" waits on "Which Tom?"; @nothing for none.
+(define-func awaited-ghost (?line)
   (bind (told-fact ?line) ?fact)
-  (and (is-belief ?fact)
-       (or (wondered-who ?fact.subject ?line.subject) (wondered-who ?fact.target ?line.subject))))
+  (cond (case (not (is-belief ?fact)) @nothing)
+        (case (wondered-who ?fact.subject ?line.subject) ?fact.subject)
+        (case (wondered-who ?fact.target ?line.subject) ?fact.target)
+        (else @nothing)))
 
 ; (wondered-who ?thing ?speaker) - @self wonders which man ?thing is, or the rest of his name, and
 ; could ask ?speaker.
@@ -905,6 +949,95 @@
               (then (bind (askable ?speaker ?wonder.target) ?wondered) (break))))))
   ?wondered)
 
+; (rehear-line ?SAY) - the line ?SAY that waited on what its speaker meant is heard again now that
+; their talk says it: a question's people are noted, a statement's sentences that waited are adopted.
+(define-func rehear-line (?SAY)
+  (bind ?SAY.subject ?speaker)
+  (bind (shared-talk ?speaker) ?talk)
+  (if (matches ?SAY.target (qs ?..))
+      (then (record-heard ?SAY ?talk))
+      (else
+        (bind (tolerate (adopt-msg /waited ?SAY ?talk)) ?out)
+        (if (is-list ?out)
+            (then (for-each ?fact ?out (absorb-heard-fact ?fact ?SAY)))
+            (else (absorb-heard-fact ?out ?SAY))))))
+
+; (blocked-on ?talk ?line) - what the line ?line of ?talk waits on in @self's mind: a then, there,
+; he, she or it, a man he must ask about, or @nothing.
+(define-func blocked-on (?talk ?line)
+  (bb-read-rec ?talk bbk-reply-state ?line blocked-on))
+
+; (settle-heard-line ?talk ?line ?state) - the line ?line of ?talk, heard and not yet due, is tested
+; again: it waits on the first reference its talk leaves unsaid, or on the man he must ask about;
+; else it is heard again when a reference held it and, owed a reply, is due.
+(define-func settle-heard-line (?talk ?line ?state)
+  (bind ?line.subject ?speaker)
+  (bind (unresolved-in ?line) ?references)
+  (bind (blocked-on ?talk ?line) ?was)
+  (bind (flip (eq (line-kind ?line) statement) (awaited-ghost ?line) @nothing) ?ghost)
+  (cond (case (not (empty ?references))
+              (bind (head ?references) ?reference)
+              (bb-write-rec ?talk bbk-reply-state ?line (/blocked-on ?reference)))
+        (case (is-object ?ghost)
+              (bb-write-rec ?talk bbk-reply-state ?line (/blocked-on ?ghost)))
+        (else
+          (if (and (substantial ?was) (not (is-object ?was)))
+              (then (rehear-line ?line)))
+          (if (eq ?state owed)
+              (then
+                (bb-write-rec ?talk bbk-reply-state ?line (/state due))
+                (owe-reply ?line (last-line-from ?talk ?speaker)))
+              (else (bb-clear-rec ?talk bbk-reply-state ?line))))))
+
+; (waiting-line ?talk ?line) - the state of ?line in ?talk says it is heard and not yet due.
+(define-func waiting-line (?talk ?line)
+  (bind (bb-read-rec ?talk bbk-reply-state ?line state) ?state)
+  (or (eq ?state owed) (eq ?state unowed)))
+
+; (meaning-wanted ?talk ?speaker ?reference) - a line of ?speaker's in ?talk still waits on what he
+; meant by ?reference.
+(define-func meaning-wanted (?talk ?speaker ?reference)
+  (bind @false ?wanted)
+  (if (substantial ?talk)
+      (then
+        (for-each ?line (bb-read-keys ?talk bbk-reply-state)
+          (if (and (waiting-line ?talk ?line) (eq ?line.subject ?speaker) (eq (blocked-on ?talk ?line) ?reference))
+              (then (bind @true ?wanted) (break))))))
+  ?wanted)
+
+; (tend-replies) - at the head of each deliberation: every line of the talk @self is in that is heard
+; and not yet due is settled, oldest first; a wonder about what a speaker meant ends once no line
+; waits on it; and he wonders about the first reference the oldest waiting line leaves unsaid, one
+; speaker's at a time. A line whose speaker has left the talk waits no more.
+(define-func /tend tend-replies ()
+  (bind (talk-of @self) ?talk)
+  (if (substantial ?talk)
+      (then
+        (for-each ?line (bb-read-keys ?talk bbk-reply-state)
+          (if (waiting-line ?talk ?line)
+              (then
+                (if (in-talk ?line.subject ?talk)
+                    (then (settle-heard-line ?talk ?line (bb-read-rec ?talk bbk-reply-state ?line state)))
+                    (else (bb-clear-rec ?talk bbk-reply-state ?line))))))))
+  (for-each ?wonder (every {@self wonder {? means ? ?}})
+    (bind ?wonder.target ?meant)
+    (if (not (meaning-wanted ?talk ?meant.subject ?meant.target))
+        (then (end-belief ?wonder))))
+  (if (substantial ?talk)
+      (then
+        (for-each ?line (bb-read-keys ?talk bbk-reply-state)
+          (bind (blocked-on ?talk ?line) ?reference)
+          (bind ?line.subject ?speaker)
+          (if (and (waiting-line ?talk ?line) (substantial ?reference) (not (is-object ?reference))
+                   (none {@self wonder {?speaker means ? ?}}))
+              (then (wonder-meaning ?speaker ?reference)))))))
+
+; (mark-reply-given ?line) - @self has replied to the line ?line: its reply state says so.
+(define-func mark-reply-given (?line)
+  (bind (said-in ?line) ?talk)
+  (if (and (substantial ?talk) (substantial (bb-read-rec ?talk bbk-reply-state ?line state)))
+      (then (bb-write-rec ?talk bbk-reply-state ?line (/state given)))))
+
 ; (reply-to ?line ?speaker) - the response @self gives ?speaker's heard line ?line, or @nothing.
 (define-func reply-to (?line ?speaker)
   (bind ?line.target ?msg)
@@ -914,64 +1047,8 @@
     (on flirtation (flirt-reply ?speaker))
     (on smalltalk (smalltalk-reply (talk-of @self)))
     (on tidings (tidings-reply ?speaker))
-    (on identified (identified-reply ?line ?speaker))
     (on statement (statement-reply ?line))
     (else @nothing)))
-
-; (meaning-awaited ?line) - the line before ?line of its speaker's in the talk they are in, still
-; unanswered, that left @self wondering what he meant: the line ?line answers ("Where do you mean?" -
-; "The Red Lion"), or @nothing.
-(define-func meaning-awaited (?line)
-  (bind @nothing ?awaited)
-  (bind (said-in ?line) ?talk)
-  (if (substantial ?talk)
-      (then
-        (for-each ?said (bb-public-read-keys ?talk bbk-line)
-          (if (eq ?said ?line) (then (break)))
-          (if (and (eq ?said.subject ?line.subject) (eq ?said.auxiliary @self)
-                   (substantial (any {@self wonder {? means ? ?} /ever /caused_by ?said}))
-                   (not (dealt-with ?said ?line.subject)))
-              (then (bind ?said ?awaited))))))
-  ?awaited)
-
-; (awaits-meaning ?line) - @self wonders what the speaker of ?line, or of the line it answers, meant by
-; the first then, there, he, she or it his talk still gives no meaning: the line waits on the answer.
-(define-func awaits-meaning (?line)
-  (bind (flip (empty (unresolved-in ?line)) (meaning-awaited ?line) ?line) ?awaited)
-  (bind (flip (is-belief ?awaited) ?awaited ?line) ?said)
-  (bind (head (unresolved-in ?said)) ?token)
-  (bind @false ?awaits)
-  (for-each ?wonder (every {@self wonder {?said.subject means ? ?}})
-    (bind ?wonder.target ?asked)
-    (if (eq ?asked.target ?token)
-        (then (bind @true ?awaits) (break))))
-  ?awaits)
-
-; (dealt-with ?said ?speaker) - @self has responded to ?speaker's line ?said, or to a line of his since.
-(define-func dealt-with (?said ?speaker)
-  (bind (any {@self respond ?speaker ? /succ /most_recent}) ?last)
-  (and (is-belief ?last)
-       (or (eq ?said ?last.auxiliary) (not (happened-since ?said ?last.auxiliary)))))
-
-; (identified-reply ?line ?speaker) - what @self says once ?speaker's answer ?line told him which man
-; he meant, or what his then, there, he, she or it stood for: the response to ?speaker's statement or
-; question that waited on it - his latest in the talk before ?line that @self has not answered - or
-; @nothing.
-(define-func identified-reply (?line ?speaker)
-  (bind @nothing ?waited)
-  (bind (said-in ?line) ?talk)
-  (if (substantial ?talk)
-      (then
-        (for-each ?said (bb-public-read-keys ?talk bbk-line)
-          (if (eq ?said ?line) (then (break)))
-          (if (and (eq ?said.subject ?speaker) (eq ?said.auxiliary @self))
-              (then
-                (bind (line-kind ?said) ?kind)
-                (if (and (or (eq ?kind statement) (eq ?kind question)) (not (dealt-with ?said ?speaker)))
-                    (then (bind ?said ?waited))))))))
-  (if (is-belief ?waited)
-      (then (reply-to ?waited ?speaker))
-      (else @nothing)))
 
 ; (told-fact ?line) - the fact the heard line ?line told @self, as he holds it: of the beliefs its
 ; claims were adopted as, sourced from the line, the one he came to hold last - its first claim when

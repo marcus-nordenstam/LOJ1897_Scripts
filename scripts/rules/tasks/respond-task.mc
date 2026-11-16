@@ -13,7 +13,7 @@
   (category reply)
   (tar @excl [k human] @object)
   (aux ?)
-  (success-cond {@self tell ? ?speaker /succ /caused_by ?line})
+  (success-cond {@self tell ? ?speaker /succ /caused_by ?respond})
   (preemptive-or
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line

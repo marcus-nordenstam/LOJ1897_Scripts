@@ -1,9 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; respond-driver (driver) - THE reactive driver of talk: a line a party of @self's talk
-; said to him since he joined it - each speaker's last - of a kind that calls for a response, owes him
-; its response (reflexes/obligation-respond.mc); while it does not wait on his asking back
-; (owes-response, funcs/talk.mc) and nothing of his answers it yet, he responds
-; (tasks/respond-task.mc), one at a time: the oldest line owed is answered first. An opening he
+; said to him since he joined it, of a kind that calls for a response, obliges him to respond once
+; nothing it leaves unsaid blocks it (owe-reply, funcs/talk.mc); while nothing of his answers it yet,
+; he responds (tasks/respond-task.mc), one at a time: the oldest line due is answered first. An opening he
 ; took up or turned down was answered by that (the hail answers in drivers/answer-hail-driver.mc
 ; are for a caller outside the talk he is in).
 ; ----------------------------------------------------------------------------
@@ -12,9 +11,7 @@
   (lod presented)
   (role ?talk {?talk participant @self}:?part
     (role ?speaker {@self obligation {@self respond ?speaker ?line} ?speaker}:?owed
-                   (owes-response ?line)
                    -{@self respond ?speaker ?line /succ}
-                   -{@self tell ? ?speaker /succ /caused_by ?line}
                    -{@self take-up ?speaker /succ /caused_by ?line}
                    -{@self turn-down ?speaker ? /succ /caused_by ?line}
                    (in-talk ?speaker ?talk)
@@ -23,7 +20,7 @@
                    (select (score (- 0 (elapsed /seconds (start-time ?line)))) (policy argmin))
       (when (in-talk @self ?talk))
       (declare-utility obligation)
-      (effects (maintain-proposal {@self respond ?speaker ?line} /caused_by ?part)))))
+      (effects (maintain-proposal {@self respond ?speaker ?line} /caused_by ~[?part ?owed])))))
 
 ; respond-direct-driver (driver) - unpresented there is no talk and no decorum: only a line owed
 ; wherever it is said - a question or a flirt - is answered, the answer or the courtship's flirt back

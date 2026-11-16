@@ -110,7 +110,19 @@
       (then (bind (whom-asked (asked-clause ?speaker ?SAY)) ?ghost)))
   ?ghost)
 
+; The engine's hear hook: what the line says is adopted (adopt-heard-content), and a line said to
+; @self is given its reply state (note-reply-state, funcs/talk.mc). A line that waits on what its
+; speaker meant carries no fact yet by design: @nothing.
 (define-func /hear adopt-heard-msg (?SAY)
+  (bind (tolerate (adopt-heard-content ?SAY)) ?adopted)
+  (bind @false ?waits)
+  (if (eq ?SAY.auxiliary @self)
+      (then (bind (tolerate (note-reply-state ?SAY)) ?waits)))
+  (if ?waits
+      (then @nothing)
+      (else ?adopted)))
+
+(define-func adopt-heard-content (?SAY)
   (bind ?SAY.target ?msg)
   (bind ?SAY.subject ?speaker)
   (if (matches ?msg (formulaic ? opening-phrase authority ?..))
