@@ -756,7 +756,7 @@
   (bind (flip (is-belief ?awaited) ?awaited ?line) ?said)
   (bind (head (unresolved-in ?said)) ?token)
   (bind @false ?awaits)
-  (for-each ?wonder (every {@self wonder {? means ? ?} /caused_by ?said})
+  (for-each ?wonder (every {@self wonder {?said.subject means ? ?}})
     (bind ?wonder.target ?asked)
     (if (eq ?asked.target ?token)
         (then (bind @true ?awaits) (break))))
@@ -787,15 +787,19 @@
       (then (reply-to ?waited ?speaker))
       (else @nothing)))
 
-; (told-fact ?line) - the fact the heard line ?line told @self, as he holds it: the belief its
-; first claim was adopted as, sourced from the line, or @nothing when he took nothing from it.
+; (told-fact ?line) - the fact the heard line ?line told @self, as he holds it: of the beliefs its
+; claims were adopted as, sourced from the line, the one he came to hold last - its first claim when
+; he took them all as he heard it, the one that waited when a claim waited on what its speaker meant
+; ("He is ailing" - "Who do you mean by he?" - "John Walker") - or @nothing when he took nothing.
 (define-func told-fact (?line)
-  (bind (nth (k-msg-first-content-field) ?line.target) ?content)
   (bind @nothing ?fact)
-  (if (is-clause ?content)
-      (then
-        (bind ?content.label ?label)
-        (bind (any {? ?label ? /sources ?line}) ?fact)))
+  (for-each ?content (msg-sentences ?line.target)
+    (if (is-clause ?content)
+        (then
+          (bind ?content.label ?label)
+          (bind (any {? ?label ? /sources ?line}) ?told)
+          (if (and (is-belief ?told) (or (unsubstantial ?fact) (learned-before ?fact ?told)))
+              (then (bind ?told ?fact))))))
   ?fact)
 
 ; (misfortune ?fact) - ?fact is a misfortune: a state whose value declares one (ailing, invalid).
