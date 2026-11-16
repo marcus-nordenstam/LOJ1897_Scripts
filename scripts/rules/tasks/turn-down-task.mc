@@ -13,13 +13,14 @@
   (and
     (sequence
       (lod presented)
-      (role ?partner {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
-        (stage
-          (effects (maintain-proposal {@self tell ?msg ?partner} /caused_by ?opening)))
-        (stage
-          (effects
-            (answer-hail ?partner turned-down)
-            (set-outcome ?turn-down /succ)))))
+      (stage
+        (when (is-belief (opening-from ?partner)))
+        (bind (opening-from ?partner) ?opening)
+        (effects (maintain-proposal {@self tell ?msg ?partner} /caused_by ?opening)))
+      (stage
+        (effects
+          (answer-hail ?partner turned-down)
+          (set-outcome ?turn-down /succ))))
     (try
       (lod unpresented)
       (effects

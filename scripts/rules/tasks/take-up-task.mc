@@ -21,15 +21,16 @@
   (and
     (sequence
       (lod presented)
-      (role ?partner {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
-        (stage
-          (bind (hail-response ?opening.target) ?response)
-          (effects (maintain-proposal {@self tell ?response ?partner} /caused_by ?opening)))
-        (stage
-          (effects
-            (if (take-up-into ?partner ?take-up)
-                (then (set-outcome ?take-up /succ))
-                (else (set-outcome ?take-up /fail)))))))
+      (stage
+        (when (is-belief (opening-from ?partner)))
+        (bind (opening-from ?partner) ?opening)
+        (bind (hail-response ?opening.target) ?response)
+        (effects (maintain-proposal {@self tell ?response ?partner} /caused_by ?opening)))
+      (stage
+        (effects
+          (if (take-up-into ?partner ?take-up)
+              (then (set-outcome ?take-up /succ))
+              (else (set-outcome ?take-up /fail))))))
     (sequence
       (lod unpresented)
       (stage

@@ -602,6 +602,41 @@
               (then (bind ?line ?last))))))
   ?last)
 
+; (opening-in ?talk ?partner) - the last opening ?partner said to @self that ?talk's log holds, or
+; @nothing.
+(define-func opening-in (?talk ?partner)
+  (bind @nothing ?opening)
+  (if (substantial ?talk)
+      (then
+        (for-each ?line (bb-public-read-keys ?talk bbk-line)
+          (if (and (eq ?line.subject ?partner) (eq ?line.auxiliary @self)
+                   (matches ?line.target (formulaic ? opening-phrase ?..)))
+              (then (bind ?line ?opening))))))
+  ?opening)
+
+; (opening-from ?partner) - the opening ?partner called @self with, or @nothing: the last one in the
+; log of the talk ?partner holds open for him, of a talk either is in, or of the one @self holds open
+; for ?partner.
+(define-func opening-from (?partner)
+  (bind (opening-in (opened-talk ?partner @self) ?partner) ?called)
+  (bind (opening-in (talk-of ?partner) ?partner) ?theirs)
+  (bind (opening-in (talk-of @self) ?partner) ?mine)
+  (cond (case (is-belief ?called) ?called)
+        (case (is-belief ?theirs) ?theirs)
+        (case (is-belief ?mine) ?mine)
+        (else (opening-in (opened-talk @self ?partner) ?partner))))
+
+; (opening-since ?partner ?since) - the opening ?partner called @self with since ?since, or @nothing.
+(define-func opening-since (?partner ?since)
+  (bind (opening-from ?partner) ?opening)
+  (flip (and (is-belief ?opening) (happened-since ?opening ?since)) ?opening @nothing))
+
+; (unanswered-opening ?partner ?since) - the opening ?partner called @self with since ?since that he
+; has said nothing back to, or @nothing.
+(define-func unanswered-opening (?partner ?since)
+  (bind (opening-since ?partner ?since) ?opening)
+  (flip (and (is-belief ?opening) (none {@self tell ? ?partner /succ /caused_by ?opening})) ?opening @nothing))
+
 ; (inquiry-of ?who ?fact) - the question @self asks ?who about what he wonders, ?fact: a fact clause
 ; is searched, (any ?fact) - the rest of a ghost's name, {G name >[n Tom]}, asks for the name alone,
 ; "Tom who?"; a ghost is asked after itself, which one it is, (which ?fact @self).
@@ -1097,16 +1132,17 @@
               (then (bind @true ?heard) (break))))))
   ?heard)
 
-; (asked-home) - the question @self was last asked searched a home: the address that answers it is
-; the answer itself, never "at home".
+; (asked-home) - the question @self is answering searched a home: the address that answers it is
+; the answer itself, never "at home". The question is the line of the respond he runs.
 (define-func asked-home ()
   (bind @false ?asked)
-  (bind (any {? SAY (qs ?..) @self /past /most_recent}) ?SAY)
-  (if (is-belief ?SAY)
-      (then
-        (bind (nth 1 (nth (k-msg-first-content-field) ?SAY.target)) ?searched)
-        (if (is-clause ?searched)
-            (then (bind (eq ?searched.label home) ?asked)))))
+  (for-each ?respond (every {@self respond ? ?})
+    (bind ?respond.auxiliary ?line)
+    (if (and (is-belief ?line) (matches ?line.target (qs ?..)))
+        (then
+          (bind (nth 1 (nth (k-msg-first-content-field) ?line.target)) ?searched)
+          (if (and (is-clause ?searched) (eq ?searched.label home))
+              (then (bind @true ?asked) (break))))))
   ?asked)
 
 ; (self-home ?place) - ?place, an address as a line names it, is in the premises of @self's home - the

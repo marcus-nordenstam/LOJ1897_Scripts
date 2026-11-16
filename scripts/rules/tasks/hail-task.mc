@@ -68,19 +68,16 @@
       (lod presented)
       (belief {@self isa [k human]}
                   -{@self tell (formulaic ? opening-phrase ?) ?partner /succ /caused_by ?hail}
-        (role ?partner {?partner SAY ? @self /past /most_recent}
-                       {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
-          (when (happened-since ?opening ?hail))
-          (effects (set-outcome ?hail /fail)))))
+        (when (is-belief (opening-since ?partner ?hail)))
+        (effects (set-outcome ?hail /fail))))
     (try
       (lod presented)
       (lint-waive cacheable-read-in-when)
       (belief {@self tell (formulaic ? opening-phrase ?) ?partner /succ /caused_by ?hail}
-        (role ?partner {?partner SAY ? @self /past /most_recent}
-                       {?partner SAY (formulaic ? opening-phrase ?..) @self /past /most_recent}:?opening
-                       -{@self tell ? ?partner /succ /caused_by ?opening}
-          (when (and (in-one-talk ?partner @self) (happened-since ?opening ?hail)))
-          (effects (maintain-proposal {@self respond ?partner ?opening})))))
+        (when (and (in-one-talk ?partner @self) (is-belief (unanswered-opening ?partner ?hail))))
+        (effects
+          (bind (unanswered-opening ?partner ?hail) ?opening)
+          (maintain-proposal {@self respond ?partner ?opening}))))
     (try
       (lint-waive cacheable-read-in-when)
       (when (hail-accepted ?partner ?hail))

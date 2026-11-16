@@ -46,6 +46,7 @@
 
         ; wait until the officer responds with who got the job
         (try
+          (lint-waive say-search)
           (role ?officer [k human] {?officer recruit-staff ?}
                                    (spatial ?officer co-located @self)
                                    -{?officer SAY (msg ? {? job ?}) @self /succ}

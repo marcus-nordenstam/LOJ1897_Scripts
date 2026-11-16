@@ -20,10 +20,11 @@
         (when (replied ?partner ?SAY))
         (effects (set-outcome ?inquire /succ))))
     (try
-      (role ?partner {?partner SAY ? @self /past}:?line
-                     (eq ?line (prompting-line ?partner ?qs))
-                     -{@self tell ?qs ?partner /succ /caused_by ?inquire}
-        (effects (maintain-proposal {@self tell ?qs ?partner} /caused_by ?line /quit-trying-on-fail))))
+      (when (and (none {@self tell ?qs ?partner /succ /caused_by ?inquire})
+                 (substantial (prompting-line ?partner ?qs))))
+      (effects
+        (bind (prompting-line ?partner ?qs) ?line)
+        (maintain-proposal {@self tell ?qs ?partner} /caused_by ?line /quit-trying-on-fail)))
     (try
       (when (and (none {@self tell ?qs ?partner /succ /caused_by ?inquire})
                  (unsubstantial (prompting-line ?partner ?qs))))
