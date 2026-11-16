@@ -796,25 +796,48 @@
     (child ailing (construed-act misfortune-act))
     (child invalid (construed-act misfortune-act)))
 
-  ; Message classes - what kind of line a SAY is, a qualifier of its msg, (msg /utterable /<leaf> ..). A
-  ; leaf's (construed-act ..) is how a hearer construes the line (reflexes/construe-speech.mc).
+  ; A line's MOVE - what it does in the talk, (msg-class ?msg). Written as a qualifier of its
+  ; wrapper, (msg /utterable /reply ..), else its formulaic phrase's, else its wrapper's
+  ; (default-for ..). A move its hearer owes a reply carries answer-owed (wherever it is said to
+  ; him) or answer-owed-in-talk (from a party of his talk) - reflexes/obligation-respond.mc.
   (child msg-class
-    (child insult (construed-act slight-act))
-    (child jilt (construed-act abandonment-act wrong-act))
-    (child urge (construed-act coercion-act))
-    ; The dialogue-line classes: each is said by its own dialogue task, and a reactive driver
-    ; finds the class inline on the heard line, (msg /smalltalk ?..). The kind of a heard line
-    ; (line-kind, funcs/talk.mc) is one of these; a class its hearer owes an answer carries
-    ; answer-owed (wherever it is said to him) or answer-owed-in-talk (from a party of his
-    ; talk) - reflexes/obligation-respond.mc.
-    (child inquiry (facets answer-owed))
+    (child question (facets answer-owed) (default-for qs))
     (child flirtation (facets answer-owed))
     (child smalltalk (facets answer-owed-in-talk))
     (child tidings (facets answer-owed-in-talk))
     (child opener (facets answer-owed-in-talk))
-    (child statement (facets answer-owed-in-talk))
+    (child statement (facets answer-owed-in-talk) (default-for msg))
     (child identified (facets answer-owed-in-talk))
     (child reply))
+
+  ; A line's CONSTRUAL - how its hearer takes it, (msg-construal ?msg), its (construed-act ..)
+  ; (reflexes/construe-speech.mc). Written as a qualifier, (msg /utterable /insult ..), else its
+  ; formulaic phrase's.
+  (child msg-construal
+    (child insult (construed-act slight-act))
+    (child jilt (construed-act abandonment-act wrong-act))
+    (child urge (construed-act coercion-act)))
+
+  ; The phrases a (formulaic <phrase> ..) says, each with the move and construal its lines carry:
+  ; its own (msg-class ..) / (msg-construal ..), else its nearest ancestor's.
+  (child formulaic-phrase (msg-class reply)
+    (child opening-phrase (msg-class opener))
+    (child response)
+    (child refusal
+      (child manners-refusal (msg-construal insult)))
+    (child rebuff (msg-construal insult))
+    (child breakup (msg-construal jilt))
+    (child leave-taking)
+    (child did-not-know)
+    (child already-knew)
+    (child introduction)
+    (child probe)
+    (child yes-its)
+    (child yes-this-is)
+    (child no-dont-know)
+    (child flirt-phrase
+      (child compliment (msg-class flirtation))
+      (child return-compliment)))
 
   (child sky-condition
     (children clear overcast cloudy))

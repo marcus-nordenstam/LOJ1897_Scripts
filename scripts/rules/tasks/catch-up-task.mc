@@ -43,5 +43,5 @@
       (when (and (conversing-with ?friend)
                  (unsubstantial (news-for ?friend))
                  (not (asked-news ?friend (talk-of @self)))))
-      (effects (maintain-proposal {@self tell (qs /utterable /tidings [] (news-for @self)) ?friend}
+      (effects (maintain-proposal {@self tell (qs /utterable [] (news-for @self)) ?friend}
                                   /quit-trying-on-fail)))))

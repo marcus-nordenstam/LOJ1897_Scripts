@@ -27,8 +27,8 @@
           (if (and (in-talk @self ?talk) (other-party-in ?talk))
               (then
                 (flip (substantial ?outbidder)
-                      (formulaic [] leave_taking excuse ?outbidder)
-                      (formulaic [] leave_taking bye)): ?leave-taking
+                      (formulaic [] leave-taking excuse ?outbidder)
+                      (formulaic [] leave-taking bye)): ?leave-taking
                 (maintain-proposal {@self tell ?leave-taking ?talk})))))
       (stage
         (effects

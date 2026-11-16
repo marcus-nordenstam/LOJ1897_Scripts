@@ -9,7 +9,7 @@
 ; ----------------------------------------------------------------------------
 
 (reflex {?speaker SAY ?msg ?audience /ever}:?SAY
-  (msg-class-of ?msg):?class
+  (msg-construal ?msg):?class
   (when (substantial ?class))
   (effects
     (for-each ?construal (construals-of ?class)

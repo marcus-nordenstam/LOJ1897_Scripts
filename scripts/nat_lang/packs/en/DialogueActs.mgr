@@ -218,7 +218,7 @@
 ; NEGATIVE_KNOWLEDGE: a witness who declines COULD answer but is choosing
 ; not to. The receiver mind dispatches on (formulaic refusal <reason>) and
 ; may press, escalate, ask for the reason, or accept - all distinct from
-; the response to (formulaic no_dont_know) ("I have no such belief").
+; the response to (formulaic no-dont-know) ("I have no such belief").
 ;
 ; Reason atoms (distillation 4.2) name the witness's basis for refusal -
 ; the receiver mind reads them to choose its next move:
@@ -232,20 +232,20 @@
 ; not yet have a specific rule for.
 
 " that is none of your business "
-( formulaic /reply [] refusal answer ) .
+( formulaic [] refusal answer ) .
 " i'll not say "
-( formulaic /reply [] refusal answer ) .
+( formulaic [] refusal answer ) .
 " i'd rather not say "
-( formulaic /reply [] refusal answer ) .
+( formulaic [] refusal answer ) .
 " i prefer not to discuss it "
-( formulaic /reply [] refusal answer ) .
+( formulaic [] refusal answer ) .
 " it is not fit to speak of "
-( formulaic /reply [] refusal answer ) .
+( formulaic [] refusal answer ) .
 " nil nisi bonum "
-( formulaic /reply [] refusal speak_ill_of_dead ) .
+( formulaic [] refusal speak_ill_of_dead ) .
 " i'll not blacken a name "
-( formulaic /reply [] refusal speak_ill_of_dead ) .
+( formulaic [] refusal speak_ill_of_dead ) .
 " that is between me and god "
-( formulaic /reply [] refusal religious_matter ) .
+( formulaic [] refusal religious_matter ) .
 " such matters are above me "
-( formulaic /reply [] refusal above_my_station ) .
+( formulaic [] refusal above_my_station ) .

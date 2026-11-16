@@ -25,9 +25,9 @@
 "I can't stop now"                                                              ( formulaic [] refusal busy ) .
 "I can't talk right now because I am talking with someone"                     ( formulaic [] refusal in_talk ) .
 "I have had my fill of company"                                                 ( formulaic [] refusal weary ) .
-"I must go now because $st(ST)"                                                 ( formulaic [] leave_taking excuse $st(ST) ) .
-"Leave me be"                                                                   ( formulaic /insult [] rebuff ) .
-"It is over between us"                                                        ( formulaic /jilt [] breakup ) .
+"I must go now because $st(ST)"                                                 ( formulaic [] leave-taking excuse $st(ST) ) .
+"Leave me be"                                                                   ( formulaic [] rebuff ) .
+"It is over between us"                                                        ( formulaic [] breakup ) .
 
 ; Letter envelope lines. "Signed, <name>" is the AUTHOR rider, "To <name>" the
 ; ADDRESSEE rider: the composer (compose_nl_msg) lifts a (/rider ..) form into the
@@ -37,26 +37,26 @@
 "Signed, $name(PNAME)"                                                          ( /author $name(PNAME) ) .
 "To $name(PNAME)"                                                               ( /addressee $name(PNAME) ) .
 
-"You look lovely today"                                                        ( formulaic /flirtation [] flirt compliment ) .
-"You are rather charming yourself"                                             ( formulaic /flirtation [] flirt return ) .
-"You flatter me"                                                               ( formulaic /flirtation [] response flattered ) .
-"Mind your manners"                                                            ( formulaic /insult [] refusal flirt ) .
-"It is indeed"                                                                  ( formulaic /smalltalk [] response agree ) .
-"Nothing much"                                                                  ( formulaic /reply [] response no-news ) .
-"How interesting"                                                               ( formulaic /reply [] response receipt ) .
+"You look lovely today"                                                        ( formulaic [] compliment ) .
+"You are rather charming yourself"                                             ( formulaic [] return-compliment ) .
+"You flatter me"                                                               ( formulaic [] response flattered ) .
+"Mind your manners"                                                            ( formulaic [] manners-refusal ) .
+"It is indeed"                                                                  ( formulaic [] response agree ) .
+"Nothing much"                                                                  ( formulaic [] response no-news ) .
+"How interesting"                                                               ( formulaic [] response receipt ) .
 ; A statement answered as a courtesy, never a claim: the fact was news to him or he knew it, then
 ; what it made him feel, or the condolence a courteous man offers for a misfortune he feels nothing
 ; for.
-"I did not know that $fact(ST) ++, and $feeling(ST)"                            ( formulaic /reply [] did-not-know $fact(ST) $feeling(ST) ) .
-"I did not know that $fact(ST) ++, and I am sorry to hear it"                   ( formulaic /reply [] did-not-know $fact(ST) condolence ) .
-"I did not know that $fact(ST)"                                                 ( formulaic /reply [] did-not-know $fact(ST) ) .
-"Yes, I know that $fact(ST) ++, and $feeling(ST)"                               ( formulaic /reply [] already-knew $fact(ST) $feeling(ST) ) .
-"Yes, I know that $fact(ST) ++, and I am sorry for it"                          ( formulaic /reply [] already-knew $fact(ST) condolence ) .
-"Yes, I know that $fact(ST)"                                                    ( formulaic /reply [] already-knew $fact(ST) ) .
+"I did not know that $fact(ST) ++, and $feeling(ST)"                            ( formulaic [] did-not-know $fact(ST) $feeling(ST) ) .
+"I did not know that $fact(ST) ++, and I am sorry to hear it"                   ( formulaic [] did-not-know $fact(ST) condolence ) .
+"I did not know that $fact(ST)"                                                 ( formulaic [] did-not-know $fact(ST) ) .
+"Yes, I know that $fact(ST) ++, and $feeling(ST)"                               ( formulaic [] already-knew $fact(ST) $feeling(ST) ) .
+"Yes, I know that $fact(ST) ++, and I am sorry for it"                          ( formulaic [] already-knew $fact(ST) condolence ) .
+"Yes, I know that $fact(ST)"                                                    ( formulaic [] already-knew $fact(ST) ) .
 
-"No, I don't know"                                                              ( formulaic [] no_dont_know ) .
-"Yes, it's $answer(NP)"                                                         ( formulaic [] yes_its $answer(NP) ) .
-"Yes, this is my $rel(REL) $name(PNAME)"                                        ( formulaic [] yes_this_is $rel(REL) $name(PNAME) ) .
+"No, I don't know"                                                              ( formulaic [] no-dont-know ) .
+"Yes, it's $answer(NP)"                                                         ( formulaic [] yes-its $answer(NP) ) .
+"Yes, this is my $rel(REL) $name(PNAME)"                                        ( formulaic [] yes-this-is $rel(REL) $name(PNAME) ) .
 
 ; An introduction: two people made known to each other at once, each told who the other is to him.
 ; The told message rides inside it, and a hearer adopts it as he would the message alone.
@@ -72,7 +72,7 @@
 
 ; The player's leave-taking shows the same three dots as his hail; the hail is what "..."
 ; reads as, so this one is said and never read.
-"..."                                                                           ( formulaic [] leave_taking player_bye ) :: realize-only .
+"..."                                                                           ( formulaic [] leave-taking player_bye ) :: realize-only .
 
 
 
@@ -80,7 +80,7 @@
 ; Leavetaking (initiating)
 ;"Bye"
 "Goodbye"
-( formulaic [] leave_taking bye ) .
+( formulaic [] leave-taking bye ) .
 
 ; Leavetaking (response)
 ;"Bye"

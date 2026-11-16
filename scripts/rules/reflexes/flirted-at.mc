@@ -4,6 +4,6 @@
 ; cause of the stance it moves.
 ; ----------------------------------------------------------------------------
 
-(reflex {?speaker SAY (formulaic /flirtation ? flirt ?) @self /ever}:?SAY
+(reflex {?speaker SAY (formulaic ? compliment|return-compliment) @self /ever}:?SAY
   (when (and (neq ?speaker @self) (none {@self dislike|detest ?speaker})))
   (effects (feel-stance ?speaker attraction 0.25 ?SAY)))

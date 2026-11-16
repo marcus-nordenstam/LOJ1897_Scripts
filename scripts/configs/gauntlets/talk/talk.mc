@@ -161,7 +161,7 @@
 ; his caused by that flirt.
 (define-func answered-flirt (?other)
   (bind @false ?answered)
-  (for-each ?line (every {?other SAY (formulaic /flirtation ? flirt compliment) @self /past})
+  (for-each ?line (every {?other SAY (formulaic ? compliment) @self /past})
     (if (substantial (any {@self tell ? ?other /succ /caused_by ?line}))
         (then (bind @true ?answered) (break))))
   ?answered)
@@ -186,7 +186,7 @@
 ; (left-talk ?who) - ?who ended his part in a talk himself: he said his goodbye to it, or, called
 ; away, gave his account of what called him.
 (define-func left-talk (?who)
-  (in-mind ?who (substantial (any {@self SAY (formulaic ? leave_taking ?..) ? /past}))))
+  (in-mind ?who (substantial (any {@self SAY (formulaic ? leave-taking ?..) ? /past}))))
 
 ; (took-in ?caller) - in a mind: @self answered an opening ?caller said to her by taking him in -
 ; taking his talk up, or answering it inside her own talk, which a caller joins before he opens.
