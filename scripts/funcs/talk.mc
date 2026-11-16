@@ -662,7 +662,7 @@
 ; not take him not to know it, and he has not refused to tell @self it.
 (define-func askable (?who ?fact)
   (and (could-know ?who ?fact)
-       (not (takes-not-to-know ?who (clausify ?fact /strip-interval)))
+       (not (and (is-clause ?fact) (takes-not-to-know ?who (clausify ?fact /strip-interval))))
        (none {?who withhold ?fact @self})))
 
 ; (wants-to-ask ?party) - @self wonders about something ?party could tell him.
