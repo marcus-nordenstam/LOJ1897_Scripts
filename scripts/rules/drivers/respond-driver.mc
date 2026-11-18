@@ -18,7 +18,7 @@
                    (select (score (- 0 (elapsed /seconds (start-time ?line)))) (policy argmin))
       (when (in-talk @self ?talk))
       (declare-utility obligation)
-      (effects (maintain-proposal {@self respond ?speaker ?line} /caused_by ?part)))))
+      (effects (maintain-proposal {@self respond ?speaker ?line})))))
 
 ; respond-direct-driver (driver) - unpresented there is no talk and no decorum: only a line owed
 ; wherever it is said - a question or a flirt - is answered, the answer or the courtship's flirt back

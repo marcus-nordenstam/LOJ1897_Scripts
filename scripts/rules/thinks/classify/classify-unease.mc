@@ -9,7 +9,8 @@
   (and
     (try
       (role ?talk {?talk participant @self} -{@self unease ?talk}
-        (role ?other {?talk participant ?other}
+        (role ?other (bb-public-members ?talk bbk-participant)
+                     (holds-part ?other ?talk)
                      -{@self (closeness-labels friend) ?other}
                      (neq ?other @self)
           (effects (begin-belief {@self unease ?talk})))))

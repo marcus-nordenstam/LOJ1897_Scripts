@@ -799,7 +799,7 @@
   ; A line's MOVE - what it does in the talk, (msg-class ?msg). Written as a qualifier of its
   ; wrapper, (msg /utterable /reply ..), else its formulaic phrase's, else its wrapper's
   ; (default-for ..). A move its hearer owes a reply carries answer-owed (wherever it is said to
-  ; him) or answer-owed-in-talk (from a party of his talk) - reflexes/obligation-respond.mc.
+  ; him) or answer-owed-in-talk (from a party of his talk) - owe-reply, funcs/talk.mc.
   (child msg-class
     (child question (facets answer-owed) (default-for qs))
     (child flirtation (facets answer-owed))

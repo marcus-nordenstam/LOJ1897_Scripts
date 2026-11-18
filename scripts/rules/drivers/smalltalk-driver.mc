@@ -6,12 +6,12 @@
 
 (driver smalltalk-unease-driver
   (lod presented)
-  (role ?talk {?talk participant @self}:?part {@self unease ?talk}:?unease -{@self company [k crowded]}
-    (role ?partner {?talk participant ?partner}
+  (role ?talk {?talk participant @self} {@self unease ?talk}:?unease -{@self company [k crowded]}
+    (role ?partner (bb-public-members ?talk bbk-participant)
                    (neq ?partner @self)
+                   (holds-part ?partner ?talk)
       (role ?town {?town sky|rain|snow|fog|wind ?}
         (when (and (eq ?town (spatial @self town))
-                   (in-talk ?partner ?talk)
                    (substantial (smalltalk-line ?talk))))
         (declare-utility want)
-        (effects (maintain-proposal {@self smalltalk ?partner ?talk} /caused_by ~[?part ?unease]))))))
+        (effects (maintain-proposal {@self smalltalk ?partner ?talk} /caused_by ?unease))))))

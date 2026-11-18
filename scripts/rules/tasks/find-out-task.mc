@@ -7,7 +7,7 @@
 ; the question his own next step, so nothing of his own outbids it. A man who turns the hail down
 ; is hailed again only once he is in no talk (hailable), and "I don't know" rules him out;
 ; the next is sought; a man who turned it down only because he was busy owes him a hail of his own
-; (reflexes/obligation-hail.mc). A hail that fails because he could not hear it (he slept, or had
+; (owe-hail-back, funcs/talk.mc). A hail that fails because he could not hear it (he slept, or had
 ; gone) is made again once he can. It is done when he knows it (found-out), and fails once no man
 ; here is left to ask (nobody-to-ask).
 ; Proposed by want-to-know (drivers/want-to-know-driver.mc). Like every pursuit carried on in

@@ -1,7 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; turn-down ?partner ?msg - @self declines the talk ?partner opened, ?msg a refusal or a retort: his
 ; answer, turned-down, goes on ?partner's board (answer-hail, funcs/talk.mc), and ?partner's hail
-; fails on it. Presented he first says ?msg, once, to the opening it answers. Proposed by
+; fails on it. Presented he first says ?msg, once, to the opening it answers. Turned down because
+; he was busy, ?partner is owed a hail of his own (owe-hail-back, funcs/talk.mc). Proposed by
 ; decline-hail and rebuff-hail (drivers/answer-hail-driver.mc).
 ; ----------------------------------------------------------------------------
 
@@ -21,4 +22,5 @@
         (effects
           (answer-hail ?partner turned-down)
           (set-hail-state ?partner turned-down)
+          (owe-hail-back ?partner ?msg ?turn-down)
           (set-outcome ?turn-down /succ))))))

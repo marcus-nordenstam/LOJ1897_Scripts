@@ -4,6 +4,6 @@
 ; ----------------------------------------------------------------------------
 
 (think talk-out-of-call
-  (role ?talk {?talk participant @self} {?talk participant !@self} {?talk venue ?}
-    (when (out-of-call-of ?talk))
+  (role ?talk {?talk participant @self} {?talk venue ?}
+    (when (and (other-party-in ?talk) (out-of-call-of ?talk)))
     (effects (leave-talk ?talk))))

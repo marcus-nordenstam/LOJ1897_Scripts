@@ -14,12 +14,12 @@
   (aux [k talk] @object)
   (and
     (try
-      (role ?partner {?talk participant ?partner}
-                     -{@self SAY ? ?partner /succ /caused_by ?smalltalk}
-        (bind (smalltalk-line ?talk) ?remark)
-        (when (and (substantial ?remark)
-                   (not (awaits-answer ?talk ?partner smalltalk))))
-        (effects (maintain-intent {@self intent {@self SAY ?remark ?partner}}))))
+      (bind (smalltalk-line ?talk) ?remark)
+      (when (and (holds-part ?partner ?talk)
+                 (none {@self SAY ? ?partner /succ /caused_by ?smalltalk})
+                 (substantial ?remark)
+                 (not (awaits-answer ?talk ?partner smalltalk))))
+      (effects (maintain-intent {@self intent {@self SAY ?remark ?partner}})))
     (try
       (lint-waive cacheable-read-in-when)
       (when (and (unsubstantial (smalltalk-line ?talk)) (not (awaits-answer ?talk ?partner smalltalk))))

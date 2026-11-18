@@ -62,14 +62,15 @@
       (then (unsubstantial (party-out-of-voice ?listener ?msg)))
       (else (in-earshot ?listener (voice-sound ?msg)))))
 
-; (party-out-of-voice ?talk ?msg) - a party @self knows to be in ?talk who would not hear him say
-; ?msg where he stands, or @nothing.
+; (party-out-of-voice ?talk ?msg) - a party on the board of the talk ?talk who would not hear @self
+; say ?msg where he stands, or @nothing - as for an audience that is no talk.
 (define-func party-out-of-voice (?talk ?msg)
   (bind @nothing ?far)
-  (for-each ?party (every {?talk participant ?})
-    (bind ?party.target ?who)
-    (if (and (neq ?who @self) (not (in-earshot ?who (voice-sound ?msg))))
-        (then (bind ?who ?far) (break))))
+  (if (and (is-object ?talk) (is-a ?talk [k talk]))
+      (then
+        (for-each ?who (talk-participants ?talk)
+          (if (and (neq ?who @self) (not (in-earshot ?who (voice-sound ?msg))))
+              (then (bind ?who ?far) (break))))))
   ?far)
 
 ; (answers-to ?speaker) - @self is bound to heed ?speaker's hail: his master, his mother or
@@ -529,12 +530,61 @@
 (define-func join-talk (?talk ?act)
   (bb-public-write-rec ?talk bbk-participant @self (/standing in))
   (if (unsubstantial (any {?talk participant @self}))
-      (then (begin-belief {?talk participant @self /caused_by ?act})))
+      (then
+        (begin-belief {?talk participant @self /caused_by ?act})
+        (drop-replies-owed-elsewhere (any {?talk participant @self}))))
+  (discharge-hails-owed ?talk ?act.target)
   (if (unsubstantial (any {?talk venue ?}))
       (then (begin-belief {?talk venue (spatial @self space)})))
   (bind (o /known [k occasion] {@o venue (spatial @self building)} {@o held-on (time date)}) ?occasion)
   (if (and (substantial ?occasion) (unsubstantial (any {?talk occasion ?})))
       (then (begin-belief {?talk occasion ?occasion}))))
+
+; AN OBLIGATION OF TALK IS BEGUN AND ENDED BY THE TASK WHOSE ACT DOES IT. A man who turns a hail
+; down because he is busy - in another talk, or at something keener - owes the man who hailed him a
+; hail of his own once he is free (drivers/hail-obligation-driver.mc); turned down weary of
+; company, or rebuffed, he owes him nothing; talking with him, by either man's hail, discharges it.
+; A line he is obliged to respond to is discharged by his response, and one owed only within the
+; talk it was said in is dropped when he joins another.
+
+; (busy-refusal ?reason) - a refusal's reason says @self was busy: the act that outbid the hail, or
+; the talk he was in - never weariness of company.
+(define-func busy-refusal (?reason)
+  (cond (case (is-relation ?reason) @true)
+        (else (not (eq ?reason weary)))))
+
+; (owe-hail-back ?hailer ?msg ?turn-down) - @self, having turned ?hailer's hail down with ?msg by
+; ?turn-down, owes him a hail of his own when ?msg was a busy man's refusal and he owes none yet.
+(define-func owe-hail-back (?hailer ?msg ?turn-down)
+  (if (and (matches ?msg (formulaic ? refusal ?..))
+           (busy-refusal (nth (k-formulaic-key-field) ?msg))
+           (none {@self obligation {@self hail ?hailer} ?hailer}))
+      (then (begin-belief {@self obligation {@self hail ?hailer} ?hailer /caused_by ?turn-down}))))
+
+; (discharge-hails-owed ?talk ?partner) - @self, taking his part in ?talk, no longer owes a hail to
+; ?partner, whose hail or whose taking up brought him into it, nor to any man who holds his part in it.
+(define-func discharge-hails-owed (?talk ?partner)
+  (for-each ?owed (every {@self obligation {@self hail ?} ?})
+    (bind ?owed.auxiliary ?hailer)
+    (if (or (eq ?hailer ?partner) (holds-part ?hailer ?talk))
+        (then (end-belief ?owed)))))
+
+; (drop-replies-owed-elsewhere ?part) - @self, whose part ?part in a talk has just begun, no longer
+; owes a response to a line said before it that is owed only within the talk it was said in.
+(define-func drop-replies-owed-elsewhere (?part)
+  (for-each ?owed (every {@self obligation {@self respond ? ?} ?})
+    (bind ?owed.target ?respond)
+    (bind ?respond.auxiliary ?line)
+    (if (and (not (has-facet (line-kind ?line) answer-owed)) (not (happened-since ?line ?part)))
+        (then (end-belief ?owed)))))
+
+; (reply-settled ?speaker ?line) - @self has responded to ?speaker's line ?line: he is no longer
+; obliged to, and its reply state says the reply is given.
+(define-func reply-settled (?speaker ?line)
+  (if (substantial (any {@self obligation {@self respond ?speaker ?line} ?speaker}))
+      (then
+        (end-belief {@self obligation {@self respond ?speaker ?line} ?speaker})
+        (mark-reply-given ?line))))
 
 ; (open-talk) - a new talk, a shared object, for @self to join. Taking up a hail
 ; makes one when neither man is in a talk.
@@ -546,12 +596,12 @@
 (define-func talk-participants (?talk)
   (bb-public-members ?talk bbk-participant))
 
-; (out-of-call-of ?talk) - nobody else @self knows to be in ?talk would hear him call out: he has
-; walked away from it.
+; (out-of-call-of ?talk) - nobody else on ?talk's board would hear @self call out: he has walked
+; away from it.
 (define-func out-of-call-of (?talk)
   (bind @true ?away)
-  (for-each ?part (every {?talk participant ?})
-    (if (and (neq ?part.target @self) (within-call ?part.target))
+  (for-each ?party (talk-participants ?talk)
+    (if (and (neq ?party @self) (within-call ?party))
         (then (bind @false ?away) (break))))
   ?away)
 

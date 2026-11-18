@@ -5,7 +5,8 @@
 ; holds ?speaker (withholds) - an opening greeted back, a flirt answered, a remark met, tidings
 ; met with his own or received, a statement met with what he knew of it and felt about it. Proposed by the respond driver (drivers/respond-driver.mc), and
 ; by a hail for the opening of a man hailing him too; it succeeds when the line is said, or at
-; once when the line calls for nothing he can say.
+; once when the line calls for nothing he can say, and with that he is no longer obliged to respond
+; to it (reply-settled, funcs/talk.mc).
 ; ----------------------------------------------------------------------------
 
 (task {@self respond ?speaker ?line}:?respond
@@ -13,8 +14,12 @@
   (category reply)
   (tar @excl [k human] @object)
   (aux ?)
-  (success-cond {@self SAY ? ?speaker /succ /caused_by ?respond})
   (preemptive-or
+    (try
+      (belief {@self SAY ? ?speaker /succ /caused_by ?respond}
+        (effects
+          (reply-settled ?speaker ?line)
+          (set-outcome ?respond /succ))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
         (when (and (matches ?msg (qs ?..)) (withholds ?msg ?speaker)))
@@ -31,4 +36,6 @@
           (maintain-intent {@self intent {@self SAY ?said ?speaker}}))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
-        (effects (set-outcome ?respond /succ))))))
+        (effects
+          (reply-settled ?speaker ?line)
+          (set-outcome ?respond /succ))))))

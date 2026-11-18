@@ -15,8 +15,9 @@
 ; ----------------------------------------------------------------------------
 
 (driver stay-want-driver
-  (role ?talk {?talk participant @self}:?part {?talk participant !@self}
+  (role ?talk {?talk participant @self}:?part
     (when (and (in-talk @self ?talk)
+               (other-party-in ?talk)
                (not (talked-out ?talk ?part))
                (unsubstantial (any {@self company [k crowded]}))))
     (bind (utility want (k-talk-want-value)) ?utility)
@@ -24,8 +25,8 @@
     (effects (maintain-proposal {@self maintain-social-presence ?talk}))))
 
 (driver stay-obliged-driver
-  (role ?talk {?talk participant @self} {?talk participant !@self}
-    (role ?party {?talk participant ?party}
+  (role ?talk {?talk participant @self}
+    (role ?party (bb-public-members ?talk bbk-participant)
                  (neq ?party @self)
                  (obligation-hail ?party)
       (when (in-talk @self ?talk))
