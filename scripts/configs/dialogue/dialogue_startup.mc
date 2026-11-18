@@ -1,4 +1,4 @@
-; The bring-up the dialogue test worlds share (dialogue_world.mc, dialogue_world_unasked.mc).
+; The bring-up of the dialogue test world (dialogue_world.mc).
 
 (define-func dialogue-room-in-a-home (?room-kind ?not-in)
   (bind @nothing ?found)

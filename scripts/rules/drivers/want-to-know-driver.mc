@@ -1,7 +1,7 @@
 ; ----------------------------------------------------------------------------
 ; want-to-know-driver - wondering about a fact, with a man here who could tell him it (askable,
 ; funcs/talk.mc), @self sets out to find it out (tasks/find-out-task.mc), caused by the
-; wondering, and in a talk asks (drivers/ask-wonder-driver.mc). The task is done when he knows; the
+; wondering; finding out is what asks, once he talks with the man. The task is done when he knows; the
 ; wondering ends then too (thinks/wonder-mealtimes-think.mc for the supper hour). With nobody here
 ; to ask he still wonders, and sets out again once someone who could know is - one he is talking with,
 ; or may hail: a man who turned his hail down is asked once he seeks @self out. Whom he asks is

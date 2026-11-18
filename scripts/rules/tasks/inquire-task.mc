@@ -3,8 +3,8 @@
 ; needs the fact it searches, and waits for the reply. Asked about what ?partner just said in their
 ; talk, the question answers that line (prompting-line), as a reply does. It succeeds when ?partner has replied to it
 ; - the fact, or "I don't know", which the hearing adopts as ?partner not knowing it
-; (funcs/speech.mc). Proposed by the driver that needs the fact, once @self is talking with
-; ?partner (ask-wonder, drivers/ask-wonder-driver.mc).
+; (funcs/speech.mc). Proposed by find-out (tasks/find-out-task.mc), once @self is talking with
+; ?partner.
 ; ----------------------------------------------------------------------------
 
 (task {@self inquire ?partner ?qs}:?inquire

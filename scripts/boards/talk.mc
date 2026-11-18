@@ -1,5 +1,7 @@
 ; ----------------------------------------------------------------------------
-; The talk's boards (funcs/talk.mc). bbk-line, on a talk's public board, is its LOG: one record per
+; The talk's boards (funcs/talk.mc). bbk-participant, on a talk's public board, is who is on it, keyed
+; by the man: his standing is called while a hail has put him there and he holds no part in the talk,
+; in once he holds one. bbk-line, on a talk's public board, is its LOG: one record per
 ; line said in it, keyed by the line (the abs SAY), in the order said; the line it replies to rides
 ; on its message (the reply-to rider). bbk-called, on a hailer's own board, names the talk whose board his hail
 ; put a man on, keyed by that man, until the hail is over. bbk-hail-answer, on a hailer's own public
@@ -16,6 +18,7 @@
 ; the man he must first ask which one he is.
 ; ----------------------------------------------------------------------------
 
+(bb-key bbk-participant (/scope public) (/shape map) (/fields standing) (/lifetime host))
 (bb-key bbk-line (/scope public) (/shape sequence) (/bound 32) (/lifetime host))
 (bb-key bbk-called (/scope private) (/shape map) (/fields talk) (/lifetime sleep))
 (bb-key bbk-hail-answer (/scope public) (/shape map) (/fields answer) (/lifetime host))
