@@ -43,15 +43,17 @@
       (debug-print "talk-limit: @self began (talks-with-lately ?other) talks with ?other within the hour")
       (expect @false "talk: more talks begun with one man within an hour than k-talks-with-one-man-an-hour"))))
 
+; A man tells only what he does not take his listener to know (speech-worthy, funcs/talk.mc), so
+; tidings he has told a man are never told that man again.
+(audit audit-tidings-retold
+  (lint-waive say-search)
+  (belief {@self SAY (msg /tidings ? ?..):?msg ?audience}:?SAY
+    (when (substantial (any {@self SAY ?msg ?audience /succ /past})))
+    (effects
+      (debug-print "tidings-retold: @self tells ?audience again ?msg")
+      (expect @false "talk: tidings told again to one already told them"))))
+
 (audit audit-two-smalltalks
   (belief {@self smalltalk ? ?}
     (when (>= (count (every {@self smalltalk ? ? /pres})) 2))
     (effects (expect @false "talk: making smalltalk with two at once"))))
-
-; One man's hail stands on another at a time: the rest wait their turn on its sync (tasks/hail-task.mc).
-; More is a crowd calling him at once, his answer rules cast once per caller - a broken invariant, so
-; it is a (check ..), not an expectation.
-(audit audit-hailed-by-many
-  (belief {@self isa [k human]}
-    (when (> (count (bb-public-every ? hailing @self)) 1))
-    (effects (check @false))))

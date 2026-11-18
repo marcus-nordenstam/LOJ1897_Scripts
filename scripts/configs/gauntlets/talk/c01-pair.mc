@@ -60,7 +60,7 @@
   (expect (> (+ (acts ?opener take-up succ) (acts ?hailed take-up succ)) 0) "c01: neither took the other up")
   (expect (in-mind ?opener (substantial (any {? participant @self /ever}))) "c01: his exchange never began")
   (expect (in-mind ?opener (unsubstantial (any {? participant @self}))) "c01: his exchange never ended")
-  (expect (>= (acts ?hailed tell succ) 2) "c01: she never answered him")
+  (expect (>= (acts ?hailed SAY succ) 2) "c01: she never answered him")
   (expect (or (left-talk ?opener) (left-talk ?hailed)) "c01: neither took their leave")
   (expect (in-mind ?opener (substantial (any {? participant @self /ever}))) "c01: he knows no talk he was in")
   (expect (in-mind ?hailed (substantial (any {? participant @self /ever}))) "c01: she knows no talk she was in")

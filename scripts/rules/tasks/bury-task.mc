@@ -20,8 +20,8 @@
         (effects (maintain-proposal {@self BURY ?corpse}))))
     (try
       (belief {@self BURY ?corpse /succ /caused_by ?bury}
-                  -{@self tell ? /succ /caused_by ?bury}
-        (effects (maintain-proposal {@self tell (msg /utterable [] {?corpse internment [k buried]}) _}))))
+                  -{@self SAY ? /succ /caused_by ?bury}
+        (effects (maintain-intent {@self intent {@self SAY (msg /utterable [] {?corpse internment [k buried]}) _}}))))
     (try
-      (belief {@self tell ? /succ /caused_by ?bury}
+      (belief {@self SAY ? /succ /caused_by ?bury}
         (effects (set-outcome ?bury /succ))))))

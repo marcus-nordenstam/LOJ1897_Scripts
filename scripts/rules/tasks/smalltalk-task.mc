@@ -15,11 +15,11 @@
   (and
     (try
       (role ?partner {?talk participant ?partner}
+                     -{@self SAY ? ?partner /succ /caused_by ?smalltalk}
         (bind (smalltalk-line ?talk) ?remark)
         (when (and (substantial ?remark)
-                   (none {@self tell ?remark ?partner /succ /caused_by ?smalltalk})
                    (not (awaits-answer ?talk ?partner smalltalk))))
-        (effects (maintain-proposal {@self tell ?remark ?partner} /quit-trying-on-fail))))
+        (effects (maintain-intent {@self intent {@self SAY ?remark ?partner}}))))
     (try
       (lint-waive cacheable-read-in-when)
       (when (and (unsubstantial (smalltalk-line ?talk)) (not (awaits-answer ?talk ?partner smalltalk))))

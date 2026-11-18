@@ -44,4 +44,4 @@
 
       (effects
         (nl-utterable-msg "I fancy you"): ?msg
-        (begin-proposal {@self tell ?msg ?target})))))
+        (begin-intent {@self intent {@self SAY ?msg ?target}})))))

@@ -29,16 +29,16 @@
             (effects (maintain-proposal {@self enter-building ?vhome}))))))
     (try
       (belief -{@self spouse ?victim}
-                  -{@self tell ? ?victim /succ /caused_by ?expose}
+                  -{@self SAY ? ?victim /succ /caused_by ?expose}
         (role ?partner {?victim lover|HAVE-SEX-WITH ?partner /ever}
                        -{?victim spouse ?partner /ever}
                        -{@self spouse ?partner}
                        (select (policy first-match))
           (when (or (spatial ?victim co-located @self) (spatial ?victim space)))
           (declare-utility always-pick)
-          (effects (maintain-proposal {@self tell (msg /utterable [] {?victim lover ?partner}) ?victim})))))
+          (effects (maintain-intent {@self intent {@self SAY (msg /utterable [] {?victim lover ?partner}) ?victim}})))))
     (try
-      (belief {@self tell ? ?victim /succ /caused_by ?expose}
+      (belief {@self SAY ? ?victim /succ /caused_by ?expose}
         (effects
           ; TELEPATHY - this pushed the secret into every other mind. The SAY above is
           ; already the honest channel; the spread belongs to the hearers' own adoption.

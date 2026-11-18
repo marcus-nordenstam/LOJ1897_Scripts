@@ -37,11 +37,11 @@
       (when (or (spatial ?victim co-located @self) (spatial ?victim space)))
       (declare-utility always-pick)
       (effects
-        (maintain-proposal {@self tell (msg /utterable [] {@self disinherit ?victim}) ?victim})))
+        (maintain-intent {@self intent {@self SAY (msg /utterable [] {@self disinherit ?victim}) ?victim}})))
 
     ; OUTCOME: the disinheritance was announced.
     (try
-      (belief {@self tell ? ?victim /succ /caused_by ?disinherit}
+      (belief {@self SAY ? ?victim /succ /caused_by ?disinherit}
         (effects (set-outcome ?disinherit /succ))))
 
     ; ABANDON: the victim died before it could be announced.

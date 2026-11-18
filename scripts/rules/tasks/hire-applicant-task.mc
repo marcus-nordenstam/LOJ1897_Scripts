@@ -56,14 +56,14 @@
       (try
         (role ?applicant {@self HIRE ?applicant ? /succ}
                          {@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
-                         -{@self tell ? ?applicant /succ /caused_by ?hire-applicant}
+                         -{@self SAY ? ?applicant /succ /caused_by ?hire-applicant}
           (declare-utility always-pick)
           (effects
             (any {?job job-id ?line})
             (kind ?job): ?jk
             (msg /utterable [] {?applicant job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
             (check ?msg)
-            (maintain-proposal {@self tell ?msg ?applicant})
+            (maintain-intent {@self intent {@self SAY ?msg ?applicant}})
             (begin-belief {?applicant job ?job})
             (for-each ?offered-to (every {?job offered-to ?}) (end-belief ?offered-to)))))
 
@@ -72,7 +72,7 @@
       (try
         (role ?applicant {@self HIRE ?applicant ? /succ}
                          {@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
-                         {@self tell ? ?applicant /succ /caused_by ?hire-applicant}
+                         {@self SAY ? ?applicant /succ /caused_by ?hire-applicant}
           (declare-utility always-pick)
           (effects (set-outcome ?hire-applicant /succ))))
 
@@ -85,7 +85,7 @@
                          {? job ?job}          ; somebody holds the seat he came for
                          -{?applicant job ?}   ; and it is not him
                          -{@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
-                         -{@self tell ? ?applicant /succ /caused_by ?hire-applicant}
+                         -{@self SAY ? ?applicant /succ /caused_by ?hire-applicant}
           (declare-utility always-pick)
           (effects
             (any {?job job-id ?line})
@@ -93,7 +93,7 @@
             (any {?holder job ?job})
             (msg /utterable [] {?holder job (o ?jk {@o org ?org} {@o job-id ?line})}): ?msg
             (check ?msg)
-            (maintain-proposal {@self tell ?msg ?applicant}))))
+            (maintain-intent {@self intent {@self SAY ?msg ?applicant}}))))
 
       ; TURNED AWAY: the refusal landed, and he knows whose the seat is.
       (try
@@ -101,6 +101,6 @@
                          {? job ?job}
                          -{?applicant job ?}
                          -{@self HIRE ?applicant ? /succ /caused_by ?hire-applicant}
-                         {@self tell ? ?applicant /succ /caused_by ?hire-applicant}
+                         {@self SAY ? ?applicant /succ /caused_by ?hire-applicant}
           (declare-utility always-pick)
           (effects (set-outcome ?hire-applicant /fail)))))))

@@ -15,7 +15,7 @@
     (try
       (when (or (spatial ?agent co-located @self) (spatial ?agent space)))
       (declare-utility always-pick)
-      (effects (maintain-proposal {@self tell (msg /utterable [] {?agent acquire ?kind}) ?agent})))
+      (effects (maintain-intent {@self intent {@self SAY (msg /utterable [] {?agent acquire ?kind}) ?agent}})))
     (try
-      (belief {@self tell ? ?agent /succ /caused_by ?hire-procure}
+      (belief {@self SAY ? ?agent /succ /caused_by ?hire-procure}
         (effects (set-outcome ?hire-procure /succ))))))

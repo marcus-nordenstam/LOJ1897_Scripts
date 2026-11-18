@@ -12,16 +12,16 @@
   (role ?home {@self home ?home}
     (and
       (try
-        (belief -{@self tell ? _ /succ /caused_by ?set-mealtimes}
+        (belief -{@self SAY ? _ /succ /caused_by ?set-mealtimes}
           (effects
             (bind (clock (household-breakfast-hour) 0) ?breakfast)
             (bind (clock (household-lunch-hour) 0) ?lunch)
             (bind (clock (household-supper-hour) 0) ?supper)
-            (maintain-proposal {@self tell (msg /utterable [] {?home breakfast-hour ?breakfast}
+            (maintain-intent {@self intent {@self SAY (msg /utterable [] {?home breakfast-hour ?breakfast}
                                                           {?home lunch-hour ?lunch}
-                                                          {?home supper-hour ?supper}) _}))))
+                                                          {?home supper-hour ?supper}) _}}))))
       (try
-        (belief {@self tell ? _ /succ /caused_by ?set-mealtimes}
+        (belief {@self SAY ? _ /succ /caused_by ?set-mealtimes}
           (effects
             (begin-belief {?home breakfast-hour (clock (household-breakfast-hour) 0)})
             (begin-belief {?home lunch-hour (clock (household-lunch-hour) 0)})

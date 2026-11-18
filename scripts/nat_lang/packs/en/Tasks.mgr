@@ -96,7 +96,6 @@
 "collecting letters"                    take-my-letters             .
 "taking stock"                          take-stock                  .
 "talking with someone"                  take-up                     .
-"speaking with someone"                 tell                        .
 "speaking with someone"                 turn-down                   .
 "getting money out"                     unpocket-coins              .
 "out walking"                           wander                      .
@@ -194,7 +193,6 @@
 "collected letters"               take-my-letters .
 "took stock"                      take-stock .
 "talked with someone"             take-up .
-"spoke with someone"              tell .
 "spoke with someone"              turn-down .
 "got money out"                   unpocket-coins .
 "went out walking"                wander .
@@ -291,7 +289,6 @@
 "collect some letters"                  take-my-letters             .
 "take stock"                            take-stock                  .
 "speak with someone"                    take-up                     .
-"speak with someone"                    tell                        .
 "speak with someone"                    turn-down                   .
 "get some money out"                    unpocket-coins              .
 "take a walk"                           wander                      .

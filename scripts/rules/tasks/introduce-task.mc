@@ -12,12 +12,12 @@
   (aux [k human] @object)
   (preemptive-or
     (try
-      (belief {@self tell ? /succ /caused_by ?introduce}
+      (belief {@self SAY ? /succ /caused_by ?introduce}
         (effects (set-outcome ?introduce /succ))))
     (try
       (when (spatial ?a co-located @self) (spatial ?b co-located @self))
       (bind (kin-label sibling ?a) ?bond-to-a)
       (bind (kin-label sibling ?b) ?bond-to-b)
       (effects
-        (maintain-proposal {@self tell (formulaic [] introduction
-                                          (msg /utterable [] {(this ?b) ?bond-to-a (this ?a)} {(this ?a) ?bond-to-b (this ?b)}))})))))
+        (maintain-intent {@self intent {@self SAY (formulaic [] introduction
+                                          (msg /utterable [] {(this ?b) ?bond-to-a (this ?a)} {(this ?a) ?bond-to-b (this ?b)}))}})))))

@@ -28,7 +28,7 @@
                 (flip (substantial ?outbidder)
                       (formulaic [] leave-taking excuse ?outbidder)
                       (formulaic [] leave-taking bye)): ?leave-taking
-                (maintain-proposal {@self tell ?leave-taking ?talk})))))
+                (maintain-intent {@self intent {@self SAY ?leave-taking ?talk}})))))
       (stage
         (effects
           (leave-talk ?talk)

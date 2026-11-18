@@ -24,16 +24,16 @@
       (try
         (belief {@self fiancee ?partner} -{@self spouse ?}
                     (within-place @self ?venue)
-                    -{@self tell ? ?partner /succ /caused_by ?wed}
+                    -{@self SAY ? ?partner /succ /caused_by ?wed}
           (when (hours (- ?start (attend-prep-lead)) ?end))
-          (effects (maintain-proposal {@self tell (msg /utterable [] {@self spouse ?partner}) ?partner}))))
+          (effects (maintain-intent {@self intent {@self SAY (msg /utterable [] {@self spouse ?partner}) ?partner}}))))
       (try
         (belief {@self fiancee ?partner} -{@self spouse ?}
                     (not (within-place @self ?venue))
           (when (hours (- ?start (attend-prep-lead)) ?end))
           (effects (maintain-proposal {@self enter-building ?venue}))))
       (try
-        (belief {@self tell ? ?partner /succ /caused_by ?wed}
+        (belief {@self SAY ? ?partner /succ /caused_by ?wed}
                     -{@self spouse ?}
           (effects
             (bind (kin-label spouse ?partner) ?bond)

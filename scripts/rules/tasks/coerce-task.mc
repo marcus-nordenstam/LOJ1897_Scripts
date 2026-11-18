@@ -32,13 +32,13 @@
             (then (bb-write ?coerce told (time seconds))))
         (bind (bb-read ?coerce told) ?told)
         (bind (+ ?told (seconds (threat_grace_days) d)) ?deadline)
-        (maintain-proposal
-          {@self tell (msg /utterable []
+        (maintain-intent
+          {@self intent {@self SAY (msg /utterable []
                         {@self threaten ?victim
                           (consequence -{?victim pay @self /during ?told ?deadline} {@self expose ?victim} ?deadline)})
-                      ?victim})))
+                      ?victim}})))
     (try
-      (belief {@self tell ? ?victim /succ /caused_by ?coerce}
+      (belief {@self SAY ? ?victim /succ /caused_by ?coerce}
         (effects
           (bind (bb-read ?coerce told) ?told)
           (bind (+ ?told (seconds (threat_grace_days) d)) ?deadline)

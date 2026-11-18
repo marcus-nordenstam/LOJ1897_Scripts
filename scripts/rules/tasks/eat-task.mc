@@ -54,7 +54,7 @@
         (if ?EAT (then (set-outcome ?eat (outcome ?EAT))))))
     (try
       (role ?home {@self home ?home}
-        (belief -{@self tell ? ? /succ /caused_by ?eat}
+        (belief -{@self SAY ? ? /succ /caused_by ?eat}
           (when (and (= ?place ?home) (at-meal-place ?place) (latch-eval (chance 0.25))))
           (effects
             (for-each ?breakfast-hour (every {?home breakfast-hour ?})
@@ -63,7 +63,7 @@
                     (bind ?lunch-hour.target ?l)
                     (for-each ?supper-hour (every {?home supper-hour ?})
                         (bind ?supper-hour.target ?s)
-                        (maintain-proposal
-                          {@self tell (msg /utterable [] {?home breakfast-hour ?b}
+                        (maintain-intent
+                          {@self intent {@self SAY (msg /utterable [] {?home breakfast-hour ?b}
                                                     {?home lunch-hour ?l}
-                                                    {?home supper-hour ?s}) _}))))))))))
+                                                    {?home supper-hour ?s}) _}}))))))))))

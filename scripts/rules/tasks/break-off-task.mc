@@ -9,10 +9,10 @@
   (tar [k human] @object)
   (and
     (try
-      (belief -{@self tell ? ?lover /succ /caused_by ?break-off}
-        (effects (maintain-proposal {@self tell (formulaic [] breakup) ?lover}))))
+      (belief -{@self SAY ? ?lover /succ /caused_by ?break-off}
+        (effects (maintain-intent {@self intent {@self SAY (formulaic [] breakup) ?lover}}))))
     (try
-      (belief {@self tell ? ?lover /succ /caused_by ?break-off}
+      (belief {@self SAY ? ?lover /succ /caused_by ?break-off}
         (effects
           (end-belief {@self lover ?lover})
           (set-outcome ?break-off /succ))))))

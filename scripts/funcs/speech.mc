@@ -10,13 +10,15 @@
 ; promotion; SAY.mc's (xaction ?xsay) hands this func that ABS twin. All that is
 ; left is making it audible: a [k speech] sound entity at the speaker's own bounds
 ; carrying the twin, so the objective record the world hears can never drift from
-; the speaker's own. Everyone within its radius hears it on the next perception pass
-; (in-earshot); a preroll of 0 makes it audible this instant.
+; the speaker's own. Who hears it, on the next perception pass (a preroll of 0 makes it
+; audible this instant): a line said in a talk is for the people on that talk's board
+; (line-hearers, funcs/talk.mc), and of those within its radius only they hear it - the
+; rest of the room is not listening. A line said in no talk, and a broadcast, reach
+; everyone within its radius (in-earshot).
 ;
 ; A DIRECTED say stamps the addressee in the act's /aux (the per-listener "told"
-; dedup); a BROADCAST leaves it absent. Delivery is by earshot either way - the
-; addressee is who it is ADDRESSED to, never who receives it. Which sound it makes is
-; (voice-sound ..) (funcs/talk.mc), the voice the line rides, which tell measures by too.
+; dedup); a BROADCAST leaves it absent. Which sound it makes is (voice-sound ..)
+; (funcs/talk.mc), the voice the line rides, which the say driver measures by too.
 ; ----------------------------------------------------------------------------
 
 (include "../macros/formulaic-macros.mc")
@@ -26,7 +28,10 @@
     (create-entity (voice-sound ?xsay.target) (spatial @self bounds /env)): ?sound
     (set-attr ?sound create-action ?xsay)
     (set-attr ?sound speaker @self)
-    (set-attr ?sound preroll 0)))
+    (set-attr ?sound preroll 0)
+    (bind (line-hearers ?xsay.auxiliary) ?hearers)
+    (if (substantial ?hearers)
+        (then (address-sound ?sound ?hearers)))))
 
 ; ----------------------------------------------------------------------------
 ; adopt-heard-msg - the LISTENER half of a speech act, as content.
@@ -72,12 +77,13 @@
   (bind (nth (k-formulaic-office-field) ?msg) ?kind)
   (absorb-heard-fact (begin-belief {?speaker job (o ?kind {?speaker job @o})}) ?SAY))
 
-; (asked-clause ?speaker ?reply) - the fact ?reply answered: the question of the inquire up ?reply's
-; causes that @self made of ?speaker - the fact @self wondered about when that caused the asking,
-; else the clause the question searched; @nothing when ?reply answered no question of @self's.
-(define-func asked-clause (?speaker ?reply)
+; (asked-clause ?speaker) - the fact a line ?speaker says to @self now answers: the question of the
+; inquire @self has made of him and still waits on (awaited-inquire, funcs/talk.mc) - the fact @self
+; wondered about when that caused the asking, else the clause the question searched; @nothing when
+; @self waits on no answer of his.
+(define-func asked-clause (?speaker)
   (bind @nothing ?answered)
-  (bind (caused-by /recurse ?reply {@self inquire ?speaker ? /ever}) ?inquire)
+  (bind (awaited-inquire ?speaker) ?inquire)
   (if (is-belief ?inquire)
       (then
         (bind ?inquire.auxiliary ?asked-msg)
@@ -91,23 +97,23 @@
 ; (adopt-not-knowing ?speaker ?SAY) - ?speaker answered "I don't know" (?SAY) to a question @self
 ; inquired of him: the hearer takes him not to know what it asked.
 (define-func adopt-not-knowing (?speaker ?SAY)
-  (bind (asked-clause ?speaker ?SAY) ?asked)
+  (bind (asked-clause ?speaker) ?asked)
   (if (is-clause ?asked)
       (then (set-knows /not ?speaker (clausify ?asked /strip-interval) ?SAY))))
 
 ; (adopt-withholding ?speaker ?SAY) - ?speaker answered "none of your business" (?SAY) to a
 ; question @self inquired of him: the hearer takes him to withhold what it asked from @self.
 (define-func adopt-withholding (?speaker ?SAY)
-  (bind (asked-clause ?speaker ?SAY) ?asked)
+  (bind (asked-clause ?speaker) ?asked)
   (if (is-clause ?asked)
       (then (absorb-heard-fact (begin-belief {?speaker withhold ?asked @self}) ?SAY))))
 
-; (identity-asked ?speaker ?msg ?SAY) - the ghost @self asked ?speaker which one it is, or the rest of
-; whose name he asked, when ?SAY, his reply ?msg, answers that question; @nothing otherwise.
-(define-func identity-asked (?speaker ?msg ?SAY)
+; (identity-asked ?speaker ?msg) - the ghost @self asked ?speaker which one it is, or the rest of
+; whose name he asked, when his reply ?msg answers that question; @nothing otherwise.
+(define-func identity-asked (?speaker ?msg)
   (bind @nothing ?ghost)
   (if (matches ?msg (msg /reply ?..))
-      (then (bind (whom-asked (asked-clause ?speaker ?SAY)) ?ghost)))
+      (then (bind (whom-asked (asked-clause ?speaker)) ?ghost)))
   ?ghost)
 
 ; The engine's hear hook: what the line says is adopted (adopt-heard-content), and a line said to
@@ -146,7 +152,7 @@
       ; facts about him, never as a claim of its own: a name answered lands on him, not on whoever
       ; else holds it. @fail binds through: an undecodable message is no facts,
       ; not an abort.
-      (bind (identity-asked ?speaker ?msg ?SAY) ?ghost)
+      (bind (identity-asked ?speaker ?msg) ?ghost)
       (if (is-object ?ghost)
           (then (tolerate (adopt-identity ?SAY ?ghost (shared-talk ?speaker))): ?out)
           (else (tolerate (adopt-msg ?SAY (shared-talk ?speaker))): ?out))

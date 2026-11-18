@@ -24,8 +24,8 @@
     (stage
       (when (spatial ?partner co-located @self))
       (effects
-        (if -{@self tell ? ?partner /succ /caused_by ?divorce}
-            (then (maintain-proposal {@self tell (msg /utterable [] {@self /not spouse ?partner}) ?partner})))))
+        (if -{@self SAY ? ?partner /succ /caused_by ?divorce}
+            (then (maintain-intent {@self intent {@self SAY (msg /utterable [] {@self /not spouse ?partner}) ?partner}})))))
     (stage
       (effects
         (end-belief {@self spouse ?partner})

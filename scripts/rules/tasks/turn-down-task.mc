@@ -12,17 +12,13 @@
   (aux ?)
   (and
     (sequence
-      (lod presented)
       (stage
         (when (is-belief (opening-from ?partner)))
-        (bind (opening-from ?partner) ?opening)
-        (effects (maintain-proposal {@self tell ?msg ?partner} /caused_by ?opening)))
+        (effects
+          (bind (opening-from ?partner) ?opening)
+          (bb-write-rec @self bbk-reply-to ?msg (/line ?opening))
+          (maintain-intent {@self intent {@self SAY ?msg ?partner}})))
       (stage
         (effects
           (answer-hail ?partner turned-down)
-          (set-outcome ?turn-down /succ))))
-    (try
-      (lod unpresented)
-      (effects
-        (answer-hail ?partner turned-down)
-        (set-outcome ?turn-down /succ)))))
+          (set-outcome ?turn-down /succ))))))

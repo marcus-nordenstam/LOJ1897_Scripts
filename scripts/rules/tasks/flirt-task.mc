@@ -18,8 +18,7 @@
     (try
       (role ?partner {@self fancy|desire|crave ?partner}
         (when (and (not (flirted-in ?talk)) (not (awaits-answer ?talk ?partner flirtation))))
-        (effects (maintain-proposal {@self tell (formulaic [] compliment) ?partner}
-                                    /quit-trying-on-fail))))
+        (effects (maintain-intent {@self intent {@self SAY (formulaic [] compliment) ?partner}}))))
     (try
       (lint-waive cacheable-read-in-when)
       (when (and (or (flirted-in ?talk) (none {@self fancy|desire|crave ?partner}))

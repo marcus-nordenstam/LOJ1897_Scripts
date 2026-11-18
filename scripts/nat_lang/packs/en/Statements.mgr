@@ -894,10 +894,10 @@ $form(FORM)
 ; SPEECH TASKS
 
 " $sub_np(NP) tells      $obj_np(NP) ++: $msg(MSG)"
-{ $sub_np(NP) /pres tell $msg(MSG)       $obj_np(NP) }
+{ $sub_np(NP) /pres SAY $msg(MSG)       $obj_np(NP) }
 .
 " $sub_np(NP) told       $obj_np(NP) ++: $msg(MSG)"
-{ $sub_np(NP) /past tell $msg(MSG)       $obj_np(NP) }
+{ $sub_np(NP) /past SAY $msg(MSG)       $obj_np(NP) }
 .
 
 

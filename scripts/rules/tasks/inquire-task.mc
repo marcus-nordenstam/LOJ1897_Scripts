@@ -15,17 +15,17 @@
   (aux ?)
   (and
     (try
-      (belief {@self tell ?qs ?partner /succ /caused_by ?inquire}:?tell
-              {@self SAY ? ?partner /succ /caused_by ?tell}:?SAY
+      (belief {@self SAY ? ?partner /succ /caused_by ?inquire}:?SAY
         (when (replied ?partner ?SAY))
         (effects (set-outcome ?inquire /succ))))
     (try
-      (when (and (none {@self tell ?qs ?partner /succ /caused_by ?inquire})
+      (when (and (none {@self SAY ? ?partner /succ /caused_by ?inquire})
                  (substantial (prompting-line ?partner ?qs))))
       (effects
         (bind (prompting-line ?partner ?qs) ?line)
-        (maintain-proposal {@self tell ?qs ?partner} /caused_by ?line /quit-trying-on-fail)))
+        (bb-write-rec @self bbk-reply-to ?qs (/line ?line))
+        (maintain-intent {@self intent {@self SAY ?qs ?partner}})))
     (try
-      (when (and (none {@self tell ?qs ?partner /succ /caused_by ?inquire})
+      (when (and (none {@self SAY ? ?partner /succ /caused_by ?inquire})
                  (unsubstantial (prompting-line ?partner ?qs))))
-      (effects (maintain-proposal {@self tell ?qs ?partner} /quit-trying-on-fail)))))
+      (effects (maintain-intent {@self intent {@self SAY ?qs ?partner}})))))

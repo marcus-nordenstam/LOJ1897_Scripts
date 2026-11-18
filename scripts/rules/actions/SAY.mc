@@ -35,17 +35,17 @@
   ; this at all, and when presented the VOICE - the words rendered, the visemes cut, the jaw
   ; driven, the subtitle put up. Effects run every frame while the audio plays and would say
   ; it again each time.
-  ; Nobody is spoken to by two men at once: presented, tell held the turn this line takes before
-  ; proposing it (turn-board, funcs/talk.mc); unpresented there are no turns. The board can
-  ; change between the two - its audience joins or leaves a talk - so it is expected, not checked.
-  ; The player's lines take no turn and he has no mind to read the tell in.
+  ; Nobody is spoken to by two men at once: presented, his intent's driver held the turn this line
+  ; takes before proposing it (turn-board, funcs/talk.mc); unpresented there are no turns. The board
+  ; can change between the two - its audience joins or leaves a talk - so it is expected, not
+  ; checked. The player's lines take no turn and he has no mind to read the intent in.
   (init
     (deliver-speech ?xsay)
     (if (presented-lod)
         (then
           (if (is-npc)
-              (then (expect (line-took-its-turn ?SAY ?audience)
-                            "SAY: the line began without the turn it takes - its board changed since tell held it")))
+              (then (expect (my-turn ?audience)
+                            "SAY: the line began without the turn it takes - its board changed since its driver held it")))
           (speak-aloud @self ?msg))))
 
   ; The unpresented say is heard and not watched: its sound went out as it began, and is heard

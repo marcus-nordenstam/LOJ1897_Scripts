@@ -15,25 +15,25 @@
   (aux [k human] @object)
   (and
     (try
-      (when -{@self tell ? ?daughter /succ /caused_by ?arrange-match})
+      (when -{@self SAY ? ?daughter /succ /caused_by ?arrange-match})
       (effects
         (if (not (bb-any ?arrange-match told))
             (then (bb-write ?arrange-match told (time seconds))))
         (bind (bb-read ?arrange-match told) ?told)
         (bind (+ ?told (seconds (arranged_match_grace_days) d)) ?deadline)
-        (maintain-proposal
-          {@self tell (msg /utterable []
+        (maintain-intent
+          {@self intent {@self SAY (msg /utterable []
                         {@self threaten ?daughter
                           (consequence -{?daughter wed ?groom /during ?told ?deadline} {@self disinherit ?daughter} ?deadline)}
                         {?groom fiancee ?daughter})
-                      ?daughter})))
+                      ?daughter}})))
     (try
-      (belief {@self tell ? ?daughter /succ /caused_by ?arrange-match}
-                  -{@self tell ? ?groom /succ /caused_by ?arrange-match}
-        (effects (maintain-proposal {@self tell (msg /utterable [] {?daughter fiancee ?groom}) ?groom}))))
+      (belief {@self SAY ? ?daughter /succ /caused_by ?arrange-match}
+                  -{@self SAY ? ?groom /succ /caused_by ?arrange-match}
+        (effects (maintain-intent {@self intent {@self SAY (msg /utterable [] {?daughter fiancee ?groom}) ?groom}}))))
     (try
-      (belief {@self tell ? ?daughter /succ /caused_by ?arrange-match}
-                  {@self tell ? ?groom /succ /caused_by ?arrange-match}
+      (belief {@self SAY ? ?daughter /succ /caused_by ?arrange-match}
+                  {@self SAY ? ?groom /succ /caused_by ?arrange-match}
         (effects
           (bind (bb-read ?arrange-match told) ?told)
           (bind (+ ?told (seconds (arranged_match_grace_days) d)) ?deadline)

@@ -13,17 +13,22 @@
   (category reply)
   (tar @excl [k human] @object)
   (aux ?)
-  (success-cond {@self tell ? ?speaker /succ /caused_by ?respond})
+  (success-cond {@self SAY ? ?speaker /succ /caused_by ?respond})
   (preemptive-or
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
         (when (and (matches ?msg (qs ?..)) (withholds ?msg ?speaker)))
-        (effects (maintain-proposal {@self tell (formulaic [] refusal answer) ?speaker} /caused_by ?line /quit-trying-on-fail))))
+        (bind (formulaic [] refusal answer) ?refusal)
+        (effects
+          (bb-write-rec @self bbk-reply-to ?refusal (/line ?line))
+          (maintain-intent {@self intent {@self SAY ?refusal ?speaker}}))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
         (bind (reply-to ?line ?speaker) ?reply)
         (when (substantial ?reply))
-        (effects (maintain-proposal {@self tell ?reply ?speaker} /caused_by ?line /quit-trying-on-fail))))
+        (effects
+          (bb-write-rec @self bbk-reply-to ?reply (/line ?line))
+          (maintain-intent {@self intent {@self SAY ?reply ?speaker}}))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
         (effects (set-outcome ?respond /succ))))))

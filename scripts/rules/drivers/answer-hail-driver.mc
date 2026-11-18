@@ -10,9 +10,10 @@
 ; what it is. A man in a talk answers as a line of it, caused by his part in it: taking the
 ; caller up brings him into that talk, and turning him down is said over his shoulder and
 ; gives the talk as what he is busy with - neither ends it.
-; The hail is the caller's hailing set, at both levels of detail - presented he puts @self there once
-; he has said its opening - and it stands unanswered while his bbk-hail-answer record of @self is
-; empty. Presented the answer waits to be said until the opening has been heard (take-up, turn-down).
+; The hail is the caller's opening to him, standing in the log of the talk he was called into with
+; no reply of his (caller-in, funcs/talk.mc), at both levels of detail; of several callers in one
+; talk he answers the one who called first. The answer waits to be said until the opening has been
+; heard (take-up, turn-down).
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -22,16 +23,16 @@
   (substantial (any {@self turn-down ?speaker ?})))
 
 (driver answer-hail-driver
-  (role ?speaker (bb-public-every ?speaker hailing @self)
-                 (unsubstantial (bb-public-read-rec ?speaker bbk-hail-answer @self answer))
-                 (not (in-one-talk @self ?speaker))
+  (role ?talk (bb-public-every ?talk participant @self)
     (and
       ; Engage: taking it up, at what talking with ?speaker is worth to him - task selection weighs
       ; it against whatever else he has going.
       (try
+        (bind (caller-in ?talk) ?speaker)
         (bind (hail-utility ?speaker) ?utility)
         (declare-utility (utility-band ?utility) (utility-value ?utility))
-        (when (and (within-call ?speaker)
+        (when (and (substantial ?speaker) (eq (caller-in ?talk) ?speaker)
+                   (within-call ?speaker)
                    (not (in-full-talk))
                    (not (rebuffs ?speaker))
                    (not (turning-down ?speaker))
@@ -44,6 +45,7 @@
       ; A take-up he has begun is a yes already being said: he finishes it.
       (try
         (belief {@self take-up ?speaker}
+          (when (unsubstantial (bb-public-read-rec ?speaker bbk-hail-answer @self answer)))
           (declare-utility unbeatable)
           (effects
             (bind (any {? participant @self}) ?part)
@@ -53,8 +55,10 @@
       ; Decline once task selection has put something else above taking it up (outbids), saying
       ; what it is: the decision is made once, and the refusal it begins always completes.
       (try
-        (bind (outbids {@self take-up ?speaker}) ?busy-with)
-        (when (and (within-call ?speaker)
+        (bind (caller-in ?talk) ?speaker)
+        (bind (flip (substantial ?speaker) (outbids {@self take-up ?speaker}) @nothing) ?busy-with)
+        (when (and (substantial ?speaker) (eq (caller-in ?talk) ?speaker)
+                   (within-call ?speaker)
                    (not (in-full-talk))
                    (not (rebuffs ?speaker))
                    (not (taking-up ?speaker))
@@ -75,7 +79,9 @@
                 (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?reason)} /uninterruptable)))))
       ; A man who has had his fill of company turns a hail down, saying so, unless it obliges him.
       (try
-        (when (and (within-call ?speaker)
+        (bind (caller-in ?talk) ?speaker)
+        (when (and (substantial ?speaker) (eq (caller-in ?talk) ?speaker)
+                   (within-call ?speaker)
                    (not (in-full-talk))
                    (not (rebuffs ?speaker))
                    (not (taking-up ?speaker))
@@ -93,7 +99,9 @@
               (else (begin-proposal {@self turn-down ?speaker (formulaic [] refusal weary)} /uninterruptable)))))
       ; Rebuffing a man he despises: a retort, heard as the insult it is.
       (try
-        (when (and (within-call ?speaker)
+        (bind (caller-in ?talk) ?speaker)
+        (when (and (substantial ?speaker) (eq (caller-in ?talk) ?speaker)
+                   (within-call ?speaker)
                    (not (in-full-talk))
                    (rebuffs ?speaker)))
         (declare-utility unbeatable)

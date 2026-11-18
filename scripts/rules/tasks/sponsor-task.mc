@@ -11,8 +11,8 @@
   (sequence
     (stage
       (effects
-        (if -{@self tell ? ?protege /succ /caused_by ?sponsor}
-            (then (maintain-proposal {@self tell (msg /utterable [] {?protege backed-by @self}) ?protege})))))
+        (if -{@self SAY ? ?protege /succ /caused_by ?sponsor}
+            (then (maintain-intent {@self intent {@self SAY (msg /utterable [] {?protege backed-by @self}) ?protege}})))))
     (stage
       (effects
         (begin-belief {?protege backed-by @self})

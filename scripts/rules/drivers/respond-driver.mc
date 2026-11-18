@@ -12,15 +12,13 @@
   (role ?talk {?talk participant @self}:?part
     (role ?speaker {@self obligation {@self respond ?speaker ?line} ?speaker}:?owed
                    -{@self respond ?speaker ?line /succ}
-                   -{@self take-up ?speaker /succ /caused_by ?line}
-                   -{@self turn-down ?speaker ? /succ /caused_by ?line}
                    (in-talk ?speaker ?talk)
                    (happened-since ?line ?part)
                    ; argmin: a line heard in the second it was said is 0 seconds old, and argmax never picks 0.
                    (select (score (- 0 (elapsed /seconds (start-time ?line)))) (policy argmin))
       (when (in-talk @self ?talk))
       (declare-utility obligation)
-      (effects (maintain-proposal {@self respond ?speaker ?line} /caused_by ~[?part ?owed])))))
+      (effects (maintain-proposal {@self respond ?speaker ?line} /caused_by ?part)))))
 
 ; respond-direct-driver (driver) - unpresented there is no talk and no decorum: only a line owed
 ; wherever it is said - a question or a flirt - is answered, the answer or the courtship's flirt back
@@ -30,7 +28,6 @@
   (role ?speaker {@self obligation {@self respond ?speaker ?line} ?speaker}:?owed
                  (has-facet (line-kind ?line) answer-owed)
                  (empty (unresolved-in ?line))
-                 -{@self tell ? ?speaker /succ /caused_by ?line}
                  (select (score (- 0 (elapsed /seconds (start-time ?line)))) (policy argmin))
     (declare-utility obligation)
     (effects (maintain-proposal {@self respond ?speaker ?line}))))

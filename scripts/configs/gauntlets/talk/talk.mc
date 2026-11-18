@@ -149,37 +149,37 @@
   (exit-mind))
 
 ; (answered-smalltalk ?other) - in a mind: ?other made a smalltalk remark to @self, and @self
-; answered it - a line of his caused by that remark.
+; responded to it.
 (define-func answered-smalltalk (?other)
   (bind @false ?answered)
   (for-each ?line (every {?other SAY (msg /smalltalk ? ?..) @self /past})
-    (if (substantial (any {@self tell ? ?other /succ /caused_by ?line}))
+    (if (substantial (any {@self respond ?other ?line /succ}))
         (then (bind @true ?answered) (break))))
   ?answered)
 
-; (answered-flirt ?other) - in a mind: ?other flirted with @self, and @self answered it - a line of
-; his caused by that flirt.
+; (answered-flirt ?other) - in a mind: ?other flirted with @self, and @self responded to it.
 (define-func answered-flirt (?other)
   (bind @false ?answered)
   (for-each ?line (every {?other SAY (formulaic ? compliment) @self /past})
-    (if (substantial (any {@self tell ? ?other /succ /caused_by ?line}))
+    (if (substantial (any {@self respond ?other ?line /succ}))
         (then (bind @true ?answered) (break))))
   ?answered)
 
-; (asked-whats-new ?other) - in a mind: @self asked ?other what is new, and he replied to it.
+; (asked-whats-new ?other) - in a mind: @self asked ?other what is new, and ?other said something
+; to him after it.
 (define-func asked-whats-new (?other)
   (bind @false ?asked)
   (for-each ?ask (every {@self SAY (qs ? (news-for ?..)) ?other /succ})
-    (if (substantial (any {?other SAY ? @self /succ /caused_by ?ask}))
+    (if (any-happened-since (every {?other SAY ? @self /past}) ?ask)
         (then (bind @true ?asked) (break))))
   ?asked)
 
-; (responded-to-tidings ?other) - in a mind: every line of tidings ?other told @self has a line of
-; @self's in response, caused by it - his own tidings when he had some, else its receipt.
+; (responded-to-tidings ?other) - in a mind: @self responded to every line of tidings ?other told
+; him - with his own tidings when he had some, else its receipt.
 (define-func responded-to-tidings (?other)
   (bind @true ?responded)
   (for-each ?line (every {?other SAY (msg /tidings ? ?..) @self /past})
-    (if (unsubstantial (any {@self tell ? ?other /succ /caused_by ?line}))
+    (if (unsubstantial (any {@self respond ?other ?line /succ}))
         (then (bind @false ?responded) (break))))
   ?responded)
 

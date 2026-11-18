@@ -14,13 +14,13 @@
     (belief {@self name ?}
       (stage
         (effects
-          (if -{@self tell ? ?lover /succ /caused_by ?take-lover}
-              (then (maintain-proposal {@self tell (msg /utterable [] {@self lover ?lover}) ?lover})))))
+          (if -{@self SAY ? ?lover /succ /caused_by ?take-lover}
+              (then (maintain-intent {@self intent {@self SAY (msg /utterable [] {@self lover ?lover}) ?lover}})))))
       (stage
         (effects
           (every {@self (disclosure-tier-labels friend self-disclosable) ?}): ?facts
           (if ?facts
-              (then (maintain-proposal {@self tell (msg /utterable [] ?facts) ?lover})))))
+              (then (maintain-intent {@self intent {@self SAY (msg /utterable [] ?facts) ?lover}})))))
       (stage
         (effects
           (begin-belief {@self lover ?lover})

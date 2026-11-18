@@ -23,10 +23,10 @@
                   (speech-worthy ?aspect ?other)
                   (select (policy first-match))
         (when (conversing-with ?other))
-        (effects (maintain-proposal {@self tell (msg /utterable /tidings [] ?aspect) ?other} /quit-trying-on-fail))))
+        (effects (maintain-intent {@self intent {@self SAY (msg /utterable /tidings [] ?aspect) ?other}}))))
     (try
       (lod unpresented)
       (belief-list ?aspects {@self (facet-labels self-disclosable) ?}:?aspect
                    (speech-worthy ?aspect ?other)
         (when (conversing-with ?other))
-        (effects (maintain-proposal {@self tell (msg /utterable /tidings [] ?aspects) ?other} /quit-trying-on-fail))))))
+        (effects (maintain-intent {@self intent {@self SAY (msg /utterable /tidings [] ?aspects) ?other}}))))))

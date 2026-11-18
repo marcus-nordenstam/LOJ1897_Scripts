@@ -13,7 +13,7 @@
          ; present tense - only a telling still in progress - so each greeting's end made him a
          ; stranger again and the minute cooldown greeted him afresh: 960 greetings in one
          ; afternoon (measured), a body never free for sleep, and the sim down for it.
-         -{@self tell ? ?stranger /succ}
+         -{@self SAY ? ?stranger /succ}
          ; One stranger at a time, the nearest: a crowd is met one face after another.
          (select (score (near @self ?stranger)) (policy argmax unknown-last))
   
@@ -23,9 +23,10 @@
       ; Begun, not maintained: co-presence decides whether he says it, and once begun the line is
       ; said wherever the listener walks - the tell follows him, or fails if it cannot.
       (lint-waive begin-proposal)
+      (lint-waive say-search)
       (declare-utility want)
   
       (effects
         (every {@self (disclosure-tier-labels stranger self-disclosable) ?}): ?facts
-        (begin-proposal {@self tell (msg /utterable [] ?facts) ?stranger})))))
+        (begin-intent {@self intent {@self SAY (msg /utterable [] ?facts) ?stranger}})))))
     

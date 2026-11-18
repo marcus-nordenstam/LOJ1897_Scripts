@@ -25,12 +25,12 @@
     (try
       (when (and (alive ?victim)
                  (or (spatial ?victim co-located @self) (spatial ?victim space))
-                 -{@self tell ? ?victim /succ /caused_by ?humiliate}))
+                 -{@self SAY ? ?victim /succ /caused_by ?humiliate}))
       (declare-utility always-pick)
-      (effects (maintain-proposal
-                 {@self tell (msg /utterable [] {@self public-humiliation ?victim}) ?victim})))
+      (effects (maintain-intent
+                 {@self intent {@self SAY (msg /utterable [] {@self public-humiliation ?victim}) ?victim}})))
     (try
-      (belief {@self tell ? ?victim /succ /caused_by ?humiliate}
+      (belief {@self SAY ? ?victim /succ /caused_by ?humiliate}
         (effects
           (record-crime @self ?victim public-humiliation humiliate @u @u)
           (set-outcome ?humiliate /succ))))

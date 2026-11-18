@@ -32,9 +32,9 @@
       (try
         (when (or (spatial ?killer co-located @self) (spatial ?killer space)))
         (declare-utility always-pick)
-        (effects (maintain-proposal {@self tell (msg /utterable [] {@self intent {@self kill ?victim}} {?killer kill ?victim}) ?killer})))
+        (effects (maintain-intent {@self intent {@self SAY (msg /utterable [] {@self intent {@self kill ?victim}} {?killer kill ?victim}) ?killer}})))
 
       ; CONCLUDE once the solicitation has been spoken.
       (try
-        (belief {@self tell ? ?killer /succ /caused_by ?hire-assassin}
+        (belief {@self SAY ? ?killer /succ /caused_by ?hire-assassin}
           (effects (set-outcome ?hire-assassin /succ)))))))

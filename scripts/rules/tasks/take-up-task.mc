@@ -20,21 +20,17 @@
   (preparatory)
   (and
     (sequence
-      (lod presented)
       (stage
         (when (is-belief (opening-from ?partner)))
-        (bind (opening-from ?partner) ?opening)
-        (bind (hail-response ?opening.target) ?response)
-        (effects (maintain-proposal {@self tell ?response ?partner} /caused_by ?opening)))
+        (effects
+          (bind (opening-from ?partner) ?opening)
+          (bind (hail-response ?opening.target) ?response)
+          (bb-write-rec @self bbk-reply-to ?response (/line ?opening))
+          (maintain-intent {@self intent {@self SAY ?response ?partner}})))
       (stage
         (effects
           (if (take-up-into ?partner ?take-up)
               (then (set-outcome ?take-up /succ))
-              (else (set-outcome ?take-up /fail))))))
-    (sequence
-      (lod unpresented)
-      (stage
-        (effects
-          (if (take-up-into ?partner ?take-up)
-              (then (set-outcome ?take-up /succ))
-              (else (set-outcome ?take-up /fail))))))))
+              (else
+                (answer-hail ?partner turned-down)
+                (set-outcome ?take-up /fail))))))))
