@@ -13,12 +13,12 @@
   (and
     (sequence
       (stage
-        (when (is-belief (opening-from ?partner)))
+        (when (is-belief (hail-line ?partner @self)))
         (effects
-          (bind (opening-from ?partner) ?opening)
-          (bb-write-rec @self bbk-reply-to ?msg (/line ?opening))
-          (maintain-intent {@self intent {@self SAY ?msg ?partner}})))
+          (bind (as-reply-to ?msg (hail-line ?partner @self)) ?refusal)
+          (maintain-intent {@self intent {@self SAY ?refusal ?partner}})))
       (stage
         (effects
           (answer-hail ?partner turned-down)
+          (set-hail-state ?partner turned-down)
           (set-outcome ?turn-down /succ))))))

@@ -805,7 +805,7 @@
     (child flirtation (facets answer-owed))
     (child smalltalk (facets answer-owed-in-talk))
     (child tidings (facets answer-owed-in-talk))
-    (child opener (facets answer-owed-in-talk))
+    (child opener)
     (child statement (facets answer-owed-in-talk) (default-for msg))
     (child reply))
 

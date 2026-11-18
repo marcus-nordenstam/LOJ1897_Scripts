@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; take-up ?partner - @self takes up the hail ?partner called to him from outside any talk @self is
-; in: the two of them are in one talk (take-up-talk, funcs/talk.mc) - ?partner's when he is in one,
-; else @self's own, else the one ?partner opened to call him in, else a new one - and his answer is
-; on ?partner's board (take-up-into). Presented he first gives the response the opening calls for.
+; in: the two of them are in the talk the hail was called in (funcs/talk.mc), and his answer is on
+; its record of him and on ?partner's board (take-up-into). He first gives the response the opening
+; calls for.
 ; Entering a talk is its own category, enter-talk, within the talk the two would talk in
 ; (talk-between): a talk of his hosts it only when it is that one, so taking up a hail into another
 ; talk competes with his part in his own. It is PREPARATION for his part in the talk, proposed by
@@ -21,16 +21,18 @@
   (and
     (sequence
       (stage
-        (when (is-belief (opening-from ?partner)))
+        (when (is-belief (hail-line ?partner @self)))
         (effects
-          (bind (opening-from ?partner) ?opening)
-          (bind (hail-response ?opening.target) ?response)
-          (bb-write-rec @self bbk-reply-to ?response (/line ?opening))
+          (bind (hail-line ?partner @self) ?opening)
+          (bind (as-reply-to (hail-response ?opening.target) ?opening) ?response)
           (maintain-intent {@self intent {@self SAY ?response ?partner}})))
       (stage
         (effects
           (if (take-up-into ?partner ?take-up)
-              (then (set-outcome ?take-up /succ))
+              (then
+                (set-hail-state ?partner taken)
+                (set-outcome ?take-up /succ))
               (else
                 (answer-hail ?partner turned-down)
+                (set-hail-state ?partner turned-down)
                 (set-outcome ?take-up /fail))))))))

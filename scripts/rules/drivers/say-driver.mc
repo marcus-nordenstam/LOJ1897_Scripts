@@ -12,8 +12,8 @@
 ; With all of it in hand he says the line, in the register he takes toward ?audience (voice-line,
 ; funcs/voice.mc). A broadcast (an absent ?audience) takes no turn and is said where he stands.
 ; Unpresented there are no turns: one line stands on a speaker and his listener at a time (sync).
-; The SAY said ends the intent; what follows from the line being said is the said reflex's
-; (reflexes/said.mc). A line to a talk nobody else is in has no one to hear it, and a man he cannot
+; The SAY said ends the intent; what follows from the line being said is the SAY's own, as it
+; ends (line-said, funcs/speech.mc). A line to a talk nobody else is in has no one to hear it, and a man he cannot
 ; get to is not told: the intent is given up.
 ; ----------------------------------------------------------------------------
 

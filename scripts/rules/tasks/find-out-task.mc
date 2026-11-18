@@ -8,7 +8,8 @@
 ; is hailed again only once he is in no talk (hailable), and "I don't know" rules him out;
 ; the next is sought; a man who turned it down only because he was busy owes him a hail of his own
 ; (reflexes/obligation-hail.mc). A hail that fails because he could not hear it (he slept, or had
-; gone) is made again once he can. It is done when he knows it (found-out).
+; gone) is made again once he can. It is done when he knows it (found-out), and fails once no man
+; here is left to ask (nobody-to-ask).
 ; Proposed by want-to-know (drivers/want-to-know-driver.mc). Like every pursuit carried on in
 ; talk it runs beside the talk it asks in, which hosts it (category social).
 ; ----------------------------------------------------------------------------
@@ -20,19 +21,29 @@
   (hosts reply enter-talk)
   (lint-waive task-no-preparation)
   (success-cond (found-out ?fact))
-  (role ?who {?who isa [k human]}
-             (neq ?who @self)
-             (spatial ?who co-located @self)
-             (or (conversing-with ?who) (hailable ?who))
-    (when (askable ?who ?fact))
-    (preemptive-or
-      (try
-        (when (conversing-with ?who))
-        (effects (maintain-proposal {@self inquire ?who (inquiry-of ?who ?fact)})))
-      (try
+  (failure-cond (nobody-to-ask ?fact))
+  ; The man to ask is cast in each rung, never above them: the conds must be judged when there is
+  ; nobody left to ask.
+  (preemptive-or
+    (try
+      (role ?who {?who isa [k human]}
+                 (neq ?who @self)
+                 (spatial ?who co-located @self)
+                 (or (conversing-with ?who) (hailable ?who))
+        (when (and (askable ?who ?fact) (conversing-with ?who)))
+        (effects (maintain-proposal {@self inquire ?who (inquiry-of ?who ?fact)}))))
+    (try
+      (role ?who {?who isa [k human]}
+                 (neq ?who @self)
+                 (spatial ?who co-located @self)
+                 (or (conversing-with ?who) (hailable ?who))
         (belief {@self hail ?who /fail /caused_by ?find-out}:?hail
-          (when (hail-turned-down ?who ?hail))
-          (effects (set-outcome ?find-out /fail))))
-      (try
-        (when (hailable ?who))
+          (when (and (askable ?who ?fact) (turned-down-by ?who)))
+          (effects (set-outcome ?find-out /fail)))))
+    (try
+      (role ?who {?who isa [k human]}
+                 (neq ?who @self)
+                 (spatial ?who co-located @self)
+                 (or (conversing-with ?who) (hailable ?who))
+        (when (and (askable ?who ?fact) (hailable ?who)))
         (effects (maintain-proposal {@self hail ?who} /keep-trying-on-fail))))))

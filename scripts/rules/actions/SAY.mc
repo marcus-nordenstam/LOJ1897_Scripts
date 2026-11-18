@@ -3,12 +3,15 @@
 ; {@self SAY ?msg ?audience}; this pure act says it aloud. A substantial
 ; ?audience is a DIRECTED say (the SAY memory's /aux is the listener - the
 ; per-listener untold dedup); an absent audience (_) is an open BROADCAST.
-; Delivery is by earshot either way (in-earshot).
 ;
 ; The act-belief the head binds IS the utterance record - born at the install,
 ; ended here. (xaction ?xsay) hands the body that act's ABS twin, externalized at
-; that birth, and deliver-speech hangs the sound off THAT - so the record the world
-; carries is the pipeline's own.
+; that birth: the record the world carries is the pipeline's own.
+;
+; A LINE IS SAID WHEN IT HAS BEEN SAID TO ITS END. Everything that follows from it happens
+; then, at once and in one place (line-said, funcs/speech.mc): whoever it is for hears it, it is
+; logged in the talk it went into, and its speaker knows what he has told and to whom. A line
+; that does not reach its end was not said.
 
 (action {@self SAY ?msg ?audience}:?SAY
   (belief-timeout 1 min)
@@ -31,16 +34,14 @@
   ; so no reply shares a second with what it answers.
   (duration (utterance-seconds ?xsay))
 
-  ; A say starts here, ONCE: the SOUND, which is the Merlin half and how anyone else hears
-  ; this at all, and when presented the VOICE - the words rendered, the visemes cut, the jaw
-  ; driven, the subtitle put up. Effects run every frame while the audio plays and would say
+  ; A say starts here, ONCE, when presented: the VOICE - the words rendered, the visemes cut, the
+  ; jaw driven, the subtitle put up. Effects run every frame while the audio plays and would say
   ; it again each time.
   ; Nobody is spoken to by two men at once: presented, his intent's driver held the turn this line
   ; takes before proposing it (turn-board, funcs/talk.mc); unpresented there are no turns. The board
   ; can change between the two - its audience joins or leaves a talk - so it is expected, not
   ; checked. The player's lines take no turn and he has no mind to read the intent in.
   (init
-    (deliver-speech ?xsay)
     (if (presented-lod)
         (then
           (if (is-npc)
@@ -48,8 +49,8 @@
                             "SAY: the line began without the turn it takes - its board changed since its driver held it")))
           (speak-aloud @self ?msg))))
 
-  ; The unpresented say is heard and not watched: its sound went out as it began, and is heard
-  ; the second after, at the instant the line ends.
+  ; The unpresented say is heard and not watched: it is said the second after it began, at the
+  ; instant the line ends.
   (effects
     (if (unpresented-lod)
         (then (set-outcome ?SAY /succ))))
@@ -57,5 +58,7 @@
   ; The speech-state slot the handler claimed at install is released on EVERY end: a slot leaked
   ; per interrupted utterance is a mouth that stops working after a few dozen talks.
   (cease
+    (if (succeeded ?SAY)
+        (then (line-said ?xsay ?SAY ?audience)))
     (if (presented-lod)
         (then (end-speech @self)))))

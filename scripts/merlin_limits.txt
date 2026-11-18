@@ -81,4 +81,5 @@ abs.private_bb_records.pool         =   1024    128     64
 # startup. Bump initial reserve and stride if profiling shows churn.
 abs.public_bb.pool                  =   65536   1024    512
 abs.public_bb_records.pool          =   65536   1024    512
+abs.public_bb_refs.pool             =   65536   1024    512
 

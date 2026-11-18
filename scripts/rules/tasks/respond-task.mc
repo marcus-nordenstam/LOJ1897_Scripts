@@ -20,15 +20,15 @@
         (when (and (matches ?msg (qs ?..)) (withholds ?msg ?speaker)))
         (bind (formulaic [] refusal answer) ?refusal)
         (effects
-          (bb-write-rec @self bbk-reply-to ?refusal (/line ?line))
-          (maintain-intent {@self intent {@self SAY ?refusal ?speaker}}))))
+          (bind (as-reply-to ?refusal ?line) ?said)
+          (maintain-intent {@self intent {@self SAY ?said ?speaker}}))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
         (bind (reply-to ?line ?speaker) ?reply)
         (when (substantial ?reply))
         (effects
-          (bb-write-rec @self bbk-reply-to ?reply (/line ?line))
-          (maintain-intent {@self intent {@self SAY ?reply ?speaker}}))))
+          (bind (as-reply-to ?reply ?line) ?said)
+          (maintain-intent {@self intent {@self SAY ?said ?speaker}}))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
         (effects (set-outcome ?respond /succ))))))

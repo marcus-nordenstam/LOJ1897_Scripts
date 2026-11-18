@@ -22,9 +22,8 @@
       (when (and (none {@self SAY ? ?partner /succ /caused_by ?inquire})
                  (substantial (prompting-line ?partner ?qs))))
       (effects
-        (bind (prompting-line ?partner ?qs) ?line)
-        (bb-write-rec @self bbk-reply-to ?qs (/line ?line))
-        (maintain-intent {@self intent {@self SAY ?qs ?partner}})))
+        (bind (as-reply-to ?qs (prompting-line ?partner ?qs)) ?question)
+        (maintain-intent {@self intent {@self SAY ?question ?partner}})))
     (try
       (when (and (none {@self SAY ? ?partner /succ /caused_by ?inquire})
                  (unsubstantial (prompting-line ?partner ?qs))))

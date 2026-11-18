@@ -1,42 +1,37 @@
 ; ----------------------------------------------------------------------------
-; speech.mc - the PHYSICAL half of a speech act, as content.
-;
-; This was C++ (env/functions/comms_functions.h emit_tell) and had no business
-; being there: it hardcoded the SAY label, the [k speech] sound kind and the
-; earshot radius. All three are world knowledge, so they live here.
+; speech.mc - what follows from a line being said, and what a listener does with one he hears.
 ;
 ; No act-belief is made here. {@self SAY <msg> <audience>} is minted by the action
 ; pipeline when a SAY proposal wins selection and externalized to the abs mind at
-; promotion; SAY.mc's (xaction ?xsay) hands this func that ABS twin. All that is
-; left is making it audible: a [k speech] sound entity at the speaker's own bounds
-; carrying the twin, so the objective record the world hears can never drift from
-; the speaker's own. Who hears it, on the next perception pass (a preroll of 0 makes it
-; audible this instant): a line said in a talk is for the people on that talk's board
-; (line-hearers, funcs/talk.mc), and of those within its radius only they hear it - the
-; rest of the room is not listening. A line said in no talk, and a broadcast, reach
-; everyone within its radius (in-earshot).
+; promotion; SAY.mc's (xaction ?xsay) hands line-said that ABS twin when the line has been said
+; to its end.
 ;
 ; A DIRECTED say stamps the addressee in the act's /aux (the per-listener "told"
-; dedup); a BROADCAST leaves it absent. Which sound it makes is (voice-sound ..)
+; dedup); a BROADCAST leaves it absent. Which voice it is said in is (voice-sound ..)
 ; (funcs/talk.mc), the voice the line rides, which the say driver measures by too.
 ; ----------------------------------------------------------------------------
 
 (include "../macros/formulaic-macros.mc")
 
-(define-func deliver-speech (?xsay)
-  (do
-    (create-entity (voice-sound ?xsay.target) (spatial @self bounds /env)): ?sound
-    (set-attr ?sound create-action ?xsay)
-    (set-attr ?sound speaker @self)
-    (set-attr ?sound preroll 0)
-    (bind (line-hearers ?xsay.auxiliary) ?hearers)
-    (if (substantial ?hearers)
-        (then (address-sound ?sound ?hearers)))))
+; (line-said ?xsay ?SAY ?audience) - @self has said the line ?SAY to ?audience to its end, ?xsay its
+; world record. Whoever it is for hears it (deliver-line): the people on the board of the talk it is
+; said in (line-hearers, funcs/talk.mc) who are within its voice - the rest of the room is not
+; listening - or, said in no talk or to nobody, everyone within its voice. It is logged in the talk
+; it went into (log-said), which writes the hail record when it is an opening. And a man with a
+; mind notes the line in his own record of that talk (record-said) and whom it has told what
+; (mark-told).
+(define-func line-said (?xsay ?SAY ?audience)
+  (deliver-line ?xsay (voice-sound ?SAY.target) (line-hearers ?audience))
+  (bind (log-said ?SAY ?audience) ?talk)
+  (if (is-npc)
+      (then
+        (record-said ?SAY.target ?talk)
+        (mark-told ?SAY ?audience))))
 
 ; ----------------------------------------------------------------------------
 ; adopt-heard-msg - the LISTENER half of a speech act, as content.
 ;
-; deliver-speech above makes an utterance audible; this decides what a listener
+; line-said above has a line reach its hearers; this decides what a listener
 ; DOES with one he heard. It was C++ too, and held three pieces of world
 ; knowledge: that a QUESTION carries no assertable facts, that a heard fact is
 ; SOURCED from the utterance that carried it rather than from one's own eyes,
