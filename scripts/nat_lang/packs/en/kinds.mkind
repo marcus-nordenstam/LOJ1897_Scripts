@@ -89,6 +89,15 @@ miss-title                    Miss
 doctor-title                  Dr
 reverend-title                the Reverend Mr
 constable-title               Constable
+professor-title               Professor
+sir-title                     Sir
+lady-title                    Lady
+lord-title                    Lord
+duke-title                    the Duke of
+duchess-title                 the Duchess of
+captain-title                 Captain
+major-title                   Major
+colonel-title                 Colonel
 
 ; === namesakes (one English word, several kinds) =============================
 apothecary-job                apothecary

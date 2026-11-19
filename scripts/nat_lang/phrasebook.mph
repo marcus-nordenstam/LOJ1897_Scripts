@@ -17,9 +17,10 @@
 ; regen. See Docs/dialogue_nlg_phase4_design.md section 4.5.
 ; -----------------------------------------------------------------------------
 
-; How a man named before is spoken of when "he" or "she" would not do: the corpus func the
-; realizer asks, of him and the one spoken to (funcs/address.mc).
-refer: term-of-reference
+; How a man named before is spoken of when "he" or "she" would not do: the corpus funcs the
+; realizer asks - how the speaker names him, of him and the one spoken to, and the word he says
+; after a title, of him and the title (funcs/address.mc).
+refer: term-of-reference name-after-title
 
 intents: neutral warm curt blunt deferential flowery scornful respectful tender spiteful terse plain metaphorical anecdotal elaborated intro bell
 

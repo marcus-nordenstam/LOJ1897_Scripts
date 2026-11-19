@@ -244,8 +244,8 @@
   (child school-grade
     (children A B C D F))
 
-  ; Military rank - the /aux of a seeded `served` self-belief (states.mon):
-  ; {@self served <unit> /aux <rank>}. Scales the martial skill band a
+  ; Military rank - (state army-rank): an officer keeps his rank as his title, "Captain Brennan".
+  ; It scales the martial skill band a
   ; veteran/serving soldier carries (a colonel out-shoots a private) and
   ; the contract-killing fee. The officer tier (ensign+) is gentry-born -
   ; the fallen-officer killer an upper-class instigator can reach directly
@@ -862,7 +862,14 @@
     ; How a man is spoken of who is no kin or intimate of the speaker: the title before his surname
     ; (funcs/address.mc term-of-reference), worded by the pack (kinds.mkind).
     (child title
-      (children mister-title missus-title miss-title doctor-title reverend-title constable-title))
+      (children mister-title missus-title miss-title doctor-title reverend-title constable-title
+                professor-title sir-title lady-title lord-title duke-title duchess-title
+                captain-title major-title colonel-title))
+    ; An honour the crown gave: a knighthood or baronetcy ("Sir Arthur"), or a peerage, held by its
+    ; holder's own peerage name ("Lord Ashford", "the Duke of Bedford") - (state honour), (state
+    ; peerage).
+    (child honour
+      (children knight baronet baron viscount earl marquess duke))
     (child nationality
       (children english irish st-revieran french)))
 

@@ -814,6 +814,12 @@
 
 ; Nouns an env attr realizes - the attr adds the mechanism.
 (state age-band (tar [k age-band] @excl))
+; The honour a man holds - a knighthood, a baronetcy, a peerage - and the name of his peerage, the
+; place it is of ([n Ashford]): how he is spoken of, "Sir Arthur", "Lord Ashford" (funcs/address.mc).
+(state honour (tar [k honour] @excl))
+(state peerage (tar ? @excl))
+; The rank a soldier holds or held, an officer's said as his title.
+(state army-rank (tar [k military-rank] @excl))
 (state age-span (tar [k age-band]))
 (state appearance (tar [k appearance] @excl))
 (state awareness (tar [k awareness] @excl))
