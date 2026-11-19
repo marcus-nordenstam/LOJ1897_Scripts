@@ -124,3 +124,5 @@ verb write    /past = wrote
 verb write    /prog = writing
 verb play     /pres = plays
 verb play     /past = played
+verb loiter   /pres = loiters
+verb loiter   /past = loitered

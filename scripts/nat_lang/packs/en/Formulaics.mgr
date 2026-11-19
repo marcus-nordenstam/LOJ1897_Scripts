@@ -69,6 +69,10 @@
 "$who(NP) told me"                                                              ( formulaic [] response told-by how $who(NP) )
 :: realize-only
 .
+; A man he saw there then doing nothing he could see (W1 ruling 4).
+"I don't know ++, $who(NP) didn't seem to be doing much"                         ( formulaic [] response idle $who(NP) )
+:: realize-only
+.
 ; What he knows of it is only what the man he says it to told him.
 "Only what you told me ++: that $a(ST)"                                        ( formulaic [] response only-told $a(ST) )
 :: realize-only

@@ -47,6 +47,13 @@
 :: realize-only elaborated flowery
 .
 
+; A beat of what happened, said with the clock it began at: "Mary Le Feuvre drank claret at about ten
+; to nine at night".
+"$st(ST) $t(NP)"
+( msg [] $t(NP) $st(ST) )
+:: realize-only
+.
+
 ; When a thing began that he never saw begin: that he does not know, and the clock he surely saw it at.
 "I don't know ++, but $who(NP) had it on at $t(NP)"
 ( msg [] @unknown $t(NP) { $who(NP) wear ? ? } )

@@ -104,7 +104,8 @@
         (else (set-msg-rider ?said told ?told))))
 
 ; The telling of ?acts to ?asker: what was going on (?progressive) or what happened. Its beats are
-; the first of each run, in the order they began, the next each time the earliest not yet told.
+; the first of each run, in the order they began, the next each time the earliest not yet told. A beat
+; of what happened says when it began, unless it began when the beat before it did (ruling 18).
 ; When ?asker himself told him every one of them, he has nothing of his own to tell: "Only what you
 ; told me: that ..".
 (define-func telling (?acts ?progressive ?asker)
@@ -114,6 +115,7 @@
   (bind 0 ?ties)
   (bind 0 ?beats)
   (bind 0 ?theirs)
+  (bind @nothing ?last-clock)
   (repeat (k-told-beats)
     (bind @nothing ?next)
     (for-each ?act ?acts
@@ -122,7 +124,10 @@
                (or (unsubstantial ?next) (began-before ?act ?next)))
           (then (bind ?act ?next))))
     (if (unsubstantial ?next) (then (break)))
-    (bind (msg [] ?next) ?said)
+    (bind (recalled-clock /start ?next) ?clock)
+    (bind (and (not ?progressive) (not (unknown ?clock)) (neq ?clock ?last-clock)) ?timed)
+    (bind (flip ?timed (msg [] ?clock ?next) (msg [] ?next)) ?said)
+    (bind ?clock ?last-clock)
     (bind (add-func-arg ?told (hedged ?said ?next ?asker)) ?told)
     (bind (add-func-arg ?only ?next) ?only)
     (bind (told-line ?next) ?line)
@@ -143,11 +148,18 @@
 
 ; What ?who was doing during ?when, told to ?asker: what was going on.
 (define-func doing-then (?who ?when ?asker)
-  (telling (doing-during ?who ?when) @true ?asker))
+  (or-idle (telling (doing-during ?who ?when) @true ?asker) ?who ?when))
 
 ; What ?who did during ?when, told to ?asker: what happened, in time order.
 (define-func done-then (?who ?when ?asker)
-  (telling (doing-during ?who ?when) @false ?asker))
+  (or-idle (telling (doing-during ?who ?when) @false ?asker) ?who ?when))
+
+; The telling ?told of what ?who was doing during ?when, else, when he holds no act of ?who then but
+; was where he saw him, that ?who did not seem to be doing much (ruling 4); else @unknown.
+(define-func or-idle (?told ?who ?when)
+  (cond (case (substantial ?told) ?told)
+        (case (substantial (any {?who ? ? /during ?when /at ?})) (formulaic [] response idle ?who))
+        (else @unknown)))
 
 ; How @self knows what he last told ?asker, asked who told him (?asked who) or how he knows (how):
 ; who told him the first of its beats he was told - "You did, just now", "Silas Brennan told me" - or

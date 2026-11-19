@@ -975,6 +975,10 @@ $form(FORM)
 { $sub_np(NP) EAT }
 :: realize-only
 .
+" $sub_np(NP) $verb(VERB|loiter) about "
+{ $sub_np(NP) DWELL ? ? }
+:: realize-only
+.
 " $sub_np(NP) $verb(VERB|play) a game "
 { $sub_np(NP) PLAY-GAME }
 :: realize-only
