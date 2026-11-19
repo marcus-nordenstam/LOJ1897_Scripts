@@ -28,8 +28,8 @@
       (for-each ?chamber (spatial ?room parts [k secret-chamber] /env)
         (if (= ?made 0)
             (then
-              ; The chamber is an ENV read and the belief is mental: it enters the mind
-              ; by being perceived, or the clause carries an abs object it cannot hold.
+              ; The chamber is hidden: he sees it only by looking for it on the room it is in.
+              (observe /hidden ?room)
               (observe ?chamber): ?known
               (begin-belief {@self hiding-spot ?known})
               (bind 1 ?made)))))
@@ -38,7 +38,8 @@
       (for-each ?painting (spatial ?room contents [k painting] /env)
         (if (= ?made 0)
             (then
-              (create-entity [k painting-cache] ?room ?painting): ?cache
+              (create-entity [k painting-cache] @nothing ?painting): ?cache
+              (observe /hidden ?painting)
               (observe ?cache): ?known
               (begin-belief {@self hiding-spot ?known})
               (bind 1 ?made)))))
@@ -47,7 +48,8 @@
       (for-each ?box (spatial ?room contents [k jewelry-box] /env)
         (if (= ?made 0)
             (then
-              (create-entity [k jewelry-box-lining] ?room ?box): ?cache
+              (create-entity [k jewelry-box-lining] @nothing ?box): ?cache
+              (observe /hidden ?box)
               (observe ?cache): ?known
               (begin-belief {@self hiding-spot ?known})
               (bind 1 ?made)))))
@@ -56,7 +58,8 @@
       (for-each ?book (spatial ?room contents [k book] /env)
         (if (= ?made 0)
             (then
-              (create-entity [k book-cache] ?room ?book): ?cache
+              (create-entity [k book-cache] @nothing ?book): ?cache
+              (observe /hidden ?book)
               (observe ?cache): ?known
               (begin-belief {@self hiding-spot ?known})
               (bind 1 ?made)))))
@@ -65,7 +68,8 @@
     (for-each ?bedroom (spatial ?building rooms [k bedroom] /env)
         (if (= ?made 0)
             (then
-              (create-entity [k floorboard-cache] ?bedroom ?bedroom): ?cache
+              (create-entity [k floorboard-cache] @nothing ?bedroom): ?cache
+              (observe /hidden ?bedroom)
               (observe ?cache): ?known
               (begin-belief {@self hiding-spot ?known})
               (bind 1 ?made))))

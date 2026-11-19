@@ -35,11 +35,8 @@
       (role ?interloper {?interloper isa [k human], condition [k alive]}
         {?partner lover ?interloper}
         -{?partner spouse ?interloper}
+        {@self emotion [k contempt] ?interloper}:?contempt_bond
         (select (policy first-match))
-
-        ; The REASON: the appraised emotions (minted by the betray-act reflex rows). Read as the
-        ; /caused_by anchors, never re-minted.
-        (bind (any {@self emotion [k contempt] ?interloper}) ?contempt_bond)
 
         ; Fires only once the betrayal is appraised (anger present); the rage tip fires ONCE
         ; (0.02 base * dark-propensity), then the latch holds it.

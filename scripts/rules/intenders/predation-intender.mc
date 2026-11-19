@@ -40,11 +40,11 @@
   (cooldown 1 m try-once)
   (rng-stream perpetration)
 
-  (belief {@self psychopathy ?psychopathy}
+  (belief ?fixation_bond {@self psychopathy ?psychopathy}
               {@self sadism ?sadism}
               {@self inhibition ?inhibition}
               {@self age-band [k young-adult|middle-aged|mature|elderly]}
-              {@self hair-color-fixation ?}
+              {@self hair-color-fixation ?}:?fixation_bond
 
     ; The victim: cast from the predator's OWN non-kin acquaintance ties (his
     ; acquaintance graph, role-cast - no world scan), HARD-filtered to his type (the
@@ -66,10 +66,6 @@
                                     (flip {?victim repute [k disreputable]} 1.0 0.0)
                                     (flip {?victim repute [k scandalous]} 1.0 0.0)))
                           (policy argmax))
-
-      ; The REASON: the fixation (read as the /caused_by anchor, never re-minted - so the
-      ; hunt fades if the fixation lifts). seed-predation-profile is what mints fixations.
-      (bind (any {@self hair-color-fixation ?}) ?fixation_bond)
 
       ; Disposition floor + rate. lethal = mean(psychopathy, sadism); propensity =
       ; (1 - inhibition) * lethal, DOUBLED for {@self life-aim power-aim}. The lethal tip

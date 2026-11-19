@@ -86,7 +86,9 @@
                       (else (bind (claim (stand-spot-by ?larder)) ?spot)
                             (if (is-spot ?spot) (then (maintain-proposal {@self go-to ?spot}))))))))))
       (stage
-        (effects (maintain-proposal {@self SERVE ?larder (free-hand)}))))
+        (effects
+          (if (substantial (any {?larder count >0}))
+              (then (maintain-proposal {@self SERVE ?larder (free-hand)}))))))
     (try
       (role ?home {@self home ?home}
         (belief -{@self SAY ? ? /succ /caused_by ?eat}

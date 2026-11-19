@@ -9,7 +9,7 @@
 ;
 ; The (do ...) block runs per ?victim (after the role binds) and tolerantly
 ; captures the mockable material @self holds about the victim (each capture holds
-; the whole belief, or @fail with no abort) - only what @self knows or can
+; the whole belief, or @unknown) - only what @self knows or can
 ; see, so the insult is grounded. ?low_aspect is the single worst of the four
 ; amiable traits; ?volatility the hot-head extreme. The barb_ladder cells read those
 ; handles by context: a high anger load -> the displaced-anger lash-out (perceptual
@@ -66,8 +66,8 @@
                             (* 0.30 (+ (prob {@self detest  ?victim})
                                        (prob {@self despise ?victim})))))))
 
-      ; The mockable material, read per victim - each tolerant, so a missing read is
-      ; just @fail (no abort). Each capture holds the whole belief.
+      ; The mockable material, read per victim; a read he has no answer to is @unknown.
+      ; Each capture holds the whole belief.
       (do
         (tolerate (any {?victim girth ?}):?girth)
         (tolerate (any {?victim height ?}):?height)
