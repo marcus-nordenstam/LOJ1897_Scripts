@@ -43,7 +43,43 @@
 "Mind your manners"                                                            ( formulaic [] manners-refusal ) .
 "It is indeed"                                                                  ( formulaic [] response agree ) .
 "Nothing much"                                                                  ( formulaic [] response no-news ) .
-"I saw it myself"                                                               ( formulaic [] response saw-it )
+; How he knows what he told, asked who told him or how he knows: the man he says it to (just now,
+; in this talk, or before), another, or nobody - he saw it.
+"Nobody ++, I saw it myself"                                                   ( formulaic [] response saw-it who )
+:: realize-only
+.
+"I saw it myself"                                                               ( formulaic [] response saw-it how )
+:: realize-only
+.
+"You did ++, just now"                                                          ( formulaic [] response told-by-you who just-now )
+:: realize-only
+.
+"You did"                                                                       ( formulaic [] response told-by-you who )
+:: realize-only
+.
+"You told me ++, just now"                                                      ( formulaic [] response told-by-you how just-now )
+:: realize-only
+.
+"You told me"                                                                   ( formulaic [] response told-by-you how )
+:: realize-only
+.
+"$who(NP) did"                                                                  ( formulaic [] response told-by who $who(NP) )
+:: realize-only
+.
+"$who(NP) told me"                                                              ( formulaic [] response told-by how $who(NP) )
+:: realize-only
+.
+; What he knows of it is only what the man he says it to told him.
+"Only what you told me ++: that $a(ST)"                                        ( formulaic [] response only-told $a(ST) )
+:: realize-only
+.
+"Only what you told me ++: that $a(ST) ++, and that $b(ST)"                    ( formulaic [] response only-told $a(ST) $b(ST) )
+:: realize-only
+.
+"Only what you told me ++: that $a(ST) ++, that $b(ST) ++, and that $c(ST)"   ( formulaic [] response only-told $a(ST) $b(ST) $c(ST) )
+:: realize-only
+.
+"Only what you told me ++: that $a(ST) ++, that $b(ST) ++, that $c(ST) ++, and that $d(ST)"   ( formulaic [] response only-told $a(ST) $b(ST) $c(ST) $d(ST) )
 :: realize-only
 .
 "How interesting"                                                               ( formulaic [] response receipt ) .

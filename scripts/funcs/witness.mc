@@ -95,20 +95,25 @@
         (then (bind ?source ?line) (break))))
   ?line)
 
-; The beat ?said that tells ?act, hedged: told, else as sure as @self is of it.
-(define-func hedged (?said ?act)
+; The beat ?said that tells ?act, hedged: told - by ?asker himself, @you, or by another - else as sure
+; as @self is of it.
+(define-func hedged (?said ?act ?asker)
   (bind (told-line ?act) ?told)
-  (flip (is-belief ?told)
-        (set-msg-rider ?said told ?told)
-        (answer-as-sure ?said (belief-certainty ?act))))
+  (cond (case (not (is-belief ?told)) (answer-as-sure ?said (belief-certainty ?act)))
+        (case (eq ?told.subject ?asker) (set-msg-rider ?said told ?told @you))
+        (else (set-msg-rider ?said told ?told))))
 
-; The telling of ?acts: what was going on (?progressive) or what happened. Its beats are the first of
-; each run, in the order they began, the next each time the earliest not yet told.
-(define-func telling (?acts ?progressive)
+; The telling of ?acts to ?asker: what was going on (?progressive) or what happened. Its beats are
+; the first of each run, in the order they began, the next each time the earliest not yet told.
+; When ?asker himself told him every one of them, he has nothing of his own to tell: "Only what you
+; told me: that ..".
+(define-func telling (?acts ?progressive ?asker)
   (bind (msg /utterable /reply []) ?told)
+  (bind (formulaic /reply [] response only-told) ?only)
   (bind @nothing ?after)
   (bind 0 ?ties)
   (bind 0 ?beats)
+  (bind 0 ?theirs)
   (repeat (k-told-beats)
     (bind @nothing ?next)
     (for-each ?act ?acts
@@ -118,49 +123,70 @@
           (then (bind ?act ?next))))
     (if (unsubstantial ?next) (then (break)))
     (bind (msg [] ?next) ?said)
-    (bind (add-func-arg ?told (hedged ?said ?next)) ?told)
+    (bind (add-func-arg ?told (hedged ?said ?next ?asker)) ?told)
+    (bind (add-func-arg ?only ?next) ?only)
+    (bind (told-line ?next) ?line)
+    (if (and (is-belief ?line) (eq ?line.subject ?asker)) (then (bind (+ ?theirs 1) ?theirs)))
     (bind (+ ?beats 1) ?beats)
     (bind (flip (eq (start-time ?next) ?after) (+ ?ties 1) 1) ?ties)
     (bind (start-time ?next) ?after))
+  (bind (flip (= ?theirs ?beats) ?only ?told) ?said)
   (cond (case (= ?beats 0) @unknown)
-        (case ?progressive (set-msg-rider ?told aspect progressive))
-        (else ?told)))
+        (case ?progressive (set-msg-rider ?said aspect progressive))
+        (else ?said)))
 
-; What he saw done at ?where during ?when: what was going on.
-(define-func seen-there (?where ?when)
+; What he saw done at ?where during ?when, told to ?asker: what was going on.
+(define-func seen-there (?where ?when ?asker)
   (if (unsubstantial ?where)
       (then @unknown)
-      (else (telling (what-was-seen ?where ?when) @true))))
+      (else (telling (what-was-seen ?where ?when) @true ?asker))))
 
-; What ?who was doing during ?when: what was going on.
-(define-func doing-then (?who ?when)
-  (telling (doing-during ?who ?when) @true))
+; What ?who was doing during ?when, told to ?asker: what was going on.
+(define-func doing-then (?who ?when ?asker)
+  (telling (doing-during ?who ?when) @true ?asker))
 
-; What ?who did during ?when: what happened, in time order.
-(define-func done-then (?who ?when)
-  (telling (doing-during ?who ?when) @false))
+; What ?who did during ?when, told to ?asker: what happened, in time order.
+(define-func done-then (?who ?when ?asker)
+  (telling (doing-during ?who ?when) @false ?asker))
 
-; How @self knows what he last told ?asker: the line that told him the first of its beats he was
-; told, "Silas Brennan told me", or that he saw it himself. @unknown when his last line to ?asker
-; told nothing he saw or heard.
-(define-func told-source (?asker)
+; How @self knows what he last told ?asker, asked who told him (?asked who) or how he knows (how):
+; who told him the first of its beats he was told - "You did, just now", "Silas Brennan told me" - or
+; that nobody did, he saw it himself. @unknown when his last line to ?asker told nothing he saw or
+; heard.
+(define-func told-source (?asker ?asked)
   (bind (shared-talk ?asker) ?talk)
   (bind @nothing ?last)
   (if (substantial ?talk)
       (then
         (for-each ?line (bb-public-read-keys ?talk bbk-line)
-          (if (and (eq ?line.subject @self) (eq ?line.auxiliary ?asker) (is-telling ?line.target))
+          (if (and (eq ?line.subject @self) (eq ?line.auxiliary ?asker)
+                   (or (is-telling ?line.target) (matches ?line.target (formulaic ? response only-told ?..))))
               (then (bind ?line ?last))))))
   (bind @nothing ?source)
   (if (is-belief ?last)
       (then
         (for-each ?beat (msg-sentences /whole ?last.target)
-          (bind (msg-rider ?beat told) ?told)
+          (bind (beat-teller ?beat) ?told)
           (if (is-belief ?told)
               (then (bind ?told ?source) (break))))))
-  (cond (case (is-belief ?source) (msg /utterable /reply [] ?source))
-        (case (is-belief ?last) (formulaic [] response saw-it))
+  (if (and (is-belief ?last) (matches ?last.target (formulaic ? response only-told ?..)))
+      (then (bind (told-line (nth (k-formulaic-payload-field) ?last.target)) ?source)))
+  (cond (case (and (is-belief ?source) (eq ?source.subject ?asker)) (told-by-you ?source ?talk ?asked))
+        (case (is-belief ?source) (formulaic [] response told-by ?asked ?source.subject))
+        (case (is-belief ?last) (formulaic [] response saw-it ?asked))
         (else @unknown)))
+
+; ?asker told it him, said as the answer ?asked asks it: "You did" / "You told me", and "just now"
+; when the line ?line was said in ?talk.
+(define-func told-by-you (?line ?talk ?asked)
+  (flip (eq (said-in ?line) ?talk)
+        (formulaic [] response told-by-you ?asked just-now)
+        (formulaic [] response told-by-you ?asked)))
+
+; The line that told @self the beat ?beat, or @nothing when he saw it: its [/told <line> ..] rider.
+(define-func beat-teller (?beat)
+  (bind (msg-rider ?beat told) ?told)
+  (flip (is-list ?told) (head ?told) ?told))
 
 ; ?msg is a telling: a sentence of it is a beat, a line of its own with its riders.
 (define-func is-telling (?msg)

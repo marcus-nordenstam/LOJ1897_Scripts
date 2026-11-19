@@ -980,16 +980,6 @@ $form(FORM)
 :: realize-only
 .
 
-; Who told him what he tells: the line he was told it in.
-" you told me "
-{ ?_you /past SAY ? ?_I }
-:: realize-only
-.
-" $who(NP) told me "
-{ $who(NP) /past SAY ? ?_I }
-:: realize-only
-.
-
 ; A task he saw under way, in a line that tells what was going on: "she was having a meal".
 " $sub_np(NP) $verb(VERB|be) $act(ONGOING_TASK) "
 { $sub_np(NP) /past $act(ONGOING_TASK) }

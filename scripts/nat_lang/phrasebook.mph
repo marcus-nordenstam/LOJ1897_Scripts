@@ -160,8 +160,16 @@ decoration certainty:
 decoration told:
   position: suffix
   scope: beat
+  told:listener         -> ""
   told:yes class:lower  -> ", so I've heard"
   told:yes              -> ", I'm told"
+  *                     -> ""
+
+; Told by the man he says it to: a beat that names who told it, said back to him.
+decoration told-by-you:
+  position: prefix
+  scope: beat
+  told:listener         -> "you told me "
   *                     -> ""
 
 ; Address-form suffix (distillation §3.1). A deferential / formal speaker

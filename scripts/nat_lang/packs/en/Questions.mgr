@@ -671,26 +671,29 @@
 ; What he saw there and then, and what a man was doing or did: a line that tells what was going on,
 ; or what happened (funcs/witness.mc).
 "what did you see [there|] $when(WHEN)"
-( seen-there ?_there $when(WHEN) )
+( seen-there ?_there $when(WHEN) ?_I )
 .
 "what did you see [there|]"
-( seen-there ?_there ?_then )
+( seen-there ?_there ?_then ?_I )
 .
 "what was $who(Q_NP) doing $when(WHEN)"
-( doing-then $who(Q_NP) $when(WHEN) )
+( doing-then $who(Q_NP) $when(WHEN) ?_I )
 .
 "what was $who(Q_NP) doing"
-( doing-then $who(Q_NP) ?_then )
+( doing-then $who(Q_NP) ?_then ?_I )
 .
 "what did $who(Q_NP) do $when(WHEN)"
-( done-then $who(Q_NP) $when(WHEN) )
+( done-then $who(Q_NP) $when(WHEN) ?_I )
 .
 "what did $who(Q_NP) do"
-( done-then $who(Q_NP) ?_then )
+( done-then $who(Q_NP) ?_then ?_I )
 .
 ; How he knows what he told: who told him, or that he saw it himself.
-"[who told you|how do you know|where did you hear] [that|so|it|]"
-( told-source ?_I )
+"who told you [that|so|it|]"
+( told-source ?_I who )
+.
+"[how do you know|where did you hear] [that|so|it|]"
+( told-source ?_I how )
 .
 "[when|what time] did you leave [there|]"
 ( reckoned-time ( next-episode ?_you ?_then go-to ) )
