@@ -35,12 +35,16 @@
   (every ?act {? ? ? /during ?when /at ?where}
     (where (and (is-object ?act.subject) (!= ?act.subject @self) (is-act ?act) (top-act ?act)))))
 
-; TELLING - what he saw done, as a line of beats (W1 rulings 15-20): one beat for each run of one
-; act - the same actor doing the same thing to the same kind of thing - the first of the run, in the
-; order they began, at most (k-told-beats). Each beat is a line of its own, hedged by its own riders:
-; told when a line told it him ([/told <the line>]), else as sure as he is of it. A line that tells
-; what was going on is said progressive ([/aspect progressive]); one that tells what happened is
-; said simple, a beat in time order after the one before. @unknown when he holds no act to tell.
+; TELLING - what he saw done, as a line of beats (W1 rulings 15-20), in the order they began, at
+; most (k-told-beats). A line that tells what was going on is said progressive ([/aspect
+; progressive]), one beat for each run of one act - the same actor doing the same thing to the same
+; kind of thing - and a run of (k-kept-times) or more said as what kept going on ([/aspect
+; iterative]: "kept drinking claret"). A line that tells what happened is told blow by blow: one beat for each stretch
+; of a run whose acts follow one another, its count said ([/times n]: "drank claret twice"), and a
+; stretch of a run told before, something else between, said again ([/again]). Each beat is a line
+; of its own, hedged by its own riders: told when a line told it him ([/told <the line>]), else as
+; sure as he is of it; and "as she often does" when he holds a habit of its run ([/habitual
+; <times>], a merged memory). @unknown when he holds no act to tell.
 
 ; The kind of thing ?thing is, or ?thing itself when it is no thing he holds.
 (define-func thing-kind (?thing)
@@ -68,21 +72,64 @@
         (then (bind @false ?first) (break))))
   ?first)
 
-; How many acts that began first of their runs, at the instant ?act began, come before ?act in ?acts.
-(define-func tie-index (?act ?acts)
+; How many acts of ?act's run are among ?acts.
+(define-func run-count (?act ?acts)
+  (bind 0 ?count)
+  (for-each ?other ?acts
+    (if (same-run ?act ?other) (then (bind (+ ?count 1) ?count))))
+  ?count)
+
+; The act of ?acts that began last before ?act (?later @false), or first after it (?later @true);
+; @nothing when none did.
+(define-func act-beside (?act ?acts ?later)
+  (bind @nothing ?beside)
+  (for-each ?other ?acts
+    (bind (cond (case ?later (began-before ?act ?other)) (else (began-before ?other ?act))) ?side)
+    (bind (cond (case (unsubstantial ?beside) @true)
+                (case ?later (began-before ?other ?beside))
+                (else (began-before ?beside ?other)))
+          ?nearer)
+    (if (and (neq ?other ?act) ?side ?nearer)
+        (then (bind ?other ?beside))))
+  ?beside)
+
+; ?act begins a stretch of its run among ?acts: the act before it is of another run, or there is none.
+(define-func stretch-first (?act ?acts)
+  (bind (act-beside ?act ?acts @false) ?before)
+  (cond (case (unsubstantial ?before) @true)
+        (else (not (same-run ?act ?before)))))
+
+; How many acts of ?act's run follow one another from ?act, nothing else between, ?act among them.
+(define-func stretch-count (?act ?acts)
+  (bind 1 ?count)
+  (bind ?act ?at)
+  (repeat (count ?acts)
+    (bind (act-beside ?at ?acts @true) ?at)
+    (if (cond (case (unsubstantial ?at) @true) (else (not (same-run ?act ?at))))
+        (then (break)))
+    (bind (+ ?count 1) ?count))
+  ?count)
+
+; ?act begins a beat of the telling: what was going on, the first of its run; what happened, the
+; first of a stretch.
+(define-func beat-first (?act ?acts ?progressive)
+  (flip ?progressive (run-first ?act ?acts) (stretch-first ?act ?acts)))
+
+; How many acts that begin beats, at the instant ?act began, come before ?act in ?acts.
+(define-func tie-index (?act ?acts ?progressive)
   (bind 0 ?index)
   (for-each ?other ?acts
     (cond (case (eq ?other ?act) (break))
-          (case (and (eq (start-time ?other) (start-time ?act)) (run-first ?other ?acts))
+          (case (and (eq (start-time ?other) (start-time ?act)) (beat-first ?other ?acts ?progressive))
                 (bind (+ ?index 1) ?index))))
   ?index)
 
 ; ?act is told after the ?beats told so far, the last of them begun at ?after, the ?ties-th of
 ; those begun then.
-(define-func told-later (?act ?acts ?after ?ties ?beats)
+(define-func told-later (?act ?acts ?progressive ?after ?ties ?beats)
   (bind (start-time ?act) ?began)
   (cond (case (= ?beats 0) @true)
-        (case (eq ?began ?after) (>= (tie-index ?act ?acts) ?ties))
+        (case (eq ?began ?after) (>= (tie-index ?act ?acts ?progressive) ?ties))
         (case (unknown ?after) @false)
         (case (unknown ?began) @true)
         (else (> ?began ?after))))
@@ -103,6 +150,28 @@
         (case (eq ?told.subject ?asker) (set-msg-rider ?said told ?told @you))
         (else (set-msg-rider ?said told ?told))))
 
+; How many acts of ?act's run @self holds in his habit of it - the most a merged memory of it stands
+; for - or 1 when he holds no habit of it.
+(define-func habit-times (?act)
+  (bind 1 ?most)
+  (for-each ?habit (every ?habit {?act.subject ? ? /ever} (where (and (is-act ?habit) (same-run ?act ?habit))))
+    (bind (times ?habit) ?times)
+    (if (> ?times ?most) (then (bind ?times ?most))))
+  ?most)
+
+; The beat ?said that tells ?act among ?acts, said as its telling counts it: a run said as what kept
+; going on, a stretch with its count, a stretch of a run told before said again, and as he often does
+; when he holds a habit of its run.
+(define-func counted (?said ?act ?acts ?progressive)
+  (bind ?said ?beat)
+  (bind (cond (case ?progressive (run-count ?act ?acts)) (else (stretch-count ?act ?acts))) ?run)
+  (if (and ?progressive (>= ?run (k-kept-times))) (then (bind (set-msg-rider ?beat aspect iterative) ?beat)))
+  (if (and (not ?progressive) (> ?run 1)) (then (bind (set-msg-rider ?beat times ?run) ?beat)))
+  (if (and (not ?progressive) (not (run-first ?act ?acts))) (then (bind (set-msg-rider ?beat again @true) ?beat)))
+  (bind (habit-times ?act) ?habit)
+  (if (> ?habit 1) (then (bind (set-msg-rider ?beat habitual ?habit) ?beat)))
+  ?beat)
+
 ; The telling of ?acts to ?asker: what was going on (?progressive) or what happened. Its beats are
 ; the first of each run, in the order they began, the next each time the earliest not yet told. A beat
 ; of what happened says when it began, unless it began when the beat before it did (ruling 18).
@@ -119,16 +188,16 @@
   (repeat (k-told-beats)
     (bind @nothing ?next)
     (for-each ?act ?acts
-      (if (and (run-first ?act ?acts)
-               (told-later ?act ?acts ?after ?ties ?beats)
-               (or (unsubstantial ?next) (began-before ?act ?next)))
+      (if (and (beat-first ?act ?acts ?progressive)
+               (told-later ?act ?acts ?progressive ?after ?ties ?beats)
+               (cond (case (unsubstantial ?next) @true) (else (began-before ?act ?next))))
           (then (bind ?act ?next))))
     (if (unsubstantial ?next) (then (break)))
     (bind (recalled-clock /start ?next) ?clock)
     (bind (and (not ?progressive) (not (unknown ?clock)) (neq ?clock ?last-clock)) ?timed)
     (bind (flip ?timed (msg [] ?clock ?next) (msg [] ?next)) ?said)
     (bind ?clock ?last-clock)
-    (bind (add-func-arg ?told (hedged ?said ?next ?asker)) ?told)
+    (bind (add-func-arg ?told (counted (hedged ?said ?next ?asker) ?next ?acts ?progressive)) ?told)
     (bind (add-func-arg ?only ?next) ?only)
     (bind (told-line ?next) ?line)
     (if (and (is-belief ?line) (eq ?line.subject ?asker)) (then (bind (+ ?theirs 1) ?theirs)))

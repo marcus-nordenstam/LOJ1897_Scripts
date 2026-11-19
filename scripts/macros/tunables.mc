@@ -248,6 +248,10 @@
 ; The most habits a witness gives in one line when nothing he saw answers.
 (define-macro k-told-habits () 2)
 
+; How many acts of one run a witness tells as what kept going on, not what was going on: two
+; glasses are "she was drinking claret", three "she kept drinking claret".
+(define-macro k-kept-times () 3)
+
 ; How close the player stands to a man, box to box, before he can hail him.
 (define-macro k-hail-reach () 2.0)
 

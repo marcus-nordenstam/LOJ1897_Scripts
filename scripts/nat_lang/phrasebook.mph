@@ -143,6 +143,34 @@ select coda:
 ; conditions a select rule does. A question vouches for or doubts no one: its
 ; subject: conditions never hold.
 
+; Said right after a beat's act, before the clock it began at (`position: act`).
+; Again: a beat of what happened that tells a run told before in the same line, something else
+; between ([/again]): "then she drank claret again about nine".
+decoration again:
+  position: act
+  scope: beat
+  again:yes             -> " again"
+  *                     -> ""
+
+; Count: a beat of what happened that tells a stretch of one act, nothing between ([/times n]):
+; "she drank claret twice about seven".
+decoration times:
+  position: act
+  scope: beat
+  times:2               -> " twice"
+  times:3               -> " three times"
+  times:4+              -> " several times"
+  *                     -> ""
+
+; Habit suffix: a beat whose run the speaker holds a habit of ([/habitual ..], a merged memory).
+decoration habit:
+  position: suffix
+  scope: beat
+  habit:yes gender:f    -> ", as she often does"
+  habit:yes gender:m    -> ", as he often does"
+  habit:yes             -> ", as usual"
+  *                     -> ""
+
 ; Hedge suffix: the speaker's trust in whom he speaks of.
 decoration hedge:
   position: suffix

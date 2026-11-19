@@ -103,8 +103,11 @@ verb dabble   /past = dabbled
 ; The progressive, said in a line that tells what was going on ("she was drinking"): the aux in
 ; the line's tense, then the participle - the base and -ing unless a verb lists its own. A verb
 ; English never says that way - a state (be, have, know, love, hear, see, smell) or one whose
-; progressive means "on the way to" (die) - lists `-` and is said simple even there.
+; progressive means "on the way to" (die) - lists `-` and is said simple even there. What kept
+; going on - a run of one act told as what was going on - is the same participle after keep: "she
+; kept drinking".
 aux /prog = be
+aux /iter = keep
 verb *        /prog = *ing
 verb be       /prog = -
 verb have     /prog = -
