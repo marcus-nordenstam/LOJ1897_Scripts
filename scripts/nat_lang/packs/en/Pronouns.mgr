@@ -26,3 +26,8 @@
 "her"   ?_third_fo   :: agree:f  .
 "him"   ?_third_mo   :: agree:m  .
 "them"  ?_third_o   :: agree:pl .
+
+; The third person in place of a possessor ("his home"), said only: the player's "his" is a POSS.
+"her"   ?_third_f   :: agree:f case:possessive realize-only .
+"his"   ?_third_m   :: agree:m case:possessive realize-only .
+"their" ?_third_s   :: agree:pl case:possessive realize-only .
