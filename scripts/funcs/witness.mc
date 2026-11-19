@@ -155,11 +155,39 @@
   (or-idle (telling (doing-during ?who ?when) @false ?asker) ?who ?when))
 
 ; The telling ?told of what ?who was doing during ?when, else, when he holds no act of ?who then but
-; was where he saw him, that ?who did not seem to be doing much (ruling 4); else @unknown.
+; was where he saw him, that ?who did not seem to be doing much (ruling 4); else what ?who is wont
+; to do then (or-habit).
 (define-func or-idle (?told ?who ?when)
   (cond (case (substantial ?told) ?told)
         (case (substantial (any {?who ? ? /during ?when /at ?})) (formulaic [] response idle ?who))
-        (else @unknown)))
+        (else (or-habit ?who ?when))))
+
+; Where ?who was during ?when as the man holds it, else what ?who is wont to do then (or-habit).
+(define-func whereabouts-then (?who ?when)
+  (bind (whereabouts-on ?who ?when) ?where)
+  (if (substantial ?where)
+      (then ?where)
+      (else (or-habit ?who ?when))))
+
+; HABIT (W1 C3) - when nothing he holds of that time answers: the places ?who frequents in the
+; parts of the day ?when reaches into, the habit tally's {?who frequent <building> <part of the
+; day>}, at most (k-told-habits). He does not know - or, placing himself somewhere else then, he
+; was not there - but she is in the Red Lion most evenings. @unknown when no habit answers either.
+(define-func or-habit (?who ?when)
+  (bind (every ?habit {?who /pres frequent ? ?} (where (part-during ?habit.auxiliary ?when))) ?habits)
+  (bind (whereabouts-on @self ?when) ?mine)
+  (bind (substantial ?mine) ?elsewhere)
+  (for-each ?habit ?habits
+    (if (and ?elsewhere (spatial ?mine building ?habit.target))
+        (then (bind @false ?elsewhere))))
+  (bind (flip ?elsewhere wasnt-there dont-know) ?opener)
+  (bind (formulaic /reply [] response habit ?opener) ?said)
+  (bind 0 ?told)
+  (for-each ?habit ?habits
+    (if (< ?told (k-told-habits))
+        (then (bind (add-func-arg ?said ?habit) ?said)
+              (bind (+ ?told 1) ?told))))
+  (flip (= ?told 0) @unknown ?said))
 
 ; How @self knows what he last told ?asker, asked who told him (?asked who) or how he knows (how):
 ; who told him the first of its beats he was told - "You did, just now", "Silas Brennan told me" - or

@@ -86,6 +86,20 @@
 "Only what you told me ++: that $a(ST) ++, that $b(ST) ++, that $c(ST) ++, and that $d(ST)"   ( formulaic [] response only-told $a(ST) $b(ST) $c(ST) $d(ST) )
 :: realize-only
 .
+; Nothing he holds of that time answers, but what the man is wont to do there and then does (W1
+; C3): he does not know, or he was not there, but she is in there most evenings.
+"I don't know ++, but $a(ST)"                                                   ( formulaic [] response habit dont-know $a(ST) )
+:: realize-only
+.
+"I don't know ++, but $a(ST) ++, and $b(ST)"                                   ( formulaic [] response habit dont-know $a(ST) $b(ST) )
+:: realize-only
+.
+"I wasn't there ++, but $a(ST)"                                                 ( formulaic [] response habit wasnt-there $a(ST) )
+:: realize-only
+.
+"I wasn't there ++, but $a(ST) ++, and $b(ST)"                                 ( formulaic [] response habit wasnt-there $a(ST) $b(ST) )
+:: realize-only
+.
 "How interesting"                                                               ( formulaic [] response receipt ) .
 ; A statement answered as a courtesy, never a claim: the fact was news to him or he knew it, then
 ; what it made him feel, or the condolence a courteous man offers for a misfortune he feels nothing

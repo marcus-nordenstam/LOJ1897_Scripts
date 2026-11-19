@@ -1287,3 +1287,17 @@ $form(FORM)
 { $sub_np(NP) /pres despise $value(NP) } .
 " $sub_np(NP) relies on $value(NP) "
 { $sub_np(NP) /pres rely $value(NP) } .
+
+; --- HABITS (where a man is to be found, by the part of the day) ------------
+" $sub_np(NP) $verb(VERB|be) in $value(NP) at dawn most days "
+{ $sub_np(NP) /pres frequent $value(NP) [k dawn] } .
+" $sub_np(NP) $verb(VERB|be) in $value(NP) most mornings "
+{ $sub_np(NP) /pres frequent $value(NP) [k morning] } .
+" $sub_np(NP) $verb(VERB|be) in $value(NP) at midday most days "
+{ $sub_np(NP) /pres frequent $value(NP) [k midday] } .
+" $sub_np(NP) $verb(VERB|be) in $value(NP) most afternoons "
+{ $sub_np(NP) /pres frequent $value(NP) [k afternoon] } .
+" $sub_np(NP) $verb(VERB|be) in $value(NP) most evenings "
+{ $sub_np(NP) /pres frequent $value(NP) [k evening] } .
+" $sub_np(NP) $verb(VERB|be) in $value(NP) most nights "
+{ $sub_np(NP) /pres frequent $value(NP) [k night] } .

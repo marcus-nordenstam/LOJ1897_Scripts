@@ -245,6 +245,9 @@
 ; The most beats a witness's telling holds: the runs of acts he names in one line.
 (define-macro k-told-beats () 4)
 
+; The most habits a witness gives in one line when nothing he saw answers.
+(define-macro k-told-habits () 2)
+
 ; How close the player stands to a man, box to box, before he can hail him.
 (define-macro k-hail-reach () 2.0)
 
