@@ -322,7 +322,7 @@
 ; (`employer`). Non-exclusive: an NPC may join several.
 (state member-of (tar [k org] @object) (self-known))
 ; participant: who takes part in a GROUP ACTIVITY object - {<game>
-; participant <co-player>}, {<talk> participant <party>}. Subject
+; participant <co-player>}, {<talk> participant <participant>}. Subject
 ; is the activity (overriding the block's human default), target a person;
 ; one interval per spell of taking part, so leaving ends it and rejoining
 ; begins a new one. The inverse, player-side belief of a game is {@self

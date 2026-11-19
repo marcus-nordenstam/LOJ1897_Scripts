@@ -38,9 +38,10 @@
   ; jaw driven, the subtitle put up. Effects run every frame while the audio plays and would say
   ; it again each time.
   ; Nobody is spoken to by two men at once: presented, his intent's driver held the turn this line
-  ; takes before proposing it (turn-board, funcs/talk.mc); unpresented there are no turns. The board
-  ; can change between the two - its audience joins or leaves a talk - so it is expected, not
-  ; checked. The player's lines take no turn and he has no mind to read the intent in.
+  ; takes before proposing it (turn-board, funcs/talk.mc), and a line to a man or a talk always
+  ; takes one; unpresented there are no turns. The board can change between the two - its audience
+  ; leaves the talk - so it is expected, not checked. The player's lines take no turn and he has no
+  ; mind to read the intent in.
   (init
     (if (presented-lod)
         (then

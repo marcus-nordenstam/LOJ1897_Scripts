@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
 ; talk-roster-join (think). Who is in my talk is what its board says (talk-participants): a
-; party there who is not yet a participant of it in my mind takes part in it from now - in my own
-; mind, as every party does for himself (funcs/talk.mc). A party joining the set wakes
-; every party reading it.
+; participant there who is not yet a participant of it in my mind takes part in it from now - in my own
+; mind, as every participant does for himself (funcs/talk.mc). A participant joining the set wakes
+; every participant reading it.
 ; ----------------------------------------------------------------------------
 
 (think talk-roster-join

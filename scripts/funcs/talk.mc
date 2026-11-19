@@ -9,30 +9,30 @@
 ; Everything he says in it, and every way he leaves it, keys off that part;
 ; maintain-social-presence only keeps his body with the others.
 ;
-; A TALK is ONE object, shared (share-object): the opener invents it, and every party
+; A TALK is ONE object, shared (share-object): the opener invents it, and every participant
 ; holds his own copy of it, linked to the one the world keeps. Its public board is what keeps the
-; group in step: its bbk-participant records are who is on it (talk-participants), each with his
+; group in step: its bbk-roster records are who is on it (talk-participants), each with his
 ; standing, and its has-more set who still has something to say. Joining writes his record and
-; leaving clears it; a change to either wakes every party reading it, busy or not, and each mirrors it in his own mind
-; (talk-roster-join / -leave). When the last party leaves, the board is empty and the
+; leaving clears it; a change to either wakes every participant reading it, busy or not, and each mirrors it in his own mind
+; (talk-roster-join / -leave). When the last participant leaves, the board is empty and the
 ; world lets the talk go. What a man knows of a talk
-; is his own beliefs, kept to the board: {<talk> participant <party>} for each party, one
+; is his own beliefs, kept to the board: {<talk> participant <participant>} for each participant, one
 ; interval per spell (talk-roster-join / -leave), {<talk> venue <space>} while he is in
 ; it, {<talk> occasion <occasion>} when it is part of one.
 ;
-; A HAIL is a man calling @self into a talk, the same at both levels of detail and kept on the
-; boards. It is called IN a talk from its first instant: the one @self is in, else the hailer's
+; A HAIL is a man hailing @self into a talk, the same at both levels of detail and kept on the
+; boards. It is made IN a talk from its first instant: the one @self is in, else the hailer's
 ; own, else a new one the hailer makes, on whose board he puts both of them
-; (call-into-talk) - so whoever speaks to either of them finds one talk and waits for its turn.
-; A man's STANDING in a talk is on his record on its board (bbk-participant, boards/talk.mc): called
+; (hail-into-talk) - so whoever speaks to either of them finds one talk and waits for its turn.
+; A man's STANDING in a talk is on his record on its board (bbk-roster, boards/talk.mc): hailed
 ; while a hail has put him there, in once he holds his part in it, which each man writes for himself
-; (join-talk) - @self as he takes the hail up, the hailer once it is taken up. The hail is CALLED by
+; (join-talk) - @self as he takes the hail up, the hailer once it is taken up. The hail is MADE by
 ; its opening, a (formulaic opening-phrase ..) said to @self to its end: from then the talk's record
-; of him (bbk-hail) says he is called and by whom (caller-in). He answers on that record - taken as
+; of him (bbk-hail) says he is hailed and by whom (hailer-in). He answers on that record - taken as
 ; he takes it up, turned-down as he refuses or rebuffs it - and the hailer clears it when his hail is
 ; over. It is always answered, and how is his choice: he takes up the talk, declines it for what he
 ; is busy with, or rebuffs a man he despises (drivers/answer-hail-driver.mc). A hail that ends
-; without being taken up takes off the board whoever is still only called there (uncall).
+; without being taken up takes off the board whoever is still only hailed there (unseat-hailed).
 ;
 ; The funcs at the foot are the player's side, asked by the host: whom he can hail, his
 ; opening and parting lines, and whether a man has taken him up.
@@ -49,22 +49,22 @@
 (define-func voice-sound (?msg)
   (flip (eq (msg-rider ?msg voice-mod) shout) [k shout] [k speech]))
 
-; (within-call ?listener) - ?listener would hear @self call out, as @self knows where he
-; stands - seen, or heard: a voice places the man it came from.
-(define-func within-call (?listener)
+; (in-shouting-distance ?listener) - ?listener would hear @self shout, as @self knows where he
+; stands - seen, or heard: a sound places the man it came from.
+(define-func in-shouting-distance (?listener)
   (in-earshot ?listener [k shout]))
 
-; (within-voice ?listener ?msg) - ?listener would hear @self say ?msg: a person within earshot,
-; a talk when every party @self knows to be in it is. tell closes on its audience until
+; (msg-in-earshot ?listener ?msg) - ?listener would hear @self say ?msg: a person within earshot,
+; a talk when every participant @self knows to be in it is. tell closes on its audience until
 ; this holds.
-(define-func within-voice (?listener ?msg)
+(define-func msg-in-earshot (?listener ?msg)
   (if (and (is-object ?listener) (is-a ?listener [k talk]))
-      (then (unsubstantial (party-out-of-voice ?listener ?msg)))
+      (then (unsubstantial (participant-out-of-earshot ?listener ?msg)))
       (else (in-earshot ?listener (voice-sound ?msg)))))
 
-; (party-out-of-voice ?talk ?msg) - a party on the board of the talk ?talk who would not hear @self
+; (participant-out-of-earshot ?talk ?msg) - a participant on the board of the talk ?talk who would not hear @self
 ; say ?msg where he stands, or @nothing - as for an audience that is no talk.
-(define-func party-out-of-voice (?talk ?msg)
+(define-func participant-out-of-earshot (?talk ?msg)
   (bind @nothing ?far)
   (if (and (is-object ?talk) (is-a ?talk [k talk]))
       (then
@@ -111,7 +111,7 @@
         (case {@self acquaintance ?speaker} (hail-want-utility (k-hail-acquaintance-value)))
         (else (hail-want-utility (k-hail-stranger-value)))))
 
-; (hail-response ?opening) - the response a hail's opening calls for: a man who introduced
+; (hail-response ?opening) - the response a hail's opening asks for: a man who introduced
 ; himself by his office ((formulaic [] opening-phrase authority <job kind>)) is answered by it, any
 ; other opening by its own key. A (formulaic ..) quotes its args, so the office and the key are
 ; read off the opening first.
@@ -126,9 +126,9 @@
 (define-func rebuffs (?speaker)
   (and (any {@self despise ?speaker}) (not (answers-to ?speaker))))
 
-; (taking-up ?caller) - @self has begun taking up ?caller's talk.
-(define-func taking-up (?caller)
-  (substantial (any {@self take-up ?caller})))
+; (taking-up ?hailer) - @self has begun taking up ?hailer's talk.
+(define-func taking-up (?hailer)
+  (substantial (any {@self take-up ?hailer})))
 
 ; (happened-since ?event ?since) - ?event came no earlier than ?since: than its end once it is
 ; over, than its start while it runs.
@@ -145,11 +145,11 @@
           (break))))
   ?found)
 
-; (talk-of ?party) - the talk whose board holds ?party, or @nothing. A
+; (talk-of ?participant) - the talk whose board holds ?participant, or @nothing. A
 ; man takes part in one talk at a time.
-(define-func talk-of (?party)
+(define-func talk-of (?participant)
   (bind @nothing ?talk)
-  (for-each ?one (bb-public-every ? bbk-participant ?party)
+  (for-each ?one (bb-public-every ? bbk-roster ?participant)
     (bind ?one ?talk)
     (break))
   ?talk)
@@ -165,39 +165,39 @@
         (case (substantial (talk-of ?audience)) (talk-participants (talk-of ?audience)))
         (else @nothing)))
 
-; (in-talk ?party ?talk) - ?talk's board holds ?party, called or in.
-(define-func in-talk (?party ?talk)
-  (and (substantial ?talk) (substantial (bb-public-any ?talk bbk-participant ?party))))
+; (in-talk ?participant ?talk) - ?talk's board holds ?participant, hailed or in.
+(define-func in-talk (?participant ?talk)
+  (and (substantial ?talk) (substantial (bb-public-any ?talk bbk-roster ?participant))))
 
-; (standing-in ?talk ?party) - ?party's standing on ?talk's board: called, in, or @fail when he is not
+; (standing-in ?talk ?participant) - ?participant's standing on ?talk's board: hailed, in, or @fail when he is not
 ; on it.
-(define-func standing-in (?talk ?party)
-  (bb-public-read-rec ?talk bbk-participant ?party standing))
+(define-func standing-in (?talk ?participant)
+  (bb-public-read-rec ?talk bbk-roster ?participant standing))
 
-; (holds-part ?party ?talk) - ?party holds his part in ?talk: his standing there is in.
-(define-func holds-part (?party ?talk)
-  (and (substantial ?talk) (eq (standing-in ?talk ?party) in)))
+; (holds-part ?participant ?talk) - ?participant holds his part in ?talk: his standing there is in.
+(define-func holds-part (?participant ?talk)
+  (and (substantial ?talk) (eq (standing-in ?talk ?participant) in)))
 
-; (seat ?talk ?party) - ?party is on ?talk's board from now, called, unless he is on it already.
-(define-func seat (?talk ?party)
-  (if (not (in-talk ?party ?talk))
-      (then (bb-public-write-rec ?talk bbk-participant ?party (/standing called)))))
+; (seat ?talk ?participant) - ?participant is on ?talk's board from now, hailed, unless he is on it already.
+(define-func seat (?talk ?participant)
+  (if (not (in-talk ?participant ?talk))
+      (then (bb-public-write-rec ?talk bbk-roster ?participant (/standing hailed)))))
 
-; (unseat ?talk ?party) - ?party comes off ?talk's board when he is only called there.
-(define-func unseat (?talk ?party)
-  (if (eq (standing-in ?talk ?party) called)
-      (then (bb-public-clear-rec ?talk bbk-participant ?party))))
+; (unseat ?talk ?participant) - ?participant comes off ?talk's board when he is only hailed there.
+(define-func unseat (?talk ?participant)
+  (if (eq (standing-in ?talk ?participant) hailed)
+      (then (bb-public-clear-rec ?talk bbk-roster ?participant))))
 
-; (shared-talk ?party) - the talk @self and ?party both take part in, or @nothing: the
-; discourse a line ?party says to him belongs to. A line overheard from a talk he is not in has none.
-(define-func shared-talk (?party)
-  (flip (in-one-talk @self ?party) (talk-of @self) @nothing))
+; (shared-talk ?participant) - the talk @self and ?participant both take part in, or @nothing: the
+; discourse a line ?participant says to him belongs to. A line overheard from a talk he is not in has none.
+(define-func shared-talk (?participant)
+  (flip (in-one-talk @self ?participant) (talk-of @self) @nothing))
 
 ; A LINE SAID TO A MAN IN A TALK IS SAID IN THAT TALK, and the talk's log (bbk-line, boards/talk.mc)
 ; records it. The line it replies to rides on its message (the reply-to rider): that is how a reply
-; is told from its line, in either mind. A hail puts the man it calls in a talk before its opening is said, so an opening is logged
+; is told from its line, in either mind. A hail puts the man it hails in a talk before its opening is said, so an opening is logged
 ; like any line. A reply goes into the talk of the line it replies to. A line to a man in no talk -
-; nobody has called him - is in none and is logged nowhere.
+; nobody has hailed him - is in none and is logged nowhere.
 
 ; (logged-in ?talk ?line) - ?talk when its log holds the line ?line, else @nothing.
 (define-func logged-in (?talk ?line)
@@ -235,7 +235,7 @@
 
 ; (record-line ?SAY ?audience) - the line ?SAY @self said to ?audience, logged in the talk it went
 ; into (line-talk); that talk, or @nothing when it went into none. An opening said to a man is a hail whoever says it: the talk's record of that man
-; says he is called, by @self (bbk-hail, boards/talk.mc).
+; says he is hailed, by @self (bbk-hail, boards/talk.mc).
 (define-func record-line (?SAY ?audience)
   (bind (line-talk ?audience (replied-line ?SAY)) ?talk)
   (if (substantial ?talk)
@@ -243,62 +243,62 @@
         (bb-public-write-rec ?talk bbk-line ?SAY [])
         (if (and (is-object ?audience) (is-a ?audience [k human])
                  (matches ?SAY.target (formulaic ? opening-phrase ?..)))
-            (then (bb-public-write-rec ?talk bbk-hail ?audience (/caller @self /state called /line ?SAY))))))
+            (then (bb-public-write-rec ?talk bbk-hail ?audience (/hailer @self /state hailed /line ?SAY))))))
   ?talk)
 
-; (hail-talk ?caller ?called) - the talk whose board holds ?caller's hail of ?called (bbk-hail), or
+; (hail-talk ?hailer ?hailed) - the talk whose board holds ?hailer's hail of ?hailed (bbk-hail), or
 ; @nothing.
-(define-func hail-talk (?caller ?called)
+(define-func hail-talk (?hailer ?hailed)
   (bind @nothing ?found)
-  (for-each ?talk (bb-public-every ? bbk-hail ?called)
-    (if (eq (bb-public-read-rec ?talk bbk-hail ?called caller) ?caller)
+  (for-each ?talk (bb-public-every ? bbk-hail ?hailed)
+    (if (eq (bb-public-read-rec ?talk bbk-hail ?hailed hailer) ?hailer)
         (then (bind ?talk ?found) (break))))
   ?found)
 
-; (hail-state ?caller ?called) - the state of ?caller's hail of ?called: called, taken or turned-down,
+; (hail-state ?hailer ?hailed) - the state of ?hailer's hail of ?hailed: hailed, taken or turned-down,
 ; or @nothing when none stands.
-(define-func hail-state (?caller ?called)
-  (bind (hail-talk ?caller ?called) ?talk)
+(define-func hail-state (?hailer ?hailed)
+  (bind (hail-talk ?hailer ?hailed) ?talk)
   (cond (case (unsubstantial ?talk) @nothing)
-        (else (bb-public-read-rec ?talk bbk-hail ?called state))))
+        (else (bb-public-read-rec ?talk bbk-hail ?hailed state))))
 
-; (set-hail-state ?caller ?state) - @self answers ?caller's hail of him: its record says ?state, taken
+; (set-hail-state ?hailer ?state) - @self answers ?hailer's hail of him: its record says ?state, taken
 ; or turned-down. A hail that no longer stands has no record to answer.
-(define-func set-hail-state (?caller ?state)
-  (bind (hail-talk ?caller @self) ?talk)
+(define-func set-hail-state (?hailer ?state)
+  (bind (hail-talk ?hailer @self) ?talk)
   (if (substantial ?talk)
       (then (bb-public-write-rec ?talk bbk-hail @self (/state ?state)))))
 
-; (hail-line ?caller ?called) - the opening ?caller called ?called with, as @self holds it, or
+; (hail-line ?hailer ?hailed) - the opening ?hailer hailed ?hailed with, as @self holds it, or
 ; @nothing when no hail of his stands or @self did not hear it.
-(define-func hail-line (?caller ?called)
-  (bind (hail-talk ?caller ?called) ?talk)
+(define-func hail-line (?hailer ?hailed)
+  (bind (hail-talk ?hailer ?hailed) ?talk)
   (bind @nothing ?line)
   (if (substantial ?talk)
-      (then (bind (bb-public-read-rec ?talk bbk-hail ?called line) ?line)))
+      (then (bind (bb-public-read-rec ?talk bbk-hail ?hailed line) ?line)))
   (flip (is-belief ?line) ?line @nothing))
 
-; (called-in ?talk) - @self is called in ?talk and has not answered.
-(define-func called-in (?talk)
-  (eq (bb-public-read-rec ?talk bbk-hail @self state) called))
+; (hailed-in ?talk) - @self is hailed in ?talk and has not answered.
+(define-func hailed-in (?talk)
+  (eq (bb-public-read-rec ?talk bbk-hail @self state) hailed))
 
-; (calling ?partner) - a call of @self's stands on ?partner, answered or not.
-(define-func calling (?partner)
+; (hailing ?partner) - a hail of @self's stands on ?partner, answered or not.
+(define-func hailing (?partner)
   (substantial (hail-state @self ?partner)))
 
-; (called-by ?partner) - a call of ?partner's stands on @self, unanswered.
-(define-func called-by (?partner)
-  (eq (hail-state ?partner @self) called))
+; (hailed-by ?partner) - a hail of ?partner's stands on @self, unanswered.
+(define-func hailed-by (?partner)
+  (eq (hail-state ?partner @self) hailed))
 
 ; (saying-opening ?partner) - an opening of @self's to ?partner is on his mouth.
 (define-func saying-opening (?partner)
   (substantial (any {@self SAY (formulaic ? opening-phrase ?..) ?partner})))
 
-; (clear-hail ?called) - @self's hail of ?called is over: its record goes.
-(define-func clear-hail (?called)
-  (bind (hail-talk @self ?called) ?talk)
+; (clear-hail ?hailed) - @self's hail of ?hailed is over: its record goes.
+(define-func clear-hail (?hailed)
+  (bind (hail-talk @self ?hailed) ?talk)
   (if (substantial ?talk)
-      (then (bb-public-clear-rec ?talk bbk-hail ?called))))
+      (then (bb-public-clear-rec ?talk bbk-hail ?hailed))))
 
 ; (let-go-talk ?talk) - when nobody is on ?talk's board any more its log goes, and with it the board
 ; that keeps the talk.
@@ -306,11 +306,10 @@
   (if (and (substantial ?talk) (empty (talk-participants ?talk)))
       (then (bb-public-clear ?talk bbk-line))))
 
-; (call-into-talk ?partner) - @self's hail of ?partner is called in a talk from now: ?partner's when he
+; (hail-into-talk ?partner) - @self's hail of ?partner is made in a talk from now: ?partner's when he
 ; is in one, where @self waits for its turn like anyone; else @self's own, or a new one he makes and
-; goes on the board of, which he puts ?partner on the board of and notes (bbk-called), both called
-; there. Whoever speaks to ?partner from now finds him in that talk.
-(define-func call-into-talk (?partner)
+; goes on the board of, which he puts ?partner on the board of, both hailed there. Whoever speaks to ?partner from now finds him in that talk.
+(define-func hail-into-talk (?partner)
   (if (unsubstantial (talk-of ?partner))
       (then
         (bind (talk-of @self) ?talk)
@@ -318,41 +317,53 @@
             (then
               (bind (open-talk) ?talk)
               (seat ?talk @self)))
-        (seat ?talk ?partner)
-        (bb-write-rec @self bbk-called ?partner (/talk ?talk)))))
+        (seat ?talk ?partner))))
 
-; (uncall ?partner) - @self's hail of ?partner is over: the note of the talk it put him on the board
-; of goes, whichever of the two is still only called there comes off its board, and a talk nobody is
-; left on is let go. A man who holds his part in it stays.
-(define-func uncall (?partner)
-  (bind (bb-read-rec @self bbk-called ?partner talk) ?talk)
+; (leave-seat ?participant) - ?participant comes off the board of the talk he is on when he is only hailed there,
+; and a talk nobody is left on is let go.
+(define-func leave-seat (?participant)
+  (bind (talk-of ?participant) ?talk)
   (if (substantial ?talk)
       (then
-        (bb-clear-rec @self bbk-called ?partner)
-        (unseat ?talk ?partner)
-        (unseat ?talk @self)
+        (unseat ?talk ?participant)
         (let-go-talk ?talk))))
 
-; (in-one-talk ?party ?partner) - both are on one talk's board: a talk they share or one of them
-; called the other into, not yet a talk between them (conversing-with).
-(define-func in-one-talk (?party ?partner)
-  (in-talk ?partner (talk-of ?party)))
+; (unseat-hailed ?partner) - @self's hail of ?partner is over: whichever of the two is still only hailed on
+; the board of the talk he is on comes off it. A man who holds his part in a talk stays. One hail
+; stands on a man at a time (the hail's sync), so a man still only hailed was put there by this one.
+(define-func unseat-hailed (?partner)
+  (leave-seat ?partner)
+  (leave-seat @self))
+
+; (in-one-talk ?participant ?partner) - both are on one talk's board: a talk they share or one of them
+; hailed the other into, not yet a talk between them (conversing-with).
+(define-func in-one-talk (?participant ?partner)
+  (in-talk ?partner (talk-of ?participant)))
 
 ; A LINE IN A TALK TAKES ITS TURN: one man at a time speaks in a talk, the rest wait for its turn,
 ; and the man who is done hands it on (turn-request, holds-turn, turn-release - the engine's). A
 ; turn is a talk's and nothing else's, so a line needs one board at most: a line to a talk, or to a
-; man in one, takes that talk's turn; a line to a man in no talk takes none, and neither does a
-; broadcast. A reply takes its turn like any line and goes first of those waiting (line-rank), so
+; man in one, takes that talk's turn. EVERY LINE TO A MAN OR A TALK TAKES ONE: a man in no talk is
+; not spoken to until a hail has put him in one (drivers/say-driver.mc). Only a broadcast, a line
+; to nobody in particular, takes none. A reply takes its turn like any line and goes first of those waiting (line-rank), so
 ; it is said once the line it replies to is over; of the others the man longest since he last
 ; spoke goes first. A man spoken to in his talk stays where he is (heed-speaker).
 
-; (turn-board ?audience) - the talk whose turn a line to ?audience takes, or @nothing.
+; (turn-board ?audience) - the talk whose turn a line to ?audience takes: ?audience itself when it is
+; a talk; for a man the talk the two are on the board of, else the one he is on, else the one his
+; hail of @self stands in - @self answering a hailer who stands outside it. @nothing for a
+; broadcast, which takes no turn, and for a man no talk reaches, who cannot be spoken to yet.
 (define-func turn-board (?audience)
   (cond (case (unsubstantial ?audience) @nothing)
         (case (is-a ?audience [k talk]) ?audience)
         (case (in-one-talk @self ?audience) (talk-of @self))
         (case (substantial (talk-of ?audience)) (talk-of ?audience))
-        (else @nothing)))
+        (else (hail-talk ?audience @self))))
+
+; (addressable ?audience) - a line to ?audience has a talk to be said in, or is a broadcast and
+; needs none.
+(define-func addressable (?audience)
+  (or (unsubstantial ?audience) (substantial (turn-board ?audience))))
 
 ; A REPLY SAYS WHAT IT REPLIES TO, ON ITSELF: the rule that wants a reply said puts the line it
 ; replies to on the message as its reply-to rider (as-reply-to), and the line carries it wherever it
@@ -393,14 +404,22 @@
 (define-func line-rank (?msg ?audience)
   (flip (answering-line ?msg ?audience) 1 0))
 
-; (my-turn ?audience) - @self may speak to ?audience now: the line takes no turn, or he holds it.
+; (my-turn ?audience) - @self may speak to ?audience now: the line is a broadcast, or he holds the
+; turn of the talk it takes. A man no talk reaches he may not speak to.
 (define-func my-turn (?audience)
   (bind (turn-board ?audience) ?board)
-  (or (unsubstantial ?board) (holds-turn ?board)))
+  (cond (case (unsubstantial ?audience) @true)
+        (case (unsubstantial ?board) @false)
+        (else (holds-turn ?board))))
 
-; (may-speak ?audience) - @self may say a line to ?audience now: it takes no turn, or he holds it.
-(define-func may-speak (?audience)
-  (my-turn ?audience))
+; (line-waits-on ?board) - @self means to say a line that takes the turn of the talk ?board.
+(define-func line-waits-on (?board)
+  (bind @false ?waits)
+  (for-each ?intent (every {@self intent {@self SAY ? ?}})
+    (bind ?intent.target ?act)
+    (if (eq (turn-board ?act.auxiliary) ?board)
+        (then (bind @true ?waits) (break))))
+  ?waits)
 
 ; (spoken-to) - another man holds the turn of the talk @self is in.
 (define-func spoken-to ()
@@ -413,11 +432,11 @@
   (substantial (any {@self SAY ?})))
 
 ; (taken-between ?partner) - a hail between @self and ?partner stands taken up, whichever of them
-; called it, or the two call each other.
+; hailed it, or the two hail each other.
 (define-func taken-between (?partner)
   (or (eq (hail-state @self ?partner) taken)
       (eq (hail-state ?partner @self) taken)
-      (mutual-call ?partner)))
+      (mutual-hail ?partner)))
 
 ; (conversing-with ?partner) - @self and ?partner talk together: @self holds his part in a talk, and
 ; ?partner holds his in it too, or is on its board with his hail of @self taken up and his own part
@@ -446,9 +465,9 @@
               (* ?appeal (clamp (/ (+ /float (elapsed /minutes ?parted) 0) (k-partner-refresh-minutes)) (k-partner-fresh-floor) 1.0)))
         (else ?appeal)))
 
-; (partner-claims ?partner) - how many other men already hold ?partner: the other parties of a talk he
+; (partner-claims ?partner) - how many other men already hold ?partner: the other participants of a talk he
 ; is in that is not @self's. Hails are not counted: two men hailing one would each be worth less to the
-; other the moment the other called, and they would take turns calling him every second.
+; other the moment the other hailed, and they would take turns hailing him every second.
 (define-func partner-claims (?partner)
   (bind 0.0 ?claims)
   (bind (talk-of ?partner) ?theirs)
@@ -456,35 +475,36 @@
       (then (bind (+ /float (count (talk-participants ?theirs)) -1) ?claims)))
   ?claims)
 
-; (hail-answer ?partner) - what ?partner answered @self's last hail of him: taken, turned-down, or @fail.
-(define-func hail-answer (?partner)
-  (bb-public-read-rec @self bbk-hail-answer ?partner answer))
-
-; (answer-hail ?caller ?answer) - @self answers ?caller's hail ?answer, taken or turned-down.
-(define-func answer-hail (?caller ?answer)
-  (bb-public-write-rec ?caller bbk-hail-answer @self (/answer ?answer)))
-
 ; (take-up-into ?partner ?take-up) - @self takes ?partner's standing hail up by ?take-up: he holds his
-; part in the talk it called him in, ?partner is on its board - called, until he takes his own part
-; as his hail ends taken up - his answer is on ?partner's board, and
-; a turn-down of his own by ?partner is forgotten. @false when the hail no longer stands - it has
+; part in the talk it hailed him in, ?partner is on its board - hailed, until he takes his own part
+; as his hail ends taken up - and a turn-down of his own by ?partner is forgotten. @false when the hail no longer stands - it has
 ; ended and taken its record with it - or the talk seats no one more and ?partner is not on it.
 (define-func take-up-into (?partner ?take-up)
   (bind (hail-talk ?partner @self) ?talk)
-  (bind (and (substantial ?talk) (called-in ?talk)
-             (or (in-talk ?partner ?talk) (not (talk-full ?talk))))
+  (bind (and (substantial ?talk) (hailed-in ?talk)
+             (seat-for ?talk ?partner))
         ?seated)
   (if ?seated
       (then
         (join-talk ?talk ?take-up)
         (seat ?talk ?partner)
-        (answer-hail ?partner taken)
-        (bb-public-clear-rec @self bbk-hail-answer ?partner)))
+        (forget-turned-down ?partner)))
   ?seated)
 
-; (turned-down-by ?other) - ?other turned @self's last hail of him down.
+; (note-turned-down ?other) - @self remembers that ?other turned his hail down now.
+(define-func note-turned-down (?other)
+  (bb-write-rec @self bbk-turned-down ?other (/at (time seconds))))
+
+; (forget-turned-down ?other) - @self no longer holds ?other's turn-down against hailing him.
+(define-func forget-turned-down (?other)
+  (bb-clear-rec @self bbk-turned-down ?other))
+
+; (turned-down-by ?other) - ?other turned a hail of @self's down within the last
+; k-turned-down-seconds: @self does not hail him, and waits for him to hail.
 (define-func turned-down-by (?other)
-  (eq (hail-answer ?other) turned-down))
+  (bind (bb-read-rec @self bbk-turned-down ?other at) ?at)
+  (cond (case (unsubstantial ?at) @false)
+        (else (< (seconds-between (time seconds) ?at) (k-turned-down-seconds)))))
 
 ; (talks-with-lately ?other) - how many talks @self has begun with ?other within the last
 ; k-talk-again-window-seconds.
@@ -499,36 +519,36 @@
         (then (bind (+ ?count 1) ?count))))
   ?count)
 
-; (caller-in ?talk) - the man calling @self in ?talk, as its record of him says, or @nothing.
-(define-func caller-in (?talk)
-  (flip (called-in ?talk) (bb-public-read-rec ?talk bbk-hail @self caller) @nothing))
+; (hailer-in ?talk) - the man hailing @self in ?talk, as its record of him says, or @nothing.
+(define-func hailer-in (?talk)
+  (flip (hailed-in ?talk) (bb-public-read-rec ?talk bbk-hail @self hailer) @nothing))
 
-; (standing-call ?caller ?called) - a call of ?caller's stands on ?called, unanswered or taken up.
-(define-func standing-call (?caller ?called)
-  (bind (hail-state ?caller ?called) ?state)
-  (or (eq ?state called) (eq ?state taken)))
+; (standing-hail ?hailer ?hailed) - a hail of ?hailer's stands on ?hailed, unanswered or taken up.
+(define-func standing-hail (?hailer ?hailed)
+  (bind (hail-state ?hailer ?hailed) ?state)
+  (or (eq ?state hailed) (eq ?state taken)))
 
-; (mutual-call ?partner) - @self and ?partner call each other: each has taken the other up, whether
+; (mutual-hail ?partner) - @self and ?partner hail each other: each has taken the other up, whether
 ; or not either has said so on the other's record - a man with no mind writes on none.
-(define-func mutual-call (?partner)
-  (and (standing-call @self ?partner) (standing-call ?partner @self)))
+(define-func mutual-hail (?partner)
+  (and (standing-hail @self ?partner) (standing-hail ?partner @self)))
 
-; (hail-accepted ?partner ?hail) - ?partner took up the call @self made in ?hail - by answering it, or
-; by calling @self himself - and the two are in one talk.
+; (hail-accepted ?partner ?hail) - ?partner took up the hail @self made in ?hail - by answering it, or
+; by hailing @self himself - and the two are in one talk.
 (define-func hail-accepted (?partner ?hail)
   (and (in-one-talk ?partner @self)
-       (or (eq (hail-state @self ?partner) taken) (mutual-call ?partner))))
+       (or (eq (hail-state @self ?partner) taken) (mutual-hail ?partner))))
 
-; (hail-turned-down ?partner ?hail) - ?partner turned down the call @self made in ?hail.
+; (hail-turned-down ?partner ?hail) - ?partner turned down the hail @self made in ?hail.
 (define-func hail-turned-down (?partner ?hail)
   (eq (hail-state @self ?partner) turned-down))
 
 ; (join-talk ?talk ?act) - @self takes part in ?talk: his standing on its board is in, and he knows
-; himself a party of it, caused by ?act that joins him, where it is held when he did not yet, and the
+; himself a participant of it, caused by ?act that joins him, where it is held when he did not yet, and the
 ; occasion it is part of when he holds one for here today. Joining the talk he is in already changes
 ; nothing.
 (define-func join-talk (?talk ?act)
-  (bb-public-write-rec ?talk bbk-participant @self (/standing in))
+  (bb-public-write-rec ?talk bbk-roster @self (/standing in))
   (if (unsubstantial (any {?talk participant @self}))
       (then
         (begin-belief {?talk participant @self /caused_by ?act})
@@ -592,61 +612,66 @@
   (share-object (o /invent [k talk])): ?talk
   ?talk)
 
-; (talk-participants ?talk) - every party on ?talk's board, called or in.
+; (talk-participants ?talk) - every participant on ?talk's board, hailed or in.
 (define-func talk-participants (?talk)
-  (bb-public-members ?talk bbk-participant))
+  (bb-public-members ?talk bbk-roster))
 
-; (out-of-call-of ?talk) - nobody else on ?talk's board would hear @self call out: he has walked
+; (out-of-shouting-distance ?talk) - nobody else on ?talk's board would hear @self shout: he has walked
 ; away from it.
-(define-func out-of-call-of (?talk)
+(define-func out-of-shouting-distance (?talk)
   (bind @true ?away)
-  (for-each ?party (talk-participants ?talk)
-    (if (and (neq ?party @self) (within-call ?party))
+  (for-each ?participant (talk-participants ?talk)
+    (if (and (neq ?participant @self) (in-shouting-distance ?participant))
         (then (bind @false ?away) (break))))
   ?away)
 
-; (other-party-in ?talk) - a party besides @self is in ?talk.
-(define-func other-party-in (?talk)
+; (other-participant-in ?talk) - a participant besides @self is in ?talk.
+(define-func other-participant-in (?talk)
   (bind @false ?still)
-  (for-each ?party (talk-participants ?talk)
-    (if (neq ?party @self)
+  (for-each ?participant (talk-participants ?talk)
+    (if (neq ?participant @self)
         (then (bind @true ?still) (break))))
   ?still)
 
-; (roster-lacks ?talk) - a party in ?talk is not yet a participant of it in @self's mind.
+; (roster-lacks ?talk) - a participant in ?talk is not yet a participant of it in @self's mind.
 (define-func roster-lacks (?talk)
   (bind @false ?lacks)
-  (for-each ?party (talk-participants ?talk)
-    (if (unsubstantial (any {?talk participant ?party}))
+  (for-each ?participant (talk-participants ?talk)
+    (if (unsubstantial (any {?talk participant ?participant}))
         (then (bind @true ?lacks) (break))))
   ?lacks)
 
-; (roster-add ?talk) - every party in ?talk takes part in it from now in @self's mind.
+; (roster-add ?talk) - every participant in ?talk takes part in it from now in @self's mind.
 (define-func roster-add (?talk)
-  (for-each ?party (talk-participants ?talk)
-    (if (unsubstantial (any {?talk participant ?party}))
-        (then (begin-belief {?talk participant ?party})))))
+  (for-each ?participant (talk-participants ?talk)
+    (if (unsubstantial (any {?talk participant ?participant}))
+        (then (begin-belief {?talk participant ?participant})))))
 
 ; (talk-full ?talk) - ?talk seats no one more (talk-size-max).
 (define-func talk-full (?talk)
   (>= (count (talk-participants ?talk)) (talk-size-max)))
 
+; (seat-for ?talk ?participant) - ?talk has a seat for ?participant: he is on its board already, a hail having
+; put him there, or it seats one more.
+(define-func seat-for (?talk ?participant)
+  (or (in-talk ?participant ?talk) (not (talk-full ?talk))))
+
+; (room-with ?partner) - @self is in no talk, or in one with a seat for ?partner.
+(define-func room-with (?partner)
+  (bind (talk-of @self) ?talk)
+  (or (unsubstantial ?talk) (seat-for ?talk ?partner)))
+
 ; (hailable ?partner) - @self may hail ?partner, THE gate on every hail: he is awake to hear it, his
 ; last word to @self did not turn him down - that man seeks @self out himself - he is in no
-; talk, or in one that seats another, and @self is in none that seats no one more, since
+; talk, or in one with a seat for @self, and @self is in none without a seat for him, since
 ; ?partner taking him up would join it.
 (define-func hailable (?partner)
   (bind (talk-of ?partner) ?theirs)
   (and (not (attr-is ?partner awareness [k asleep]))
        (not (attr-is ?partner awareness [k unconscious]))
        (not (turned-down-by ?partner))
-       (or (unsubstantial ?theirs) (not (talk-full ?theirs)))
-       (not (in-full-talk))))
-
-; (in-full-talk) - @self is in a talk that seats no one more.
-(define-func in-full-talk ()
-  (bind (talk-of @self) ?talk)
-  (and (substantial ?talk) (talk-full ?talk)))
+       (or (unsubstantial ?theirs) (seat-for ?theirs @self))
+       (room-with ?partner)))
 
 ; (talk-between ?partner) - the talk @self and ?partner would talk in: ?partner's when he is
 ; in one with room, else @self's own with room, else @nothing - a new one. It is what every act of
@@ -669,21 +694,21 @@
       (then
         (if (not (speaking))
             (then (turn-release ?talk)))
-        (bb-public-clear-rec ?talk bbk-participant @self)
+        (bb-public-clear-rec ?talk bbk-roster @self)
         (bb-public-remove-member ?talk has-more @self)
         (end-belief {?talk participant @self})
         (end-belief {?talk venue ?})
         (let-go-talk ?talk))))
 
-; (has-more-anywhere ?party) - a talk's has-more set still holds ?party.
-(define-func has-more-anywhere (?party)
+; (has-more-anywhere ?participant) - a talk's has-more set still holds ?participant.
+(define-func has-more-anywhere (?participant)
   (bind @false ?more)
-  (for-each ?one (bb-public-every ? has-more ?party)
+  (for-each ?one (bb-public-every ? has-more ?participant)
     (bind @true ?more)
     (break))
   ?more)
 
-; A talk lasts until its parties have run out of things to say. What a man still has to
+; A talk lasts until its participants have run out of things to say. What a man still has to
 ; say in one is his AGENDA, never stored: what his mind yields for it now (agenda-for). While it is
 ; not empty he shows it - he is in the talk's has-more set - and comes off it when it is
 ; (thinks/talk-has-more-think.mc).
@@ -806,11 +831,11 @@
         (then (bind @false ?nobody) (break))))
   ?nobody)
 
-; (wants-to-ask ?party) - @self wonders about something ?party could tell him.
-(define-func wants-to-ask (?party)
+; (wants-to-ask ?participant) - @self wonders about something ?participant could tell him.
+(define-func wants-to-ask (?participant)
   (bind @false ?asks)
   (for-each ?wonder (every {@self wonder ?})
-    (if (askable ?party ?wonder.target)
+    (if (askable ?participant ?wonder.target)
         (then (bind @true ?asks) (break))))
   ?asks)
 
@@ -835,7 +860,7 @@
       (then (set-knows ?hearer ?fact ?SAY))))
 
 ; (mark-fact-heard-by ?fact ?audience ?SAY) - everyone the line ?SAY reached knows ?fact: the man it
-; was said to, the parties of the talk it was said to, and for a line said to nobody everyone @self
+; was said to, the participants of the talk it was said to, and for a line said to nobody everyone @self
 ; holds to be within earshot of it.
 (define-func mark-fact-heard-by (?fact ?audience ?SAY)
   (cond (case (unsubstantial ?audience)
@@ -843,8 +868,8 @@
                 (if (in-earshot ?person [k speech])
                     (then (mark-fact-told ?fact ?person ?SAY)))))
         (case (is-a ?audience [k talk])
-              (for-each ?party (talk-participants ?audience)
-                (mark-fact-told ?fact ?party ?SAY)))
+              (for-each ?participant (talk-participants ?audience)
+                (mark-fact-told ?fact ?participant ?SAY)))
         (else (mark-fact-told ?fact ?audience ?SAY))))
 
 ; (mark-item-told ?item ?audience ?SAY) - ?item, a belief or a clause the line ?SAY carried, is known
@@ -886,7 +911,7 @@
   (and (is-belief ?belief) (eq (end-time ?belief) @ongoing)))
 
 ; (speech-worthy ?belief ?friend) - @self may tell ?friend the belief ?belief: it is speakable,
-; ?friend is no party of it, its tier admits him, and @self does not take him to know it - he
+; ?friend is no participant of it, its tier admits him, and @self does not take him to know it - he
 ; neither told it to @self, nor was told it by @self, nor heard it said.
 (define-func speech-worthy (?belief ?friend)
   (and (speakable ?belief)
@@ -895,15 +920,15 @@
        (not (takes-to-know ?friend (clausify ?belief /strip-interval)))))
 
 ; (worthy-for ?belief ?audience) - @self may tell ?belief to someone in ?audience: the man himself,
-; or any other party of the talk ?audience.
+; or any other participant of the talk ?audience.
 (define-func worthy-for (?belief ?audience)
   (bind @false ?worthy)
   (if (is-a ?audience [k human])
       (then (bind (speech-worthy ?belief ?audience) ?worthy))
       (else
         (for-each ?part (every {?audience participant ? /pres})
-          (bind ?part.target ?party)
-          (if (and (neq ?party @self) (speech-worthy ?belief ?party))
+          (bind ?part.target ?participant)
+          (if (and (neq ?participant @self) (speech-worthy ?belief ?participant))
               (then (bind @true ?worthy) (break))))))
   ?worthy)
 
@@ -965,7 +990,7 @@
 ; Every line said to a man makes a response from him relevant, and its kind decides which: a
 ; question an answer, an opening an opening's answer, a flirt a flirt's answer, a remark a remark
 ; or agreement, tidings tidings of his own or a receipt, a statement what he knew of it and felt
-; about it. A response itself calls for none. The
+; about it. A response itself asks for none. The
 ; respond driver (drivers/respond-driver.mc) owes it, the respond task says it, caused by the line.
 
 ; (line-kind ?line) - the move @self takes the heard line ?line to make, a msg-class leaf
@@ -982,7 +1007,7 @@
         (else reply)))
 
 ; A LINE SAID TO A MAN IN A TALK HAS A REPLY STATE on his own board of that talk (bbk-reply-state,
-; boards/talk.mc), written as he hears it (note-reply-state, called by the hear func) and settled at
+; boards/talk.mc), written as he hears it (note-reply-state, run by the hear func) and settled at
 ; the head of each of his deliberations (tend-replies, the engine's /tend): a line its talk leaves a
 ; then, there, he, she or it unsaid in, or a statement about a man he must first ask which one he is,
 ; is blocked on that; he wonders what was meant by the first such, which has him ask back
@@ -1009,7 +1034,7 @@
   ?awaited)
 
 ; (owed-reply ?line) - the line ?line, heard now, is owed a reply by @self: its kind is owed wherever
-; it is said (a question, a flirt), or, presented, owed from a party of the talk he is in - but not a
+; it is said (a question, a flirt), or, presented, owed from a participant of the talk he is in - but not a
 ; statement that answers what he asked.
 (define-func owed-reply (?line)
   (bind ?line.subject ?speaker)
@@ -1281,23 +1306,36 @@
         ?more)
   (if (not ?more)
       (then
-        (for-each ?party (talk-participants ?talk)
-          (if (and (neq ?party @self)
-                   (or (substantial (any {@self inquire|respond ?party ?}))
-                       (substantial (any {@self catch-up|tell-gossip|get-acquainted ?party}))
-                       (wants-to-ask ?party)
-                       (substantial (news-for ?party))
-                       (substantial (gossip-for ?party))))
+        (for-each ?participant (talk-participants ?talk)
+          (if (and (neq ?participant @self)
+                   (or (substantial (any {@self inquire|respond ?participant ?}))
+                       (substantial (any {@self catch-up|tell-gossip|get-acquainted ?participant}))
+                       (wants-to-ask ?participant)
+                       (substantial (news-for ?participant))
+                       (substantial (gossip-for ?participant))))
               (then (bind @true ?more) (break))))))
   ?more)
 
-; (said-all ?talk) - nobody in ?talk has anything left to say, @self included.
+; (hailed ?talk) - a participant on ?talk's board is still only hailed there: he has not taken his
+; part, so he has not yet shown whether he has anything to say.
+(define-func hailed (?talk)
+  (bind @false ?hailed)
+  (for-each ?participant (talk-participants ?talk)
+    (if (eq (standing-in ?talk ?participant) hailed)
+        (then (bind @true ?hailed) (break))))
+  ?hailed)
+
+; (said-all ?talk) - nobody in ?talk has anything left to say, @self included. A man whose hail
+; still stands in it, or who is still only hailed there, has yet to say what he came for.
 (define-func said-all (?talk)
   (if (substantial ?talk)
-      (then (and (not (agenda-for ?talk)) (bb-public-none ?talk has-more)))
+      (then (and (not (agenda-for ?talk))
+                 (bb-public-none ?talk has-more)
+                 (unsubstantial (bb-public-any ?talk bbk-hail))
+                 (not (hailed ?talk))))
       (else @false)))
 
-; (talked-out ?talk ?part) - nobody in ?talk has anything left to say (said-all), and a party of it
+; (talked-out ?talk ?part) - nobody in ?talk has anything left to say (said-all), and a participant of it
 ; has said something to @self since he took his part ?part in it: a talk nothing has been said in
 ; yet is not over.
 (define-func talked-out (?talk ?part)
@@ -1390,8 +1428,8 @@
       (then ?line)
       (else (set-msg-rider ?line certainty ?certainty))))
 
-; (focus-of ?talk) - whom @self faces in ?talk: the party he means to say a line to, else the first
-; other party in it.
+; (focus-of ?talk) - whom @self faces in ?talk: the participant he means to say a line to, else the first
+; other participant in it.
 (define-func focus-of (?talk)
   (bind @nothing ?focus)
   (bind (any {@self intent {@self SAY ? ?}}) ?telling)
@@ -1403,9 +1441,9 @@
             (then (bind ?audience ?focus)))))
   (if (unsubstantial ?focus)
       (then
-        (for-each ?party (talk-participants ?talk)
-          (if (neq ?party @self)
-              (then (bind ?party ?focus) (break))))))
+        (for-each ?participant (talk-participants ?talk)
+          (if (neq ?participant @self)
+              (then (bind ?participant ?focus) (break))))))
   ?focus)
 
 ; (can-hail ?thing) - the player can hail ?thing: a living man within (k-hail-reach) of him, as
@@ -1417,7 +1455,7 @@
        (< (distance (spatial @self bounds /env) (spatial ?thing bounds /env)) (k-hail-reach))))
 
 ; (engaged-here ?npc) - the player and ?npc talk together (conversing-with) and the player is still
-; within earshot of his speaking voice: the host opens the dialogue on it.
+; within earshot of his speech: the host opens the dialogue on it.
 (define-func engaged-here (?npc)
   (and (conversing-with ?npc)
        (in-earshot ?npc [k speech])))
@@ -1427,62 +1465,56 @@
 (define-func player-join (?npc)
   (bind (talk-of @self) ?talk)
   (if (and (in-talk ?npc ?talk) (taken-between ?npc) (not (holds-part @self ?talk)))
-      (then (bb-public-write-rec ?talk bbk-participant @self (/standing in)))))
+      (then (bb-public-write-rec ?talk bbk-roster @self (/standing in)))))
 
-; (player-caller) - the man calling the player: the one the record of the talk he is in names
-; (caller-in), unless the player is calling that man himself - the two have then taken each other up;
+; (player-hailer) - the man hailing the player: the one the record of the talk he is in names
+; (hailer-in), unless the player is hailing that man himself - the two have then taken each other up;
 ; or @nothing. The host offers the player to take him up.
-(define-func player-caller ()
+(define-func player-hailer ()
   (bind (talk-of @self) ?talk)
-  (bind (flip (substantial ?talk) (caller-in ?talk) @nothing) ?caller)
-  (flip (and (substantial ?caller) (not (calling ?caller))) ?caller @nothing))
+  (bind (flip (substantial ?talk) (hailer-in ?talk) @nothing) ?hailer)
+  (flip (and (substantial ?hailer) (not (hailing ?hailer))) ?hailer @nothing))
 
-; (player-take-up ?npc) - the player takes up the hail ?npc called to him, as a man's take-up does
-; (take-up-into): his answer is on ?npc's board, and what ?npc answered a hail of the player's own is
-; forgotten. The answer is the line the player says back, the response ?npc's opening calls for
+; (player-take-up ?npc) - the player takes up the hail ?npc made to him, as a man's take-up does
+; (take-up-into): his answer is on the talk's record of him. The answer is the line the player says back, the response ?npc's opening asks for
 ; (hail-response) as the reply to it, or @nothing when no opening stands.
 (define-func player-take-up (?npc)
   (bind (hail-line ?npc @self) ?opening)
   (if (and (is-belief ?opening) (in-one-talk ?npc @self))
       (then
-        (answer-hail ?npc taken)
         (set-hail-state ?npc taken)
-        (bb-public-clear-rec @self bbk-hail-answer ?npc)
         (as-reply-to (hail-response ?opening.target) ?opening))
       (else @nothing)))
 
-; (player-uncall ?npc) - the player's hail of ?npc is over: ?npc, when he is still only called there, comes off
+; (player-unseat-hailed ?npc) - the player's hail of ?npc is over: ?npc, when he is still only hailed there, comes off
 ; the board of the talk the player is in, and the player with him when nobody else is on it.
-(define-func player-uncall (?npc)
+(define-func player-unseat-hailed (?npc)
   (clear-hail ?npc)
   (bind (talk-of @self) ?talk)
-  (if (and (substantial ?talk) (eq (standing-in ?talk ?npc) called))
+  (if (and (substantial ?talk) (eq (standing-in ?talk ?npc) hailed))
       (then
-        (bb-public-clear-rec ?talk bbk-participant ?npc)
-        (if (not (other-party-in ?talk))
-            (then (bb-public-clear-rec ?talk bbk-participant @self)))
+        (bb-public-clear-rec ?talk bbk-roster ?npc)
+        (if (not (other-participant-in ?talk))
+            (then (bb-public-clear-rec ?talk bbk-roster @self)))
         (let-go-talk ?talk))))
 
 ; (player-hail ?npc ?authority) - the player hails ?npc as a man's hail does (tasks/hail-task.mc):
-; whoever else he called before and was not taken up by comes off his talk's board, and the hail is
-; called in a talk from its first instant - ?npc's when he is in one, else the player's own or a
+; whoever else he hailed before and was not taken up by comes off his talk's board, and the hail is
+; made in a talk from its first instant - ?npc's when he is in one, else the player's own or a
 ; new one, on whose board the player puts them both - and only ?npc taking it up brings ?npc to
-; hold his part in it. A man already calling the player has his call taken by it: two who call each
+; hold his part in it. A man already hailing the player has his hail taken by it: two who hail each
 ; other have each taken the other up. The answer is the line he hails him with, its opening -
 ; plainly, or, when ?authority names the kind of his job, introducing himself by it.
 (define-func player-hail (?npc ?authority)
   (bind (talk-of @self) ?standing)
   (if (substantial ?standing)
       (then
-        (for-each ?called (talk-participants ?standing)
-          (if (and (neq ?called @self) (neq ?called ?npc))
-              (then (player-uncall ?called))))))
-  (bb-public-clear-rec @self bbk-hail-answer ?npc)
+        (for-each ?hailed (talk-participants ?standing)
+          (if (and (neq ?hailed @self) (neq ?hailed ?npc))
+              (then (player-unseat-hailed ?hailed))))))
   (clear-hail ?npc)
-  (if (called-by ?npc)
-      (then
-        (set-hail-state ?npc taken)
-        (answer-hail ?npc taken)))
+  (if (hailed-by ?npc)
+      (then (set-hail-state ?npc taken)))
   (if (unsubstantial (talk-of ?npc))
       (then
         (bind (talk-of @self) ?talk)
@@ -1495,19 +1527,19 @@
       (then (formulaic [] opening-phrase authority ?authority))
       (else (formulaic [] opening-phrase player_talk))))
 
-; (owed-question ?party) - the question @self last put to ?party, or to the talk they are in now,
-; that ?party has said nothing in reply to: what a line ?party says to him now answers, or @nothing.
+; (owed-question ?participant) - the question @self last put to ?participant, or to the talk they are in now,
+; that ?participant has said nothing in reply to: what a line ?participant says to him now answers, or @nothing.
 ; The host asks it of the man the player speaks to, and the player's line is caused by it.
-(define-func owed-question (?party)
-  (bind (shared-talk ?party) ?talk)
+(define-func owed-question (?participant)
+  (bind (shared-talk ?participant) ?talk)
   (bind @nothing ?owed)
   (if (substantial ?talk)
       (then
         (for-each ?line (bb-public-read-keys ?talk bbk-line)
           (if (and (eq ?line.subject @self)
-                   (or (eq ?line.auxiliary ?party) (eq ?line.auxiliary ?talk))
+                   (or (eq ?line.auxiliary ?participant) (eq ?line.auxiliary ?talk))
                    (matches ?line.target (qs ?..))
-                   (not (replied ?party ?line)))
+                   (not (replied ?participant ?line)))
               (then (bind ?line ?owed))))))
   ?owed)
 
@@ -1521,14 +1553,12 @@
         (else ?line)))
 
 ; (player-leave-taking ?npc) - the player leaves the talk with ?npc, and the answer is
-; the line he takes his leave with. He comes off its board, his hail of ?npc ends, and his
-; answer to a hail of ?npc's goes.
+; the line he takes his leave with. He comes off its board and his hail of ?npc ends.
 (define-func player-leave-taking (?npc)
-  (player-uncall ?npc)
-  (bb-public-clear-rec ?npc bbk-hail-answer @self)
+  (player-unseat-hailed ?npc)
   (bind (talk-of @self) ?talk)
   (if (substantial ?talk)
       (then
-        (bb-public-clear-rec ?talk bbk-participant @self)
+        (bb-public-clear-rec ?talk bbk-roster @self)
         (let-go-talk ?talk)))
   (formulaic [] leave-taking player_bye))

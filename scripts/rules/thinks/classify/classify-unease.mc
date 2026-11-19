@@ -9,7 +9,7 @@
   (and
     (try
       (role ?talk {?talk participant @self} -{@self unease ?talk}
-        (role ?other (bb-public-members ?talk bbk-participant)
+        (role ?other (bb-public-members ?talk bbk-roster)
                      (holds-part ?other ?talk)
                      -{@self (closeness-labels friend) ?other}
                      (neq ?other @self)

@@ -3,7 +3,7 @@
 ; bubble forms round its first man): each would hail the one most worth his while, many of them the
 ; same one, in the same minute. One man's hail stands on another at a time and the rest wait their
 ; turn (sync, tasks/hail-task.mc), so nobody is hailed by a crowd (audit-hailed-by-many) and no
-; answer rule is cast once per caller past what a crowd can hold; and the hails are answered. The
+; answer rule is cast once per hailer past what a crowd can hold; and the hails are answered. The
 ; second is not, and gets acquainted the same way, its hails and answers on the boards with none of
 ; them said. In both, whoever a man got acquainted with holds a fact about him he disclosed. Seeds
 ; state only; the validate func reads.
@@ -62,7 +62,7 @@
   (c13-seat-household ?home)
   (c13-seat-household ?far-home))
 
-; (c13-took-in-count ?home) - how many callers anyone under ?home's roof took in.
+; (c13-took-in-count ?home) - how many hailers anyone under ?home's roof took in.
 (define-func c13-took-in-count (?home)
   (bind 0 ?c13-took)
   (for-each ?c13-a (env-entities [k human])
@@ -120,11 +120,11 @@
   (expect (in-mind ?first-u (unpresented-lod)) "c13: the far crowd's first man is presented")
   ; The presented crowd: the hails, taken in one at a time.
   (expect (> (c13-hails-started ?home) (k-c13-crowd)) "c13: fewer hails were begun than the crowd is many - no crowd got acquainted")
-  (expect (> (c13-took-in-count ?home) (/ (k-c13-crowd) 2)) "c13: fewer than half the crowd's callers were taken in")
+  (expect (> (c13-took-in-count ?home) (/ (k-c13-crowd) 2)) "c13: fewer than half the crowd's hailers were taken in")
   (expect (> (c13-got-acquainted ?home) 0) "c13: nobody in the presented crowd got acquainted")
   (expect (= (c13-untold-count ?home) 0) "c13: one the presented crowd got acquainted with holds no fact about him")
   ; The unpresented crowd: the same hails on the boards, no lines of them, the same knowledge.
   (expect (> (c13-hails-started ?far-home) (k-c13-crowd)) "c13: fewer far hails were begun than the crowd is many")
-  (expect (> (c13-took-in-count ?far-home) (/ (k-c13-crowd) 2)) "c13: fewer than half the far crowd's callers were taken in")
+  (expect (> (c13-took-in-count ?far-home) (/ (k-c13-crowd) 2)) "c13: fewer than half the far crowd's hailers were taken in")
   (expect (> (c13-got-acquainted ?far-home) 0) "c13: nobody in the far crowd got acquainted")
   (expect (= (c13-untold-count ?far-home) 0) "c13: one the far crowd got acquainted with holds no fact about him"))

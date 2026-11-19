@@ -61,7 +61,7 @@
   (cast cook-u): ?cook-u
   (expect (in-mind ?lodger (presented-lod)) "c11: the presented lodger is not presented")
   (expect (in-mind ?lodger-u (unpresented-lod)) "c11: the far lodger is presented")
-  ; The presented pair: the talk, her unease in it, the smalltalk it calls for.
+  ; The presented pair: the talk, her unease in it, the smalltalk it asks for.
   (expect (> (acts ?lodger hail succ) 0) "c11: he never sought her company")
   (expect (> (+ (acts ?lodger smalltalk started) (acts ?cook smalltalk started)) 0) "c11: nobody made smalltalk")
   (expect (or (in-mind ?lodger (answered-smalltalk ?cook)) (in-mind ?cook (answered-smalltalk ?lodger)))

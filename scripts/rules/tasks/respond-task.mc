@@ -1,11 +1,11 @@
 ; ----------------------------------------------------------------------------
 ; respond ?speaker ?line - the RESPONSE dialogue task: @self says the one line ?speaker's heard
-; ?line calls for, caused by it (reply-to, funcs/talk.mc): a question answered from his
+; ?line asks for, caused by it (reply-to, funcs/talk.mc): a question answered from his
 ; own mind - "I don't know" when he does not know, a refusal when the answer is closer than he
 ; holds ?speaker (withholds) - an opening greeted back, a flirt answered, a remark met, tidings
 ; met with his own or received, a statement met with what he knew of it and felt about it. Proposed by the respond driver (drivers/respond-driver.mc), and
 ; by a hail for the opening of a man hailing him too; it succeeds when the line is said, or at
-; once when the line calls for nothing he can say, and with that he is no longer obliged to respond
+; once when the line asks for nothing he can say, and with that he is no longer obliged to respond
 ; to it (reply-settled, funcs/talk.mc).
 ; ----------------------------------------------------------------------------
 

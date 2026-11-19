@@ -8,12 +8,12 @@
 ; everything he has going. The choice stays open until he begins answering: a man who would have
 ; engaged but finds something keener before he has begun taking it up declines instead, and says
 ; what it is. A man in a talk answers as a line of it: taking the
-; caller up brings him into that talk, and turning him down is said over his shoulder and
+; hailer up brings him into that talk, and turning him down is said over his shoulder and
 ; gives the talk as what he is busy with - neither ends it.
-; The hail is the record of him on the board of the talk he was called in (bbk-hail,
+; The hail is the record of him on the board of the talk he was hailed in (bbk-hail,
 ; boards/talk.mc), at both levels of detail: he is cast on that talk and on the man its record names
-; as his caller, and answers while it says called. A man he is calling himself he does not answer:
-; each of two men who call each other has taken the other up (tasks/hail-task.mc).
+; as his hailer, and answers while it says hailed. A man he is hailing himself he does not answer:
+; each of two men who hail each other has taken the other up (tasks/hail-task.mc).
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
@@ -30,17 +30,17 @@
 
 (driver answer-hail-driver
   (role ?talk (bb-public-every ?talk bbk-hail @self)
-    (role ?speaker (bb-public-read-rec ?talk bbk-hail @self caller)
-      (when (called-in ?talk))
+    (role ?speaker (bb-public-read-rec ?talk bbk-hail @self hailer)
+      (when (hailed-in ?talk))
       (and
         ; Engage: taking it up, at what talking with ?speaker is worth to him - task selection weighs
         ; it against whatever else he has going.
         (try
           (bind (hail-utility ?speaker) ?utility)
           (declare-utility (utility-band ?utility) (utility-value ?utility))
-          (when (and (not (calling ?speaker))
-                     (within-call ?speaker)
-                     (not (in-full-talk))
+          (when (and (not (hailing ?speaker))
+                     (in-shouting-distance ?speaker)
+                     (room-with ?speaker)
                      (not (rebuffs ?speaker))
                      (not (turning-down ?speaker))
                      (not (too-crowded-for ?speaker))))
@@ -56,9 +56,9 @@
         ; what it is: the decision is made once, and the refusal it begins always completes.
         (try
           (bind (outbids {@self take-up ?speaker}) ?busy-with)
-          (when (and (not (calling ?speaker))
-                     (within-call ?speaker)
-                     (not (in-full-talk))
+          (when (and (not (hailing ?speaker))
+                     (in-shouting-distance ?speaker)
+                     (room-with ?speaker)
                      (not (rebuffs ?speaker))
                      (not (taking-up ?speaker))
                      (not (turning-down ?speaker))
@@ -73,9 +73,9 @@
             (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?reason)} /uninterruptable)))
         ; A man who has had his fill of company turns a hail down, saying so, unless it obliges him.
         (try
-          (when (and (not (calling ?speaker))
-                     (within-call ?speaker)
-                     (not (in-full-talk))
+          (when (and (not (hailing ?speaker))
+                     (in-shouting-distance ?speaker)
+                     (room-with ?speaker)
                      (not (rebuffs ?speaker))
                      (not (taking-up ?speaker))
                      (not (turning-down ?speaker))
@@ -88,9 +88,9 @@
             (begin-proposal {@self turn-down ?speaker (formulaic [] refusal weary)} /uninterruptable)))
         ; Rebuffing a man he despises: a retort, heard as the insult it is.
         (try
-          (when (and (not (calling ?speaker))
-                     (within-call ?speaker)
-                     (not (in-full-talk))
+          (when (and (not (hailing ?speaker))
+                     (in-shouting-distance ?speaker)
+                     (room-with ?speaker)
                      (rebuffs ?speaker)))
           (declare-utility unbeatable)
           (effects

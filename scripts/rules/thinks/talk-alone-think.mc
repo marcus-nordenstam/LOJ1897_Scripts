@@ -5,5 +5,5 @@
 
 (think talk-alone
   (role ?talk {?talk participant @self} {?talk venue ?}
-    (when (not (other-party-in ?talk)))
+    (when (not (other-participant-in ?talk)))
     (effects (leave-talk ?talk))))

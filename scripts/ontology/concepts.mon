@@ -446,11 +446,11 @@
     (children dinner-party wedding engagement-party birthday-party sporting-occasion church-service market-day))
 
   ; Talks - a talk between people. ONE bodiless abs object, created when the talk
-  ; begins, and every party holds his own mental talk linked to it. It has no name:
+  ; begins, and every participant holds his own mental talk linked to it. It has no name:
   ; it is known by who took part ({<conv> participant <npc>}, one interval per spell of
   ; taking part), where and when ({<conv> venue <space> /i <began> <ended>}) and the
   ; occasion it was part of ({<conv> occasion <occasion>}), said instead of the venue when
-  ; held. The live contract between the parties is its public bb (funcs/talk.mc).
+  ; held. The live contract between the participants is its public bb (funcs/talk.mc).
   (child talk (grounding-anchors participant (prefer occasion venue))
     (decorations (states participant venue occasion)))
 
@@ -799,7 +799,7 @@
   ; A line's MOVE - what it does in the talk, (msg-class ?msg). Written as a qualifier of its
   ; wrapper, (msg /utterable /reply ..), else its formulaic phrase's, else its wrapper's
   ; (default-for ..). A move its hearer owes a reply carries answer-owed (wherever it is said to
-  ; him) or answer-owed-in-talk (from a party of his talk) - owe-reply, funcs/talk.mc.
+  ; him) or answer-owed-in-talk (from a participant of his talk) - owe-reply, funcs/talk.mc.
   (child msg-class
     (child question (facets answer-owed) (default-for qs))
     (child flirtation (facets answer-owed))

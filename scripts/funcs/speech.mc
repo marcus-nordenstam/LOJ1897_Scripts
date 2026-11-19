@@ -15,8 +15,8 @@
 
 ; (line-said ?xsay ?SAY ?audience) - @self has said the line ?SAY to ?audience to its end, ?xsay its
 ; world record. Whoever it is for hears it (deliver-line): the people on the board of the talk it is
-; said in (line-hearers, funcs/talk.mc) who are within its voice - the rest of the room is not
-; listening - or, said in no talk or to nobody, everyone within its voice. It is logged in the talk
+; said in (line-hearers, funcs/talk.mc) who are within its earshot - the rest of the room is not
+; listening - or, said in no talk or to nobody, everyone within its earshot. It is logged in the talk
 ; it went into (log-said), which writes the hail record when it is an opening. And a man with a
 ; mind notes the line in his own record of that talk (record-said) and whom it has told what
 ; (mark-told).

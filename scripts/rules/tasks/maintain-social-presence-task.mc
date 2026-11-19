@@ -5,7 +5,7 @@
 ; (scope) - while an act within another talk competes with it. Whether he is in the talk is his part
 ; in it, {?talk participant @self}, and nothing reads this task for that
 ; (drivers/stay-in-talk-driver.mc).
-; It is how he leaves: outbid, he says what calls him away (outbids), and withdrawn - the talk
+; It is how he leaves: outbid, he says what draws him away (outbids), and withdrawn - the talk
 ; spent, or he wants it no more - he says goodbye; alone he simply goes. Whatever outbid it waits
 ; for the line.
 ; ----------------------------------------------------------------------------
@@ -23,7 +23,7 @@
       (stage
         (bind (outbids ?maintain-social-presence) ?outbidder)
         (effects
-          (if (and (presented-lod) (in-talk @self ?talk) (other-party-in ?talk))
+          (if (and (presented-lod) (in-talk @self ?talk) (other-participant-in ?talk))
               (then
                 (flip (substantial ?outbidder)
                       (formulaic [] leave-taking excuse ?outbidder)

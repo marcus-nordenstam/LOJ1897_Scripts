@@ -183,24 +183,24 @@
         (then (bind @false ?responded) (break))))
   ?responded)
 
-; (left-talk ?who) - ?who ended his part in a talk himself: he said his goodbye to it, or, called
-; away, gave his account of what called him.
+; (left-talk ?who) - ?who ended his part in a talk himself: he said his goodbye to it, or, drawn
+; away, gave his account of what drew him.
 (define-func left-talk (?who)
   (in-mind ?who (substantial (any {@self SAY (formulaic ? leave-taking ?..) ? /past}))))
 
-; (took-in ?caller) - in a mind: @self answered a hail ?caller called to her by taking him in -
-; taking his talk up, or answering it inside her own talk, which a caller joins before he opens.
-(define-func took-in (?caller)
-  (bind (substantial (any {@self take-up ?caller /succ /ever})) ?took)
-  (for-each ?opening (every {?caller SAY (formulaic ? opening-phrase ?..) @self /past})
-    (if (substantial (any {@self respond ?caller ?opening /succ}))
+; (took-in ?hailer) - in a mind: @self answered a hail ?hailer made to her by taking him in -
+; taking his talk up, or answering it inside her own talk, which a hailer joins before he opens.
+(define-func took-in (?hailer)
+  (bind (substantial (any {@self take-up ?hailer /succ /ever})) ?took)
+  (for-each ?opening (every {?hailer SAY (formulaic ? opening-phrase ?..) @self /past})
+    (if (substantial (any {@self respond ?hailer ?opening /succ}))
         (then (bind @true ?took) (break))))
   ?took)
 
-; (talked-with ?caller) - in a mind: @self came to talk with ?caller, whose hail she turned down or
+; (talked-with ?hailer) - in a mind: @self came to talk with ?hailer, whose hail she turned down or
 ; took in: she took him in, or he took up the hail she owed him back.
-(define-func talked-with (?caller)
-  (or (took-in ?caller) (substantial (any {@self hail ?caller /succ /ever}))))
+(define-func talked-with (?hailer)
+  (or (took-in ?hailer) (substantial (any {@self hail ?hailer /succ /ever}))))
 
 ; (knows-talk-with ?a ?b) - in a mind: @self knows a talk he took part in that ?a and ?b took part in too.
 (define-func knows-talk-with (?a ?b)

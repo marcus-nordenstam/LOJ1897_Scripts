@@ -216,7 +216,7 @@
 (define-macro k-hail-bond-value         () 800.0)
 ; ... and from a law officer, in the obligation band: above a Sunday's church (the band default).
 (define-macro k-hail-authority-value    () 900.0)
-; What staying in a talk is worth, in the want band, while no party in it obliges him.
+; What staying in a talk is worth, in the want band, while no participant in it obliges him.
 (define-macro k-talk-want-value () 500.0)
 
 ; What pursuing a partner in talk is worth, in the want band, before pursuit-utility weighs the
@@ -228,17 +228,19 @@
 ; Once parted, a partner is worth pursuing again in full only after this long, from this floor.
 (define-macro k-partner-refresh-minutes () 120.0)
 (define-macro k-partner-fresh-floor     () 0.2)
-; How much less a man is worth pursuing for each other party of a talk he is in, so a crowd spreads
+; How much less a man is worth pursuing for each other participant of a talk he is in, so a crowd spreads
 ; over the free rather than piling into one circle.
 (define-macro k-partner-busy-weight     () 0.5)
 ; The most talks a man begins with one other within an hour before it is a thrash.
 (define-macro k-talks-with-one-man-an-hour () 2)
 (define-macro k-talk-again-window-seconds () 3600.0)
+; How long a man keeps from hailing one who turned his hail down.
+(define-macro k-turned-down-seconds () 86400.0)
 
 ; How far a voice carries, through walls or not: spoken, and called out - a hail, and the
 ; answers to one. The [k speech] and [k shout] sounds' radii (bounds/sounds.mc).
 (define-macro k-speech-earshot () 8.0)
-(define-macro k-call-earshot () 10.0)
+(define-macro k-shouting-distance () 10.0)
 
 ; How close the player stands to a man, box to box, before he can hail him.
 (define-macro k-hail-reach () 2.0)

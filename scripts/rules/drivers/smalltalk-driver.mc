@@ -7,7 +7,7 @@
 (driver smalltalk-unease-driver
   (lod presented)
   (role ?talk {?talk participant @self} {@self unease ?talk}:?unease -{@self company [k crowded]}
-    (role ?partner (bb-public-members ?talk bbk-participant)
+    (role ?partner (bb-public-members ?talk bbk-roster)
                    (neq ?partner @self)
                    (holds-part ?partner ?talk)
       (role ?town {?town sky|rain|snow|fog|wind ?}

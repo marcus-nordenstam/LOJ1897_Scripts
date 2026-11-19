@@ -12,7 +12,7 @@
 (define-macro deferential-deference () 2)
 
 ; (voice-line ?msg ?audience) - ?msg as @self says it to ?audience. A broadcast takes no register
-; toward a listener; a line to a talk is said as formally as its most deferential party
+; toward a listener; a line to a talk is said as formally as its most deferential participant
 ; asks, and as nobody's friend.
 (define-func voice-line (?msg ?audience)
   (bind (line-subject ?msg) ?subject)
@@ -57,10 +57,10 @@
 
 (define-func talk-deference (?talk)
   (bind @nothing ?most)
-  (for-each ?party (talk-participants ?talk)
-    (if (neq ?party @self)
+  (for-each ?participant (talk-participants ?talk)
+    (if (neq ?participant @self)
         (then
-          (bind (deference-toward ?party) ?deference)
+          (bind (deference-toward ?participant) ?deference)
           (bind (flip (unsubstantial ?most) ?deference (max ?most ?deference)) ?most))))
   (flip (unsubstantial ?most) 0 ?most))
 

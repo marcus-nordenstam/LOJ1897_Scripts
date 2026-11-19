@@ -7,7 +7,7 @@
 
 (think talk-roster-leave
   (role ?talk [k talk] {?talk participant ?}
-    (role ?party {?talk participant ?party}
-                 (neq ?party @self)
-      (when (not (in-talk ?party ?talk)))
-      (effects (end-belief {?talk participant ?party})))))
+    (role ?participant {?talk participant ?participant}
+                 (neq ?participant @self)
+      (when (not (in-talk ?participant ?talk)))
+      (effects (end-belief {?talk participant ?participant})))))

@@ -1,10 +1,10 @@
 ; ----------------------------------------------------------------------------
-; respond-driver (driver) - THE reactive driver of talk: a line a party of @self's talk
-; said to him since he joined it, of a kind that calls for a response, obliges him to respond once
+; respond-driver (driver) - THE reactive driver of talk: a line a participant of @self's talk
+; said to him since he joined it, of a kind that asks for a response, obliges him to respond once
 ; nothing it leaves unsaid blocks it (owe-reply, funcs/talk.mc); while nothing of his answers it yet,
 ; he responds (tasks/respond-task.mc), one at a time: the oldest line due is answered first. An opening he
 ; took up or turned down was answered by that (the hail answers in drivers/answer-hail-driver.mc
-; are for a caller outside the talk he is in).
+; are for a hailer outside the talk he is in).
 ; ----------------------------------------------------------------------------
 
 (driver respond-driver

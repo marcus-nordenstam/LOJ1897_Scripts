@@ -1,15 +1,14 @@
 ; ----------------------------------------------------------------------------
-; The talk's boards (funcs/talk.mc). bbk-participant, on a talk's public board, is who is on it, keyed
-; by the man: his standing is called while a hail has put him there and he holds no part in the talk,
+; The talk's boards (funcs/talk.mc). bbk-roster, on a talk's public board, is who is on it, keyed
+; by the man: his standing is hailed while a hail has put him there and he holds no part in the talk,
 ; in once he holds one. bbk-line, on a talk's public board, is its LOG: one record per
 ; line said in it, keyed by the line (the abs SAY), in the order said; the line it replies to rides
-; on its message (the reply-to rider). bbk-called, on a hailer's own board, names the talk whose board his hail
-; put a man on, keyed by that man, until the hail is over. bbk-hail-answer, on a hailer's own public
-; board, is what each man he hailed answered, keyed by that man: taken or turned-down, cleared when
-; he hails him again. bbk-hail, on a talk's public board, is a hail called in that talk, keyed by the man
-; called: its caller, the opening he called with, and its state - called from the instant the caller's
-; opening is said, taken or turned-down once the man called has answered - until the caller's hail is
-; over and he clears it.
+; on its message (the reply-to rider). bbk-hail, on a talk's public board, is a hail made in that talk, keyed by the man
+; hailed: its hailer, the opening he hailed with, and its state - hailed from the instant the hailer's
+; opening is said, taken or turned-down once the man hailed has answered - until the hailer's hail is
+; over and he clears it. bbk-turned-down, on a hailer's own board, is his memory of a man who turned
+; his hail down, keyed by that man: when it happened. He does not hail that man again while it is
+; fresh (turned-down-by), and it goes when he takes up a hail of that man's own.
 ; bbk-reply-state, on a
 ; man's own object of a talk, is what he makes of each line said to him there that is owed a reply
 ; or waits on what its speaker meant, keyed by the line in the order heard: its state - owed (heard,
@@ -18,9 +17,8 @@
 ; the man he must first ask which one he is.
 ; ----------------------------------------------------------------------------
 
-(bb-key bbk-participant (/scope public) (/shape map) (/fields standing) (/lifetime host))
+(bb-key bbk-roster (/scope public) (/shape map) (/fields standing) (/lifetime host))
 (bb-key bbk-line (/scope public) (/shape sequence) (/bound 32) (/lifetime host))
-(bb-key bbk-called (/scope private) (/shape map) (/fields talk) (/lifetime sleep))
-(bb-key bbk-hail-answer (/scope public) (/shape map) (/fields answer) (/lifetime host))
-(bb-key bbk-hail (/scope public) (/shape map) (/fields caller state line) (/lifetime host))
+(bb-key bbk-turned-down (/scope private) (/shape map) (/fields at) (/lifetime host))
+(bb-key bbk-hail (/scope public) (/shape map) (/fields hailer state line) (/lifetime host))
 (bb-key bbk-reply-state (/scope private) (/shape map) (/fields state blocked-on) (/lifetime sleep))

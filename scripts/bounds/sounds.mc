@@ -9,5 +9,5 @@
 
 (define-bounds speech (radius (k-speech-earshot)))
 
-; A voice raised to call out to someone further off: a hail, and the answers to one.
-(define-bounds shout (radius (k-call-earshot)))
+; A voice raised to shout to someone further off: a hail, and the answers to one.
+(define-bounds shout (radius (k-shouting-distance)))

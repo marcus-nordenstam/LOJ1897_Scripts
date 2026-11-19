@@ -9,7 +9,7 @@
   (role ?hailer {@self obligation {@self hail ?hailer} ?hailer}:?owed
     (bind (hail-utility ?hailer) ?utility)
     (declare-utility (utility-band ?utility) (utility-value ?utility))
-    (when (and (within-call ?hailer)
+    (when (and (in-shouting-distance ?hailer)
                (not (conversing-with ?hailer))
                (hailable ?hailer)))
-    (effects (maintain-proposal {@self hail ?hailer} /caused_by ?owed))))
+    (effects (maintain-proposal {@self hail ?hailer} /caused_by ?owed /keep-trying-on-fail))))

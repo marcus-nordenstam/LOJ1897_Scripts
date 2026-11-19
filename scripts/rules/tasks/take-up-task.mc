@@ -1,8 +1,8 @@
 ; ----------------------------------------------------------------------------
-; take-up ?partner - @self takes up the hail ?partner called to him from outside any talk @self is
-; in: the two of them are in the talk the hail was called in (funcs/talk.mc), and his answer is on
-; its record of him and on ?partner's board (take-up-into). He first gives the response the opening
-; calls for.
+; take-up ?partner - @self takes up the hail ?partner made to him from outside any talk @self is
+; in: the two of them are in the talk the hail was made in (funcs/talk.mc), and his answer is on
+; its record of him (take-up-into). He first gives the response the opening
+; asks for.
 ; Entering a talk is its own category, enter-talk, within the talk the two would talk in
 ; (talk-between): a talk of his hosts it only when it is that one, so taking up a hail into another
 ; talk competes with his part in his own. It is PREPARATION for his part in the talk, proposed by
@@ -16,6 +16,7 @@
 (task {@self take-up ?partner}:?take-up
   (belief-timeout 15 min)
   (category enter-talk (scope (talk-between ?partner)))
+  (hosts reply)
   (tar @excl [k human] @object)
   (preparatory)
   (and
@@ -33,6 +34,5 @@
                 (set-hail-state ?partner taken)
                 (set-outcome ?take-up /succ))
               (else
-                (answer-hail ?partner turned-down)
                 (set-hail-state ?partner turned-down)
                 (set-outcome ?take-up /fail))))))))
