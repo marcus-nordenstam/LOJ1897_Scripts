@@ -62,6 +62,7 @@
 (include "../../macros/intensity-macros.mc")
 (include "../../macros/collection-macros.mc")
 (include "../../macros/money-macros.mc")
+(include "../../macros/physiology-macros.mc")
 
 ; THE STARVATION DRIVE - the banded escalation ladder for hunger past its window.
 ; The starving tail (below) all gate on appetite > 1.3, so this always sits in the
@@ -90,7 +91,7 @@
     (role ?home {@self home ?home}
                 {?home breakfast-hour ?}
                 (spatial @self unit ?home)
-      (when (hours (household-breakfast-hour) (+ (household-breakfast-hour) (breakfast-window-hours))) (> (believed-home-food-count ?home) 0))
+      (when (hours (household-breakfast-hour) (+ (household-breakfast-hour) (breakfast-window-hours))) (not (ate-lately [k breakfast])) (> (believed-home-food-count ?home) 0))
       (declare-utility (meal-utility-band) default)
       (effects
         (maintain-proposal {@self eat [k breakfast] ?home}
@@ -105,7 +106,7 @@
       (role ?org {?job org ?org}           ; produced-restricted: ?org threaded off ?job
         (role ?wp {?org workplace ?wp}
                   (within-space @self ?wp)                        ; residual gate, re-checked at the when-seam
-          (when (hours 12 14))
+          (when (and (hours 12 14) (not (ate-lately [k lunch])) (substantial (stowed-portion))))
           (declare-utility (meal-utility-band) default)
           (effects
             (maintain-proposal {@self eat [k lunch] ?wp}
@@ -119,7 +120,7 @@
     (role ?home {@self home ?home}
                 {?home lunch-hour ?}
                 (spatial @self unit ?home)
-      (when (hours (household-lunch-hour) (+ (household-lunch-hour) (meal-window-hours))) (> (believed-home-food-count ?home) 0))
+      (when (hours (household-lunch-hour) (+ (household-lunch-hour) (meal-window-hours))) (not (ate-lately [k lunch])) (> (believed-home-food-count ?home) 0))
       (declare-utility (meal-utility-band) default)
       (effects
         (maintain-proposal {@self eat [k lunch] ?home}
@@ -133,7 +134,7 @@
   (belief {@self satiety [k hungry|famished]}
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
-      (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (> (believed-home-food-count ?home) 0))
+      (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (not (ate-lately [k supper])) (> (believed-home-food-count ?home) 0))
       (declare-utility (meal-utility-band) default)
       (effects
         (maintain-proposal {@self eat [k supper] ?home}
@@ -168,6 +169,78 @@
 (define-func at-meal-place (?place)
   (or (spatial @self building ?place) (spatial @self space ?place)))
 
+; The room a meal at ?place is served from: a venue's bar-room, a home's kitchen.
+(define-func meal-larder-room (?place)
+  (flip (eat-dining-out ?place) (spatial ?place room [k bar-room]) (spatial ?place room [k kitchen])))
+
+; The till a meal bought out at ?place is paid into, as @self knows it: the coin pile in its larder
+; room that no hand holds; @nothing.
+(define-func meal-till (?place)
+  (bind @nothing ?till)
+  (for-each ?pile (tolerate (spatial (meal-larder-room ?place) contents [k pile]))
+    (if (and (substantial (any {?pile content-kind [k coin]})) (unknown (spatial ?pile gripped-by)))
+        (then (bind ?pile ?till) (break))))
+  ?till)
+
+; A meal bought out at ?place and not yet paid into its till by the eat task ?eat.
+(define-func meal-unpaid (?meal ?place ?eat)
+  (and (eat-dining-out ?place)
+       (unsubstantial (any {@self PILE-TRANSFER ? ? /succ /caused_by ?eat}))))
+
+; A food item (never a pile) in one of @self's hands, or @nothing.
+(define-func portion-in-hand ()
+  (bind @nothing ?portion)
+  (for-each ?hand [(spatial @self right-hand) (spatial @self left-hand)]
+    (for-each ?held (tolerate (spatial ?hand grip))
+      (if (and (is-a ?held [k food]) (not (is-a ?held [k pile])))
+          (then (bind ?held ?portion) (break)))))
+  ?portion)
+
+; A food item @self carries stowed about him - his lunch - or @nothing.
+(define-func stowed-portion ()
+  (bind @nothing ?portion)
+  (for-each ?held (tolerate (spatial @self grip))
+    (if (and (is-a ?held [k food]) (not (is-a ?held [k pile])))
+        (then (bind ?held ?portion) (break))))
+  ?portion)
+
+; The portion @self has for ?meal at ?place: the one in his hand, or at lunch away from home the one
+; he carried there; @nothing.
+(define-func meal-portion (?meal ?place)
+  (bind (portion-in-hand) ?held)
+  (cond (case (substantial ?held) ?held)
+        (case (and (is-a ?meal [k lunch]) (unsubstantial (any {@self home ?place}))) (stowed-portion))
+        (else @nothing)))
+
+; @self ate ?meal within a meal's window: he has had it, whatever his stomach tells him yet.
+(define-func ate-lately (?meal)
+  (bind @false ?lately)
+  (for-each ?eat (every {@self eat ?meal ? /succ /ever})
+    (if (< (+ /float (elapsed /minutes ?eat) 0.0) (* /float (minutes_per_hour) (breakfast-window-hours)))
+        (then (bind @true ?lately) (break))))
+  ?lately)
+
+; A meal is to be had at ?place: a portion to hand - his own, or a lunch to take - or a larder room
+; there to serve one from.
+(define-func meal-to-be-had (?meal ?place)
+  (or (substantial (meal-portion ?meal ?place))
+      (packs-lunch ?meal)
+      (substantial (meal-larder-room ?place))))
+
+; At breakfast a man with a job, carrying no lunch, serves himself one to take.
+(define-func packs-lunch (?meal)
+  (and (is-a ?meal [k breakfast])
+       (substantial (any {@self job ?}))
+       (unsubstantial (stowed-portion))))
+
+; The hand @self has free, the right before the left; @nothing with both full.
+(define-func free-hand ()
+  (bind (spatial @self right-hand) ?right)
+  (bind (spatial @self left-hand) ?left)
+  (cond (case (empty (tolerate (spatial ?right grip))) ?right)
+        (case (empty (tolerate (spatial ?left grip))) ?left)
+        (else @nothing)))
+
 ; EATING OUT - no food at home (as the diner KNOWS) in the supper window and
 ; the cash he carries pays for it: a pub supper (lower/middle), a restaurant one (upper). The
 ; venue is the eat place; eat-go walks there. It never competes with the home
@@ -179,7 +252,7 @@
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
       (role ?venue [k pub-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
-        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (eat-affordable [k supper] ?venue)
+        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (not (ate-lately [k supper])) (eat-affordable [k supper] ?venue)
                    (= (believed-home-food-count ?home) 0)))
         (declare-utility (meal-utility-band) default)
         (effects
@@ -196,7 +269,7 @@
     (role ?home {@self home ?home}
                 {?home supper-hour ?}
       (role ?venue [k restaurant-building] (select (score (near @self ?venue)) (policy roulette unknown-last))
-        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (eat-affordable [k supper] ?venue)
+        (when (hours (- (household-supper-hour) (supper-lead-hours)) (+ (household-supper-hour) (meal-window-hours))) (and (not (ate-lately [k supper])) (eat-affordable [k supper] ?venue)
                    (= (believed-home-food-count ?home) 0)))
         (declare-utility (meal-utility-band) default)
         (effects

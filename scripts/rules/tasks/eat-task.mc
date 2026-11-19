@@ -2,12 +2,14 @@
 ; eat ?meal ?place - the unified meal task (breakfast / lunch / supper, incl. eating out),
 ; proposed by the meal drivers (drivers/meals-driver.mc). The act-belief
 ; {@self eat [k <meal>] <place>} IS the episodic meal memory. Away from the place he walks
-; there, while he can pay for it; at the place three INCLUSIVE tries co-fire at the table:
-;   take_meal   - propose the EAT action (the physical eating); its ended outcome is
-;                 copied onto the eat task at the cease (bottom-up conclusion). A home
-;                 supper resolves a real food prop to destroy; otherwise abstract (?food 0).
+; there, while he can pay for it; at the place:
+;   serve       - a portion served off the place's larder (a home's kitchen pile, a pub's
+;                 bar-room pile), bought first into its till where the meal is bought out;
+;   pack lunch  - at breakfast a man with a job serves a second portion and stows it, his
+;                 lunch at work;
+;   eat         - the portion in his hand, or at lunch away from home the one he carried, is
+;                 eaten (EAT); its outcome is copied onto the eat task (bottom-up conclusion);
 ;   table_hours - now and then re-air the house's mealtimes to everyone at the home table.
-;   table_talk  - tell the talk at the table one untold piece of my own news.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/collection-macros.mc")
@@ -26,32 +28,65 @@
   (and
     (try
       (when (and (not (at-meal-place ?place))
-                 (eat-affordable ?meal ?place)))
+                 (eat-affordable ?meal ?place)
+                 (meal-to-be-had ?meal ?place)))
       (effects (maintain-proposal {@self enter-room ?place})))
-    ; A home supper eats one loaf off a kitchen larder PILE he knows of, handed to EAT which
-    ; decrements it; any other meal, or a larder he has not seen, stays abstract.
+    ; His meal: the portion to hand, eaten.
     (try
-      (belief {@self home ?place}
-        (role ?food [k pile] {?food content-kind [k food]} {?food count >0}
-                    (= (spatial ?food space) (spatial ?place room [k kitchen]))
-                    (select (policy first-match))
-          (when (and (at-meal-place ?place) (is-a ?meal [k supper])))
-          (declare-utility (meal-utility ?meal))
-          (effects (maintain-proposal {@self EAT ?food 0}))
-          (when-unsupported-effects
-            (caused-by {@self EAT ? ? /past} ?eat): ?EAT
-            (if ?EAT (then (set-outcome ?eat (outcome ?EAT))))))))
-    (try
-      (role -?kitchen-food [k pile] {?kitchen-food content-kind [k food]} {?kitchen-food count >0}
-                        (= (spatial ?kitchen-food space) (spatial ?place room [k kitchen]))
-                        {@self home ?place}
-                        (is-a ?meal [k supper]))
-      (when (at-meal-place ?place))
+      (when (and (at-meal-place ?place)
+                 (substantial (meal-portion ?meal ?place))
+                 (not (packs-lunch ?meal))))
+      (bind (meal-portion ?meal ?place) ?food)
       (declare-utility (meal-utility ?meal))
-      (effects (maintain-proposal {@self EAT 0 0}))
+      (effects (maintain-proposal {@self EAT ?food 0}))
       (when-unsupported-effects
         (caused-by {@self EAT ? ? /past} ?eat): ?EAT
         (if ?EAT (then (set-outcome ?eat (outcome ?EAT))))))
+    ; At breakfast the portion to hand is his lunch to take, stowed.
+    (try
+      (when (and (at-meal-place ?place)
+                 (substantial (meal-portion ?meal ?place))
+                 (packs-lunch ?meal)))
+      (bind (meal-portion ?meal ?place) ?lunch)
+      (declare-utility (meal-utility ?meal))
+      (effects (maintain-proposal {@self STOW ?lunch})))
+    (sequence
+      (when (and (at-meal-place ?place) (unsubstantial (meal-portion ?meal ?place))))
+      (declare-utility (meal-utility ?meal))
+      (stage
+        (bind (meal-till ?place) ?till)
+        (bind (meal-larder-room ?place) ?room)
+        (effects
+          (if (and (meal-unpaid ?meal ?place ?eat) (substantial ?till) (not (spatial @self can-reach ?till)))
+              (then
+                (if (not (spatial @self space ?room))
+                    (then (maintain-proposal {@self enter-room ?room}))
+                    (else (bind (claim (stand-spot-by ?till)) ?spot)
+                          (if (is-spot ?spot) (then (maintain-proposal {@self go-to ?spot})))))))))
+      (stage
+        (effects
+          (if (and (meal-unpaid ?meal ?place ?eat) (unsubstantial (coin-pile-in-hand @self)))
+              (then (maintain-proposal {@self unpocket-coins (price ?meal ?place)})))))
+      (stage
+        (bind (meal-till ?place) ?till)
+        (bind (coin-pile-in-hand @self) ?counted)
+        (effects
+          (if (and (meal-unpaid ?meal ?place ?eat) (substantial ?counted) (substantial ?till))
+              (then (maintain-proposal {@self PILE-TRANSFER ?counted ?till})))))
+      (stage
+        (role ?larder [k pile] {?larder content-kind [k food]} {?larder count >0}
+                      (= (spatial ?larder space) (meal-larder-room ?place))
+                      (select (policy first-match))
+          (bind (meal-larder-room ?place) ?room)
+          (effects
+            (if (not (spatial @self can-reach ?larder))
+                (then
+                  (if (not (spatial @self space ?room))
+                      (then (maintain-proposal {@self enter-room ?room}))
+                      (else (bind (claim (stand-spot-by ?larder)) ?spot)
+                            (if (is-spot ?spot) (then (maintain-proposal {@self go-to ?spot}))))))))))
+      (stage
+        (effects (maintain-proposal {@self SERVE ?larder (free-hand)}))))
     (try
       (role ?home {@self home ?home}
         (belief -{@self SAY ? ? /succ /caused_by ?eat}

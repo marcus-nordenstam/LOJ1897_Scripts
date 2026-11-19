@@ -17,7 +17,7 @@
     (preroll 0.0) (in 0.4) (out 0.4))
 
   (effects
-    (check (= (spatial ?thing gripped-by /env) @self))
+    (check (= (spatial ?thing held-by) @self))
     ; THE MAN holds it now, not a hand of his. Exclusive, so this is the whole of the
     ; transfer - and (observe ..) is what makes him know he has it stowed.
     (grip-into-hand ?thing @self)

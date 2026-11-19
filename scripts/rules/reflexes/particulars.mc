@@ -9,11 +9,8 @@
   (effects (meet-particular (kind ?fluid) ?DRINK)))
 
 (reflex {@self EAT ?food ?owner /succ}:?EAT
-  (when (and (dirty-ended) (is-object ?food)))
-  (effects
-    (any {?food dish ?dish})
-    (if (substantial ?dish)
-        (then (meet-particular ?dish ?EAT)))))
+  (when (and (dirty-ended) (is-kind ?food)))
+  (effects (meet-particular ?food ?EAT)))
 
 (reflex {@self READ ?doc /succ}:?READ
   (when (and (dirty-ended) (is-a ?doc [k book])))

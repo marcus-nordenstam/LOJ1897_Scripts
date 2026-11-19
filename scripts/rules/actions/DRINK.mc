@@ -11,7 +11,7 @@
 
 (action {@self DRINK ?fluid}:?DRINK
   (construed-act sensual-act)
-  (tar [k fluid] @object)
+  (tar [k fluid] @object @consumed)
   (motor mouth)
   (duration (seconds 10 min))
   (init (check (= (spatial (spatial ?fluid gripped-by) held-by) @self)))

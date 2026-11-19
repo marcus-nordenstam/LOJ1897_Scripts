@@ -63,6 +63,7 @@
     (charter-org ?ck))
   (seed-land-registry)
   (restock-bars)
+  (restock-venues)
   (seed-study-books))
 
 ; charter-org - file one org's charter on a free building of its kind. A no-op if the town

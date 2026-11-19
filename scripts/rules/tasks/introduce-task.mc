@@ -15,7 +15,7 @@
       (belief {@self SAY ? /succ /caused_by ?introduce}
         (effects (set-outcome ?introduce /succ))))
     (try
-      (when (spatial ?a co-located @self) (spatial ?b co-located @self))
+      (when (spatial ?a co-located @self) (spatial ?b co-located @self) (visible ?a) (visible ?b))
       (bind (kin-label sibling ?a) ?bond-to-a)
       (bind (kin-label sibling ?b) ?bond-to-b)
       (effects

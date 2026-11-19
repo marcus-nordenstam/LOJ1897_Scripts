@@ -13,4 +13,5 @@
   level "Theatres/demo_tech_level_v2.grs"
   startup introductions-startup)
 
-(define-list gauntlet validate introductions-validate deadline 3)
+(define-list gauntlet validate introductions-validate deadline 3
+  inhibit want-putter-driver)

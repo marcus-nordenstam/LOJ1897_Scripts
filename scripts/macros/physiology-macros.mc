@@ -41,6 +41,11 @@
 ; reduce it content-side (set-attr @self hunger ...).
 (define-macro hunger_accrue_per_hour () 0.0625)
 (define-macro hunger_max () 2.0)
+; A served portion is one meal of bites: each bite takes a bite's minutes and relieves its share
+; of the hunger a meal relieves (half a hunger in all).
+(define-macro bite_relief () 0.16666667)
+(define-macro serving_bites () 3)
+(define-macro bite_minutes () 10)
 ; The fast from supper to waking a window's morning finds him at.
 (define-macro overnight_fast_hours () 10.0)
 

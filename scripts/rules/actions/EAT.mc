@@ -1,36 +1,30 @@
 ; ----------------------------------------------------------------------------
-; eat - the npc-ACT of eating ONE mouthful of food (the opportunistic-forage desires
-; live in thinks/meals.mc; the scheduled-meal sitting in tasks/eat-task.mc). The
-; physical eating for both chains: destroy one food + relieve hunger, theft-recorded
-; when the mouthful is not the eater's own.
+; EAT ?food ?owner - eat a whole food item, a dish, a meal, a fruit, bite by bite: each bite takes
+; (bite_minutes) and its share of a meal's hunger relief, and the bite that finishes it is the act's
+; /succ. Never a pile: food kept in one is served out of it first (SERVE). For now both LODs eat
+; every bite left as the act concludes, so an EAT cut short leaves the item whole.
 ;
-; Generic - the WHICH (carried basket / home larder / a shop's shelf / an abstract
-; bought meal) is decided think-side (forage_at_source in meals_think, the take_meal
-; rung in eat-task) and handed in; the act does no reasoning:
-;   ?food  - the food PILE (basket / larder / shelf) to eat one off the count, OR a
-;            loose loaf (legacy) to destroy, OR 0 for an abstract meal (nothing to
-;            destroy - breakfast / lunch / a bought-out supper).
-;   ?owner - the wronged party when the mouthful is STOLEN (a shop's stock, no wealth);
-;            0 when the food is the eater's own. A non-zero ?owner lands on the crime
-;            ledger. Meal length + satiety are the eat TASK's concern (its meal-typed
-;            utility), not the act's.
+; ?food is @consumed: once eaten the memory holds its kind, {@self EAT [k pie]}, what he ate.
+; ?owner is the wronged party when the food is STOLEN, 0 when it is his own; a non-zero ?owner
+; lands on the crime ledger.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/collection-macros.mc")
+(include "../../macros/physiology-macros.mc")
 
 (action {@self EAT ?food ?owner}:?EAT
   (construed-act sensual-act)
+  (tar [k food] @object @consumed)
   (motor body)
-  (duration (seconds 30 min))
+  (belief-timeout 30 min)
+  (duration (seconds (* (bite_minutes) (attr ?food bites)) min))
   (effects
-    (if ?food
-        (then (if (is-a ?food [k pile])
-                  (then (set-attr ?food count (max 0 (- (attr ?food count) 1))))
-                  (else (do
-                          (end-beliefs-about ?food [/exclude condition|internment|EAT])
-                          (begin-belief {?food condition [k consumed]}))
-                        (destroy-entity ?food)))))
-    (set-attr @self hunger (max 0.0 (- (attr @self hunger) 0.5)))
+    (check (spatial @self can-reach ?food /env))
+    (set-attr @self hunger (max 0.0 (- (attr @self hunger) (* /float (bite_relief) (attr ?food bites)))))
+    (set-attr ?food bites 0)
+    (end-beliefs-about ?food [/exclude condition|internment|EAT])
+    (begin-belief {?food condition [k consumed]})
+    (destroy-entity ?food)
     (if ?owner
         (then (record-crime @self ?owner steal steal @u @u)))
     (set-outcome ?EAT /succ)))

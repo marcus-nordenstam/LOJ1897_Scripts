@@ -30,6 +30,6 @@
 (driver provision-rearm-driver
   (role ?home {@self home ?home}
               (spatial ?home room [k kitchen]): ?kitchen
-    (when (substantial (held-ware @self [k food])))
+    (when (> (held-pile-count @self [k food]) 0))
     (declare-utility duty (flip (spatial @self space ?kitchen) 1000 900))
     (effects (maintain-proposal {@self carry-home [k food] ?kitchen} /quit-trying-on-fail))))

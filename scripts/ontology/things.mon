@@ -556,7 +556,7 @@
     (child food (+ facets totable) (facets totable)
       (decorations
         (spatials gripped-by space bounds)
-        (attrs variant))
+        (attrs variant bites))
       (population (cap 8192) (blocks-spots) (non-occluder))
       (children bread cheese-food soup)
       ; The dishes a larder is stocked with, each a particular an eater comes to like (funcs/particulars.mc).

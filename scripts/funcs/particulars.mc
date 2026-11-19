@@ -146,6 +146,32 @@
             (if (and (empty (spatial ?glass grip /env)) (unsubstantial (spatial ?glass gripped-by /env)))
                 (then (fill-glass ?glass (table-sample-weighted drink_particulars particular draw)))))))))
 
+; THE VENUE'S KITCHEN: each pub's bar-room keeps a food pile of the day's dish and a till its diners
+; pay into, in place of a landlord's service - filled with the town, and every night again. Its dishes
+; are drawn from a stream of their own, so stocking the pubs changes no other draw in the town.
+(define-macro venue_servings () 20)
+
+(define-func /nightly restock-venues ()
+  (rng-stream venues)
+  (for-each ?pub (env-entities [k pub-building])
+    (bar-room-of ?pub): ?bar
+    (if (substantial ?bar)
+        (then
+          (bind @nothing ?larder)
+          (bind @nothing ?till)
+          (for-each ?pile (spatial ?bar contents [k pile] /env)
+            (if (attr-is ?pile content-kind [k food]) (then (bind ?pile ?larder)))
+            (if (attr-is ?pile content-kind [k coin]) (then (bind ?pile ?till))))
+          (if (unsubstantial ?larder)
+              (then (create-entity [k pile] ?bar): ?larder
+                    (set-attr ?larder content-kind [k food])))
+          (set-attr ?larder count (venue_servings))
+          (set-attr ?larder dish (table-sample-weighted food_particulars particular draw))
+          (if (unsubstantial ?till)
+              (then (create-entity [k pile] ?bar): ?till
+                    (set-attr ?till content-kind [k coin])
+                    (set-attr ?till count 0)))))))
+
 ; The drink a glass holds, as @self knows it: the fluid it grips, or @nothing.
 (define-func glass-drink (?glass)
   (bind @nothing ?drink)
