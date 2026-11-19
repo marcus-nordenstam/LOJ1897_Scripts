@@ -23,27 +23,33 @@
   (success-cond (found-out ?fact))
   (failure-cond (nobody-to-ask ?fact))
   ; The man to ask is cast in each rung, never above them: the conds must be judged when there is
-  ; nobody left to ask.
+  ; nobody left to ask. One man at a time: the first here who could tell him.
   (preemptive-or
     (try
       (role ?who {?who isa [k human]}
                  (neq ?who @self)
                  (spatial ?who co-located @self)
                  (or (conversing-with ?who) (hailable ?who))
-        (when (and (askable ?who ?fact) (conversing-with ?who)))
+                 (askable ?who ?fact)
+                 (select (policy first-match))
+        (when (conversing-with ?who))
         (effects (maintain-proposal {@self inquire ?who (inquiry-of ?who ?fact)}))))
     (try
       (role ?who {?who isa [k human]}
                  (neq ?who @self)
                  (spatial ?who co-located @self)
                  (or (conversing-with ?who) (hailable ?who))
+                 (askable ?who ?fact)
+                 (select (policy first-match))
         (belief {@self hail ?who /fail /caused_by ?find-out}:?hail
-          (when (and (askable ?who ?fact) (turned-down-by ?who)))
+          (when (turned-down-by ?who))
           (effects (set-outcome ?find-out /fail)))))
     (try
       (role ?who {?who isa [k human]}
                  (neq ?who @self)
                  (spatial ?who co-located @self)
                  (or (conversing-with ?who) (hailable ?who))
-        (when (and (askable ?who ?fact) (hailable ?who)))
+                 (askable ?who ?fact)
+                 (select (policy first-match))
+        (when (hailable ?who))
         (effects (maintain-proposal {@self hail ?who} /keep-trying-on-fail))))))

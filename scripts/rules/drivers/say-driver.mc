@@ -6,8 +6,8 @@
 ; PREPARATION, and each rung gets one of them:
 ;   he is with ?audience, a man: out of earshot he goes to him;
 ;   every participant of a talk he tells would hear him: he closes on one out of earshot;
-;   the line has a talk to be said in (turn-board, funcs/talk.mc): a man no talk reaches is hailed
-;     first, and the line waits for the hail to be taken up; turned down, it is given up;
+;   the line has a talk to be said in (turn-board, funcs/talk.mc): a man he is not talking with is
+;     hailed first, the hail standing until the two are talking; turned down, the line is given up;
 ;   presented, he holds the turn that talk gives: he asks for it and waits until it is handed to
 ;     him, a reply first of those waiting (line-rank).
 ; With all of it in hand he says the line, in the register he takes toward ?audience (voice-line,
@@ -65,16 +65,19 @@
       (bind (turn-board ?audience) ?board)
       (when (and (substantial ?board) (not (holds-turn ?board))))
       (effects (turn-request ?board (line-rank ?msg ?audience))))
-    ; A man no talk reaches is hailed before he is spoken to, from where the line would be said.
+    ; A man he is not talking with is hailed before he is spoken to, from where the line would be
+    ; said, and the hail stands until the two are talking. A man whose own hail of him stands
+    ; unanswered he answers, and does not hail.
     (try
       (when (and (is-a ?audience [k human])
                  (in-sight-and-earshot ?audience ?msg)
-                 (not (addressable ?audience))
+                 (not (conversing-with ?audience))
+                 (not (hailed-by ?audience))
                  (hailable ?audience)))
       (effects (maintain-proposal {@self hail ?audience} /preparatory)))
     (try
       (belief {@self hail ?audience /fail /caused_by ?intent}
-        (when (not (addressable ?audience)))
+        (when (not (conversing-with ?audience)))
         (effects (forsake-intent ?intent))))
     (try
       (when (and (is-a ?audience [k talk]) (not (other-participant-in ?audience))))
