@@ -287,8 +287,8 @@
 ; FEELS both on a pile he has stowed about him (his carrying-cash-pile).
 (attr content-kind (type kind thing) (int-per feel) (ext-per obs) (auto-percept))
 ; The dish a food pile holds (STOCK-LARDER), seen by whoever sees the pile: what eating from it meets.
-(attr dish (type kind food) (int-per feel) (ext-per obs) (auto-percept) (belief-timeout 1 h))
-(attr count (type int) (range 0 1000000) (int-per feel) (ext-per obs) (auto-percept) (belief-timeout 6 h))
+(attr dish (type kind food) (int-per feel) (ext-per obs) (auto-percept) (state-flags-tar @excl) (belief-timeout 1 h))
+(attr count (type int) (range 0 1000000) (int-per feel) (ext-per obs) (auto-percept) (state-flags-tar @excl) (belief-timeout 6 h))
 
 ; Weather (region)
 (attr rain (type kind strength-measurement) (default heavy) (per obs) (auto-percept) (belief-timeout 1 h))

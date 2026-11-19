@@ -15,15 +15,6 @@
     (try
       (belief -{@self wander ?home /succ /caused_by ?putter}
         (effects (maintain-proposal {@self wander ?home}))))
-    ; STOPGAP (actions/STOCK-LARDER.mc): the supply run never reaches the shop, so a
-    ; resident standing in his own empty kitchen stocks it himself. Delete with that file.
-    (try
-      (when (and (spatial @self unit ?home)
-                 (spatial ?home room [k kitchen]): ?kitchen
-                 (spatial @self space ?kitchen)
-                 (= (believed-pile-count ?kitchen [k food]) 0)))
-      (when (poll (claim (rest-spot ?kitchen [k pile]) [k pile]): ?spot))
-      (effects (maintain-proposal {@self STOCK-LARDER ?kitchen ?spot})))
     (try
       (belief {@self wander ?home /succ /caused_by ?putter}
         (effects (set-outcome ?putter /succ))))))

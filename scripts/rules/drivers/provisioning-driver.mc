@@ -3,25 +3,24 @@
 ; larder is THE KITCHEN (every inhabited home has one - world-gen aborts
 ; otherwise), and ONE cook per household owns the errand.
 ;
-; THE ERRAND: want-provisions sends the cook to the shop he knows sells provisions, never a
-; generic one (tasks/provision-task.mc); provision-rearm carries the basket home to the
-; kitchen (tasks/carry-home-task.mc).
+; THE ERRAND, STOPGAPPED: the shopping errand - to the shop he knows sells provisions
+; (tasks/provision-task.mc), the basket carried home by provision-rearm (tasks/carry-home-task.mc)
+; - is not built out yet, so want-provisions sends the cook to his own kitchen, where the basket
+; he would have bought appears (tasks/stock-larder-task.mc, actions/STOCK-LARDER.mc).
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/tunables.mc")
 (include "../../macros/collection-macros.mc")
 
 ; ---- the pressure: the kitchen larder is low --------------------------------
-; The kitchen resolves from the cook's own spatial index of the home. He buys at the shop he
-; knows sells provisions (tasks/provision-task.mc); knowing none, he does not provision.
+; The kitchen resolves from the cook's own spatial index of the home.
 
 (driver want-provisions-driver
-  (role ?shop {@self provisions-shop ?shop}
-    (role ?home {@self household-cook ?home}
-                (spatial ?home room [k kitchen]): ?kitchen
-      (when (< (believed-pile-count ?kitchen [k food]) (larder_low_water)))
-      (declare-utility duty)
-      (effects (maintain-proposal {@self provision ?shop})))))
+  (role ?home {@self household-cook ?home}
+              (spatial ?home room [k kitchen]): ?kitchen
+    (when (< (believed-pile-count ?kitchen [k food]) (larder_low_water)))
+    (declare-utility duty)
+    (effects (maintain-proposal {@self stock-larder ?kitchen} /quit-trying-on-fail))))
 
 ; ---- the delivery drive ------------------------------------------------------
 ; Laden with food: carry it home to the kitchen (tasks/carry-home-task.mc). 900 on the road

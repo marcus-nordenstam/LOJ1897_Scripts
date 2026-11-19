@@ -1,39 +1,37 @@
 ; ----------------------------------------------------------------------------
-; stock-larder - a STOPGAP, and the only thing in the corpus that fills a larder.
+; STOCK-LARDER ?spot ?basket - a STOPGAP for the whole household shopping errand.
 ;
-; The household supply run (thinks/provisioning-think.mc) elects its cook - 47 of
-; them - and then never reaches the shop, so no kitchen is ever stocked, every
-; (believed-home-food-count ..) reads 0, and the whole meal aspect sits behind an empty
-; larder while the town starves. Until that chain is resurrected a resident puttering
-; through his own kitchen finds it stocked, which is a lie about where food comes from
-; but a true statement about there being some.
+; The real errand - the cook knows a shop that sells provisions, goes there, buys a basket
+; (PROVISION) and carries it home to the kitchen (carry-home) - is not built out yet. Until it
+; is, the cook goes to his own kitchen (tasks/stock-larder-task.mc) and the basket he would
+; have bought appears in the larder: a lie about where food comes from, but a true statement
+; about there being some.
 ;
-; DELETE THIS FILE, and the putter rung that proposes it, when provisioning works.
+; DELETE THIS FILE and tasks/stock-larder-task.mc when shopping works, and have
+; want-provisions-driver propose provision again.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/collection-macros.mc")
 
-; One household's keeping - a food prop is a person-day, so this is a family for a
-; month, the cadence at which a puttering resident comes back round to the kitchen.
-(define-macro larder_stopgap_stock () 30)
-
-; ?spot is the kitchen floor spot the proposing rung holds for a new pile; the rung gives
-; it back when it ceases, once the larder reads stocked.
-(action {@self STOCK-LARDER ?kitchen ?spot}:?STOCK-LARDER
+; ?spot is the kitchen floor spot the proposing rung holds for a new pile; ?basket is what the
+; errand would have bought (provision-basket), decided think-side.
+(action {@self STOCK-LARDER ?spot ?basket}:?STOCK-LARDER
   (construed-act toil-act)
   (motor body)
   (duration (seconds 5 min))
   (effects
-    (check (spatial @self space ?kitchen /env))
+    (spatial @self space /env): ?kitchen
+    (check (is-a ?kitchen [k kitchen]))
     (bind 0 ?pile)
     (for-each ?pile_cand (spatial ?kitchen contents [k pile] /env)
       (if (attr-is ?pile_cand content-kind [k food])
           (then (bind ?pile_cand ?pile))))
     (if (not ?pile)
         (then (create-entity [k pile] ?spot): ?pile
-              (set-attr ?pile content-kind [k food])))
-    (set-attr ?pile count (larder_stopgap_stock))
-    ; What the household eats this month: one dish, drawn afresh each time the larder is filled.
+              (set-attr ?pile content-kind [k food])
+              (set-attr ?pile count 0)))
+    (set-attr ?pile count (+ (attr ?pile count) ?basket))
+    ; What the household eats until the next basket: one dish, drawn afresh each time it is filled.
     (set-attr ?pile dish (table-sample-weighted food_particulars particular draw))
     ; He filled it himself, so he knows it is there - without this the pile exists and
     ; the larder still reads empty to the only mind that matters.
