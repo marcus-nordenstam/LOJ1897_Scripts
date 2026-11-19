@@ -105,7 +105,7 @@
 (spatial-label bounds     (store space) (payload box))
 (spatial-label spline     (store space) (payload curve))
 (spatial-label space      (store space))
-(spatial-label building   (store space) (rung building) (theme frequent) (habit-bands day_parts))
+(spatial-label building   (store space) (rung building) (theme frequent))
 (spatial-label enclosure  (store space) (rung-role enclosure))
 (spatial-label unit       (store space) (rung-role unit))
 (spatial-label town       (store space) (rung town))

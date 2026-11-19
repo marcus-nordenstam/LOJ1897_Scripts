@@ -178,7 +178,7 @@
 ; No memory -> @unknown ("I don't know"). The answerer is ?_you (the suspect
 ; being questioned).
 "where were you the night $person(Q_NP) [was #kill-verb|died]"
-( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) night ) )
+( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) [k night] ) )
 .
 
 ; specific interest (do you like X)
@@ -636,10 +636,10 @@
 ; --- 10. ALIBI (extends the crime-night set already above) -------------------
 
 "can you account for your whereabouts the night $person(Q_NP) died"
-( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) night ) )
+( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) [k night] ) )
 .
 "where were you the morning $person(Q_NP) was #kill-verb"
-( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) morning ) )
+( whereabouts-on ?_you ( band-interval ( death-date $person(Q_NP) ) [k morning] ) )
 .
 
 ; Where a man was at a time the asker names (Times.mgr): "where were you at nine last night",

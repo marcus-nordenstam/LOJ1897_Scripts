@@ -20,20 +20,20 @@
 
 :BAND
 
-"morning"     morning   .
-"afternoon"   afternoon .
-"evening"     evening   .
-"night"       night     .
+"morning"     [k morning]   .
+"afternoon"   [k afternoon] .
+"evening"     [k evening]   .
+"night"       [k night]     .
 
 
 ; The part of the day an hour is said in: "nine in the evening", "two at night".
 :PART
 
-"in the morning"    morning   .
-"in the forenoon"   morning   .
-"in the afternoon"  afternoon .
-"in the evening"    evening   .
-"at night"          night     .
+"in the morning"    [k morning]   .
+"in the forenoon"   [k morning]   .
+"in the afternoon"  [k afternoon] .
+"in the evening"    [k evening]   .
+"at night"          [k night]     .
 
 
 ; A whole day.
@@ -113,7 +113,7 @@ $day(DAY)
 .
 
 "last night"
-( band-interval ( days-ago 1 ) night )
+( band-interval ( days-ago 1 ) [k night] )
 .
 
 "this $band(BAND)"
@@ -153,7 +153,7 @@ $day(DAY)
 .
 
 "$told(TOLD) last night"
-( dial-interval $told(TOLD) night ( days-ago 1 ) )
+( dial-interval $told(TOLD) [k night] ( days-ago 1 ) )
 .
 
 "$told(TOLD) this $band(BAND)"
@@ -165,9 +165,9 @@ $day(DAY)
 .
 
 "#at-hour [noon|midday]"
-( dial-interval ( clock 12 0 ) midday @unknown )
+( dial-interval ( clock 12 0 ) [k midday] @unknown )
 .
 
 "#at-hour midnight"
-( dial-interval ( clock 12 0 ) night @unknown )
+( dial-interval ( clock 12 0 ) [k night] @unknown )
 .
