@@ -112,7 +112,7 @@
   ?ghost)
 
 ; The engine's hear hook: what the line says is adopted (adopt-heard-content), and a line said to
-; @self is given its reply state (note-reply-state, funcs/talk.mc). A line that waits on what its
+; @self gets what he makes of it on its record (note-reply-state, funcs/talk.mc). A line that waits on what its
 ; speaker meant carries no fact yet by design: @nothing.
 (define-func /hear adopt-heard-msg (?SAY)
   (bind (tolerate (adopt-heard-content ?SAY)) ?adopted)
