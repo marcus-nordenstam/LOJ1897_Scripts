@@ -82,6 +82,14 @@ suffrage-cause                suffrage
 ; first letter, so the second word is pre-capitalised here).
 st-revieran                   St Revieran
 
+; === titles (said before a surname: "Mr Brennan", "the Reverend Mr Fisher") ===
+mister-title                  Mr
+missus-title                  Mrs
+miss-title                    Miss
+doctor-title                  Dr
+reverend-title                the Reverend Mr
+constable-title               Constable
+
 ; === namesakes (one English word, several kinds) =============================
 apothecary-job                apothecary
 apothecary-org                apothecary

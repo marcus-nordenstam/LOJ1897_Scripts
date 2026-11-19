@@ -17,6 +17,10 @@
 ; regen. See Docs/dialogue_nlg_phase4_design.md section 4.5.
 ; -----------------------------------------------------------------------------
 
+; How a man named before is spoken of when "he" or "she" would not do: the corpus func the
+; realizer asks, of him and the one spoken to (funcs/address.mc).
+refer: term-of-reference
+
 intents: neutral warm curt blunt deferential flowery scornful respectful tender spiteful terse plain metaphorical anecdotal elaborated intro bell
 
 ; --- Discourse schema for a tell_about person description ---------------------

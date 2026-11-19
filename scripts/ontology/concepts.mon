@@ -859,7 +859,10 @@
     (children hetero bi homo))
 
   (child cultural-aspect
-    (children title)
+    ; How a man is spoken of who is no kin or intimate of the speaker: the title before his surname
+    ; (funcs/address.mc term-of-reference), worded by the pack (kinds.mkind).
+    (child title
+      (children mister-title missus-title miss-title doctor-title reverend-title constable-title))
     (child nationality
       (children english irish st-revieran french)))
 
