@@ -30,7 +30,7 @@
       (stage (bind (claim (passage-spot-beyond ?passage)) ?beyond)
              (effects (maintain-proposal {@self WALK ?beyond})))
       (stage (effects (set-outcome ?cross /succ))))
-    (try (when (and (barred ?passage) (not (passage-stance-exists ?passage))))
+    (try (when (and (in-near-room ?passage) (barred ?passage) (not (passage-stance-exists ?passage))))
          (effects (set-outcome ?cross /fail)))
     (try (belief (or (barred-locked ?passage)
                          {@self OPEN ?passage /fail /caused_by ?cross}
