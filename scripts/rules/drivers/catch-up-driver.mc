@@ -3,7 +3,8 @@
 ; not know, or @self is lonely and has not caught up with him for (catch-up-interval-days): @self
 ; catches up with him (tasks/catch-up-task.mc). A catch-up under way is held until it concludes:
 ; telling the last of the news is when it asks his. In a talk with him he has not caught up yet -
-; outbid while he was at it - he still wants to.
+; outbid while he was at it - he still wants to. In a talk with him is talking with him
+; (conversing-with): a friend only hailed onto its board holds no part in it yet.
 ; ----------------------------------------------------------------------------
 
 (include "../../macros/social-macros.mc")
@@ -11,7 +12,7 @@
 (driver catch-up-driver
   (belief {@self age ?age} -{@self company [k crowded]}
     (role ?friend {@self (closeness-labels friend) ?friend} {?friend isa [k human], condition [k alive]}
-                  (or (spatial ?friend co-located @self) (in-one-talk @self ?friend))
+                  (or (spatial ?friend co-located @self) (conversing-with ?friend))
       (when (>= ?age 12))
       (declare-utility want (pursuit-utility ?friend (k-catch-up-value)))
       (preemptive-or
@@ -21,7 +22,7 @@
         (try
           (lod presented)
           (when (or (substantial (any {@self catch-up ?friend}))
-                    (and (in-one-talk @self ?friend) (not (caught-up ?friend)))))
+                    (and (conversing-with ?friend) (not (caught-up ?friend)))))
           (effects (maintain-proposal {@self catch-up ?friend} /quit-trying-on-fail)))))))
 
 (driver lonely-catch-up-driver

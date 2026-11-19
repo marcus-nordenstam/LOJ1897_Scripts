@@ -16,7 +16,7 @@
     (check (empty (spatial ?hand grip /env)))
     (check (>= (attr ?pile count) 1))
     (bind (attr ?pile dish) ?dish)
-    (create-entity (flip (substantial ?dish) ?dish (attr ?pile content-kind)) (spatial @self space /env)): ?portion
+    (create-entity (flip (substantial ?dish) ?dish (attr ?pile content-kind)) (spatial ?hand bounds /env)): ?portion
     (set-attr ?portion bites (serving_bites))
     (pile-add ?pile -1)
     (grip-into-hand ?portion ?hand)
