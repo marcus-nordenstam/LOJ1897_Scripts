@@ -932,6 +932,66 @@ $form(FORM)
 { $sub_np(NP) $task(TRANS_TASK) $obj(CONJ|ST|QS|MSG|NP) }
 .
 
+; ACTS SEEN - what a man saw another do, said as the line asks: "she was drinking claret" in a
+; line that tells what was going on, "she drank claret" in one that tells what happened. What he
+; did not see of it is not said: "she was drinking". Said, never read.
+" $sub_np(NP) $verb(VERB|drink) $obj(NP) "
+{ $sub_np(NP) DRINK $obj(NP) }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|drink) "
+{ $sub_np(NP) DRINK }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|read) a $obj(KIND|/isa|object) "
+{ $sub_np(NP) READ $obj(KIND|/isa|object) }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|read) $obj(NP) "
+{ $sub_np(NP) READ $obj(NP) }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|read) "
+{ $sub_np(NP) READ }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|write) a $obj(KIND|/isa|object) "
+{ $sub_np(NP) WRITE $obj(KIND|/isa|object) ? }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|write) $obj(NP) "
+{ $sub_np(NP) WRITE $obj(NP) ? }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|write) "
+{ $sub_np(NP) WRITE }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|eat) $obj(NP) "
+{ $sub_np(NP) EAT $obj(NP) ? }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|eat) "
+{ $sub_np(NP) EAT }
+:: realize-only
+.
+" $sub_np(NP) $verb(VERB|play) a game "
+{ $sub_np(NP) PLAY-GAME }
+:: realize-only
+.
+
+; Who told him what he tells: the line he was told it in.
+" $who(NP) told me "
+{ $who(NP) /past SAY ? ?_I }
+:: realize-only
+.
+
+; A task he saw under way, in a line that tells what was going on: "she was having a meal".
+" $sub_np(NP) $verb(VERB|be) $act(ONGOING_TASK) "
+{ $sub_np(NP) /past $act(ONGOING_TASK) }
+:: realize-only progressive
+.
+
 ; ACTS UNDER WAY AND ACTS DUE - what a man is doing (a task begun) or has to do (a task
 ; proposed, not begun): said, never read - the reason a refusal gives.
 " $sub_np(NP) $verb(VERB|be) $act(ONGOING_TASK) "

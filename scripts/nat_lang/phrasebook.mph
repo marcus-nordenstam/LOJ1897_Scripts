@@ -141,6 +141,7 @@ select coda:
 ; Hedge suffix: the speaker's trust in whom he speaks of.
 decoration hedge:
   position: suffix
+  scope: beat
   subject:distrust      -> ", for what that is worth"
   subject:rely          -> ", you may depend on it"
   *                     -> ""
@@ -149,8 +150,18 @@ decoration hedge:
 ; a line he would swear to carries none.
 decoration certainty:
   position: suffix
+  scope: beat
   certainty:likely      -> ", I believe"
   certainty:maybe       -> ", I think, though I couldn't swear to it"
+  *                     -> ""
+
+; Told suffix: what the line tells, he was told and did not see ([/told ..]). A telling hedges
+; each of its beats on its own, and one hedge at most: told, else how sure.
+decoration told:
+  position: suffix
+  scope: beat
+  told:yes class:lower  -> ", so I've heard"
+  told:yes              -> ", I'm told"
   *                     -> ""
 
 ; Address-form suffix (distillation §3.1). A deferential / formal speaker

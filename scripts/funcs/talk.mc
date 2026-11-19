@@ -1451,6 +1451,7 @@
       (answer-as-sure (msg /utterable /reply [] {?searched.subject job ?answer}) ?certainty))
     (case (matches ?answer (msg ?..))
       (answer-as-sure ?answer ?certainty))
+    (case (matches ?answer (formulaic ?..)) ?answer)
     (else (answer-as-sure (msg /utterable /reply [] ?answer) ?certainty))))
 
 ; (answer-as-sure ?line ?certainty) - ?line as sure as @self is of it: a line he would swear to rides

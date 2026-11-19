@@ -43,6 +43,9 @@
 "Mind your manners"                                                            ( formulaic [] manners-refusal ) .
 "It is indeed"                                                                  ( formulaic [] response agree ) .
 "Nothing much"                                                                  ( formulaic [] response no-news ) .
+"I saw it myself"                                                               ( formulaic [] response saw-it )
+:: realize-only
+.
 "How interesting"                                                               ( formulaic [] response receipt ) .
 ; A statement answered as a courtesy, never a claim: the fact was news to him or he knew it, then
 ; what it made him feel, or the condolence a courteous man offers for a misfortune he feels nothing

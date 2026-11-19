@@ -99,3 +99,28 @@ verb haunt    /past = haunted
 
 verb dabble   /pres = dabbles
 verb dabble   /past = dabbled
+
+; The progressive, said in a line that tells what was going on ("she was drinking"): the aux in
+; the line's tense, then the participle - the base and -ing unless a verb lists its own. A verb
+; English never says that way - a state (be, have, know, love, hear, see, smell) or one whose
+; progressive means "on the way to" (die) - lists `-` and is said simple even there.
+aux /prog = be
+verb *        /prog = *ing
+verb be       /prog = -
+verb have     /prog = -
+verb know     /prog = -
+verb love     /prog = -
+verb hear     /prog = -
+verb see      /prog = -
+verb smell    /prog = -
+verb die      /prog = -
+
+verb drink    /pres = drinks
+verb drink    /past = drank
+verb eat      /pres = eats
+verb eat      /past = ate
+verb write    /pres = writes
+verb write    /past = wrote
+verb write    /prog = writing
+verb play     /pres = plays
+verb play     /past = played
