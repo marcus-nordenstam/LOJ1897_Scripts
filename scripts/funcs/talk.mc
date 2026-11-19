@@ -1225,7 +1225,7 @@
     (if (is-clause ?content)
         (then
           (bind ?content.label ?label)
-          (bind (any {? ?label ? /sources ?line}) ?told)
+          (bind (any {? ?label ? /ever /sources ?line}) ?told)
           (if (and (is-belief ?told) (or (unsubstantial ?fact) (learned-before ?fact ?told)))
               (then (bind ?told ?fact))))))
   ?fact)

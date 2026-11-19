@@ -140,8 +140,8 @@
 (define-func done-then (?who ?when)
   (telling (doing-during ?who ?when) @false))
 
-; How @self knows what he last told ?asker: the man whose line told him its first beat that he was
-; told, "Mary Le Feuvre told me", or that he saw it himself. @unknown when his last line to ?asker
+; How @self knows what he last told ?asker: the line that told him the first of its beats he was
+; told, "Silas Brennan told me", or that he saw it himself. @unknown when his last line to ?asker
 ; told nothing he saw or heard.
 (define-func told-source (?asker)
   (bind (shared-talk ?asker) ?talk)
@@ -149,12 +149,12 @@
   (if (substantial ?talk)
       (then
         (for-each ?line (bb-public-read-keys ?talk bbk-line)
-          (if (and (eq ?line.subject @self) (eq ?line.auxiliary ?asker) (substantial (told-beats ?line.target)))
+          (if (and (eq ?line.subject @self) (eq ?line.auxiliary ?asker) (is-telling ?line.target))
               (then (bind ?line ?last))))))
   (bind @nothing ?source)
   (if (is-belief ?last)
       (then
-        (for-each ?beat (told-beats ?last.target)
+        (for-each ?beat (msg-sentences /whole ?last.target)
           (bind (msg-rider ?beat told) ?told)
           (if (is-belief ?told)
               (then (bind ?told ?source) (break))))))
@@ -162,6 +162,10 @@
         (case (is-belief ?last) (formulaic [] response saw-it))
         (else @unknown)))
 
-; The beats of the telling ?msg: its sentences that are lines of their own, empty for a plain line.
-(define-func told-beats (?msg)
-  (every ?beat (msg-sentences ?msg) (where (matches ?beat (msg ?..)))))
+; ?msg is a telling: a sentence of it is a beat, a line of its own with its riders.
+(define-func is-telling (?msg)
+  (bind @false ?telling)
+  (for-each ?sentence (msg-sentences /whole ?msg)
+    (if (matches ?sentence (msg ?..))
+        (then (bind @true ?telling) (break))))
+  ?telling)

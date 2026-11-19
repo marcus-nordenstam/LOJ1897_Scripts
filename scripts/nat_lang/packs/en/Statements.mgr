@@ -981,6 +981,10 @@ $form(FORM)
 .
 
 ; Who told him what he tells: the line he was told it in.
+" you told me "
+{ ?_you /past SAY ? ?_I }
+:: realize-only
+.
 " $who(NP) told me "
 { $who(NP) /past SAY ? ?_I }
 :: realize-only
