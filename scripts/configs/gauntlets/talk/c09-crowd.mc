@@ -1,10 +1,8 @@
 ; c09 crowd - in each of two homes far apart, four men and one woman under one roof, the house's
 ; supper hour known to her and unknown to the men. The first home is presented (the bubble forms
-; round the first man): every man hails her to ask it, in the same minute. Men may speak at once,
-; but never two to her at once: whoever would speak to her while another is waits until that line
-; is said, and the rest hear her answer the first she talks with. The second home is not presented: there is no hail, each man asks her straight out, one
-; line at a time. In both, the men end knowing the supper hour. Seeds state only; the validate func
-; reads.
+; round the first man), the second is not. In both, every man hails her or joins the talk she is
+; in, asks, and ends knowing the supper hour: a line is heard only by the participants of the talk
+; it is said in. Seeds state only; the validate func reads.
 
 (include "talk.mc")
 
