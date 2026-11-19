@@ -104,6 +104,13 @@ $form(FORM)
 :: realize-only
 .
 
+; A reply given out of the order the lines were said in: the question it replies to, in the words
+; it was asked in.
+"you asked ++, $asked(QSP) ++?"
+[ asked @you ( qs [] $asked(QSP) ) ]
+:: realize-only their-words
+.
+
 ; A ghost read in a document: the document the question is about.
 "I have read $doc(NP) ++."
 [ doc $doc(NP) ]

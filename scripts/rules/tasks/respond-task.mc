@@ -25,14 +25,14 @@
         (when (and (matches ?msg (qs ?..)) (withholds ?msg ?speaker)))
         (bind (formulaic [] refusal answer) ?refusal)
         (effects
-          (bind (as-reply-to ?refusal ?line) ?said)
+          (bind (prefaced (as-reply-to ?refusal ?line) ?line) ?said)
           (maintain-intent {@self intent {@self SAY ?said ?speaker}}))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line
         (bind (reply-to ?line ?speaker) ?reply)
         (when (substantial ?reply))
         (effects
-          (bind (as-reply-to ?reply ?line) ?said)
+          (bind (prefaced (as-reply-to ?reply ?line) ?line) ?said)
           (maintain-intent {@self intent {@self SAY ?said ?speaker}}))))
     (try
       (role ?speaker {?speaker SAY ?msg @self /past}:?line

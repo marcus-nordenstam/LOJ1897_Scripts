@@ -736,6 +736,29 @@
 (define-func replied (?speaker ?said)
   (is-belief (reply-of ?speaker ?said)))
 
+; (replied-out-of-order ?line) - @self has already replied to a line said after ?line in the talk
+; ?line was said in: a reply to ?line now comes out of the order the lines were said in.
+(define-func replied-out-of-order (?line)
+  (bind @false ?past)
+  (bind @false ?out)
+  (bind (said-in ?line) ?talk)
+  (if (substantial ?talk)
+      (then
+        (for-each ?later (bb-public-read-keys ?talk bbk-line)
+          (cond (case (eq ?later ?line) (bind @true ?past))
+                (case (and ?past (neq ?later.subject @self) (replied @self ?later))
+                      (bind @true ?out) (break))))))
+  ?out)
+
+; (prefaced ?reply ?line) - the reply ?reply to the line ?line, as it is said: out of order
+; (replied-out-of-order) it carries, as its context, the line it replies to - the question he was
+; asked or what he was told - said before it as a sentence of its own. The wording is the pack's
+; (:CONTEXT, Messages.mgr).
+(define-func prefaced (?reply ?line)
+  (cond (case (not (replied-out-of-order ?line)) ?reply)
+        (case (matches ?line.target (qs ?..)) (set-msg-rider ?reply context asked ?line.subject ?line.target))
+        (else (set-msg-rider ?reply context quote ?line.subject ?line.target))))
+
 ; (last-line-from ?talk ?speaker) - the last line ?speaker said to @self in ?talk, or @nothing.
 (define-func last-line-from (?talk ?speaker)
   (bind @nothing ?last)
