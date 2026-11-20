@@ -31,7 +31,7 @@
   (tar @excl [k human] @object)
   (preparatory)
   (preconditions (at-shouting-distance ?partner))
-  (failure-cond (or (hail-turned-down ?partner ?hail)
+  (failure-cond (or (hail-turned-down ?partner)
                     (not (hailable ?partner))))
   (sync hail @self ?partner)
   (init
@@ -53,11 +53,11 @@
       (stage
         (effects (done-closing ?hail)))))
   (cease
-    (if (and (not (conversing-with ?partner)) (hail-accepted ?partner ?hail))
+    (if (and (not (conversing-with ?partner)) (hail-accepted ?partner))
         (then
           (join-talk (talk-of ?partner) ?hail)
           (set-outcome ?hail /succ)))
-    (if (hail-turned-down ?partner ?hail)
+    (if (hail-turned-down ?partner)
         (then (note-turned-down ?partner)))
     (clear-hail ?partner)
     (unseat-hailed ?partner))
@@ -75,7 +75,7 @@
       (effects (set-hail-state ?partner taken)))
     (try
       (lint-waive cacheable-read-in-when)
-      (when (hail-accepted ?partner ?hail))
+      (when (hail-accepted ?partner))
       (effects
         (join-talk (talk-of ?partner) ?hail)
         (set-outcome ?hail /succ)))))

@@ -233,7 +233,7 @@
 (define-macro k-partner-busy-weight     () 0.5)
 ; The most talks a man begins with one other within an hour before it is a thrash.
 (define-macro k-talks-with-one-man-an-hour () 2)
-(define-macro k-talk-again-window-seconds () 3600.0)
+(define-macro k-talks-lately-seconds () 3600.0)
 ; How long a man keeps from hailing one who turned his hail down.
 (define-macro k-turned-down-seconds () 86400.0)
 

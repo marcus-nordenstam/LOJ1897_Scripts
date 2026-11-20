@@ -32,8 +32,8 @@
 ; adopt-heard-msg - the LISTENER half of a speech act, as content.
 ;
 ; line-said above has a line reach its hearers; this decides what a listener
-; DOES with one he heard. It was C++ too, and held three pieces of world
-; knowledge: that a QUESTION carries no assertable facts, that a heard fact is
+; DOES with one he heard, and holds three pieces of world knowledge: that a
+; QUESTION carries no assertable facts, that a heard fact is
 ; SOURCED from the utterance that carried it rather than from one's own eyes,
 ; and that hearing about someone makes them an acquaintance.
 ;

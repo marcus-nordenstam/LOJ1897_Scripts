@@ -28,6 +28,15 @@
   (cond (case (holds-part @self (talk-of @self)) in_talk)
         (else (under-way ?busy-with))))
 
+(define-func may-answer (?speaker)
+  (and (not (hailing ?speaker)) (in-shouting-distance ?speaker) (room-with ?speaker)))
+
+(define-func may-turn-down (?speaker)
+  (and (may-answer ?speaker)
+       (not (rebuffs ?speaker))
+       (not (taking-up ?speaker))
+       (not (turning-down ?speaker))))
+
 (driver answer-hail-driver
   (role ?talk (bb-public-every ?talk bbk-hail @self)
     (role ?speaker (bb-public-read-rec ?talk bbk-hail @self hailer)
@@ -38,9 +47,7 @@
         (try
           (bind (hail-utility ?speaker) ?utility)
           (declare-utility (utility-band ?utility) (utility-value ?utility))
-          (when (and (not (hailing ?speaker))
-                     (in-shouting-distance ?speaker)
-                     (room-with ?speaker)
+          (when (and (may-answer ?speaker)
                      (not (rebuffs ?speaker))
                      (not (turning-down ?speaker))
                      (not (too-crowded-for ?speaker))))
@@ -56,12 +63,7 @@
         ; what it is: the decision is made once, and the refusal it begins always completes.
         (try
           (bind (outbids {@self take-up ?speaker}) ?busy-with)
-          (when (and (not (hailing ?speaker))
-                     (in-shouting-distance ?speaker)
-                     (room-with ?speaker)
-                     (not (rebuffs ?speaker))
-                     (not (taking-up ?speaker))
-                     (not (turning-down ?speaker))
+          (when (and (may-turn-down ?speaker)
                      (not (proposed {@self turn-down ? ?}))
                      (not (too-crowded-for ?speaker))
                      (substantial ?busy-with)))
@@ -73,12 +75,7 @@
             (begin-proposal {@self turn-down ?speaker (formulaic [] refusal ?reason)} /uninterruptable)))
         ; A man who has had his fill of company turns a hail down, saying so, unless it obliges him.
         (try
-          (when (and (not (hailing ?speaker))
-                     (in-shouting-distance ?speaker)
-                     (room-with ?speaker)
-                     (not (rebuffs ?speaker))
-                     (not (taking-up ?speaker))
-                     (not (turning-down ?speaker))
+          (when (and (may-turn-down ?speaker)
                      (not (proposed {@self turn-down ? ?}))
                      (too-crowded-for ?speaker)))
           (declare-utility unbeatable)
@@ -88,10 +85,7 @@
             (begin-proposal {@self turn-down ?speaker (formulaic [] refusal weary)} /uninterruptable)))
         ; Rebuffing a man he despises: a retort, heard as the insult it is.
         (try
-          (when (and (not (hailing ?speaker))
-                     (in-shouting-distance ?speaker)
-                     (room-with ?speaker)
-                     (rebuffs ?speaker)))
+          (when (and (may-answer ?speaker) (rebuffs ?speaker)))
           (declare-utility unbeatable)
           (effects
             (maintain-proposal {@self turn-down ?speaker (formulaic [] rebuff)})))))))

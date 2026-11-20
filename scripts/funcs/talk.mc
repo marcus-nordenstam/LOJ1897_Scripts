@@ -86,13 +86,13 @@
 (define-func evading-law ()
   (substantial (any {@self kill|shoot|strangle|hurt|steal|coerce|bribe ? /succ /past})))
 
-(define-func hail-want-utility (?value)
-  (utility want ?value))
+(define-func authority-hail (?speaker)
+  (and (law-officer ?speaker) (not (evading-law))))
 
 ; (obligation-hail ?speaker) - a hail @self must take up however he feels: a law officer's when he
 ; has nothing to hide, or one from a man he answers to.
 (define-func obligation-hail (?speaker)
-  (or (and (law-officer ?speaker) (not (evading-law))) (answers-to ?speaker)))
+  (or (authority-hail ?speaker) (answers-to ?speaker)))
 
 ; (too-crowded-for ?speaker) - @self has had his fill of company and ?speaker's hail does not oblige
 ; him: he turns it down.
@@ -103,13 +103,12 @@
 ; utility: an obligation when it is a law officer's and he has nothing to hide, or when he
 ; answers to ?speaker, else a want that rises with how close they are.
 (define-func hail-utility (?speaker)
-  (cond (case (and (law-officer ?speaker) (not (evading-law)))
-              (utility obligation (k-hail-authority-value)))
+  (cond (case (authority-hail ?speaker) (utility obligation (k-hail-authority-value)))
         (case (answers-to ?speaker) (utility obligation (k-hail-bond-value)))
         (case {@self spouse|lover|friend|close-to|mother|father|child|sibling ?speaker}
-              (hail-want-utility (k-hail-bond-value)))
-        (case {@self acquaintance ?speaker} (hail-want-utility (k-hail-acquaintance-value)))
-        (else (hail-want-utility (k-hail-stranger-value)))))
+              (utility want (k-hail-bond-value)))
+        (case {@self acquaintance ?speaker} (utility want (k-hail-acquaintance-value)))
+        (else (utility want (k-hail-stranger-value)))))
 
 ; (hail-response ?opening) - the response a hail's opening asks for: a man who introduced
 ; himself by his office ((formulaic [] opening-phrase authority <job kind>)) is answered by it, any
@@ -383,10 +382,6 @@
 (define-func replied-line (?line)
   (replied-to ?line.target))
 
-; (means-to-tell ?audience) - @self holds an intent to say something to ?audience.
-(define-func means-to-tell (?audience)
-  (substantial (any {@self intent {@self SAY ? ?audience}})))
-
 ; (log-said ?SAY ?audience) - the line ?SAY, said by @self to ?audience to its end, is logged in the
 ; talk it goes into; that talk, or @nothing for a broadcast. A line logged already is not logged again.
 (define-func log-said (?SAY ?audience)
@@ -430,13 +425,6 @@
 ; however it ends, whatever became of the intent behind it.
 (define-func speaking ()
   (substantial (any {@self SAY ?})))
-
-; (taken-between ?partner) - a hail between @self and ?partner stands taken up, whichever of them
-; hailed it, or the two hail each other.
-(define-func taken-between (?partner)
-  (or (eq (hail-state @self ?partner) taken)
-      (eq (hail-state ?partner @self) taken)
-      (mutual-hail ?partner)))
 
 ; (conversing-with ?partner) - @self and ?partner talk together: @self holds his part in a talk, and
 ; ?partner holds his in it too, or is on its board with his hail of @self taken up and his own part
@@ -506,15 +494,15 @@
   (cond (case (unsubstantial ?at) @false)
         (else (< (seconds-between (time seconds) ?at) (k-turned-down-seconds)))))
 
-; (talks-with-lately ?other) - how many talks @self has begun with ?other within the last
-; k-talk-again-window-seconds.
+; (talks-with-lately ?other) - how many talks @self has begun with ?other within the last hour
+; (k-talks-lately-seconds).
 (define-func talks-with-lately (?other)
   (bind 0 ?count)
   (bind (time seconds) ?twl-now)
-  (bind (- ?twl-now (seconds (k-talk-again-window-seconds) s)) ?twl-since)
+  (bind (- ?twl-now (seconds (k-talks-lately-seconds) s)) ?twl-since)
   (for-each ?mine (every {? participant @self /during ?twl-since ?twl-now})
     (bind ?mine.subject ?talk)
-    (if (and (<= (seconds-between ?twl-now (start-time ?mine)) (k-talk-again-window-seconds))
+    (if (and (<= (seconds-between ?twl-now (start-time ?mine)) (k-talks-lately-seconds))
              (substantial (any {?talk participant ?other /ever})))
         (then (bind (+ ?count 1) ?count))))
   ?count)
@@ -523,24 +511,20 @@
 (define-func hailer-in (?talk)
   (flip (hailed-in ?talk) (bb-public-read-rec ?talk bbk-hail @self hailer) @nothing))
 
-; (standing-hail ?hailer ?hailed) - a hail of ?hailer's stands on ?hailed, unanswered or taken up.
-(define-func standing-hail (?hailer ?hailed)
+(define-func hail-taken (?hailer ?hailed)
   (bind (hail-state ?hailer ?hailed) ?state)
-  (or (eq ?state hailed) (eq ?state taken)))
+  (cond (case (eq ?state taken) @true)
+        (case (neq ?state hailed) @false)
+        (else (bind (hail-state ?hailed ?hailer) ?back)
+              (or (eq ?back hailed) (eq ?back taken)))))
 
-; (mutual-hail ?partner) - @self and ?partner hail each other: each has taken the other up, whether
-; or not either has said so on the other's record - a man with no mind writes on none.
-(define-func mutual-hail (?partner)
-  (and (standing-hail @self ?partner) (standing-hail ?partner @self)))
+; (hail-accepted ?partner) - ?partner took up @self's hail of him - by answering it, or by hailing
+; @self himself - and the two are in one talk.
+(define-func hail-accepted (?partner)
+  (and (in-one-talk ?partner @self) (hail-taken @self ?partner)))
 
-; (hail-accepted ?partner ?hail) - ?partner took up the hail @self made in ?hail - by answering it, or
-; by hailing @self himself - and the two are in one talk.
-(define-func hail-accepted (?partner ?hail)
-  (and (in-one-talk ?partner @self)
-       (or (eq (hail-state @self ?partner) taken) (mutual-hail ?partner))))
-
-; (hail-turned-down ?partner ?hail) - ?partner turned down the hail @self made in ?hail.
-(define-func hail-turned-down (?partner ?hail)
+; (hail-turned-down ?partner) - ?partner turned down @self's hail of him.
+(define-func hail-turned-down (?partner)
   (eq (hail-state @self ?partner) turned-down))
 
 ; (join-talk ?talk ?act) - @self takes part in ?talk: his standing on its board is in, and he knows
@@ -1030,20 +1014,13 @@
 ; line gets its reply; unpresented only a line owed wherever it is said. Nothing else holds any of
 ; this: that a reply was given is the reply's own record further down the log.
 
-; (question-begun ?inquire ?speaker) - the question of @self's inquire ?inquire of ?speaker is being
-; said or is said: a hearer may answer it before its last word.
-(define-func question-begun (?inquire ?speaker)
-  (bind @false ?begun)
-  (if (substantial (any {@self SAY ? ?speaker /ever /caused_by ?inquire}))
-      (then (bind @true ?begun)))
-  ?begun)
-
 ; (awaited-inquire ?speaker) - the inquire @self has made of ?speaker and still waits on: it runs and
-; its question is begun; the first such, or @nothing.
+; its question is begun - said, or being said, since a hearer may answer it before its last word;
+; the first such, or @nothing.
 (define-func awaited-inquire (?speaker)
   (bind @nothing ?awaited)
   (for-each ?inquire (every {@self inquire ?speaker ?})
-    (if (question-begun ?inquire ?speaker)
+    (if (substantial (any {@self SAY ? ?speaker /ever /caused_by ?inquire}))
         (then (bind ?inquire ?awaited) (break))))
   ?awaited)
 
@@ -1497,7 +1474,9 @@
 ; hail between them stands taken up: he has no mind to take it with, so the host asks this of him.
 (define-func player-join (?npc)
   (bind (talk-of @self) ?talk)
-  (if (and (in-talk ?npc ?talk) (taken-between ?npc) (not (holds-part @self ?talk)))
+  (if (and (in-talk ?npc ?talk)
+           (or (hail-taken @self ?npc) (hail-taken ?npc @self))
+           (not (holds-part @self ?talk)))
       (then (bb-public-write-rec ?talk bbk-roster @self (/standing in)))))
 
 ; (player-hailer) - the man hailing the player: the one the record of the talk he is in names
@@ -1548,14 +1527,7 @@
   (clear-hail ?npc)
   (if (hailed-by ?npc)
       (then (set-hail-state ?npc taken)))
-  (if (unsubstantial (talk-of ?npc))
-      (then
-        (bind (talk-of @self) ?talk)
-        (if (unsubstantial ?talk)
-            (then
-              (bind (open-talk) ?talk)
-              (seat ?talk @self)))
-        (seat ?talk ?npc)))
+  (hail-into-talk ?npc)
   (if (is-kind ?authority)
       (then (formulaic [] opening-phrase authority ?authority))
       (else (formulaic [] opening-phrase player_talk))))
