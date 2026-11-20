@@ -877,6 +877,16 @@ $form(FORM)
 ; SAY is the ONE verbal action label - the payload func discriminates the
 ; mood ($msg = statement, $qs = question).
 
+; Said to whoever heard it, to no one he knows of: "she said: supper is at six".
+" $sub_np(NP) said ++:   $msg(MSG)"
+{ $sub_np(NP) /past SAY $msg(MSG) @unknown }
+:: realize-only
+.
+" $sub_np(NP) said ++:   $msg(MSG)"
+{ $sub_np(NP) /past SAY $msg(MSG) }
+:: realize-only
+.
+
 " $sub_np(NP) says ++:   $msg(MSG) to $obj_np(NP)"
 { $sub_np(NP) /pres SAY $msg(MSG)    $obj_np(NP) }
 .
@@ -889,6 +899,12 @@ $form(FORM)
 .
 " $sub_np(NP) said ++:   $qs(QS) to $obj_np(NP)"
 { $sub_np(NP) /past SAY $qs(QS)    $obj_np(NP) }
+.
+
+; Heard under way, in a line that tells what was going on: "she was talking".
+" $sub_np(NP) $verb(VERB|be) talking"
+{ $sub_np(NP) /past SAY ? ? }
+:: realize-only progressive
 .
 
 ; SPEECH TASKS
@@ -1165,6 +1181,34 @@ $form(FORM)
 { ?_I /past coerce $obj_np(NP) { $obj_np(NP) /pres lover ?_I } } .
 " breakfast at $sub_np(NP) is at $hour(NP) "
 { $sub_np(NP) /pres breakfast-hour $hour(NP) } .
+" lunch at $sub_np(NP) is at $hour(NP) "
+{ $sub_np(NP) /pres lunch-hour $hour(NP) } .
+" supper at $sub_np(NP) is at $hour(NP) "
+{ $sub_np(NP) /pres supper-hour $hour(NP) } .
+" breakfast at home is at $hour(NP) "
+{ [address $place room _ ] /pres breakfast-hour $hour(NP) }
+:: realize-only when:self-home-hour
+.
+" lunch at home is at $hour(NP) "
+{ [address $place room _ ] /pres lunch-hour $hour(NP) }
+:: realize-only when:self-home-hour
+.
+" supper at home is at $hour(NP) "
+{ [address $place room _ ] /pres supper-hour $hour(NP) }
+:: realize-only when:self-home-hour
+.
+" breakfast at $where(ADDRESS) is at $hour(NP) "
+{ $where(ADDRESS) /pres breakfast-hour $hour(NP) }
+:: realize-only
+.
+" lunch at $where(ADDRESS) is at $hour(NP) "
+{ $where(ADDRESS) /pres lunch-hour $hour(NP) }
+:: realize-only
+.
+" supper at $where(ADDRESS) is at $hour(NP) "
+{ $where(ADDRESS) /pres supper-hour $hour(NP) }
+:: realize-only
+.
 " $sub_np(NP) killed $value(NP) "
 { $sub_np(NP) /past kill $value(NP) } .
 
@@ -1289,6 +1333,31 @@ $form(FORM)
 { $sub_np(NP) /pres rely $value(NP) } .
 
 ; --- HABITS (where a man is to be found, by the part of the day) ------------
+; A habit of his own home, said as home: "she is at home most evenings".
+" $sub_np(NP) $verb(VERB|be) at home at dawn most days "
+{ $sub_np(NP) /pres frequent [address $place room _ ] [k dawn] }
+:: realize-only when:self-home-frequented
+.
+" $sub_np(NP) $verb(VERB|be) at home most mornings "
+{ $sub_np(NP) /pres frequent [address $place room _ ] [k morning] }
+:: realize-only when:self-home-frequented
+.
+" $sub_np(NP) $verb(VERB|be) at home at midday most days "
+{ $sub_np(NP) /pres frequent [address $place room _ ] [k midday] }
+:: realize-only when:self-home-frequented
+.
+" $sub_np(NP) $verb(VERB|be) at home most afternoons "
+{ $sub_np(NP) /pres frequent [address $place room _ ] [k afternoon] }
+:: realize-only when:self-home-frequented
+.
+" $sub_np(NP) $verb(VERB|be) at home most evenings "
+{ $sub_np(NP) /pres frequent [address $place room _ ] [k evening] }
+:: realize-only when:self-home-frequented
+.
+" $sub_np(NP) $verb(VERB|be) at home most nights "
+{ $sub_np(NP) /pres frequent [address $place room _ ] [k night] }
+:: realize-only when:self-home-frequented
+.
 " $sub_np(NP) $verb(VERB|be) in $value(NP) at dawn most days "
 { $sub_np(NP) /pres frequent $value(NP) [k dawn] } .
 " $sub_np(NP) $verb(VERB|be) in $value(NP) most mornings "

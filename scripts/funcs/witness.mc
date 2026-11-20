@@ -174,7 +174,7 @@
 
 ; The telling of ?acts to ?asker: what was going on (?progressive) or what happened. Its beats are
 ; the first of each run, in the order they began, the next each time the earliest not yet told. A beat
-; of what happened says when it began, unless it began when the beat before it did (ruling 18).
+; of what happened says when it began, unless it would say the clock the beat before it said (ruling 18).
 ; When ?asker himself told him every one of them, he has nothing of his own to tell: "Only what you
 ; told me: that ..".
 (define-func telling (?acts ?progressive ?asker)
@@ -194,9 +194,10 @@
           (then (bind ?act ?next))))
     (if (unsubstantial ?next) (then (break)))
     (bind (recalled-clock /start ?next) ?clock)
-    (bind (and (not ?progressive) (not (unknown ?clock)) (neq ?clock ?last-clock)) ?timed)
+    (bind (recalled-clock /start /told ?next) ?told-clock)
+    (bind (and (not ?progressive) (not (unknown ?clock)) (neq ?told-clock ?last-clock)) ?timed)
     (bind (flip ?timed (msg [] ?clock ?next) (msg [] ?next)) ?said)
-    (bind ?clock ?last-clock)
+    (bind ?told-clock ?last-clock)
     (bind (add-func-arg ?told (counted (hedged ?said ?next ?asker) ?next ?acts ?progressive)) ?told)
     (bind (add-func-arg ?only ?next) ?only)
     (bind (told-line ?next) ?line)

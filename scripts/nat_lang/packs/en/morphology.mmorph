@@ -44,11 +44,6 @@ clock-name: 0 midnight
 clock-name: 12 noon
 clock-about: about {t}
 clock-forgotten: some time that day
-; The hour as the bell told it, to a man with no watch to read: the hour it struck, gone or near, no
-; part of the day - "at gone ten by the chapel bell".
-bell-say: 0 {h} by the chapel bell
-bell-say: past gone {h} by the chapel bell
-bell-say: to near {n} by the chapel bell
 
 ; Ones
 number 0 = zero

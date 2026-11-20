@@ -643,7 +643,7 @@
 .
 
 ; Where a man was at a time the asker names (Times.mgr): "where were you at nine last night",
-; "where was John yesterday morning", "when the chapel bell had gone eight".
+; "where was John yesterday morning".
 "where $verb(VERB|be) $who(Q_NP) $when(WHEN)"
 ( whereabouts-then $who(Q_NP) $when(WHEN) )
 .

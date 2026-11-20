@@ -1,6 +1,6 @@
 ; -----------------------------------------------------------------------------
 ; Times.mgr - when a thing was, as the asker puts it: a day, a part of a day, an
-; hour read off the dial or told by a bell. A WHEN's MC is the absolute interval
+; hour read off the dial. A WHEN's MC is the absolute interval
 ; it stands for, what (whereabouts-on ..) and the other interval readers take.
 ; An hour is read off the dial with its half of the day unsaid ("at nine") unless
 ; a part of the day says it; (dial-interval ..) takes the latest reading that
@@ -88,16 +88,11 @@
 .
 
 
-; An hour as it was told: read off the dial, or struck by a clock or a bell - "when the chapel bell
-; had gone eight".
+; An hour as it was told: read off the dial - "at about eight".
 :TOLD
 
 "#at-hour $dial(DIAL)"
 $dial(DIAL)
-.
-
-"[when|as|just as|by the time] the #bell-noun #strike-verb $hour(NUM)"
-( clock $hour(NUM) 0 )
 .
 
 
@@ -168,6 +163,22 @@ $day(DAY)
 ( dial-interval ( clock 12 0 ) [k midday] @unknown )
 .
 
+"$day(DAY) #at-hour [noon|midday]"
+( dial-interval ( clock 12 0 ) [k midday] $day(DAY) )
+.
+
+"#at-hour [noon|midday] $day(DAY)"
+( dial-interval ( clock 12 0 ) [k midday] $day(DAY) )
+.
+
 "#at-hour midnight"
 ( dial-interval ( clock 12 0 ) [k night] @unknown )
+.
+
+"$day(DAY) #at-hour midnight"
+( dial-interval ( clock 12 0 ) [k night] $day(DAY) )
+.
+
+"#at-hour midnight $day(DAY)"
+( dial-interval ( clock 12 0 ) [k night] $day(DAY) )
 .

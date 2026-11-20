@@ -22,7 +22,7 @@
 ; after a title, of him and the title (funcs/address.mc).
 refer: term-of-reference name-after-title
 
-intents: neutral warm curt blunt deferential flowery scornful respectful tender spiteful terse plain metaphorical anecdotal elaborated intro bell
+intents: neutral warm curt blunt deferential flowery scornful respectful tender spiteful terse plain metaphorical anecdotal elaborated intro
 
 ; --- Discourse schema for a tell_about person description ---------------------
 ; Slots mirror the proven body-fact order of the legacy descriptions engine,
@@ -80,12 +80,6 @@ schema interest_description:
 
 ; The attitudes every slot shares, strongest first: care at its poles, dread,
 ; esteem, care, warmth. Trust is said as a hedge (decoration hedge, below).
-; How a speaker tells a clock: the lower class, who carry no watch, by the bell (the pack's
-; bell-say lines); everyone else off the dial.
-select clock:
-  class:lower       -> bell
-  *                 -> plain
-
 select *:
   subject:hate      -> spiteful curt neutral
   subject:love      -> warm flowery neutral

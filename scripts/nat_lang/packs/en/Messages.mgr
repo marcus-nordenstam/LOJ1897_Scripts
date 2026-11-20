@@ -4,7 +4,7 @@
 ; A place said on its own, an answer to where, is where he is. These come first: an address bound
 ; to a plainer template's hole would otherwise be said bare. His own home is "at home", said only
 ; when its func holds in his mind.
-"at home ++, in my $room(KIND)"
+"at home ++, in the $room(KIND)"
 ( msg [] [address $place room $room(KIND) ] )
 :: realize-only when:self-home-room
 .
@@ -47,6 +47,12 @@
 :: realize-only elaborated flowery
 .
 
+; A beat that says what a man said: its clock first, the line after it - "About noon she said: ..".
+"$t(NP) ++, $sub_np(NP) said ++: $msg(MSG)"
+( msg [] $t(NP) { $sub_np(NP) /past SAY $msg(MSG) ? } )
+:: realize-only
+.
+
 ; A beat of what happened, said with the clock it began at: "Mary Le Feuvre drank claret at about ten
 ; to nine at night".
 "$st(ST) $t(NP)"
@@ -83,9 +89,36 @@ $form(FORM)
 ( msg [] $st(ST) )
 .
 
+; A line of several sentences, said as one, in the order said - what a man said, told again.
+"$a(ST) ++, and $b(ST)"
+( msg [] $a(ST) $b(ST) )
+:: realize-only
+.
+
+"$a(ST) ++, $b(ST) ++, and $c(ST)"
+( msg [] $a(ST) $b(ST) $c(ST) )
+:: realize-only
+.
+
+"$a(ST) ++, $b(ST) ++, $c(ST) ++, and $d(ST)"
+( msg [] $a(ST) $b(ST) $c(ST) $d(ST) )
+:: realize-only
+.
+
 ; A place said on its own - an answer to where - is where a man is: "at the Red Lion".
 "at $place(PNAME)"
 ( msg [] ( o $place(PNAME) $kind(KIND|/isa|building) ) )
+:: realize-only
+.
+
+; A place he and the asker are both in, said on its own: "here in town", "here".
+"here in town"
+( msg [] ( this $place ) )
+:: realize-only when:town-place
+.
+
+"here"
+( msg [] ( this $place ) )
 :: realize-only
 .
 

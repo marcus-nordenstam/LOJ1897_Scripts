@@ -1370,14 +1370,15 @@
   ?asked)
 
 ; (self-home ?place) - ?place, an address as a line names it, is in the premises of @self's home - the
-; home itself or a room of it - and the question it answers did not ask his home: the pack says it
-; "at home" (Messages.mgr :: when:self-home).
+; home itself, a room of it, or the building his home unit is in - and the question it answers did not
+; ask his home: the pack says it "at home" (Messages.mgr :: when:self-home).
 (define-func self-home (?place)
   (bind @false ?own)
   (if (and (is-address ?place) (not (asked-home)))
       (then
         (for-each ?home (every {@self home ?})
-          (if (same-premises (any {?home.target address ?}).target ?place)
+          (if (or (same-premises (any {?home.target address ?}).target ?place)
+                  (same-premises (any {(spatial ?home.target building) address ?}).target ?place))
               (then (bind @true ?own) (break))))))
   ?own)
 
@@ -1385,6 +1386,17 @@
 (define-func self-home-room (?place ?room)
   (self-home ?place))
 
+; (self-home-hour ?place ?hour) - self-home, for the mealtime templates that also say the hour ?hour.
+(define-func self-home-hour (?place ?hour)
+  (self-home ?place))
+
+; (self-home-frequented ?who ?place) - self-home, for the habit templates that say ?who at ?place.
+(define-func self-home-frequented (?who ?place)
+  (self-home ?place))
+; (town-place ?place) - the place he points at as here is the town itself: the pack says it "here in
+; town" (Messages.mgr :: when:town-place).
+(define-func town-place (?place)
+  (is-a ?place [k town]))
 ; (time-anchor-before ?episode) - the meal @self remembers ending within (time_anchor_hours) before
 ; ?episode began, the latest of them: what he reckons a time he no longer knows exactly from.
 ; @nothing when there is none.
