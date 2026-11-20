@@ -76,7 +76,7 @@
             (belief {@self SAY ? ?officer /succ /caused_by ?accept-job-offer}
               (role ?holder [k human] {?holder job ?job}:?held
                 (when (and (!= ?holder @self)
-                           (>= (abs-seconds (start-time ?held)) (abs-seconds (start-time ?accept-job-offer)))))
+                           (not (learned-before ?held ?accept-job-offer))))
                 (effects
                   (for-each ?offered-to (every {?job offered-to @self})
                     (end-belief ?offered-to))

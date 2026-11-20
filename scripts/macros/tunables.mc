@@ -236,6 +236,7 @@
 (define-macro k-talks-lately-seconds () 3600.0)
 ; How long a man keeps from hailing one who turned his hail down.
 (define-macro k-turned-down-seconds () 86400.0)
+(define-macro k-death-pin-seconds () 604800.0)
 
 ; How far a voice carries, through walls or not: spoken, and called out - a hail, and the
 ; answers to one. The [k speech] and [k shout] sounds' radii (bounds/sounds.mc).
